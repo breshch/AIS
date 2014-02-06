@@ -39,8 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Currents\CurrentCompany.cs" />
+    <Compile Include="Currents\CurrentPost.cs" />
+    <Compile Include="Directories\DirectoryCar.cs" />
     <Compile Include="Directories\DirectoryCompany.cs" />
+    <Compile Include="Directories\DirectoryHoliday.cs" />
+    <Compile Include="Directories\DirectoryPoD.cs" />
     <Compile Include="Directories\DirectoryPost.cs" />
+    <Compile Include="Directories\DirectoryRC.cs" />
+    <Compile Include="Directories\DirectoryTypeOfCar.cs" />
     <Compile Include="Directories\DirectoryTypeOfCompany.cs" />
     <Compile Include="Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Directories\DirectoryWorker.cs" />

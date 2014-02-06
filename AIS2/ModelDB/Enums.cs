@@ -11,4 +11,13 @@ namespace ModelDB
         Male,
         Female
     }
+
+    public enum TypeOfMissingHours
+    {
+        Больничный,
+        Отпуск,
+        Дикретный_отпуск,
+        Прогул,
+        Отгул
+    }
 }
