@@ -52,6 +52,17 @@
     <Compile Include="Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Directories\DirectoryWorker.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Infos\InfoCar.cs" />
+    <Compile Include="Infos\InfoCargo.cs" />
+    <Compile Include="Infos\InfoCompany.cs" />
+    <Compile Include="Infos\InfoData.cs" />
+    <Compile Include="Infos\InfoDriver.cs" />
+    <Compile Include="Infos\InfoMonth.cs" />
+    <Compile Include="Infos\InfoPanalty.cs" />
+    <Compile Include="Infos\InfoPermitForCar.cs" />
+    <Compile Include="Infos\InfoSalary.cs" />
+    <Compile Include="Infos\InfoTypeOfCompany.cs" />
+    <Compile Include="Infos\InfoWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
