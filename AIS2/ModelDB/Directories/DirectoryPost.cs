@@ -13,6 +13,12 @@ namespace ModelUniversalDB.Directories
         public double UserWorkerSalary { get; set; }
         public double? AdminWorkerSalary { get; set; }
         public double? UserHalfWorkerSalary { get; set; }
+        
+        public int DirectoryTypeOfPostId { get; set; }
+        public DirectoryTypeOfPost DirectoryTypeOfPost { get; set; }
+
+        public int DirectoryCompanyId { get; set; }
+        public DirectoryCompany DirectoryCompany { get; set; }
 
 
     }

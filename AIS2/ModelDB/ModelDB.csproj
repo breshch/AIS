@@ -43,6 +43,8 @@
     <Compile Include="Directories\DirectoryPost.cs" />
     <Compile Include="Directories\DirectoryTypeOfCompany.cs" />
     <Compile Include="Directories\DirectoryTypeOfPost.cs" />
+    <Compile Include="Directories\DirectoryWorker.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
