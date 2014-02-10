@@ -11,6 +11,6 @@ namespace ModelDB.Infos
         public int Id { get; set; }
         public DateTime Date { get; set; }
 
-        public ICollection<InfoTypeOfCompany> InfoTypeOfCompanys { get; set; }
+        public ICollection<InfoCompany> InfoCompanies { get; set; }
     }
 }

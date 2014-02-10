@@ -61,7 +61,6 @@
     <Compile Include="Infos\InfoPanalty.cs" />
     <Compile Include="Infos\InfoPermitForCar.cs" />
     <Compile Include="Infos\InfoSalary.cs" />
-    <Compile Include="Infos\InfoTypeOfCompany.cs" />
     <Compile Include="Infos\InfoWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
