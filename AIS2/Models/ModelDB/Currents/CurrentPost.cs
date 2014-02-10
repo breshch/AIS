@@ -1,4 +1,4 @@
-﻿using ModelUniversalDB.Directories;
+﻿using ModelDB.Directories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,5 @@ namespace ModelDB.Currents
 
         public int DirectoryPostId { get; set; }
         public DirectoryPost DirectoryPost { get; set; }
-
     }
 }

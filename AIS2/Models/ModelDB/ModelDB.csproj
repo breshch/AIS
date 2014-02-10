@@ -30,7 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context.cs" />
     <Compile Include="Currents\CurrentCompany.cs" />
     <Compile Include="Currents\CurrentPost.cs" />
     <Compile Include="Directories\DirectoryCar.cs" />
@@ -55,7 +63,7 @@
     <Compile Include="Infos\InfoCar.cs" />
     <Compile Include="Infos\InfoCargo.cs" />
     <Compile Include="Infos\InfoCompany.cs" />
-    <Compile Include="Infos\InfoData.cs" />
+    <Compile Include="Infos\InfoDate.cs" />
     <Compile Include="Infos\InfoDriver.cs" />
     <Compile Include="Infos\InfoMonth.cs" />
     <Compile Include="Infos\InfoPanalty.cs" />
@@ -63,6 +71,10 @@
     <Compile Include="Infos\InfoSalary.cs" />
     <Compile Include="Infos\InfoWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ModelDB.Directories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelUniversalDB.Directories
+namespace ModelDB.Directories
 {
     public class DirectoryPost
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelDB.Infos
 {
-    public class InfoData
+    public class InfoDate
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
