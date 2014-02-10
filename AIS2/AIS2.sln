@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelDB", "ModelDB\ModelDB.csproj", "{F69EB244-BF8B-42B3-83BE-C384C01A75A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelDB", "Models\ModelDB\ModelDB.csproj", "{F69EB244-BF8B-42B3-83BE-C384C01A75A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entering", "Entering\Entering.csproj", "{A9E528B6-941F-42B1-B042-53C74D545C1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forms", "Forms", "{43950160-385A-4E79-A634-141BBB04ED02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{D73718B0-1DB3-41E2-B1D8-CC72D50176C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarehouseForms", "Forms\WarehouseForms\WarehouseForms.csproj", "{BB961AE1-89E6-42CE-867A-D28EE5FDA089}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +25,16 @@ Global
 		{A9E528B6-941F-42B1-B042-53C74D545C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9E528B6-941F-42B1-B042-53C74D545C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9E528B6-941F-42B1-B042-53C74D545C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB961AE1-89E6-42CE-867A-D28EE5FDA089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB961AE1-89E6-42CE-867A-D28EE5FDA089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB961AE1-89E6-42CE-867A-D28EE5FDA089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB961AE1-89E6-42CE-867A-D28EE5FDA089}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB961AE1-89E6-42CE-867A-D28EE5FDA089} = {43950160-385A-4E79-A634-141BBB04ED02}
+		{F69EB244-BF8B-42B3-83BE-C384C01A75A0} = {D73718B0-1DB3-41E2-B1D8-CC72D50176C1}
 	EndGlobalSection
 EndGlobal
