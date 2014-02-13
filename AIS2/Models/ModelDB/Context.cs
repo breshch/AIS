@@ -23,7 +23,7 @@ namespace ModelDB
         public DbSet<DirectoryRC> DirectoryRCs { get; set; }
         public DbSet<DirectoryTypeOfCar> DirectoryTypeOfCars { get; set; }
         public DbSet<DirectoryTypeOfCompany> DirectoryTypeOfCompanies { get; set; }
-        public DbSet<DirectoryTypeOfPost> DirectorTypeOfPosts { get; set; }
+        public DbSet<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
         public DbSet<DirectoryWorker> DirectoryWorkers { get; set; }
 
         public DbSet<InfoCar> InfoCars { get; set; }

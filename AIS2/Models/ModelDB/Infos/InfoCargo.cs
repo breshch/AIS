@@ -13,10 +13,10 @@ namespace ModelDB.Infos
         public string Basement { get; set; }
 
         public int DirectoryRCId { get; set; }
-        public DirectoryRC DirectoryRC { get; set; }
+        public virtual DirectoryRC DirectoryRC { get; set; }
 
         public int DirectoryPoDId { get; set; }
-        public DirectoryPoD DirectoryPoD { get; set; }
+        public virtual DirectoryPoD DirectoryPoD { get; set; }
 
         public double Weight { get; set; }
         public double? Length { get; set; }

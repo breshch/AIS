@@ -11,6 +11,6 @@ namespace ModelDB.Infos
         public int Id { get; set; }
         public DateTime Date { get; set; }
 
-        public ICollection<InfoSalary> InfoSalaries { get; set; }
+        public virtual ICollection<InfoSalary> InfoSalaries { get; set; }
     }
 }

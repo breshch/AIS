@@ -16,11 +16,9 @@ namespace ModelDB.Directories
         public double? UserHalfWorkerSalary { get; set; }
         
         public int DirectoryTypeOfPostId { get; set; }
-        public DirectoryTypeOfPost DirectoryTypeOfPost { get; set; }
+        public virtual DirectoryTypeOfPost DirectoryTypeOfPost { get; set; }
 
         public int DirectoryCompanyId { get; set; }
-        public DirectoryCompany DirectoryCompany { get; set; }
-
-
+        public virtual DirectoryCompany DirectoryCompany { get; set; }
     }
 }

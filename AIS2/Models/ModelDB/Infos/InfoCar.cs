@@ -12,6 +12,6 @@ namespace ModelDB.Infos
         public int Id { get; set; }
 
         public int DirectoryCarId { get; set; }
-        public DirectoryCar DirectoryCar { get; set; }
+        public virtual DirectoryCar DirectoryCar { get; set; }
     }
 }

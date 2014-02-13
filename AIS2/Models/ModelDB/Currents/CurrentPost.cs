@@ -17,6 +17,6 @@ namespace ModelDB.Currents
         public double? UserHalfWorkerSalary { get; set; }
 
         public int DirectoryPostId { get; set; }
-        public DirectoryPost DirectoryPost { get; set; }
+        public virtual DirectoryPost DirectoryPost { get; set; }
     }
 }

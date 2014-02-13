@@ -14,6 +14,6 @@ namespace ModelDB.Currents
         public DateTime? FireDate { get; set; }
 
         public int DirectoryCompanyId { get; set; }
-        public DirectoryCompany DirectoryCompany { get; set; }
+        public virtual DirectoryCompany DirectoryCompany { get; set; }
     }
 }

@@ -12,9 +12,9 @@ namespace ModelDB.Infos
         public int Id { get; set; }
 
         public int DirectoryCompanyId { get; set; }
-        public DirectoryCompany DirectoryCompany { get; set; }
+        public virtual DirectoryCompany DirectoryCompany { get; set; }
 
-        public ICollection<InfoWorker> InfoWorkers { get; set; }
-        public ICollection<InfoPermitForCar> InfoPermitForCars { get; set; }
+        public virtual ICollection<InfoWorker> InfoWorkers { get; set; }
+        public virtual ICollection<InfoPermitForCar> InfoPermitForCars { get; set; }
     }
 }

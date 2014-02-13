@@ -20,8 +20,8 @@ namespace ModelDB.Directories
         public string CellPhone { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? FireDate { get; set; }
-        public ICollection<CurrentCompany> CurrentCompanies { get; set; }
-        public ICollection<CurrentPost> Posts { get; set; }
+        public virtual ICollection<CurrentCompany> CurrentCompanies { get; set; }
+        public virtual ICollection<CurrentPost> Posts { get; set; }
         //public Photo { get; set; }
         //public Docs { get; set; }
 

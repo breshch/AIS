@@ -12,6 +12,6 @@ namespace ModelDB.Directories
         public string Name { get; set; }
 
         public int DirectoryTypeOfCompanyId { get; set; }
-        public DirectoryTypeOfCompany DirectoryTypeOfCompany { get; set; }
+        public virtual DirectoryTypeOfCompany DirectoryTypeOfCompany { get; set; }
     }
 }

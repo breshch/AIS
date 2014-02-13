@@ -11,11 +11,11 @@ namespace ModelDB.Infos
         public int Id { get; set; }
 
         public int InfoDriverId { get; set; }
-        public InfoDriver InfoDriver { get; set; }
+        public virtual InfoDriver InfoDriver { get; set; }
 
         public int InfoCarId { get; set; }
-        public InfoCar InfoCar { get; set; }
+        public virtual InfoCar InfoCar { get; set; }
 
-        public ICollection<InfoCar> InfoCargoes { get; set; }
+        public virtual ICollection<InfoCar> InfoCargoes { get; set; }
     }
 }

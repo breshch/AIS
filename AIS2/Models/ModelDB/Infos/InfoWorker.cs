@@ -12,12 +12,12 @@ namespace ModelDB.Infos
         public int Id { get; set; }
 
         public int DirectoryWorkerId { get; set; }
-        public DirectoryWorker DirectoryWorker { get; set; }
+        public virtual DirectoryWorker DirectoryWorker { get; set; }
 
         public double CountHours { get; set; }
         public TypeOfMissingHours TypeOfMissingHours { get; set; }
 
         public int? InfoPanaltyId { get; set; }
-        public InfoPanalty InfoPanalty { get; set; }
+        public virtual InfoPanalty InfoPanalty { get; set; }
     }
 }

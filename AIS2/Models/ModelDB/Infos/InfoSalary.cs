@@ -12,7 +12,7 @@ namespace ModelDB.Infos
         public int Id { get; set; }
         
         public int DirectoryWorkerId { get; set; }
-        public DirectoryWorker DirectoryWorker { get; set; }
+        public virtual DirectoryWorker DirectoryWorker { get; set; }
 
         public int CountVacationDays { get; set; }
         public int CountSickDays { get; set; }
