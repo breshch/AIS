@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.Entity;
 
 namespace WarehouseForms.Forms.Adding
 {
@@ -30,8 +31,9 @@ namespace WarehouseForms.Forms.Adding
         private void FormFill()
         {
             ClearForm();
-            listBoxNameOfCompanies.Items.AddRange(_db.DirectoryCompanies.Select(t => t.Name).ToArray());
-            buttonRemove.Enabled = listBoxNameOfCompanies.Items.Count > 0 ? true : false;
+
+            AddRows();
+            buttonRemove.Enabled = dataGridViewNameOfCompanies.Rows.Count > 0 ? true : false;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -46,6 +48,21 @@ namespace WarehouseForms.Forms.Adding
 
                 ClearForm();
                 FormFill();
+            }
+        }
+
+        private void AddRows()
+        {
+            foreach (var nameOfCompany in _db.DirectoryCompanies.ToList())
+            {
+                var row = new DataGridViewRow();
+                row.CreateCells(dataGridViewNameOfCompanies);
+                
+                row.Cells[0].Value = nameOfCompany.Id;
+                row.Cells[1].Value = nameOfCompany.Name;
+                row.Cells[2].Value = nameOfCompany.DirectoryTypeOfCompany.Name;
+                
+                dataGridViewNameOfCompanies.Rows.Add(row);
             }
         }
 
@@ -79,7 +96,7 @@ namespace WarehouseForms.Forms.Adding
 
         private void ClearForm()
         {
-            listBoxNameOfCompanies.Items.Clear();
+            dataGridViewNameOfCompanies.Rows.Clear();
             textBoxNameOfCompany.Clear();
             comboBoxTypeOfCompanies.SelectedIndex = -1;
         }
@@ -104,10 +121,10 @@ namespace WarehouseForms.Forms.Adding
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            if (listBoxNameOfCompanies.SelectedIndex != -1)
+            if (dataGridViewNameOfCompanies.SelectedRows.Count > 0)
             {
-                string nameOfCompanies = listBoxNameOfCompanies.SelectedItem.ToString();
-                DirectoryCompany directoryCompany = _db.DirectoryCompanies.First(t => t.Name == nameOfCompanies);
+                int id = int.Parse(dataGridViewNameOfCompanies.SelectedRows[0].Cells[0].Value.ToString());
+                var directoryCompany = _db.DirectoryCompanies.Find(id);
 
                 if (IsValidateRemove(directoryCompany))
                 {

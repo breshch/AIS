@@ -28,13 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.textBoxNameOfCompany = new System.Windows.Forms.TextBox();
-            this.listBoxNameOfCompanies = new System.Windows.Forms.ListBox();
             this.comboBoxTypeOfCompanies = new System.Windows.Forms.ComboBox();
             this.labelTypeOfCompany = new System.Windows.Forms.Label();
             this.labelNameOfCompany = new System.Windows.Forms.Label();
+            this.dataGridViewNameOfCompanies = new System.Windows.Forms.DataGridView();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnNameOfCompany = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTypeOfCompany = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewNameOfCompanies)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonRemove
@@ -65,14 +70,6 @@
             this.textBoxNameOfCompany.TabIndex = 9;
             this.textBoxNameOfCompany.TextAlignChanged += new System.EventHandler(this.textBoxNameOfCompany_TextChanged);
             // 
-            // listBoxNameOfCompanies
-            // 
-            this.listBoxNameOfCompanies.FormattingEnabled = true;
-            this.listBoxNameOfCompanies.Location = new System.Drawing.Point(35, 39);
-            this.listBoxNameOfCompanies.Name = "listBoxNameOfCompanies";
-            this.listBoxNameOfCompanies.Size = new System.Drawing.Size(237, 95);
-            this.listBoxNameOfCompanies.TabIndex = 8;
-            // 
             // comboBoxTypeOfCompanies
             // 
             this.comboBoxTypeOfCompanies.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -100,18 +97,67 @@
             this.labelNameOfCompany.TabIndex = 14;
             this.labelNameOfCompany.Text = "Название компании";
             // 
+            // dataGridViewNameOfCompanies
+            // 
+            this.dataGridViewNameOfCompanies.AllowUserToAddRows = false;
+            this.dataGridViewNameOfCompanies.AllowUserToDeleteRows = false;
+            this.dataGridViewNameOfCompanies.AllowUserToOrderColumns = true;
+            this.dataGridViewNameOfCompanies.AllowUserToResizeColumns = false;
+            this.dataGridViewNameOfCompanies.AllowUserToResizeRows = false;
+            this.dataGridViewNameOfCompanies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewNameOfCompanies.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewNameOfCompanies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewNameOfCompanies.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnId,
+            this.ColumnNameOfCompany,
+            this.ColumnTypeOfCompany});
+            this.dataGridViewNameOfCompanies.Location = new System.Drawing.Point(35, 23);
+            this.dataGridViewNameOfCompanies.MultiSelect = false;
+            this.dataGridViewNameOfCompanies.Name = "dataGridViewNameOfCompanies";
+            this.dataGridViewNameOfCompanies.ReadOnly = true;
+            this.dataGridViewNameOfCompanies.RowHeadersVisible = false;
+            this.dataGridViewNameOfCompanies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewNameOfCompanies.Size = new System.Drawing.Size(240, 116);
+            this.dataGridViewNameOfCompanies.TabIndex = 15;
+            // 
+            // ColumnId
+            // 
+            this.ColumnId.HeaderText = "id";
+            this.ColumnId.Name = "ColumnId";
+            this.ColumnId.ReadOnly = true;
+            this.ColumnId.Visible = false;
+            // 
+            // ColumnNameOfCompany
+            // 
+            this.ColumnNameOfCompany.HeaderText = "Название компании";
+            this.ColumnNameOfCompany.Name = "ColumnNameOfCompany";
+            this.ColumnNameOfCompany.ReadOnly = true;
+            // 
+            // ColumnTypeOfCompany
+            // 
+            this.ColumnTypeOfCompany.HeaderText = "Тип компании";
+            this.ColumnTypeOfCompany.Name = "ColumnTypeOfCompany";
+            this.ColumnTypeOfCompany.ReadOnly = true;
+            // 
             // FormNameOfCompany
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(319, 287);
+            this.Controls.Add(this.dataGridViewNameOfCompanies);
             this.Controls.Add(this.labelNameOfCompany);
             this.Controls.Add(this.labelTypeOfCompany);
             this.Controls.Add(this.comboBoxTypeOfCompanies);
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.textBoxNameOfCompany);
-            this.Controls.Add(this.listBoxNameOfCompanies);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "FormNameOfCompany";
@@ -119,6 +165,7 @@
             this.Text = "Название компании";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormNameOfCompany_FormClosing);
             this.Load += new System.EventHandler(this.FormNameOfCompany_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewNameOfCompanies)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,9 +176,12 @@
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.TextBox textBoxNameOfCompany;
-        private System.Windows.Forms.ListBox listBoxNameOfCompanies;
         private System.Windows.Forms.ComboBox comboBoxTypeOfCompanies;
         private System.Windows.Forms.Label labelTypeOfCompany;
         private System.Windows.Forms.Label labelNameOfCompany;
+        private System.Windows.Forms.DataGridView dataGridViewNameOfCompanies;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnNameOfCompany;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTypeOfCompany;
     }
 }
