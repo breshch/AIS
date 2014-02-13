@@ -14,9 +14,6 @@ namespace ModelDB.Infos
         public int DirectoryCompanyId { get; set; }
         public DirectoryCompany DirectoryCompany { get; set; }
 
-        public int DirectoryTypeOfCompanyId { get; set; }
-        public DirectoryTypeOfCompany DirectoryTypeOfCompany { get; set; }
-
         public ICollection<InfoWorker> InfoWorkers { get; set; }
         public ICollection<InfoPermitForCar> InfoPermitForCars { get; set; }
     }
