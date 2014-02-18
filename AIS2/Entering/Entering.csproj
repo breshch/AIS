@@ -93,10 +93,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Forms\WarehouseForms\WarehouseForms\WarehouseForms.csproj">
+      <Project>{db62ab76-cb55-40a4-8cd6-746c078304f1}</Project>
+      <Name>WarehouseForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\ModelDB\ModelDB.csproj">
+      <Project>{f69eb244-bf8b-42b3-83be-c384c01a75a0}</Project>
+      <Name>ModelDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

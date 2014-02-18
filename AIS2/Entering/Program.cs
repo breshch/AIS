@@ -1,5 +1,4 @@
-﻿//using ModelDbAv;
-//using ModelDbCars;
+﻿using ModelDB;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,8 +16,7 @@ namespace Entering
         [STAThread]
         static void Main()
         {
-            //Database.SetInitializer<AvContext>(new DropCreateDatabaseIfModelChanges<AvContext>());
-            //Database.SetInitializer<CarsContext>(new DropCreateDatabaseIfModelChanges<CarsContext>());
+            Database.SetInitializer<Context>(new DropCreateDatabaseIfModelChanges<Context>());
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

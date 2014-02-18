@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WarehouseForms.Forms;
 
 
 namespace Entering
@@ -69,9 +70,9 @@ namespace Entering
 
         private void buttonEnter_Click(object sender, EventArgs e)
         {
-            //FormDayTabel formDayTabel = new FormDayTabel();
-            //formDayTabel.Show();
-            Entering();
+            FormDayTabel formDayTabel = new FormDayTabel();
+            formDayTabel.Show();
+            //Entering();
         }
 
         private void FormEnter_KeyDown(object sender, KeyEventArgs e)
