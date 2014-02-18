@@ -39,6 +39,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,11 +48,64 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Adding\FormNameOfCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Adding\FormNameOfCompany.Designer.cs">
+      <DependentUpon>FormNameOfCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Adding\FormPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Adding\FormPost.Designer.cs">
+      <DependentUpon>FormPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Adding\FormTypeOfCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Adding\FormTypeOfCompany.Designer.cs">
+      <DependentUpon>FormTypeOfCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Adding\FormTypeOfPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Adding\FormTypeOfPost.Designer.cs">
+      <DependentUpon>FormTypeOfPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormDayTabel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormDayTabel.Designer.cs">
+      <DependentUpon>FormDayTabel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\Adding\FormNameOfCompany.resx">
+      <DependentUpon>FormNameOfCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Adding\FormPost.resx">
+      <DependentUpon>FormPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Adding\FormTypeOfCompany.resx">
+      <DependentUpon>FormTypeOfCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Adding\FormTypeOfPost.resx">
+      <DependentUpon>FormTypeOfPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormDayTabel.resx">
+      <DependentUpon>FormDayTabel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Models\ModelDB\ModelDB.csproj">
+      <Project>{f69eb244-bf8b-42b3-83be-c384c01a75a0}</Project>
+      <Name>ModelDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,6 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{D73718
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarehouseForms", "Forms\WarehouseForms\WarehouseForms\WarehouseForms.csproj", "{DB62AB76-CB55-40A4-8CD6-746C078304F1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{DFF9CE2A-BF33-4A3A-B670-3AF070AA51F5}"
+	ProjectSection(SolutionItems) = preProject
+		Bugs.txt = Bugs.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
