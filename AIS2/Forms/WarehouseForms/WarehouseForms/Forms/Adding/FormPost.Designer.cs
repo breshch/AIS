@@ -28,91 +28,210 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPost));
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.textBoxUserSalary = new System.Windows.Forms.TextBox();
-            this.textBoxAdminUserSalary = new System.Windows.Forms.TextBox();
-            this.textBoxUserHalf = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.dataGridViewPosts = new System.Windows.Forms.DataGridView();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnPostName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTypeOfPost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnCompanyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnWorkerSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnHalfWorkerSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.comboBoxTypeOfPost = new System.Windows.Forms.ComboBox();
+            this.comboBoxNameOfCompany = new System.Windows.Forms.ComboBox();
+            this.textBoxNameOfPost = new System.Windows.Forms.TextBox();
+            this.textBoxWorkerSalary = new System.Windows.Forms.TextBox();
+            this.textBoxHalfWorkerSalary = new System.Windows.Forms.TextBox();
+            this.labelTypeOfPost = new System.Windows.Forms.Label();
+            this.labelNameOfCompany = new System.Windows.Forms.Label();
+            this.labelNameOfPost = new System.Windows.Forms.Label();
+            this.labelWorkerSalary = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonRemove = new System.Windows.Forms.Button();
+            this.dateTimePickerDate = new System.Windows.Forms.DateTimePicker();
+            this.labelDateTimePicker = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPosts)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBoxName
+            // dataGridViewPosts
             // 
-            resources.ApplyResources(this.textBoxName, "textBoxName");
-            this.textBoxName.Name = "textBoxName";
+            this.dataGridViewPosts.AllowUserToAddRows = false;
+            this.dataGridViewPosts.AllowUserToDeleteRows = false;
+            this.dataGridViewPosts.AllowUserToOrderColumns = true;
+            this.dataGridViewPosts.AllowUserToResizeColumns = false;
+            this.dataGridViewPosts.AllowUserToResizeRows = false;
+            this.dataGridViewPosts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewPosts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewPosts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPosts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnId,
+            this.ColumnPostName,
+            this.ColumnTypeOfPost,
+            this.ColumnCompanyName,
+            this.ColumnDate,
+            this.ColumnWorkerSalary,
+            this.ColumnHalfWorkerSalary});
+            resources.ApplyResources(this.dataGridViewPosts, "dataGridViewPosts");
+            this.dataGridViewPosts.MultiSelect = false;
+            this.dataGridViewPosts.Name = "dataGridViewPosts";
+            this.dataGridViewPosts.ReadOnly = true;
+            this.dataGridViewPosts.RowHeadersVisible = false;
+            this.dataGridViewPosts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPosts.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPosts_CellMouseDoubleClick);
             // 
-            // dataGridView1
+            // ColumnId
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            resources.ApplyResources(this.dataGridView1, "dataGridView1");
-            this.dataGridView1.Name = "dataGridView1";
+            resources.ApplyResources(this.ColumnId, "ColumnId");
+            this.ColumnId.Name = "ColumnId";
+            this.ColumnId.ReadOnly = true;
             // 
-            // textBoxUserSalary
+            // ColumnPostName
             // 
-            resources.ApplyResources(this.textBoxUserSalary, "textBoxUserSalary");
-            this.textBoxUserSalary.Name = "textBoxUserSalary";
+            resources.ApplyResources(this.ColumnPostName, "ColumnPostName");
+            this.ColumnPostName.Name = "ColumnPostName";
+            this.ColumnPostName.ReadOnly = true;
             // 
-            // textBoxAdminUserSalary
+            // ColumnTypeOfPost
             // 
-            resources.ApplyResources(this.textBoxAdminUserSalary, "textBoxAdminUserSalary");
-            this.textBoxAdminUserSalary.Name = "textBoxAdminUserSalary";
+            resources.ApplyResources(this.ColumnTypeOfPost, "ColumnTypeOfPost");
+            this.ColumnTypeOfPost.Name = "ColumnTypeOfPost";
+            this.ColumnTypeOfPost.ReadOnly = true;
             // 
-            // textBoxUserHalf
+            // ColumnCompanyName
             // 
-            resources.ApplyResources(this.textBoxUserHalf, "textBoxUserHalf");
-            this.textBoxUserHalf.Name = "textBoxUserHalf";
+            resources.ApplyResources(this.ColumnCompanyName, "ColumnCompanyName");
+            this.ColumnCompanyName.Name = "ColumnCompanyName";
+            this.ColumnCompanyName.ReadOnly = true;
             // 
-            // comboBox1
+            // ColumnDate
             // 
-            this.comboBox1.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.Name = "comboBox1";
+            resources.ApplyResources(this.ColumnDate, "ColumnDate");
+            this.ColumnDate.Name = "ColumnDate";
+            this.ColumnDate.ReadOnly = true;
             // 
-            // comboBox2
+            // ColumnWorkerSalary
             // 
-            this.comboBox2.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox2, "comboBox2");
-            this.comboBox2.Name = "comboBox2";
+            resources.ApplyResources(this.ColumnWorkerSalary, "ColumnWorkerSalary");
+            this.ColumnWorkerSalary.Name = "ColumnWorkerSalary";
+            this.ColumnWorkerSalary.ReadOnly = true;
             // 
-            // textBox1
+            // ColumnHalfWorkerSalary
             // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
+            resources.ApplyResources(this.ColumnHalfWorkerSalary, "ColumnHalfWorkerSalary");
+            this.ColumnHalfWorkerSalary.Name = "ColumnHalfWorkerSalary";
+            this.ColumnHalfWorkerSalary.ReadOnly = true;
             // 
-            // textBox2
+            // comboBoxTypeOfPost
             // 
-            resources.ApplyResources(this.textBox2, "textBox2");
-            this.textBox2.Name = "textBox2";
+            this.comboBoxTypeOfPost.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBoxTypeOfPost, "comboBoxTypeOfPost");
+            this.comboBoxTypeOfPost.Name = "comboBoxTypeOfPost";
             // 
-            // textBox3
+            // comboBoxNameOfCompany
             // 
-            resources.ApplyResources(this.textBox3, "textBox3");
-            this.textBox3.Name = "textBox3";
+            this.comboBoxNameOfCompany.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBoxNameOfCompany, "comboBoxNameOfCompany");
+            this.comboBoxNameOfCompany.Name = "comboBoxNameOfCompany";
+            // 
+            // textBoxNameOfPost
+            // 
+            resources.ApplyResources(this.textBoxNameOfPost, "textBoxNameOfPost");
+            this.textBoxNameOfPost.Name = "textBoxNameOfPost";
+            // 
+            // textBoxWorkerSalary
+            // 
+            resources.ApplyResources(this.textBoxWorkerSalary, "textBoxWorkerSalary");
+            this.textBoxWorkerSalary.Name = "textBoxWorkerSalary";
+            // 
+            // textBoxHalfWorkerSalary
+            // 
+            resources.ApplyResources(this.textBoxHalfWorkerSalary, "textBoxHalfWorkerSalary");
+            this.textBoxHalfWorkerSalary.Name = "textBoxHalfWorkerSalary";
+            // 
+            // labelTypeOfPost
+            // 
+            resources.ApplyResources(this.labelTypeOfPost, "labelTypeOfPost");
+            this.labelTypeOfPost.Name = "labelTypeOfPost";
+            // 
+            // labelNameOfCompany
+            // 
+            resources.ApplyResources(this.labelNameOfCompany, "labelNameOfCompany");
+            this.labelNameOfCompany.Name = "labelNameOfCompany";
+            // 
+            // labelNameOfPost
+            // 
+            resources.ApplyResources(this.labelNameOfPost, "labelNameOfPost");
+            this.labelNameOfPost.Name = "labelNameOfPost";
+            // 
+            // labelWorkerSalary
+            // 
+            resources.ApplyResources(this.labelWorkerSalary, "labelWorkerSalary");
+            this.labelWorkerSalary.Name = "labelWorkerSalary";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // buttonAdd
+            // 
+            resources.ApplyResources(this.buttonAdd, "buttonAdd");
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            // 
+            // buttonRemove
+            // 
+            resources.ApplyResources(this.buttonRemove, "buttonRemove");
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePickerDate
+            // 
+            resources.ApplyResources(this.dateTimePickerDate, "dateTimePickerDate");
+            this.dateTimePickerDate.MaxDate = new System.DateTime(2014, 2, 18, 0, 0, 0, 0);
+            this.dateTimePickerDate.Name = "dateTimePickerDate";
+            this.dateTimePickerDate.Value = new System.DateTime(2014, 2, 18, 0, 0, 0, 0);
+            // 
+            // labelDateTimePicker
+            // 
+            resources.ApplyResources(this.labelDateTimePicker, "labelDateTimePicker");
+            this.labelDateTimePicker.Name = "labelDateTimePicker";
             // 
             // FormPost
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBoxUserHalf);
-            this.Controls.Add(this.textBoxAdminUserSalary);
-            this.Controls.Add(this.textBoxUserSalary);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.labelDateTimePicker);
+            this.Controls.Add(this.dateTimePickerDate);
+            this.Controls.Add(this.buttonRemove);
+            this.Controls.Add(this.buttonAdd);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.labelWorkerSalary);
+            this.Controls.Add(this.labelNameOfPost);
+            this.Controls.Add(this.labelNameOfCompany);
+            this.Controls.Add(this.labelTypeOfPost);
+            this.Controls.Add(this.textBoxHalfWorkerSalary);
+            this.Controls.Add(this.textBoxWorkerSalary);
+            this.Controls.Add(this.textBoxNameOfPost);
+            this.Controls.Add(this.comboBoxNameOfCompany);
+            this.Controls.Add(this.comboBoxTypeOfPost);
+            this.Controls.Add(this.dataGridViewPosts);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "FormPost";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPost_FormClosing);
+            this.Load += new System.EventHandler(this.FormPost_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPosts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,16 +239,28 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox textBoxUserSalary;
-        private System.Windows.Forms.TextBox textBoxAdminUserSalary;
-        private System.Windows.Forms.TextBox textBoxUserHalf;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.DataGridView dataGridViewPosts;
+        private System.Windows.Forms.ComboBox comboBoxTypeOfPost;
+        private System.Windows.Forms.ComboBox comboBoxNameOfCompany;
+        private System.Windows.Forms.TextBox textBoxNameOfPost;
+        private System.Windows.Forms.TextBox textBoxWorkerSalary;
+        private System.Windows.Forms.TextBox textBoxHalfWorkerSalary;
+        private System.Windows.Forms.Label labelTypeOfPost;
+        private System.Windows.Forms.Label labelNameOfCompany;
+        private System.Windows.Forms.Label labelNameOfPost;
+        private System.Windows.Forms.Label labelWorkerSalary;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonRemove;
+        private System.Windows.Forms.DateTimePicker dateTimePickerDate;
+        private System.Windows.Forms.Label labelDateTimePicker;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPostName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTypeOfPost;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCompanyName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWorkerSalary;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHalfWorkerSalary;
 
 
     }

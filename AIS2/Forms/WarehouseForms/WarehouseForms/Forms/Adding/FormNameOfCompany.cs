@@ -24,8 +24,8 @@ namespace WarehouseForms.Forms.Adding
 
         private void FormNameOfCompany_Load(object sender, EventArgs e)
         {
-            comboBoxTypeOfCompanies.Items.AddRange(_db.DirectoryTypeOfCompanies.Select(t => t.Name).ToArray());
             FormFill();
+            comboBoxTypeOfCompanies.Items.AddRange(_db.DirectoryTypeOfCompanies.Select(t => t.Name).ToArray());
         }
 
         private void FormFill()
@@ -33,6 +33,7 @@ namespace WarehouseForms.Forms.Adding
             ClearForm();
 
             AddRows();
+
             buttonRemove.Enabled = dataGridViewNameOfCompanies.Rows.Count > 0 ? true : false;
         }
 
@@ -53,6 +54,8 @@ namespace WarehouseForms.Forms.Adding
 
         private void AddRows()
         {
+
+            dataGridViewNameOfCompanies.Rows.Clear();
             foreach (var nameOfCompany in _db.DirectoryCompanies.ToList())
             {
                 var row = new DataGridViewRow();
@@ -96,7 +99,7 @@ namespace WarehouseForms.Forms.Adding
 
         private void ClearForm()
         {
-            dataGridViewNameOfCompanies.Rows.Clear();
+            
             textBoxNameOfCompany.Clear();
             comboBoxTypeOfCompanies.SelectedIndex = -1;
         }
