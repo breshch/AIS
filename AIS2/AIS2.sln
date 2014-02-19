@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{DFF9CE2A-BF33-4A3A-B670-3AF070AA51F5}"
 	ProjectSection(SolutionItems) = preProject
 		Bugs.txt = Bugs.txt
+		Tasks.txt = Tasks.txt
 	EndProjectSection
 EndProject
 Global
