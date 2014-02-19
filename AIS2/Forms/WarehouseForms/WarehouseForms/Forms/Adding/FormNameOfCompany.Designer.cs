@@ -31,20 +31,20 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
-            this.textBoxNameOfCompany = new System.Windows.Forms.TextBox();
             this.comboBoxTypeOfCompanies = new System.Windows.Forms.ComboBox();
             this.labelTypeOfCompany = new System.Windows.Forms.Label();
-            this.labelNameOfCompany = new System.Windows.Forms.Label();
             this.dataGridViewNameOfCompanies = new System.Windows.Forms.DataGridView();
             this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnNameOfCompany = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTypeOfCompany = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelNameOfCompany = new System.Windows.Forms.Label();
+            this.textBoxNameOfCompany = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewNameOfCompanies)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(153, 243);
+            this.buttonRemove.Location = new System.Drawing.Point(153, 246);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(119, 23);
             this.buttonRemove.TabIndex = 11;
@@ -54,7 +54,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(35, 243);
+            this.buttonAdd.Location = new System.Drawing.Point(35, 246);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(112, 23);
             this.buttonAdd.TabIndex = 10;
@@ -62,19 +62,11 @@
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
-            // textBoxNameOfCompany
-            // 
-            this.textBoxNameOfCompany.Location = new System.Drawing.Point(35, 217);
-            this.textBoxNameOfCompany.Name = "textBoxNameOfCompany";
-            this.textBoxNameOfCompany.Size = new System.Drawing.Size(237, 20);
-            this.textBoxNameOfCompany.TabIndex = 9;
-            this.textBoxNameOfCompany.TextAlignChanged += new System.EventHandler(this.textBoxNameOfCompany_TextChanged);
-            // 
             // comboBoxTypeOfCompanies
             // 
             this.comboBoxTypeOfCompanies.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTypeOfCompanies.FormattingEnabled = true;
-            this.comboBoxTypeOfCompanies.Location = new System.Drawing.Point(35, 168);
+            this.comboBoxTypeOfCompanies.Location = new System.Drawing.Point(35, 209);
             this.comboBoxTypeOfCompanies.Name = "comboBoxTypeOfCompanies";
             this.comboBoxTypeOfCompanies.Size = new System.Drawing.Size(237, 21);
             this.comboBoxTypeOfCompanies.TabIndex = 12;
@@ -82,20 +74,11 @@
             // labelTypeOfCompany
             // 
             this.labelTypeOfCompany.AutoSize = true;
-            this.labelTypeOfCompany.Location = new System.Drawing.Point(32, 152);
+            this.labelTypeOfCompany.Location = new System.Drawing.Point(32, 193);
             this.labelTypeOfCompany.Name = "labelTypeOfCompany";
             this.labelTypeOfCompany.Size = new System.Drawing.Size(79, 13);
             this.labelTypeOfCompany.TabIndex = 13;
             this.labelTypeOfCompany.Text = "Тип компании";
-            // 
-            // labelNameOfCompany
-            // 
-            this.labelNameOfCompany.AutoSize = true;
-            this.labelNameOfCompany.Location = new System.Drawing.Point(32, 201);
-            this.labelNameOfCompany.Name = "labelNameOfCompany";
-            this.labelNameOfCompany.Size = new System.Drawing.Size(110, 13);
-            this.labelNameOfCompany.TabIndex = 14;
-            this.labelNameOfCompany.Text = "Название компании";
             // 
             // dataGridViewNameOfCompanies
             // 
@@ -146,18 +129,34 @@
             this.ColumnTypeOfCompany.Name = "ColumnTypeOfCompany";
             this.ColumnTypeOfCompany.ReadOnly = true;
             // 
+            // labelNameOfCompany
+            // 
+            this.labelNameOfCompany.AutoSize = true;
+            this.labelNameOfCompany.Location = new System.Drawing.Point(32, 152);
+            this.labelNameOfCompany.Name = "labelNameOfCompany";
+            this.labelNameOfCompany.Size = new System.Drawing.Size(110, 13);
+            this.labelNameOfCompany.TabIndex = 17;
+            this.labelNameOfCompany.Text = "Название компании";
+            // 
+            // textBoxNameOfCompany
+            // 
+            this.textBoxNameOfCompany.Location = new System.Drawing.Point(35, 168);
+            this.textBoxNameOfCompany.Name = "textBoxNameOfCompany";
+            this.textBoxNameOfCompany.Size = new System.Drawing.Size(237, 20);
+            this.textBoxNameOfCompany.TabIndex = 16;
+            // 
             // FormNameOfCompany
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(319, 287);
-            this.Controls.Add(this.dataGridViewNameOfCompanies);
             this.Controls.Add(this.labelNameOfCompany);
+            this.Controls.Add(this.textBoxNameOfCompany);
+            this.Controls.Add(this.dataGridViewNameOfCompanies);
             this.Controls.Add(this.labelTypeOfCompany);
             this.Controls.Add(this.comboBoxTypeOfCompanies);
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.buttonAdd);
-            this.Controls.Add(this.textBoxNameOfCompany);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "FormNameOfCompany";
@@ -175,13 +174,13 @@
 
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.Button buttonAdd;
-        private System.Windows.Forms.TextBox textBoxNameOfCompany;
         private System.Windows.Forms.ComboBox comboBoxTypeOfCompanies;
         private System.Windows.Forms.Label labelTypeOfCompany;
-        private System.Windows.Forms.Label labelNameOfCompany;
         private System.Windows.Forms.DataGridView dataGridViewNameOfCompanies;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnNameOfCompany;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTypeOfCompany;
+        private System.Windows.Forms.Label labelNameOfCompany;
+        private System.Windows.Forms.TextBox textBoxNameOfCompany;
     }
 }

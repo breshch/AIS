@@ -15,7 +15,9 @@ namespace WarehouseForms.Forms.Adding
 {
     public partial class FormNameOfCompany : Form
     {
-        private Context _db = new Context();
+        private QueryTemplates _qt;
+
+       
 
         public FormNameOfCompany()
         {
@@ -24,8 +26,11 @@ namespace WarehouseForms.Forms.Adding
 
         private void FormNameOfCompany_Load(object sender, EventArgs e)
         {
+            var db = new Context();
+            _qt = new QueryTemplates(db);
+
             FormFill();
-            comboBoxTypeOfCompanies.Items.AddRange(_db.DirectoryTypeOfCompanies.Select(t => t.Name).ToArray());
+            comboBoxTypeOfCompanies.Items.AddRange(_qt.GetDirectoryTypeOfCompanyNames().ToArray());
         }
 
         private void FormFill()
@@ -43,9 +48,9 @@ namespace WarehouseForms.Forms.Adding
             {
                 string typeOfCompany = comboBoxTypeOfCompanies.SelectedItem.ToString();
 
-                var directoryTypeOfCompany = _db.DirectoryTypeOfCompanies.First(t => t.Name == typeOfCompany);
-                _db.DirectoryCompanies.Add(new DirectoryCompany { Name = textBoxNameOfCompany.Text, DirectoryTypeOfCompany = directoryTypeOfCompany });
-                _db.SaveChanges();
+                var directoryTypeOfCompany = _qt.GetDirectoryTypeOfCompany(typeOfCompany);
+                _qt.AddDirectoryCompany(textBoxNameOfCompany.Text, directoryTypeOfCompany);
+                _qt.Save();
 
                 ClearForm();
                 FormFill();
@@ -56,7 +61,7 @@ namespace WarehouseForms.Forms.Adding
         {
 
             dataGridViewNameOfCompanies.Rows.Clear();
-            foreach (var nameOfCompany in _db.DirectoryCompanies.ToList())
+            foreach (var nameOfCompany in _qt.GetDirectoryCompanies().ToList())
             {
                 var row = new DataGridViewRow();
                 row.CreateCells(dataGridViewNameOfCompanies);
@@ -75,7 +80,7 @@ namespace WarehouseForms.Forms.Adding
             {
                 if (comboBoxTypeOfCompanies.SelectedIndex != -1)
                 {
-                    if (!_db.DirectoryCompanies.Select(t => t.Name).Contains(textBoxNameOfCompany.Text))
+                    if (!_qt.GetDirectoryCompanyNames().Contains(textBoxNameOfCompany.Text))
                     {
                         return true;
                     }
@@ -111,7 +116,7 @@ namespace WarehouseForms.Forms.Adding
 
         private bool IsValidateRemove(DirectoryCompany directoryCompany)
         {
-            if (!_db.CurrentCompanies.Select(c => c.DirectoryCompanyId).Contains(directoryCompany.Id))
+            if (!_qt.GetCurrentCompanyIds().Contains(directoryCompany.Id))
             {
                 return true;
             }
@@ -127,12 +132,13 @@ namespace WarehouseForms.Forms.Adding
             if (dataGridViewNameOfCompanies.SelectedRows.Count > 0)
             {
                 int id = int.Parse(dataGridViewNameOfCompanies.SelectedRows[0].Cells[0].Value.ToString());
-                var directoryCompany = _db.DirectoryCompanies.Find(id);
+                var directoryCompany = _qt.GetDirectoryCompany(id);
 
                 if (IsValidateRemove(directoryCompany))
                 {
-                    _db.DirectoryCompanies.Remove(directoryCompany);
-                    _db.SaveChanges();
+                    _qt.RemoveDirectoryCompany(directoryCompany);
+
+                    _qt.Save();
 
                     FormFill();
                 }
@@ -141,7 +147,7 @@ namespace WarehouseForms.Forms.Adding
 
         private void FormNameOfCompany_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _db.Dispose();
+            _qt.Close();
         }
     }
 }

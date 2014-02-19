@@ -14,7 +14,7 @@ namespace WarehouseForms.Forms.Adding
 {
     public partial class FormTypeOfCompany : Form
     {
-        private Context _db = new Context();
+        private QueryTemplates _qt;
 
         public FormTypeOfCompany()
         {
@@ -23,6 +23,9 @@ namespace WarehouseForms.Forms.Adding
 
         private void FormTypeOfCompany_Load(object sender, EventArgs e)
         {
+            var db = new Context();
+            _qt = new QueryTemplates(db);
+
             listBoxTypeOfCompanies.Items.Clear();
             FormFill();
         }
@@ -30,22 +33,22 @@ namespace WarehouseForms.Forms.Adding
         private void FormFill()
         {
             ClearForm();
-            listBoxTypeOfCompanies.Items.AddRange(_db.DirectoryTypeOfCompanies.Select(t => t.Name).ToArray());
+            listBoxTypeOfCompanies.Items.AddRange(_qt.GetDirectoryTypeOfCompanyNames().ToArray());
 
             buttonRemove.Enabled = listBoxTypeOfCompanies.Items.Count > 0 ? true : false;
         }
 
         private void FormTypeOfCompany_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _db.Dispose();
+            _qt.Close();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             if (IsValidateAdd())
             {
-                _db.DirectoryTypeOfCompanies.Add(new DirectoryTypeOfCompany { Name = textBoxTypeOfCompany.Text });
-                _db.SaveChanges();
+                _qt.AddDirectoryTypeOfCompany(textBoxTypeOfCompany.Text);
+                _qt.Save();
 
                 ClearForm();
                 FormFill();
@@ -56,7 +59,7 @@ namespace WarehouseForms.Forms.Adding
         {
             if (!string.IsNullOrWhiteSpace(textBoxTypeOfCompany.Text))
             {
-                if (!_db.DirectoryTypeOfCompanies.Select(t => t.Name).Contains(textBoxTypeOfCompany.Text))
+                if (!_qt.GetDirectoryTypeOfCompanyNames().Contains(textBoxTypeOfCompany.Text))
                 {
                     return true;
                 }
@@ -75,7 +78,7 @@ namespace WarehouseForms.Forms.Adding
 
         private bool IsValidateRemove(DirectoryTypeOfCompany directoryTypeOfCompany)
         {
-            if (!_db.DirectoryCompanies.Select(c => c.DirectoryTypeOfCompanyId).Contains(directoryTypeOfCompany.Id))
+            if (!_qt.GetDirectoryTypeOfCompanyIds().Contains(directoryTypeOfCompany.Id))
             {
                 return true;
             }
@@ -102,13 +105,13 @@ namespace WarehouseForms.Forms.Adding
         {
             if (listBoxTypeOfCompanies.SelectedIndex != -1)
             {
-                string typeOfCompanies = listBoxTypeOfCompanies.SelectedItem.ToString();
-                var directoryTypeOfCompany = _db.DirectoryTypeOfCompanies.First(t => t.Name == typeOfCompanies);
+                string typeOfCompany = listBoxTypeOfCompanies.SelectedItem.ToString();
+                var directoryTypeOfCompany = _qt.GetDirectoryTypeOfCompany(typeOfCompany);
 
                 if (IsValidateRemove(directoryTypeOfCompany))
                 {
-                    _db.DirectoryTypeOfCompanies.Remove(directoryTypeOfCompany);
-                    _db.SaveChanges();
+                    _qt.RemoveDirectoryTypeOfCompany(directoryTypeOfCompany);
+                    _qt.Save();
 
                     FormFill();
                 }

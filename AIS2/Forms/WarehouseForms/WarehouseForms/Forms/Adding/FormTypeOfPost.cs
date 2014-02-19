@@ -14,7 +14,7 @@ namespace WarehouseForms.Forms.Adding
 {
     public partial class FormTypeOfPost : Form
     {
-        private Context _db = new Context();
+        private QueryTemplates _qt;
 
         public FormTypeOfPost()
         {
@@ -23,6 +23,9 @@ namespace WarehouseForms.Forms.Adding
 
         private void FormTypeOfPost_Load(object sender, EventArgs e)
         {
+            var db = new Context();
+            _qt = new QueryTemplates(db);
+
             listBoxTypeOfPosts.Items.Clear();
             FormFill();
         }
@@ -30,22 +33,22 @@ namespace WarehouseForms.Forms.Adding
         private void FormFill()
         {
             ClearForm();
-            listBoxTypeOfPosts.Items.AddRange(_db.DirectoryTypeOfPosts.Select(t => t.Name).ToArray());
+            listBoxTypeOfPosts.Items.AddRange(_qt.GetDirectoryTypeOfPostNames().ToArray());
 
             buttonRemove.Enabled = listBoxTypeOfPosts.Items.Count > 0 ? true : false;
         }
 
         private void FormTypeOfPost_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _db.Dispose();
+            _qt.Close();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             if (IsValidateAdd())
             {
-                _db.DirectoryTypeOfPosts.Add(new DirectoryTypeOfPost { Name = textBoxTypeOfPost.Text });
-                _db.SaveChanges();
+                _qt.AddDirectoryTypeOfPost(textBoxTypeOfPost.Text);
+                _qt.Save();
 
                 ClearForm();
                 FormFill();
@@ -56,7 +59,7 @@ namespace WarehouseForms.Forms.Adding
         {
             if (!string.IsNullOrWhiteSpace(textBoxTypeOfPost.Text))
             {
-                if (!_db.DirectoryTypeOfPosts.Select(t => t.Name).Contains(textBoxTypeOfPost.Text))
+                if (!_qt.GetDirectoryTypeOfPostNames().Contains(textBoxTypeOfPost.Text))
                 {
                     return true;
                 }
@@ -75,7 +78,7 @@ namespace WarehouseForms.Forms.Adding
 
         private bool IsValidateRemove(DirectoryTypeOfPost directoryTypeOfPost)
         {
-            if (!_db.DirectoryPosts.Select(c => c.DirectoryTypeOfPostId).Contains(directoryTypeOfPost.Id))
+            if (!_qt.GetDirectoryPostIds().Contains(directoryTypeOfPost.Id))
             {
                 return true;
             }
@@ -102,13 +105,13 @@ namespace WarehouseForms.Forms.Adding
         {
             if (listBoxTypeOfPosts.SelectedIndex != -1)
             {
-                string typeOfPosts = listBoxTypeOfPosts.SelectedItem.ToString();
-                var directoryTypeOfPost = _db.DirectoryTypeOfPosts.First(t => t.Name == typeOfPosts);
+                string typeOfPost = listBoxTypeOfPosts.SelectedItem.ToString();
+                var directoryTypeOfPost = _qt.GetDirectoryTypeOfPost(typeOfPost);
 
                 if (IsValidateRemove(directoryTypeOfPost))
                 {
-                    _db.DirectoryTypeOfPosts.Remove(directoryTypeOfPost);
-                    _db.SaveChanges();
+                    _qt.RemoveDirectoryTypeOfPost(directoryTypeOfPost);
+                    _qt.Save();
 
                     FormFill();
                 }

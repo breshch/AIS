@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Drawing;
@@ -16,7 +17,8 @@ namespace WarehouseForms.Forms.Adding
 {
     public partial class FormPost : Form
     {
-        private Context _db = new Context();
+        
+        private QueryTemplates _qt;
 
         public FormPost()
         {
@@ -25,8 +27,11 @@ namespace WarehouseForms.Forms.Adding
 
         private void FormPost_Load(object sender, EventArgs e)
         {
-            comboBoxNameOfCompany.Items.AddRange(_db.DirectoryCompanies.Select(c => c.Name).ToArray());
-            comboBoxTypeOfPost.Items.AddRange(_db.DirectoryTypeOfPosts.Select(p => p.Name).ToArray());
+            var db = new Context();
+            _qt = new QueryTemplates(db);
+
+            comboBoxNameOfCompany.Items.AddRange(_qt.GetDirectoryCompanyNames().ToArray());
+            comboBoxTypeOfPost.Items.AddRange(_qt.GetDirectoryTypeOfPostNames().ToArray());
             dateTimePickerDate.MaxDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0).AddDays(1).AddSeconds(-1);
 
             AddRows();
@@ -37,7 +42,7 @@ namespace WarehouseForms.Forms.Adding
         {
             dataGridViewPosts.Rows.Clear();
 
-            foreach (var post in _db.DirectoryPosts.ToList())
+            foreach (var post in _qt.GetDirectoryPosts().ToList())
             {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridViewPosts);
@@ -75,7 +80,7 @@ namespace WarehouseForms.Forms.Adding
 
         private void FormPost_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _db.Dispose();
+           _qt.Close();
         }
 
         private bool IsValidateAdd()
@@ -126,7 +131,7 @@ namespace WarehouseForms.Forms.Adding
             {
                 string nameOfCompany = comboBoxNameOfCompany.SelectedItem.ToString();
                 string typeOfPost = comboBoxTypeOfPost.SelectedItem.ToString();
-                var post = _db.DirectoryPosts.FirstOrDefault(p => EntityFunctions.DiffDays(p.Date, dateTimePickerDate.Value) == 0 && p.Name == textBoxNameOfPost.Text &&
+                var post = _qt.GetDirectoryPost(p => DbFunctions.DiffDays(p.Date, dateTimePickerDate.Value) == 0 && p.Name == textBoxNameOfPost.Text &&
                     p.DirectoryCompany.Name == nameOfCompany);
 
                 if (post == null)
@@ -134,25 +139,25 @@ namespace WarehouseForms.Forms.Adding
                     post = new DirectoryPost
                     {
                         Name = textBoxNameOfPost.Text,
-                        DirectoryCompany = _db.DirectoryCompanies.First(c => c.Name == nameOfCompany),
-                        DirectoryTypeOfPost = _db.DirectoryTypeOfPosts.First(p => p.Name == typeOfPost),
+                        DirectoryCompany = _qt.GetDirectoryCompany(nameOfCompany),
+                        DirectoryTypeOfPost = _qt.GetDirectoryTypeOfPost(typeOfPost),
                         Date = dateTimePickerDate.Value,
                         UserWorkerSalary = double.Parse(textBoxWorkerSalary.Text.Replace(".", ",")),
                         UserHalfWorkerSalary = double.Parse(textBoxHalfWorkerSalary.Text.Replace(".", ","))
                     };
-                    _db.DirectoryPosts.Add(post);
+                    _qt.AddDirectoryPost(post);  
                 }
                 else
                 {
                     post.Name = textBoxNameOfPost.Text;
-                    post.DirectoryCompany = _db.DirectoryCompanies.First(c => c.Name == nameOfCompany);
-                    post.DirectoryTypeOfPost = _db.DirectoryTypeOfPosts.First(p => p.Name == typeOfPost);
+                    post.DirectoryCompany = _qt.GetDirectoryCompany(nameOfCompany);
+                    post.DirectoryTypeOfPost = _qt.GetDirectoryTypeOfPost(typeOfPost);
                     post.Date = dateTimePickerDate.Value;
                     post.UserWorkerSalary = double.Parse(textBoxWorkerSalary.Text.Replace(".", ","));
                     post.UserHalfWorkerSalary = double.Parse(textBoxHalfWorkerSalary.Text.Replace(".", ","));
                 }
-                
-                _db.SaveChanges();
+
+                _qt.Save();
 
                 FormFill();
             }
@@ -161,7 +166,7 @@ namespace WarehouseForms.Forms.Adding
         private void dataGridViewPosts_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int id = int.Parse(dataGridViewPosts.SelectedRows[0].Cells[0].Value.ToString());
-            var post = _db.DirectoryPosts.Find(id);
+            var post = _qt.GetDirectoryPost(id);
 
             textBoxNameOfPost.Text = post.Name;
             comboBoxTypeOfPost.SelectedItem = post.DirectoryTypeOfPost.Name;
@@ -173,7 +178,7 @@ namespace WarehouseForms.Forms.Adding
 
         private bool IsValidateRemove(DirectoryPost directoryPost)
         {
-            if (!_db.CurrentPosts.Select(p => p.DirectoryPostId).Contains(directoryPost.Id))
+            if (!_qt.GetCurrentPostIds().Contains(directoryPost.Id))
             {
                 return true;
             }
@@ -190,12 +195,12 @@ namespace WarehouseForms.Forms.Adding
             if (dataGridViewPosts.SelectedRows.Count > 0)
             {
                 int id = int.Parse(dataGridViewPosts.SelectedRows[0].Cells[0].Value.ToString());
-                var directoryPost = _db.DirectoryPosts.Find(id);
+                var directoryPost = _qt.GetDirectoryPost(id);
 
                 if (IsValidateRemove(directoryPost))
                 {
-                    _db.DirectoryPosts.Remove(directoryPost);
-                    _db.SaveChanges();
+                    _qt.RemoveDirectoryPost(directoryPost);
+                    _qt.Save();
 
                     AddRows();
                 }
