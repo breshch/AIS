@@ -186,10 +186,10 @@
     <value>14</value>
   </data>
   <data name="comboBoxTypeOfPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 211</value>
+    <value>11, 252</value>
   </data>
   <data name="comboBoxTypeOfPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 21</value>
+    <value>320, 21</value>
   </data>
   <data name="comboBoxTypeOfPost.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -207,10 +207,10 @@
     <value>13</value>
   </data>
   <data name="comboBoxNameOfCompany.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 255</value>
+    <value>11, 314</value>
   </data>
   <data name="comboBoxNameOfCompany.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 21</value>
+    <value>320, 21</value>
   </data>
   <data name="comboBoxNameOfCompany.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -228,10 +228,10 @@
     <value>12</value>
   </data>
   <data name="textBoxNameOfPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 168</value>
+    <value>11, 191</value>
   </data>
   <data name="textBoxNameOfPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 20</value>
+    <value>320, 20</value>
   </data>
   <data name="textBoxNameOfPost.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -249,10 +249,10 @@
     <value>11</value>
   </data>
   <data name="textBoxWorkerSalary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 342</value>
+    <value>370, 253</value>
   </data>
   <data name="textBoxWorkerSalary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 20</value>
+    <value>320, 20</value>
   </data>
   <data name="textBoxWorkerSalary.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -270,10 +270,10 @@
     <value>10</value>
   </data>
   <data name="textBoxHalfWorkerSalary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 385</value>
+    <value>370, 315</value>
   </data>
   <data name="textBoxHalfWorkerSalary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 20</value>
+    <value>320, 20</value>
   </data>
   <data name="textBoxHalfWorkerSalary.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -294,7 +294,7 @@
     <value>True</value>
   </data>
   <data name="labelTypeOfPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>60, 215</value>
+    <value>8, 225</value>
   </data>
   <data name="labelTypeOfPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 13</value>
@@ -325,7 +325,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelNameOfCompany.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 259</value>
+    <value>8, 287</value>
   </data>
   <data name="labelNameOfCompany.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 13</value>
@@ -355,7 +355,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelNameOfPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>79, 171</value>
+    <value>8, 164</value>
   </data>
   <data name="labelNameOfPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 13</value>
@@ -385,7 +385,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelWorkerSalary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 345</value>
+    <value>367, 225</value>
   </data>
   <data name="labelWorkerSalary.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 13</value>
@@ -415,7 +415,7 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 388</value>
+    <value>367, 287</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 13</value>
@@ -439,10 +439,10 @@
     <value>4</value>
   </data>
   <data name="buttonAdd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 454</value>
+    <value>11, 371</value>
   </data>
   <data name="buttonAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 23</value>
+    <value>150, 23</value>
   </data>
   <data name="buttonAdd.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -466,10 +466,10 @@
     <value>NoControl</value>
   </data>
   <data name="buttonRemove.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 454</value>
+    <value>181, 371</value>
   </data>
   <data name="buttonRemove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 23</value>
+    <value>150, 23</value>
   </data>
   <data name="buttonRemove.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -490,10 +490,10 @@
     <value>2</value>
   </data>
   <data name="dateTimePickerDate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 299</value>
+    <value>370, 191</value>
   </data>
   <data name="dateTimePickerDate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 20</value>
+    <value>320, 20</value>
   </data>
   <data name="dateTimePickerDate.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -517,7 +517,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelDateTimePicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 302</value>
+    <value>367, 164</value>
   </data>
   <data name="labelDateTimePicker.Size" type="System.Drawing.Size, System.Drawing">
     <value>33, 13</value>
@@ -547,7 +547,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>702, 535</value>
+    <value>702, 417</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>

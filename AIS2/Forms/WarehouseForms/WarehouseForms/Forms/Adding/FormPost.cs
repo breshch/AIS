@@ -170,5 +170,36 @@ namespace WarehouseForms.Forms.Adding
             textBoxWorkerSalary.Text = post.UserWorkerSalary.ToString();
             textBoxHalfWorkerSalary.Text = post.UserHalfWorkerSalary.ToString();
         }
+
+        private bool IsValidateRemove(DirectoryPost directoryPost)
+        {
+            if (!_db.CurrentPosts.Select(p => p.DirectoryPostId).Contains(directoryPost.Id))
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("На этой должности уже есть сотрудники.");
+            }
+            return false;
+        }
+
+
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewPosts.SelectedRows.Count > 0)
+            {
+                int id = int.Parse(dataGridViewPosts.SelectedRows[0].Cells[0].Value.ToString());
+                var directoryPost = _db.DirectoryPosts.Find(id);
+
+                if (IsValidateRemove(directoryPost))
+                {
+                    _db.DirectoryPosts.Remove(directoryPost);
+                    _db.SaveChanges();
+
+                    AddRows();
+                }
+            }
+        }
     }
 }
