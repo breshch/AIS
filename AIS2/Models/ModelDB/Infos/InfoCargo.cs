@@ -1,6 +1,7 @@
 ﻿using ModelDB.Directories;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace ModelDB.Infos
     public class InfoCargo
     {
         public int Id { get; set; }
+
+        [StringLength(128)]
         public string Basement { get; set; }
 
         public int DirectoryRCId { get; set; }
