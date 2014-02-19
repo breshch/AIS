@@ -1,4 +1,5 @@
-﻿//using AvForms;
+﻿using ModelDB;
+//using AvForms;
 //using CarsForms;
 //using Global;
 //using ModelDbAv;
@@ -29,6 +30,11 @@ namespace Entering
 
         private void FormEnter_Load(object sender, EventArgs e)
         {
+            using (var db = new Context())
+            {
+                db.Database.Initialize(true);
+            }
+
             //for (int i = 66; i < 69; i++)
             //{
             //    Helper.DeleteWorker(i);
