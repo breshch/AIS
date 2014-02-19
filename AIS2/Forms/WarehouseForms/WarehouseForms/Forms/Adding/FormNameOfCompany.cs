@@ -111,13 +111,13 @@ namespace WarehouseForms.Forms.Adding
 
         private bool IsValidateRemove(DirectoryCompany directoryCompany)
         {
-            if (!_db.InfoCompanies.Select(c => c.DirectoryCompanyId).Contains(directoryCompany.Id))
+            if (!_db.CurrentCompanies.Select(c => c.DirectoryCompanyId).Contains(directoryCompany.Id))
             {
                 return true;
             }
             else
             {
-                MessageBox.Show(" В этой компании уже есть сотрудники ");
+                MessageBox.Show("В этой компании уже есть сотрудники.");
             }
             return false;
         }
