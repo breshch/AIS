@@ -24,20 +24,19 @@ namespace ModelDB
         {
             return _db.DirectoryTypeOfCompanies.Select(t => t.Name);
         }
-
+        
         public IQueryable<int> GetDirectoryTypeOfCompanyIds()
         {
             return _db.DirectoryCompanies.Select(c => c.DirectoryTypeOfCompanyId);
         }
-
+        
         public DirectoryTypeOfCompany GetDirectoryTypeOfCompany(string typeOfCompany)
         {
             return _db.DirectoryTypeOfCompanies.First(t => t.Name == typeOfCompany);
         }
-        #endregion
+        #endregion DirectoryTypeOfCompany
 
-
-        #region DirectoryCompany
+        #region DirectoryCompanies
         public IQueryable<DirectoryCompany> GetDirectoryCompanies()
         {
             return _db.DirectoryCompanies;
@@ -57,9 +56,7 @@ namespace ModelDB
         {
             return _db.DirectoryCompanies.First(c => c.Name == name);
         }
-
-
-        #endregion DirectoryCompany
+        #endregion DirectoryCompanies
 
         #region DirectoryTypeOfPost
         public IQueryable<string> GetDirectoryTypeOfPostNames()
@@ -71,29 +68,14 @@ namespace ModelDB
         {
             return _db.DirectoryTypeOfPosts.First(t => t.Name == typeOfPost);
         }
-        #endregion DirectoryTypeOfPost
 
-        #region
         public IQueryable<int> GetDirectoryPostIds()
         {
             return _db.DirectoryPosts.Select(c => c.DirectoryTypeOfPostId);
         }
-        #endregion
+        #endregion DirectoryTypeOfPost
 
-
-        #region CurrentCompany
-        public IQueryable<int> GetCurrentCompanyIds()
-        {
-            return _db.CurrentCompanies.Select(c => c.DirectoryCompanyId);
-        }
-        #endregion CurrentCompany
-
-        public IQueryable<int> GetCurrentPostIds()
-        {
-            return _db.CurrentPosts.Select(p => p.DirectoryPostId);
-        }
-
-
+        #region DirectoryPost
         public IQueryable<DirectoryPost> GetDirectoryPosts()
         {
             return _db.DirectoryPosts;
@@ -108,10 +90,27 @@ namespace ModelDB
         {
             return _db.DirectoryPosts.FirstOrDefault(func);
         }
-        #endregion
+        #endregion DirectoryPost
+
+        #region CurrentCompany
+        public IQueryable<int> GetCurrentCompanyIds()
+        {
+            return _db.CurrentCompanies.Select(c => c.DirectoryCompanyId);
+        }
+        #endregion CurrentCompany
+
+        #region CurrentPost
+        public IQueryable<int> GetCurrentPostIds()
+        {
+            return _db.CurrentPosts.Select(p => p.DirectoryPostId);
+        }
+        #endregion CurrentPost
+
+        #endregion Get
 
 
-        //Add
+        #region Add
+
         public void AddDirectoryTypeOfCompany(string name)
         {
             _db.DirectoryTypeOfCompanies.Add(new DirectoryTypeOfCompany { Name = name });
@@ -132,21 +131,20 @@ namespace ModelDB
             _db.DirectoryPosts.Add(post);
         }
 
+        #endregion Add
+
+
         #region Remove
 
-        #region DirectoryTypeOfCompany
         public void RemoveDirectoryTypeOfCompany(DirectoryTypeOfCompany directoryTypeOfCompany)
         {
             _db.DirectoryTypeOfCompanies.Remove(directoryTypeOfCompany);
         }
-        #endregion DirectoryTypeOfCompany
 
-        #region DirectoryCompany
         public void RemoveDirectoryCompany(DirectoryCompany directoryCompany)
         {
             _db.DirectoryCompanies.Remove(directoryCompany);
         }
-        #endregion DirectoryCompany
 
         public void RemoveDirectoryTypeOfPost(DirectoryTypeOfPost directoryTypeOfPost)
         {
@@ -160,6 +158,8 @@ namespace ModelDB
 
         #endregion Remove
 
+
+        #region Others
         public void Save()
         {
             _db.SaveChanges();
@@ -169,5 +169,6 @@ namespace ModelDB
         {
             _db.Dispose();
         }
+        #endregion Others
     }
 }
