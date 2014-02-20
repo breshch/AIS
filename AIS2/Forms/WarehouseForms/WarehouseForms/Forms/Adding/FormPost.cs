@@ -125,7 +125,7 @@ namespace WarehouseForms.Forms.Adding
             return false;
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void AddPost()
         {
             if (IsValidateAdd())
             {
@@ -145,7 +145,7 @@ namespace WarehouseForms.Forms.Adding
                         UserWorkerSalary = double.Parse(textBoxWorkerSalary.Text.Replace(".", ",")),
                         UserHalfWorkerSalary = double.Parse(textBoxHalfWorkerSalary.Text.Replace(".", ","))
                     };
-                    _qt.AddDirectoryPost(post);  
+                    _qt.AddDirectoryPost(post);
                 }
                 else
                 {
@@ -161,6 +161,11 @@ namespace WarehouseForms.Forms.Adding
 
                 FormFill();
             }
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            AddPost();
         }
 
         private void dataGridViewPosts_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
