@@ -16,5 +16,11 @@ namespace ModelDB.Infos
 
         public virtual ICollection<InfoWorker> InfoWorkers { get; set; }
         public virtual ICollection<InfoPermitForCar> InfoPermitForCars { get; set; }
+
+        public InfoCompany()
+        {
+            InfoWorkers = new List<InfoWorker>();
+            InfoPermitForCars = new List<InfoPermitForCar>();
+        }
     }
 }

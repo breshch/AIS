@@ -35,11 +35,16 @@ namespace ModelDB.Directories
 
         public DateTime StartDate { get; set; }
         public DateTime? FireDate { get; set; }
-        public virtual ICollection<CurrentCompany> CurrentCompanies { get; set; }
+        //public virtual ICollection<CurrentCompany> CurrentCompanies { get; set; }
         public virtual ICollection<CurrentPost> Posts { get; set; }
         //public Photo { get; set; }
         //public Docs { get; set; }
 
         //public DateTime? TimeStamp { get; set; }
+
+        public DirectoryWorker()
+        {
+            Posts = new List<CurrentPost>();
+        }
     }
 }

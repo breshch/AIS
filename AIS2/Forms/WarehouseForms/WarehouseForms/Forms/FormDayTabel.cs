@@ -57,5 +57,13 @@ namespace WarehouseForms.Forms
                 form.ShowDialog();   
             }
         }
+
+        private void работникToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormWorker())
+            {
+                form.ShowDialog();
+            }
+        }
     }
 }

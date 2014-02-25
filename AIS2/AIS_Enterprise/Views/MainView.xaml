@@ -1,0 +1,15 @@
+﻿<Window x:Class="AIS_Enterprise.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        WindowStartupLocation="CenterScreen"
+        Title="Главная форма" Height="350" Width="450">
+    
+    <Grid Margin="10">
+        <StackPanel>
+            <Button Content="Виды деятельности компании" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfCompanyViewCommand}"/>
+            <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}"/>
+            <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryPostViewCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

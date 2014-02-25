@@ -90,6 +90,27 @@ namespace ModelDB
         {
             return _db.DirectoryPosts.FirstOrDefault(func);
         }
+
+        public DirectoryPost GetDirectoryPostEqualDates(DateTime postDate, string nameOfPost, string nameOfCompany)
+        {
+            return _db.DirectoryPosts.FirstOrDefault(p => DbFunctions.DiffDays(p.Date, postDate) == 0 && p.Name == nameOfPost && p.DirectoryCompany.Name == nameOfCompany);
+        }
+
+        public DirectoryPost GetDirectoryPost(DateTime postDate, string nameOfPost, string nameOfCompany)
+        {
+            return _db.DirectoryPosts.FirstOrDefault(p => DbFunctions.DiffDays(p.Date, postDate) >= 0 && p.Name == nameOfPost && p.DirectoryCompany.Name == nameOfCompany);
+        }
+
+        public IQueryable<string> GetDirectoryPostNames()
+        {
+            return _db.DirectoryPosts.Select(p => p.Name);
+        }
+
+        public IQueryable<string> GetDirectoryPostNames(string nameOfCompany)
+        {
+            return _db.DirectoryPosts.Where(p => p.DirectoryCompany.Name == nameOfCompany).Select(p => p.Name);
+        }
+
         #endregion DirectoryPost
 
         #region CurrentCompany
@@ -129,6 +150,11 @@ namespace ModelDB
         public void AddDirectoryPost(DirectoryPost post)
         {
             _db.DirectoryPosts.Add(post);
+        }
+
+        public void AddDirectoryWorker(DirectoryWorker worker)
+        {
+            _db.DirectoryWorkers.Add(worker);
         }
 
         #endregion Add

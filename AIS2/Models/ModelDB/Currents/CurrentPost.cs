@@ -12,9 +12,6 @@ namespace ModelDB.Currents
         public int Id { get; set; }
         public DateTime ChangeDate { get; set; }
         public DateTime? FireDate { get; set; }
-        public double UserWorkerSalary { get; set; }
-        public double? AdminWorkerSalary { get; set; }
-        public double? UserHalfWorkerSalary { get; set; }
 
         public int DirectoryPostId { get; set; }
         public virtual DirectoryPost DirectoryPost { get; set; }

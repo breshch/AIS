@@ -12,5 +12,10 @@ namespace ModelDB.Infos
         public DateTime Date { get; set; }
 
         public virtual ICollection<InfoCompany> InfoCompanies { get; set; }
+
+        public InfoDate()
+        {
+            InfoCompanies = new List<InfoCompany>();
+        }
     }
 }

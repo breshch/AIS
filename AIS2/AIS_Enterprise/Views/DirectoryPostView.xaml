@@ -1,0 +1,59 @@
+﻿<Window x:Class="AIS_Enterprise.Views.DirectoryPostView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        WindowStartupLocation="CenterOwner"
+        Title="Добавление вида деятельности компании" Height="500" Width="500">
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <DataGrid Grid.Row="0">
+            
+        </DataGrid>
+        
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Должность" Margin="0, 10, 10, 0"/>
+            <TextBox Grid.Column="0" Grid.Row="1" Margin="0, 0, 10, 0"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Вид должности" Margin="0, 10, 10, 0"/>
+            <ComboBox Grid.Column="0" Grid.Row="3" Margin="0, 0, 10, 0"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="Название компании" Margin="0, 10, 10, 0"/>
+            <ComboBox Grid.Column="0" Grid.Row="5" Margin="0, 0, 10, 0"/>
+
+            <TextBlock Grid.Column="2" Grid.Row="0" Text="Дата" Margin="10, 10, 0, 0"/>
+            <DatePicker Grid.Column="2" Grid.Row="1" Margin="10, 0, 0, 0"/>
+
+            <TextBlock Grid.Column="2" Grid.Row="2" Text="Оклад" Margin="10, 10, 0, 0"/>
+            <TextBox Grid.Column="2" Grid.Row="3" Margin="10, 0, 0, 0"/>
+
+            <TextBlock Grid.Column="2" Grid.Row="4" Text="Совместительство" Margin="10, 10, 0, 0"/>
+            <TextBox Grid.Column="2" Grid.Row="5" Margin="10, 0, 0, 0" />
+
+            <Button Grid.Column="0" Grid.Row="6" Content="Добавить" Margin="0, 20, 10, 0"/>
+            <Button Grid.Column="2" Grid.Row="6" Content="Удалить" Margin="10, 20, 0, 0"/>
+
+        </Grid>
+    </Grid>
+</Window>

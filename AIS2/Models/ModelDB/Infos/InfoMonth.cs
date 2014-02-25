@@ -12,5 +12,10 @@ namespace ModelDB.Infos
         public DateTime Date { get; set; }
 
         public virtual ICollection<InfoSalary> InfoSalaries { get; set; }
+
+        public InfoMonth()
+        {
+            InfoSalaries = new List<InfoSalary>();
+        }
     }
 }

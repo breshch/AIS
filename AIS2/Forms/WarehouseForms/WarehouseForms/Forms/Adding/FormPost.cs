@@ -131,8 +131,7 @@ namespace WarehouseForms.Forms.Adding
             {
                 string nameOfCompany = comboBoxNameOfCompany.SelectedItem.ToString();
                 string typeOfPost = comboBoxTypeOfPost.SelectedItem.ToString();
-                var post = _qt.GetDirectoryPost(p => DbFunctions.DiffDays(p.Date, dateTimePickerDate.Value) == 0 && p.Name == textBoxNameOfPost.Text &&
-                    p.DirectoryCompany.Name == nameOfCompany);
+                var post = _qt.GetDirectoryPostEqualDates(dateTimePickerDate.Value,textBoxNameOfPost.Text, nameOfCompany);
 
                 if (post == null)
                 {

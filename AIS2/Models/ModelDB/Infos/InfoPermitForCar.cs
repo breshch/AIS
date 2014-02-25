@@ -16,6 +16,11 @@ namespace ModelDB.Infos
         public int InfoCarId { get; set; }
         public virtual InfoCar InfoCar { get; set; }
 
-        public virtual ICollection<InfoCar> InfoCargoes { get; set; }
+        public virtual ICollection<InfoCargo> InfoCargoes { get; set; }
+
+        public InfoPermitForCar()
+        {
+            InfoCargoes = new List<InfoCargo>();
+        }
     }
 }
