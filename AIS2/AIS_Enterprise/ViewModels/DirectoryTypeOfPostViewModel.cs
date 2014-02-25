@@ -46,6 +46,7 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryTypeOfPostName = value;
                 OnPropertyChanged();
+                OnPropertyChanged("ValidateDirectoryTypeOfPostName");
             }
         }
 
@@ -124,29 +125,33 @@ namespace AIS_Enterprise.ViewModels
             "DirectoryTypeOfPostName"
         };
 
-        private string ValidateDirectoryTypeOfPostName()
+        public string ValidateDirectoryTypeOfPostName
         {
-            if (string.IsNullOrWhiteSpace(DirectoryTypeOfPostName))
+            get
             {
-                return "Не заполнено поле \"Тип должности\".";
-            }
+                if (string.IsNullOrWhiteSpace(DirectoryTypeOfPostName))
+                {
+                    return "Не заполнено поле \"Тип должности\"";
+                }
 
-            if (DirectoryTypeOfPostName.Length > 32)
-            {
-                return "Длина поля \"Тип должности\" должна быть не больше 32 символов.";
-            }
+                if (DirectoryTypeOfPostName.Length > 32)
+                {
+                    return "Длина поля \"Тип должности\" должна быть не больше 32 символов";
+                }
 
-            return null;
+                return null;
+            }
         }
 
         protected override string OnValidate(string propertyName)
         {
-            if (propertyName == "DirectoryTypeOfPostName")
+            switch (propertyName)
             {
-                return ValidateDirectoryTypeOfPostName();
+                case "DirectoryTypeOfPostName":
+                    return ValidateDirectoryTypeOfPostName;
+                default:
+                    throw new InvalidOperationException();
             }
-
-            return base.OnValidate(propertyName);
         }
 
         public bool CanAdding(object parameter)

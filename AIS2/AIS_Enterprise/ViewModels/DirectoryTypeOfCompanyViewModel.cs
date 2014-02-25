@@ -131,12 +131,12 @@ namespace AIS_Enterprise.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(DirectoryTypeOfCompanyName))
                 {
-                    return "Не заполнено поле \"Вид деятельности компании\".";
+                    return "Не заполнено поле \"Вид деятельности компании\"";
                 }
 
                 if (DirectoryTypeOfCompanyName.Length > 32)
                 {
-                    return "Длина поля \"Вид деятельности компании\" должна быть не больше 32 символов.";
+                    return "Длина поля \"Вид деятельности компании\" должна быть не больше 32 символов";
                 }
 
                 return null;

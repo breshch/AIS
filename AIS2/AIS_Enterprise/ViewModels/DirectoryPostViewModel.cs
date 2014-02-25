@@ -13,9 +13,9 @@ using System.Data.Entity;
 
 namespace AIS_Enterprise.ViewModels
 {
-    public class DirectoryCompanyViewModel : ViewModel
+    public class DirectoryPostViewModel : ViewModel
     {
-        public DirectoryCompanyViewModel()
+        public DirectoryPostViewModel()
         {
             DirectoryTypeOfCompanies = new ObservableCollection<DirectoryTypeOfCompany>(_bc.GetDirectoryTypeOfCompanies());
             RefreshDirectoryCompanies();
@@ -47,7 +47,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryCompanyName = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryCompanyName");
             }
         }
 
@@ -63,7 +62,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _selectedDirectoryTypeOfCompany = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateSelectedDirectoryTypeOfCompany");
             }
         }
 
@@ -158,48 +156,44 @@ namespace AIS_Enterprise.ViewModels
             "SelectedDirectoryTypeOfCompany"
         };
 
-        public string ValidateDirectoryCompanyName
+        private string ValidateDirectoryCompanyName()
         {
-            get
+            if (string.IsNullOrWhiteSpace(DirectoryCompanyName))
             {
-                if (string.IsNullOrWhiteSpace(DirectoryCompanyName))
-                {
-                    return "Не заполнено поле \"Название компании\"";
-                }
-
-                if (DirectoryCompanyName.Length > 64)
-                {
-                    return "Длина поля \"Название компании\" должна быть не больше 64 символов";
-                }
-
-                return null;
+                return "Не заполнено поле \"Название компании\".";
             }
+
+            if (DirectoryCompanyName.Length > 64)
+            {
+                return "Длина поля \"Название компании\" должна быть не больше 64 символов.";
+            }
+
+            return null;
         }
 
-        public string ValidateSelectedDirectoryTypeOfCompany
+        private string ValidateSelectedDirectoryTypeOfCompany()
         {
-            get
+            if (SelectedDirectoryTypeOfCompany == null)
             {
-                if (SelectedDirectoryTypeOfCompany == null)
-                {
-                    return "Не выбрано значение в списке \"Вид деятельности компании\"";
-                }
-
-                return null;
+                return "Не выбрано значение в списке \"Вид деятельности компании\".";
             }
+
+            return null;
         }
 
         protected override string OnValidate(string propertyName)
         {
-            switch (propertyName)
+            if (propertyName == "DirectoryCompanyName")
             {
-                case "DirectoryCompanyName":
-                    return ValidateDirectoryCompanyName;
-                case "SelectedDirectoryTypeOfCompany":
-                    return ValidateSelectedDirectoryTypeOfCompany;
-                default:
-                    throw new InvalidOperationException();
+                return ValidateDirectoryCompanyName();
             }
+
+            if (propertyName == "SelectedDirectoryTypeOfCompany")
+            {
+                return ValidateSelectedDirectoryTypeOfCompany();
+            }
+
+            return base.OnValidate(propertyName);
         }
 
         public bool CanAdding(object parameter)
