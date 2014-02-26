@@ -1,5 +1,5 @@
 ﻿using AIS_Enterprise.Helpers;
-using AIS_Enterprise.Views;
+using AIS_Enterprise.Views.DirectoryViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +12,15 @@ namespace AIS_Enterprise.ViewModels
     {
         public RelayCommand ShowDirectoryTypeOfCompanyViewCommand { get; set; }
         public RelayCommand ShowDirectoryCompanyViewCommand { get; set; }
+        public RelayCommand ShowDirectoryTypeOfPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
 
         public MainViewModel()
         {
             ShowDirectoryTypeOfCompanyViewCommand = new RelayCommand(ShowDirectoryTypeOfCompanyView);
             ShowDirectoryCompanyViewCommand = new RelayCommand(ShowDirectoryCompanyView);
-            ShowDirectoryPostViewCommand = new RelayCommand(ShowDirectoryTypeOfPostView);
+            ShowDirectoryTypeOfPostViewCommand = new RelayCommand(ShowDirectoryTypeOfPostView);
+            ShowDirectoryPostViewCommand = new RelayCommand(ShowDirectoryPostView);
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)
@@ -29,6 +31,16 @@ namespace AIS_Enterprise.ViewModels
             directoryTypeOfPostView.Owner = App.Current.MainWindow;
             directoryTypeOfPostView.DataContext = directoryTypeOfPostViewModel;
             directoryTypeOfPostView.ShowDialog();
+        }
+
+        private void ShowDirectoryPostView(object parameter)
+        {
+            var directoryPostViewModel = new DirectoryPostViewModel();
+            var directoryPostView = new DirectoryPostView();
+
+            directoryPostView.Owner = App.Current.MainWindow;
+            directoryPostView.DataContext = directoryPostViewModel;
+            directoryPostView.ShowDialog();
         }
 
         private void ShowDirectoryTypeOfCompanyView(object parameter)

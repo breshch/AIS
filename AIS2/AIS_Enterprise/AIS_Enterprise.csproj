@@ -64,39 +64,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\ValueConverters\ErrorToVisibilityValueConverter.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
+    <Compile Include="ViewModels\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\DirectoryCompanyViewModel.cs" />
     <Compile Include="ViewModels\DirectoryTypeOfPostViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\DirectoryCompanyView.xaml.cs">
+    <Compile Include="Views\DirectoryViews\DirectoryCompanyView.xaml.cs">
       <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DirectoryPostView.xaml.cs">
+    <Compile Include="Views\DirectoryViews\DirectoryPostView.xaml.cs">
       <DependentUpon>DirectoryPostView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DirectoryTypeOfPostView.xaml.cs">
+    <Compile Include="Views\DirectoryViews\DirectoryTypeOfPostView.xaml.cs">
       <DependentUpon>DirectoryTypeOfPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DirectoryViews\DirectoryWorkerView.xaml.cs">
+      <DependentUpon>DirectoryWorkerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WorkerView.xaml.cs">
-      <DependentUpon>WorkerView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Views\DirectoryCompanyView.xaml">
+    <Page Include="Views\DirectoryViews\DirectoryCompanyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DirectoryPostView.xaml">
+    <Page Include="Views\DirectoryViews\DirectoryPostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DirectoryTypeOfPostView.xaml">
+    <Page Include="Views\DirectoryViews\DirectoryTypeOfPostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DirectoryTypeOfCompanyView.xaml">
+    <Page Include="Views\DirectoryViews\DirectoryTypeOfCompanyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -110,15 +112,15 @@
     <Compile Include="Models\Directories\DirectoryTypeOfCompany.cs" />
     <Compile Include="ViewModels\DirectoryTypeOfCompanyViewModel.cs" />
     <Compile Include="Helpers\ViewModel.cs" />
-    <Compile Include="Views\DirectoryTypeOfCompanyView.xaml.cs">
+    <Compile Include="Views\DirectoryViews\DirectoryTypeOfCompanyView.xaml.cs">
       <DependentUpon>DirectoryTypeOfCompanyView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\DirectoryViews\DirectoryWorkerView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\WorkerView.xaml">
+    <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

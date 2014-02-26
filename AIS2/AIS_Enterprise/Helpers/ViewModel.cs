@@ -37,15 +37,6 @@ namespace AIS_Enterprise.Helpers
 
         protected virtual string OnValidate(string propertyName)
         {
-            //var validationContext = new ValidationContext(this)
-            //{
-            //    MemberName = propertyName
-            //};
-
-            //var results = new Collection<ValidationResult>();
-            //bool isValid = Validator.TryValidateObject(this, validationContext, results, true);
-
-            //return !isValid ? results[0].ErrorMessage : null;
             return null;
         }
     }

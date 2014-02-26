@@ -4,12 +4,13 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         WindowStartupLocation="CenterScreen"
         Title="Главная форма" Height="350" Width="450">
-    
-    <Grid Margin="10">
+
+    <Grid Margin="30, 20">
         <StackPanel>
             <Button Content="Виды деятельности компании" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfCompanyViewCommand}"/>
             <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}"/>
-            <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryPostViewCommand}"/>
+            <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfPostViewCommand}"/>
+            <Button Content="Должности" Margin="0, 3" Command="{Binding ShowDirectoryPostViewCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

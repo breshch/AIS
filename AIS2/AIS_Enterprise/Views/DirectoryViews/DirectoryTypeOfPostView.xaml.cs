@@ -14,11 +14,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise.Views
+namespace AIS_Enterprise.Views.DirectoryViews
 {
-    public partial class DirectoryCompanyView : Window
+    public partial class DirectoryTypeOfPostView : Window
     {
-        public DirectoryCompanyView()
+        public DirectoryTypeOfPostView()
         {
             InitializeComponent();
         }

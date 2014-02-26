@@ -1,5 +1,4 @@
-﻿using AIS_Enterprise.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise.Views
+namespace AIS_Enterprise.Views.DirectoryViews
 {
-    public partial class DirectoryTypeOfPostView : Window
+    /// <summary>
+    /// Логика взаимодействия для DirectoryPostView.xaml
+    /// </summary>
+    public partial class DirectoryPostView : Window
     {
-        public DirectoryTypeOfPostView()
+        public DirectoryPostView()
         {
             InitializeComponent();
         }

@@ -1,0 +1,49 @@
+﻿<Window x:Class="AIS_Enterprise.Views.DirectoryViews.DirectoryTypeOfCompanyView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
+        WindowStartupLocation="CenterOwner"
+        Title="Добавление вида деятельности компании" Height="350" Width="450">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ViewCloseCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="30, 20, 20, 20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding DirectoryTypeOfCompanies, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfCompany, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Вид деятельности компании:" Margin="0, 15, 0, 0"/>
+        <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding DirectoryTypeOfCompanyName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryTypeOfCompanyName}" Visibility="{Binding ValidateDirectoryTypeOfCompanyName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+
+        <Grid Grid.Row="3" Grid.Column="0" Margin="0, 15, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Добавить" Command="{Binding AddCommand}" Margin="0, 0, 20, 0"/>
+            <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveCommand}" Margin="20, 0, 0, 0"/>
+        </Grid>
+
+    </Grid>
+</Window>
