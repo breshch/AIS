@@ -3,123 +3,151 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         WindowStartupLocation="CenterOwner"
-        Title="Добавление сотрудника" Height="1000" Width="500">
+        Title="Добавление сотрудника" Height="800" Width="500">
     <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Фамилия" Margin="10, 10, 0, 0"/>
-            <TextBox Grid.Column="0" Grid.Row="1" Margin="10, 10, 0, 0"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="235"/>
+            </Grid.ColumnDefinitions>
             
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Имя" Margin="10, 10, 0, 0"/>
-            <TextBox Grid.Column="0" Grid.Row="3" Margin="10, 10, 0, 0"/>
-            
-            <TextBlock Grid.Column="0" Grid.Row="4" Text="Отчество" Margin="10, 10, 0, 0"/>
-            <TextBox Grid.Column="0" Grid.Row="5" Margin="10, 10, 0, 0"/>
-
-            <Grid Grid.Row="6">
-
+            <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Пол" Margin="10"/>
-
-            </Grid>
-            
-            <Grid Grid.Row="7">
-
-                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
 
-                <RadioButton Grid.Column="0" Grid.Row="0" />
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="М" Margin="0, 0, 10, 0"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Фамилия" Margin="10, 10, 0, 0"/>
+                <TextBox Grid.Column="0" Grid.Row="1" Margin="10, 10, 0, 0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Имя" Margin="10, 10, 0, 0"/>
+                <TextBox Grid.Column="0" Grid.Row="3" Margin="10, 10, 0, 0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Отчество" Margin="10, 10, 0, 0"/>
+                <TextBox Grid.Column="0" Grid.Row="5" Margin="10, 10, 0, 0"/>
+
+                <Grid Grid.Row="6">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Пол" Margin="10"/>
+
+                </Grid>
+
+                <Grid Grid.Row="7">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton Grid.Column="0" Grid.Row="0" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="М" Margin="0, 0, 10, 0"/>
+
+                    <TextBlock Grid.Column="3" Grid.Row="1" Text="Ж"/>
+                    <RadioButton Grid.Column="2" Grid.Row="1" />
+
+                </Grid>
+
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="Дата рождения" Margin="10, 20, 0, 0"/>
+                <DatePicker Grid.Column="0" Grid.Row="9" Margin="10, 0, 0, 0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="10" Text="Адрес проживания" Margin="10, 10, 0, 0"/>
+                <TextBox Grid.Column="0" Grid.Row="11" Margin="10, 10, 0, 0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="12" Text="Мобильный телефон" Margin="10, 10, 0, 0"/>
+                <TextBox Grid.Column="0" Grid.Row="13" Margin="10, 10, 0, 0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="14" Text="Домашний телефон" Margin="10, 10, 0, 0"/>
+                <TextBox Grid.Column="0" Grid.Row="15" Margin="10, 10, 0, 0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="16" Text="Дата принятия на работу" Margin="10, 10, 0, 10"/>
+                <DatePicker Grid.Column="0" Grid.Row="17" Margin="10, 0, 0, 0"/>
+
                 
-                <TextBlock Grid.Column="3" Grid.Row="1" Text="Ж"/>
-                <RadioButton Grid.Column="2" Grid.Row="1" />
 
             </Grid>
-
-            <TextBlock Grid.Column="0" Grid.Row="8" Text="Дата рождения" Margin="10, 20, 0, 0"/>
-            <DatePicker Grid.Column="0" Grid.Row="9" Margin="10, 0, 0, 0"/>
-
-            <TextBlock Grid.Column="0" Grid.Row="10" Text="Адрес проживания" Margin="10, 10, 0, 0"/>
-            <TextBox Grid.Column="0" Grid.Row="11" Margin="10, 10, 0, 0"/>
             
-            <TextBlock Grid.Column="0" Grid.Row="12" Text="Мобильный телефон" Margin="10, 10, 0, 0"/>
-            <TextBox Grid.Column="0" Grid.Row="13" Margin="10, 10, 0, 0"/>
-
-            <TextBlock Grid.Column="0" Grid.Row="14" Text="Домашний телефон" Margin="10, 10, 0, 0"/>
-            <TextBox Grid.Column="0" Grid.Row="15" Margin="10, 10, 0, 0"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+            <Image Grid.Row="0"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="0" Content="Добавить фото" Margin="10 , 10, 10, 0"/>
+                    <Button Grid.Column="1" Content="Добавить фото" Margin="10 , 10, 10, 0"/>
+                    
+                </Grid>
+            </Grid>
             
-            <TextBlock Grid.Column="0" Grid.Row="16" Text="Дата принятия на работу" Margin="10, 10, 0, 10"/>
-            <DatePicker Grid.Column="0" Grid.Row="17" Margin="10, 0, 0, 0"/>
-        
         </Grid>
+
+
         <Grid Grid.Row="1">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
+
             <TextBlock Grid.Row="0" Text="Компании и должности" Margin="0, 10, 0, 10"/>
+
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Grid.Row="1" Content="Добавить компанию и должность" Margin="10, 0, 0, 0" />
                 <Button Grid.Column="1" Grid.Row="1" Content="Добавить компанию и должность" Margin="10, 0, 10, 0" />
             </Grid>
 
+            <DataGrid Grid.Row="2" />
+
         </Grid>
+        
+        <Button Grid.Row="2" Content="Добавить"/>
     </Grid>
 </Window>
