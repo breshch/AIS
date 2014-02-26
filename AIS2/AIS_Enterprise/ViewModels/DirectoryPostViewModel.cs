@@ -15,205 +15,67 @@ namespace AIS_Enterprise.ViewModels
 {
     public class DirectoryPostViewModel : ViewModel
     {
-        public DirectoryPostViewModel()
-        {
-            DirectoryTypeOfCompanies = new ObservableCollection<DirectoryTypeOfCompany>(_bc.GetDirectoryTypeOfCompanies());
-            RefreshDirectoryCompanies();
-
-            AddCommand = new RelayCommand(Add, CanAdding);
-            RemoveCommand = new RelayCommand(Remove, CanRemoving);
-            ViewCloseCommand = new RelayCommand(ViewClose);
-        }
-
-        private void RefreshDirectoryCompanies()
-        {
-            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(_bc.GetDirectoryCompanies());
-        }
-
-
-        #region Properties
-
         private BusinessContext _bc = new BusinessContext();
 
-        private string _directoryCompanyName;
+        public DirectoryPostViewModel()
+        {
+            RefreshDirectoryPosts();
+        }
 
-        public string DirectoryCompanyName
+        private void RefreshDirectoryPosts()
+        {
+            DirectoryPosts = new ObservableCollection<DirectoryPost>(_bc.GetDirectoryPosts());
+        }
+
+        private ObservableCollection<DirectoryPost> _directoryPosts;
+
+        public ObservableCollection<DirectoryPost> DirectoryPosts
         {
             get
             {
-                return _directoryCompanyName;
+                return _directoryPosts;
             }
             set
             {
-                _directoryCompanyName = value;
+                _directoryPosts = value;
                 OnPropertyChanged();
             }
         }
 
-        private DirectoryTypeOfCompany _selectedDirectoryTypeOfCompany;
+        private string _directoryPostName;
 
-        public DirectoryTypeOfCompany SelectedDirectoryTypeOfCompany
+        public string DirectoryPostName
         {
-            get
+            get 
             {
-                return _selectedDirectoryTypeOfCompany;
+                return _directoryPostName;
             }
             set
             {
-                _selectedDirectoryTypeOfCompany = value;
+                _directoryPostName = value;
                 OnPropertyChanged();
+                OnPropertyChanged("ValidateDirectoryPostName");
             }
         }
 
-        private DirectoryCompany _selectedDirectoryCompany;
-
-        public DirectoryCompany SelectedDirectoryCompany
+        public string ValidateDirectoryPostName
         {
             get
             {
-                return _selectedDirectoryCompany;
+                return Validations.ValidateText(DirectoryPostName, "Должность", 32);
             }
-            set
-            {
-                _selectedDirectoryCompany = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<DirectoryCompany> _directoryCompanies;
-        public ObservableCollection<DirectoryCompany> DirectoryCompanies
-        { 
-            get
-            {
-                return _directoryCompanies;
-            }
-            set
-            {
-                _directoryCompanies = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<DirectoryTypeOfCompany> _directoryTypeOfCompanies;
-        public ObservableCollection<DirectoryTypeOfCompany> DirectoryTypeOfCompanies
-        {
-            get
-            {
-                return _directoryTypeOfCompanies;
-            }
-            set
-            {
-                _directoryTypeOfCompanies = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region Commands
-
-        public RelayCommand AddCommand { get; set; }
-        public RelayCommand RemoveCommand { get; set; }
-        public RelayCommand ViewCloseCommand { get; set; }
-
-
-        public void Add(object parameter)
-        {
-            _bc.AddDirectoryCompany(DirectoryCompanyName, SelectedDirectoryTypeOfCompany);
-
-            RefreshDirectoryCompanies();
-
-            DirectoryCompanyName = null;
-            SelectedDirectoryTypeOfCompany = null;
-        }
-
-        public void Remove(object parameter)
-        {
-            _bc.RemoveDirectoryCompany(SelectedDirectoryCompany);
-
-            RefreshDirectoryCompanies();
-            
-            if (DirectoryCompanies.Any())
-            {
-                SelectedDirectoryCompany = DirectoryCompanies.Last();
-            }
-        }
-
-        public void ViewClose(object parameter)
-        {
-            _bc.Dispose();
-        }
-
-        #endregion
-
-
-        #region Validation
-
-        private string[] ValidatedAddingProperties =
-        {
-            "DirectoryCompanyName", 
-            "SelectedDirectoryTypeOfCompany"
-        };
-
-        private string ValidateDirectoryCompanyName()
-        {
-            if (string.IsNullOrWhiteSpace(DirectoryCompanyName))
-            {
-                return "Не заполнено поле \"Название компании\".";
-            }
-
-            if (DirectoryCompanyName.Length > 64)
-            {
-                return "Длина поля \"Название компании\" должна быть не больше 64 символов.";
-            }
-
-            return null;
-        }
-
-        private string ValidateSelectedDirectoryTypeOfCompany()
-        {
-            if (SelectedDirectoryTypeOfCompany == null)
-            {
-                return "Не выбрано значение в списке \"Вид деятельности компании\".";
-            }
-
-            return null;
         }
 
         protected override string OnValidate(string propertyName)
         {
-            if (propertyName == "DirectoryCompanyName")
+            switch (propertyName)
             {
-                return ValidateDirectoryCompanyName();
+                case "DirectoryPostName":
+                    return ValidateDirectoryPostName;
+                default:
+                    throw new InvalidOperationException();
             }
-
-            if (propertyName == "SelectedDirectoryTypeOfCompany")
-            {
-                return ValidateSelectedDirectoryTypeOfCompany();
-            }
-
-            return base.OnValidate(propertyName);
         }
 
-        public bool CanAdding(object parameter)
-        {
-            foreach (var propertyName in ValidatedAddingProperties)
-            {
-                if (OnValidate(propertyName) != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public bool CanRemoving(object parameter)
-        {
-            return SelectedDirectoryCompany != null;
-        }
-
-        #endregion
     }
 }

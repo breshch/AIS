@@ -10,14 +10,12 @@ namespace AIS_Enterprise.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        public RelayCommand ShowDirectoryTypeOfCompanyViewCommand { get; set; }
         public RelayCommand ShowDirectoryCompanyViewCommand { get; set; }
         public RelayCommand ShowDirectoryTypeOfPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
 
         public MainViewModel()
         {
-            ShowDirectoryTypeOfCompanyViewCommand = new RelayCommand(ShowDirectoryTypeOfCompanyView);
             ShowDirectoryCompanyViewCommand = new RelayCommand(ShowDirectoryCompanyView);
             ShowDirectoryTypeOfPostViewCommand = new RelayCommand(ShowDirectoryTypeOfPostView);
             ShowDirectoryPostViewCommand = new RelayCommand(ShowDirectoryPostView);
@@ -41,16 +39,6 @@ namespace AIS_Enterprise.ViewModels
             directoryPostView.Owner = App.Current.MainWindow;
             directoryPostView.DataContext = directoryPostViewModel;
             directoryPostView.ShowDialog();
-        }
-
-        private void ShowDirectoryTypeOfCompanyView(object parameter)
-        {
-            var directoryTypeOfCompanyViewModel = new DirectoryTypeOfCompanyViewModel();
-            var directoryTypeOfCompanyView = new DirectoryTypeOfCompanyView();
-
-            directoryTypeOfCompanyView.Owner = App.Current.MainWindow;
-            directoryTypeOfCompanyView.DataContext = directoryTypeOfCompanyViewModel;
-            directoryTypeOfCompanyView.ShowDialog();
         }
 
         private void ShowDirectoryCompanyView(object parameter)

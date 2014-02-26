@@ -22,8 +22,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -31,34 +29,13 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding DirectoryCompanies, Mode=TwoWay}" 
-                  SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay}"
-                  AutoGenerateColumns="False" SelectionUnit="FullRow" SelectionMode="Single"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False"
-                  HeadersVisibility="Column" IsReadOnly="True">
-            
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                </Style>
-            </DataGrid.CellStyle>
-
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Вид деятельности" Binding="{Binding DirectoryTypeOfCompany.Name}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <ListBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding DirectoryCompanies, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Название компании:" Margin="0, 15, 0, 0"/>
         <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding DirectoryCompanyName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="2" Grid.Column="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryCompanyName}" Visibility="{Binding ValidateDirectoryCompanyName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Вид деятельности компании:" Margin="0, 5, 0, 0"/>
-        <ComboBox Grid.Row="4" Grid.Column="0" ItemsSource="{Binding DirectoryTypeOfCompanies, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfCompany, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateSelectedDirectoryTypeOfCompany}" Visibility="{Binding ValidateSelectedDirectoryTypeOfCompany, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
-
-        <Grid Grid.Row="5" Margin="0, 15, 0, 0">
+        <Grid Grid.Row="3" Margin="0, 15, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

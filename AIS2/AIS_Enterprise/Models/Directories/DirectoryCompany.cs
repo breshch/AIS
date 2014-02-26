@@ -13,8 +13,5 @@ namespace AIS_Enterprise.Models.Directories
 
         [StringLength(64)]
         public string Name { get; set; }
-
-        public int DirectoryTypeOfCompanyId { get; set; }
-        public virtual DirectoryTypeOfCompany DirectoryTypeOfCompany { get; set; }
     }
 }

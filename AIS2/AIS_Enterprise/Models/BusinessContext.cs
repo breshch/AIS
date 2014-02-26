@@ -31,38 +31,6 @@ namespace AIS_Enterprise.Models
         }
 
 
-        #region DirectoryTypeOfCompany
-
-        public IQueryable<DirectoryTypeOfCompany> GetDirectoryTypeOfCompanies()
-        {
-            return _dc.DirectoryTypeOfCompanies;
-        }
-
-        public DirectoryTypeOfCompany AddDirectoryTypeOfCompany(string directoryTypeOfCompanyName)
-        {
-            var directoryTypeOfCompany = new DirectoryTypeOfCompany
-            {
-                Name = directoryTypeOfCompanyName
-            };
-
-            _dc.DirectoryTypeOfCompanies.Add(directoryTypeOfCompany);
-
-            _dc.SaveChanges();
-
-            return directoryTypeOfCompany;
-        }
-
-        public DirectoryTypeOfCompany RemoveDirectoryTypeOfCompany(DirectoryTypeOfCompany directoryTypeOfCompany)
-        {
-            directoryTypeOfCompany = _dc.DirectoryTypeOfCompanies.Remove(directoryTypeOfCompany);
-
-            _dc.SaveChanges();
-
-            return directoryTypeOfCompany;
-        }
-
-        #endregion
-
 
         #region DirectoryCompany
 
@@ -71,12 +39,11 @@ namespace AIS_Enterprise.Models
             return _dc.DirectoryCompanies;
         }
 
-        public DirectoryCompany AddDirectoryCompany(string directoryCompanyName, DirectoryTypeOfCompany directoryTypeOfCompany)
+        public DirectoryCompany AddDirectoryCompany(string directoryCompanyName)
         {
             var directoryCompany = new DirectoryCompany
             {
                 Name = directoryCompanyName,
-                DirectoryTypeOfCompany = directoryTypeOfCompany
             };
 
             _dc.DirectoryCompanies.Add(directoryCompany);
@@ -129,6 +96,17 @@ namespace AIS_Enterprise.Models
         }
 
         #endregion
+
+
+        #region DirectoryPost
+
+        public IQueryable<DirectoryPost> GetDirectoryPosts()
+        {
+            return _dc.DirectoryPosts;
+        }
+
+        #endregion
+
 
 
         #region IDisposable

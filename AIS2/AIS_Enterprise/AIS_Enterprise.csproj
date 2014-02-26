@@ -64,8 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Validations.cs" />
     <Compile Include="Helpers\ValueConverters\ErrorToVisibilityValueConverter.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
+    <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="ViewModels\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\DirectoryCompanyViewModel.cs" />
@@ -98,10 +100,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DirectoryViews\DirectoryTypeOfCompanyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -109,13 +107,7 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Models\BusinessContext.cs" />
     <Compile Include="Models\DataContext.cs" />
-    <Compile Include="Models\Directories\DirectoryTypeOfCompany.cs" />
-    <Compile Include="ViewModels\DirectoryTypeOfCompanyViewModel.cs" />
     <Compile Include="Helpers\ViewModel.cs" />
-    <Compile Include="Views\DirectoryViews\DirectoryTypeOfCompanyView.xaml.cs">
-      <DependentUpon>DirectoryTypeOfCompanyView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="Views\DirectoryViews\DirectoryWorkerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

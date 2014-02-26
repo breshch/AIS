@@ -17,7 +17,6 @@ namespace AIS_Enterprise.ViewModels
     {
         public DirectoryCompanyViewModel()
         {
-            DirectoryTypeOfCompanies = new ObservableCollection<DirectoryTypeOfCompany>(_bc.GetDirectoryTypeOfCompanies());
             RefreshDirectoryCompanies();
 
             AddCommand = new RelayCommand(Add, CanAdding);
@@ -51,22 +50,6 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-        private DirectoryTypeOfCompany _selectedDirectoryTypeOfCompany;
-
-        public DirectoryTypeOfCompany SelectedDirectoryTypeOfCompany
-        {
-            get
-            {
-                return _selectedDirectoryTypeOfCompany;
-            }
-            set
-            {
-                _selectedDirectoryTypeOfCompany = value;
-                OnPropertyChanged();
-                OnPropertyChanged("ValidateSelectedDirectoryTypeOfCompany");
-            }
-        }
-
         private DirectoryCompany _selectedDirectoryCompany;
 
         public DirectoryCompany SelectedDirectoryCompany
@@ -96,20 +79,6 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-        private ObservableCollection<DirectoryTypeOfCompany> _directoryTypeOfCompanies;
-        public ObservableCollection<DirectoryTypeOfCompany> DirectoryTypeOfCompanies
-        {
-            get
-            {
-                return _directoryTypeOfCompanies;
-            }
-            set
-            {
-                _directoryTypeOfCompanies = value;
-                OnPropertyChanged();
-            }
-        }
-
         #endregion
 
 
@@ -122,12 +91,11 @@ namespace AIS_Enterprise.ViewModels
 
         public void Add(object parameter)
         {
-            _bc.AddDirectoryCompany(DirectoryCompanyName, SelectedDirectoryTypeOfCompany);
+            _bc.AddDirectoryCompany(DirectoryCompanyName);
 
             RefreshDirectoryCompanies();
 
             DirectoryCompanyName = null;
-            SelectedDirectoryTypeOfCompany = null;
         }
 
         public void Remove(object parameter)
@@ -155,7 +123,6 @@ namespace AIS_Enterprise.ViewModels
         private string[] ValidatedAddingProperties =
         {
             "DirectoryCompanyName", 
-            "SelectedDirectoryTypeOfCompany"
         };
 
         public string ValidateDirectoryCompanyName
@@ -176,27 +143,12 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-        public string ValidateSelectedDirectoryTypeOfCompany
-        {
-            get
-            {
-                if (SelectedDirectoryTypeOfCompany == null)
-                {
-                    return "Не выбрано значение в списке \"Вид деятельности компании\"";
-                }
-
-                return null;
-            }
-        }
-
         protected override string OnValidate(string propertyName)
         {
             switch (propertyName)
             {
                 case "DirectoryCompanyName":
                     return ValidateDirectoryCompanyName;
-                case "SelectedDirectoryTypeOfCompany":
-                    return ValidateSelectedDirectoryTypeOfCompany;
                 default:
                     throw new InvalidOperationException();
             }

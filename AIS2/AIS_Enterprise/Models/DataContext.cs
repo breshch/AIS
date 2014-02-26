@@ -15,8 +15,8 @@ namespace AIS_Enterprise.Models
 
         }
 
-        public DbSet<DirectoryTypeOfCompany> DirectoryTypeOfCompanies { get; set; }
         public DbSet<DirectoryCompany> DirectoryCompanies { get; set; }
         public DbSet<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
+        public DbSet<DirectoryPost> DirectoryPosts { get; set; }
     }
 }
