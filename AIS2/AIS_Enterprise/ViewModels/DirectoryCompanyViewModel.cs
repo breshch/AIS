@@ -15,6 +15,10 @@ namespace AIS_Enterprise.ViewModels
 {
     public class DirectoryCompanyViewModel : ViewModel
     {
+        #region Base
+
+        private BusinessContext _bc = new BusinessContext();
+
         public DirectoryCompanyViewModel()
         {
             RefreshDirectoryCompanies();
@@ -29,10 +33,15 @@ namespace AIS_Enterprise.ViewModels
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(_bc.GetDirectoryCompanies());
         }
 
+        private void ClearInputData()
+        {
+            DirectoryCompanyName = null;
+        }
 
-        #region Properties
+        #endregion
 
-        private BusinessContext _bc = new BusinessContext();
+
+        #region DirectoryCompanyName
 
         private string _directoryCompanyName;
 
@@ -47,6 +56,33 @@ namespace AIS_Enterprise.ViewModels
                 _directoryCompanyName = value;
                 OnPropertyChanged();
                 OnPropertyChanged("ValidateDirectoryCompanyName");
+            }
+        }
+
+        public string ValidateDirectoryCompanyName
+        {
+            get
+            {
+                return Validations.ValidateText(DirectoryCompanyName, "Название компании", 64);
+            }
+        }
+
+        #endregion
+
+
+        #region DirectoryCompanies
+
+        private ObservableCollection<DirectoryCompany> _directoryCompanies;
+        public ObservableCollection<DirectoryCompany> DirectoryCompanies
+        {
+            get
+            {
+                return _directoryCompanies;
+            }
+            set
+            {
+                _directoryCompanies = value;
+                OnPropertyChanged();
             }
         }
 
@@ -65,20 +101,6 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-        private ObservableCollection<DirectoryCompany> _directoryCompanies;
-        public ObservableCollection<DirectoryCompany> DirectoryCompanies
-        { 
-            get
-            {
-                return _directoryCompanies;
-            }
-            set
-            {
-                _directoryCompanies = value;
-                OnPropertyChanged();
-            }
-        }
-
         #endregion
 
 
@@ -88,11 +110,6 @@ namespace AIS_Enterprise.ViewModels
         public RelayCommand RemoveCommand { get; set; }
         public RelayCommand ViewCloseCommand { get; set; }
 
-        private void ClearInputData()
-        {
-            DirectoryCompanyName = null;
-        }
-
         public void Add(object parameter)
         {
             _bc.AddDirectoryCompany(DirectoryCompanyName);
@@ -100,6 +117,19 @@ namespace AIS_Enterprise.ViewModels
             RefreshDirectoryCompanies();
 
             ClearInputData();
+        }
+
+        public bool CanAdding(object parameter)
+        {
+            foreach (var propertyName in ValidatedAddingProperties)
+            {
+                if (OnValidate(propertyName) != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public void Remove(object parameter)
@@ -112,6 +142,11 @@ namespace AIS_Enterprise.ViewModels
             {
                 SelectedDirectoryCompany = DirectoryCompanies.Last();
             }
+        }
+
+        public bool CanRemoving(object parameter)
+        {
+            return SelectedDirectoryCompany != null;
         }
 
         public void ViewClose(object parameter)
@@ -129,24 +164,6 @@ namespace AIS_Enterprise.ViewModels
             "DirectoryCompanyName", 
         };
 
-        public string ValidateDirectoryCompanyName
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(DirectoryCompanyName))
-                {
-                    return "Не заполнено поле \"Название компании\"";
-                }
-
-                if (DirectoryCompanyName.Length > 64)
-                {
-                    return "Длина поля \"Название компании\" должна быть не больше 64 символов";
-                }
-
-                return null;
-            }
-        }
-
         protected override string OnValidate(string propertyName)
         {
             switch (propertyName)
@@ -156,24 +173,6 @@ namespace AIS_Enterprise.ViewModels
                 default:
                     throw new InvalidOperationException();
             }
-        }
-
-        public bool CanAdding(object parameter)
-        {
-            foreach (var propertyName in ValidatedAddingProperties)
-            {
-                if (OnValidate(propertyName) != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public bool CanRemoving(object parameter)
-        {
-            return SelectedDirectoryCompany != null;
         }
 
         #endregion

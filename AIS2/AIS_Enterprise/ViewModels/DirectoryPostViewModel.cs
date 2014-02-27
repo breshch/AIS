@@ -15,6 +15,8 @@ namespace AIS_Enterprise.ViewModels
 {
     public class DirectoryPostViewModel : ViewModel
     {
+        #region Base
+
         private BusinessContext _bc = new BusinessContext();
 
         public DirectoryPostViewModel()
@@ -34,6 +36,18 @@ namespace AIS_Enterprise.ViewModels
         {
             DirectoryPosts = new ObservableCollection<DirectoryPost>(_bc.GetDirectoryPosts());
         }
+
+        private void ClearInputData()
+        {
+            DirectoryPostName = null;
+            SelectedDirectoryTypeOfPost = null;
+            SelectedDirectoryCompany = null;
+            SelectedDirectoryPostDate = DateTime.Now;
+            DirectoryPostUserWorkerSalary = null;
+            DirectoryPostUserWorkerHalfSalary = null;
+        }
+
+        #endregion
 
 
         #region DirectoryPosts
@@ -68,6 +82,7 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
+
         #region DirectoryPostName
 
         private string _directoryPostName;
@@ -95,6 +110,7 @@ namespace AIS_Enterprise.ViewModels
         }
 
         #endregion
+
 
         #region DirectoryTypeOfPost
 
@@ -125,6 +141,7 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
+
         #region DirectoryCompanyName
 
         public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
@@ -154,6 +171,7 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
+
         #region DirectoryPostDate
 
         private DateTime _selectedDirectoryPostDate;
@@ -170,8 +188,8 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-
         #endregion
+
 
         #region DirectoryPostUserWorkerSalary
 
@@ -198,8 +216,8 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-
         #endregion
+
 
         #region DirectoryPostUserWorkerHalfSalary
 
@@ -226,22 +244,14 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-
         #endregion
+
+
+        #region Commands
 
         public RelayCommand AddCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
         public RelayCommand ViewCloseCommand { get; set; }
-
-        private void ClearInputData()
-        {
-            DirectoryPostName = null;
-            SelectedDirectoryTypeOfPost = null;
-            SelectedDirectoryCompany = null;
-            SelectedDirectoryPostDate = DateTime.Now;
-            DirectoryPostUserWorkerSalary = null;
-            DirectoryPostUserWorkerHalfSalary = null;
-        }
 
         private void Add(object parameter)
         {
@@ -281,6 +291,11 @@ namespace AIS_Enterprise.ViewModels
             _bc.Dispose();
         }
 
+        #endregion
+
+
+        #region Validation
+
         private string[] ValidatedAddingProperties =
         {
             "DirectoryPostName", 
@@ -314,5 +329,6 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
+        #endregion
     }
 }
