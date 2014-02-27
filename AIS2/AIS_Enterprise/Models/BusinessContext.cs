@@ -105,6 +105,31 @@ namespace AIS_Enterprise.Models
             return _dc.DirectoryPosts;
         }
 
+        public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string userWorkerHalfSalary)
+        {
+            var directoryPost = new DirectoryPost
+            {
+                Name =  name,
+                DirectoryTypeOfPost = typeOfPost,
+                DirectoryCompany  = company,
+                Date = date,
+                UserWorkerSalary = double.Parse(userWorkerSalary),
+                UserWorkerHalfSalary = double.Parse(userWorkerHalfSalary)
+            };
+
+            _dc.DirectoryPosts.Add(directoryPost);
+            _dc.SaveChanges();
+
+            return directoryPost;  
+        }
+
+        public DirectoryPost RemoveDirectoryPost(DirectoryPost post)
+        {
+            _dc.DirectoryPosts.Remove(post);
+            _dc.SaveChanges();
+            return post;
+        }
+
         #endregion
 
 

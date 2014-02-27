@@ -19,6 +19,13 @@ namespace AIS_Enterprise.ViewModels
 
         public DirectoryPostViewModel()
         {
+            DirectoryTypeOfPosts = new ObservableCollection<DirectoryTypeOfPost>(_bc.GetDirectoryTypeOfPosts());
+            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(_bc.GetDirectoryCompanies());
+            SelectedDirectoryPostDate = DateTime.Now;
+
+            AddCommand = new RelayCommand(Add, CanAdding);
+            RemoveCommand = new RelayCommand(Remove, CanRemove);
+
             RefreshDirectoryPosts();
         }
 
@@ -27,8 +34,10 @@ namespace AIS_Enterprise.ViewModels
             DirectoryPosts = new ObservableCollection<DirectoryPost>(_bc.GetDirectoryPosts());
         }
 
-        private ObservableCollection<DirectoryPost> _directoryPosts;
 
+        #region DirectoryPosts
+
+        private ObservableCollection<DirectoryPost> _directoryPosts;
         public ObservableCollection<DirectoryPost> DirectoryPosts
         {
             get
@@ -41,12 +50,30 @@ namespace AIS_Enterprise.ViewModels
                 OnPropertyChanged();
             }
         }
+        
+        private DirectoryPost _selectedDirectoryPost;
+        public DirectoryPost SelectedDirectoryPost
+        {
+            get
+            {
+                return _selectedDirectoryPost;
+            }
+            set
+            {
+                _selectedDirectoryPost = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region DirectoryPostName
 
         private string _directoryPostName;
 
         public string DirectoryPostName
         {
-            get 
+            get
             {
                 return _directoryPostName;
             }
@@ -66,12 +93,215 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
+        #endregion
+
+        #region DirectoryTypeOfPost
+
+        public ObservableCollection<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
+
+        private DirectoryTypeOfPost _selectedDirectoryTypeOfPost;
+        public DirectoryTypeOfPost SelectedDirectoryTypeOfPost
+        {
+            get
+            {
+                return _selectedDirectoryTypeOfPost;
+            }
+            set
+            {
+                _selectedDirectoryTypeOfPost = value;
+                OnPropertyChanged();
+                OnPropertyChanged("ValidateSelectedDirectoryTypeOfPost");
+            }
+        }
+
+        public string ValidateSelectedDirectoryTypeOfPost
+        {
+            get
+            {
+                return Validations.ValidateObject(SelectedDirectoryTypeOfPost, "Тип должности");
+            }
+        }
+
+        #endregion
+
+        #region DirectoryCompanyName
+
+        public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
+
+        private DirectoryCompany _selectedDirectoryCompany;
+        public DirectoryCompany SelectedDirectoryCompany
+        {
+            get
+            {
+                return _selectedDirectoryCompany;
+            }
+            set
+            {
+                _selectedDirectoryCompany = value;
+                OnPropertyChanged();
+                OnPropertyChanged("ValidateSelectedDirectoryCompany");
+            }
+        }
+
+        public string ValidateSelectedDirectoryCompany
+        {
+            get
+            {
+                return Validations.ValidateObject(SelectedDirectoryCompany, "Компания");
+            }
+        }
+
+        #endregion
+
+        #region DirectoryPostDate
+
+        private DateTime _selectedDirectoryPostDate;
+        public DateTime SelectedDirectoryPostDate
+        {
+            get
+            {
+                return _selectedDirectoryPostDate;
+            }
+            set
+            {
+                _selectedDirectoryPostDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        #endregion
+
+        #region DirectoryPostUserWorkerSalary
+
+        private string _directoryPostUserWorkerSalary;
+        public string DirectoryPostUserWorkerSalary
+        {
+            get 
+            {
+                return _directoryPostUserWorkerSalary;
+            }
+            set
+            {
+                _directoryPostUserWorkerSalary = value;
+                OnPropertyChanged();
+                OnPropertyChanged("ValidateDirectoryPostUserWorkerSalary");
+            }
+        }
+
+        public string ValidateDirectoryPostUserWorkerSalary
+        {
+            get 
+            {
+                return Validations.ValidateDoubleMoreAndEqualZero(DirectoryPostUserWorkerSalary, "Оклад");
+            }
+        }
+
+
+        #endregion
+
+        #region DirectoryPostUserWorkerHalfSalary
+
+        private string _directoryPostUserWorkerHalfSalary;
+        public string DirectoryPostUserWorkerHalfSalary
+        {
+            get
+            {
+                return _directoryPostUserWorkerHalfSalary;
+            }
+            set
+            {
+                _directoryPostUserWorkerHalfSalary = value;
+                OnPropertyChanged();
+                OnPropertyChanged("ValidateDirectoryPostUserWorkerHalfSalary");
+            }
+        }
+
+        public string ValidateDirectoryPostUserWorkerHalfSalary
+        {
+            get
+            {
+                return Validations.ValidateDoubleMoreAndEqualZero(DirectoryPostUserWorkerHalfSalary, "Совместительство");
+            }
+        }
+
+
+        #endregion
+
+        public RelayCommand AddCommand { get; set; }
+        public RelayCommand RemoveCommand { get; set; }
+
+        private void Add(object parameter)
+        {
+            _bc.AddDirectoryPost(DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, SelectedDirectoryPostDate, DirectoryPostUserWorkerSalary, DirectoryPostUserWorkerHalfSalary);
+            
+            RefreshDirectoryPosts();
+
+            ClearInputData();
+        }
+
+        private void ClearInputData()
+        {
+            DirectoryPostName = null;
+            SelectedDirectoryTypeOfPost = null;
+            SelectedDirectoryCompany = null;
+            SelectedDirectoryPostDate = DateTime.Now;
+            DirectoryPostUserWorkerSalary = null;
+            DirectoryPostUserWorkerHalfSalary = null;
+        }
+
+        private bool CanAdding(object parameter)
+        {
+            foreach (var propertyName in ValidatedAddingProperties)
+            {
+                if (OnValidate(propertyName) != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void Remove(object parameter)
+        {
+            _bc.RemoveDirectoryPost(SelectedDirectoryPost);
+            RefreshDirectoryPosts();
+        }
+
+        private bool CanRemove(object parameter)
+        {
+            return SelectedDirectoryPost != null;
+        }
+
+        private string[] ValidatedAddingProperties =
+        {
+            "DirectoryPostName", 
+            "SelectedDirectoryTypeOfPost",
+            "SelectedDirectoryCompany",
+            "DirectoryPostUserWorkerSalary",
+            "DirectoryPostUserWorkerHalfSalary"
+        };
+
         protected override string OnValidate(string propertyName)
         {
             switch (propertyName)
             {
                 case "DirectoryPostName":
                     return ValidateDirectoryPostName;
+
+                case "SelectedDirectoryTypeOfPost":
+                    return ValidateSelectedDirectoryTypeOfPost;
+
+                case "SelectedDirectoryCompany":
+                    return ValidateSelectedDirectoryCompany;
+
+                case "DirectoryPostUserWorkerSalary":
+                    return ValidateDirectoryPostUserWorkerSalary;
+
+                case "DirectoryPostUserWorkerHalfSalary":
+                    return ValidateDirectoryPostUserWorkerHalfSalary;
+
                 default:
                     throw new InvalidOperationException();
             }

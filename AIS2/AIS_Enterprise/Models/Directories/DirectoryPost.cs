@@ -16,8 +16,8 @@ namespace AIS_Enterprise.Models.Directories
 
         public DateTime Date { get; set; }
         public double UserWorkerSalary { get; set; }
-        public double? AdminWorkerSalary { get; set; }
-        public double? UserHalfWorkerSalary { get; set; }
+        //public double? AdminWorkerSalary { get; set; }
+        public double? UserWorkerHalfSalary { get; set; }
         
         public int DirectoryTypeOfPostId { get; set; }
         public virtual DirectoryTypeOfPost DirectoryTypeOfPost { get; set; }
