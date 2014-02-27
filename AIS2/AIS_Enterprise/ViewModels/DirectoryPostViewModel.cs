@@ -25,6 +25,7 @@ namespace AIS_Enterprise.ViewModels
 
             AddCommand = new RelayCommand(Add, CanAdding);
             RemoveCommand = new RelayCommand(Remove, CanRemove);
+            ViewCloseCommand = new RelayCommand(ViewClose);
 
             RefreshDirectoryPosts();
         }
@@ -230,15 +231,7 @@ namespace AIS_Enterprise.ViewModels
 
         public RelayCommand AddCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
-
-        private void Add(object parameter)
-        {
-            _bc.AddDirectoryPost(DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, SelectedDirectoryPostDate, DirectoryPostUserWorkerSalary, DirectoryPostUserWorkerHalfSalary);
-            
-            RefreshDirectoryPosts();
-
-            ClearInputData();
-        }
+        public RelayCommand ViewCloseCommand { get; set; }
 
         private void ClearInputData()
         {
@@ -248,6 +241,15 @@ namespace AIS_Enterprise.ViewModels
             SelectedDirectoryPostDate = DateTime.Now;
             DirectoryPostUserWorkerSalary = null;
             DirectoryPostUserWorkerHalfSalary = null;
+        }
+
+        private void Add(object parameter)
+        {
+            _bc.AddDirectoryPost(DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, SelectedDirectoryPostDate, DirectoryPostUserWorkerSalary, DirectoryPostUserWorkerHalfSalary);
+            
+            RefreshDirectoryPosts();
+
+            ClearInputData();
         }
 
         private bool CanAdding(object parameter)
@@ -272,6 +274,11 @@ namespace AIS_Enterprise.ViewModels
         private bool CanRemove(object parameter)
         {
             return SelectedDirectoryPost != null;
+        }
+
+        public void ViewClose(object parameter)
+        {
+            _bc.Dispose();
         }
 
         private string[] ValidatedAddingProperties =
