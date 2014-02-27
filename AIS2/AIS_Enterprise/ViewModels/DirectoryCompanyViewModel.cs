@@ -88,6 +88,10 @@ namespace AIS_Enterprise.ViewModels
         public RelayCommand RemoveCommand { get; set; }
         public RelayCommand ViewCloseCommand { get; set; }
 
+        private void ClearInputData()
+        {
+            DirectoryCompanyName = null;
+        }
 
         public void Add(object parameter)
         {
@@ -95,7 +99,7 @@ namespace AIS_Enterprise.ViewModels
 
             RefreshDirectoryCompanies();
 
-            DirectoryCompanyName = null;
+            ClearInputData();
         }
 
         public void Remove(object parameter)
