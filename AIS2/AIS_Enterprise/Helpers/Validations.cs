@@ -22,13 +22,54 @@ namespace AIS_Enterprise.Helpers
             return null;
         }
 
-        public static string ValidateObj(object obj)
+        public static string ValidateObject(object obj, string labelName)
         {
             if (obj == null)
             {
-                return "error";
+                return string.Format("Не выбрано значение в списке \"{0}\"", labelName) ;
+            }
+            return null;
+        }
+
+        public static string ValidateDoubleMoreAndEqualZero(string number, string labelName)
+        {
+            if (string.IsNullOrWhiteSpace(number))
+            {
+                return string.Format("Не заполнено поле \"{0}\"", labelName); 
             }
 
+            number = number.Replace(".", ",");
+            double validateNumber;
+            if (!double.TryParse(number,out validateNumber))
+            {
+                return "Вводите только числовое значение"; 
+            }
+
+            if (validateNumber < 0)
+            {
+                return "Введите числовое значение, большее, либо равное 0";
+            }
+            return null;
+        }
+
+        public static string ValidateDoubleMoreZero(string number, string labelName)
+        {
+            if (string.IsNullOrWhiteSpace(number))
+            {
+                return string.Format("Не заполнено поле \"{0}\"", labelName);
+            }
+            
+            number = number.Replace(".", ",");
+            double validateNumber;
+            if (!double.TryParse(number, out validateNumber))
+            {
+                return "Вводите только числовое значение";
+            }
+
+            if (validateNumber < 0)
+            {
+                return "Введите числовое значение, большее 0";
+            }
             return null;
         }
     }
