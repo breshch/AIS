@@ -13,12 +13,14 @@ namespace AIS_Enterprise.ViewModels
         public RelayCommand ShowDirectoryCompanyViewCommand { get; set; }
         public RelayCommand ShowDirectoryTypeOfPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
+        public RelayCommand ShowDirectoryWorkerViewCommand { get; set; }
 
         public MainViewModel()
         {
             ShowDirectoryCompanyViewCommand = new RelayCommand(ShowDirectoryCompanyView);
             ShowDirectoryTypeOfPostViewCommand = new RelayCommand(ShowDirectoryTypeOfPostView);
             ShowDirectoryPostViewCommand = new RelayCommand(ShowDirectoryPostView);
+            ShowDirectoryWorkerViewCommand = new RelayCommand(ShowDirectoryWorkerView);
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)
@@ -49,6 +51,16 @@ namespace AIS_Enterprise.ViewModels
             directoryCompanyView.Owner = App.Current.MainWindow;
             directoryCompanyView.DataContext = directoryCompanyViewModel;
             directoryCompanyView.ShowDialog();
+        }
+
+        private void ShowDirectoryWorkerView(object parameter)
+        {
+            var directoryWorkerViewModel = new DirectoryWorkerViewModel();
+            var directoryWorkerView = new DirectoryWorkerView();
+
+            directoryWorkerView.Owner = App.Current.MainWindow;
+            directoryWorkerView.DataContext = directoryWorkerViewModel;
+            directoryWorkerView.ShowDialog();
         }
     }
 }
