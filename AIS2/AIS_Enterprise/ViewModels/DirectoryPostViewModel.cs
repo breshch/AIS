@@ -46,6 +46,10 @@ namespace AIS_Enterprise.ViewModels
             DirectoryPostUserWorkerSalary = null;
             DirectoryPostUserWorkerHalfSalary = null;
         }
+
+        #endregion
+
+
         #region DirectoryPosts
 
         private ObservableCollection<DirectoryPost> _directoryPosts;
