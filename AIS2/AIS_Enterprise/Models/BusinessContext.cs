@@ -30,8 +30,6 @@ namespace AIS_Enterprise.Models
             _dc.Database.Initialize(false);
         }
 
-
-
         #region DirectoryCompany
 
         public IQueryable<DirectoryCompany> GetDirectoryCompanies()
@@ -64,7 +62,6 @@ namespace AIS_Enterprise.Models
 
         #endregion
 
-
         #region DirectoryTypeOfPost
 
         public IQueryable<DirectoryTypeOfPost> GetDirectoryTypeOfPosts()
@@ -96,7 +93,6 @@ namespace AIS_Enterprise.Models
         }
 
         #endregion
-
 
         #region DirectoryPost
 
@@ -131,8 +127,6 @@ namespace AIS_Enterprise.Models
         }
 
         #endregion
-
-
 
         #region IDisposable
 
