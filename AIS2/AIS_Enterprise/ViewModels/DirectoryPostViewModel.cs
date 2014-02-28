@@ -34,7 +34,6 @@ namespace AIS_Enterprise.ViewModels
             DirectoryPosts = new ObservableCollection<DirectoryPost>(_bc.GetDirectoryPosts());
         }
 
-
         #region DirectoryPosts
 
         private ObservableCollection<DirectoryPost> _directoryPosts;
