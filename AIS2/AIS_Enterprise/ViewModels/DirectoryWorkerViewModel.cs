@@ -1,6 +1,11 @@
 ﻿using AIS_Enterprise.Helpers;
+using AIS_Enterprise.Models;
+using AIS_Enterprise.Models.Currents;
+using AIS_Enterprise.Views.Currents;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +14,41 @@ namespace AIS_Enterprise.ViewModels
 {
     public class DirectoryWorkerViewModel : ViewModel
     {
+        #region Base
+
+        private BusinessContext _bc = new BusinessContext();
+
         public DirectoryWorkerViewModel()
+        {
+            DirectoryWorkerGender = Gender.Female;
+            CurrentCompaniesAndPosts = new ObservableCollection<CurrentPost>();
+            AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
+            RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost,CanRemovingCompanyAndPost);
+        }
+
+        private void RefreshPostsAndCompanies()
         {
             
         }
 
-        #region DirectoryWorkerLastName
+        private void ClearInputData()
+        {
+            DirectoryWorkerLastName = null;
+            DirectoryWorkerFirstName = null;
+            DirectoryWorkerMidName = null;
+            DirectoryWorkerGender = Gender.Male;
+            SelectedDirectoryWorkerBirthDate = DateTime.Now;
+            DirectoryWorkerAddress = null;
+            DirectoryWorkerMobilePhone = null;
+            DirectoryWorkerHomePhone = null;
+            SelectedDirectoryWorkerStartDate = DateTime.Now;
+        }
         
+        #endregion
+
+
+        #region DirectoryWorkerLastName
+
         private string _directoryWorkerLastName;
         public string DirectoryWorkerLastName
         {
@@ -40,6 +73,7 @@ namespace AIS_Enterprise.ViewModels
         }
 
         #endregion
+
 
         #region DirectoryWorkerFirstName
 
@@ -68,6 +102,7 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
+
         #region DirectoryWorkerMidName
 
         private string _directoryWorkerMidName;
@@ -95,22 +130,25 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
+
         #region DirectoryWorkerGender
 
-        private bool _isDirectoryWorkerGenderMale;
-        public bool IsDirectoryWorkerMale
+        private Gender _directoryWorkerGender;
+        public Gender DirectoryWorkerGender
         {
             get 
             {
-                return _isDirectoryWorkerGenderMale;
+                return _directoryWorkerGender;
             }
             set
             {
-                IsDirectoryWorkerMale = value;
+                Debug.WriteLine(value);
+                _directoryWorkerGender = value;
             }
         }
         
         #endregion
+
 
         #region DirectoryWorkerBirthDate
 
@@ -131,32 +169,34 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
-        #region DirectoryWorkerAddrres
 
-        private string _directoryWorkerAddrres;
-        public string DirectoryWorkerAddrres
+        #region DirectoryWorkerAddress
+
+        private string _directoryWorkerAddress;
+        public string DirectoryWorkerAddress
         {
             get
             {
-                return _directoryWorkerAddrres;
+                return _directoryWorkerAddress;
             }
             set
             {
-                _directoryWorkerAddrres = value;
+                _directoryWorkerAddress = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerAddrres");
+                OnPropertyChanged("ValidateDirectoryWorkerAddress");
             }
         }
 
-        public string ValidateDirectoryWorkerAddrres
+        public string ValidateDirectoryWorkerAddress
         {
             get
             {
-                return Validations.ValidateText(DirectoryWorkerAddrres, "Адрес", 256);
+                return Validations.ValidateText(DirectoryWorkerAddress, "Адрес", 256);
             }
         }
 
         #endregion
+
 
         #region DirectoryWorkerMobilePhone
 
@@ -185,6 +225,7 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
+
         #region DirectoryWorkerHomePhone
 
         private string _directoryWorkerHomePhone;
@@ -212,6 +253,7 @@ namespace AIS_Enterprise.ViewModels
 
         #endregion
 
+
         #region DirectoryWorkerSartDate
 
         private DateTime _selectedDirectoryWorkerStartDate;
@@ -229,6 +271,57 @@ namespace AIS_Enterprise.ViewModels
         }
         #endregion
 
+
+        #region CurrentCompaniesAndPosts
+
+        private ObservableCollection<CurrentPost> _currentCompaniesAndPosts;
+        public ObservableCollection<CurrentPost> CurrentCompaniesAndPosts
+        {
+            get 
+            {
+                return _currentCompaniesAndPosts;
+            }
+            set 
+            {
+                _currentCompaniesAndPosts = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+
+        #region Commands
+
+        public RelayCommand AddCompanyAndPostCommand { get; set; }
+        public RelayCommand RemoveCompanyAndPostCommand { get; set; }
+
+        private void AddCompanyAndPost(object parameter)
+        {
+            var currentWorkerCompanyAndPostViewModel = new CurrentWorkerCompanyAndPostViewModel();
+            var currentWorkerCompanyAndPostView = new CurrentWorkerCompanyAndPostView();
+
+            currentWorkerCompanyAndPostView.DataContext = currentWorkerCompanyAndPostViewModel;
+            currentWorkerCompanyAndPostView.ShowDialog();
+
+            var c = currentWorkerCompanyAndPostViewModel.CurrentCompanyAndPost;
+        }
+
+        private void RemoveCompanyAndPost(object parameter)
+        {
+
+        }
+
+        private bool CanRemovingCompanyAndPost(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
+
+
+        #region Validation
+
         protected override string OnValidate(string propertyName)
         {
             switch (propertyName)
@@ -242,8 +335,8 @@ namespace AIS_Enterprise.ViewModels
                 case "DirectoryWorkerMidName":
                     return ValidateDirectoryWorkerMidName;
                
-                case "DirectoryWorkerAddrres":
-                    return ValidateDirectoryWorkerAddrres;
+                case "DirectoryWorkerAddress":
+                    return ValidateDirectoryWorkerAddress;
                 
                 case "DirectoryWorkerMobilePhone":
                     return ValidateDirectoryWorkerMobilePhone;
@@ -257,5 +350,7 @@ namespace AIS_Enterprise.ViewModels
                     throw new InvalidOperationException();
             }
         }
+
+        #endregion
     }
 }

@@ -65,18 +65,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\Enums.cs" />
+    <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Validations.cs" />
     <Compile Include="Helpers\ValueConverters\ErrorToVisibilityValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\GenderToBoolValueConverter.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
+    <Compile Include="ViewModels\CurrentWorkerCompanyAndPostViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\DirectoryCompanyViewModel.cs" />
     <Compile Include="ViewModels\DirectoryTypeOfPostViewModel.cs" />
     <Compile Include="ViewModels\DirectoryWorkerViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\Currents\CurrentWorkerCompanyAndPostView.xaml.cs">
+      <DependentUpon>CurrentWorkerCompanyAndPostView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DirectoryViews\DirectoryCompanyView.xaml.cs">
       <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
     </Compile>
@@ -92,6 +98,10 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Currents\CurrentWorkerCompanyAndPostView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DirectoryViews\DirectoryCompanyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

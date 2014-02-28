@@ -14,6 +14,7 @@
 
     <Window.Resources>
         <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
+        <valueConverters:GenderToBoolValueConverter x:Key="genderToBoolValueConverter"/>
     </Window.Resources>
    
     <Grid Margin="10">
@@ -88,7 +89,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <RadioButton Grid.Column="0" Content="Мужской" IsChecked="True"  Margin="10, 0, 0, 0" />
+                    <RadioButton Grid.Column="0" Content="Мужской" IsChecked="{Binding DirectoryWorkerGender, Converter={StaticResource genderToBoolValueConverter}, Mode=TwoWay}" Margin="10, 0, 0, 0" />
                     <RadioButton Grid.Column="1" Content="Женский" Margin="20, 0, 0, 0"/>
 
                 </Grid>
@@ -97,8 +98,8 @@
                 <DatePicker Grid.Column="0" Grid.Row="9" Margin="10, 0, 0, 0"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="10" Text="Адрес проживания" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="11" Height="60" Text="{Binding DirectoryWorkerAddrres, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="11" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerAddrres}" Visibility="{Binding ValidateDirectoryWorkerAddrres, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+                <TextBox Grid.Column="0" Grid.Row="11" Height="60" Text="{Binding DirectoryWorkerAddress, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
+                <TextBlock Grid.Column="1" Grid.Row="11" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerAddress}" Visibility="{Binding ValidateDirectoryWorkerAddress, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="12" Text="Мобильный телефон" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="13"  Text="{Binding DirectoryWorkerMobilePhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
@@ -138,7 +139,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="Компании и должности" Margin="0, 10, 0, 10"/>
@@ -151,11 +152,11 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Grid.Row="1" Content="Добавить компанию и должность" Margin="10, 0, 0, 0" />
-                <Button Grid.Column="1" Grid.Row="1" Content="Удалить компанию и должность" Margin="10, 0, 10, 0" />
+                <Button Grid.Column="0" Grid.Row="1" Content="Добавить компанию и должность" Command="{Binding AddCompanyAndPostCommand}" Margin="10, 0, 0, 0" />
+                <Button Grid.Column="1" Grid.Row="1" Content="Удалить компанию и должность" Command="{Binding RemoveCompanyAndPostCommand}" Margin="10, 0, 10, 0" />
             </Grid>
 
-            <DataGrid Grid.Row="2" />
+            <DataGrid Grid.Row="2" ItemsSource="{Binding CurrentCompaniesAndPosts}" />
 
         </Grid>
 
