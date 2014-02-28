@@ -12,16 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise.Views
+namespace AIS_Enterprise.Views.DirectoryViews
 {
     /// <summary>
     /// Логика взаимодействия для WorkerView.xaml
     /// </summary>
-    public partial class WorkerView : Window
+    public partial class DirectoryWorkerView : Window
     {
-        public WorkerView()
+        public DirectoryWorkerView()
         {
             InitializeComponent();
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
