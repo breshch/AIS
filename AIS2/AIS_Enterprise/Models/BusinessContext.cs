@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise.Models.Directories;
+﻿using AIS_Enterprise.Models.Currents;
+using AIS_Enterprise.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,6 +30,7 @@ namespace AIS_Enterprise.Models
         {
             _dc.Database.Initialize(false);
         }
+
 
         #region DirectoryCompany
 
@@ -62,6 +64,7 @@ namespace AIS_Enterprise.Models
 
         #endregion
 
+
         #region DirectoryTypeOfPost
 
         public IQueryable<DirectoryTypeOfPost> GetDirectoryTypeOfPosts()
@@ -94,11 +97,17 @@ namespace AIS_Enterprise.Models
 
         #endregion
 
+
         #region DirectoryPost
 
         public IQueryable<DirectoryPost> GetDirectoryPosts()
         {
             return _dc.DirectoryPosts;
+        }
+
+        public IQueryable<DirectoryPost> GetDirectoryPosts(DirectoryCompany company)
+        {
+            return _dc.DirectoryPosts.Where(p => p.DirectoryCompanyId == company.Id);
         }
 
         public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string userWorkerHalfSalary)
@@ -128,6 +137,7 @@ namespace AIS_Enterprise.Models
 
         #endregion
 
+        
         #region IDisposable
 
         public void Dispose()
@@ -135,6 +145,12 @@ namespace AIS_Enterprise.Models
             _dc.Dispose();
             GC.SuppressFinalize(this);
         }
+
+        #endregion
+
+
+        #region CurrentPost
+
 
         #endregion
     }
