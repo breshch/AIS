@@ -13,6 +13,8 @@ namespace AIS_Enterprise.Models
 {
     public class BusinessContext : IDisposable
     {
+        #region Base
+
         private DataContext _dc;
 
         public BusinessContext()
@@ -32,6 +34,14 @@ namespace AIS_Enterprise.Models
         {
             _dc.Database.Initialize(false);
         }
+
+        public void Dispose()
+        {
+            _dc.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
 
 
         #region DirectoryCompany
@@ -165,23 +175,6 @@ namespace AIS_Enterprise.Models
 
             return worker;
         }
-
-
-        #endregion
-
-
-        #region IDisposable
-
-        public void Dispose()
-        {
-            _dc.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
-
-
-        #region CurrentPost
 
 
         #endregion
