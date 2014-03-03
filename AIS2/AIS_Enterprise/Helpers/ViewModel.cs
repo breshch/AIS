@@ -37,6 +37,37 @@ namespace AIS_Enterprise.Helpers
 
         protected virtual string OnValidate(string propertyName)
         {
+            var property = this.GetType().GetProperty(propertyName);
+
+            var propertyValue = property.GetValue(this);
+
+            string displayName = "";
+
+            var attributeDisplay = property.CustomAttributes.FirstOrDefault(a => a.AttributeType == typeof(DisplayAttribute));
+            if (attributeDisplay != null)
+            {
+                var attributeDisplayName = attributeDisplay.NamedArguments.FirstOrDefault(a => a.MemberName == "Name");
+                if (attributeDisplayName != null)
+                {
+                    displayName = attributeDisplayName.TypedValue.Value.ToString();
+                }
+            }
+
+            foreach (var attribute in property.CustomAttributes)
+            {
+                switch (attribute.AttributeType.Name)
+                {
+                    case "RequiredAttribute":
+                        if (propertyValue == null || string.IsNullOrWhiteSpace(propertyValue.ToString()))
+                        {
+                            return string.Format("Не заполнено поле \"{0}\"", displayName);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             return null;
         }
     }
