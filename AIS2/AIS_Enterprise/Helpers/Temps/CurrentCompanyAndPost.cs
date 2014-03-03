@@ -9,7 +9,6 @@ namespace AIS_Enterprise.Helpers.Temps
 {
     public class CurrentCompanyAndPost
     {
-        public DirectoryCompany DirectoryCompany { get; set; }
         public DirectoryPost DirectoryPost { get; set; }
         public DateTime PostChangeDate { get; set; }
     }
