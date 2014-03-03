@@ -17,9 +17,9 @@ namespace AIS_Enterprise.Views.Currents
     /// <summary>
     /// Логика взаимодействия для CurrentWorkerCompanyAndPostView.xaml
     /// </summary>
-    public partial class CurrentWorkerCompanyAndPostView : Window
+    public partial class CurrentCompanyAndPostView : Window
     {
-        public CurrentWorkerCompanyAndPostView()
+        public CurrentCompanyAndPostView()
         {
             InitializeComponent();
         }
