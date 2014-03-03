@@ -74,14 +74,14 @@
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
-    <Compile Include="ViewModels\CurrentWorkerCompanyAndPostViewModel.cs" />
-    <Compile Include="ViewModels\DirectoryPostViewModel.cs" />
-    <Compile Include="ViewModels\DirectoryCompanyViewModel.cs" />
-    <Compile Include="ViewModels\DirectoryTypeOfPostViewModel.cs" />
-    <Compile Include="ViewModels\DirectoryWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Currents\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryTypeOfPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\Currents\CurrentWorkerCompanyAndPostView.xaml.cs">
-      <DependentUpon>CurrentWorkerCompanyAndPostView.xaml</DependentUpon>
+    <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
+      <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DirectoryViews\DirectoryCompanyView.xaml.cs">
       <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
@@ -98,7 +98,7 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Currents\CurrentWorkerCompanyAndPostView.xaml">
+    <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

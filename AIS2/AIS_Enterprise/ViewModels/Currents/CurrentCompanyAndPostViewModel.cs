@@ -13,13 +13,13 @@ using System.Windows;
 
 namespace AIS_Enterprise.ViewModels
 {
-    public class CurrentWorkerCompanyAndPostViewModel : ViewModel
+    public class CurrentCompanyAndPostViewModel : ViewModel
     {
         #region Base
 
         private BusinessContext _bc = new BusinessContext();
 
-        public CurrentWorkerCompanyAndPostViewModel()
+        public CurrentCompanyAndPostViewModel()
         {
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(_bc.GetDirectoryCompanies());
             
@@ -29,6 +29,7 @@ namespace AIS_Enterprise.ViewModels
         }
 
         #endregion
+
 
         #region DirectoryCompany
 
@@ -172,7 +173,5 @@ namespace AIS_Enterprise.ViewModels
         }
 
         #endregion
-
-
     }
 }

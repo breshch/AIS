@@ -318,8 +318,8 @@ namespace AIS_Enterprise.ViewModels
 
         private void AddCompanyAndPost(object parameter)
         {
-            var currentWorkerCompanyAndPostViewModel = new CurrentWorkerCompanyAndPostViewModel();
-            var currentWorkerCompanyAndPostView = new CurrentWorkerCompanyAndPostView();
+            var currentWorkerCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel();
+            var currentWorkerCompanyAndPostView = new CurrentCompanyAndPostView();
 
             currentWorkerCompanyAndPostView.DataContext = currentWorkerCompanyAndPostViewModel;
             currentWorkerCompanyAndPostView.ShowDialog();
