@@ -5,33 +5,28 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterOwner"
-        Title="Добавление должности" Height="500" Width="1000">
+        Title="Добавление должности" Height="500" Width="800">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding ViewCloseCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <Window.Resources>
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
-        <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
     </Window.Resources>
 
-    <Grid Margin="30, 20, 20, 20">
+    <Grid Margin="30, 20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-        </Grid.ColumnDefinitions>
-
-        <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding DirectoryPosts}" SelectedItem="{Binding SelectedDirectoryPost, Mode=TwoWay}" AutoGenerateColumns="False"
+        <DataGrid Grid.Row="0" ItemsSource="{Binding DirectoryPosts}" SelectedItem="{Binding SelectedDirectoryPost, Mode=TwoWay}" AutoGenerateColumns="False"
                   HeadersVisibility="Column" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single" 
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False">
 
@@ -43,21 +38,17 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Должность" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Вид должности" Binding="{Binding DirectoryTypeOfPost.Name}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryCompany.Name}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Name}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Вид должности" Binding="{Binding DirectoryTypeOfPost.Name}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryCompany.Name}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Дата создания должности" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Оклад" Binding="{Binding UserWorkerSalary}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Совместительство" Binding="{Binding UserWorkerHalfSalary}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Оклад" Binding="{Binding UserWorkerSalary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Совместительство" Binding="{Binding UserWorkerHalfSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Margin="0, 15, 0, 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -65,37 +56,52 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Должность" Margin="0, 15, 0, 0"/>
-            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding DirectoryPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryPostName}" Visibility="{Binding ValidateDirectoryPostName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+            <StackPanel Grid.RowSpan="3" Grid.Column="0" Margin="0, 0, 20, 0">
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <TextBlock Text="Должность"/>
+                    <TextBox Text="{Binding DirectoryPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="32"/>
+                </StackPanel>
 
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Вид должности" Margin="0, 5, 0, 0"/>
-            <ComboBox Grid.Column="0" Grid.Row="3" ItemsSource="{Binding DirectoryTypeOfPosts}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfPost, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateSelectedDirectoryTypeOfPost}" Visibility="{Binding ValidateSelectedDirectoryTypeOfPost, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Вид должности"/>
+                    <ComboBox ItemsSource="{Binding DirectoryTypeOfPosts}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfPost, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
 
-            <TextBlock Grid.Column="0" Grid.Row="4" Text="Компания" Margin="0, 5, 0, 0"/>
-            <ComboBox Grid.Column="0" Grid.Row="5" ItemsSource="{Binding DirectoryCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Grid.Column="1" Grid.Row="5" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateSelectedDirectoryCompany}" Visibility="{Binding ValidateSelectedDirectoryCompany, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Компания"/>
+                    <ComboBox ItemsSource="{Binding DirectoryCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
 
-            <TextBlock Grid.Column="2" Grid.Row="0" Text="Дата" Margin="20, 15, 0, 0"/>
-            <DatePicker Grid.Column="2" Grid.Row="1" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{Binding SelectedDirectoryPostDate, Mode=TwoWay}" Margin="20, 0, 0, 0"/>
+            <StackPanel Grid.RowSpan="3" Grid.Column="1" Margin="20, 0, 0, 0">
+                <StackPanel Grid.Row="0" Grid.Column="1">
+                    <TextBlock Text="Дата"/>
+                    <DatePicker DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{Binding SelectedDirectoryPostDate, Mode=TwoWay}"/>
+                </StackPanel>
 
-            <TextBlock Grid.Column="2" Grid.Row="2" Text="Оклад" Margin="20, 5, 0, 0"/>
-            <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding DirectoryPostUserWorkerSalary, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="20, 0, 0, 0"/>
-            <TextBlock Grid.Column="3" Grid.Row="3" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryPostUserWorkerSalary}" Visibility="{Binding ValidateDirectoryPostUserWorkerSalary, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Оклад"/>
+                    <TextBox Text="{Binding DirectoryPostUserWorkerSalary, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
 
-            <TextBlock Grid.Column="2" Grid.Row="4" Text="Совместительство" Margin="20, 5, 0, 0"/>
-            <TextBox Grid.Column="2" Grid.Row="5" Text="{Binding DirectoryPostUserWorkerHalfSalary, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="20, 0, 0, 0" />
-            <TextBlock Grid.Column="3" Grid.Row="5" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryPostUserWorkerHalfSalary}" Visibility="{Binding ValidateDirectoryPostUserWorkerHalfSalary, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+                <StackPanel Grid.Row="2" Grid.Column="1" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Совместительство"/>
+                    <TextBox Text="{Binding DirectoryPostUserWorkerHalfSalary, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
 
-            <Button Grid.Column="0" Grid.Row="6" Content="Добавить" Command="{Binding AddCommand}" Margin="0, 15, 0, 0"/>
-            <Button Grid.Column="2" Grid.Row="6" Content="Удалить" Command="{Binding RemoveCommand}" Margin="20, 15, 0, 0"/>
+        <Grid Grid.Row="2" Margin="0, 15, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
+            <Button Grid.Column="0" Content="Добавить" Command="{Binding AddCommand}" Margin="0, 0, 20, 0"/>
+            <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveCommand}" Margin="20, 0, 0, 0"/>
         </Grid>
     </Grid>
 </Window>
