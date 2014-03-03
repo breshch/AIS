@@ -67,7 +67,6 @@
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Validations.cs" />
-    <Compile Include="Helpers\ValueConverters\ErrorToVisibilityValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToBoolValueConverter.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
