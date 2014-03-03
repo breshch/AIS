@@ -17,8 +17,6 @@ namespace AIS_Enterprise.ViewModels
     {
         #region Base
 
-        private BusinessContext _bc = new BusinessContext();
-
         public DirectoryCompanyViewModel()
         {
             RefreshDirectoryCompanies();
@@ -30,41 +28,12 @@ namespace AIS_Enterprise.ViewModels
 
         private void RefreshDirectoryCompanies()
         {
-            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(_bc.GetDirectoryCompanies());
+            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
         }
 
         private void ClearInputData()
         {
             DirectoryCompanyName = null;
-        }
-
-        #endregion
-
-
-        #region DirectoryCompanyName
-
-        private string _directoryCompanyName;
-
-        public string DirectoryCompanyName
-        {
-            get
-            {
-                return _directoryCompanyName;
-            }
-            set
-            {
-                _directoryCompanyName = value;
-                OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryCompanyName");
-            }
-        }
-
-        public string ValidateDirectoryCompanyName
-        {
-            get
-            {
-                return Validations.ValidateText(DirectoryCompanyName, "Название компании", 64);
-            }
         }
 
         #endregion
@@ -104,15 +73,36 @@ namespace AIS_Enterprise.ViewModels
         #endregion
 
 
+        #region DirectoryCompanyName
+
+        private string _directoryCompanyName;
+
+        [Required]
+        [Display(Name = "Название компании")]
+        public string DirectoryCompanyName
+        {
+            get
+            {
+                return _directoryCompanyName;
+            }
+            set
+            {
+                _directoryCompanyName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+
         #region Commands
 
         public RelayCommand AddCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
-        public RelayCommand ViewCloseCommand { get; set; }
 
         public void Add(object parameter)
         {
-            _bc.AddDirectoryCompany(DirectoryCompanyName);
+            BC.AddDirectoryCompany(DirectoryCompanyName);
 
             RefreshDirectoryCompanies();
 
@@ -121,20 +111,12 @@ namespace AIS_Enterprise.ViewModels
 
         public bool CanAdding(object parameter)
         {
-            foreach (var propertyName in ValidatedAddingProperties)
-            {
-                if (OnValidate(propertyName) != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return IsValidateAllProperties();
         }
 
         public void Remove(object parameter)
         {
-            _bc.RemoveDirectoryCompany(SelectedDirectoryCompany);
+            BC.RemoveDirectoryCompany(SelectedDirectoryCompany);
 
             RefreshDirectoryCompanies();
             
@@ -147,32 +129,6 @@ namespace AIS_Enterprise.ViewModels
         public bool CanRemoving(object parameter)
         {
             return SelectedDirectoryCompany != null;
-        }
-
-        public void ViewClose(object parameter)
-        {
-            _bc.Dispose();
-        }
-
-        #endregion
-
-
-        #region Validation
-
-        private string[] ValidatedAddingProperties =
-        {
-            "DirectoryCompanyName", 
-        };
-
-        protected override string OnValidate(string propertyName)
-        {
-            switch (propertyName)
-            {
-                case "DirectoryCompanyName":
-                    return ValidateDirectoryCompanyName;
-                default:
-                    throw new InvalidOperationException();
-            }
         }
 
         #endregion

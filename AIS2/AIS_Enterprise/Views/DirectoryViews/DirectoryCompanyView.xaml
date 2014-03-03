@@ -5,37 +5,28 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
         WindowStartupLocation="CenterOwner"
         Title="Добавление компании" Height="430" Width="450">
-    
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding ViewCloseCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Window.Resources>
-        <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
-    </Window.Resources>
-
-    <Grid Margin="30, 20, 20, 20">
+    <Grid Margin="30, 20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-        </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding DirectoryCompanies, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay}"/>
+        <ListBox Grid.Row="0" ItemsSource="{Binding DirectoryCompanies, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Название компании:" Margin="0, 15, 0, 0"/>
-        <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding DirectoryCompanyName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryCompanyName}" Visibility="{Binding ValidateDirectoryCompanyName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+        <StackPanel Grid.Row="1" Margin="0, 15, 0, 0">
+            <TextBlock Text="Название компании:"/>
+            <TextBox Text="{Binding DirectoryCompanyName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="64"/>
+        </StackPanel>
 
-        <Grid Grid.Row="3" Margin="0, 15, 0, 0">
+        <Grid Grid.Row="2" Margin="0, 15, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
