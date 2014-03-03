@@ -36,8 +36,8 @@ namespace AIS_Enterprise.Models.Directories
 
         public DateTime StartDate { get; set; }
         public DateTime? FireDate { get; set; }
-        //public virtual ICollection<CurrentCompany> CurrentCompanies { get; set; }
-        public virtual ICollection<CurrentPost> Posts { get; set; }
+
+        public virtual ICollection<CurrentPost> CurrentCompaniesAndPosts { get; set; }
         //public Photo { get; set; }
         //public Docs { get; set; }
 
@@ -45,7 +45,7 @@ namespace AIS_Enterprise.Models.Directories
 
         public DirectoryWorker()
         {
-            Posts = new List<CurrentPost>();
+            CurrentCompaniesAndPosts = new List<CurrentPost>();
         }
     }
 }

@@ -24,6 +24,8 @@ namespace AIS_Enterprise.ViewModels
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(_bc.GetDirectoryCompanies());
             
             AddCommand = new RelayCommand(Add, CanAdding);
+
+            SelectedPostChangeDate = DateTime.Now;
         }
 
         #endregion
@@ -131,7 +133,6 @@ namespace AIS_Enterprise.ViewModels
         {
             CurrentCompanyAndPost = new CurrentCompanyAndPost
             {
-                DirectoryCompany = SelectedDirectoryCompany,
                 DirectoryPost = SelectedDirectoryPost,
                 PostChangeDate = SelectedPostChangeDate
             };

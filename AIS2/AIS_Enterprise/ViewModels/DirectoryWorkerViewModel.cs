@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise.Helpers;
+using AIS_Enterprise.Helpers.Temps;
 using AIS_Enterprise.Models;
 using AIS_Enterprise.Models.Currents;
 using AIS_Enterprise.Views.Currents;
@@ -20,14 +21,17 @@ namespace AIS_Enterprise.ViewModels
 
         public DirectoryWorkerViewModel()
         {
-            DirectoryWorkerGender = Gender.Female;
-            CurrentCompaniesAndPosts = new ObservableCollection<CurrentPost>();
+            DirectoryWorkerGender = Gender.Male;
+            
+            CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>();
+            
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
             RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost,CanRemovingCompanyAndPost);
-        }
+            AddWorkerCommand = new RelayCommand(AddWorker, CanAddingWorker);
+            ViewCloseCommand = new RelayCommand(ViewClose);
 
-        private void RefreshPostsAndCompanies()
-        {
+            SelectedDirectoryWorkerStartDate = DateTime.Now;
+            SelectedDirectoryWorkerBirthDay = DateTime.Now;
             
         }
 
@@ -37,11 +41,12 @@ namespace AIS_Enterprise.ViewModels
             DirectoryWorkerFirstName = null;
             DirectoryWorkerMidName = null;
             DirectoryWorkerGender = Gender.Male;
-            SelectedDirectoryWorkerBirthDate = DateTime.Now;
+            SelectedDirectoryWorkerBirthDay = DateTime.Now;
             DirectoryWorkerAddress = null;
-            DirectoryWorkerMobilePhone = null;
+            DirectoryWorkerCellPhone = null;
             DirectoryWorkerHomePhone = null;
             SelectedDirectoryWorkerStartDate = DateTime.Now;
+            CurrentCompaniesAndPosts.Clear();
         }
         
         #endregion
@@ -142,7 +147,6 @@ namespace AIS_Enterprise.ViewModels
             }
             set
             {
-                Debug.WriteLine(value);
                 _directoryWorkerGender = value;
             }
         }
@@ -152,16 +156,16 @@ namespace AIS_Enterprise.ViewModels
 
         #region DirectoryWorkerBirthDate
 
-        private DateTime _selectedDirectoryWorkerBirthDate;
-        public DateTime SelectedDirectoryWorkerBirthDate
+        private DateTime _selectedDirectoryWorkerBirthDay;
+        public DateTime SelectedDirectoryWorkerBirthDay
         {
             get
             {
-                return _selectedDirectoryWorkerBirthDate;
+                return _selectedDirectoryWorkerBirthDay;
             }
             set
             {
-                _selectedDirectoryWorkerBirthDate = value;
+                _selectedDirectoryWorkerBirthDay = value;
                 OnPropertyChanged();
             }
         }
@@ -198,28 +202,28 @@ namespace AIS_Enterprise.ViewModels
         #endregion
 
 
-        #region DirectoryWorkerMobilePhone
+        #region DirectoryWorkerCellPhone
 
-        private string _directoryWorkerMobilePhone;
-        public string DirectoryWorkerMobilePhone
+        private string _directoryWorkerCellPhone;
+        public string DirectoryWorkerCellPhone
         {
             get
             {
-                return _directoryWorkerMobilePhone;
+                return _directoryWorkerCellPhone;
             }
             set
             {
-                _directoryWorkerMobilePhone = value;
+                _directoryWorkerCellPhone = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerMobilePhone");
+                OnPropertyChanged("ValidateDirectoryWorkerCellPhone");
             }
         }
 
-        public string ValidateDirectoryWorkerMobilePhone
+        public string ValidateDirectoryWorkerCellPhone
         {
             get
             {
-                return Validations.ValidateText(DirectoryWorkerMobilePhone, "Мобильный телефон", 16);
+                return Validations.ValidateText(DirectoryWorkerCellPhone, "Мобильный телефон", 16);
             }
         }
 
@@ -254,7 +258,7 @@ namespace AIS_Enterprise.ViewModels
         #endregion
 
 
-        #region DirectoryWorkerSartDate
+        #region DirectoryWorkerStartDate
 
         private DateTime _selectedDirectoryWorkerStartDate;
         public DateTime SelectedDirectoryWorkerStartDate
@@ -274,8 +278,8 @@ namespace AIS_Enterprise.ViewModels
 
         #region CurrentCompaniesAndPosts
 
-        private ObservableCollection<CurrentPost> _currentCompaniesAndPosts;
-        public ObservableCollection<CurrentPost> CurrentCompaniesAndPosts
+        private ObservableCollection<CurrentCompanyAndPost> _currentCompaniesAndPosts;
+        public ObservableCollection<CurrentCompanyAndPost> CurrentCompaniesAndPosts
         {
             get 
             {
@@ -288,6 +292,20 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
+        private CurrentCompanyAndPost _selectedCurrentCompanyAndPost;
+        public CurrentCompanyAndPost SelectedCurrentCompanyAndPost
+        {
+            get
+            {
+                return _selectedCurrentCompanyAndPost;
+            }
+            set
+            {
+                _selectedCurrentCompanyAndPost = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
 
@@ -295,6 +313,8 @@ namespace AIS_Enterprise.ViewModels
 
         public RelayCommand AddCompanyAndPostCommand { get; set; }
         public RelayCommand RemoveCompanyAndPostCommand { get; set; }
+        public RelayCommand AddWorkerCommand { get; set; }
+        public RelayCommand ViewCloseCommand { get; set; }
 
         private void AddCompanyAndPost(object parameter)
         {
@@ -304,17 +324,39 @@ namespace AIS_Enterprise.ViewModels
             currentWorkerCompanyAndPostView.DataContext = currentWorkerCompanyAndPostViewModel;
             currentWorkerCompanyAndPostView.ShowDialog();
 
-            var c = currentWorkerCompanyAndPostViewModel.CurrentCompanyAndPost;
+            var currentCompanyAndPost = currentWorkerCompanyAndPostViewModel.CurrentCompanyAndPost;
+
+            if (currentCompanyAndPost != null)
+            {
+                CurrentCompaniesAndPosts.Add(currentCompanyAndPost);
+            }
         }
 
         private void RemoveCompanyAndPost(object parameter)
         {
-
+            CurrentCompaniesAndPosts.Remove(SelectedCurrentCompanyAndPost);
         }
 
         private bool CanRemovingCompanyAndPost(object parameter)
         {
+            return SelectedCurrentCompanyAndPost != null;
+        }
+
+        private void AddWorker(object parameter)
+        {
+            _bc.AddDirectoryWorker(DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
+                DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, null, CurrentCompaniesAndPosts);
+            ClearInputData();
+        }
+
+        private bool CanAddingWorker(object parameter)
+        {
             return true;
+        }
+
+        public void ViewClose(object parameter)
+        {
+            _bc.Dispose();
         }
 
         #endregion
@@ -338,8 +380,8 @@ namespace AIS_Enterprise.ViewModels
                 case "DirectoryWorkerAddress":
                     return ValidateDirectoryWorkerAddress;
                 
-                case "DirectoryWorkerMobilePhone":
-                    return ValidateDirectoryWorkerMobilePhone;
+                case "DirectoryWorkerCellPhone":
+                    return ValidateDirectoryWorkerCellPhone;
                
                 case "DirectoryWorkerHomePhone":
                     return ValidateDirectoryWorkerHomePhone;

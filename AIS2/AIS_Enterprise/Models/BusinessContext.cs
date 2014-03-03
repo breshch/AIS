@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise.Models.Currents;
+﻿using AIS_Enterprise.Helpers;
+using AIS_Enterprise.Helpers.Temps;
+using AIS_Enterprise.Models.Currents;
 using AIS_Enterprise.Models.Directories;
 using System;
 using System.Collections.Generic;
@@ -137,7 +139,37 @@ namespace AIS_Enterprise.Models
 
         #endregion
 
-        
+
+        #region DirectoryWorker
+
+        public DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
+            DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts)
+        {
+            var worker = new DirectoryWorker
+            {
+                LastName = lastName,
+                FirstName = firstName,
+                MidName = midName,
+                Gender = gender,
+                BirthDay = birthDay,
+                Address = address,
+                HomePhone = homePhone,
+                CellPhone = cellPhone,
+                StartDate = startDate,
+                FireDate = fireDate,
+                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = null, DirectoryPostId = c.DirectoryPost.Id }))
+            };
+
+            _dc.DirectoryWorkers.Add(worker);
+            _dc.SaveChanges();
+
+            return worker;
+        }
+
+
+        #endregion
+
+
         #region IDisposable
 
         public void Dispose()

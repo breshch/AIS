@@ -15,8 +15,12 @@
     <Window.Resources>
         <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
         <valueConverters:GenderToBoolValueConverter x:Key="genderToBoolValueConverter"/>
+
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
     </Window.Resources>
-   
+
     <Grid Margin="10">
 
         <Grid.RowDefinitions>
@@ -95,22 +99,22 @@
                 </Grid>
 
                 <TextBlock Grid.Column="0" Grid.Row="8" Text="Дата рождения" Margin="10, 20, 0, 0"/>
-                <DatePicker Grid.Column="0" Grid.Row="9" Margin="10, 0, 0, 0"/>
+                <DatePicker Grid.Column="0" Grid.Row="9" SelectedDate="{Binding SelectedDirectoryWorkerBirthDay, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="10" Text="Адрес проживания" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="11" Height="60" Text="{Binding DirectoryWorkerAddress, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
                 <TextBlock Grid.Column="1" Grid.Row="11" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerAddress}" Visibility="{Binding ValidateDirectoryWorkerAddress, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="12" Text="Мобильный телефон" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="13"  Text="{Binding DirectoryWorkerMobilePhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="13" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerMobilePhone}" Visibility="{Binding ValidateDirectoryWorkerMobilePhone, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+                <TextBox Grid.Column="0" Grid.Row="13"  Text="{Binding DirectoryWorkerCellPhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
+                <TextBlock Grid.Column="1" Grid.Row="13" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerCellPhone}" Visibility="{Binding ValidateDirectoryWorkerCellPhone, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="14" Text="Домашний телефон" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="15" Text="{Binding DirectoryWorkerHomePhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
                 <TextBlock Grid.Column="1" Grid.Row="15" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerHomePhone}" Visibility="{Binding ValidateDirectoryWorkerHomePhone, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="16" Text="Дата принятия на работу" Margin="10, 10, 0, 10"/>
-                <DatePicker Grid.Column="0" Grid.Row="17" Margin="10, 0, 0, 0"/>
+                <DatePicker Grid.Column="0" Grid.Row="17" SelectedDate="{Binding SelectedDirectoryWorkerStartDate, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
 
             </Grid>
 
@@ -156,10 +160,29 @@
                 <Button Grid.Column="1" Grid.Row="1" Content="Удалить компанию и должность" Command="{Binding RemoveCompanyAndPostCommand}" Margin="10, 0, 10, 0" />
             </Grid>
 
-            <DataGrid Grid.Row="2" ItemsSource="{Binding CurrentCompaniesAndPosts}" />
+            <DataGrid Grid.Row="2" ItemsSource="{Binding CurrentCompaniesAndPosts}" SelectedItem="{Binding SelectedCurrentCompanyAndPost, Mode=TwoWay}" AutoGenerateColumns="False"
+                  HeadersVisibility="Column" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single" 
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryPost.DirectoryCompany.Name}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Должность" Binding="{Binding DirectoryPost.Name}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Оклад" Binding="{Binding DirectoryPost.UserWorkerSalary}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Совместительство" Binding="{Binding DirectoryPost.UserWorkerHalfSalary}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding PostChangeDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
 
         </Grid>
 
-        <Button Grid.Row="2" Content="Добавить"/>
+        <Button Grid.Row="2" Width="200" Margin="10" Command="{Binding AddWorkerCommand}" Content="Добавить сотрудника"/>
     </Grid>
 </Window>
