@@ -33,8 +33,8 @@
         <ListBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding DirectoryTypeOfPosts, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfPost, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Тип должности:" Margin="0, 15, 0, 0"/>
-        <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding DirectoryTypeOfPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryTypeOfPostName}" Visibility="{Binding ValidateDirectoryTypeOfPostName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+        <TextBox Grid.Row="2" Grid.Column="0" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" Text="{Binding DirectoryTypeOfPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryTypeOfPostName}" Visibility="{Binding ValidateDirectoryTypeOfPostName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>-->
         
         <Grid Grid.Row="3" Margin="0, 15, 0, 0">
             <Grid.ColumnDefinitions>

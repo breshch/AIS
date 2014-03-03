@@ -79,6 +79,8 @@ namespace AIS_Enterprise.ViewModels
 
         private string _directoryTypeOfPostName;
 
+        [Required]
+        [Display(Name = "Тип должности")]
         public string DirectoryTypeOfPostName
         {
             get
@@ -89,17 +91,17 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryTypeOfPostName = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryTypeOfPostName");
+                //OnPropertyChanged("ValidateDirectoryTypeOfPostName");
             }
         }
 
-        public string ValidateDirectoryTypeOfPostName
-        {
-            get
-            {
-                return Validations.ValidateText(DirectoryTypeOfPostName, "Тип должности", 32);
-            }
-        }
+        //public string ValidateDirectoryTypeOfPostName
+        //{
+        //    get
+        //    {
+        //        return Validations.ValidateText(DirectoryTypeOfPostName, "Тип должности", 32);
+        //    }
+        //}
 
         #endregion
 
@@ -164,16 +166,16 @@ namespace AIS_Enterprise.ViewModels
             "DirectoryTypeOfPostName"
         };
 
-        protected override string OnValidate(string propertyName)
-        {
-            switch (propertyName)
-            {
-                case "DirectoryTypeOfPostName":
-                    return ValidateDirectoryTypeOfPostName;
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
+        //protected override string OnValidate(string propertyName)
+        //{
+        //    switch (propertyName)
+        //    {
+        //        case "DirectoryTypeOfPostName":
+        //            return ValidateDirectoryTypeOfPostName;
+        //        default:
+        //            throw new InvalidOperationException();
+        //    }
+        //}
 
         #endregion
     }
