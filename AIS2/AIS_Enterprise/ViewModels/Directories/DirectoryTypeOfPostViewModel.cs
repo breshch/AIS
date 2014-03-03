@@ -78,7 +78,7 @@ namespace AIS_Enterprise.ViewModels
         private string _directoryTypeOfPostName;
 
         [Required]
-        [Display(Name = "Тип должности")]
+        [Display(Name = "Вид должности")]
         public string DirectoryTypeOfPostName
         {
             get
