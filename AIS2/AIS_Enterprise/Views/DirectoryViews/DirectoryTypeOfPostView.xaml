@@ -5,32 +5,33 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
         WindowStartupLocation="CenterOwner"
         Title="Добавление типа должности" Height="350" Width="450">
-    
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding ViewCloseCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <Window.Resources>
         <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
     </Window.Resources>
-    
+
 
     <Grid Margin="30, 20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <ListBox Grid.Row="0" ItemsSource="{Binding DirectoryTypeOfPosts, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfPost, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Row="1" Text="Тип должности:" Margin="0, 15, 0, 0"/>
-        <TextBox Grid.Row="2" Text="{Binding DirectoryTypeOfPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" MaxLength="32"/>
-        
-        <Grid Grid.Row="3" Margin="0, 15, 0, 0">
+        <StackPanel Grid.Row="1" Margin="0, 15, 0, 0">
+            <TextBlock Text="Тип должности:"/>
+            <TextBox Text="{Binding DirectoryTypeOfPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" MaxLength="32"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2" Margin="0, 15, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
