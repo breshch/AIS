@@ -17,8 +17,6 @@ namespace AIS_Enterprise.ViewModels
     {
         #region Base
 
-        private BusinessContext _bc = new BusinessContext();
-
         public DirectoryTypeOfPostViewModel()
         {
             RefreshDirectoryTypeOfPosts();
@@ -30,7 +28,7 @@ namespace AIS_Enterprise.ViewModels
 
         private void RefreshDirectoryTypeOfPosts()
         {
-            DirectoryTypeOfPosts = new ObservableCollection<DirectoryTypeOfPost>(_bc.GetDirectoryTypeOfPosts());
+            DirectoryTypeOfPosts = new ObservableCollection<DirectoryTypeOfPost>(BC.GetDirectoryTypeOfPosts());
         }
 
         private void ClearInputData()
@@ -91,17 +89,8 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryTypeOfPostName = value;
                 OnPropertyChanged();
-                //OnPropertyChanged("ValidateDirectoryTypeOfPostName");
             }
         }
-
-        //public string ValidateDirectoryTypeOfPostName
-        //{
-        //    get
-        //    {
-        //        return Validations.ValidateText(DirectoryTypeOfPostName, "Тип должности", 32);
-        //    }
-        //}
 
         #endregion
 
@@ -110,11 +99,10 @@ namespace AIS_Enterprise.ViewModels
 
         public RelayCommand AddCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
-        public RelayCommand ViewCloseCommand { get; set; }
-
+        
         public void Add(object parameter)
         {
-            _bc.AddDirectoryTypeOfPost(DirectoryTypeOfPostName);
+            BC.AddDirectoryTypeOfPost(DirectoryTypeOfPostName);
 
             RefreshDirectoryTypeOfPosts();
 
@@ -123,20 +111,12 @@ namespace AIS_Enterprise.ViewModels
 
         public bool CanAdding(object parameter)
         {
-            foreach (var propertyName in ValidatedAddingProperties)
-            {
-                if (OnValidate(propertyName) != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return IsValidateAllProperties();
         }
 
         public void Remove(object parameter)
         {
-            _bc.RemoveDirectoryTypeOfPost(SelectedDirectoryTypeOfPost);
+            BC.RemoveDirectoryTypeOfPost(SelectedDirectoryTypeOfPost);
 
             RefreshDirectoryTypeOfPosts();
             
@@ -150,32 +130,6 @@ namespace AIS_Enterprise.ViewModels
         {
             return SelectedDirectoryTypeOfPost != null;
         }
-
-        public void ViewClose(object parameter)
-        {
-            _bc.Dispose();
-        }
-
-        #endregion
-
-
-        #region Validation
-
-        private string[] ValidatedAddingProperties =
-        {
-            "DirectoryTypeOfPostName"
-        };
-
-        //protected override string OnValidate(string propertyName)
-        //{
-        //    switch (propertyName)
-        //    {
-        //        case "DirectoryTypeOfPostName":
-        //            return ValidateDirectoryTypeOfPostName;
-        //        default:
-        //            throw new InvalidOperationException();
-        //    }
-        //}
 
         #endregion
     }
