@@ -6,6 +6,7 @@ using AIS_Enterprise.Views.Currents;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,6 @@ namespace AIS_Enterprise.ViewModels
 
             SelectedDirectoryWorkerStartDate = DateTime.Now;
             SelectedDirectoryWorkerBirthDay = DateTime.Now;
-            
         }
 
         private void ClearInputData()
@@ -52,6 +52,9 @@ namespace AIS_Enterprise.ViewModels
         #region DirectoryWorkerLastName
 
         private string _directoryWorkerLastName;
+
+        [Required]
+        [Display(Name = "Фамилия")]
         public string DirectoryWorkerLastName
         {
             get
@@ -62,15 +65,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryWorkerLastName = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerLastName");
-            }
-        }
-
-        public string ValidateDirectoryWorkerLastName
-        {
-            get 
-            {
-                return Validations.ValidateText(DirectoryWorkerLastName, "Фамилия", 32);
             }
         }
 
@@ -80,6 +74,9 @@ namespace AIS_Enterprise.ViewModels
         #region DirectoryWorkerFirstName
 
         private string _directoryWorkerFirstName;
+
+        [Required]
+        [Display(Name = "Имя")]
         public string DirectoryWorkerFirstName
         {
             get
@@ -90,15 +87,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryWorkerFirstName = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerFirstName");
-            }
-        }
-
-        public string ValidateDirectoryWorkerFirstName
-        {
-            get
-            {
-                return Validations.ValidateText(DirectoryWorkerFirstName, "Имя", 32);
             }
         }
 
@@ -108,6 +96,9 @@ namespace AIS_Enterprise.ViewModels
         #region DirectoryWorkerMidName
 
         private string _directoryWorkerMidName;
+
+        [Required]
+        [Display(Name = "Отчество")]
         public string DirectoryWorkerMidName
         {
             get
@@ -118,15 +109,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryWorkerMidName = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerMidName");
-            }
-        }
-
-        public string ValidateDirectoryWorkerMidName
-        {
-            get
-            {
-                return Validations.ValidateText(DirectoryWorkerMidName, "Отчество", 32);
             }
         }
 
@@ -167,13 +149,15 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-
         #endregion
 
 
         #region DirectoryWorkerAddress
 
         private string _directoryWorkerAddress;
+
+        [Required]
+        [Display(Name = "Адрес")]
         public string DirectoryWorkerAddress
         {
             get
@@ -184,15 +168,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryWorkerAddress = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerAddress");
-            }
-        }
-
-        public string ValidateDirectoryWorkerAddress
-        {
-            get
-            {
-                return Validations.ValidateText(DirectoryWorkerAddress, "Адрес", 256);
             }
         }
 
@@ -202,6 +177,9 @@ namespace AIS_Enterprise.ViewModels
         #region DirectoryWorkerCellPhone
 
         private string _directoryWorkerCellPhone;
+
+        [Required]
+        [Display(Name = "Мобильный телефон")]
         public string DirectoryWorkerCellPhone
         {
             get
@@ -212,15 +190,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryWorkerCellPhone = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerCellPhone");
-            }
-        }
-
-        public string ValidateDirectoryWorkerCellPhone
-        {
-            get
-            {
-                return Validations.ValidateText(DirectoryWorkerCellPhone, "Мобильный телефон", 16);
             }
         }
 
@@ -240,15 +209,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _directoryWorkerHomePhone = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateDirectoryWorkerHomePhone");
-            }
-        }
-
-        public string ValidateDirectoryWorkerHomePhone
-        {
-            get
-            {
-                return Validations.ValidateText(DirectoryWorkerHomePhone, "Домашний телефон", 16);
             }
         }
 
@@ -342,51 +302,13 @@ namespace AIS_Enterprise.ViewModels
         {
             BC.AddDirectoryWorker(DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
                 DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, null, CurrentCompaniesAndPosts);
+            
             ClearInputData();
         }
 
         private bool CanAddingWorker(object parameter)
         {
-            return true;
-        }
-
-        public void ViewClose(object parameter)
-        {
-            BC.Dispose();
-        }
-
-        #endregion
-
-
-        #region Validation
-
-        protected override string OnValidate(string propertyName)
-        {
-            switch (propertyName)
-            {
-                case "DirectoryWorkerLastName":
-                    return ValidateDirectoryWorkerLastName;
-                
-                case "DirectoryWorkerFirstName":
-                    return ValidateDirectoryWorkerFirstName;
-               
-                case "DirectoryWorkerMidName":
-                    return ValidateDirectoryWorkerMidName;
-               
-                case "DirectoryWorkerAddress":
-                    return ValidateDirectoryWorkerAddress;
-                
-                case "DirectoryWorkerCellPhone":
-                    return ValidateDirectoryWorkerCellPhone;
-               
-                case "DirectoryWorkerHomePhone":
-                    return ValidateDirectoryWorkerHomePhone;
-                
-                //case "DirectoryWorkerMidName":
-                //    return ValidateDirectoryWorkerMidName;
-                default:
-                    throw new InvalidOperationException();
-            }
+            return IsValidateAllProperties() && CurrentCompaniesAndPosts.Any();
         }
 
         #endregion

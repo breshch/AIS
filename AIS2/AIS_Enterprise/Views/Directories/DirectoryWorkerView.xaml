@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
         WindowStartupLocation="CenterOwner"
-        Title="Добавление сотрудника" Height="800" Width="500">
+        Title="Добавление сотрудника" Height="624" Width="540">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -20,8 +20,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="10">
-
+    <Grid Margin="30, 20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -31,20 +30,11 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="235"/>
+                <ColumnDefinition Width="270"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="0" Margin="0, 0, 20, 0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -55,105 +45,97 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10"/>
-                </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Фамилия" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding DirectoryWorkerLastName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Фамилия"/>
+                    <TextBox Grid.Row="1" Text="{Binding DirectoryWorkerLastName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="32"/>
+                </StackPanel>
 
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Имя" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding DirectoryWorkerFirstName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
+                <StackPanel Grid.Row="1" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Имя"/>
+                    <TextBox Text="{Binding DirectoryWorkerFirstName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="32"/>
+                </StackPanel>
 
-                <TextBlock Grid.Column="0" Grid.Row="4" Text="Отчество" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding DirectoryWorkerMidName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
+                <StackPanel Grid.Row="2" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Отчество"/>
+                    <TextBox Text="{Binding DirectoryWorkerMidName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="32"/>
+                </StackPanel>
 
-                <Grid Grid.Row="6">
+                <StackPanel Grid.Row="3" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Пол"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" Content="Мужской" IsChecked="{Binding DirectoryWorkerGender, Converter={StaticResource genderToBoolValueConverter}, Mode=TwoWay}"/>
+                        <RadioButton Grid.Column="1" Content="Женский"/>
+                    </Grid>
+                </StackPanel>
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Пол" Margin="10"/>
+                <StackPanel Grid.Row="4" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Дата рождения"/>
+                    <DatePicker SelectedDate="{Binding SelectedDirectoryWorkerBirthDay, Mode=TwoWay}"/>
+                </StackPanel>
 
-                </Grid>
+                <StackPanel Grid.Row="5" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Адрес проживания"/>
+                    <TextBox Height="52" Text="{Binding DirectoryWorkerAddress, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxLength="256"/>
+                </StackPanel>
 
-                <Grid Grid.Row="7">
+                <StackPanel Grid.Row="6" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Мобильный телефон"/>
+                    <TextBox Text="{Binding DirectoryWorkerCellPhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="16"/>
+                </StackPanel>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="7" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Домашний телефон"/>
+                    <TextBox Text="{Binding DirectoryWorkerHomePhone, Mode=TwoWay}" MaxLength="16"/>
+                </StackPanel>
 
-                    <RadioButton Grid.Column="0" Content="Мужской" IsChecked="{Binding DirectoryWorkerGender, Converter={StaticResource genderToBoolValueConverter}, Mode=TwoWay}" Margin="10, 0, 0, 0" />
-                    <RadioButton Grid.Column="1" Content="Женский" Margin="20, 0, 0, 0"/>
-
-                </Grid>
-
-                <TextBlock Grid.Column="0" Grid.Row="8" Text="Дата рождения" Margin="10, 20, 0, 0"/>
-                <DatePicker Grid.Column="0" Grid.Row="9" SelectedDate="{Binding SelectedDirectoryWorkerBirthDay, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="10" Text="Адрес проживания" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="11" Height="60" Text="{Binding DirectoryWorkerAddress, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="12" Text="Мобильный телефон" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="13"  Text="{Binding DirectoryWorkerCellPhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="14" Text="Домашний телефон" Margin="10, 10, 0, 0"/>
-                <TextBox Grid.Column="0" Grid.Row="15" Text="{Binding DirectoryWorkerHomePhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="16" Text="Дата принятия на работу" Margin="10, 10, 0, 10"/>
-                <DatePicker Grid.Column="0" Grid.Row="17" SelectedDate="{Binding SelectedDirectoryWorkerStartDate, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
-
+                <StackPanel Grid.Row="8" Margin="0, 5, 0, 0">
+                    <TextBlock Text="Дата принятия на работу"/>
+                    <DatePicker SelectedDate="{Binding SelectedDirectoryWorkerStartDate, Mode=TwoWay}"/>
+                </StackPanel>
             </Grid>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Margin="20, 0, 0, 0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="300" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0"/>
-                <Grid Grid.Row="1">
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Фотография"/>
+                    
+                    <Border BorderThickness="1" BorderBrush="#FFABADB3" Height="327">
+                        <Image Stretch="Fill"/>
+                    </Border>
+                </StackPanel>
+
+                <Grid Grid.Row="1" Margin="0, 21, 0, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Content="Добавить фото" Margin="10 , 10, 10, 0"/>
-                    <Button Grid.Column="1" Content="Добавить фото" Margin="10 , 10, 10, 0"/>
-
+                    <Button Grid.Column="0" Content="Добавить фото" Margin="0, 0, 20, 0"/>
+                    <Button Grid.Column="1" Content="Очистить фото" Margin="20, 0, 0, 0"/>
                 </Grid>
             </Grid>
-
         </Grid>
 
-        <Grid Grid.Row="1">
-
+        <Grid Grid.Row="1" Margin="0, 15, 0, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Компании и должности" Margin="0, 10, 0, 10"/>
+            <TextBlock Grid.Row="0" Text="Компании и должности"/>
 
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Grid.Row="1" Content="Добавить компанию и должность" Command="{Binding AddCompanyAndPostCommand}" Margin="10, 0, 0, 0" />
-                <Button Grid.Column="1" Grid.Row="1" Content="Удалить компанию и должность" Command="{Binding RemoveCompanyAndPostCommand}" Margin="10, 0, 10, 0" />
-            </Grid>
-
-            <DataGrid Grid.Row="2" ItemsSource="{Binding CurrentCompaniesAndPosts}" SelectedItem="{Binding SelectedCurrentCompanyAndPost, Mode=TwoWay}" AutoGenerateColumns="False"
+            <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentCompaniesAndPosts}" SelectedItem="{Binding SelectedCurrentCompanyAndPost, Mode=TwoWay}" AutoGenerateColumns="False"
                   HeadersVisibility="Column" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single" 
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False">
 
@@ -165,17 +147,29 @@
                 </DataGrid.CellStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryPost.DirectoryCompany.Name}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <DataGridTextColumn Header="Должность" Binding="{Binding DirectoryPost.Name}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding DirectoryPost.UserWorkerSalary}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryPost.DirectoryCompany.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Должность" Binding="{Binding DirectoryPost.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Оклад" Binding="{Binding DirectoryPost.UserWorkerSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Совместительство" Binding="{Binding DirectoryPost.UserWorkerHalfSalary}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <DataGridTextColumn Header="Дата" Binding="{Binding PostChangeDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding PostChangeDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
 
                 </DataGrid.Columns>
             </DataGrid>
 
+            <Grid Grid.Row="2" Margin="0, 10, 0, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="1" Content="Добавить компанию и должность" Command="{Binding AddCompanyAndPostCommand}" Margin="0, 0, 20, 0" />
+                <Button Grid.Column="1" Grid.Row="1" Content="Удалить компанию и должность" Command="{Binding RemoveCompanyAndPostCommand}" Margin="20, 0, 0, 0" />
+            </Grid>
         </Grid>
 
-        <Button Grid.Row="2" Width="200" Margin="10" Command="{Binding AddWorkerCommand}" Content="Добавить сотрудника"/>
+        <Button Grid.Row="2" Content="Добавить сотрудника" Command="{Binding AddWorkerCommand}" Margin="0, 15, 0, 0"/>
     </Grid>
 </Window>
