@@ -14,13 +14,13 @@ namespace AIS_Enterprise.Models.Directories
         public int Id { get; set; }
 
         [StringLength(32)]
+        public string LastName { get; set; }
+
+        [StringLength(32)]
         public string FirstName { get; set; }
 
         [StringLength(32)]
         public string MidName { get; set; }
-
-        [StringLength(32)]
-        public string LastName { get; set; }
 
         public Gender Gender { get; set; }
         public DateTime BirthDay { get; set; }
