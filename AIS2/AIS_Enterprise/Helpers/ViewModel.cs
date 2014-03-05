@@ -55,7 +55,6 @@ namespace AIS_Enterprise.Helpers
         {
             foreach (var attribute in attributes)
             {
-                Debug.WriteLine(attribute.AttributeType.Name);
                 switch (attribute.AttributeType.Name)
                 {
                     case "RequiredAttribute":
@@ -68,6 +67,42 @@ namespace AIS_Enterprise.Helpers
                         if (propertyValue == null)
                         {
                             return string.Format("Не выбрано значение в списке \"{0}\"", displayName);
+                        }
+                        break;
+                    case "DoubleValueAttribute":
+                        if (propertyValue != null)
+                        {
+                            var minValueObj = attribute.NamedArguments.FirstOrDefault(a => a.MemberName == "MinValue");
+                            
+                            double minValue = double.MinValue;
+                            if (minValueObj != null && minValueObj.TypedValue.Value != null)
+	                        {
+		                        minValue = (double)minValueObj.TypedValue.Value;
+	                        }
+
+                            var maxValueObj = attribute.NamedArguments.FirstOrDefault(a => a.MemberName == "MaxValue");
+
+                            double maxValue = double.MaxValue;
+                            if (maxValueObj != null && maxValueObj.TypedValue.Value != null)
+                            {
+                                maxValue = (double)maxValueObj.TypedValue.Value;
+                            }
+
+                            double value;
+                            if (!double.TryParse(propertyValue.ToString().Replace(".", ","), out value))
+                            {
+                                return string.Format("В поле \"{0}\" можно ввести только числовое значение", displayName); ;
+                            }
+
+                            if (value < minValue)
+                            {
+                                return string.Format("В поле \"{0}\" можно ввести только числовое значение, большее или равное {1}", displayName, minValue);
+                            }
+
+                            if (value > maxValue)
+                            {
+                                return string.Format("В поле \"{0}\" можно ввести только числовое значение, меньшее или равное {1}", displayName, maxValue);
+                            }
                         }
                         break;
                     default:

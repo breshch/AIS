@@ -175,6 +175,7 @@ namespace AIS_Enterprise.ViewModels
         private string _directoryPostUserWorkerSalary;
 
         [Required]
+        [DoubleValue(MinValue = 0)]
         [Display(Name = "Оклад")]
         public string DirectoryPostUserWorkerSalary
         {
@@ -197,6 +198,7 @@ namespace AIS_Enterprise.ViewModels
         private string _directoryPostUserWorkerHalfSalary;
 
         [Required]
+        [DoubleValue(MinValue = 0)]
         [Display(Name = "Совместительство")]
         public string DirectoryPostUserWorkerHalfSalary
         {
