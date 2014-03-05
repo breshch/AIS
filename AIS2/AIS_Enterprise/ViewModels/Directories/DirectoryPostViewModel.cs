@@ -17,7 +17,7 @@ namespace AIS_Enterprise.ViewModels
     {
         #region Base
 
-        public DirectoryPostViewModel()
+        public DirectoryPostViewModel() : base()
         {
             DirectoryTypeOfPosts = new ObservableCollection<DirectoryTypeOfPost>(BC.GetDirectoryTypeOfPosts());
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());

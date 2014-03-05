@@ -1,5 +1,5 @@
 ﻿using AIS_Enterprise.Helpers;
-using AIS_Enterprise.Views.DirectoryViews;
+using AIS_Enterprise.Views.Directories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace AIS_Enterprise.ViewModels
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryWorkerViewCommand { get; set; }
 
-        public MainViewModel()
+        public MainViewModel() : base()
         {
             ShowDirectoryCompanyViewCommand = new RelayCommand(ShowDirectoryCompanyView);
             ShowDirectoryTypeOfPostViewCommand = new RelayCommand(ShowDirectoryTypeOfPostView);

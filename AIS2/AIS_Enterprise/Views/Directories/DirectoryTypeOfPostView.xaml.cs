@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise.Views.DirectoryViews
+namespace AIS_Enterprise.Views.Directories
 {
     public partial class DirectoryTypeOfPostView : Window
     {

@@ -17,13 +17,12 @@ namespace AIS_Enterprise.ViewModels
     {
         #region Base
 
-        public DirectoryTypeOfPostViewModel()
+        public DirectoryTypeOfPostViewModel() :  base()
         {
             RefreshDirectoryTypeOfPosts();
 
             AddCommand = new RelayCommand(Add, CanAdding);
             RemoveCommand = new RelayCommand(Remove, CanRemoving);
-            ViewCloseCommand = new RelayCommand(ViewClose);
         }
 
         private void RefreshDirectoryTypeOfPosts()

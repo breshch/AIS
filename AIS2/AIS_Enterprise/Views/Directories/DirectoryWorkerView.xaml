@@ -1,4 +1,4 @@
-﻿<Window x:Class="AIS_Enterprise.Views.DirectoryViews.DirectoryWorkerView"
+﻿<Window x:Class="AIS_Enterprise.Views.Directories.DirectoryWorkerView"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"

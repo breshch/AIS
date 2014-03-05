@@ -18,7 +18,7 @@ namespace AIS_Enterprise.ViewModels
     {
         #region Base
 
-        public CurrentCompanyAndPostViewModel()
+        public CurrentCompanyAndPostViewModel() : base()
         {
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
             
@@ -37,6 +37,7 @@ namespace AIS_Enterprise.ViewModels
         private DirectoryCompany _selectedDirectoryCompany;
 
         [Required]
+        [Display(Name = "Компания")]
         public DirectoryCompany SelectedDirectoryCompany
         {
             get
@@ -74,6 +75,7 @@ namespace AIS_Enterprise.ViewModels
         private DirectoryPost _selectedDirectoryPost;
 
         [Required]
+        [Display(Name = "Должность")]
         public DirectoryPost SelectedDirectoryPost
         {
             get

@@ -17,9 +17,7 @@ namespace AIS_Enterprise.ViewModels
     {
         #region Base
 
-        private BusinessContext _bc = new BusinessContext();
-
-        public DirectoryWorkerViewModel()
+        public DirectoryWorkerViewModel() : base()
         {
             DirectoryWorkerGender = Gender.Male;
             
@@ -28,7 +26,6 @@ namespace AIS_Enterprise.ViewModels
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
             RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost,CanRemovingCompanyAndPost);
             AddWorkerCommand = new RelayCommand(AddWorker, CanAddingWorker);
-            ViewCloseCommand = new RelayCommand(ViewClose);
 
             SelectedDirectoryWorkerStartDate = DateTime.Now;
             SelectedDirectoryWorkerBirthDay = DateTime.Now;
@@ -314,7 +311,6 @@ namespace AIS_Enterprise.ViewModels
         public RelayCommand AddCompanyAndPostCommand { get; set; }
         public RelayCommand RemoveCompanyAndPostCommand { get; set; }
         public RelayCommand AddWorkerCommand { get; set; }
-        public RelayCommand ViewCloseCommand { get; set; }
 
         private void AddCompanyAndPost(object parameter)
         {
@@ -344,7 +340,7 @@ namespace AIS_Enterprise.ViewModels
 
         private void AddWorker(object parameter)
         {
-            _bc.AddDirectoryWorker(DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
+            BC.AddDirectoryWorker(DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
                 DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, null, CurrentCompaniesAndPosts);
             ClearInputData();
         }
@@ -356,7 +352,7 @@ namespace AIS_Enterprise.ViewModels
 
         public void ViewClose(object parameter)
         {
-            _bc.Dispose();
+            BC.Dispose();
         }
 
         #endregion
