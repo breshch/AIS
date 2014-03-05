@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise.Helpers;
+using AIS_Enterprise.Helpers.Attributes;
 using AIS_Enterprise.Helpers.Temps;
 using AIS_Enterprise.Models;
 using AIS_Enterprise.Models.Directories;
@@ -36,7 +37,7 @@ namespace AIS_Enterprise.ViewModels
 
         private DirectoryCompany _selectedDirectoryCompany;
 
-        [Required]
+        [RequireSelected]
         [Display(Name = "Компания")]
         public DirectoryCompany SelectedDirectoryCompany
         {
@@ -59,6 +60,7 @@ namespace AIS_Enterprise.ViewModels
         #region DirectoryPost
 
         private ObservableCollection<DirectoryPost> _directoryPosts;
+
         public ObservableCollection<DirectoryPost> DirectoryPosts 
         {
             get
@@ -74,7 +76,7 @@ namespace AIS_Enterprise.ViewModels
 
         private DirectoryPost _selectedDirectoryPost;
 
-        [Required]
+        [RequireSelected]
         [Display(Name = "Должность")]
         public DirectoryPost SelectedDirectoryPost
         {

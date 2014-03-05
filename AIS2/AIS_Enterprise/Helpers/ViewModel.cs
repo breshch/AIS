@@ -55,12 +55,19 @@ namespace AIS_Enterprise.Helpers
         {
             foreach (var attribute in attributes)
             {
+                Debug.WriteLine(attribute.AttributeType.Name);
                 switch (attribute.AttributeType.Name)
                 {
                     case "RequiredAttribute":
                         if (propertyValue == null || string.IsNullOrWhiteSpace(propertyValue.ToString()))
                         {
                             return string.Format("Не заполнено поле \"{0}\"", displayName);
+                        }
+                        break;
+                    case "RequireSelectedAttribute":
+                        if (propertyValue == null)
+                        {
+                            return string.Format("Не выбрано значение в списке \"{0}\"", displayName);
                         }
                         break;
                     default:

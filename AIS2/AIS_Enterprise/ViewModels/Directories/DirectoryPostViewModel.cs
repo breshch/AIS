@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using AIS_Enterprise.Helpers.Attributes;
 
 namespace AIS_Enterprise.ViewModels
 {
@@ -108,7 +109,7 @@ namespace AIS_Enterprise.ViewModels
 
         private DirectoryTypeOfPost _selectedDirectoryTypeOfPost;
 
-        [Required]
+        [RequireSelected]
         [Display(Name = "Вид должности")]
         public DirectoryTypeOfPost SelectedDirectoryTypeOfPost
         {
@@ -132,7 +133,7 @@ namespace AIS_Enterprise.ViewModels
 
         private DirectoryCompany _selectedDirectoryCompany;
 
-        [Required]
+        [RequireSelected]
         [Display(Name = "Компания")]
         public DirectoryCompany SelectedDirectoryCompany
         {
