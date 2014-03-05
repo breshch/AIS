@@ -5,6 +5,7 @@ using AIS_Enterprise.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,9 @@ namespace AIS_Enterprise.ViewModels
     {
         #region Base
 
-        private BusinessContext _bc = new BusinessContext();
-
         public CurrentCompanyAndPostViewModel()
         {
-            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(_bc.GetDirectoryCompanies());
+            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
             
             AddCommand = new RelayCommand(Add, CanAdding);
 
@@ -31,11 +30,13 @@ namespace AIS_Enterprise.ViewModels
         #endregion
 
 
-        #region DirectoryCompany
+        #region DirectoryCompanies
 
         public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
 
         private DirectoryCompany _selectedDirectoryCompany;
+
+        [Required]
         public DirectoryCompany SelectedDirectoryCompany
         {
             get
@@ -46,17 +47,8 @@ namespace AIS_Enterprise.ViewModels
             {
                 _selectedDirectoryCompany = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateSelectedDirectoryCompany");
 
-                DirectoryPosts = new ObservableCollection<DirectoryPost>(_bc.GetDirectoryPosts(SelectedDirectoryCompany));
-            }
-        }
-
-        public string ValidateSelectedDirectoryCompany
-        {
-            get
-            {
-                return Validations.ValidateObject(SelectedDirectoryCompany, "Компания");
+                DirectoryPosts = new ObservableCollection<DirectoryPost>(BC.GetDirectoryPosts(SelectedDirectoryCompany));
             }
         }
 
@@ -80,6 +72,8 @@ namespace AIS_Enterprise.ViewModels
         }
 
         private DirectoryPost _selectedDirectoryPost;
+
+        [Required]
         public DirectoryPost SelectedDirectoryPost
         {
             get
@@ -90,15 +84,6 @@ namespace AIS_Enterprise.ViewModels
             {
                 _selectedDirectoryPost = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ValidateSelectedDirectoryPost");
-            }
-        }
-
-        public string ValidateSelectedDirectoryPost
-        {
-            get
-            {
-                return Validations.ValidateObject(SelectedDirectoryPost, "Должность");
             }
         }
 
@@ -124,7 +109,12 @@ namespace AIS_Enterprise.ViewModels
         #endregion
 
 
+        #region CurrentCompanyAndPost
+
         public CurrentCompanyAndPost CurrentCompanyAndPost { get; set; }
+
+        #endregion
+
 
         #region Commands
 
@@ -146,30 +136,9 @@ namespace AIS_Enterprise.ViewModels
             }
         }
 
-
-
         private bool CanAdding(object parameter)
         {
             return true;
-        }
-
-        #endregion
-
-
-        #region Validation
-
-        protected override string OnValidate(string propertyName)
-        {
-            switch (propertyName)
-            {
-                case "SelectedDirectoryCompany":
-                    return ValidateSelectedDirectoryCompany;
-                case "SelectedDirectoryPost":
-                    return ValidateSelectedDirectoryPost;
-
-                default:
-                    throw new InvalidOperationException();
-            }
         }
 
         #endregion

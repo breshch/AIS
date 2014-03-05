@@ -6,7 +6,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterOwner"
-        Title="CurrentWorkerCompanyAndPostView" Height="300" Width="300">
+        Title="Добавление компании и должности" Height="210" Width="400">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -14,35 +14,30 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Window.Resources>
-        <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
-    </Window.Resources>
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-        </Grid.ColumnDefinitions>
+    <Grid Margin="30, 20">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Компания"/>
-        <ComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding DirectoryCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock Grid.Column="1" Grid.Row="1"  Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateSelectedDirectoryCompany}" Visibility="{Binding ValidateSelectedDirectoryCompany, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Должность"/>
-        <ComboBox Grid.Column="0" Grid.Row="3" ItemsSource="{Binding DirectoryPosts}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryPost, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock Grid.Column="1" Grid.Row="3" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateSelectedDirectoryPost}" Visibility="{Binding ValidateSelectedDirectoryPost, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Компания"/>
+            <ComboBox ItemsSource="{Binding DirectoryCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
 
-        <TextBlock Grid.Column="0" Grid.Row="4" Text="Дата приёма на должность"/>
-        <DatePicker Grid.Column="0" Grid.Row="5" SelectedDate="{Binding SelectedPostChangeDate}"/>
-        <Button Grid.Column="0" Grid.Row="6" Content="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=CompanyAndPostWindow}"/>
+        <StackPanel Grid.Row="1" Margin="0, 5, 0, 0">
+            <TextBlock Text="Должность"/>
+            <ComboBox ItemsSource="{Binding DirectoryPosts}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryPost, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="0, 5, 0, 0">
+            <TextBlock Text="Дата приёма на должность"/>
+            <DatePicker SelectedDate="{Binding SelectedPostChangeDate}"/>
+        </StackPanel>
+
+        <Button Grid.Row="3" Margin="0, 15, 0, 0" Content="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=CompanyAndPostWindow}"/>
     </Grid>
 </Window>
