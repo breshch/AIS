@@ -13,7 +13,6 @@
     </i:Interaction.Triggers>
 
     <Window.Resources>
-        <valueConverters:ErrorToVisibilityValueConverter x:Key="errorToVisibilityValueConverter"/>
         <valueConverters:GenderToBoolValueConverter x:Key="genderToBoolValueConverter"/>
 
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
@@ -63,15 +62,12 @@
 
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Фамилия" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding DirectoryWorkerLastName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerLastName}" Visibility="{Binding ValidateDirectoryWorkerLastName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Имя" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding DirectoryWorkerFirstName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerFirstName}" Visibility="{Binding ValidateDirectoryWorkerFirstName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="4" Text="Отчество" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding DirectoryWorkerMidName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="5" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerMidName}" Visibility="{Binding ValidateDirectoryWorkerMidName, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <Grid Grid.Row="6">
 
@@ -103,15 +99,12 @@
 
                 <TextBlock Grid.Column="0" Grid.Row="10" Text="Адрес проживания" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="11" Height="60" Text="{Binding DirectoryWorkerAddress, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="11" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerAddress}" Visibility="{Binding ValidateDirectoryWorkerAddress, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="12" Text="Мобильный телефон" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="13"  Text="{Binding DirectoryWorkerCellPhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="13" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerCellPhone}" Visibility="{Binding ValidateDirectoryWorkerCellPhone, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="14" Text="Домашний телефон" Margin="10, 10, 0, 0"/>
                 <TextBox Grid.Column="0" Grid.Row="15" Text="{Binding DirectoryWorkerHomePhone, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="10, 10, 0, 0"/>
-                <TextBlock Grid.Column="1" Grid.Row="15" Text="!" Margin="5, 0, 0, 0" ToolTip="{Binding ValidateDirectoryWorkerHomePhone}" Visibility="{Binding ValidateDirectoryWorkerHomePhone, Converter={StaticResource errorToVisibilityValueConverter}}" FontWeight="Bold" Foreground="Red"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="16" Text="Дата принятия на работу" Margin="10, 10, 0, 10"/>
                 <DatePicker Grid.Column="0" Grid.Row="17" SelectedDate="{Binding SelectedDirectoryWorkerStartDate, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
