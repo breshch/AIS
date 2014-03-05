@@ -6,7 +6,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterOwner"
-        Title="Добавление компании и должности" Height="210" Width="400">
+        Title="Добавление компании и должности" Height="246" Width="400">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
