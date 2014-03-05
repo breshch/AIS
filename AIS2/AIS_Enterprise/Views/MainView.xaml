@@ -5,6 +5,12 @@
         WindowStartupLocation="CenterScreen"
         Title="Главная форма" Height="350" Width="450">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ViewCloseCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid Margin="30, 20">
         <StackPanel>
             <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}"/>
