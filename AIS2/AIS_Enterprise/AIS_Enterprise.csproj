@@ -79,7 +79,10 @@
     <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryTypeOfPostViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerListViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerSetFireDateViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
@@ -93,8 +96,17 @@
     <Compile Include="Views\Directories\DirectoryTypeOfPostView.xaml.cs">
       <DependentUpon>DirectoryTypeOfPostView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Directories\DirectoryWorkerView.xaml.cs">
-      <DependentUpon>DirectoryWorkerView.xaml</DependentUpon>
+    <Compile Include="Views\Directories\DirectoryWorkerListView.xaml.cs">
+      <DependentUpon>DirectoryWorkerListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddWorkerView.xaml.cs">
+      <DependentUpon>DirectoryAddWorkerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditWorkerView.xaml.cs">
+      <DependentUpon>DirectoryEditWorkerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryWorkerSetFireDateView.xaml.cs">
+      <DependentUpon>DirectoryWorkerSetFireDateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -123,9 +135,21 @@
     <Compile Include="Models\BusinessContext.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Helpers\ViewModel.cs" />
-    <Page Include="Views\Directories\DirectoryWorkerView.xaml">
+    <Page Include="Views\Directories\DirectoryWorkerListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddWorkerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditWorkerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryWorkerSetFireDateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>

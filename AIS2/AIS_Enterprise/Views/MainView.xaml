@@ -16,7 +16,8 @@
             <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}"/>
             <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfPostViewCommand}"/>
             <Button Content="Должности" Margin="0, 3" Command="{Binding ShowDirectoryPostViewCommand}"/>
-            <Button Content="Рабы" Margin="0, 3" Command="{Binding ShowDirectoryWorkerViewCommand}"/>
+            <Button Content="Добавление Рабов" Margin="0, 3" Command="{Binding ShowDirectoryAddWorkerViewCommand}"/>
+            <Button Content="Список Рабов" Margin="0, 3" Command="{Binding ShowDirectoryWorkerListViewCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

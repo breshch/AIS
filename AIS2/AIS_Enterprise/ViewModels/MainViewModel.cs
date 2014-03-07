@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise.Helpers;
+using AIS_Enterprise.ViewModels.Directories;
 using AIS_Enterprise.Views.Directories;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,16 @@ namespace AIS_Enterprise.ViewModels
         public RelayCommand ShowDirectoryCompanyViewCommand { get; set; }
         public RelayCommand ShowDirectoryTypeOfPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
-        public RelayCommand ShowDirectoryWorkerViewCommand { get; set; }
+        public RelayCommand ShowDirectoryAddWorkerViewCommand { get; set; }
+        public RelayCommand ShowDirectoryWorkerListViewCommand { get; set; }
 
         public MainViewModel() : base()
         {
             ShowDirectoryCompanyViewCommand = new RelayCommand(ShowDirectoryCompanyView);
             ShowDirectoryTypeOfPostViewCommand = new RelayCommand(ShowDirectoryTypeOfPostView);
             ShowDirectoryPostViewCommand = new RelayCommand(ShowDirectoryPostView);
-            ShowDirectoryWorkerViewCommand = new RelayCommand(ShowDirectoryWorkerView);
+            ShowDirectoryAddWorkerViewCommand = new RelayCommand(ShowDirectoryAddWorkerView);
+            ShowDirectoryWorkerListViewCommand = new RelayCommand(ShowDirectoryWorkerListView);
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)
@@ -53,14 +56,24 @@ namespace AIS_Enterprise.ViewModels
             directoryCompanyView.ShowDialog();
         }
 
-        private void ShowDirectoryWorkerView(object parameter)
+        private void ShowDirectoryAddWorkerView(object parameter)
         {
-            var directoryWorkerViewModel = new DirectoryWorkerViewModel();
-            var directoryWorkerView = new DirectoryWorkerView();
+            var directoryWorkerViewModel = new DirectoryAddWorkerViewModel();
+            var directoryWorkerView = new DirectoryAddWorkerView();
 
             directoryWorkerView.Owner = App.Current.MainWindow;
             directoryWorkerView.DataContext = directoryWorkerViewModel;
             directoryWorkerView.ShowDialog();
+        }
+
+        private void ShowDirectoryWorkerListView(object parameter)
+        {
+            var directoryWorkerListViewModel = new DirectoryWorkerListViewModel();
+            var directoryWorkerListView = new DirectoryWorkerListView();
+
+            directoryWorkerListView.Owner = App.Current.MainWindow;
+            directoryWorkerListView.DataContext = directoryWorkerListViewModel;
+            directoryWorkerListView.ShowDialog();
         }
     }
 }

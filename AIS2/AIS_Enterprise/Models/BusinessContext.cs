@@ -126,9 +126,9 @@ namespace AIS_Enterprise.Models
         {
             var directoryPost = new DirectoryPost
             {
-                Name =  name,
+                Name = name,
                 DirectoryTypeOfPost = typeOfPost,
-                DirectoryCompany  = company,
+                DirectoryCompany = company,
                 Date = date,
                 UserWorkerSalary = double.Parse(userWorkerSalary),
                 UserWorkerHalfSalary = double.Parse(userWorkerHalfSalary)
@@ -137,7 +137,7 @@ namespace AIS_Enterprise.Models
             _dc.DirectoryPosts.Add(directoryPost);
             _dc.SaveChanges();
 
-            return directoryPost;  
+            return directoryPost;
         }
 
         public DirectoryPost RemoveDirectoryPost(DirectoryPost post)
@@ -176,6 +176,38 @@ namespace AIS_Enterprise.Models
             return worker;
         }
 
+        public IQueryable<DirectoryWorker> GetDirectoryWorkers()
+        {
+            return _dc.DirectoryWorkers;
+        }
+
+        public DirectoryWorker GetDirectoryWorker(int workerId)
+        {
+            return _dc.DirectoryWorkers.Find(workerId);
+        }
+
+        public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
+           DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts)
+        {
+            var directoryWorker = GetDirectoryWorker(id);
+
+            directoryWorker.LastName = lastName;
+            directoryWorker.FirstName = firstName;
+            directoryWorker.MidName = midName;
+            directoryWorker.Gender = gender;
+            directoryWorker.BirthDay = birthDay;
+            directoryWorker.Address = address;
+            directoryWorker.HomePhone = homePhone;
+            directoryWorker.CellPhone = cellPhone;
+            directoryWorker.StartDate = startDate;
+            directoryWorker.FireDate = fireDate;
+            directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = null, DirectoryPostId = c.DirectoryPost.Id }));
+
+            _dc.SaveChanges();
+           
+            return directoryWorker;
+        
+        }
 
         #endregion
     }
