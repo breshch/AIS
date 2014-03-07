@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace AIS_Enterprise.Helpers.ValueConverters
+namespace AIS_Enterprise_Global.Helpers.ValueConverters
 {
     public class GenderToBoolValueConverter : IValueConverter
     {

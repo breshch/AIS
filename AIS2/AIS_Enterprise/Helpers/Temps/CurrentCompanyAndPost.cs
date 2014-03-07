@@ -1,11 +1,11 @@
-﻿using AIS_Enterprise.Models.Directories;
+﻿using AIS_Enterprise_Global.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.Helpers.Temps
+namespace AIS_Enterprise_Global.Helpers.Temps
 {
     public class CurrentCompanyAndPost
     {

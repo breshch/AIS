@@ -1,13 +1,13 @@
-﻿using AIS_Enterprise.Helpers;
-using AIS_Enterprise.ViewModels.Directories;
-using AIS_Enterprise.Views.Directories;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.ViewModels.Directories;
+using AIS_Enterprise_Global.Views.Directories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.ViewModels
+namespace AIS_Enterprise_Global.ViewModels
 {
     public class MainViewModel : ViewModel
     {
@@ -31,7 +31,6 @@ namespace AIS_Enterprise.ViewModels
             var directoryTypeOfPostViewModel = new DirectoryTypeOfPostViewModel();
             var directoryTypeOfPostView = new DirectoryTypeOfPostView();
 
-            directoryTypeOfPostView.Owner = App.Current.MainWindow;
             directoryTypeOfPostView.DataContext = directoryTypeOfPostViewModel;
             directoryTypeOfPostView.ShowDialog();
         }
@@ -41,7 +40,6 @@ namespace AIS_Enterprise.ViewModels
             var directoryPostViewModel = new DirectoryPostViewModel();
             var directoryPostView = new DirectoryPostView();
 
-            directoryPostView.Owner = App.Current.MainWindow;
             directoryPostView.DataContext = directoryPostViewModel;
             directoryPostView.ShowDialog();
         }
@@ -51,7 +49,6 @@ namespace AIS_Enterprise.ViewModels
             var directoryCompanyViewModel = new DirectoryCompanyViewModel();
             var directoryCompanyView = new DirectoryCompanyView();
 
-            directoryCompanyView.Owner = App.Current.MainWindow;
             directoryCompanyView.DataContext = directoryCompanyViewModel;
             directoryCompanyView.ShowDialog();
         }
@@ -61,7 +58,6 @@ namespace AIS_Enterprise.ViewModels
             var directoryWorkerViewModel = new DirectoryAddWorkerViewModel();
             var directoryWorkerView = new DirectoryAddWorkerView();
 
-            directoryWorkerView.Owner = App.Current.MainWindow;
             directoryWorkerView.DataContext = directoryWorkerViewModel;
             directoryWorkerView.ShowDialog();
         }
@@ -71,7 +67,6 @@ namespace AIS_Enterprise.ViewModels
             var directoryWorkerListViewModel = new DirectoryWorkerListViewModel();
             var directoryWorkerListView = new DirectoryWorkerListView();
 
-            directoryWorkerListView.Owner = App.Current.MainWindow;
             directoryWorkerListView.DataContext = directoryWorkerListViewModel;
             directoryWorkerListView.ShowDialog();
         }

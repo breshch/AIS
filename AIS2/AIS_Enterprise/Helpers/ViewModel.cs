@@ -1,4 +1,4 @@
-﻿using AIS_Enterprise.Models;
+﻿using AIS_Enterprise_Global.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.Helpers
+namespace AIS_Enterprise_Global.Helpers
 {
     public class ViewModel : INotifyPropertyChanged, IDataErrorInfo
     {

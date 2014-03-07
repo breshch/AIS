@@ -1,8 +1,8 @@
-﻿using AIS_Enterprise.Helpers;
-using AIS_Enterprise.Helpers.Attributes;
-using AIS_Enterprise.Helpers.Temps;
-using AIS_Enterprise.Models;
-using AIS_Enterprise.Models.Directories;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
+using AIS_Enterprise_Global.Helpers.Temps;
+using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Global.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS_Enterprise.ViewModels
+namespace AIS_Enterprise_Global.ViewModels
 {
     public class CurrentCompanyAndPostViewModel : ViewModel
     {

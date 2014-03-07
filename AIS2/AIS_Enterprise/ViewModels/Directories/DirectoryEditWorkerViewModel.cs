@@ -1,11 +1,11 @@
-﻿using AIS_Enterprise.Helpers;
-using AIS_Enterprise.Helpers.Temps;
-using AIS_Enterprise.Models;
-using AIS_Enterprise.Models.Currents;
-using AIS_Enterprise.Models.Directories;
-using AIS_Enterprise.ViewModels.Directories;
-using AIS_Enterprise.Views.Currents;
-using AIS_Enterprise.Views.Directories;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Temps;
+using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Global.Models.Currents;
+using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Global.ViewModels.Directories;
+using AIS_Enterprise_Global.Views.Currents;
+using AIS_Enterprise_Global.Views.Directories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS_Enterprise.ViewModels
+namespace AIS_Enterprise_Global.ViewModels
 {
     public class DirectoryEditWorkerViewModel : ViewModel
     {

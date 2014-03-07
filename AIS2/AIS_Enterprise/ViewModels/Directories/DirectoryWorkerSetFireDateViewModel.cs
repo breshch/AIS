@@ -1,4 +1,4 @@
-﻿using AIS_Enterprise.Helpers;
+﻿using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS_Enterprise.ViewModels.Directories
+namespace AIS_Enterprise_Global.ViewModels.Directories
 {
     public class DirectoryWorkerSetFireDateViewModel : ViewModel
     {

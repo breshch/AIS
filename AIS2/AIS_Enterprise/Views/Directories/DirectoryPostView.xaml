@@ -1,8 +1,8 @@
-﻿<Window x:Class="AIS_Enterprise.Views.Directories.DirectoryPostView"
+﻿<Window x:Class="AIS_Enterprise_Global.Views.Directories.DirectoryPostView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
+        xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterOwner"
         Title="Добавление должности" Height="500" Width="800">

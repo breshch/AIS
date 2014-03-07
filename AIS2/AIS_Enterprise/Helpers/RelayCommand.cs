@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace AIS_Enterprise.Helpers
+namespace AIS_Enterprise_Global.Helpers
 {
     public class RelayCommand : ICommand
     {

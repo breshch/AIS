@@ -1,6 +1,6 @@
-﻿using AIS_Enterprise.Helpers;
-using AIS_Enterprise.Models.Directories;
-using AIS_Enterprise.Views.Directories;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Global.Views.Directories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.ViewModels.Directories
+namespace AIS_Enterprise_Global.ViewModels.Directories
 {
     public class DirectoryWorkerListViewModel : ViewModel
     {

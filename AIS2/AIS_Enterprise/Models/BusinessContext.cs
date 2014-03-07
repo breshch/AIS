@@ -1,7 +1,7 @@
-﻿using AIS_Enterprise.Helpers;
-using AIS_Enterprise.Helpers.Temps;
-using AIS_Enterprise.Models.Currents;
-using AIS_Enterprise.Models.Directories;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Temps;
+using AIS_Enterprise_Global.Models.Currents;
+using AIS_Enterprise_Global.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.Models
+namespace AIS_Enterprise_Global.Models
 {
     public class BusinessContext : IDisposable
     {

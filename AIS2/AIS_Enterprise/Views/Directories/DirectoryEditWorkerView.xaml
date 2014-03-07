@@ -1,9 +1,9 @@
-﻿<Window x:Class="AIS_Enterprise.Views.Directories.DirectoryEditWorkerView"
+﻿<Window x:Class="AIS_Enterprise_Global.Views.Directories.DirectoryEditWorkerView"
         x:Name="EditDirectoryWorkerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
+        xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         WindowStartupLocation="CenterOwner"
         Title="Редактирование сотрудника" Height="624" Width="540">
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.Models.Directories
+namespace AIS_Enterprise_Global.Models.Directories
 {
     public class DirectoryCompany
     {

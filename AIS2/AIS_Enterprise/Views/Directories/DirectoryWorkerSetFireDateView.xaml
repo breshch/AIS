@@ -1,9 +1,9 @@
-﻿<Window x:Class="AIS_Enterprise.Views.Directories.DirectoryWorkerSetFireDateView"
+﻿<Window x:Class="AIS_Enterprise_Global.Views.Directories.DirectoryWorkerSetFireDateView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         x:Name="DirectoryWorkerSetFireDateWindow"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:valueConverters="clr-namespace:AIS_Enterprise.Helpers.ValueConverters"
+        xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterOwner"
         Title="DirectoryWorkerSetFireDateView" Height="138" Width="300">

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise.Views.Currents
+namespace AIS_Enterprise_Global.Views.Currents
 {
     /// <summary>
     /// Логика взаимодействия для CurrentWorkerCompanyAndPostView.xaml

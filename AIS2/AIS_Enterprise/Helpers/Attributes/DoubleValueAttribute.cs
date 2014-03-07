@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.Helpers.Attributes
+namespace AIS_Enterprise_Global.Helpers.Attributes
 {
     public class DoubleValueAttribute : ValidationAttribute
     {

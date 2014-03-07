@@ -1,4 +1,4 @@
-﻿using AIS_Enterprise.ViewModels;
+﻿using AIS_Enterprise_Global.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise.Views
+namespace AIS_Enterprise_Global.Views
 {
     /// <summary>
     /// Логика взаимодействия для MainView.xaml

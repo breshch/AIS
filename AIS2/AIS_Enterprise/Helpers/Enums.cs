@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.Helpers
+namespace AIS_Enterprise_Global.Helpers
 {
     public enum Gender
     {

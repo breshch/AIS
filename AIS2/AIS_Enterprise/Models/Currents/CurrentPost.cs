@@ -1,11 +1,11 @@
-﻿using AIS_Enterprise.Models.Directories;
+﻿using AIS_Enterprise_Global.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise.Models.Currents
+namespace AIS_Enterprise_Global.Models.Currents
 {
     public class CurrentPost
     {

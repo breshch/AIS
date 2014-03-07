@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise.Views.Directories
+namespace AIS_Enterprise_Global.Views.Directories
 {
     /// <summary>
     /// Логика взаимодействия для DirectoryPostView.xaml
