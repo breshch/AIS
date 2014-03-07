@@ -3,6 +3,7 @@ using AIS_Enterprise.Models.Currents;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,33 @@ namespace AIS_Enterprise.Models.Directories
         //public Docs { get; set; }
 
         //public DateTime? TimeStamp { get; set; }
+
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return LastName + " " + FirstName + " " + MidName;
+            }
+        }
+
+        [NotMapped]
+        public DirectoryPost CurrentDirectoryPost
+        {
+            get
+            {
+                return CurrentCompaniesAndPosts.OrderByDescending(p => p.ChangeDate).First().DirectoryPost;
+            }
+        }
+
+        [NotMapped]
+        public string Status
+        {
+            get 
+            {
+                return FireDate == null ? "Работает" : "Уволен: " + FireDate.Value.ToShortDateString();  
+            }
+        }
 
         public DirectoryWorker()
         {

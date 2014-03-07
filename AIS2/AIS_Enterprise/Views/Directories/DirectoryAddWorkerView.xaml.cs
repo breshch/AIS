@@ -17,9 +17,9 @@ namespace AIS_Enterprise.Views.Directories
     /// <summary>
     /// Логика взаимодействия для WorkerView.xaml
     /// </summary>
-    public partial class DirectoryWorkerView : Window
+    public partial class DirectoryAddWorkerView : Window
     {
-        public DirectoryWorkerView()
+        public DirectoryAddWorkerView()
         {
             InitializeComponent();
         }

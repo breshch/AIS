@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise.ViewModels
 {
-    public class DirectoryWorkerViewModel : ViewModel
+    public class DirectoryAddWorkerViewModel : ViewModel
     {
         #region Base
 
-        public DirectoryWorkerViewModel() : base()
+        public DirectoryAddWorkerViewModel() : base()
         {
             DirectoryWorkerGender = Gender.Male;
             
