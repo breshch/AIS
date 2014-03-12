@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_AV.Views;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
 using AIS_Enterprise_Global.Views.Directories;
 using System;
@@ -7,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise_Global.ViewModels
+namespace AIS_Enterprise_AV.ViewModels
 {
     public class MainViewModel : ViewModel
     {
@@ -16,6 +18,7 @@ namespace AIS_Enterprise_Global.ViewModels
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryAddWorkerViewCommand { get; set; }
         public RelayCommand ShowDirectoryWorkerListViewCommand { get; set; }
+        public RelayCommand ShowMonthTimeSheetViewCommand { get; set; }
 
         public MainViewModel() : base()
         {
@@ -24,6 +27,9 @@ namespace AIS_Enterprise_Global.ViewModels
             ShowDirectoryPostViewCommand = new RelayCommand(ShowDirectoryPostView);
             ShowDirectoryAddWorkerViewCommand = new RelayCommand(ShowDirectoryAddWorkerView);
             ShowDirectoryWorkerListViewCommand = new RelayCommand(ShowDirectoryWorkerListView);
+            ShowMonthTimeSheetViewCommand = new RelayCommand(ShowMonthTimeSheetView);
+
+            //HelperDefaultDataBase.SetDataBase();
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)
@@ -69,6 +75,15 @@ namespace AIS_Enterprise_Global.ViewModels
 
             directoryWorkerListView.DataContext = directoryWorkerListViewModel;
             directoryWorkerListView.ShowDialog();
+        }
+
+        private void ShowMonthTimeSheetView(object parameter)
+        {
+            var monthTimeSheetViewModel = new MonthTimeSheetViewModel();
+            var monthTimeSheetView = new MonthTimeSheetView();
+
+            monthTimeSheetView.DataContext = monthTimeSheetViewModel;
+            monthTimeSheetView.ShowDialog();
         }
     }
 }
