@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Global.Models;
+﻿using AIS_Enterprise_Global.Helpers.Attributes;
+using AIS_Enterprise_Global.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers
 {
+    [NotifyPropertyChanged]
     public class ViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         protected BusinessContext BC = new BusinessContext();
