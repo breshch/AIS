@@ -4,6 +4,7 @@ using AIS_Enterprise_Global.Models.Currents;
 using AIS_Enterprise_Global.Models.Directories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -181,6 +182,14 @@ namespace AIS_Enterprise_Global.Models
             return _dc.DirectoryWorkers;
         }
 
+        public IQueryable<DirectoryWorker> GetDirectoryWorkers(int year, int month)
+        {
+            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            var firstDateInMonth = new DateTime(year, month, 1);
+            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 && 
+                w.FireDate == null || DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0);
+        }
+
         public DirectoryWorker GetDirectoryWorker(int workerId)
         {
             return _dc.DirectoryWorkers.Find(workerId);
@@ -207,6 +216,14 @@ namespace AIS_Enterprise_Global.Models
            
             return directoryWorker;
         
+        }
+
+        public IEnumerable<CurrentPost> GetCurrentPosts(DirectoryWorker worker, int year, int month)
+        {
+            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            var firstDateInMonth = new DateTime(year, month, 1);
+
+            return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null || p.FireDate.Value >= firstDateInMonth); 
         }
 
         #endregion

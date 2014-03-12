@@ -1,5 +1,6 @@
 ﻿using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Models.Currents;
+using AIS_Enterprise_Global.Models.Infos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -39,6 +40,11 @@ namespace AIS_Enterprise_Global.Models.Directories
         public DateTime? FireDate { get; set; }
 
         public virtual ICollection<CurrentPost> CurrentCompaniesAndPosts { get; set; }
+
+        public virtual ICollection<InfoDate> InfoDates { get; set; }
+        
+        public virtual ICollection<InfoMonth> InfoMonthes { get; set; }
+ 
         //public Photo { get; set; }
         //public Docs { get; set; }
 

@@ -21,6 +21,8 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<DirectoryPost> DirectoryPosts { get; set; }
         public DbSet<DirectoryWorker> DirectoryWorkers { get; set; }
 
+        public DbSet<DirectoryHoliday> DirectoryHolidays { get; set; }
+
         public DbSet<CurrentPost> CurrentPosts { get; set; }
     }
 }
