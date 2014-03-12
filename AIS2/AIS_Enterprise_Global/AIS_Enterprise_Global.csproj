@@ -64,16 +64,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Attributes\DoubleValueAttribute.cs" />
+    <Compile Include="Helpers\Attributes\NotifyPropertyChangedAttribute.cs" />
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
     <Compile Include="Helpers\Enums.cs" />
+    <Compile Include="Helpers\HelperCalendar.cs" />
+    <Compile Include="Helpers\HelperDefaultDataBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
+    <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
     <Compile Include="Helpers\Validations.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToBoolValueConverter.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
+    <Compile Include="Models\Directories\DirectoryHoliday.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
+    <Compile Include="Models\Infos\InfoDate.cs" />
+    <Compile Include="Models\Infos\InfoMonth.cs" />
+    <Compile Include="Models\Infos\InfoPanalty.cs" />
     <Compile Include="ViewModels\Currents\CurrentCompanyAndPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
@@ -82,7 +90,6 @@
     <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryWorkerSetFireDateViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
     </Compile>
@@ -106,9 +113,6 @@
     </Compile>
     <Compile Include="Views\Directories\DirectoryWorkerSetFireDateView.xaml.cs">
       <DependentUpon>DirectoryWorkerSetFireDateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
       <SubType>Designer</SubType>
@@ -146,10 +150,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -178,6 +178,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\KindOfMagic.1.2.3\tools\KindOfMagic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
