@@ -1,6 +1,7 @@
 ﻿using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Currents;
 using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Global.Models.Infos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,10 +29,10 @@ namespace AIS_Enterprise_Global.Helpers
 
                 var company = new DirectoryCompany { Name = "АВ" };
 
-                dc.DirectoryCompanies.Add(company);                
+                dc.DirectoryCompanies.Add(company);
                 dc.SaveChanges();
 
-                var typeOfPost = new DirectoryTypeOfPost { Name = "Склад"};
+                var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
 
                 dc.DirectoryTypeOfPosts.Add(typeOfPost);
                 dc.SaveChanges();
@@ -62,7 +63,7 @@ namespace AIS_Enterprise_Global.Helpers
                 dc.SaveChanges();
 
 
-                var slave = new DirectoryWorker 
+                var slave = new DirectoryWorker
                 {
                     LastName = "Пупкин",
                     FirstName = "Василий",
@@ -84,6 +85,23 @@ namespace AIS_Enterprise_Global.Helpers
                     })
                 };
 
+                for (DateTime date = slave.StartDate; date <= DateTime.Now; date = date.AddDays(1))
+                {
+                    var infoDate = new InfoDate();
+                    infoDate.Date = date;
+
+
+                    Random rand = new Random();
+                    infoDate.DescriptionDay = (DescriptionDay)GetRandomNumber(0, 6);
+
+                    if (infoDate.DescriptionDay == DescriptionDay.Был)
+                    {
+                        infoDate.CountHours = GetRandomNumber(1, 15);
+                    }
+
+                    slave.InfoDates.Add(infoDate);
+                }
+
                 dc.DirectoryWorkers.Add(slave);
 
                 slave = new DirectoryWorker
@@ -103,20 +121,52 @@ namespace AIS_Enterprise_Global.Helpers
                         new CurrentPost
                         {
                             DirectoryPost = dc.DirectoryPosts.First(),
-                            ChangeDate = DateTime.Now.AddDays(-10),
-                            FireDate = DateTime.Now.AddDays(-6)
+                            ChangeDate = DateTime.Now.AddDays(-12),
+                            FireDate = DateTime.Now.AddDays(-8)
                         },
-
                         new CurrentPost
                         {
                             DirectoryPost = dc.DirectoryPosts.First(p => p.Name == "Карщик"),
-                            ChangeDate = DateTime.Now.AddDays(-5)
+                            ChangeDate = DateTime.Now.AddDays(-7),
+                            FireDate = DateTime.Now.AddDays(-5)
+                        },
+                        new CurrentPost
+                        {
+                            DirectoryPost = dc.DirectoryPosts.First(),
+                            ChangeDate = DateTime.Now.AddDays(-4)
                         }
                     })
                 };
 
+                for (DateTime date = slave.StartDate; date <= DateTime.Now; date = date.AddDays(1))
+                {
+                    var infoDate = new InfoDate();
+                    infoDate.Date = date;
+                    
+
+                    Random rand = new Random();
+                    infoDate.DescriptionDay = (DescriptionDay)GetRandomNumber(0, 6);
+
+                    if (infoDate.DescriptionDay == DescriptionDay.Был)
+                    {
+                        infoDate.CountHours = GetRandomNumber(1, 15);
+                    }
+
+                    slave.InfoDates.Add(infoDate);
+                }
+
                 dc.DirectoryWorkers.Add(slave);
                 dc.SaveChanges();
+            }
+        }
+
+        private static readonly Random getrandom = new Random();
+        private static readonly object syncLock = new object();
+        public static int GetRandomNumber(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize
+                return getrandom.Next(min, max);
             }
         }
     }

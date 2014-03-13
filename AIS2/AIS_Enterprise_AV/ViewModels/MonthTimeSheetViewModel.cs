@@ -41,33 +41,90 @@ namespace AIS_Enterprise_AV.ViewModels
                 var currentPosts = BC.GetCurrentPosts(worker, SelectedYear, SelectedMonth);
 
                 bool isFirst = false;
+
                 foreach (var currentPost in currentPosts)
                 {
-                    var monthTimeSheetWorker = new MonthTimeSheetWorker();
-
-                    if (!isFirst)
+                    var monthTimeSheetWorker = MonthTimeSheetWorkers.FirstOrDefault(m => m.WorkerId == worker.Id && m.DirectoryPostId == currentPost.DirectoryPostId);
+                    
+                    if (monthTimeSheetWorker == null)
                     {
-                        monthTimeSheetWorker.FullName = worker.FullName;
-                        isFirst = true;
-                    }
+                        monthTimeSheetWorker = new MonthTimeSheetWorker();
+                        MonthTimeSheetWorkers.Add(monthTimeSheetWorker);
 
-                    monthTimeSheetWorker.PostName = currentPost.DirectoryPost.Name;
-                    monthTimeSheetWorker.SalaryInHour = currentPost.DirectoryPost.UserWorkerSalary / countWorkDaysInMonth / 8;
+                        monthTimeSheetWorker.WorkerId = worker.Id;
 
-
-
-                    for (DateTime date = firstDateInMonth;  date <= lastDateInMonth; date = date.AddDays(1))
-                    {
-                        string hour = null;
-                        if (date.Date >= currentPost.ChangeDate.Date && (currentPost.FireDate == null || currentPost.FireDate != null && currentPost.FireDate.Value.Date >= date.Date))
+                        if (!isFirst)
                         {
-                            hour = 8.ToString();
+                            monthTimeSheetWorker.FullName = worker.FullName;
+                            isFirst = true;
                         }
 
-                        monthTimeSheetWorker.Hours.Add(hour);
+                        monthTimeSheetWorker.DirectoryPostId = currentPost.DirectoryPostId;
+                        monthTimeSheetWorker.PostName = currentPost.DirectoryPost.Name;
+                        monthTimeSheetWorker.SalaryInHour = currentPost.DirectoryPost.UserWorkerSalary / countWorkDaysInMonth / 8;
+                        
+                        monthTimeSheetWorker.OverTime = 0;
                     }
 
-                    MonthTimeSheetWorkers.Add(monthTimeSheetWorker);
+                    int indexHour = 0;
+                    for (DateTime date = firstDateInMonth; date <= lastDateInMonth && date <= DateTime.Now; date = date.AddDays(1))
+                    {
+                        if (date.Date >= currentPost.ChangeDate.Date && (currentPost.FireDate == null || currentPost.FireDate != null && currentPost.FireDate.Value.Date >= date.Date))
+                        {
+                            var day = worker.InfoDates.FirstOrDefault(d => d.Date.Date == date.Date);
+
+                            if (day != null)
+                            {
+                                string hour = null;
+
+                                switch (day.DescriptionDay)
+                                {
+                                    case DescriptionDay.Был:
+                                        hour = day.CountHours.ToString();
+                                        monthTimeSheetWorker.OverTime += day.CountHours.Value > 8 ? day.CountHours.Value - 8 : 0;
+                                        break;
+                                    case DescriptionDay.Б:
+                                        if (monthTimeSheetWorker.SickDays < 5)
+                                        {
+                                            monthTimeSheetWorker.SickDays++;
+                                        }
+                                        else
+                                        {
+                                            monthTimeSheetWorker.MissDays++;
+                                        }
+                                        break;
+                                    case DescriptionDay.О:
+                                        monthTimeSheetWorker.VocationDays++;
+                                        break;
+                                    case DescriptionDay.ДО:
+                                        break;
+                                    case DescriptionDay.П:
+                                        monthTimeSheetWorker.MissDays++;
+                                        break;
+                                    case DescriptionDay.С:
+                                        monthTimeSheetWorker.MissDays++;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                if (day.DescriptionDay == DescriptionDay.Был)
+                                {
+                                     
+                                }
+                                else
+                                {
+                                    hour = day.DescriptionDay.ToString();
+                                }
+
+                                monthTimeSheetWorker.Hours[indexHour] = hour;
+
+                               
+                            }
+                        }
+
+                        indexHour++;
+                    }
                 }
             }
         }

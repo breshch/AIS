@@ -80,6 +80,8 @@ namespace AIS_Enterprise_Global.Models.Directories
         public DirectoryWorker()
         {
             CurrentCompaniesAndPosts = new List<CurrentPost>();
+            InfoDates = new List<InfoDate>();
+            InfoMonthes = new List<InfoMonth>();
         }
     }
 }

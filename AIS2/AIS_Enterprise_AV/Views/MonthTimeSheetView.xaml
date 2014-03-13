@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterOwner"
-        Title="Месячный табель" Height="300" Width="300">
+        Title="Месячный табель" Height="300" Width="1800">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -12,29 +12,53 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Window.Resources>
-        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-        </Style>
-    </Window.Resources>
-
     
     <Grid Margin="30,20">
         <DataGrid ItemsSource="{Binding MonthTimeSheetWorkers}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" 
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="3">
+            
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="Должность" Binding="{Binding PostName}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="З/П час" Binding="{Binding SalaryInHour}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="250" />
+                <DataGridTextColumn Header="Должность" Binding="{Binding PostName}" Width="100" />
+                <DataGridTextColumn Header="З/П час" Binding="{Binding SalaryInHour}" Width="50" />
                 
-                <DataGridTextColumn Header="1 Пн" Binding="{Binding Hours[0]}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="2 Вт" Binding="{Binding Hours[1]}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="3 Ср" Binding="{Binding Hours[2]}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="4 Чт" Binding="{Binding Hours[3]}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="5 Пт" Binding="{Binding Hours[4]}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="6 Сб" Binding="{Binding Hours[5]}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="7 Вс" Binding="{Binding Hours[6]}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
-</Window>
+                <DataGridTextColumn Header="1 Пн" Binding="{Binding Hours[0]}" Width="30"/>
+                <DataGridTextColumn Header="2 Вт" Binding="{Binding Hours[1]}" Width="30"/>
+                <DataGridTextColumn Header="3 Ср" Binding="{Binding Hours[2]}" Width="30"/>
+                <DataGridTextColumn Header="4 Чт" Binding="{Binding Hours[3]}" Width="30"/>
+                <DataGridTextColumn Header="5 Пт" Binding="{Binding Hours[4]}" Width="30"/>
+                <DataGridTextColumn Header="6 Сб" Binding="{Binding Hours[5]}" Width="30"/>
+                <DataGridTextColumn Header="7 Вс" Binding="{Binding Hours[6]}" Width="30"/>
+                <DataGridTextColumn Header="8 Пн" Binding="{Binding Hours[7]}" Width="30"/>
+                <DataGridTextColumn Header="9 Вт" Binding="{Binding Hours[8]}" Width="30"/>
+                <DataGridTextColumn Header="10 Ср" Binding="{Binding Hours[9]}" Width="30"/>
+                <DataGridTextColumn Header="11 Чт" Binding="{Binding Hours[10]}" Width="30"/>
+                <DataGridTextColumn Header="12 Пт" Binding="{Binding Hours[11]}" Width="30"/>
+                <DataGridTextColumn Header="13 Сб" Binding="{Binding Hours[12]}" Width="30"/>
+                <DataGridTextColumn Header="14 Вс" Binding="{Binding Hours[13]}" Width="30"/>
+                <DataGridTextColumn Header="15 Пн" Binding="{Binding Hours[14]}" Width="30"/>
+                <DataGridTextColumn Header="16 Вт" Binding="{Binding Hours[15]}" Width="30"/>
+                <DataGridTextColumn Header="17 Ср" Binding="{Binding Hours[16]}" Width="30"/>
+                <DataGridTextColumn Header="18 Чт" Binding="{Binding Hours[17]}" Width="30"/>
+                <DataGridTextColumn Header="19 Пт" Binding="{Binding Hours[18]}" Width="30"/>
+                <DataGridTextColumn Header="20 Сб" Binding="{Binding Hours[19]}" Width="30"/>
+                <DataGridTextColumn Header="21 Вс" Binding="{Binding Hours[20]}" Width="30"/>
+                <DataGridTextColumn Header="22 Пн" Binding="{Binding Hours[21]}" Width="30"/>
+                <DataGridTextColumn Header="23 Вт" Binding="{Binding Hours[22]}" Width="30"/>
+                <DataGridTextColumn Header="24 Ср" Binding="{Binding Hours[23]}" Width="30"/>
+                <DataGridTextColumn Header="25 Чт" Binding="{Binding Hours[24]}" Width="30"/>
+                <DataGridTextColumn Header="26 Пт" Binding="{Binding Hours[25]}" Width="30"/>
+                <DataGridTextColumn Header="27 Сб" Binding="{Binding Hours[26]}" Width="30"/>
+                <DataGridTextColumn Header="28 Вс" Binding="{Binding Hours[27]}" Width="30"/>
+                <DataGridTextColumn Header="29 Пн" Binding="{Binding Hours[28]}" Width="30"/>
+                <DataGridTextColumn Header="30 Вт" Binding="{Binding Hours[29]}" Width="30"/>
+                <DataGridTextColumn Header="31 Ср" Binding="{Binding Hours[30]}" Width="30"/>
+
+                <DataGridTextColumn Header="Переработка" Binding="{Binding OverTime}" Width="50" />
+                <DataGridTextColumn Header="Отпускные" Binding="{Binding VocationDays}" Width="50" />
+                <DataGridTextColumn Header="Больничные" Binding="{Binding SickDays}" Width="50" />
+                <DataGridTextColumn Header="Прогулы" Binding="{Binding MissDays}" Width="50" />
+            </DataGrid.Columns>                
+        </DataGrid>                            
+    </Grid>                                    
+</Window>                                      

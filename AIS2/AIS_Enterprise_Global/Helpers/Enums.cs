@@ -12,12 +12,13 @@ namespace AIS_Enterprise_Global.Helpers
         Female
     }
 
-    public enum TypeOfMissingHours
+    public enum DescriptionDay
     {
-        Больничный,
-        Отпуск,
-        Дикретный_отпуск,
-        Прогул,
-        Отгул
+        Был,
+        Б,
+        О,
+        ДО,
+        П,
+        С
     }
 }

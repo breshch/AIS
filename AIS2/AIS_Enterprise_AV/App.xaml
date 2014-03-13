@@ -23,5 +23,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
     </Application.Resources>
 </Application>
