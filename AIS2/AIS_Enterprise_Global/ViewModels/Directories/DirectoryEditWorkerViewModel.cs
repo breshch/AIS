@@ -62,7 +62,10 @@ namespace AIS_Enterprise_Global.ViewModels
             DirectoryWorkerCellPhone = _selectedDirectoryWorker.CellPhone;
             DirectoryWorkerHomePhone = _selectedDirectoryWorker.HomePhone;
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
-            CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate}));
+            CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
+                Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate}));
+
+
         }
         
         #endregion
@@ -322,6 +325,8 @@ namespace AIS_Enterprise_Global.ViewModels
 
             if (currentCompanyAndPost != null)
             {
+                CurrentCompaniesAndPosts.Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+
                 CurrentCompaniesAndPosts.Add(currentCompanyAndPost);
             }
         }

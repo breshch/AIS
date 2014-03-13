@@ -284,6 +284,8 @@ namespace AIS_Enterprise_Global.ViewModels
 
             if (currentCompanyAndPost != null)
             {
+                CurrentCompaniesAndPosts.Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+
                 CurrentCompaniesAndPosts.Add(currentCompanyAndPost);
             }
         }

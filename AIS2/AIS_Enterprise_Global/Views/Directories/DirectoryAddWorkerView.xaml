@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         WindowStartupLocation="CenterOwner"
-        Title="Добавление сотрудника" Height="624" Width="540">
+        Title="Добавление сотрудника" Height="700" Width="550">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
