@@ -14,8 +14,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers
 {
-    [NotifyPropertyChanged]
-    public class ViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public class ViewModel : NotifyPropertyChangedBase, IDataErrorInfo
     {
         protected BusinessContext BC = new BusinessContext();
 
@@ -25,17 +24,6 @@ namespace AIS_Enterprise_Global.Helpers
         }
 
         public RelayCommand ViewCloseCommand { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            var handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
 
         public virtual void ViewClose(object parameter)
         {
