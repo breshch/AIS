@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         Title="Добавление должности" Height="500" Width="800">
 
     <i:Interaction.Triggers>

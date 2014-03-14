@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         Title="DirectoryWorkerSetFireDateView" Height="138" Width="300">
 
     <i:Interaction.Triggers>
