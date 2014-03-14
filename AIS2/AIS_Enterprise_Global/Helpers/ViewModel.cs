@@ -120,7 +120,7 @@ namespace AIS_Enterprise_Global.Helpers
                     displayName = attributeDisplayName.TypedValue.Value.ToString();
                 }
             }
-            else
+            else if (property.CustomAttributes.Any(a => a.AttributeType != typeof(NotifyAttribute) && a.AttributeType != typeof(StopNotifyAttribute)))
             {
                 Debug.WriteLine("У " + property.Name + " отсутствует атрибут Display");
             }
