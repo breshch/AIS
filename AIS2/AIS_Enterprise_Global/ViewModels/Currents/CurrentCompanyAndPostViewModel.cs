@@ -19,10 +19,11 @@ namespace AIS_Enterprise_Global.ViewModels
     {
         #region Base
 
-        public CurrentCompanyAndPostViewModel() : base()
+        public CurrentCompanyAndPostViewModel()
+            : base()
         {
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
-            
+
             AddCommand = new RelayCommand(Add, CanAdding);
 
             SelectedPostChangeDate = DateTime.Now;
@@ -31,12 +32,13 @@ namespace AIS_Enterprise_Global.ViewModels
         #endregion
 
 
-        #region DirectoryCompanies
+        #region Properties
 
         public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
 
         private DirectoryCompany _selectedDirectoryCompany;
 
+        [StopNotify]
         [RequireSelected]
         [Display(Name = "Компания")]
         public DirectoryCompany SelectedDirectoryCompany
@@ -54,66 +56,13 @@ namespace AIS_Enterprise_Global.ViewModels
             }
         }
 
-        #endregion
-
-
-        #region DirectoryPost
-
-        private ObservableCollection<DirectoryPost> _directoryPosts;
-
-        public ObservableCollection<DirectoryPost> DirectoryPosts 
-        {
-            get
-            {
-                return _directoryPosts;
-            }
-            set
-            {
-                _directoryPosts = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private DirectoryPost _selectedDirectoryPost;
+        public ObservableCollection<DirectoryPost> DirectoryPosts { get; set; }
 
         [RequireSelected]
         [Display(Name = "Должность")]
-        public DirectoryPost SelectedDirectoryPost
-        {
-            get
-            {
-                return _selectedDirectoryPost;
-            }
-            set
-            {
-                _selectedDirectoryPost = value;
-                OnPropertyChanged();
-            }
-        }
+        public DirectoryPost SelectedDirectoryPost { get; set; }
 
-        #endregion
-
-
-        #region SelectedPostChangeDate
-
-        private DateTime _selectedPostChangeDate;
-        public DateTime SelectedPostChangeDate
-        {
-            get 
-            {
-                return _selectedPostChangeDate;
-            }
-            set
-            {
-                _selectedPostChangeDate = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region CurrentCompanyAndPost
+        public DateTime SelectedPostChangeDate { get; set; }
 
         public CurrentCompanyAndPost CurrentCompanyAndPost { get; set; }
 
@@ -122,8 +71,8 @@ namespace AIS_Enterprise_Global.ViewModels
 
         #region Commands
 
-        public RelayCommand AddCommand{ get; set; }
-        
+        public RelayCommand AddCommand { get; set; }
+
         private void Add(object parameter)
         {
             CurrentCompanyAndPost = new CurrentCompanyAndPost
@@ -142,7 +91,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private bool CanAdding(object parameter)
         {
-            return true;
+            return IsValidateAllProperties();
         }
 
         #endregion

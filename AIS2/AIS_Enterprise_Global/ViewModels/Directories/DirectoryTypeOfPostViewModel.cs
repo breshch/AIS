@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using AIS_Enterprise_Global.Helpers.Attributes;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
@@ -17,7 +18,8 @@ namespace AIS_Enterprise_Global.ViewModels
     {
         #region Base
 
-        public DirectoryTypeOfPostViewModel() :  base()
+        public DirectoryTypeOfPostViewModel()
+            : base()
         {
             RefreshDirectoryTypeOfPosts();
 
@@ -38,58 +40,15 @@ namespace AIS_Enterprise_Global.ViewModels
         #endregion
 
 
-        #region DirectoryTypeOfPosts
+        #region Properties
 
-        private ObservableCollection<DirectoryTypeOfPost> _directoryTypeOfPosts;
-        public ObservableCollection<DirectoryTypeOfPost> DirectoryTypeOfPosts
-        {
-            get
-            {
-                return _directoryTypeOfPosts;
-            }
-            set
-            {
-                _directoryTypeOfPosts = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
 
-        private DirectoryTypeOfPost _selectedDirectoryTypeOfPost;
-
-        public DirectoryTypeOfPost SelectedDirectoryTypeOfPost
-        {
-            get
-            {
-                return _selectedDirectoryTypeOfPost;
-            }
-            set
-            {
-                _selectedDirectoryTypeOfPost = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryTypeOfPostName
-
-        private string _directoryTypeOfPostName;
+        public DirectoryTypeOfPost SelectedDirectoryTypeOfPost { get; set; }
 
         [Required]
         [Display(Name = "Вид должности")]
-        public string DirectoryTypeOfPostName
-        {
-            get
-            {
-                return _directoryTypeOfPostName;
-            }
-            set
-            {
-                _directoryTypeOfPostName = value;
-                OnPropertyChanged();
-            }
-        }
+        public string DirectoryTypeOfPostName { get; set; }
 
         #endregion
 
@@ -98,7 +57,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public RelayCommand AddCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
-        
+
         public void Add(object parameter)
         {
             BC.AddDirectoryTypeOfPost(DirectoryTypeOfPostName);
@@ -118,7 +77,7 @@ namespace AIS_Enterprise_Global.ViewModels
             BC.RemoveDirectoryTypeOfPost(SelectedDirectoryTypeOfPost);
 
             RefreshDirectoryTypeOfPosts();
-            
+
             if (DirectoryTypeOfPosts.Any())
             {
                 SelectedDirectoryTypeOfPost = DirectoryTypeOfPosts.Last();

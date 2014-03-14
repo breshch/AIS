@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Currents;
@@ -29,12 +30,10 @@ namespace AIS_Enterprise_Global.ViewModels
             _selectedDirectoryWorker = BC.GetDirectoryWorker(workerId);
             FillInputData();
 
-            
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
             RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost,CanRemovingCompanyAndPost);
             EditWorkerCommand = new RelayCommand(EditWorker, CanEditingWorker);
             FireWorkerCommand = new RelayCommand(FireWorker, CanEditingWorker);
-
         }
 
         private void ClearInputData()
@@ -64,237 +63,47 @@ namespace AIS_Enterprise_Global.ViewModels
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
                 Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate}));
-
-
         }
         
         #endregion
 
 
-        #region DirectoryWorkerLastName
-
-        private string _directoryWorkerLastName;
+        #region Properties
 
         [Required]
         [Display(Name = "Фамилия")]
-        public string DirectoryWorkerLastName
-        {
-            get
-            {
-                return _directoryWorkerLastName; 
-            }
-            set
-            {
-                _directoryWorkerLastName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryWorkerFirstName
-
-        private string _directoryWorkerFirstName;
+        public string DirectoryWorkerLastName { get; set; }
 
         [Required]
         [Display(Name = "Имя")]
-        public string DirectoryWorkerFirstName
-        {
-            get
-            {
-                return _directoryWorkerFirstName;
-            }
-            set
-            {
-                _directoryWorkerFirstName = value;
-                OnPropertyChanged();
-            }
-        }
+        public string DirectoryWorkerFirstName { get; set; }
 
-        #endregion
+        public string DirectoryWorkerMidName { get; set; }
 
+        public Gender DirectoryWorkerGender { get; set; }
 
-        #region DirectoryWorkerMidName
-
-        private string _directoryWorkerMidName;
-
-        [Required]
-        [Display(Name = "Отчество")]
-        public string DirectoryWorkerMidName
-        {
-            get
-            {
-                return _directoryWorkerMidName;
-            }
-            set
-            {
-                _directoryWorkerMidName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryWorkerGender
-
-        private Gender _directoryWorkerGender;
-        public Gender DirectoryWorkerGender
-        {
-            get 
-            {
-                return _directoryWorkerGender;
-            }
-            set
-            {
-                _directoryWorkerGender = value;
-            }
-        }
-        
-        #endregion
-
-
-        #region DirectoryWorkerBirthDate
-
-        private DateTime _selectedDirectoryWorkerBirthDay;
-        public DateTime SelectedDirectoryWorkerBirthDay
-        {
-            get
-            {
-                return _selectedDirectoryWorkerBirthDay;
-            }
-            set
-            {
-                _selectedDirectoryWorkerBirthDay = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryWorkerAddress
-
-        private string _directoryWorkerAddress;
+        public DateTime SelectedDirectoryWorkerBirthDay { get; set; }
 
         [Required]
         [Display(Name = "Адрес")]
-        public string DirectoryWorkerAddress
-        {
-            get
-            {
-                return _directoryWorkerAddress;
-            }
-            set
-            {
-                _directoryWorkerAddress = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryWorkerCellPhone
-
-        private string _directoryWorkerCellPhone;
+        public string DirectoryWorkerAddress { get; set; }
 
         [Required]
         [Display(Name = "Мобильный телефон")]
-        public string DirectoryWorkerCellPhone
-        {
-            get
-            {
-                return _directoryWorkerCellPhone;
-            }
-            set
-            {
-                _directoryWorkerCellPhone = value;
-                OnPropertyChanged();
-            }
-        }
+        public string DirectoryWorkerCellPhone { get; set; }
 
-        #endregion
+        public string DirectoryWorkerHomePhone { get; set; }
 
+        public DateTime SelectedDirectoryWorkerStartDate { get; set; }
 
-        #region DirectoryWorkerHomePhone
-
-        private string _directoryWorkerHomePhone;
-        public string DirectoryWorkerHomePhone
-        {
-            get
-            {
-                return _directoryWorkerHomePhone;
-            }
-            set
-            {
-                _directoryWorkerHomePhone = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryWorkerStartDate
-
-        private DateTime _selectedDirectoryWorkerStartDate;
-        public DateTime SelectedDirectoryWorkerStartDate
-        {
-            get
-            {
-                return _selectedDirectoryWorkerStartDate;
-            }
-            set
-            {
-                _selectedDirectoryWorkerStartDate = value;
-                OnPropertyChanged();
-            }
-        }
-        #endregion 
-
-        #region SelectedDirectoryWorkerFireDate
-
+        [StopNotify]
         public DateTime? SelectedDirectoryWorkerFireDate { get; set; }
 
-        #endregion
+        public ObservableCollection<CurrentCompanyAndPost> CurrentCompaniesAndPosts { get; set; }
 
+        public CurrentCompanyAndPost SelectedCurrentCompanyAndPost { get; set; }
 
-        #region CurrentCompaniesAndPosts
-
-        private ObservableCollection<CurrentCompanyAndPost> _currentCompaniesAndPosts;
-        public ObservableCollection<CurrentCompanyAndPost> CurrentCompaniesAndPosts
-        {
-            get 
-            {
-                return _currentCompaniesAndPosts;
-            }
-            set 
-            {
-                _currentCompaniesAndPosts = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private CurrentCompanyAndPost _selectedCurrentCompanyAndPost;
-        public CurrentCompanyAndPost SelectedCurrentCompanyAndPost
-        {
-            get
-            {
-                return _selectedCurrentCompanyAndPost;
-            }
-            set
-            {
-                _selectedCurrentCompanyAndPost = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-        #region IsFireDate
-
+        [StopNotify]
         public bool IsNotFireDate
         {
             get 
@@ -305,13 +114,13 @@ namespace AIS_Enterprise_Global.ViewModels
 
         #endregion
 
+  
         #region Commands
 
         public RelayCommand AddCompanyAndPostCommand { get; set; }
         public RelayCommand RemoveCompanyAndPostCommand { get; set; }
         public RelayCommand EditWorkerCommand { get; set; }
         public RelayCommand FireWorkerCommand { get; set; }
-
 
         private void AddCompanyAndPost(object parameter)
         {
@@ -361,17 +170,16 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void FireWorker(object parameter)
         {
-            var directoryWorkerSetFireDateViewModel = new DirectoryWorkerSetFireDateViewModel();
-            var directoryWorkerSetFireDateView = new DirectoryWorkerSetFireDateView();
+            var directoryWorkerFireDateViewModel = new DirectoryWorkerFireDateViewModel();
+            var directoryWorkerFireDateView = new DirectoryWorkerFireDateView();
 
-            directoryWorkerSetFireDateView.DataContext = directoryWorkerSetFireDateViewModel;
-            directoryWorkerSetFireDateView.ShowDialog();
+            directoryWorkerFireDateView.DataContext = directoryWorkerFireDateViewModel;
+            directoryWorkerFireDateView.ShowDialog();
 
-            SelectedDirectoryWorkerFireDate = directoryWorkerSetFireDateViewModel.SelectedDirectoryWorkerFireDate;
+            SelectedDirectoryWorkerFireDate = directoryWorkerFireDateViewModel.SelectedDirectoryWorkerFireDate;
 
             if (SelectedDirectoryWorkerFireDate != null)
             {
-                Debug.WriteLine("huy");
                 EditWorker(parameter);
             }
         }

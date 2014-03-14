@@ -48,170 +48,39 @@ namespace AIS_Enterprise_Global.ViewModels
         #endregion
 
 
-        #region DirectoryPosts
+        #region Properties
 
-        private ObservableCollection<DirectoryPost> _directoryPosts;
-        public ObservableCollection<DirectoryPost> DirectoryPosts
-        {
-            get
-            {
-                return _directoryPosts;
-            }
-            set
-            {
-                _directoryPosts = value;
-                OnPropertyChanged();
-            }
-        }
-        
-        private DirectoryPost _selectedDirectoryPost;
-        public DirectoryPost SelectedDirectoryPost
-        {
-            get
-            {
-                return _selectedDirectoryPost;
-            }
-            set
-            {
-                _selectedDirectoryPost = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<DirectoryPost> DirectoryPosts { get; set; }
 
-        #endregion
-
-
-        #region DirectoryPostName
-
-        private string _directoryPostName;
+        public DirectoryPost SelectedDirectoryPost { get; set; }
 
         [Required]
         [Display(Name = "Должность")]
-        public string DirectoryPostName
-        {
-            get
-            {
-                return _directoryPostName;
-            }
-            set
-            {
-                _directoryPostName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryTypeOfPost
+        public string DirectoryPostName { get; set; }
 
         public ObservableCollection<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
 
-        private DirectoryTypeOfPost _selectedDirectoryTypeOfPost;
-
         [RequireSelected]
         [Display(Name = "Вид должности")]
-        public DirectoryTypeOfPost SelectedDirectoryTypeOfPost
-        {
-            get
-            {
-                return _selectedDirectoryTypeOfPost;
-            }
-            set
-            {
-                _selectedDirectoryTypeOfPost = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryCompanyName
+        public DirectoryTypeOfPost SelectedDirectoryTypeOfPost { get; set; }
 
         public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
 
-        private DirectoryCompany _selectedDirectoryCompany;
-
         [RequireSelected]
         [Display(Name = "Компания")]
-        public DirectoryCompany SelectedDirectoryCompany
-        {
-            get
-            {
-                return _selectedDirectoryCompany;
-            }
-            set
-            {
-                _selectedDirectoryCompany = value;
-                OnPropertyChanged();
-            }
-        }
+        public DirectoryCompany SelectedDirectoryCompany { get; set; }
 
-        #endregion
-
-
-        #region DirectoryPostDate
-
-        private DateTime _selectedDirectoryPostDate;
-        public DateTime SelectedDirectoryPostDate
-        {
-            get
-            {
-                return _selectedDirectoryPostDate;
-            }
-            set
-            {
-                _selectedDirectoryPostDate = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryPostUserWorkerSalary
-
-        private string _directoryPostUserWorkerSalary;
+        public DateTime SelectedDirectoryPostDate { get; set; }
 
         [Required]
         [DoubleValue(MinValue = 0)]
         [Display(Name = "Оклад")]
-        public string DirectoryPostUserWorkerSalary
-        {
-            get 
-            {
-                return _directoryPostUserWorkerSalary;
-            }
-            set
-            {
-                _directoryPostUserWorkerSalary = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryPostUserWorkerHalfSalary
-
-        private string _directoryPostUserWorkerHalfSalary;
+        public string DirectoryPostUserWorkerSalary { get; set; }
 
         [Required]
         [DoubleValue(MinValue = 0)]
         [Display(Name = "Совместительство")]
-        public string DirectoryPostUserWorkerHalfSalary
-        {
-            get
-            {
-                return _directoryPostUserWorkerHalfSalary;
-            }
-            set
-            {
-                _directoryPostUserWorkerHalfSalary = value;
-                OnPropertyChanged();
-            }
-        }
+        public string DirectoryPostUserWorkerHalfSalary { get; set; }
 
         #endregion
 

@@ -8,12 +8,12 @@ using System.Windows;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories
 {
-    public class DirectoryWorkerSetFireDateViewModel : ViewModel
+    public class DirectoryWorkerFireDateViewModel : ViewModel
     {
 
         #region Base
 
-        public DirectoryWorkerSetFireDateViewModel()
+        public DirectoryWorkerFireDateViewModel()
         {
             SelectedDirectoryWorkerFireDate = DateTime.Now;
 
@@ -34,19 +34,7 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         #region DirectoryWorkerFireDate
 
-        private DateTime? _selectedDirectoryWorkerFireDate;
-        public DateTime? SelectedDirectoryWorkerFireDate
-        {
-            get 
-            {
-                return _selectedDirectoryWorkerFireDate;
-            }
-            set
-            {
-                _selectedDirectoryWorkerFireDate = value;
-                OnPropertyChanged();
-            }
-        }
+        public DateTime? SelectedDirectoryWorkerFireDate { get; set; }
 
         #endregion
 

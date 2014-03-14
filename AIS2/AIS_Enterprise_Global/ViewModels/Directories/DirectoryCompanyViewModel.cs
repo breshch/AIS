@@ -38,58 +38,15 @@ namespace AIS_Enterprise_Global.ViewModels
         #endregion
 
 
-        #region DirectoryCompanies
+        #region Properties
 
-        private ObservableCollection<DirectoryCompany> _directoryCompanies;
-        public ObservableCollection<DirectoryCompany> DirectoryCompanies
-        {
-            get
-            {
-                return _directoryCompanies;
-            }
-            set
-            {
-                _directoryCompanies = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
 
-        private DirectoryCompany _selectedDirectoryCompany;
-
-        public DirectoryCompany SelectedDirectoryCompany
-        {
-            get
-            {
-                return _selectedDirectoryCompany;
-            }
-            set
-            {
-                _selectedDirectoryCompany = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-
-        #region DirectoryCompanyName
-
-        private string _directoryCompanyName;
+        public DirectoryCompany SelectedDirectoryCompany { get; set; }
 
         [Required]
         [Display(Name = "Название компании")]
-        public string DirectoryCompanyName
-        {
-            get
-            {
-                return _directoryCompanyName;
-            }
-            set
-            {
-                _directoryCompanyName = value;
-                OnPropertyChanged();
-            }
-        }
+        public string DirectoryCompanyName { get; set; }
 
         #endregion
 

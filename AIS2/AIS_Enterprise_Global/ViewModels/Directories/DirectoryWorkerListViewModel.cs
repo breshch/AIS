@@ -12,7 +12,6 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 {
     public class DirectoryWorkerListViewModel : ViewModel
     {
-
         #region Base
 
         public DirectoryWorkerListViewModel() : base()
@@ -20,30 +19,19 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
             DirectoryWorkers = new ObservableCollection<DirectoryWorker>(BC.GetDirectoryWorkers().ToList().OrderBy(w => w.Status));
 
             ShowDirectoryEditWorkerCommand = new RelayCommand(ShowDirectoryEditWorker);
-
         }
 
         #endregion
 
-        #region DirectoryWorkers
+
+        #region Properties
 
         public ObservableCollection<DirectoryWorker> DirectoryWorkers { get; set; }
 
-        private DirectoryWorker _selectedDirectoryWorker;
-        public DirectoryWorker SelectedDirectoryWorker
-        {
-            get
-            {
-                return _selectedDirectoryWorker;
-            }
-            set 
-            {
-                _selectedDirectoryWorker = value;
-                OnPropertyChanged();
-            }
-        }
+        public DirectoryWorker SelectedDirectoryWorker { get; set; }
 
         #endregion
+
 
         #region Commands
 
@@ -59,11 +47,8 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
                 directoryEditWorkerView.DataContext = directoryEditWorkerViewModel;
                 directoryEditWorkerView.ShowDialog();
             }
-
-           
         }
 
         #endregion
-
     }
 }
