@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace AIS_Enterprise_Global.Helpers.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
-    public class MagicAttribute : Attribute { }
+    public class StopNotifyAttribute : Attribute { }
 }

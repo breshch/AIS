@@ -9,19 +9,16 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers
 {
-    [Magic]
+    [Notify]
     public class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            var handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            var e = PropertyChanged;
+            if (e != null)
+                e(this, new PropertyChangedEventArgs(prop));
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
