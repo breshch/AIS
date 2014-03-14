@@ -64,11 +64,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Attributes\DoubleValueAttribute.cs" />
-    <Compile Include="Helpers\Attributes\NotifyPropertyChangedAttribute.cs" />
+    <Compile Include="Helpers\Attributes\MagicAttribute.cs" />
+    <Compile Include="Helpers\Attributes\NoMagicAttribute.cs" />
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\HelperCalendar.cs" />
     <Compile Include="Helpers\HelperDefaultDataBase.cs" />
+    <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
     <Compile Include="Helpers\Validations.cs" />
