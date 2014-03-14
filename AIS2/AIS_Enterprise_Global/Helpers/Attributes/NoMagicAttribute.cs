@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers.Attributes
 {
-    class NotifyPropertyChangedAttribute : Attribute
-    {
-    }
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
+    public class NoMagicAttribute : Attribute { }
 }
