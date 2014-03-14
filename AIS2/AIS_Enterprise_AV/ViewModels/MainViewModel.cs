@@ -29,7 +29,7 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDirectoryWorkerListViewCommand = new RelayCommand(ShowDirectoryWorkerListView);
             ShowMonthTimeSheetViewCommand = new RelayCommand(ShowMonthTimeSheetView);
 
-            HelperDefaultDataBase.SetDataBase();
+            //HelperDefaultDataBase.SetDataBase();
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)

@@ -64,8 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Attributes\DoubleValueAttribute.cs" />
-    <Compile Include="Helpers\Attributes\MagicAttribute.cs" />
-    <Compile Include="Helpers\Attributes\NoMagicAttribute.cs" />
+    <Compile Include="Helpers\Attributes\NotifyAttribute.cs" />
+    <Compile Include="Helpers\Attributes\StopNotifyAttribute.cs" />
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\HelperCalendar.cs" />
@@ -73,7 +73,6 @@
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
-    <Compile Include="Helpers\Validations.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToBoolValueConverter.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
@@ -91,7 +90,7 @@
     <Compile Include="ViewModels\Directories\DirectoryWorkerListViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryWorkerSetFireDateViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerFireDateViewModel.cs" />
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
     </Compile>
@@ -113,8 +112,8 @@
     <Compile Include="Views\Directories\DirectoryEditWorkerView.xaml.cs">
       <DependentUpon>DirectoryEditWorkerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Directories\DirectoryWorkerSetFireDateView.xaml.cs">
-      <DependentUpon>DirectoryWorkerSetFireDateView.xaml</DependentUpon>
+    <Compile Include="Views\Directories\DirectoryWorkerFireDateView.xaml.cs">
+      <DependentUpon>DirectoryWorkerFireDateView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
       <SubType>Designer</SubType>
@@ -148,7 +147,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Directories\DirectoryWorkerSetFireDateView.xaml">
+    <Page Include="Views\Directories\DirectoryWorkerFireDateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

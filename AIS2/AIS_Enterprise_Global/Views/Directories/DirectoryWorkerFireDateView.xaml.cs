@@ -17,9 +17,9 @@ namespace AIS_Enterprise_Global.Views.Directories
     /// <summary>
     /// Логика взаимодействия для DirectoryWorkerSetFireDateView.xaml
     /// </summary>
-    public partial class DirectoryWorkerSetFireDateView : Window
+    public partial class DirectoryWorkerFireDateView : Window
     {
-        public DirectoryWorkerSetFireDateView()
+        public DirectoryWorkerFireDateView()
         {
             InitializeComponent();
         }
