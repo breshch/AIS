@@ -27,7 +27,6 @@ namespace AIS_Enterprise_Global.Helpers
 
         public virtual void ViewClose(object parameter)
         {
-            Debug.WriteLine("dispose view");
             BC.Dispose();
         }
 
