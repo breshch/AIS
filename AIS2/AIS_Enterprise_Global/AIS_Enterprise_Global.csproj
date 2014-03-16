@@ -84,6 +84,7 @@
     <Compile Include="Models\Infos\InfoMonth.cs" />
     <Compile Include="Models\Infos\InfoPanalty.cs" />
     <Compile Include="ViewModels\Currents\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryTypeOfPostViewModel.cs" />
