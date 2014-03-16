@@ -73,7 +73,8 @@
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
-    <Compile Include="Helpers\ValueConverters\GenderToBoolValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
     <Compile Include="Models\Directories\DirectoryHoliday.cs" />

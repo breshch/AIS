@@ -13,7 +13,8 @@
     </i:Interaction.Triggers>
 
     <Window.Resources>
-        <valueConverters:GenderToBoolValueConverter x:Key="genderToBoolValueConverter"/>
+        <valueConverters:GenderToMaleBoolValueConverter x:Key="genderToMaleBoolValueConverter"/>
+        <valueConverters:GenderToFemaleBoolValueConverter x:Key="genderToFemaleBoolValueConverter"/>
 
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -69,8 +70,8 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <RadioButton Grid.Column="0" Content="Мужской" IsChecked="{Binding DirectoryWorkerGender, Converter={StaticResource genderToBoolValueConverter}, Mode=TwoWay}"/>
-                        <RadioButton Grid.Column="1" Content="Женский"/>
+                        <RadioButton Grid.Column="0" Content="Мужской" IsChecked="{Binding DirectoryWorkerGender, Converter={StaticResource genderToMaleBoolValueConverter}, Mode=TwoWay}"/>
+                        <RadioButton Grid.Column="1" Content="Женский" IsChecked="{Binding DirectoryWorkerGender, Converter={StaticResource genderToFemaleBoolValueConverter}, Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
 

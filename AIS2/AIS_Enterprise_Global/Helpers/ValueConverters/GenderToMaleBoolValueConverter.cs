@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace AIS_Enterprise_Global.Helpers.ValueConverters
 {
-    public class GenderToBoolValueConverter : IValueConverter
+    public class GenderToMaleBoolValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
