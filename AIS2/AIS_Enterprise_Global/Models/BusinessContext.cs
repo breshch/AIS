@@ -36,6 +36,18 @@ namespace AIS_Enterprise_Global.Models
             _dc.Database.Initialize(false);
         }
 
+        public void CreateDatabase()
+        {
+            if (_dc.Database.Exists())
+            {
+                _dc.Database.Delete();
+                _dc.Dispose();
+                _dc = new DataContext();
+            }
+
+            _dc.Database.Create();
+        }
+
         public void Dispose()
         {
             _dc.Dispose();
@@ -168,7 +180,7 @@ namespace AIS_Enterprise_Global.Models
                 CellPhone = cellPhone,
                 StartDate = startDate,
                 FireDate = fireDate,
-                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = null, DirectoryPostId = c.DirectoryPost.Id }))
+                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id }))
             };
 
             _dc.DirectoryWorkers.Add(worker);
@@ -210,7 +222,7 @@ namespace AIS_Enterprise_Global.Models
             directoryWorker.CellPhone = cellPhone;
             directoryWorker.StartDate = startDate;
             directoryWorker.FireDate = fireDate;
-            directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = null, DirectoryPostId = c.DirectoryPost.Id }));
+            directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id }));
 
             _dc.SaveChanges();
            
