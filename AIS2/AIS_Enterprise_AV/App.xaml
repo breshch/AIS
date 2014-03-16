@@ -8,9 +8,13 @@
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip"
-                    Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                    Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
                 </Trigger>
+
+                <DataTrigger Binding="{Binding Text.Length, RelativeSource={RelativeSource Self}}" Value="0">
+                    <Setter Property="CharacterCasing" Value="Upper"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
