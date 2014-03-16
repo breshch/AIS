@@ -98,7 +98,7 @@ namespace AIS_Enterprise_Global.ViewModels
             {
                 if (CurrentCompaniesAndPosts.Any())
                 {
-                    CurrentCompaniesAndPosts.Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+                    CurrentCompaniesAndPosts.OrderBy(p => p.PostChangeDate).Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
                 }
 
                 CurrentCompaniesAndPosts.Add(currentCompanyAndPost);

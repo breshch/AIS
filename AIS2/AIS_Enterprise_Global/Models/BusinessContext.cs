@@ -222,12 +222,27 @@ namespace AIS_Enterprise_Global.Models
             directoryWorker.CellPhone = cellPhone;
             directoryWorker.StartDate = startDate;
             directoryWorker.FireDate = fireDate;
+
+            _dc.CurrentPosts.RemoveRange(directoryWorker.CurrentCompaniesAndPosts);
+            //var directoryWorkerCurrentCompaniesAndPosts = directoryWorker.CurrentCompaniesAndPosts.ToList();
+
+            //for (int i = 0; i < directoryWorkerCurrentCompaniesAndPosts.Count; i++)
+            //{
+            //    foreach (var currentCompanyAndPost in currentCompaniesAndPosts)
+            //    {
+            //        var directoryWorkerCurrentCompanyAndPost = directoryWorkerCurrentCompaniesAndPosts[i];
+            //        if (directoryWorkerCurrentCompanyAndPost.DirectoryPostId == currentCompanyAndPost.DirectoryPost.Id)
+            //        {
+            //            directoryWorkerCurrentCompanyAndPost.
+            //        }
+            //    }
+            //}
+
             directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id }));
 
             _dc.SaveChanges();
            
             return directoryWorker;
-        
         }
 
         public IEnumerable<CurrentPost> GetCurrentPosts(DirectoryWorker worker, int year, int month)

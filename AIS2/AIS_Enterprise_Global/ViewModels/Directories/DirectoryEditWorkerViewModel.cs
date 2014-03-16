@@ -25,10 +25,11 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private DirectoryWorker _selectedDirectoryWorker;
 
-        public DirectoryEditWorkerViewModel(int workerId) : base()
+        public DirectoryEditWorkerViewModel(int workerId)
+            : base()
         {
             _selectedDirectoryWorker = BC.GetDirectoryWorker(workerId);
-            
+
             EditWorkerCommand = new RelayCommand(EditWorker, CanEditingWorker);
             FireWorkerCommand = new RelayCommand(FireWorker, CanEditingWorker);
 
@@ -47,9 +48,9 @@ namespace AIS_Enterprise_Global.ViewModels
             DirectoryWorkerHomePhone = _selectedDirectoryWorker.HomePhone;
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
-                Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate}));
+                Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate }));
         }
-        
+
         #endregion
 
 
@@ -61,7 +62,7 @@ namespace AIS_Enterprise_Global.ViewModels
         [StopNotify]
         public bool IsNotFireDate
         {
-            get 
+            get
             {
                 return _selectedDirectoryWorker.FireDate == null;
             }
@@ -69,7 +70,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         #endregion
 
-  
+
         #region Commands
 
         public RelayCommand EditWorkerCommand { get; set; }
