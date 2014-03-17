@@ -68,6 +68,9 @@ namespace AIS_Enterprise_Global.ViewModels
             }
         }
 
+        [StopNotify]
+        public bool IsChangeWorker { get; private set; }
+
         #endregion
 
 
@@ -78,6 +81,8 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void EditWorker(object parameter)
         {
+            IsChangeWorker = true;
+
             BC.EditDirectoryWorker(_selectedDirectoryWorker.Id, DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
                 DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, SelectedDirectoryWorkerFireDate, CurrentCompaniesAndPosts);
 
@@ -108,6 +113,11 @@ namespace AIS_Enterprise_Global.ViewModels
             {
                 EditWorker(parameter);
             }
+        }
+
+        public override void ViewClose(object parameter)
+        {
+            base.ViewClose(parameter);
         }
 
         #endregion

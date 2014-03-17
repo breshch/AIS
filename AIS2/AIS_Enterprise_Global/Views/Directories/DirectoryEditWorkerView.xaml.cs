@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIS_Enterprise_Global.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,19 @@ namespace AIS_Enterprise_Global.Views.Directories
         public DirectoryEditWorkerView()
         {
             InitializeComponent();
+
+            Closing += DirectoryEditWorkerView_Closing;
+        }
+
+        void DirectoryEditWorkerView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var directoryEditWorkerViewModel = (DirectoryEditWorkerViewModel)this.DataContext;
+
+            if (!directoryEditWorkerViewModel.IsChangeWorker && MessageBox.Show("Если вы закроете форму, то информация о работнике, которую вы изменили, не будет сохранена. " + 
+                "Вы действительно хотите закрыть форму?", "Внимание", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
