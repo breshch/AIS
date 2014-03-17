@@ -78,13 +78,12 @@ namespace AIS_Enterprise_Global.Models
             return directoryCompany;
         }
 
-        public DirectoryCompany RemoveDirectoryCompany(DirectoryCompany directoryCompany)
+        public void RemoveDirectoryCompany(int directoryCompanyId)
         {
-            directoryCompany = _dc.DirectoryCompanies.Remove(directoryCompany);
+            var directoryCompany = _dc.DirectoryCompanies.Find(directoryCompanyId);
+            _dc.DirectoryCompanies.Remove(directoryCompany);
 
             _dc.SaveChanges();
-
-            return directoryCompany;
         }
 
         #endregion
@@ -111,13 +110,12 @@ namespace AIS_Enterprise_Global.Models
             return directoryTypeOfPost;
         }
 
-        public DirectoryTypeOfPost RemoveDirectoryTypeOfPost(DirectoryTypeOfPost directoryTypeOfPost)
+        public void RemoveDirectoryTypeOfPost(int directoryTypeOfPostId)
         {
-            directoryTypeOfPost = _dc.DirectoryTypeOfPosts.Remove(directoryTypeOfPost);
+            var directoryTypeOfPost = _dc.DirectoryTypeOfPosts.Find(directoryTypeOfPostId);
+            _dc.DirectoryTypeOfPosts.Remove(directoryTypeOfPost);
 
             _dc.SaveChanges();
-
-            return directoryTypeOfPost;
         }
 
         #endregion
@@ -165,7 +163,8 @@ namespace AIS_Enterprise_Global.Models
 
         #region DirectoryWorker
 
-        public DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
+        public DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender, 
+            DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
             DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts)
         {
             var worker = new DirectoryWorker
@@ -198,6 +197,7 @@ namespace AIS_Enterprise_Global.Models
         {
             var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
             var firstDateInMonth = new DateTime(year, month, 1);
+
             return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 && 
                 w.FireDate == null || DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0);
         }
@@ -224,19 +224,6 @@ namespace AIS_Enterprise_Global.Models
             directoryWorker.FireDate = fireDate;
 
             _dc.CurrentPosts.RemoveRange(directoryWorker.CurrentCompaniesAndPosts);
-            //var directoryWorkerCurrentCompaniesAndPosts = directoryWorker.CurrentCompaniesAndPosts.ToList();
-
-            //for (int i = 0; i < directoryWorkerCurrentCompaniesAndPosts.Count; i++)
-            //{
-            //    foreach (var currentCompanyAndPost in currentCompaniesAndPosts)
-            //    {
-            //        var directoryWorkerCurrentCompanyAndPost = directoryWorkerCurrentCompaniesAndPosts[i];
-            //        if (directoryWorkerCurrentCompanyAndPost.DirectoryPostId == currentCompanyAndPost.DirectoryPost.Id)
-            //        {
-            //            directoryWorkerCurrentCompanyAndPost.
-            //        }
-            //    }
-            //}
 
             directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id }));
 
@@ -245,10 +232,12 @@ namespace AIS_Enterprise_Global.Models
             return directoryWorker;
         }
 
-        public IEnumerable<CurrentPost> GetCurrentPosts(DirectoryWorker worker, int year, int month)
+        public IEnumerable<CurrentPost> GetCurrentPosts(int workerId, int year, int month)
         {
             var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
             var firstDateInMonth = new DateTime(year, month, 1);
+
+            var worker = _dc.DirectoryWorkers.Find(workerId);
 
             return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null || p.FireDate.Value >= firstDateInMonth); 
         }

@@ -38,7 +38,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
             foreach (var worker in workers)
             {
-                var currentPosts = BC.GetCurrentPosts(worker, SelectedYear, SelectedMonth);
+                var currentPosts = BC.GetCurrentPosts(worker.Id, SelectedYear, SelectedMonth);
 
                 bool isFirst = false;
 

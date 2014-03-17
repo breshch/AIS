@@ -72,7 +72,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public void Remove(object parameter)
         {
-            BC.RemoveDirectoryCompany(SelectedDirectoryCompany);
+            BC.RemoveDirectoryCompany(SelectedDirectoryCompany.Id);
 
             RefreshDirectoryCompanies();
             

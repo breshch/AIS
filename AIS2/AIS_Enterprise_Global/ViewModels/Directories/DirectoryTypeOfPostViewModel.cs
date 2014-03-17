@@ -74,7 +74,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public void Remove(object parameter)
         {
-            BC.RemoveDirectoryTypeOfPost(SelectedDirectoryTypeOfPost);
+            BC.RemoveDirectoryTypeOfPost(SelectedDirectoryTypeOfPost.Id);
 
             RefreshDirectoryTypeOfPosts();
 
