@@ -13,6 +13,8 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         #region Base
 
+        private bool _isFireDate;
+
         public DirectoryWorkerFireDateViewModel()
         {
             SelectedDirectoryWorkerFireDate = DateTime.Now;
@@ -22,6 +24,7 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         private void FireDirectoryWorker(object parameter)
         {
+            _isFireDate = true;
             var window = (Window)parameter;
 
             if (window != null)
@@ -44,7 +47,10 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         public override void ViewClose(object parameter)
         {
-            //SelectedDirectoryWorkerFireDate = null;
+            if (!_isFireDate)
+            {
+                SelectedDirectoryWorkerFireDate = null;
+            }
 
             base.ViewClose(parameter);
         }
