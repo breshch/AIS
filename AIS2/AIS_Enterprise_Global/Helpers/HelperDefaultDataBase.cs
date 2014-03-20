@@ -102,6 +102,22 @@ namespace AIS_Enterprise_Global.Helpers
                     slave.InfoDates.Add(infoDate);
                 }
 
+                var infoMonth = new InfoMonth
+                {
+                    Date = DateTime.Now,
+                    PrepaymentCash = 1500,
+                    PrepaymentBankTransaction = 1000,
+                    VocationPayment = 500,
+                    SalaryAV = 2000,
+                    SalaryFenox = 1000,
+                    Panalty = 500,
+                    Inventory = 1000,
+                    BirthDays = 500,
+                    Bonus = 5000
+                };
+
+                slave.InfoMonthes.Add(infoMonth);
+
                 dc.DirectoryWorkers.Add(slave);
 
                 slave = new DirectoryWorker
@@ -154,6 +170,22 @@ namespace AIS_Enterprise_Global.Helpers
 
                     slave.InfoDates.Add(infoDate);
                 }
+
+                infoMonth = new InfoMonth
+                {
+                    Date = DateTime.Now,
+                    PrepaymentCash = 1000,
+                    PrepaymentBankTransaction = 500,
+                    VocationPayment = 1500,
+                    SalaryAV = 1000,
+                    SalaryFenox = 2000,
+                    Panalty = 1500,
+                    Inventory = 1500,
+                    BirthDays = 1500,
+                    Bonus = 2000
+                };
+
+                slave.InfoMonthes.Add(infoMonth);
 
                 dc.DirectoryWorkers.Add(slave);
                 dc.SaveChanges();
