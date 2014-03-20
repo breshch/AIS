@@ -54,6 +54,12 @@ namespace AIS_Enterprise_Global.Models
             GC.SuppressFinalize(this);
         }
 
+        public void RefreshContext()
+        {
+            _dc.Dispose();
+            _dc = new DataContext();
+        }
+
         #endregion
 
 
@@ -240,6 +246,44 @@ namespace AIS_Enterprise_Global.Models
             var worker = _dc.DirectoryWorkers.Find(workerId);
 
             return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null || p.FireDate.Value >= firstDateInMonth); 
+        }
+
+        #endregion
+
+
+        #region InfoDates
+
+        public void EditInfoDateHour(int workerId, DateTime date, string hour)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            var infoDate = worker.InfoDates.First(d => d.Date.Date == date.Date);
+
+            if (Enum.IsDefined(typeof(DescriptionDay), hour))
+            {
+                infoDate.CountHours = null;
+                infoDate.DescriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), hour);
+            }
+            else
+            {
+                infoDate.CountHours = double.Parse(hour);
+                infoDate.DescriptionDay = DescriptionDay.Был;
+            }
+
+            _dc.SaveChanges();
+        }
+
+        #endregion
+
+
+        #region InfoMonth
+
+        public void EditInfoMonthPayment(int workerId, DateTime date, string propertyName, double propertyValue)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            var infoMonth = worker.InfoMonthes.First(m => m.Date.Year == date.Year && m.Date.Month == date.Month);
+
+            infoMonth.GetType().GetProperty(propertyName).SetValue(infoMonth, propertyValue);
+            _dc.SaveChanges();
         }
 
         #endregion
