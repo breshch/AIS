@@ -72,6 +72,7 @@
     <Compile Include="Helpers\HelperDefaultDataBase.cs" />
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
+    <Compile Include="Helpers\Temps\HourWorker.cs" />
     <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
