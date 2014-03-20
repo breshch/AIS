@@ -35,11 +35,13 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         #endregion
 
+
         #region DirectoryWorkerFireDate
 
         public DateTime? SelectedDirectoryWorkerFireDate { get; set; }
 
         #endregion
+
 
         #region Commands
 
@@ -55,7 +57,5 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
             base.ViewClose(parameter);
         }
         #endregion
-
-
     }
 }
