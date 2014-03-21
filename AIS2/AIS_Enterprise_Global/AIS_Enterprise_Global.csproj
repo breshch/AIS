@@ -85,6 +85,11 @@
     <Compile Include="Models\Infos\InfoDate.cs" />
     <Compile Include="Models\Infos\InfoMonth.cs" />
     <Compile Include="Models\Infos\InfoPanalty.cs" />
+    <Compile Include="Properties\Resources.en-US.Designer.cs">
+      <DependentUpon>Resources.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ViewModels\Currents\CurrentCompanyAndPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
@@ -170,8 +175,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

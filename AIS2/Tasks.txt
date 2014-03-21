@@ -4,3 +4,8 @@
 - добавить документы, фото
 - добавить маску для тел и адрес
 - сделать файл настройки
+- readonly datagrid cell
+- datagrid headers
+- переработки
+- ФИО doubleclick
+- Должность doubleclick

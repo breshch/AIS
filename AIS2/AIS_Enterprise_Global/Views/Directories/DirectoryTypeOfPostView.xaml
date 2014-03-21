@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
+        xmlns:res="clr-namespace:AIS_Enterprise_Global.Properties"
         WindowStartupLocation="CenterScreen"
         Title="Добавление типа должности" Height="350" Width="450">
 
@@ -22,7 +23,7 @@
         <ListBox Grid.Row="0" ItemsSource="{Binding DirectoryTypeOfPosts, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfPost, Mode=TwoWay}"/>
 
         <StackPanel Grid.Row="1" Margin="0, 15, 0, 0">
-            <TextBlock Text="Вид должности:"/>
+            <TextBlock Text="{x:Static res:Resources.DirectoryTypeOfPostName}"/>
             <TextBox Text="{Binding DirectoryTypeOfPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="32"/>
         </StackPanel>
 
