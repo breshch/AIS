@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AIS_Enterprise_Global.Helpers.Temps
 {
@@ -26,9 +27,9 @@ namespace AIS_Enterprise_Global.Helpers.Temps
         public int SickDays { get; set; }
         public int MissDays { get; set; }
 
-        private double? _prepaymentCash;
+        private string _prepaymentCash;
         [StopNotify]
-        public double? PrepaymentCash
+        public string PrepaymentCash
         {
             get
             {
@@ -36,20 +37,13 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevPrepaymentCash = _prepaymentCash;
-
-                _prepaymentCash = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "PrepaymentCash", _prepaymentCash.Value);
-
-                FinalSalary += prevPrepaymentCash - _prepaymentCash;
+                _prepaymentCash = EditProperty(value, _prepaymentCash, "PrepaymentCash");
             }
         }
 
-        private double? _prepaymentBankTransaction;
+        private string _prepaymentBankTransaction;
         [StopNotify]
-        public double? PrepaymentBankTransaction
+        public string PrepaymentBankTransaction
         {
             get
             {
@@ -57,20 +51,13 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevPrepaymentBankTransaction = _prepaymentBankTransaction;
-
-                _prepaymentBankTransaction = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "PrepaymentBankTransaction", _prepaymentBankTransaction.Value);
-
-                FinalSalary += prevPrepaymentBankTransaction - _prepaymentBankTransaction;
+                _prepaymentBankTransaction = EditProperty(value, _prepaymentBankTransaction, "PrepaymentBankTransaction");
             }
         }
 
-        private double? _vocationPayment;
+        private string _vocationPayment;
         [StopNotify]
-        public double? VocationPayment
+        public string VocationPayment
         {
             get
             {
@@ -78,20 +65,13 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevVocationPayment = _vocationPayment;
-
-                _vocationPayment = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "VocationPayment", _vocationPayment.Value);
-
-                FinalSalary += prevVocationPayment - _vocationPayment;
+                _vocationPayment = EditProperty(value, _vocationPayment, "VocationPayment");
             }
         }
 
-        private double? _salaryAV;
+        private string _salaryAV;
         [StopNotify]
-        public double? SalaryAV
+        public string SalaryAV
         {
             get
             {
@@ -99,20 +79,13 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevSalaryAV = _salaryAV;
-
-                _salaryAV = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "SalaryAV", _salaryAV.Value);
-
-                FinalSalary += prevSalaryAV - _salaryAV;
+                _salaryAV = EditProperty(value, _salaryAV, "SalaryAV");
             }
         }
 
-        private double? _salaryFenox;
+        private string _salaryFenox;
         [StopNotify]
-        public double? SalaryFenox
+        public string SalaryFenox
         {
             get
             {
@@ -120,20 +93,13 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevSalaryFenox = _salaryFenox;
-
-                _salaryFenox = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "SalaryFenox", _salaryFenox.Value);
-
-                FinalSalary += prevSalaryFenox - _salaryFenox;
+                _salaryFenox = EditProperty(value, _salaryFenox, "SalaryFenox");
             }
         }
 
-        private double? _panalty;
+        private string _panalty;
         [StopNotify]
-        public double? Panalty
+        public string Panalty
         {
             get
             {
@@ -141,20 +107,13 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevPanalty = _panalty;
-
-                _panalty = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "Panalty", _panalty.Value);
-
-                FinalSalary += prevPanalty - _panalty;
+                _panalty = EditProperty(value, _panalty, "Panalty"); 
             }
         }
 
-        private double? _inventory;
+        private string _inventory;
         [StopNotify]
-        public double? Inventory
+        public string Inventory
         {
             get
             {
@@ -162,14 +121,7 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevInventory = _inventory;
-
-                _inventory = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "Inventory", _inventory.Value);
-
-                FinalSalary += prevInventory - _inventory;
+                _inventory = EditProperty(value, _inventory, "Inventory"); 
             }
         }
 
@@ -194,9 +146,9 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
         }
 
-        private double? _bonus;
+        private string _bonus;
         [StopNotify]
-        public double? Bonus
+        public string Bonus
         {
             get
             {
@@ -204,17 +156,48 @@ namespace AIS_Enterprise_Global.Helpers.Temps
             }
             set
             {
-                var prevBonus = _bonus;
-
-                _bonus = value;
-                OnPropertyChanged();
-
-                BC.EditInfoMonthPayment(WorkerId, Date, "Bonus", _bonus.Value);
-
-                FinalSalary += prevBonus - _bonus;
+                _bonus = EditProperty(value, _bonus, "Bonus");
             }
         }
 
         public double? FinalSalary { get; set; }
+
+        private string EditProperty(string value, string property, string propertyName)
+        {
+            value = value.ToUpper().Replace(".", ",");
+
+            if (property == value)
+            {
+                return property;
+            }
+
+            double prevProperty = 0;
+            if (property != null)
+            {
+                prevProperty = double.Parse(property);
+            }
+
+            double result;
+            if (!double.TryParse(value, out result))
+            {
+                MessageBox.Show("Введите только число.");
+                return property;
+            }
+
+            if (result < 0)
+            {
+                MessageBox.Show("Введите только число, большее, либо равное 0.");
+                return property;
+            }
+
+            property = value;
+            OnPropertyChanged();
+
+            BC.EditInfoMonthPayment(WorkerId, Date, propertyName, result);
+
+            FinalSalary += prevProperty - result;
+
+            return property;
+        }
     }
 }
