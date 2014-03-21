@@ -27,5 +27,6 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<CurrentPost> CurrentPosts { get; set; }
 
         public DbSet<InfoDate> InfoDates { get; set; }
+        public DbSet<InfoMonth> InfoMonthes { get; set; }
     }
 }
