@@ -4,7 +4,8 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
-        Title="Месячный табель" Height="300" Width="1800">
+        Title="Месячный табель" 
+        Height="300" Width="Auto" SizeToContent="Width">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -14,11 +15,27 @@
 
     
     <Grid Margin="30,20">
-        <DataGrid ItemsSource="{Binding MonthTimeSheetWorkers, Mode=TwoWay}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="3">
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10, 0, 0, 0">
+            <TextBlock Text="Год"/>
+            <ComboBox Width="150" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear, Mode=TwoWay}"  Margin="10, 0, 0, 0"/>
+            <TextBlock Text="Месяц" Margin="20, 0, 0, 0"/>
+            <ComboBox Width="150" ItemsSource="{Binding Monthes}" SelectedItem="{Binding SelectedMonth, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
+        </StackPanel>
+        
+        <DataGrid Name="DataGridMonthSheet" Grid.Row="1" ItemsSource="{Binding MonthTimeSheetWorkers, Mode=TwoWay}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single"
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="3"  Margin="0, 20, 0, 0">
+
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding MouseDoubleClickCommand}" CommandParameter="{Binding ElementName=DataGridMonthSheet, Path=SelectedItem}" />
+            </DataGrid.InputBindings>
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="250" IsReadOnly="True"/>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="250" IsReadOnly="True" />
                 <DataGridTextColumn Header="Должность" Binding="{Binding PostName}" Width="100" IsReadOnly="True" />
                 <DataGridTextColumn Header="З/П час" Binding="{Binding SalaryInHour}" Width="50" IsReadOnly="True" />
 

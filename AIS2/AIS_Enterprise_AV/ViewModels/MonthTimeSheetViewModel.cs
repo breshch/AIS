@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models.Directories;
 using System;
@@ -15,23 +16,72 @@ namespace AIS_Enterprise_AV.ViewModels
     {
         private bool _isLoad;
 
-        public int SelectedYear { get; set; }
-        public int SelectedMonth { get; set; }
+        private int _selectedYear;
+        [StopNotify]
+        public int SelectedYear
+        {
+            get
+            {
+                return _selectedYear;
+            }
+            set
+            {
+                _selectedYear = value;
+                OnPropertyChanged();
+
+                Monthes = new ObservableCollection<int>(BC.GetMonthes(_selectedYear));
+                if (Monthes.Any())
+                {
+                    SelectedMonth = Monthes.Max();
+                }
+            }
+        }
+
+        private int _selectedMonth;
+        [StopNotify]
+        public int SelectedMonth
+        {
+            get
+            {
+                return _selectedMonth;
+            }
+            set
+            {
+                _selectedMonth = value;
+                OnPropertyChanged();
+
+                RefreshWorkers();
+            }
+        }
+        public ObservableCollection<int> Years { get; set; }
+        public ObservableCollection<int> Monthes { get; set; }
+
 
         public ObservableCollection<MonthTimeSheetWorker> MonthTimeSheetWorkers { get; set; }
 
         public MonthTimeSheetViewModel()
         {
-            SelectedYear = DateTime.Now.Year;
-            SelectedMonth = DateTime.Now.Month;
+            MouseDoubleClickCommand = new RelayCommand(MouseDoubleClick);
 
-            RefreshWorkers();
+            Years = new ObservableCollection<int>(BC.GetYears());
+            if (Years.Any())
+            {
+                SelectedYear = Years.Max();
+            }
         }
 
         private void RefreshWorkers()
         {
             _isLoad = false;
-            MonthTimeSheetWorkers = new ObservableCollection<MonthTimeSheetWorker>();
+
+            if (MonthTimeSheetWorkers == null)
+            {
+                MonthTimeSheetWorkers = new ObservableCollection<MonthTimeSheetWorker>();
+            }
+            else
+            {
+                MonthTimeSheetWorkers.Clear();
+            }
 
             int countWorkDaysInMonth = HelperCalendar.GetCountWorkDaysInMonth(SelectedYear, SelectedMonth);
             var firstDateInMonth = new DateTime(SelectedYear, SelectedMonth, 1);
@@ -146,18 +196,18 @@ namespace AIS_Enterprise_AV.ViewModels
                 var infoMonth = worker.InfoMonthes.FirstOrDefault(m => m.Date.Year == SelectedYear && m.Date.Month == SelectedMonth);
                 if (infoMonth != null)
                 {
-                    monthTimeSheetWorkerFinalSalary.PrepaymentCash = infoMonth.PrepaymentCash;
-                    monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction = infoMonth.PrepaymentBankTransaction;
-                    monthTimeSheetWorkerFinalSalary.VocationPayment = infoMonth.VocationPayment;
-                    monthTimeSheetWorkerFinalSalary.SalaryAV = infoMonth.SalaryAV;
-                    monthTimeSheetWorkerFinalSalary.SalaryFenox = infoMonth.SalaryFenox;
-                    monthTimeSheetWorkerFinalSalary.Panalty = infoMonth.Panalty;
-                    monthTimeSheetWorkerFinalSalary.Inventory = infoMonth.Inventory;
+                    monthTimeSheetWorkerFinalSalary.PrepaymentCash = infoMonth.PrepaymentCash.ToString();
+                    monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction = infoMonth.PrepaymentBankTransaction.ToString();
+                    monthTimeSheetWorkerFinalSalary.VocationPayment = infoMonth.VocationPayment.ToString();
+                    monthTimeSheetWorkerFinalSalary.SalaryAV = infoMonth.SalaryAV.ToString();
+                    monthTimeSheetWorkerFinalSalary.SalaryFenox = infoMonth.SalaryFenox.ToString();
+                    monthTimeSheetWorkerFinalSalary.Panalty = infoMonth.Panalty.ToString();
+                    monthTimeSheetWorkerFinalSalary.Inventory = infoMonth.Inventory.ToString();
                     monthTimeSheetWorkerFinalSalary.BirthDays = infoMonth.BirthDays;
-                    monthTimeSheetWorkerFinalSalary.Bonus = infoMonth.Bonus;
-                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - monthTimeSheetWorkerFinalSalary.PrepaymentCash - monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction -
-                       monthTimeSheetWorkerFinalSalary.VocationPayment - monthTimeSheetWorkerFinalSalary.SalaryAV - monthTimeSheetWorkerFinalSalary.SalaryFenox -
-                       monthTimeSheetWorkerFinalSalary.Panalty - monthTimeSheetWorkerFinalSalary.Inventory - monthTimeSheetWorkerFinalSalary.BirthDays + monthTimeSheetWorkerFinalSalary.Bonus;
+                    monthTimeSheetWorkerFinalSalary.Bonus = infoMonth.Bonus.ToString();
+                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction) -
+                       double.Parse(monthTimeSheetWorkerFinalSalary.VocationPayment) - double.Parse(monthTimeSheetWorkerFinalSalary.SalaryAV) - double.Parse(monthTimeSheetWorkerFinalSalary.SalaryFenox) -
+                       double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
                 }
             }
 
@@ -244,11 +294,31 @@ namespace AIS_Enterprise_AV.ViewModels
                 var infoMonth = worker.InfoMonthes.FirstOrDefault(m => m.Date.Year == SelectedYear && m.Date.Month == SelectedMonth);
                 if (infoMonth != null)
                 {
-                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - monthTimeSheetWorkerFinalSalary.PrepaymentCash - monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction -
-                       monthTimeSheetWorkerFinalSalary.VocationPayment - monthTimeSheetWorkerFinalSalary.SalaryAV - monthTimeSheetWorkerFinalSalary.SalaryFenox -
-                       monthTimeSheetWorkerFinalSalary.Panalty - monthTimeSheetWorkerFinalSalary.Inventory - monthTimeSheetWorkerFinalSalary.BirthDays + monthTimeSheetWorkerFinalSalary.Bonus;
+                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction) -
+                      double.Parse(monthTimeSheetWorkerFinalSalary.VocationPayment) - double.Parse(monthTimeSheetWorkerFinalSalary.SalaryAV) - double.Parse(monthTimeSheetWorkerFinalSalary.SalaryFenox) -
+                      double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
                 }
             }
         }
+
+
+        #region Commands
+
+        public RelayCommand MouseDoubleClickCommand { get; set; }
+
+        private void MouseDoubleClick(object parameter)
+        {
+            var monthTimeSheetWorker = parameter as MonthTimeSheetWorker;
+
+            if (monthTimeSheetWorker.FullName != null)
+            {
+                Debug.WriteLine(monthTimeSheetWorker.FullName);
+            }
+
+            
+        }
+
+        #endregion
+
     }
 }
