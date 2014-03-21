@@ -2,6 +2,7 @@
 using AIS_Enterprise_Global.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,9 @@ namespace AIS_Enterprise_AV.Views
     {
         public MainView()
         {
+            Debug.WriteLine(Properties.Settings.Default.Language);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Properties.Settings.Default.Language);
+
             InitializeComponent();
 
             var mainViewModel = new MainViewModel();

@@ -19,6 +19,7 @@
             <Button Content="Добавление Рабов" Margin="0, 3" Command="{Binding ShowDirectoryAddWorkerViewCommand}"/>
             <Button Content="Список Рабов" Margin="0, 3" Command="{Binding ShowDirectoryWorkerListViewCommand}"/>
             <Button Content="Месячный табель" Margin="0, 3" Command="{Binding ShowMonthTimeSheetViewCommand}"/>
+            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0, 3"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,10 +1,13 @@
 ﻿using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
 using AIS_Enterprise_Global.Views.Directories;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +16,27 @@ namespace AIS_Enterprise_AV.ViewModels
 {
     public class MainViewModel : ViewModel
     {
+        public ObservableCollection<string> Languages { get; set; }
+
+        private string _selectedLanguage;
+        [StopNotify]
+        public string SelectedLanguage
+        {
+            get
+            {
+                return _selectedLanguage;
+            }
+            set
+            {
+                _selectedLanguage = value;
+                OnPropertyChanged();
+
+                Debug.WriteLine(Properties.Settings.Default.Language);
+                Properties.Settings.Default.Language = _selectedLanguage;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         public RelayCommand ShowDirectoryCompanyViewCommand { get; set; }
         public RelayCommand ShowDirectoryTypeOfPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
@@ -28,6 +52,10 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDirectoryAddWorkerViewCommand = new RelayCommand(ShowDirectoryAddWorkerView);
             ShowDirectoryWorkerListViewCommand = new RelayCommand(ShowDirectoryWorkerListView);
             ShowMonthTimeSheetViewCommand = new RelayCommand(ShowMonthTimeSheetView);
+
+            Languages = new ObservableCollection<string>(new[] { "ru-RU", "en-US" });
+
+
 
             //HelperDefaultDataBase.SetDataBase();
         }
