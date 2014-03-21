@@ -271,7 +271,6 @@ namespace AIS_Enterprise_Global.Models
 
             _dc.SaveChanges();
         }
-
         #endregion
 
 
@@ -284,6 +283,16 @@ namespace AIS_Enterprise_Global.Models
 
             infoMonth.GetType().GetProperty(propertyName).SetValue(infoMonth, propertyValue);
             _dc.SaveChanges();
+        }
+
+        public IQueryable<int> GetYears()
+        {
+            return _dc.InfoMonthes.Select(m => m.Date.Year).Distinct();
+        }
+
+        public IQueryable<int> GetMonthes(int year)
+        {
+            return _dc.InfoMonthes.Where(m => m.Date.Year == year).Select(m => m.Date.Month).Distinct();
         }
 
         #endregion
