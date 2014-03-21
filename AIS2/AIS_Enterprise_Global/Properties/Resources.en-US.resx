@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="DirectoryTypeOfPostName" xml:space="preserve">
+    <value>Type of post:</value>
+  </data>
+  <data name="RemoveButton" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>
