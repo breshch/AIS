@@ -118,6 +118,22 @@ namespace AIS_Enterprise_Global.Helpers
 
                 slave.InfoMonthes.Add(infoMonth);
 
+                infoMonth = new InfoMonth
+                {
+                    Date = DateTime.Now.AddMonths(-1),
+                    PrepaymentCash = 1500,
+                    PrepaymentBankTransaction = 1000,
+                    VocationPayment = 500,
+                    SalaryAV = 2000,
+                    SalaryFenox = 1000,
+                    Panalty = 500,
+                    Inventory = 1000,
+                    BirthDays = 500,
+                    Bonus = 5000
+                };
+
+                slave.InfoMonthes.Add(infoMonth);
+
                 dc.DirectoryWorkers.Add(slave);
 
                 slave = new DirectoryWorker
