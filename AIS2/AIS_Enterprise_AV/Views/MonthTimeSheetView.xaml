@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         WindowStartupLocation="CenterScreen"
         Title="Месячный табель" 
         Height="300" Width="Auto" SizeToContent="Width">
@@ -13,23 +14,27 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    
+    <Window.Resources>
+        <valueConverters:ValueToVisibilityValueConverter x:Key="valueToVisibilityValueConverter"/>
+        <valueConverters:ValueToBooleanValueConverter x:Key="valueToBooleanValueConverter"/>
+    </Window.Resources>
+
     <Grid Margin="30,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10, 0, 0, 0">
             <TextBlock Text="Год"/>
             <ComboBox Width="150" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear, Mode=TwoWay}"  Margin="10, 0, 0, 0"/>
             <TextBlock Text="Месяц" Margin="20, 0, 0, 0"/>
             <ComboBox Width="150" ItemsSource="{Binding Monthes}" SelectedItem="{Binding SelectedMonth, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
         </StackPanel>
-        
-        <DataGrid Name="DataGridMonthSheet" Grid.Row="1" ItemsSource="{Binding MonthTimeSheetWorkers, Mode=TwoWay}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="3"  Margin="0, 20, 0, 0">
 
+        <DataGrid Name="DataGridMonthSheet" Grid.Row="1" ItemsSource="{Binding MonthTimeSheetWorkers, Mode=TwoWay}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single"
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="3" ColumnHeaderHeight="40" Margin="0, 20, 0, 0">
+            
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding MouseDoubleClickCommand}" CommandParameter="{Binding ElementName=DataGridMonthSheet, Path=SelectedItem}" />
             </DataGrid.InputBindings>
@@ -37,55 +42,692 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="250" IsReadOnly="True" />
                 <DataGridTextColumn Header="Должность" Binding="{Binding PostName}" Width="100" IsReadOnly="True" />
-                <DataGridTextColumn Header="З/П час" Binding="{Binding SalaryInHour}" Width="50" IsReadOnly="True" />
+                <DataGridTextColumn Header="З/П час" Binding="{Binding SalaryInHour}" Width="50" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
 
-                <DataGridTextColumn Header="1 Пн" Binding="{Binding Hours[0].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="2 Вт" Binding="{Binding Hours[1].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="3 Ср" Binding="{Binding Hours[2].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="4 Чт" Binding="{Binding Hours[3].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="5 Пт" Binding="{Binding Hours[4].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="6 Сб" Binding="{Binding Hours[5].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="7 Вс" Binding="{Binding Hours[6].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="8 Пн" Binding="{Binding Hours[7].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="9 Вт" Binding="{Binding Hours[8].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="10 Ср" Binding="{Binding Hours[9].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="11 Чт" Binding="{Binding Hours[10].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="12 Пт" Binding="{Binding Hours[11].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="13 Сб" Binding="{Binding Hours[12].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="14 Вс" Binding="{Binding Hours[13].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="15 Пн" Binding="{Binding Hours[14].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="16 Вт" Binding="{Binding Hours[15].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="17 Ср" Binding="{Binding Hours[16].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="18 Чт" Binding="{Binding Hours[17].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="19 Пт" Binding="{Binding Hours[18].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="20 Сб" Binding="{Binding Hours[19].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="21 Вс" Binding="{Binding Hours[20].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="22 Пн" Binding="{Binding Hours[21].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="23 Вт" Binding="{Binding Hours[22].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="24 Ср" Binding="{Binding Hours[23].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="25 Чт" Binding="{Binding Hours[24].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="26 Пт" Binding="{Binding Hours[25].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="27 Сб" Binding="{Binding Hours[26].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="28 Вс" Binding="{Binding Hours[27].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="29 Пн" Binding="{Binding Hours[28].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="30 Вт" Binding="{Binding Hours[29].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
-                <DataGridTextColumn Header="31 Ср" Binding="{Binding Hours[30].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30"/>
+                <DataGridTextColumn Binding="{Binding Hours[0].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[0].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
 
-                <DataGridTextColumn Header="Переработка" Binding="{Binding OverTime}" Width="50" IsReadOnly="True" />
-                <DataGridTextColumn Header="Отпускные" Binding="{Binding VocationDays}" Width="50" IsReadOnly="True" />
-                <DataGridTextColumn Header="Больничные" Binding="{Binding SickDays}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Прогулы" Binding="{Binding MissDays}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Аванс Н" Binding="{Binding PrepaymentCash, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Аванс Б" Binding="{Binding PrepaymentBankTransaction, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Отпуск" Binding="{Binding VocationPayment, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Б/Р АВ" Binding="{Binding SalaryAV, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Б/Р Фенокс" Binding="{Binding SalaryFenox, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Штраф" Binding="{Binding Panalty, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Переучёт" Binding="{Binding Inventory, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Д/Р" Binding="{Binding BirthDays, UpdateSourceTrigger=LostFocus}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Премия" Binding="{Binding Bonus, UpdateSourceTrigger=LostFocus}" Width="50" />
-                <DataGridTextColumn Header="Итого" Binding="{Binding FinalSalary}" Width="50" IsReadOnly="True"/>
-            </DataGrid.Columns>                
-        </DataGrid>                            
-    </Grid>                                    
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[0].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[1].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[1].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[1].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[2].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[2].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[2].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[3].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[3].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[3].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[4].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[4].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[4].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[5].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[5].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[5].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[6].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[6].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[6].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[7].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[7].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[7].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[8].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[8].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[8].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[9].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[9].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[9].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[10].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[10].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[10].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[11].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[11].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[11].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[12].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[12].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[12].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[13].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[13].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[13].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[14].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[14].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[14].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[15].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[15].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[15].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[16].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[16].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[16].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[17].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[17].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[17].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[18].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[18].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[18].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[19].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[19].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[19].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[20].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[20].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[20].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[21].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[21].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[21].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[22].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[22].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[22].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[23].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[23].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[23].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[24].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[24].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[24].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[25].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[25].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[25].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[26].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[26].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[26].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[27].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[27].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[27].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[28].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[28].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[28].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[29].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[29].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[29].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Hours[30].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="30">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{Binding DataContext.HeaderDayMonthTimeSheets[30].Header, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Hours[30].Value, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+
+
+                <DataGridTextColumn Header="Перера&#160;ботка" Binding="{Binding OverTime}" Width="52" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Отпуск&#160; ные" Binding="{Binding VocationDays}" Width="50" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Больнич&#160;&#160;&#160; ные" Binding="{Binding SickDays}" Width="60" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Прогулы" Binding="{Binding MissDays}" Width="60" IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Аванс Н" Binding="{Binding PrepaymentCash, UpdateSourceTrigger=LostFocus}" Width="60" >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PrepaymentCash, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Аванс Б" Binding="{Binding PrepaymentBankTransaction, UpdateSourceTrigger=LostFocus}" Width="60" >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PrepaymentBankTransaction, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Отпуск" Binding="{Binding VocationPayment, UpdateSourceTrigger=LostFocus}" Width="60" >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding VocationPayment, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Б/Р АВ" Binding="{Binding SalaryAV, UpdateSourceTrigger=LostFocus}" Width="60" >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SalaryAV, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="&#160;&#160;&#160; Б/Р Фенокс" Binding="{Binding SalaryFenox, UpdateSourceTrigger=LostFocus}" Width="60"  >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SalaryFenox, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Штраф" Binding="{Binding Panalty, UpdateSourceTrigger=LostFocus}" Width="60"  >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Panalty, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="&#160;Пере&#160;&#160;&#160; учёт" Binding="{Binding Inventory, UpdateSourceTrigger=LostFocus}" Width="50">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Inventory, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Д/Р" Binding="{Binding BirthDays, UpdateSourceTrigger=LostFocus}" Width="60" IsReadOnly="True"/>
+                
+                <DataGridTextColumn Header="Премия" Binding="{Binding Bonus, UpdateSourceTrigger=LostFocus}" Width="60"  >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Bonus, Converter={StaticResource valueToBooleanValueConverter}}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Итого" Binding="{Binding FinalSalary}" Width="80" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </Window>                                      
