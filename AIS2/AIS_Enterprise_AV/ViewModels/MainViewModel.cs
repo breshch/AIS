@@ -31,7 +31,6 @@ namespace AIS_Enterprise_AV.ViewModels
                 _selectedLanguage = value;
                 OnPropertyChanged();
 
-                Debug.WriteLine(Properties.Settings.Default.Language);
                 Properties.Settings.Default.Language = _selectedLanguage;
                 Properties.Settings.Default.Save();
             }
