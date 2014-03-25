@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 _selectedMonth = value;
                 OnPropertyChanged();
 
+                RefreshHeaderDays();
                 RefreshWorkers();
             }
         }
@@ -59,6 +61,8 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public ObservableCollection<MonthTimeSheetWorker> MonthTimeSheetWorkers { get; set; }
 
+        public ObservableCollection<HeaderDayMonthTimeSheet> HeaderDayMonthTimeSheets { get; set; }
+
         public MonthTimeSheetViewModel()
         {
             MouseDoubleClickCommand = new RelayCommand(MouseDoubleClick);
@@ -67,6 +71,45 @@ namespace AIS_Enterprise_AV.ViewModels
             if (Years.Any())
             {
                 SelectedYear = Years.Max();
+            }
+        }
+
+        private void RefreshHeaderDays()
+        {
+            if (HeaderDayMonthTimeSheets == null)
+            {
+                HeaderDayMonthTimeSheets = new ObservableCollection<HeaderDayMonthTimeSheet>();
+            }
+            else
+            {
+                HeaderDayMonthTimeSheets.Clear();
+            }
+
+            for (int i = 0; i < 31; i++)
+            {
+                HeaderDayMonthTimeSheets.Add(new HeaderDayMonthTimeSheet());
+            }
+
+            var currentDate = DateTime.Now;
+
+            var firstDateInMonth = new DateTime(SelectedYear, SelectedMonth, 1);
+
+            int lastDay;
+            if (SelectedYear == currentDate.Year && SelectedMonth == currentDate.Month)
+            {
+                lastDay = currentDate.Day;
+            }
+            else
+            {
+                lastDay = DateTime.DaysInMonth(SelectedYear, SelectedMonth);
+            }
+            
+            var lastDateInMonth = new DateTime(SelectedYear, SelectedMonth, lastDay);
+
+            for (DateTime date = firstDateInMonth; date.Date <= lastDateInMonth.Date; date = date.AddDays(1))
+            {
+                HeaderDayMonthTimeSheets[date.Day - 1].Header = date.Day + Environment.NewLine + date.ToString("ddd", new CultureInfo(Properties.Settings.Default.Language));
+                HeaderDayMonthTimeSheets[date.Day - 1].IsVisible = true;
             }
         }
 
@@ -131,7 +174,7 @@ namespace AIS_Enterprise_AV.ViewModels
                     }
 
                     int indexHour = 0;
-                    for (DateTime date = firstDateInMonth; date <= lastDateInMonth && date <= DateTime.Now; date = date.AddDays(1))
+                    for (DateTime date = firstDateInMonth; date.Date <= lastDateInMonth.Date && date.Date <= DateTime.Now.Date; date = date.AddDays(1))
                     {
                         if (date.Date >= currentPost.ChangeDate.Date && (currentPost.FireDate == null || currentPost.FireDate != null && currentPost.FireDate.Value.Date >= date.Date))
                         {
@@ -308,12 +351,12 @@ namespace AIS_Enterprise_AV.ViewModels
 
         private void MouseDoubleClick(object parameter)
         {
-            var monthTimeSheetWorker = parameter as MonthTimeSheetWorker;
+            //var monthTimeSheetWorker = parameter as MonthTimeSheetWorker;
 
-            if (monthTimeSheetWorker.FullName != null)
-            {
-                Debug.WriteLine(monthTimeSheetWorker.FullName);
-            }
+            //if (monthTimeSheetWorker.FullName != null)
+            //{
+            //    Debug.WriteLine(monthTimeSheetWorker.FullName);
+            //}
 
             
         }
