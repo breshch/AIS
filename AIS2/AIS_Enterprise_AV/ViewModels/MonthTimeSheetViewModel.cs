@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_AV.ViewModels.Infos;
+using AIS_Enterprise_AV.Views.Infos;
+using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Attributes;
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models.Directories;
@@ -66,6 +68,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public MonthTimeSheetViewModel()
         {
             MouseDoubleClickCommand = new RelayCommand(MouseDoubleClick);
+            ShowOverTimeCommand = new RelayCommand(ShowOverTime);
 
             Years = new ObservableCollection<int>(BC.GetYears());
             if (Years.Any())
@@ -73,6 +76,8 @@ namespace AIS_Enterprise_AV.ViewModels
                 SelectedYear = Years.Max();
             }
         }
+
+        
 
         private void RefreshHeaderDays()
         {
@@ -348,7 +353,6 @@ namespace AIS_Enterprise_AV.ViewModels
         #region Commands
 
         public RelayCommand MouseDoubleClickCommand { get; set; }
-
         private void MouseDoubleClick(object parameter)
         {
             //var monthTimeSheetWorker = parameter as MonthTimeSheetWorker;
@@ -357,8 +361,19 @@ namespace AIS_Enterprise_AV.ViewModels
             //{
             //    Debug.WriteLine(monthTimeSheetWorker.FullName);
             //}
-
             
+        }
+
+        public RelayCommand ShowOverTimeCommand { get; set; }
+
+        private void ShowOverTime(object parameter)
+        {
+            var infoOverTimeView = new InfoOverTimeView();
+            var infoOverTimeViewModel = new InfoOverTimeViewModel();
+
+            infoOverTimeView.DataContext = infoOverTimeViewModel;
+
+            infoOverTimeView.ShowDialog();
         }
 
         #endregion

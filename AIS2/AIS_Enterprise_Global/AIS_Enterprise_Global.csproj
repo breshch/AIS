@@ -85,6 +85,7 @@
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
+    <Compile Include="Models\Infos\InfoOverTime.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />
     <Compile Include="Models\Infos\InfoMonth.cs" />
     <Compile Include="Models\Infos\InfoPanalty.cs" />

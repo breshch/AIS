@@ -2,6 +2,7 @@
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models.Currents;
 using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Global.Models.Infos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -296,5 +297,34 @@ namespace AIS_Enterprise_Global.Models
         }
 
         #endregion
+
+        #region InfoOverTime
+
+        public void AddInfoOverTime(DateTime date, string description)
+        {
+            var overTime = _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.Date, date) == 0);
+            if (overTime == null)
+            {
+                overTime = new InfoOverTime
+                {
+                    Date = date,
+                    Description = description
+                };
+                _dc.InfoOverTimes.Add(overTime);
+            }
+            else
+            {
+                overTime.Description = description;
+            }
+            _dc.SaveChanges();
+        }
+
+        public InfoOverTime GetInfoOverTime(DateTime date)
+        {
+             return _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.Date, date) == 0);
+        }
+
+        #endregion
+        
     }
 }

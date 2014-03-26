@@ -30,11 +30,12 @@
             <ComboBox Width="150" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear, Mode=TwoWay}"  Margin="10, 0, 0, 0"/>
             <TextBlock Text="Месяц" Margin="20, 0, 0, 0"/>
             <ComboBox Width="150" ItemsSource="{Binding Monthes}" SelectedItem="{Binding SelectedMonth, Mode=TwoWay}" Margin="10, 0, 0, 0"/>
+            <Button Content="Переработка" Command="{Binding ShowOverTimeCommand}" Width="150" Margin="50,0,0,0"/>
         </StackPanel>
 
         <DataGrid Name="DataGridMonthSheet" Grid.Row="1" ItemsSource="{Binding MonthTimeSheetWorkers, Mode=TwoWay}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="3" ColumnHeaderHeight="40" Margin="0, 20, 0, 0">
-            
+
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding MouseDoubleClickCommand}" CommandParameter="{Binding ElementName=DataGridMonthSheet, Path=SelectedItem}" />
             </DataGrid.InputBindings>
@@ -599,7 +600,7 @@
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                
+
                 <DataGridTextColumn Header="Прогулы" Binding="{Binding MissDays}" Width="60" IsReadOnly="True"/>
 
                 <DataGridTextColumn Header="Аванс Н" Binding="{Binding PrepaymentCash, UpdateSourceTrigger=LostFocus}" Width="60" >
@@ -674,7 +675,7 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                
+
                 <DataGridTextColumn Header="Штраф" Binding="{Binding Panalty, UpdateSourceTrigger=LostFocus}" Width="60"  >
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
@@ -700,7 +701,7 @@
                             </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
-                    
+
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Style.Triggers>
@@ -711,9 +712,9 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                
+
                 <DataGridTextColumn Header="Д/Р" Binding="{Binding BirthDays, UpdateSourceTrigger=LostFocus}" Width="60" IsReadOnly="True"/>
-                
+
                 <DataGridTextColumn Header="Премия" Binding="{Binding Bonus, UpdateSourceTrigger=LostFocus}" Width="60"  >
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
@@ -725,7 +726,7 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                
+
                 <DataGridTextColumn Header="Итого" Binding="{Binding FinalSalary}" Width="80" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
