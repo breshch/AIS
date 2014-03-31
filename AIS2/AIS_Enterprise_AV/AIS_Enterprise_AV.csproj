@@ -70,7 +70,6 @@
     </Compile>
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MonthTimeSheetViewModel.cs" />
     <Compile Include="Views\Infos\InfoOverTimeView.xaml.cs">
       <DependentUpon>InfoOverTimeView.xaml</DependentUpon>
     </Compile>

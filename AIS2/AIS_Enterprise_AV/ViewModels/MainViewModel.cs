@@ -56,7 +56,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
 
 
-            //HelperDefaultDataBase.SetDataBase();
+           // HelperDefaultDataBase.SetDataBase();
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)
@@ -106,10 +106,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         private void ShowMonthTimeSheetView(object parameter)
         {
-            var monthTimeSheetViewModel = new MonthTimeSheetViewModel();
             var monthTimeSheetView = new MonthTimeSheetView();
-
-            monthTimeSheetView.DataContext = monthTimeSheetViewModel;
             monthTimeSheetView.ShowDialog();
         }
     }
