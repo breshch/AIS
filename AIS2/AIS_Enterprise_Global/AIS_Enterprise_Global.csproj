@@ -70,6 +70,7 @@
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\HelperCalendar.cs" />
     <Compile Include="Helpers\HelperDefaultDataBase.cs" />
+    <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Temps\HeaderDayMonthTimeSheet.cs" />
