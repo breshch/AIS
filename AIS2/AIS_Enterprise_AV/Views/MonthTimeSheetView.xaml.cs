@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_AV.ViewModels.Infos;
+using AIS_Enterprise_AV.Views.Infos;
+using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models;
 using System;
@@ -6,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace AIS_Enterprise_AV.Views
 {
@@ -28,6 +32,7 @@ namespace AIS_Enterprise_AV.Views
         private int _currentMonth;
         private int _prevCountLastDaysInMonth;
         private List<MonthTimeSheetWorker> _monthTimeSheetWorkers = new List<MonthTimeSheetWorker>();
+        private List<DateTime> _listDatesOfOverTime = new List<DateTime>();
 
         private const int COUNT_COLUMNS_BEFORE_DAYS = 5;
         private const int COUNT_COLUMNS_AFTER_DAYS = 4;
@@ -55,7 +60,7 @@ namespace AIS_Enterprise_AV.Views
 
             if (ComboboxMonthes.Items.Count != 0)
             {
-                ComboboxMonthes.SelectedIndex = ComboboxMonthes.Items.Count - 1;
+                ComboboxMonthes.SelectedIndex = ComboboxMonthes.Items.Count - 2;
             }
         }
 
@@ -96,7 +101,7 @@ namespace AIS_Enterprise_AV.Views
             }
 
             var workers = _bc.GetDirectoryWorkers(_currentYear, _currentMonth).ToList();
-
+            
             foreach (var worker in workers)
             {
                 var currentPosts = _bc.GetCurrentPosts(worker.Id, _currentYear, _currentMonth);
@@ -210,7 +215,18 @@ namespace AIS_Enterprise_AV.Views
                 }
             }
 
+            //Debug.WriteLine("start");
+
+            //Thread.Sleep(1000);
+
             DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
+            DataGridMonthTimeSheet.Items.Refresh();
+
+            //Thread.Sleep(1000);
+
+            //Debug.WriteLine(DataGridMonthTimeSheet.Items.Count);
+
+
         }
 
         private void ComboboxMonthes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -261,6 +277,49 @@ namespace AIS_Enterprise_AV.Views
                 _bc.EditInfoDateHour(workerId, date, value);
 
                 _monthTimeSheetWorkers[rowIndex].Hours[day - 1] = value;
+
+                double resultValue;
+                if (double.TryParse(value, out resultValue))
+                {
+                    if (resultValue > 8 && !_listDatesOfOverTime.Contains(date))
+                    {
+                        _listDatesOfOverTime.Add(date);
+                    }
+                }
+
+                double prevResultValue = 0;
+                if (double.TryParse(prevValue, out prevResultValue))
+                {
+                    if (prevResultValue > 8)
+                    {
+                        if (Enum.IsDefined(typeof(DescriptionDay), value) || resultValue <= 8)
+                        {
+                            bool isOverTime = false;
+                            foreach (var monthTimeSheetWorker in _monthTimeSheetWorkers)
+                            {
+                                string hour = monthTimeSheetWorker.Hours[day - 1];
+                                if (hour != null)
+                                {
+                                    if (!Enum.IsDefined(typeof(DescriptionDay), hour))
+                                    {
+                                        double hourValue = double.Parse(hour);
+                                        if (hourValue > 8)
+                                        {
+                                            isOverTime = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (!isOverTime)
+                            {
+                                _listDatesOfOverTime.Remove(date);
+                            }
+                        }
+                    }
+                }
+
 
                 double salary = 0;
                 foreach (var monthTimeSheetWorker in _monthTimeSheetWorkers.Where(w => w.WorkerId == workerId))
@@ -426,6 +485,36 @@ namespace AIS_Enterprise_AV.Views
             var cell = DataGridMonthTimeSheet.GetCell(rowIndex, columnIndex);
             var t = cell.Content as TextBlock;
             t.Text = value.ToString();
+        }
+
+        private void DataGridMonthTimeSheet_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+            var cell = DataGridMonthTimeSheet.GetCell(rowIndex, columnIndex);
+            var textBox = (TextBlock)cell.Content;
+
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void ButtonOverTimes_Click(object sender, RoutedEventArgs e)
+        {
+            var infoOverTimeView = new InfoOverTimeView();
+            var infoOverTimeViewModel = new InfoOverTimeViewModel(_listDatesOfOverTime);
+
+            infoOverTimeView.DataContext = infoOverTimeViewModel;
+            infoOverTimeView.ShowDialog();
+
+            for (int i = 0; i < _listDatesOfOverTime.Count; i++)
+            {
+                if (_bc.IsInfoOverTimeDate(_listDatesOfOverTime[i]))
+                {
+                    _listDatesOfOverTime.RemoveAt(i);
+                }
+            }
         }
     }
 }
