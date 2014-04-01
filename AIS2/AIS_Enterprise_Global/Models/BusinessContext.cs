@@ -298,6 +298,7 @@ namespace AIS_Enterprise_Global.Models
 
         #endregion
 
+
         #region InfoOverTime
 
         public void AddInfoOverTime(DateTime date, string description)
@@ -324,6 +325,11 @@ namespace AIS_Enterprise_Global.Models
              return _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.Date, date) == 0);
         }
 
+
+        public bool IsInfoOverTimeDate (DateTime date)
+        {
+            return _dc.InfoOverTimes.Select(o => o.Date).Contains(date);
+        }
         #endregion
         
     }
