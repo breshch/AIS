@@ -72,7 +72,7 @@ namespace AIS_Enterprise_Global.Helpers
                     Address = "Москва",
                     CellPhone = "+7985325642",
                     HomePhone = "+7495231568",
-                    StartDate = DateTime.Now.AddDays(-40),
+                    StartDate = DateTime.Now.AddDays(-45),
                     FireDate = null,
                     Gender = Gender.Male,
                     CurrentCompaniesAndPosts = new List<CurrentPost>(new[] 
@@ -96,7 +96,7 @@ namespace AIS_Enterprise_Global.Helpers
 
                     if (infoDate.DescriptionDay == DescriptionDay.Был)
                     {
-                        infoDate.CountHours = GetRandomNumber(1, 15);
+                        infoDate.CountHours = GetRandomNumber(1, 9);
                     }
 
                     slave.InfoDates.Add(infoDate);
@@ -145,7 +145,7 @@ namespace AIS_Enterprise_Global.Helpers
                     Address = "Питер",
                     CellPhone = "+7985333642",
                     HomePhone = "+7495231568",
-                    StartDate = DateTime.Now.AddDays(-10),
+                    StartDate = DateTime.Now.AddDays(-40),
                     FireDate = null,
                     Gender = Gender.Female,
                     CurrentCompaniesAndPosts = new List<CurrentPost>(new[] 
@@ -181,11 +181,27 @@ namespace AIS_Enterprise_Global.Helpers
 
                     if (infoDate.DescriptionDay == DescriptionDay.Был)
                     {
-                        infoDate.CountHours = GetRandomNumber(1, 15);
+                        infoDate.CountHours = GetRandomNumber(1, 9);
                     }
 
                     slave.InfoDates.Add(infoDate);
                 }
+
+                infoMonth = new InfoMonth
+                {
+                    Date = DateTime.Now.AddMonths(-1),
+                    PrepaymentCash = 1000,
+                    PrepaymentBankTransaction = 500,
+                    VocationPayment = 1500,
+                    SalaryAV = 1000,
+                    SalaryFenox = 2000,
+                    Panalty = 1500,
+                    Inventory = 1500,
+                    BirthDays = 1500,
+                    Bonus = 2000
+                };
+
+                slave.InfoMonthes.Add(infoMonth);
 
                 infoMonth = new InfoMonth
                 {
