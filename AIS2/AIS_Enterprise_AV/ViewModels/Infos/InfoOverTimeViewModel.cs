@@ -14,11 +14,29 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
     {
         #region Base
 
-        public InfoOverTimeViewModel()
+        private class DateProcessing
+        {
+            public DateTime Date { get; set; }
+            public bool IsProcessed { get; set; }
+        }
+
+        private List<DateProcessing> _listDatesOfOverTime;
+
+        public InfoOverTimeViewModel(List<DateTime> listDatesOfOverTime)
         {
             SaveOverTimeCommand = new RelayCommand(SaveOverTime);
 
-            SelectedOverTimeDate = DateTime.Now;
+            _listDatesOfOverTime = new List<DateProcessing>(listDatesOfOverTime.Select(d => new DateProcessing { Date = d, IsProcessed = false }));
+
+            if (_listDatesOfOverTime.Any())
+            {
+                SelectedOverTimeDate = _listDatesOfOverTime.First().Date;
+            }
+            else
+            {
+                SelectedOverTimeDate = DateTime.Now;
+            }
+            
         }
 
         #endregion
@@ -77,6 +95,14 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         private void SaveOverTime(object parameter)
         {
             BC.AddInfoOverTime(SelectedOverTimeDate, OverTimeDescription);
+            _listDatesOfOverTime.First(o => o.Date.Date == SelectedOverTimeDate.Date).IsProcessed = true;
+
+            var dateProcess = _listDatesOfOverTime.FirstOrDefault(o => o.IsProcessed == false);
+
+            if (dateProcess != null)
+            {
+                SelectedOverTimeDate = dateProcess.Date;
+            }
         }
 
         #endregion
