@@ -3,6 +3,9 @@ using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Global.ViewModels;
+using AIS_Enterprise_Global.Views.Currents;
+using AIS_Enterprise_Global.Views.Directories;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,9 +25,6 @@ using System.Windows.Threading;
 
 namespace AIS_Enterprise_AV.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для MonthTimeSheetView.xaml
-    /// </summary>
     public partial class MonthTimeSheetView : Window
     {
         private BusinessContext _bc = new BusinessContext();
@@ -33,13 +33,17 @@ namespace AIS_Enterprise_AV.Views
         private int _prevCountLastDaysInMonth;
         private List<MonthTimeSheetWorker> _monthTimeSheetWorkers = new List<MonthTimeSheetWorker>();
         private List<DateTime> _listDatesOfOverTime = new List<DateTime>();
+        private List<DateTime> _holidays;
 
+        private const int COLUMN_FULL_NAME = 1;
+        private const int COLUMN_POST_NAME = 4;
         private const int COUNT_COLUMNS_BEFORE_DAYS = 5;
         private const int COUNT_COLUMNS_AFTER_DAYS = 4;
+
+
         public MonthTimeSheetView()
         {
             InitializeComponent();
-
 
             ComboboxYears.ItemsSource = _bc.GetYears().ToList();
             if (ComboboxYears.Items.Count != 0)
@@ -50,6 +54,12 @@ namespace AIS_Enterprise_AV.Views
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            while (_listDatesOfOverTime.Any())
+            {
+                ShowOverTimeView();
+            }
+
+
             _bc.Dispose();
         }
 
@@ -66,6 +76,8 @@ namespace AIS_Enterprise_AV.Views
 
         private void FillDataGrid()
         {
+            _bc.RefreshContext();
+
             DataGridMonthTimeSheet.ItemsSource = null;
             if (_prevCountLastDaysInMonth != 0)
             {
@@ -77,8 +89,7 @@ namespace AIS_Enterprise_AV.Views
 
             _monthTimeSheetWorkers.Clear();
 
-
-            int countWorkDaysInMonth = HelperCalendar.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
+            int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
             var firstDateInMonth = new DateTime(_currentYear, _currentMonth, 1);
             DateTime lastDateInMonth = DateTime.Now.Year == _currentYear && DateTime.Now.Month == _currentMonth ? DateTime.Now :
                 new DateTime(_currentYear, _currentMonth, DateTime.DaysInMonth(_currentYear, _currentMonth));
@@ -100,8 +111,10 @@ namespace AIS_Enterprise_AV.Views
                 DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
             }
 
+            _holidays = _bc.GetWeekendsInMonth(_currentYear, _currentMonth).ToList();
+
             var workers = _bc.GetDirectoryWorkers(_currentYear, _currentMonth).ToList();
-            
+
             foreach (var worker in workers)
             {
                 var currentPosts = _bc.GetCurrentPosts(worker.Id, _currentYear, _currentMonth);
@@ -149,10 +162,21 @@ namespace AIS_Enterprise_AV.Views
                                 switch (day.DescriptionDay)
                                 {
                                     case DescriptionDay.Был:
-                                        hour = day.CountHours.ToString();
-                                        monthTimeSheetWorker.OverTime += day.CountHours.Value > 8 ? day.CountHours.Value - 8 : 0;
+                                        if (day.CountHours != null)
+                                        {
+                                            hour = day.CountHours.ToString();
+                                            if (!_holidays.Any(h => h.Date.Date == date.Date))
+                                            {
+                                                monthTimeSheetWorker.OverTime += day.CountHours.Value > 8 ? day.CountHours.Value - 8 : 0;
+                                                salary += day.CountHours.Value <= 8 ? day.CountHours.Value * monthTimeSheetWorker.SalaryInHour : (8 + ((day.CountHours.Value - 8) * 2)) * monthTimeSheetWorker.SalaryInHour;
+                                            }
+                                            else
+                                            {
+                                                monthTimeSheetWorker.OverTime += day.CountHours.Value;
+                                                salary += day.CountHours.Value * monthTimeSheetWorker.SalaryInHour * 2;
+                                            }
+                                        }
 
-                                        salary += day.CountHours.Value <= 8 ? day.CountHours.Value * monthTimeSheetWorker.SalaryInHour : (8 + ((day.CountHours.Value - 8) * 2)) * monthTimeSheetWorker.SalaryInHour;
                                         break;
                                     case DescriptionDay.Б:
                                         if (monthTimeSheetWorker.SickDays < 5)
@@ -185,7 +209,13 @@ namespace AIS_Enterprise_AV.Views
                                 {
                                     hour = day.DescriptionDay.ToString();
                                 }
-
+                                else
+                                {
+                                    if (hour == null)
+                                    {
+                                        hour = "В";
+                                    }
+                                }
 
                                 monthTimeSheetWorker.Hours[indexHour] = hour;
                             }
@@ -215,23 +245,15 @@ namespace AIS_Enterprise_AV.Views
                 }
             }
 
-            //Debug.WriteLine("start");
-
-            //Thread.Sleep(1000);
-
             DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
             DataGridMonthTimeSheet.Items.Refresh();
-
-            //Thread.Sleep(1000);
-
-            //Debug.WriteLine(DataGridMonthTimeSheet.Items.Count);
-
-
         }
 
         private void ComboboxMonthes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _currentMonth = int.Parse(ComboboxMonthes.SelectedItem.ToString());
+
+            ButtonOverTimes.IsEnabled = _bc.GetInfoOverTimeDates(_currentYear, _currentMonth).Any();
 
             FillDataGrid();
         }
@@ -244,7 +266,7 @@ namespace AIS_Enterprise_AV.Views
             int columnIndex = e.Column.DisplayIndex;
             textBox.Text = textBox.Text.ToUpper().Replace(".", ",");
             string value = textBox.Text;
-            
+
             int workerId = _monthTimeSheetWorkers[rowIndex].WorkerId;
 
             int rowIndexOfFullRow = _monthTimeSheetWorkers.IndexOf(_monthTimeSheetWorkers.First(w => w.WorkerId == workerId && w.FullName != null));
@@ -284,6 +306,11 @@ namespace AIS_Enterprise_AV.Views
                     if (resultValue > 8 && !_listDatesOfOverTime.Contains(date))
                     {
                         _listDatesOfOverTime.Add(date);
+
+                        if (!ButtonOverTimes.IsEnabled)
+                        {
+                            ButtonOverTimes.IsEnabled = true;
+                        }
                     }
                 }
 
@@ -315,6 +342,8 @@ namespace AIS_Enterprise_AV.Views
                             if (!isOverTime)
                             {
                                 _listDatesOfOverTime.Remove(date);
+
+                                ButtonOverTimes.IsEnabled = _bc.GetInfoOverTimeDates(_currentYear, _currentMonth).Concat(_listDatesOfOverTime).Any();
                             }
                         }
                     }
@@ -329,47 +358,62 @@ namespace AIS_Enterprise_AV.Views
                     monthTimeSheetWorker.SickDays = 0;
                     monthTimeSheetWorker.MissDays = 0;
 
-                    foreach (var hour in monthTimeSheetWorker.Hours.Where(h => h != null))
+                    for (int currentDay = 0; currentDay < monthTimeSheetWorker.Hours.Count(); currentDay++)
                     {
-                        if (Enum.IsDefined(typeof(DescriptionDay), hour))
-                        {
-                            var descriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), hour);
+                        string hour = monthTimeSheetWorker.Hours[currentDay];
 
-                            switch (descriptionDay)
+                        if (hour != null)
+                        {
+                            if (Enum.IsDefined(typeof(DescriptionDay), hour))
                             {
-                                case DescriptionDay.Б:
-                                    if (monthTimeSheetWorker.SickDays < 5)
-                                    {
-                                        monthTimeSheetWorker.SickDays++;
+                                var descriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), hour);
+
+                                switch (descriptionDay)
+                                {
+                                    case DescriptionDay.Б:
+                                        if (monthTimeSheetWorker.SickDays < 5)
+                                        {
+                                            monthTimeSheetWorker.SickDays++;
+                                            salary += 8 * monthTimeSheetWorker.SalaryInHour;
+                                        }
+                                        else
+                                        {
+                                            monthTimeSheetWorker.MissDays++;
+                                        }
+                                        break;
+                                    case DescriptionDay.О:
+                                        monthTimeSheetWorker.VocationDays++;
                                         salary += 8 * monthTimeSheetWorker.SalaryInHour;
+                                        break;
+                                    case DescriptionDay.ДО:
+                                        break;
+                                    case DescriptionDay.П:
+                                        monthTimeSheetWorker.MissDays++;
+                                        break;
+                                    case DescriptionDay.С:
+                                        monthTimeSheetWorker.MissDays++;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                double countHours;
+                                if (double.TryParse(hour, out countHours))
+                                {
+                                    if (!_holidays.Any(h => h.Date.Date == new DateTime(_currentYear, _currentMonth, currentDay + 1)))
+                                    {
+                                        monthTimeSheetWorker.OverTime += countHours > 8 ? countHours - 8 : 0;
+                                        salary += countHours <= 8 ? countHours * monthTimeSheetWorker.SalaryInHour : (8 + ((countHours - 8) * 2)) * monthTimeSheetWorker.SalaryInHour;
                                     }
                                     else
                                     {
-                                        monthTimeSheetWorker.MissDays++;
+                                        monthTimeSheetWorker.OverTime += countHours;
+                                        salary += countHours * monthTimeSheetWorker.SalaryInHour * 2;
                                     }
-                                    break;
-                                case DescriptionDay.О:
-                                    monthTimeSheetWorker.VocationDays++;
-                                    salary += 8 * monthTimeSheetWorker.SalaryInHour;
-                                    break;
-                                case DescriptionDay.ДО:
-                                    break;
-                                case DescriptionDay.П:
-                                    monthTimeSheetWorker.MissDays++;
-                                    break;
-                                case DescriptionDay.С:
-                                    monthTimeSheetWorker.MissDays++;
-                                    break;
-                                default:
-                                    break;
+                                }
                             }
-                        }
-                        else
-                        {
-                            double countHours = double.Parse(hour);
-
-                            monthTimeSheetWorker.OverTime += countHours > 8 ? countHours - 8 : 0;
-                            salary += countHours <= 8 ? countHours * monthTimeSheetWorker.SalaryInHour : (8 + ((countHours - 8) * 2)) * monthTimeSheetWorker.SalaryInHour;
                         }
                     }
 
@@ -384,7 +428,7 @@ namespace AIS_Enterprise_AV.Views
                 salary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction) -
                        double.Parse(monthTimeSheetWorkerFinalSalary.VocationPayment) - double.Parse(monthTimeSheetWorkerFinalSalary.SalaryAV) - double.Parse(monthTimeSheetWorkerFinalSalary.SalaryFenox) -
                        double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
-               
+
                 monthTimeSheetWorkerFinalSalary.FinalSalary = salary;
 
                 ChangeCellValue(monthTimeSheetWorkerFinalSalary.FinalSalary.Value, rowIndexOfFullRow, columnIndexFinalSalary);
@@ -400,7 +444,7 @@ namespace AIS_Enterprise_AV.Views
                             _bc.EditInfoMonthPayment(workerId, date, "PrepaymentCash", double.Parse(value));
                             ChangeFinalSalary(double.Parse(_monthTimeSheetWorkers[rowIndex].PrepaymentCash) - double.Parse(value), rowIndexOfFullRow, columnIndexFinalSalary);
                             _monthTimeSheetWorkers[rowIndex].PrepaymentCash = value;
-                            
+
                         }
                         break;
                     case 2:
@@ -502,8 +546,15 @@ namespace AIS_Enterprise_AV.Views
 
         private void ButtonOverTimes_Click(object sender, RoutedEventArgs e)
         {
+            ShowOverTimeView();
+
+            ButtonOverTimes.IsEnabled = _bc.GetInfoOverTimeDates(_currentYear, _currentMonth).Concat(_listDatesOfOverTime).Any();
+        }
+
+        private void ShowOverTimeView()
+        {
             var infoOverTimeView = new InfoOverTimeView();
-            var infoOverTimeViewModel = new InfoOverTimeViewModel(_listDatesOfOverTime);
+            var infoOverTimeViewModel = new InfoOverTimeViewModel(_listDatesOfOverTime, new DateTime(_currentYear, _currentMonth, 1), new DateTime(_currentYear, _currentMonth, _prevCountLastDaysInMonth));
 
             infoOverTimeView.DataContext = infoOverTimeViewModel;
             infoOverTimeView.ShowDialog();
@@ -513,6 +564,48 @@ namespace AIS_Enterprise_AV.Views
                 if (_bc.IsInfoOverTimeDate(_listDatesOfOverTime[i]))
                 {
                     _listDatesOfOverTime.RemoveAt(i);
+                }
+            }
+        }
+
+        private void DataGridMonthTimeSheet_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (DataGridMonthTimeSheet.SelectedCells.Any())
+            {
+                var cell = DataGridMonthTimeSheet.SelectedCells[0];
+                var monthTimeSheetWorker = (MonthTimeSheetWorker)cell.Item;
+                int columnIndex = cell.Column.DisplayIndex;
+
+                switch (columnIndex)
+                {
+                    case COLUMN_FULL_NAME:
+                        if (!string.IsNullOrWhiteSpace(monthTimeSheetWorker.FullName))
+                        {
+                            var directoryEditWorkerView = new DirectoryEditWorkerView();
+                            var directoryEditWorkerViewModel = new DirectoryEditWorkerViewModel(monthTimeSheetWorker.WorkerId);
+                            directoryEditWorkerView.DataContext = directoryEditWorkerViewModel;
+
+                            directoryEditWorkerView.ShowDialog();
+
+                            FillDataGrid();
+                        }
+                        break;
+                    case COLUMN_POST_NAME:
+                        var currentCompanyAndPostView = new CurrentCompanyAndPostView();
+                        var currentCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel(new DateTime(_currentYear, _currentMonth, 1),
+                            new DateTime(_currentYear, _currentMonth, _prevCountLastDaysInMonth));
+                        currentCompanyAndPostView.DataContext = currentCompanyAndPostViewModel;
+
+                        currentCompanyAndPostView.ShowDialog();
+
+                        var currentCompanyAndPost = currentCompanyAndPostViewModel.CurrentCompanyAndPost;
+
+                        if (currentCompanyAndPost != null)
+                        {
+                            _bc.AddCurrentPost(monthTimeSheetWorker.WorkerId, currentCompanyAndPost);
+                            FillDataGrid();
+                        }
+                        break;
                 }
             }
         }
