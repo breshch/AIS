@@ -24,7 +24,6 @@ namespace AIS_Enterprise_AV.Views
     {
         public MainView()
         {
-            Debug.WriteLine(Properties.Settings.Default.Language);
             System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Properties.Settings.Default.Language);
 
             InitializeComponent();
