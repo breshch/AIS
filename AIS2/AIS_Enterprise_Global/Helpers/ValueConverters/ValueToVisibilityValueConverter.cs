@@ -17,7 +17,6 @@ namespace AIS_Enterprise_Global.Helpers.ValueConverters
             if (value != null)
             {
                 var textBlock = (TextBlock)value;
-                Debug.WriteLine(textBlock.Text);
                 return !string.IsNullOrWhiteSpace(textBlock.Text) ? Visibility.Visible : Visibility.Collapsed;
             }
 

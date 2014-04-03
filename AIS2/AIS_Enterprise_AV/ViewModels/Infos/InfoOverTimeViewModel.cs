@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
@@ -22,11 +24,13 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private List<DateProcessing> _listDatesOfOverTime;
 
-        public InfoOverTimeViewModel(List<DateTime> listDatesOfOverTime)
+        public InfoOverTimeViewModel(List<DateTime> listDatesOfOverTime, DateTime startDate, DateTime endDate)
         {
             SaveOverTimeCommand = new RelayCommand(SaveOverTime);
 
             _listDatesOfOverTime = new List<DateProcessing>(listDatesOfOverTime.Select(d => new DateProcessing { Date = d, IsProcessed = false }));
+
+            var allowedDates = BC.GetInfoOverTimeDates(startDate.Year, startDate.Month).ToList().Concat(listDatesOfOverTime);
 
             if (_listDatesOfOverTime.Any())
             {
@@ -34,9 +38,23 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             }
             else
             {
-                SelectedOverTimeDate = DateTime.Now;
+                SelectedOverTimeDate = allowedDates.Last();
             }
-            
+
+            Calendar dummyCal = new Calendar();
+            BlackoutDates = new CalendarBlackoutDatesCollection(dummyCal);
+
+            for (DateTime date = startDate.Date; date <= endDate.Date; date = date.AddDays(1))
+            {
+                if (!allowedDates.Contains(date))
+                {
+                    CalendarDateRange r = new CalendarDateRange(date, date);
+                    BlackoutDates.Add(r);
+                }
+            }
+
+            StartDate = startDate;
+            EndDate = endDate;
         }
 
         #endregion
@@ -85,6 +103,11 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             }
         }
 
+        public CalendarBlackoutDatesCollection BlackoutDates { get; set; }
+
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
         #endregion
 
 
@@ -94,14 +117,38 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void SaveOverTime(object parameter)
         {
-            BC.AddInfoOverTime(SelectedOverTimeDate, OverTimeDescription);
-            _listDatesOfOverTime.First(o => o.Date.Date == SelectedOverTimeDate.Date).IsProcessed = true;
-
-            var dateProcess = _listDatesOfOverTime.FirstOrDefault(o => o.IsProcessed == false);
-
-            if (dateProcess != null)
+            if (!string.IsNullOrWhiteSpace(OverTimeDescription))
             {
-                SelectedOverTimeDate = dateProcess.Date;
+                if (!BC.IsInfoOverTimeDate(SelectedOverTimeDate))
+                {
+                    BC.AddInfoOverTime(SelectedOverTimeDate, OverTimeDescription);
+                    _listDatesOfOverTime.First(o => o.Date.Date == SelectedOverTimeDate.Date).IsProcessed = true;
+                }
+                else
+                {
+                    BC.EditInfoOverTime(SelectedOverTimeDate, OverTimeDescription);
+                }
+
+                var dateProcess = _listDatesOfOverTime.FirstOrDefault(o => o.IsProcessed == false);
+
+                if (dateProcess != null)
+                {
+                    SelectedOverTimeDate = dateProcess.Date;
+                }
+                else
+                {
+                    var window = (Window)parameter;
+
+                    if (window != null)
+                    {
+                        window.Close();
+                    }
+                }
+                
+            }
+            else
+            {
+                BC.RemoveInfoOverTime(SelectedOverTimeDate);
             }
         }
 

@@ -54,9 +54,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
             Languages = new ObservableCollection<string>(new[] { "ru-RU", "en-US" });
 
-
-
-           // HelperDefaultDataBase.SetDataBase();
+            BC.InitializeDefaultDataBase();
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)

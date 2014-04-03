@@ -86,7 +86,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void AddCompanyAndPost(object parameter)
         {
-            var currentWorkerCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel();
+            var currentWorkerCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel(SelectedDirectoryWorkerStartDate, DateTime.Now);
             var currentWorkerCompanyAndPostView = new CurrentCompanyAndPostView();
 
             currentWorkerCompanyAndPostView.DataContext = currentWorkerCompanyAndPostViewModel;
