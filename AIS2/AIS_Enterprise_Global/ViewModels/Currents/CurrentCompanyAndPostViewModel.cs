@@ -19,15 +19,19 @@ namespace AIS_Enterprise_Global.ViewModels
     {
         #region Base
 
-        public CurrentCompanyAndPostViewModel()
+        public CurrentCompanyAndPostViewModel(DateTime startDate, DateTime endDate)
             : base()
         {
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
 
             AddCommand = new RelayCommand(Add, CanAdding);
 
-            SelectedPostChangeDate = DateTime.Now;
+            StartDate = startDate;
+            EndDate = endDate;
+
+            SelectedPostChangeDate = endDate;
         }
+
 
         #endregion
 
@@ -65,6 +69,10 @@ namespace AIS_Enterprise_Global.ViewModels
         public DateTime SelectedPostChangeDate { get; set; }
 
         public CurrentCompanyAndPost CurrentCompanyAndPost { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         #endregion
 

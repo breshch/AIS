@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen" 
         Title="Редактирование сотрудника" Height="700" Width="550">
 
@@ -78,7 +79,7 @@
 
                 <StackPanel Grid.Row="4" Margin="0, 5, 0, 0">
                     <TextBlock Text="Дата рождения"/>
-                    <DatePicker SelectedDate="{Binding SelectedDirectoryWorkerBirthDay, Mode=TwoWay}" IsEnabled="{Binding IsNotFireDate}"/>
+                    <DatePicker SelectedDate="{Binding SelectedDirectoryWorkerBirthDay, Mode=TwoWay}" IsEnabled="{Binding IsNotFireDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}" Focusable="False"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Margin="0, 5, 0, 0">
@@ -99,7 +100,7 @@
 
                 <StackPanel Grid.Row="8" Margin="0, 5, 0, 0">
                     <TextBlock Text="Дата принятия на работу"/>
-                    <DatePicker SelectedDate="{Binding SelectedDirectoryWorkerStartDate, Mode=TwoWay}" IsEnabled="{Binding IsNotFireDate}"/>
+                    <DatePicker SelectedDate="{Binding SelectedDirectoryWorkerStartDate, Mode=TwoWay}" IsEnabled="{Binding IsNotFireDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}" Focusable="False"/>
                 </StackPanel>
             </Grid>
 

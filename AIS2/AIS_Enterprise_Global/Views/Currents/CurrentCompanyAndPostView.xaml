@@ -35,7 +35,7 @@
 
         <StackPanel Grid.Row="2" Margin="0, 5, 0, 0">
             <TextBlock Text="Дата приёма на должность"/>
-            <DatePicker SelectedDate="{Binding SelectedPostChangeDate}"/>
+            <DatePicker SelectedDate="{Binding SelectedPostChangeDate}" DisplayDateStart="{Binding StartDate}" DisplayDateEnd="{Binding EndDate}" Focusable="False" />
         </StackPanel>
 
         <Button Grid.Row="3" Margin="0, 15, 0, 0" Content="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=CompanyAndPostWindow}"/>
