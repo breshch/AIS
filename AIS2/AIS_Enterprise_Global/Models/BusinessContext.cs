@@ -25,41 +25,17 @@ namespace AIS_Enterprise_Global.Models
             _dc = new DataContext();
         }
 
-        public DataContext DataContext
-        {
-            get
-            {
-                return _dc;
-            }
-        }
-
-        public void InitializeDatabase()
-        {
-            _dc.Database.Initialize(false);
-        }
-
-        public void CreateDatabase()
-        {
-            if (_dc.Database.Exists())
-            {
-                _dc.Database.Delete();
-                _dc.Dispose();
-                _dc = new DataContext();
-            }
-
-            _dc.Database.Create();
-        }
-
-        public void Dispose()
-        {
-            _dc.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
-        public void RefreshContext()
+        public virtual void RefreshContext()
         {
             _dc.Dispose();
             _dc = new DataContext();
+        }
+
+
+        public virtual void Dispose()
+        {
+            _dc.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -252,19 +228,33 @@ namespace AIS_Enterprise_Global.Models
             var worker = GetDirectoryWorker(workerId);
             var infoDate = worker.InfoDates.First(d => d.Date.Date == date.Date);
 
-            if (Enum.IsDefined(typeof(DescriptionDay), hour))
+            if (hour != "В")
             {
-                infoDate.CountHours = null;
-                infoDate.DescriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), hour);
+                if (Enum.IsDefined(typeof(DescriptionDay), hour))
+                {
+                    infoDate.CountHours = null;
+                    infoDate.DescriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), hour);
+                }
+                else
+                {
+                    infoDate.CountHours = double.Parse(hour);
+                    infoDate.DescriptionDay = DescriptionDay.Был;
+                }
             }
             else
             {
-                infoDate.CountHours = double.Parse(hour);
+                infoDate.CountHours = null;
                 infoDate.DescriptionDay = DescriptionDay.Был;
             }
 
             _dc.SaveChanges();
         }
+
+        public IQueryable<InfoDate> GetInfoDates(DateTime date)
+        {
+            return _dc.InfoDates.Where(d => DbFunctions.DiffDays(d.Date, date) == 0);
+        }
+
         #endregion
 
 
@@ -287,62 +277,6 @@ namespace AIS_Enterprise_Global.Models
         public IQueryable<int> GetMonthes(int year)
         {
             return _dc.InfoMonthes.Where(m => m.Date.Year == year).Select(m => m.Date.Month).Distinct();
-        }
-
-        #endregion
-
-
-        #region InfoOverTime
-
-        public void AddInfoOverTime(DateTime date, string description)
-        {
-            var overTime = _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.Date, date) == 0);
-            if (overTime == null)
-            {
-                overTime = new InfoOverTime
-                {
-                    Date = date,
-                    Description = description
-                };
-                _dc.InfoOverTimes.Add(overTime);
-
-                _dc.SaveChanges();
-            }
-        }
-
-        public InfoOverTime GetInfoOverTime(DateTime date)
-        {
-            return _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.Date, date) == 0);
-        }
-
-        public IQueryable<DateTime> GetInfoOverTimeDates(int year, int month)
-        {
-            return _dc.InfoOverTimes.Where(o => o.Date.Year == year && o.Date.Month == month).Select(o => o.Date);
-        }
-
-        public bool IsInfoOverTimeDate(DateTime date)
-        {
-            return _dc.InfoOverTimes.Select(o => o.Date).Contains(date);
-        }
-
-        public void RemoveInfoOverTime(DateTime date)
-        {
-            var infoOverTime = _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.Date, date) == 0);
-            if (infoOverTime != null)
-            {
-                _dc.InfoOverTimes.Remove(infoOverTime);
-                _dc.SaveChanges();
-            }
-        }
-
-        public void EditInfoOverTime(DateTime date, string description)
-        {
-            var overTime = _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.Date, date) == 0);
-            if (overTime != null)
-            {
-                overTime.Description = description;
-                _dc.SaveChanges();
-            }
         }
 
         #endregion
@@ -371,14 +305,15 @@ namespace AIS_Enterprise_Global.Models
             _dc.SaveChanges();
         }
 
-        public IEnumerable<CurrentPost> GetCurrentPosts(int workerId, int year, int month)
+        public IEnumerable<CurrentPost> GetCurrentPosts(int workerId, int year, int month, int lastDayInMonth)
         {
-            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            var lastDateInMonth = new DateTime(year, month, lastDayInMonth);
             var firstDateInMonth = new DateTime(year, month, 1);
 
             var worker = _dc.DirectoryWorkers.Find(workerId);
 
-            return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null || p.FireDate.Value >= firstDateInMonth);
+            return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null ||
+                p.FireDate != null && p.FireDate.Value >= firstDateInMonth && p.ChangeDate.Date <= lastDateInMonth.Date);
         }
 
         #endregion
@@ -403,10 +338,10 @@ namespace AIS_Enterprise_Global.Models
                             var date = DateTime.Parse(line.Substring(0, 10));
 
 
-                            if (!dc.DirectoryHolidays.Select(h => h.Date).Contains(date))
+                            if (!dc.DirectoryWeekends.Select(h => h.Date).Contains(date))
                             {
-                                var directoryHoliday = new DirectoryHoliday { Date = date };
-                                dc.DirectoryHolidays.Add(directoryHoliday);
+                                var directoryHoliday = new DirectoryWeekend { Date = date };
+                                dc.DirectoryWeekends.Add(directoryHoliday);
                             }
                         }
                     }
@@ -419,250 +354,19 @@ namespace AIS_Enterprise_Global.Models
         {
             using (var dc = new DataContext())
             {
-                int holiDays = dc.DirectoryHolidays.Where(h => h.Date.Year == year && h.Date.Month == month).Count();
+                int holiDays = dc.DirectoryWeekends.Where(h => h.Date.Year == year && h.Date.Month == month).Count();
                 return DateTime.DaysInMonth(year, month) - holiDays;
             }
         }
 
         public IQueryable<DateTime> GetWeekendsInMonth(int year, int month)
         {
-            return _dc.DirectoryHolidays.Where(h => h.Date.Year == year && h.Date.Month == month).Select(h => h.Date);
+            return _dc.DirectoryWeekends.Where(h => h.Date.Year == year && h.Date.Month == month).Select(h => h.Date);
         }
 
-        #endregion
-
-
-        #region InitializeDefaultDataBase
-
-        public void InitializeDefaultDataBase()
+        public bool IsWeekend(DateTime date)
         {
-            if (_dc.Database.Exists())
-            {
-                _dc.Database.Delete();
-
-                _dc.Dispose();
-                _dc = new DataContext();
-            }
-
-            _dc.Database.Create();
-            InputDateToDataBase(2014);
-
-            var company = new DirectoryCompany { Name = "АВ" };
-
-            _dc.DirectoryCompanies.Add(company);
-            _dc.SaveChanges();
-
-            var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
-
-            _dc.DirectoryTypeOfPosts.Add(typeOfPost);
-            _dc.SaveChanges();
-
-            var post = new DirectoryPost
-            {
-                Name = "Грузчик",
-                DirectoryTypeOfPost = typeOfPost,
-                DirectoryCompany = company,
-                Date = new DateTime(2014, 01, 01),
-                UserWorkerSalary = 25000,
-                UserWorkerHalfSalary = 10000
-            };
-
-            _dc.DirectoryPosts.Add(post);
-
-            post = new DirectoryPost
-            {
-                Name = "Карщик",
-                DirectoryTypeOfPost = typeOfPost,
-                DirectoryCompany = company,
-                Date = new DateTime(2014, 01, 01),
-                UserWorkerSalary = 27000,
-                UserWorkerHalfSalary = 10000
-            };
-
-            _dc.DirectoryPosts.Add(post);
-            _dc.SaveChanges();
-
-
-            var slave = new DirectoryWorker
-            {
-                LastName = "Пупкин",
-                FirstName = "Василий",
-                MidName = "Васильевич",
-                BirthDay = new DateTime(1979, 12, 31),
-                Address = "Москва",
-                CellPhone = "+7985325642",
-                HomePhone = "+7495231568",
-                StartDate = DateTime.Now.AddDays(-45),
-                FireDate = null,
-                Gender = Gender.Male,
-                CurrentCompaniesAndPosts = new List<CurrentPost>(new[] 
-                    { 
-                        new CurrentPost
-                        {
-                            DirectoryPost = _dc.DirectoryPosts.First(),
-                            ChangeDate = DateTime.Now.AddDays(-40)
-                        }
-                    })
-            };
-
-            var holidays = new List<DateTime>();
-            for (DateTime date = slave.StartDate; date <= DateTime.Now; date = date.AddMonths(1))
-            {
-                holidays.AddRange(GetWeekendsInMonth(date.Year, date.Month).ToList());
-            }
-
-            for (DateTime date = slave.StartDate; date <= DateTime.Now; date = date.AddDays(1))
-            {
-                var infoDate = new InfoDate();
-                infoDate.Date = date;
-
-                if (!holidays.Any(h => h.Date.Date == date.Date))
-                {
-                    infoDate.DescriptionDay = (DescriptionDay)HelperMethods.GetRandomNumber(0, 6);
-
-                    if (infoDate.DescriptionDay == DescriptionDay.Был)
-                    {
-                        infoDate.CountHours = HelperMethods.GetRandomNumber(1, 9);
-                    }
-                }
-                else
-                {
-                    infoDate.DescriptionDay = DescriptionDay.Был;
-                }
-
-                slave.InfoDates.Add(infoDate);
-            }
-
-            var infoMonth = new InfoMonth
-            {
-                Date = DateTime.Now,
-                PrepaymentCash = 1500,
-                PrepaymentBankTransaction = 1000,
-                VocationPayment = 500,
-                SalaryAV = 2000,
-                SalaryFenox = 1000,
-                Panalty = 500,
-                Inventory = 1000,
-                BirthDays = 500,
-                Bonus = 5000
-            };
-
-            slave.InfoMonthes.Add(infoMonth);
-
-            infoMonth = new InfoMonth
-            {
-                Date = DateTime.Now.AddMonths(-1),
-                PrepaymentCash = 1500,
-                PrepaymentBankTransaction = 1000,
-                VocationPayment = 500,
-                SalaryAV = 2000,
-                SalaryFenox = 1000,
-                Panalty = 500,
-                Inventory = 1000,
-                BirthDays = 500,
-                Bonus = 5000
-            };
-
-            slave.InfoMonthes.Add(infoMonth);
-
-            _dc.DirectoryWorkers.Add(slave);
-
-            slave = new DirectoryWorker
-            {
-                LastName = "Пупкина",
-                FirstName = "Василиса",
-                MidName = "Васильевна",
-                BirthDay = new DateTime(1917, 10, 15),
-                Address = "Питер",
-                CellPhone = "+7985333642",
-                HomePhone = "+7495231568",
-                StartDate = DateTime.Now.AddDays(-40),
-                FireDate = null,
-                Gender = Gender.Female,
-                CurrentCompaniesAndPosts = new List<CurrentPost>(new[] 
-                    { 
-                        new CurrentPost
-                        {
-                            DirectoryPost = _dc.DirectoryPosts.First(),
-                            ChangeDate = DateTime.Now.AddDays(-12),
-                            FireDate = DateTime.Now.AddDays(-8)
-                        },
-                        new CurrentPost
-                        {
-                            DirectoryPost = _dc.DirectoryPosts.First(p => p.Name == "Карщик"),
-                            ChangeDate = DateTime.Now.AddDays(-7),
-                            FireDate = DateTime.Now.AddDays(-5)
-                        },
-                        new CurrentPost
-                        {
-                            DirectoryPost = _dc.DirectoryPosts.First(),
-                            ChangeDate = DateTime.Now.AddDays(-4)
-                        }
-                    })
-            };
-
-            holidays = new List<DateTime>();
-            for (DateTime date = slave.StartDate; date <= DateTime.Now; date = date.AddMonths(1))
-            {
-                holidays.AddRange(GetWeekendsInMonth(date.Year, date.Month).ToList());
-            }
-
-            for (DateTime date = slave.StartDate; date <= DateTime.Now; date = date.AddDays(1))
-            {
-                var infoDate = new InfoDate();
-                infoDate.Date = date;
-
-                if (!holidays.Any(h => h.Date.Date == date.Date))
-                {
-                    infoDate.DescriptionDay = (DescriptionDay)HelperMethods.GetRandomNumber(0, 6);
-
-                    if (infoDate.DescriptionDay == DescriptionDay.Был)
-                    {
-                        infoDate.CountHours = HelperMethods.GetRandomNumber(1, 9);
-                    }
-                }
-                else
-                {
-                    infoDate.DescriptionDay = DescriptionDay.Был;
-                }
-
-                slave.InfoDates.Add(infoDate);
-            }
-
-            infoMonth = new InfoMonth
-            {
-                Date = DateTime.Now.AddMonths(-1),
-                PrepaymentCash = 1000,
-                PrepaymentBankTransaction = 500,
-                VocationPayment = 1500,
-                SalaryAV = 1000,
-                SalaryFenox = 2000,
-                Panalty = 1500,
-                Inventory = 1500,
-                BirthDays = 1500,
-                Bonus = 2000
-            };
-
-            slave.InfoMonthes.Add(infoMonth);
-
-            infoMonth = new InfoMonth
-            {
-                Date = DateTime.Now,
-                PrepaymentCash = 1000,
-                PrepaymentBankTransaction = 500,
-                VocationPayment = 1500,
-                SalaryAV = 1000,
-                SalaryFenox = 2000,
-                Panalty = 1500,
-                Inventory = 1500,
-                BirthDays = 1500,
-                Bonus = 2000
-            };
-
-            slave.InfoMonthes.Add(infoMonth);
-
-            _dc.DirectoryWorkers.Add(slave);
-            _dc.SaveChanges();
+            return _dc.DirectoryWeekends.Any(w => DbFunctions.DiffDays(w.Date, date) == 0);
         }
 
         #endregion

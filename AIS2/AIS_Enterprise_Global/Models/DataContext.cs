@@ -12,7 +12,7 @@ namespace AIS_Enterprise_Global.Models
 {
     public class DataContext : DbContext
     {
-        public DataContext() : base("Default")
+        public DataContext(string name = "Default") : base(name)
         {
 
         }
@@ -22,13 +22,11 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<DirectoryPost> DirectoryPosts { get; set; }
         public DbSet<DirectoryWorker> DirectoryWorkers { get; set; }
 
-        public DbSet<DirectoryHoliday> DirectoryHolidays { get; set; }
+        public DbSet<DirectoryWeekend> DirectoryWeekends { get; set; }
 
         public DbSet<CurrentPost> CurrentPosts { get; set; }
 
         public DbSet<InfoDate> InfoDates { get; set; }
         public DbSet<InfoMonth> InfoMonthes { get; set; }
-
-        public DbSet<InfoOverTime> InfoOverTimes { get; set; }
     }
 }

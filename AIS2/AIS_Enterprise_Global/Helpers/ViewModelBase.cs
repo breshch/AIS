@@ -14,22 +14,8 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers
 {
-    public class ViewModel : NotifyPropertyChangedBase, IDataErrorInfo
+    public class ViewModelBase : NotifyPropertyChangedBase, IDataErrorInfo
     {
-        protected BusinessContext BC = new BusinessContext();
-
-        public ViewModel()
-        {
-            ViewCloseCommand = new RelayCommand(ViewClose);
-        }
-
-        public RelayCommand ViewCloseCommand { get; set; }
-
-        public virtual void ViewClose(object parameter)
-        {
-            BC.Dispose();
-        }
-
         public string Error
         {
             get { throw new NotImplementedException(); }
