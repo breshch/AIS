@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Models.Directories
 {
-    public class DirectoryHoliday
+    public class DirectoryWeekend
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

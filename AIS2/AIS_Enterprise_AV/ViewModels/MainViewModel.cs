@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise_AV.Views;
+using AIS_Enterprise_AV.Views.Directories;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Attributes;
 using AIS_Enterprise_Global.ViewModels;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
-    public class MainViewModel : ViewModel
+    public class MainViewModel : ViewModelAV
     {
         public ObservableCollection<string> Languages { get; set; }
 
@@ -42,6 +43,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand ShowDirectoryAddWorkerViewCommand { get; set; }
         public RelayCommand ShowDirectoryWorkerListViewCommand { get; set; }
         public RelayCommand ShowMonthTimeSheetViewCommand { get; set; }
+        public RelayCommand ShowDirectoryRCViewCommand { get; set; }
 
         public MainViewModel() : base()
         {
@@ -51,6 +53,7 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDirectoryAddWorkerViewCommand = new RelayCommand(ShowDirectoryAddWorkerView);
             ShowDirectoryWorkerListViewCommand = new RelayCommand(ShowDirectoryWorkerListView);
             ShowMonthTimeSheetViewCommand = new RelayCommand(ShowMonthTimeSheetView);
+            ShowDirectoryRCViewCommand = new RelayCommand(ShowDirectoryRCView);
 
             Languages = new ObservableCollection<string>(new[] { "ru-RU", "en-US" });
 
@@ -106,6 +109,21 @@ namespace AIS_Enterprise_AV.ViewModels
         {
             var monthTimeSheetView = new MonthTimeSheetView();
             monthTimeSheetView.ShowDialog();
+        }
+
+        private void ShowDirectoryRCView(object parameter)
+        {
+            var directoryRCViewModel = new DirectoryRCViewModel();
+            var directoryRCView = new DirectoryRCView();
+
+            directoryRCView.DataContext = directoryRCViewModel;
+            directoryRCView.ShowDialog();
+
+            //var directoryRCViewModel = new TestViewModel();
+            //var directoryRCView = new TestView();
+
+            //directoryRCView.DataContext = directoryRCViewModel;
+            //directoryRCView.ShowDialog();
         }
     }
 }

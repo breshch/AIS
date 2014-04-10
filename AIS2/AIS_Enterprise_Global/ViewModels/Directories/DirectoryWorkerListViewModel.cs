@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories
 {
-    public class DirectoryWorkerListViewModel : ViewModel
+    public class DirectoryWorkerListViewModel : ViewModelGlobal
     {
         #region Base
 

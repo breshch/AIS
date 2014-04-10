@@ -14,7 +14,7 @@ using AIS_Enterprise_Global.Helpers.Attributes;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
-    public class DirectoryTypeOfPostViewModel : ViewModel
+    public class DirectoryTypeOfPostViewModel : ViewModelGlobal
     {
         #region Base
 

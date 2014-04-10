@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
-    public class CurrentCompanyAndPostViewModel : ViewModel
+    public class CurrentCompanyAndPostViewModel : ViewModelGlobal
     {
         #region Base
 

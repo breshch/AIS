@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_AV.ViewModels;
+﻿using AIS_Enterprise_AV.Models;
+using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.ViewModels;
@@ -28,9 +29,9 @@ namespace AIS_Enterprise_AV
         {
             base.OnStartup(e);
 
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AIS_Enterprise_Global.Models.DataContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContextAV>());
 
-            using (var bc = new BusinessContext())
+            using (var bc = new BusinessContextAV())
             {
                 bc.InitializeDatabase();
             }

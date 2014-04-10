@@ -13,7 +13,7 @@ using System.Data.Entity;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
-    public class DirectoryCompanyViewModel : ViewModel
+    public class DirectoryCompanyViewModel : ViewModelGlobal
     {
         #region Base
 

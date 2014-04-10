@@ -1,11 +1,15 @@
 + добавить ограничения на текстбоксы
 + метод создания дефолдной заливки
 + переделать передачи на id
++ readonly datagrid cell
++ datagrid headers
++ ФИО doubleclick
++ Должность doubleclick
 - добавить документы, фото
 - добавить маску для тел и адрес
 - сделать файл настройки
-- readonly datagrid cell
-- datagrid headers
 - переработки
-- ФИО doubleclick
-- Должность doubleclick
+- Добавить поле в должности AdminWorkerSalary
+- запрет ввода проставки В в workday и наоборот
+- ПАМ-16
+- при загрузке формы переработки установиь правильный starttime

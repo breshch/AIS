@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories
 {
-    public class DirectoryWorkerFireDateViewModel : ViewModel
+    public class DirectoryWorkerFireDateViewModel : ViewModelGlobal
     {
 
         #region Base

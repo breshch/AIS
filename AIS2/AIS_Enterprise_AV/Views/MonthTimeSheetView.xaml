@@ -4,6 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
+        xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
         WindowStartupLocation="CenterScreen"
         Title="Месячный табель" 
         Height="300" Width="Auto" SizeToContent="Width" Closing="Window_Closing">
@@ -25,8 +26,16 @@
 
         <DataGrid x:Name="DataGridMonthTimeSheet" Grid.Row="1" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="Cell"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="5" ColumnHeaderHeight="40" 
-                  Margin="0, 20, 0, 0" CellEditEnding="DataGridMonthTimeSheet_CellEditEnding" BeginningEdit="DataGridMonthTimeSheet_BeginningEdit" MouseDoubleClick="DataGridMonthTimeSheet_MouseDoubleClick">
+                  Margin="0, 20, 0, 0" CellEditEnding="DataGridMonthTimeSheet_CellEditEnding" BeginningEdit="DataGridMonthTimeSheet_BeginningEdit" 
+                  MouseDoubleClick="DataGridMonthTimeSheet_MouseDoubleClick" SelectedCellsChanged="DataGridMonthTimeSheet_SelectedCellsChanged" >
 
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <!--<EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown"></EventSetter>-->
+                    <EventSetter Event="MouseRightButtonDown" Handler="DataGridCell_MouseRightButtonDown" />
+                </Style>
+            </DataGrid.CellStyle>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding WorkerId}" Header="WorkerId" Visibility="Collapsed" Width="60"/>
                 <DataGridTextColumn Binding="{Binding FullName}" Header="ФИО" IsReadOnly="True" Width="250"/>

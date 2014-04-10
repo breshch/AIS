@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace AIS_Enterprise_Global.Helpers.Temps
 {
-    public class HourWorker : ViewModel
+    public class HourWorker : ViewModelGlobal
     {
         public event Action<int> OnChange;
 
