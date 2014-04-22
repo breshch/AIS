@@ -1,5 +1,8 @@
-﻿using AIS_Enterprise_AV.Views;
+﻿using AIS_Enterprise_AV.Helpers.ExcelToDB;
+using AIS_Enterprise_AV.ViewModels.Helpers;
+using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Directories;
+using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Attributes;
 using AIS_Enterprise_Global.ViewModels;
@@ -44,6 +47,9 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand ShowDirectoryWorkerListViewCommand { get; set; }
         public RelayCommand ShowMonthTimeSheetViewCommand { get; set; }
         public RelayCommand ShowDirectoryRCViewCommand { get; set; }
+        public RelayCommand ShowSalaryViewCommand { get; set; }
+        public RelayCommand ShowExcelToDBCommand { get; set; }
+
 
         public MainViewModel() : base()
         {
@@ -54,10 +60,12 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDirectoryWorkerListViewCommand = new RelayCommand(ShowDirectoryWorkerListView);
             ShowMonthTimeSheetViewCommand = new RelayCommand(ShowMonthTimeSheetView);
             ShowDirectoryRCViewCommand = new RelayCommand(ShowDirectoryRCView);
+            ShowSalaryViewCommand = new RelayCommand(ShowSalaryView);
+            ShowExcelToDBCommand = new RelayCommand(ShowExcelToDB);
 
             Languages = new ObservableCollection<string>(new[] { "ru-RU", "en-US" });
 
-            BC.InitializeDefaultDataBase();
+            //BC.InitializeDefaultDataBase();
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)
@@ -118,12 +126,20 @@ namespace AIS_Enterprise_AV.ViewModels
 
             directoryRCView.DataContext = directoryRCViewModel;
             directoryRCView.ShowDialog();
+        }
 
-            //var directoryRCViewModel = new TestViewModel();
-            //var directoryRCView = new TestView();
+        private void ShowSalaryView(object parameter)
+        {
+            var salaryViewModel = new SalaryViewModel();
+            var salaryView = new SalaryView();
 
-            //directoryRCView.DataContext = directoryRCViewModel;
-            //directoryRCView.ShowDialog();
+            salaryView.DataContext = salaryViewModel;
+            salaryView.ShowDialog();
+        }
+
+        private void ShowExcelToDB(object parameter)
+        {
+            ConvertingExcelToDB.ConvertExcelToDB(BC);
         }
     }
 }

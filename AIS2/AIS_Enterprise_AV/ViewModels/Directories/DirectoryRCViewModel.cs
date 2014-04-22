@@ -17,23 +17,28 @@ namespace AIS_Enterprise_AV.ViewModels
     public class DirectoryRCViewModel : ViewModelAV
     {
         #region Base
-
+        private const int MAXIMUM_PERCENTAGE = 100;
+       
         public DirectoryRCViewModel() : base()
         {
             RefreshDirectoryRCs();
 
             AddCommand = new RelayCommand(Add, CanAdding);
             RemoveCommand = new RelayCommand(Remove, CanRemoving);
+            
+            MinimumPercentes = 0;
         }
 
         private void RefreshDirectoryRCs()
         {
             DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs().ToList());
+            MaximumPercentes = MAXIMUM_PERCENTAGE - DirectoryRCs.Sum(r => r.Percentes);
         }
 
         private void ClearInputData()
         {
             DirectoryRCName = null;
+            Percentes = 0;
         }
 
         #endregion
@@ -49,6 +54,12 @@ namespace AIS_Enterprise_AV.ViewModels
         [Display(Name = "Название ЦО")]
         public string DirectoryRCName { get; set; }
 
+        public int Percentes { get; set; }
+
+        public int MinimumPercentes { get; set; }
+        public int MaximumPercentes { get; set; }
+
+
         #endregion
 
 
@@ -59,7 +70,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public void Add(object parameter)
         {
-            BC.AddDirectoryRC(DirectoryRCName);
+            BC.AddDirectoryRC(DirectoryRCName, Percentes);
 
             RefreshDirectoryRCs();
 

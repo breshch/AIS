@@ -42,9 +42,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.3.1.3.3\lib\net35\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\Expression\Blend\.NETFramework\v4.5\Libraries\System.Windows.Interactivity.dll</HintPath>
@@ -88,16 +92,29 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\ExcelToDB\ConvertingExcelToDB.cs" />
+    <Compile Include="Helpers\FormingSalaryReport.cs" />
+    <Compile Include="Helpers\Temps\WorkerPostReportSalary.cs" />
+    <Compile Include="Helpers\Temps\WorkerRCSummForReport.cs" />
+    <Compile Include="Helpers\Temps\WorkerSummForReport.cs" />
     <Compile Include="Helpers\ViewModelAV.cs" />
     <Compile Include="Models\BusinessContextAV.cs" />
+    <Compile Include="Models\Currents\CurrentRC.cs" />
     <Compile Include="Models\DataContextAV.cs" />
     <Compile Include="Models\Directories\DirectoryRC.cs" />
     <Compile Include="Models\Infos\InfoOverTime.cs" />
+    <Compile Include="Helpers\Temps\HeaderDayMonthTimeSheet.cs" />
+    <Compile Include="Helpers\Temps\HourWorker.cs" />
+    <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
     <Compile Include="ViewModels\Directories\DirectoryRCViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\SalaryViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Directories\DirectoryRCView.xaml.cs">
       <DependentUpon>DirectoryRCView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\SalaryView.xaml.cs">
+      <DependentUpon>SalaryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoOverTimeView.xaml.cs">
       <DependentUpon>InfoOverTimeView.xaml</DependentUpon>
@@ -148,6 +165,10 @@
     <Page Include="Views\Directories\DirectoryRCView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\SalaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\InfoOverTimeView.xaml">
       <SubType>Designer</SubType>

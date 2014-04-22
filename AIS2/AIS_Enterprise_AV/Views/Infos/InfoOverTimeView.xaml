@@ -63,7 +63,7 @@
 
         <DockPanel Grid.Row="3" Margin="0,10,0,0">
             <TextBlock DockPanel.Dock="Top" Text="Описание переработки"/>
-            <TextBox DockPanel.Dock="Bottom" Text="{Binding OverTimeDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
+            <TextBox DockPanel.Dock="Bottom" Text="{Binding OverTimeDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" TextWrapping="Wrap"/>
         </DockPanel>
 
         <Grid Grid.Row="4" Margin="0, 15, 0, 0">

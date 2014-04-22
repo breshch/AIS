@@ -38,6 +38,11 @@ namespace AIS_Enterprise_Global.Models
             GC.SuppressFinalize(this);
         }
 
+        public virtual void SaveChanges()
+        {
+            _dc.SaveChanges();
+        }
+
         #endregion
 
 
@@ -117,6 +122,11 @@ namespace AIS_Enterprise_Global.Models
             return _dc.DirectoryPosts.Where(p => p.DirectoryCompanyId == company.Id);
         }
 
+        public DirectoryPost GetDirectoryPost(string postName)
+        {
+            return _dc.DirectoryPosts.FirstOrDefault(p => p.Name == postName);
+        }
+
         public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string userWorkerHalfSalary)
         {
             var directoryPost = new DirectoryPost
@@ -140,6 +150,11 @@ namespace AIS_Enterprise_Global.Models
             _dc.DirectoryPosts.Remove(post);
             _dc.SaveChanges();
             return post;
+        }
+
+        public bool ExistsDirectoryPost(string name)
+        {
+            return _dc.DirectoryPosts.Any(p => p.Name == name);
         }
 
         #endregion
@@ -172,6 +187,31 @@ namespace AIS_Enterprise_Global.Models
             return worker;
         }
 
+        public DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender,
+            DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
+            DateTime? fireDate, CurrentPost currentPost)
+        {
+            var worker = new DirectoryWorker
+            {
+                LastName = lastName,
+                FirstName = firstName,
+                MidName = midName,
+                Gender = gender,
+                BirthDay = birthDay,
+                Address = address,
+                HomePhone = homePhone,
+                CellPhone = cellPhone,
+                StartDate = startDate,
+                FireDate = fireDate,
+                CurrentCompaniesAndPosts = new List<CurrentPost> { currentPost }
+            };
+
+            _dc.DirectoryWorkers.Add(worker);
+            _dc.SaveChanges();
+
+            return worker;
+        }
+
         public IQueryable<DirectoryWorker> GetDirectoryWorkers()
         {
             return _dc.DirectoryWorkers;
@@ -179,16 +219,21 @@ namespace AIS_Enterprise_Global.Models
 
         public IQueryable<DirectoryWorker> GetDirectoryWorkers(int year, int month)
         {
-            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
             var firstDateInMonth = new DateTime(year, month, 1);
-
-            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
-                w.FireDate == null || DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0);
+            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            
+            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 && 
+                (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0)));
         }
 
         public DirectoryWorker GetDirectoryWorker(int workerId)
         {
             return _dc.DirectoryWorkers.Find(workerId);
+        }
+
+        public DirectoryWorker GetDirectoryWorker(string lastName, string firstName)
+        {
+            return _dc.DirectoryWorkers.FirstOrDefault(w => w.LastName == lastName && w.FirstName == firstName);
         }
 
         public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
@@ -223,6 +268,12 @@ namespace AIS_Enterprise_Global.Models
 
         #region InfoDates
 
+        public IEnumerable<InfoDate> GetInfoDatePanalties(int workerId, int year, int month)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            return worker.InfoDates.Where(d => d.Date.Year == year && d.Date.Month == month && d.InfoPanalty != null);
+        }
+
         public void EditInfoDateHour(int workerId, DateTime date, string hour)
         {
             var worker = GetDirectoryWorker(workerId);
@@ -255,6 +306,31 @@ namespace AIS_Enterprise_Global.Models
             return _dc.InfoDates.Where(d => DbFunctions.DiffDays(d.Date, date) == 0);
         }
 
+        public IEnumerable<InfoDate> GetInfoDates(int workerId, int year, int month)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            return worker.InfoDates.Where(d => d.Date.Year == year && d.Date.Month == month);
+        }
+
+        public double? IsOverTime(InfoDate infoDate, List<DateTime> weekEnds)
+        {
+            if (weekEnds.Any(w => w.Date == infoDate.Date.Date))
+            {
+                return infoDate.CountHours != null ? infoDate.CountHours : null;
+            }
+            else
+            {
+                if (infoDate.CountHours != null)
+                {
+                    return infoDate.CountHours > 8 ? infoDate.CountHours - 8 : null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         #endregion
 
 
@@ -277,6 +353,66 @@ namespace AIS_Enterprise_Global.Models
         public IQueryable<int> GetMonthes(int year)
         {
             return _dc.InfoMonthes.Where(m => m.Date.Year == year).Select(m => m.Date.Month).Distinct();
+        }
+
+        public InfoMonth GetInfoMonth(int workerId, int year, int month)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            return worker.InfoMonthes.First(m => m.Date.Year == year && m.Date.Month == month);
+        }
+
+        #endregion
+
+
+        #region InfoPanalty
+
+        public InfoPanalty GetInfoPanalty(int workerId, DateTime date)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            return worker.InfoDates.First(d => d.Date.Date == date.Date).InfoPanalty;
+        }
+
+        public bool IsInfoPanalty(int workerId, DateTime date)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            return worker.InfoDates.First(d => d.Date.Date == date.Date).InfoPanalty != null;
+        }
+
+        public InfoPanalty AddInfoPanalty(int workerId, DateTime date, double summ, string description)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            var infoPanalty = new InfoPanalty 
+            {
+                Summ = summ,
+                Description = description
+            };
+
+            worker.InfoDates.First(d => d.Date.Date == date.Date).InfoPanalty = infoPanalty;
+
+            _dc.SaveChanges();
+            return infoPanalty;
+        }
+
+
+        public InfoPanalty EditInfoPanalty(int workerId, DateTime date, double summ, string description)
+        {
+            var worker = GetDirectoryWorker(workerId);
+
+            var infoPanalty = worker.InfoDates.First(d => d.Date.Date == date.Date).InfoPanalty;
+            infoPanalty.Summ = summ;
+            infoPanalty.Description = description;
+
+            _dc.SaveChanges();
+            return infoPanalty;
+        }
+
+        public void RemoveInfoPanalty(int workerId, DateTime date)
+        {
+            var worker = GetDirectoryWorker(workerId);
+
+            var infoPanalty = worker.InfoDates.First(d => d.Date.Date == date.Date).InfoPanalty;
+            _dc.InfoPanalties.Remove(infoPanalty);
+            _dc.SaveChanges();
         }
 
         #endregion
@@ -310,10 +446,18 @@ namespace AIS_Enterprise_Global.Models
             var lastDateInMonth = new DateTime(year, month, lastDayInMonth);
             var firstDateInMonth = new DateTime(year, month, 1);
 
-            var worker = _dc.DirectoryWorkers.Find(workerId);
+            var worker = GetDirectoryWorker(workerId);
 
             return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null ||
-                p.FireDate != null && p.FireDate.Value >= firstDateInMonth && p.ChangeDate.Date <= lastDateInMonth.Date);
+                p.FireDate != null && p.FireDate.Value >= firstDateInMonth.Date && p.ChangeDate.Date <= lastDateInMonth.Date);
+        }
+
+        public CurrentPost GetCurrentPost(int workerId, DateTime date)
+        {
+            var worker = GetDirectoryWorker(workerId);
+
+            return worker.CurrentCompaniesAndPosts.First(p => p.ChangeDate.Date <= date.Date && p.FireDate == null ||
+                p.FireDate != null && p.FireDate.Value >= date.Date && p.ChangeDate.Date <= date.Date);
         }
 
         #endregion

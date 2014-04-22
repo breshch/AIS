@@ -18,6 +18,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
     {
         #region Base
 
+        private const int START_TIME_WEEKEND = 8;
+        private const int START_TIME_WORK_DAY = 17;  
         private class DateProcessing
         {
             public DateTime Date { get; set; }
@@ -55,11 +57,11 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
             if (!BC.IsWeekend(SelectedOverTimeDate))
 	        {
-                SelectedStartTime = new DateTime(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month, SelectedOverTimeDate.Day, 17, 0, 0);
+                SelectedStartTime = new DateTime(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month, SelectedOverTimeDate.Day, START_TIME_WORK_DAY, 0, 0);
 	        }
             else
             {
-                SelectedStartTime = new DateTime(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month, SelectedOverTimeDate.Day, 8, 0, 0);
+                SelectedStartTime = new DateTime(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month, SelectedOverTimeDate.Day, START_TIME_WEEKEND, 0, 0);
             }
 
             SelectedEndTime = SelectedStartTime;
@@ -81,7 +83,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void ClearInputData()
         {
-            SelectedStartTime = new DateTime(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month, SelectedOverTimeDate.Day, 17, 00, 00);
+            SelectedStartTime = new DateTime(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month, SelectedOverTimeDate.Day, START_TIME_WORK_DAY, 00, 00);
             SelectedEndTime = SelectedStartTime;
 
             foreach (var rc in DirectoryRCs)
@@ -116,7 +118,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
                 ClearInputData();
 
-                //BC.RefreshContext();
                 var overTime = BC.GetInfoOverTime(_selectedOverTimeDate);
 
                 if (overTime != null)
@@ -124,21 +125,14 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                     SelectedStartTime = overTime.StartDate;
                     SelectedEndTime = overTime.EndDate;
 
-                    foreach (var rc in overTime.DirectoryRCs.ToList())
+                    DirectoryRCs.Clear();
+                    foreach (var rc in BC.GetDirectoryRCs().ToList())
                     {
-                        DirectoryRCs.First(r => r.Id == rc.Id).IsChecked = true;
+                        //var directoryRC = new DirectoryRC { Name = rc.Name };
+
+                        rc.IsChecked = overTime.CurrentRCs.ToList().Any(r => r.DirectoryRC.Name == rc.Name);
+                        DirectoryRCs.Add(rc);
                     }
-
-                    //foreach (var rc in DirectoryRCs)
-                    //{
-                    //    rc.IsChecked = false;
-
-                    //    if (overTime.DirectoryRCs.Select(r => r.Name).Contains(rc.Name))
-                    //    {
-                    //        Debug.WriteLine(rc.Name);
-                    //        rc.IsChecked = true;
-                    //    }
-                    //}
 
                     OverTimeDescription = overTime.Description;
                 }
@@ -151,11 +145,12 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                     if (BC.IsWeekend(_selectedOverTimeDate))
                     {
                         hours = infoDates.Where(d => d.CountHours != null).Max(d => d.CountHours.Value);
-
+                        SelectedStartTime = new DateTime(_selectedOverTimeDate.Year, _selectedOverTimeDate.Month, _selectedOverTimeDate.Day, START_TIME_WEEKEND, 0, 0);
                     }
                     else
                     {
                         hours = infoDates.Where(d => d.CountHours != null && d.CountHours.Value > 8).Max(d => d.CountHours.Value) - 8;
+                        SelectedStartTime = new DateTime(_selectedOverTimeDate.Year, _selectedOverTimeDate.Month, _selectedOverTimeDate.Day, START_TIME_WORK_DAY, 0, 0);
                     }
 
                     SelectedEndTime = SelectedStartTime.AddHours(hours);
@@ -233,23 +228,42 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void RemoveOverTime(object parameter)
         {
-            BC.RemoveInfoOverTime(SelectedOverTimeDate);
+            var infoDates = BC.GetInfoDates(SelectedOverTimeDate);
 
-            var dateProcess = _listDatesOfOverTime.FirstOrDefault(o => o.IsProcessed == false);
-
-            if (dateProcess != null)
+            bool isOverTime = false;
+            if (BC.IsWeekend(SelectedOverTimeDate))
             {
-                SelectedOverTimeDate = dateProcess.Date;
-                RefreshDirectoryRCs();
+                isOverTime = infoDates.Any(d => d.CountHours != null);
             }
             else
             {
-                var window = (Window)parameter;
+                isOverTime = infoDates.Any(d => d.CountHours != null && d.CountHours > 8);
+            }
 
-                if (window != null)
+            if (!isOverTime)
+            {
+                BC.RemoveInfoOverTime(SelectedOverTimeDate);
+
+                var dateProcess = _listDatesOfOverTime.FirstOrDefault(o => o.IsProcessed == false);
+
+                if (dateProcess != null)
                 {
-                    window.Close();
+                    SelectedOverTimeDate = dateProcess.Date;
+                    RefreshDirectoryRCs();
                 }
+                else
+                {
+                    var window = (Window)parameter;
+
+                    if (window != null)
+                    {
+                        window.Close();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Нельзя удалить переработку, так как есть сотрудники с переработкой на эту дату");
             }
         }
 
@@ -260,7 +274,14 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private bool CanRemoveOverTime(object parameter)
         {
-            return true;//BC.IsInfoOverTimeDate(SelectedOverTimeDate);
+            try
+            {
+                return BC.IsInfoOverTimeDate(SelectedOverTimeDate);
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
     }

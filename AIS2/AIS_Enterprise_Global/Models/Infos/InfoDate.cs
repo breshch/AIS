@@ -15,6 +15,6 @@ namespace AIS_Enterprise_Global.Models.Infos
         public DescriptionDay DescriptionDay { get; set; }
         
         public int? InfoPanaltyId { get; set; }
-        public virtual InfoPanalty InfoPanalty { get; set; }
+        public InfoPanalty InfoPanalty { get; set; }
     }
 }

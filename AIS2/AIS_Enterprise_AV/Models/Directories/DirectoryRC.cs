@@ -16,9 +16,7 @@ namespace AIS_Enterprise_AV.Models.Directories
         [MaxLength(128)]
         public string Name { get; set; }
 
-        //[ForeignKey("InfoOverTime")]
-        //public int? InfoOverTimeId { get; set; }
-        //public InfoOverTime InfoOverTime { get; set; }
+        public int Percentes { get; set; }
 
         [NotMapped]
         public bool IsChecked { get; set; }

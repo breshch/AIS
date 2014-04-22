@@ -10,7 +10,7 @@ namespace AIS_Enterprise_Global.Models.Infos
     public class InfoPanalty
     {
         public int Id { get; set; }
-        public double SumOfMoney { get; set; }
+        public double Summ { get; set; }
         
         [StringLength(256)]
         public string Description { get; set; }

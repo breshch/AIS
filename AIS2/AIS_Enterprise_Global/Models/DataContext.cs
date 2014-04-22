@@ -28,5 +28,6 @@ namespace AIS_Enterprise_Global.Models
 
         public DbSet<InfoDate> InfoDates { get; set; }
         public DbSet<InfoMonth> InfoMonthes { get; set; }
+        public DbSet<InfoPanalty> InfoPanalties { get; set; }
     }
 }

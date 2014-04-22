@@ -13,6 +13,8 @@
 
     <Grid Margin="30, 20">
         <StackPanel>
+            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0, 3"/>
+            <Button Content="ExcelToDB" Margin="0, 3" Command="{Binding ShowExcelToDBCommand}"/>
             <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}"/>
             <Button Content="ЦО" Margin="0, 3" Command="{Binding ShowDirectoryRCViewCommand}"/>
             <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfPostViewCommand}"/>
@@ -20,7 +22,7 @@
             <Button Content="Добавление Рабов" Margin="0, 3" Command="{Binding ShowDirectoryAddWorkerViewCommand}"/>
             <Button Content="Список Рабов" Margin="0, 3" Command="{Binding ShowDirectoryWorkerListViewCommand}"/>
             <Button Content="Месячный табель" Margin="0, 3" Command="{Binding ShowMonthTimeSheetViewCommand}"/>
-            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0, 3"/>
+            <Button Content="Зарплата" Margin="0, 3" Command="{Binding ShowSalaryViewCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

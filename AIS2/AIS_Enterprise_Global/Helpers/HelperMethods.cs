@@ -1,5 +1,6 @@
 ﻿using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Global.Models.Infos;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -45,5 +46,13 @@ namespace AIS_Enterprise_Global.Helpers
             }
             return null;
         }
+
+        public static DateTime GetLastDateInMonth(int year, int month)
+        {
+            return DateTime.Now.Year == year && DateTime.Now.Month == month ? DateTime.Now :
+                new DateTime(year, month, DateTime.DaysInMonth(year, month));
+        }
+
+        
     }
 }

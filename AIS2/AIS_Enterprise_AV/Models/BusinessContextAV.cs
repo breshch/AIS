@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_AV.Models.Directories;
+﻿using AIS_Enterprise_AV.Models.Currents;
+using AIS_Enterprise_AV.Models.Directories;
 using AIS_Enterprise_AV.Models.Infos;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Temps;
@@ -69,12 +70,31 @@ namespace AIS_Enterprise_AV.Models
             GC.SuppressFinalize(this);
         }
 
+        public override void SaveChanges()
+        {
+            base.SaveChanges();
+
+            _dc.SaveChanges();
+        }
+
         #endregion
 
 
         #region InitializeDefaultDataBase
 
-        public void InitializeDefaultDataBase()
+        private enum PostName 
+        {
+            ЗавСкладом,
+            Грузчик,
+            Карщик,
+            Кладовщик,
+            ЗамЗавСкладом,
+            Оператор,
+            Оклейщик,
+            КарщикКладовщик
+        }
+
+        public void InitializeDefaultDataBaseWithoutWorkers()
         {
             if (_dc.Database.Exists())
             {
@@ -92,15 +112,15 @@ namespace AIS_Enterprise_AV.Models
             _dc.DirectoryCompanies.Add(company);
             _dc.SaveChanges();
 
-            var rC = new DirectoryRC { Name = "КО-5" };
+            var rC = new DirectoryRC { Name = "МО-5", Percentes = 48 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "МО-5" };
+            rC = new DirectoryRC { Name = "КО-5", Percentes = 32 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "ПАМ-16" };
+            rC = new DirectoryRC { Name = "ПАМ-16", Percentes = 10 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "МО-2" };
+            rC = new DirectoryRC { Name = "МО-2", Percentes = 5 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "ПАМ-1" };
+            rC = new DirectoryRC { Name = "ПАМ-1", Percentes = 5 };
 
             _dc.DirectoryRCs.Add(rC);
             _dc.SaveChanges();
@@ -110,31 +130,64 @@ namespace AIS_Enterprise_AV.Models
             _dc.DirectoryTypeOfPosts.Add(typeOfPost);
             _dc.SaveChanges();
 
-            var post = new DirectoryPost
+            foreach (var postName in Enum.GetNames(typeof(PostName)))
             {
-                Name = "Грузчик",
-                DirectoryTypeOfPost = typeOfPost,
-                DirectoryCompany = company,
-                Date = new DateTime(2014, 01, 01),
-                UserWorkerSalary = 25000,
-                UserWorkerHalfSalary = 10000
-            };
+                var post = new DirectoryPost
+                {
+                    Name = postName,
+                    DirectoryTypeOfPost = typeOfPost,
+                    DirectoryCompany = company,
+                    Date = new DateTime(2011, 01, 01),
+                };
 
-            _dc.DirectoryPosts.Add(post);
+                var postNameEnum = (PostName)Enum.Parse(typeof(PostName), postName);
 
-            post = new DirectoryPost
-            {
-                Name = "Карщик",
-                DirectoryTypeOfPost = typeOfPost,
-                DirectoryCompany = company,
-                Date = new DateTime(2014, 01, 01),
-                UserWorkerSalary = 27000,
-                UserWorkerHalfSalary = 10000
-            };
+                switch (postNameEnum)
+                {
+                    case PostName.ЗавСкладом:
+                        post.UserWorkerSalary = 30000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.Грузчик:
+                        post.UserWorkerSalary = 22000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.Карщик:
+                        post.UserWorkerSalary = 25000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.Кладовщик:
+                        post.UserWorkerSalary = 25000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.ЗамЗавСкладом:
+                        post.UserWorkerSalary = 30000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.Оператор:
+                        post.UserWorkerSalary = 25000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.Оклейщик:
+                        post.UserWorkerSalary = 18000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.КарщикКладовщик:
+                        post.UserWorkerSalary = 27000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    default:
+                        break;
+                }
 
-            _dc.DirectoryPosts.Add(post);
-            _dc.SaveChanges();
+                _dc.DirectoryPosts.Add(post);
+                _dc.SaveChanges();
+            }
+        }
 
+        public void InitializeDefaultDataBaseWithWorkers()
+        {
+            InitializeDefaultDataBaseWithoutWorkers();
 
             var slave = new DirectoryWorker
             {
@@ -153,7 +206,7 @@ namespace AIS_Enterprise_AV.Models
                         new CurrentPost
                         {
                             DirectoryPost = _dc.DirectoryPosts.First(),
-                            ChangeDate = DateTime.Now.AddDays(-40)
+                            ChangeDate = DateTime.Now.AddDays(-45)
                         }
                     })
             };
@@ -237,7 +290,7 @@ namespace AIS_Enterprise_AV.Models
                         new CurrentPost
                         {
                             DirectoryPost = _dc.DirectoryPosts.First(),
-                            ChangeDate = DateTime.Now.AddDays(-12),
+                            ChangeDate = DateTime.Now.AddDays(-40),
                             FireDate = DateTime.Now.AddDays(-8)
                         },
                         new CurrentPost
@@ -328,11 +381,12 @@ namespace AIS_Enterprise_AV.Models
             return _dc.DirectoryRCs;
         }
 
-        public DirectoryRC AddDirectoryRC(string directoryRCName)
+        public DirectoryRC AddDirectoryRC(string directoryRCName, int percentes)
         {
             var directoryRC = new DirectoryRC
             {
                 Name = directoryRCName,
+                Percentes = percentes
             };
 
             _dc.DirectoryRCs.Add(directoryRC);
@@ -370,7 +424,12 @@ namespace AIS_Enterprise_AV.Models
 
                 foreach (var directoryRC in directoryRCs)
                 {
-                    overTime.DirectoryRCs.Add(_dc.DirectoryRCs.First(r => r.Name == directoryRC.Name));
+                    var currentRC = new CurrentRC
+                    {
+                        DirectoryRC = directoryRC
+                    };
+
+                    overTime.CurrentRCs.Add(currentRC);
                 }
                 
 
@@ -390,9 +449,16 @@ namespace AIS_Enterprise_AV.Models
                 overTime.EndDate = endDate;
                 overTime.Description = description;
 
+                overTime.CurrentRCs.Clear();
+
                 foreach (var directoryRC in directoryRCs)
                 {
-                    overTime.DirectoryRCs.Add(_dc.DirectoryRCs.First(r => r.Name == directoryRC.Name));
+                    var currentRC = new CurrentRC
+                    {
+                        DirectoryRC = directoryRC
+                    };
+
+                    overTime.CurrentRCs.Add(currentRC);
                 }
 
                 _dc.SaveChanges();
@@ -402,6 +468,11 @@ namespace AIS_Enterprise_AV.Models
         public InfoOverTime GetInfoOverTime(DateTime date)
         {
             return _dc.InfoOverTimes.FirstOrDefault(o => DbFunctions.DiffDays(o.StartDate, date) == 0);
+        }
+
+        public IQueryable<InfoOverTime> GetInfoOverTimes(int year, int month)
+        {
+            return _dc.InfoOverTimes.Where(o => o.StartDate.Year == year && o.StartDate.Month == month);
         }
 
         public IQueryable<DateTime> GetInfoOverTimeDates(int year, int month)
@@ -424,7 +495,5 @@ namespace AIS_Enterprise_AV.Models
             }
         }
         #endregion
-
-       
     }
 }

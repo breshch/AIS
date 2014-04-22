@@ -75,9 +75,6 @@
     <Compile Include="Helpers\DataGridHelper.cs" />
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
-    <Compile Include="Helpers\Temps\HeaderDayMonthTimeSheet.cs" />
-    <Compile Include="Helpers\Temps\HourWorker.cs" />
-    <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToBooleanValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToVisibilityValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
@@ -106,6 +103,8 @@
     <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryWorkerFireDateViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
     </Compile>
@@ -129,6 +128,12 @@
     </Compile>
     <Compile Include="Views\Directories\DirectoryWorkerFireDateView.xaml.cs">
       <DependentUpon>DirectoryWorkerFireDateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoPanaltiesView.xaml.cs">
+      <DependentUpon>InfoPanaltiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoPanaltyView.xaml.cs">
+      <DependentUpon>InfoPanaltyView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
       <SubType>Designer</SubType>
@@ -163,6 +168,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Directories\DirectoryWorkerFireDateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\InfoPanaltiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\InfoPanaltyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

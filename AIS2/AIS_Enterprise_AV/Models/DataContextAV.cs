@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_AV.Models.Directories;
+﻿using AIS_Enterprise_AV.Models.Currents;
+using AIS_Enterprise_AV.Models.Directories;
 using AIS_Enterprise_AV.Models.Infos;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Currents;
@@ -23,5 +24,6 @@ namespace AIS_Enterprise_AV.Models
         public DbSet<InfoOverTime> InfoOverTimes { get; set; }
 
         public DbSet<DirectoryRC> DirectoryRCs { get; set; }
+        public DbSet<CurrentRC> CurrentRCs { get; set; }
     }
 }

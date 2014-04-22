@@ -1,28 +1,21 @@
-﻿using AIS_Enterprise_AV.Models;
+﻿using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.ViewModels;
+using AIS_Enterprise_Global.ViewModels.Infos;
 using AIS_Enterprise_Global.Views.Currents;
 using AIS_Enterprise_Global.Views.Directories;
+using AIS_Enterprise_Global.Views.Infos;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace AIS_Enterprise_AV.Views
 {
@@ -34,16 +27,14 @@ namespace AIS_Enterprise_AV.Views
         private int _prevCountLastDaysInMonth;
         private List<MonthTimeSheetWorker> _monthTimeSheetWorkers = new List<MonthTimeSheetWorker>();
         private List<DateTime> _listDatesOfOverTime = new List<DateTime>();
-        private List<DateTime> _holidays;
+        private List<DateTime> _weekends;
 
         private const int COLUMN_FULL_NAME = 1;
         private const int COLUMN_POST_NAME = 4;
         private const int COUNT_COLUMNS_BEFORE_DAYS = 5;
         private const int COUNT_COLUMNS_AFTER_DAYS = 4;
         private const string WEEKEND_DEFINITION = "В";
-
-        private ContextMenu _contextMenu = new ContextMenu();
-
+        private const int COLUMN_PANALTIES_AFTER_DAYS = 10;
 
 
         public MonthTimeSheetView()
@@ -55,8 +46,6 @@ namespace AIS_Enterprise_AV.Views
             {
                 ComboboxYears.SelectedIndex = ComboboxYears.Items.Count - 1;
             }
-
-            _contextMenu.Items.Add(new MenuItem { Header = "Add" });
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -76,7 +65,7 @@ namespace AIS_Enterprise_AV.Views
 
             if (ComboboxMonthes.Items.Count != 0)
             {
-                ComboboxMonthes.SelectedIndex = ComboboxMonthes.Items.Count - 2;
+                ComboboxMonthes.SelectedIndex = ComboboxMonthes.Items.Count - 1;
             }
         }
 
@@ -97,8 +86,7 @@ namespace AIS_Enterprise_AV.Views
 
             int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
             var firstDateInMonth = new DateTime(_currentYear, _currentMonth, 1);
-            DateTime lastDateInMonth = DateTime.Now.Year == _currentYear && DateTime.Now.Month == _currentMonth ? DateTime.Now :
-                new DateTime(_currentYear, _currentMonth, DateTime.DaysInMonth(_currentYear, _currentMonth));
+            var lastDateInMonth = HelperMethods.GetLastDateInMonth(_currentYear, _currentMonth);
 
             _prevCountLastDaysInMonth = lastDateInMonth.Day;
 
@@ -117,7 +105,7 @@ namespace AIS_Enterprise_AV.Views
                 DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
             }
 
-            _holidays = _bc.GetWeekendsInMonth(_currentYear, _currentMonth).ToList();
+            _weekends = _bc.GetWeekendsInMonth(_currentYear, _currentMonth).ToList();
 
             var workers = _bc.GetDirectoryWorkers(_currentYear, _currentMonth).ToList();
 
@@ -125,7 +113,6 @@ namespace AIS_Enterprise_AV.Views
             {
                 var currentPosts = _bc.GetCurrentPosts(worker.Id, _currentYear, _currentMonth, _prevCountLastDaysInMonth).ToList();
 
-                Debug.WriteLine(currentPosts.Count);
                 bool isFirst = false;
 
                 double salary = 0;
@@ -172,7 +159,7 @@ namespace AIS_Enterprise_AV.Views
                                         if (day.CountHours != null)
                                         {
                                             hour = day.CountHours.ToString();
-                                            if (!_holidays.Any(h => h.Date.Date == date.Date))
+                                            if (!_weekends.Any(h => h.Date.Date == date.Date))
                                             {
                                                 monthTimeSheetWorker.OverTime += day.CountHours.Value > 8 ? day.CountHours.Value - 8 : 0;
                                                 salary += day.CountHours.Value <= 8 ? day.CountHours.Value * monthTimeSheetWorker.SalaryInHour : (8 + ((day.CountHours.Value - 8) * 2)) * monthTimeSheetWorker.SalaryInHour;
@@ -282,27 +269,57 @@ namespace AIS_Enterprise_AV.Views
             if (columnIndex > COUNT_COLUMNS_BEFORE_DAYS && columnIndex <= _prevCountLastDaysInMonth + COUNT_COLUMNS_BEFORE_DAYS)
             {
                 int day = columnIndex - COUNT_COLUMNS_BEFORE_DAYS;
+                DateTime date = new DateTime(_currentYear, _currentMonth, day);
                 string prevValue = _monthTimeSheetWorkers[rowIndex].Hours[day - 1];
 
-                if (!Enum.IsDefined(typeof(DescriptionDay), value) && value != WEEKEND_DEFINITION)
+                if (!_weekends.Any(w => w.Date == date.Date))
                 {
-                    double result;
-                    if (!double.TryParse(value, out result))
+                    if (value == WEEKEND_DEFINITION)
                     {
-                        MessageBox.Show("Введите общепринятые сокращения.");
+                        MessageBox.Show("Это не выходной день.");
                         textBox.Text = prevValue;
                         return;
                     }
 
-                    if (result <= 0 || result > 16)
+                    if (!Enum.IsDefined(typeof(DescriptionDay), value))
                     {
-                        MessageBox.Show("Введите только число, большее 0 и меньшее, либо равное 16.");
-                        textBox.Text = prevValue;
-                        return;
+                        double result;
+                        if (!double.TryParse(value, out result))
+                        {
+                            MessageBox.Show("Введите общепринятые сокращения.");
+                            textBox.Text = prevValue;
+                            return;
+                        }
+
+                        if (result <= 0 || result > 16)
+                        {
+                            MessageBox.Show("Введите только число, большее 0 и меньшее, либо равное 16.");
+                            textBox.Text = prevValue;
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if (value != WEEKEND_DEFINITION && value != DescriptionDay.О.ToString())
+                    {
+                        double result;
+                        if (!double.TryParse(value, out result))
+                        {
+                            MessageBox.Show("Введите выходной или отпуск.");
+                            textBox.Text = prevValue;
+                            return;
+                        }
+
+                        if (result <= 0 || result > 16)
+                        {
+                            MessageBox.Show("Введите только число, большее 0 и меньшее, либо равное 16.");
+                            textBox.Text = prevValue;
+                            return;
+                        }
                     }
                 }
 
-                var date = new DateTime(_currentYear, _currentMonth, day);
                 _bc.EditInfoDateHour(workerId, date, value);
 
                 _monthTimeSheetWorkers[rowIndex].Hours[day - 1] = value;
@@ -432,7 +449,7 @@ namespace AIS_Enterprise_AV.Views
                                 double countHours;
                                 if (double.TryParse(hour, out countHours))
                                 {
-                                    if (!_holidays.Any(h => h.Date.Date == new DateTime(_currentYear, _currentMonth, currentDay + 1)))
+                                    if (!_weekends.Any(h => h.Date.Date == new DateTime(_currentYear, _currentMonth, currentDay + 1)))
                                     {
                                         monthTimeSheetWorker.OverTime += countHours > 8 ? countHours - 8 : 0;
                                         salary += countHours <= 8 ? countHours * monthTimeSheetWorker.SalaryInHour : (8 + ((countHours - 8) * 2)) * monthTimeSheetWorker.SalaryInHour;
@@ -641,52 +658,23 @@ namespace AIS_Enterprise_AV.Views
                         }
                         break;
                 }
+
+                if (columnIndex == COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + COLUMN_PANALTIES_AFTER_DAYS)
+                {
+
+                    var infoPanaltiesViewModel = new InfoPanaltiesViewModel(monthTimeSheetWorker.WorkerId, _currentYear, _currentMonth);
+                    var infoPanaltiesView = new InfoPanaltiesView();
+                    infoPanaltiesView.DataContext = infoPanaltiesViewModel;
+                    infoPanaltiesView.ShowDialog();
+                }
             }
         }
-
-        //private void DataGridCell_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    DataGridCell cell = sender as DataGridCell;
-        //    if (cell != null && !cell.IsEditing && !cell.IsReadOnly)
-        //    {
-        //        if (!cell.IsFocused)
-        //        {
-        //            cell.Focus();
-        //        }
-        //        DataGrid dataGrid = HelperMethods.FindVisualParent<DataGrid>(cell);
-        //        if (dataGrid != null)
-        //        {
-        //            if (dataGrid.SelectionUnit != DataGridSelectionUnit.FullRow)
-        //            {
-        //                if (!cell.IsSelected)
-        //                    cell.IsSelected = true;
-        //            }
-        //            else
-        //            {
-        //                DataGridRow row = HelperMethods.FindVisualParent<DataGridRow>(cell);
-        //                if (row != null && !row.IsSelected)
-        //                {
-        //                    row.IsSelected = true;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-
 
         private bool _isRightButtonDown = false;
 
         private void DataGridCell_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _isRightButtonDown = true;
-
-
-            //}));
-
-            //Debug.WriteLine("task");
-
-
         }
 
         private void DataGridMonthTimeSheet_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -695,15 +683,52 @@ namespace AIS_Enterprise_AV.Views
             {
                 _isRightButtonDown = false;
 
-                Debug.WriteLine(DataGridMonthTimeSheet.SelectedCells[0].Column.Header);
+                if (DataGridMonthTimeSheet.SelectedCells.Any())
+                {
+                    var cell = DataGridMonthTimeSheet.SelectedCells[0];
+                    int indexColumn = cell.Column.DisplayIndex;
+                    var monthTimeSheetWorker = (MonthTimeSheetWorker)cell.Item;
 
-                ContextMenu menu = new ContextMenu();
-                menu.Items.Add("New");
-                menu.Items.Add("Save");
-                DataGridMonthTimeSheet.ContextMenu = menu;
+                    int day = indexColumn - COUNT_COLUMNS_BEFORE_DAYS;
+                    Debug.WriteLine(day);
 
-                Debug.WriteLine(DataGridMonthTimeSheet.SelectedCells[0].Column.Header);
+                    if (indexColumn > COUNT_COLUMNS_BEFORE_DAYS && indexColumn <= COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth && monthTimeSheetWorker.Hours[day - 1] != null)
+                    {
+                        var contextMenu = new ContextMenu();
+                        var itemContextMenu = new MenuItem
+                        {
+                            Header = "Штраф"
+                        };
+
+                        itemContextMenu.Click += itemContextMenu_Click;
+
+                        contextMenu.Items.Add(itemContextMenu);
+                        DataGridMonthTimeSheet.ContextMenu = contextMenu;
+                    }
+                    else
+                    {
+                        DataGridMonthTimeSheet.ContextMenu = null;
+                    }
+                }
             }
+        }
+
+        private void itemContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var cell = DataGridMonthTimeSheet.SelectedCells[0];
+            var monthTimeSheetWorker = (MonthTimeSheetWorker)cell.Item;
+            
+            int day = cell.Column.DisplayIndex - COUNT_COLUMNS_BEFORE_DAYS;
+            var date = new DateTime(_currentYear, _currentMonth, day);
+
+            int workereId = monthTimeSheetWorker.WorkerId;
+            
+            
+            var infoPanaltyView = new InfoPanaltyView();
+            var infoPanaltyViewModel = new InfoPanaltyViewModel(workereId, date);
+
+            infoPanaltyView.DataContext = infoPanaltyViewModel;
+            infoPanaltyView.ShowDialog();
         }
 
     }
