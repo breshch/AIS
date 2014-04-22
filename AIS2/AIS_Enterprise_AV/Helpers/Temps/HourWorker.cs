@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Global.Helpers.Attributes;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS_Enterprise_Global.Helpers.Temps
+namespace AIS_Enterprise_AV.Helpers.Temps
 {
     public class HourWorker : ViewModelGlobal
     {
