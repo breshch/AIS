@@ -131,6 +131,13 @@ namespace AIS_Enterprise_AV.Helpers
 
         private static void OverTimeReportMinsk(ExcelPackage ep, BusinessContextAV bc, int year, int month)
         {
+            var overTimes = bc.GetInfoOverTimes(year, month).ToList();
+
+            if (!overTimes.Any())
+            {
+                return;
+            }
+
             string name = "Переработка";
             if (ep.Workbook.Worksheets.Select(ws => ws.Name).Contains(name))
             {
@@ -160,7 +167,7 @@ namespace AIS_Enterprise_AV.Helpers
 
             var weekEndsInMonth = bc.GetWeekendsInMonth(year, month).ToList();
 
-            var overTimes = bc.GetInfoOverTimes(year, month).ToList();
+            
             var workerSumms = new List<WorkerSummForReport>();
 
             int countWorkDayInMonth = bc.GetCountWorkDaysInMonth(year, month);
@@ -827,7 +834,7 @@ namespace AIS_Enterprise_AV.Helpers
 
             var weekendsInMonth = bc.GetWeekendsInMonth(year, month).ToList();
 
-            var workers = bc.GetDirectoryWorkers(year, month);
+            var workers = bc.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month);
 
             foreach (var worker in workers)
             {
@@ -870,6 +877,13 @@ namespace AIS_Enterprise_AV.Helpers
                     DateTime workerDay = new DateTime(year, month, i);
                     count++;
                     ExcelRange headerDay = sheet.Cells[5, count];
+                    
+                    sheet.Column(i).Width = 2.7;
+
+                    if (i > lastDayInMonth.Day)
+                    {
+                        continue;
+                    }
 
                     if (weekendsInMonth.Any(w => w.Date == workerDay.Date))
                     {
@@ -878,7 +892,6 @@ namespace AIS_Enterprise_AV.Helpers
                     }
                     headerDay.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                     headerDay.Value = i;
-                    sheet.Column(i).Width = 2.7;
                 }
 
                 for (int i = 1; i <= count; i++)
@@ -896,11 +909,6 @@ namespace AIS_Enterprise_AV.Helpers
                 double workerPanalty = 0;
 
                 var workerPostReportSalaries = new List<WorkerPostReportSalary>();
-                //List<Post> workerPosts = new List<Post>();
-                //List<int> startDays = new List<int>();
-                //List<int> countOfWorkDaysInPeriod = new List<int>();
-                //List<double> countOfWorkHoursInPeriod = new List<double>();
-                //List<double> countOfWorkOvertimeHoursInPeriod = new List<double>();
 
                 var infoDates = bc.GetInfoDates(worker.Id, year, month).ToList();
 
@@ -953,7 +961,7 @@ namespace AIS_Enterprise_AV.Helpers
                         workerPanalty += infoDate.InfoPanalty.Summ;
                     }
 
-                    if (weekendsInMonth.Any(w => w.Date == infoDate.Date))
+                    if (weekendsInMonth.Any(w => w.Date == infoDate.Date.Date))
                     {
                         if (infoDate.CountHours != null)
                         {

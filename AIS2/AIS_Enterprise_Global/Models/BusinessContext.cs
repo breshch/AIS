@@ -226,6 +226,16 @@ namespace AIS_Enterprise_Global.Models
                 (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0)));
         }
 
+        public IQueryable<DirectoryWorker> GetDirectoryWorkersWithInfoDatesAndPanalties(int year, int month)
+        {
+            var firstDateInMonth = new DateTime(year, month, 1);
+            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
+                (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0))).
+                Include(w => w.InfoDates).Include("InfoDates.InfoPanalty");
+        }
+
         public DirectoryWorker GetDirectoryWorker(int workerId)
         {
             return _dc.DirectoryWorkers.Find(workerId);
@@ -306,10 +316,10 @@ namespace AIS_Enterprise_Global.Models
             return _dc.InfoDates.Where(d => DbFunctions.DiffDays(d.Date, date) == 0);
         }
 
-        public IEnumerable<InfoDate> GetInfoDates(int workerId, int year, int month)
+        public IQueryable<InfoDate> GetInfoDates(int workerId, int year, int month)
         {
             var worker = GetDirectoryWorker(workerId);
-            return worker.InfoDates.Where(d => d.Date.Year == year && d.Date.Month == month);
+            return worker.InfoDates.AsQueryable().Include(d => d.InfoPanalty).Where(d => d.Date.Year == year && d.Date.Month == month);
         }
 
         public double? IsOverTime(InfoDate infoDate, List<DateTime> weekEnds)
@@ -369,7 +379,7 @@ namespace AIS_Enterprise_Global.Models
         public InfoPanalty GetInfoPanalty(int workerId, DateTime date)
         {
             var worker = GetDirectoryWorker(workerId);
-            return worker.InfoDates.First(d => d.Date.Date == date.Date).InfoPanalty;
+            return worker.InfoDates.AsQueryable().First(d => d.Date.Date == date.Date).InfoPanalty;
         }
 
         public bool IsInfoPanalty(int workerId, DateTime date)

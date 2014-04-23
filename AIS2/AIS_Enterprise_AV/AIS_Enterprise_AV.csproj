@@ -160,7 +160,14 @@
       <Name>AIS_Enterprise_Global</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="ТабельXML\1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ТабельXML\fireHuy.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\Directories\DirectoryRCView.xaml">
       <Generator>MSBuild:Compile</Generator>
