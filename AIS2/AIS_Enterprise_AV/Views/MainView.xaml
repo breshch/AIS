@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         WindowStartupLocation="CenterScreen"
-        Title="Главная форма" Height="350" Width="450">
+        Title="Главная форма" Height="380" Width="450">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -15,6 +15,7 @@
         <StackPanel>
             <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0, 3"/>
             <Button Content="ExcelToDB" Margin="0, 3" Command="{Binding ShowExcelToDBCommand}"/>
+            <Button Content="DefaultDB" Margin="0, 3" Command="{Binding ShowDefaultDBCommand}"/>
             <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}"/>
             <Button Content="ЦО" Margin="0, 3" Command="{Binding ShowDirectoryRCViewCommand}"/>
             <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfPostViewCommand}"/>

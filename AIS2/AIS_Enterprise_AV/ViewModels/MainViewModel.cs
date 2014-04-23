@@ -49,6 +49,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand ShowDirectoryRCViewCommand { get; set; }
         public RelayCommand ShowSalaryViewCommand { get; set; }
         public RelayCommand ShowExcelToDBCommand { get; set; }
+        public RelayCommand ShowDefaultDBCommand { get; set; }
 
 
         public MainViewModel() : base()
@@ -62,10 +63,11 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDirectoryRCViewCommand = new RelayCommand(ShowDirectoryRCView);
             ShowSalaryViewCommand = new RelayCommand(ShowSalaryView);
             ShowExcelToDBCommand = new RelayCommand(ShowExcelToDB);
+            ShowDefaultDBCommand = new RelayCommand(ShowDefaultDB);
 
             Languages = new ObservableCollection<string>(new[] { "ru-RU", "en-US" });
 
-            //BC.InitializeDefaultDataBase();
+            
         }
 
         private void ShowDirectoryTypeOfPostView(object parameter)
@@ -140,6 +142,11 @@ namespace AIS_Enterprise_AV.ViewModels
         private void ShowExcelToDB(object parameter)
         {
             ConvertingExcelToDB.ConvertExcelToDB(BC);
+        }
+
+        private void ShowDefaultDB(object parameter)
+        {
+            BC.InitializeDefaultDataBaseWithWorkers();
         }
     }
 }
