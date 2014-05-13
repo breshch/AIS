@@ -5,7 +5,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
-        Title="Добавление должности" Height="500" Width="800">
+        Title="Добавление должности" Height="450" Width="1000">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -22,7 +22,6 @@
     <Grid Margin="30, 20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -43,65 +42,21 @@
                 <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryCompany.Name}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Дата создания должности" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Оклад" Binding="{Binding UserWorkerSalary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Админ Оклад" Binding="{Binding AdminWorkerSalary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Совместительство" Binding="{Binding UserWorkerHalfSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <Grid Grid.Row="1" Margin="0, 15, 0, 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Grid.RowSpan="3" Grid.Column="0" Margin="0, 0, 20, 0">
-                <StackPanel Grid.Row="0" Grid.Column="0">
-                    <TextBlock Text="Должность"/>
-                    <TextBox Text="{Binding DirectoryPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="32"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0, 5, 0, 0">
-                    <TextBlock Text="Вид должности"/>
-                    <ComboBox ItemsSource="{Binding DirectoryTypeOfPosts}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfPost, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0, 5, 0, 0">
-                    <TextBlock Text="Компания"/>
-                    <ComboBox ItemsSource="{Binding DirectoryCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Grid.RowSpan="3" Grid.Column="1" Margin="20, 0, 0, 0">
-                <StackPanel Grid.Row="0" Grid.Column="1">
-                    <TextBlock Text="Дата"/>
-                    <DatePicker DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{Binding SelectedDirectoryPostDate, Mode=TwoWay}"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0, 5, 0, 0">
-                    <TextBlock Text="Оклад"/>
-                    <TextBox Text="{Binding DirectoryPostUserWorkerSalary, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="2" Grid.Column="1" Margin="0, 5, 0, 0">
-                    <TextBlock Text="Совместительство"/>
-                    <TextBox Text="{Binding DirectoryPostUserWorkerHalfSalary, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-
-        <Grid Grid.Row="2" Margin="0, 15, 0, 0">
-            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Content="Добавить" Command="{Binding AddCommand}" Margin="0, 0, 20, 0"/>
-            <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveCommand}" Margin="20, 0, 0, 0"/>
+            <Button Grid.Column="1" Content="Редактировать" Command="{Binding EditCommand}" Margin="20, 0, 20, 0"/>
+            <Button Grid.Column="2" Content="Удалить" Command="{Binding RemoveCommand}" Margin="20, 0, 0, 0"/>
         </Grid>
     </Grid>
 </Window>

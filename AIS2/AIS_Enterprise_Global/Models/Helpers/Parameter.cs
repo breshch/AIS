@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise_Global.Models.Directories
+namespace AIS_Enterprise_Global.Models.Helpers
 {
-    public class DirectoryWeekend
+    public class Parameter
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

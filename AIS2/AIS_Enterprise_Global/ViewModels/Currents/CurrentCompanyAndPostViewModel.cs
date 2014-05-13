@@ -19,6 +19,9 @@ namespace AIS_Enterprise_Global.ViewModels
     {
         #region Base
 
+        private bool _isEditCurrentCompanyAndPost = false;
+        private CurrentCompanyAndPost _currentCompanyAndPost;
+
         public CurrentCompanyAndPostViewModel(DateTime startDate, DateTime endDate)
             : base()
         {
@@ -32,6 +35,16 @@ namespace AIS_Enterprise_Global.ViewModels
             SelectedPostChangeDate = endDate;
         }
 
+        public CurrentCompanyAndPostViewModel(CurrentCompanyAndPost currentCompanyAndPost, DateTime startDate, DateTime endDate)
+            : this(startDate, endDate) 
+        {
+            _currentCompanyAndPost = currentCompanyAndPost;
+            _isEditCurrentCompanyAndPost = true;
+
+            SelectedDirectoryCompany = DirectoryCompanies.First(c => c.Name == currentCompanyAndPost.DirectoryPost.DirectoryCompany.Name);
+            IsTwoCompanies = currentCompanyAndPost.IsTwoCompanies;
+            SelectedPostChangeDate = currentCompanyAndPost.PostChangeDate;
+        }
 
         #endregion
 
@@ -57,6 +70,12 @@ namespace AIS_Enterprise_Global.ViewModels
                 OnPropertyChanged();
 
                 DirectoryPosts = new ObservableCollection<DirectoryPost>(BC.GetDirectoryPosts(SelectedDirectoryCompany));
+
+                if (_isEditCurrentCompanyAndPost)
+                {
+                    SelectedDirectoryPost = DirectoryPosts.First(p => p.Name == _currentCompanyAndPost.DirectoryPost.Name);
+                    _isEditCurrentCompanyAndPost = false;
+                }
             }
         }
 
@@ -73,6 +92,7 @@ namespace AIS_Enterprise_Global.ViewModels
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+        public bool IsTwoCompanies { get; set; }
 
         #endregion
 
@@ -86,7 +106,8 @@ namespace AIS_Enterprise_Global.ViewModels
             CurrentCompanyAndPost = new CurrentCompanyAndPost
             {
                 DirectoryPost = SelectedDirectoryPost,
-                PostChangeDate = SelectedPostChangeDate
+                PostChangeDate = SelectedPostChangeDate,
+                IsTwoCompanies = IsTwoCompanies
             };
 
             var window = (Window)parameter;

@@ -5,8 +5,10 @@ using AIS_Enterprise_Global.Models.Directories;
 using AIS_Enterprise_Global.Models.Infos;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,6 +19,8 @@ namespace AIS_Enterprise_Global.Models
     public class BusinessContext : IDisposable
     {
         #region Base
+
+        private const string TYPE_OF_POST_OFFICE = "Офис";
 
         private DataContext _dc;
 
@@ -47,6 +51,14 @@ namespace AIS_Enterprise_Global.Models
 
 
         #region DirectoryCompany
+
+        public IEnumerable<string> GetDirectoryCompanies(int workerId, int year, int month, int lastDayInMonth)
+        {
+            var currentPosts = GetCurrentPosts(workerId, year, month, lastDayInMonth);
+            var directoryPosts = currentPosts.Select(p => p.DirectoryPost);
+
+            return directoryPosts.Select(p => p.DirectoryCompany.Name).Distinct();
+        }
 
         public IQueryable<DirectoryCompany> GetDirectoryCompanies()
         {
@@ -127,7 +139,7 @@ namespace AIS_Enterprise_Global.Models
             return _dc.DirectoryPosts.FirstOrDefault(p => p.Name == postName);
         }
 
-        public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string userWorkerHalfSalary)
+        public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string adminWorkerSalary, string userWorkerHalfSalary)
         {
             var directoryPost = new DirectoryPost
             {
@@ -136,10 +148,27 @@ namespace AIS_Enterprise_Global.Models
                 DirectoryCompany = company,
                 Date = date,
                 UserWorkerSalary = double.Parse(userWorkerSalary),
+                AdminWorkerSalary = double.Parse(adminWorkerSalary),
                 UserWorkerHalfSalary = double.Parse(userWorkerHalfSalary)
             };
 
             _dc.DirectoryPosts.Add(directoryPost);
+            _dc.SaveChanges();
+
+            return directoryPost;
+        }
+
+        public DirectoryPost EditDirectoryPost(int postId, string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string adminWorkerSalary, string userWorkerHalfSalary)
+        {
+            var directoryPost = _dc.DirectoryPosts.Find(postId);
+            directoryPost.Name = name;
+            directoryPost.DirectoryTypeOfPost = typeOfPost;
+            directoryPost.DirectoryCompany = company;
+            directoryPost.Date = date;
+            directoryPost.UserWorkerSalary = double.Parse(userWorkerSalary);
+            directoryPost.AdminWorkerSalary = double.Parse(adminWorkerSalary);
+            directoryPost.UserWorkerHalfSalary = double.Parse(userWorkerHalfSalary);
+
             _dc.SaveChanges();
 
             return directoryPost;
@@ -178,7 +207,7 @@ namespace AIS_Enterprise_Global.Models
                 CellPhone = cellPhone,
                 StartDate = startDate,
                 FireDate = fireDate,
-                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id }))
+                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies }))
             };
 
             _dc.DirectoryWorkers.Add(worker);
@@ -221,19 +250,74 @@ namespace AIS_Enterprise_Global.Models
         {
             var firstDateInMonth = new DateTime(year, month, 1);
             var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
-            
-            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 && 
+
+            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
                 (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0)));
         }
 
-        public IQueryable<DirectoryWorker> GetDirectoryWorkersWithInfoDatesAndPanalties(int year, int month)
+        public IEnumerable<DirectoryWorker> GetDirectoryWorkers(int year, int month, bool isOffice)
         {
             var firstDateInMonth = new DateTime(year, month, 1);
             var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
-                (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0))).
-                Include(w => w.InfoDates).Include("InfoDates.InfoPanalty");
+            var workers = _dc.DirectoryWorkers.ToList();
+
+            foreach (var worker in workers)
+            {
+                var post = GetCurrentPost(worker.Id, lastDateInMonth);
+
+                if (isOffice)
+                {
+                    if (post.DirectoryPost.DirectoryTypeOfPost.Name == TYPE_OF_POST_OFFICE && worker.StartDate.Date <= lastDateInMonth.Date &&
+                        (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+                    {
+                        yield return worker;
+                    }
+                }
+                else
+                {
+                    if (post.DirectoryPost.DirectoryTypeOfPost.Name != TYPE_OF_POST_OFFICE && worker.StartDate.Date <= lastDateInMonth.Date &&
+                        (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+                    {
+                        yield return worker;
+                    }
+                }
+            }
+        }
+
+        public IQueryable<DirectoryWorker> GetDirectoryWorkers(DateTime fromDate, DateTime toDate)
+        {
+            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, toDate) >= 0 && (w.FireDate == null || w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, fromDate) <= 0));
+        }
+
+        public IEnumerable<DirectoryWorker> GetDirectoryWorkersWithInfoDatesAndPanalties(int year, int month, bool isOffice)
+        {
+            var firstDateInMonth = new DateTime(year, month, 1);
+            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+            var workers = _dc.DirectoryWorkers.Include(w => w.InfoDates).Include("InfoDates.InfoPanalty").ToList();
+
+            foreach (var worker in workers)
+            {
+                var post = GetCurrentPost(worker.Id, lastDateInMonth);
+
+                if (isOffice)
+                {
+                    if (post.DirectoryPost.DirectoryTypeOfPost.Name == TYPE_OF_POST_OFFICE && worker.StartDate.Date <= lastDateInMonth.Date &&
+                        (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+                    {
+                        yield return worker;
+                    }
+                }
+                else
+                {
+                    if (post.DirectoryPost.DirectoryTypeOfPost.Name != TYPE_OF_POST_OFFICE && worker.StartDate.Date <= lastDateInMonth.Date &&
+                        (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+                    {
+                        yield return worker;
+                    }
+                }
+            }
         }
 
         public DirectoryWorker GetDirectoryWorker(int workerId)
@@ -264,7 +348,7 @@ namespace AIS_Enterprise_Global.Models
 
             _dc.CurrentPosts.RemoveRange(directoryWorker.CurrentCompaniesAndPosts);
 
-            directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id }));
+            directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies }));
 
             _dc.SaveChanges();
 
@@ -280,6 +364,13 @@ namespace AIS_Enterprise_Global.Models
 
         public IEnumerable<InfoDate> GetInfoDatePanalties(int workerId, int year, int month)
         {
+            var worker = GetDirectoryWorker(workerId);
+            return worker.InfoDates.Where(d => d.Date.Year == year && d.Date.Month == month && d.InfoPanalty != null);
+        }
+
+        public IEnumerable<InfoDate> GetInfoDatePanaltiesWithoutCash(int workerId, int year, int month)
+        {
+            RefreshContext();
             var worker = GetDirectoryWorker(workerId);
             return worker.InfoDates.Where(d => d.Date.Year == year && d.Date.Month == month && d.InfoPanalty != null);
         }
@@ -391,7 +482,7 @@ namespace AIS_Enterprise_Global.Models
         public InfoPanalty AddInfoPanalty(int workerId, DateTime date, double summ, string description)
         {
             var worker = GetDirectoryWorker(workerId);
-            var infoPanalty = new InfoPanalty 
+            var infoPanalty = new InfoPanalty
             {
                 Summ = summ,
                 Description = description
@@ -444,7 +535,8 @@ namespace AIS_Enterprise_Global.Models
             {
                 ChangeDate = currentCompanyAndPost.PostChangeDate,
                 DirectoryPost = _dc.DirectoryPosts.First(p => p.Name == currentCompanyAndPost.DirectoryPost.Name &&
-                    p.DirectoryCompany.Name == currentCompanyAndPost.DirectoryPost.DirectoryCompany.Name)
+                    p.DirectoryCompany.Name == currentCompanyAndPost.DirectoryPost.DirectoryCompany.Name),
+                IsTwoCompanies = currentCompanyAndPost.IsTwoCompanies
             };
             worker.CurrentCompaniesAndPosts.Add(currentPost);
 
@@ -492,10 +584,10 @@ namespace AIS_Enterprise_Global.Models
                             var date = DateTime.Parse(line.Substring(0, 10));
 
 
-                            if (!dc.DirectoryWeekends.Select(h => h.Date).Contains(date))
+                            if (!dc.DirectoryHolidays.Select(h => h.Date).Contains(date))
                             {
-                                var directoryHoliday = new DirectoryWeekend { Date = date };
-                                dc.DirectoryWeekends.Add(directoryHoliday);
+                                var directoryHoliday = new DirectoryHoliday { Date = date };
+                                dc.DirectoryHolidays.Add(directoryHoliday);
                             }
                         }
                     }
@@ -508,19 +600,103 @@ namespace AIS_Enterprise_Global.Models
         {
             using (var dc = new DataContext())
             {
-                int holiDays = dc.DirectoryWeekends.Where(h => h.Date.Year == year && h.Date.Month == month).Count();
+                int holiDays = dc.DirectoryHolidays.Where(h => h.Date.Year == year && h.Date.Month == month).Count();
                 return DateTime.DaysInMonth(year, month) - holiDays;
             }
         }
 
-        public IQueryable<DateTime> GetWeekendsInMonth(int year, int month)
+        public IQueryable<DateTime> GetHolidays(int year, int month)
         {
-            return _dc.DirectoryWeekends.Where(h => h.Date.Year == year && h.Date.Month == month).Select(h => h.Date);
+            return _dc.DirectoryHolidays.Where(h => h.Date.Year == year && h.Date.Month == month).Select(h => h.Date);
+        }
+
+        public IQueryable<DateTime> GetHolidays(DateTime fromDate, DateTime toDate)
+        {
+            return _dc.DirectoryHolidays.Where(h => DbFunctions.DiffDays(h.Date, fromDate) <= 0 && DbFunctions.DiffDays(h.Date, toDate) >= 0).Select(h => h.Date);
         }
 
         public bool IsWeekend(DateTime date)
         {
-            return _dc.DirectoryWeekends.Any(w => DbFunctions.DiffDays(w.Date, date) == 0);
+            return _dc.DirectoryHolidays.Any(w => DbFunctions.DiffDays(w.Date, date) == 0);
+        }
+
+        #endregion
+
+
+        #region Parameter
+
+        public void EditParameter(string name, string value)
+        {
+            _dc.Parameters.First(p => p.Name == name).Value = value;
+            _dc.SaveChanges();
+        }
+
+        public T GetParameterValue<T>(string name)
+        {
+            string value = _dc.Parameters.First(p => p.Name == name).Value;
+
+            return (T)Convert.ChangeType(value, typeof(T));
+        }
+
+        #endregion
+
+
+        #region Initialize
+
+        public void InitializeAbsentDates()
+        {
+            var lastDate = GetParameterValue<DateTime>("LastDate");
+
+            var workers = GetDirectoryWorkers(lastDate, DateTime.Now).ToList(); //25 f   5 vfz   3 мая 4 мая
+            var holidays = GetHolidays(lastDate, DateTime.Now).ToList();
+
+            for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddDays(1))
+            {
+                foreach (var worker in workers)
+                {
+                    if (worker.StartDate.Date <= date.Date && (worker.FireDate == null || worker.FireDate != null && worker.FireDate.Value.Date >= date.Date))
+                    {
+                        if (!worker.InfoDates.Any(d => d.Date.Date == date.Date))
+                        {
+                            var infoDate = new InfoDate
+                            {
+                                Date = date,
+                                DescriptionDay = DescriptionDay.Был,
+                            };
+
+                            if (!holidays.Any(h => h.Date == date.Date))
+                            {
+                                infoDate.CountHours = 8;
+                            }
+
+                            worker.InfoDates.Add(infoDate);
+                        }
+
+
+                    }
+                }
+
+                _dc.SaveChanges();
+            }
+
+            double birthday = GetParameterValue<double>("Birthday");
+            for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddMonths(1))
+            {
+                var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
+                foreach (var worker in workers)
+                {
+                    if (!worker.InfoMonthes.Any(m => m.Date.Year == date.Year && m.Date.Month == date.Month))
+                    {
+                        var infoMonth = new InfoMonth
+                        {
+                            BirthDays = birthday,
+                            Date = firstDateInMonth,
+                        };
+                        worker.InfoMonthes.Add(infoMonth);
+                    }
+                }
+                _dc.SaveChanges();
+            }
         }
 
         #endregion

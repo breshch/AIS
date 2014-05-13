@@ -24,7 +24,10 @@ namespace AIS_Enterprise_Global.ViewModels
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>();
 
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
-            RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost, CanRemovingCompanyAndPost);
+            EditCompanyAndPostCommand = new RelayCommand(EditCompanyAndPost, IsSelectedCompanyAndPost);
+            RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost, IsSelectedCompanyAndPost);
+
+            SelectedIndexCurrentCompanyAndPost = -1;
         }
 
         protected void ClearInputData()
@@ -75,6 +78,7 @@ namespace AIS_Enterprise_Global.ViewModels
         public ObservableCollection<CurrentCompanyAndPost> CurrentCompaniesAndPosts { get; set; }
 
         public CurrentCompanyAndPost SelectedCurrentCompanyAndPost { get; set; }
+        public int SelectedIndexCurrentCompanyAndPost { get; set; }
 
         #endregion
 
@@ -82,6 +86,7 @@ namespace AIS_Enterprise_Global.ViewModels
         #region Commands
 
         public RelayCommand AddCompanyAndPostCommand { get; set; }
+        public RelayCommand EditCompanyAndPostCommand { get; set; }
         public RelayCommand RemoveCompanyAndPostCommand { get; set; }
 
         private void AddCompanyAndPost(object parameter)
@@ -105,12 +110,36 @@ namespace AIS_Enterprise_Global.ViewModels
             }
         }
 
+        private void EditCompanyAndPost(object parameter)
+        {
+            Debug.WriteLine(SelectedCurrentCompanyAndPost.IsTwoCompanies);
+            int prevIndex = SelectedIndexCurrentCompanyAndPost;
+            var currentWorkerCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel(SelectedCurrentCompanyAndPost, SelectedDirectoryWorkerStartDate, DateTime.Now);
+            var currentWorkerCompanyAndPostView = new CurrentCompanyAndPostView();
+
+            currentWorkerCompanyAndPostView.DataContext = currentWorkerCompanyAndPostViewModel;
+            currentWorkerCompanyAndPostView.ShowDialog();
+
+            var currentCompanyAndPost = currentWorkerCompanyAndPostViewModel.CurrentCompanyAndPost;
+
+            if (currentCompanyAndPost != null)
+            {
+                if (CurrentCompaniesAndPosts.Any())
+                {
+                    //CurrentCompaniesAndPosts.OrderBy(p => p.PostChangeDate).Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+                }
+
+                CurrentCompaniesAndPosts.Remove(SelectedCurrentCompanyAndPost);
+                CurrentCompaniesAndPosts.Insert(prevIndex, currentCompanyAndPost);
+            }
+        }
+
         private void RemoveCompanyAndPost(object parameter)
         {
             CurrentCompaniesAndPosts.Remove(SelectedCurrentCompanyAndPost);
         }
 
-        private bool CanRemovingCompanyAndPost(object parameter)
+        private bool IsSelectedCompanyAndPost(object parameter)
         {
             return SelectedCurrentCompanyAndPost != null;
         }

@@ -6,7 +6,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
-        Title="Добавление компании и должности" Height="246" Width="400">
+        Title="Добавление компании и должности" Height="280" Width="400">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -17,6 +17,7 @@
     <Grid Margin="30, 20">
         
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -33,11 +34,13 @@
             <ComboBox ItemsSource="{Binding DirectoryPosts}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryPost, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Margin="0, 5, 0, 0">
+        <CheckBox Grid.Row="2"  Content="Совместительство" IsChecked="{Binding IsTwoCompanies}" Margin="0, 10, 0, 0"/>
+
+        <StackPanel Grid.Row="3" Margin="0, 10, 0, 0">
             <TextBlock Text="Дата приёма на должность"/>
             <DatePicker SelectedDate="{Binding SelectedPostChangeDate}" DisplayDateStart="{Binding StartDate}" DisplayDateEnd="{Binding EndDate}" Focusable="False" />
         </StackPanel>
 
-        <Button Grid.Row="3" Margin="0, 15, 0, 0" Content="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=CompanyAndPostWindow}"/>
+        <Button Grid.Row="4" Margin="0, 15, 0, 0" Content="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=CompanyAndPostWindow}"/>
     </Grid>
 </Window>

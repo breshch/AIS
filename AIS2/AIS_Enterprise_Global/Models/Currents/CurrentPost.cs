@@ -15,5 +15,6 @@ namespace AIS_Enterprise_Global.Models.Currents
 
         public int DirectoryPostId { get; set; }
         public virtual DirectoryPost DirectoryPost { get; set; }
+        public bool IsTwoCompanies { get; set; }
     }
 }

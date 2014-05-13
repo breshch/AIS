@@ -75,6 +75,7 @@
     <Compile Include="Helpers\DataGridHelper.cs" />
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
+    <Compile Include="Helpers\ValueConverters\BooleanToStringValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToBooleanValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToVisibilityValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
@@ -82,10 +83,11 @@
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
-    <Compile Include="Models\Directories\DirectoryWeekend.cs" />
+    <Compile Include="Models\Directories\DirectoryHoliday.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
+    <Compile Include="Models\Helpers\Parameter.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />
     <Compile Include="Models\Infos\InfoMonth.cs" />
     <Compile Include="Models\Infos\InfoPanalty.cs" />
@@ -95,7 +97,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ViewModels\Currents\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryTypeOfPostViewModel.cs" />
@@ -110,6 +115,12 @@
     </Compile>
     <Compile Include="Views\Directories\DirectoryCompanyView.xaml.cs">
       <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddPostView.xaml.cs">
+      <DependentUpon>DirectoryAddPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditPostView.xaml.cs">
+      <DependentUpon>DirectoryEditPostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Directories\DirectoryPostView.xaml.cs">
       <DependentUpon>DirectoryPostView.xaml</DependentUpon>
@@ -140,6 +151,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Directories\DirectoryCompanyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditPostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

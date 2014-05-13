@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels
@@ -40,6 +41,8 @@ namespace AIS_Enterprise_AV.ViewModels
             }
         }
 
+        public bool IsNotInitializedDB { get; set; }
+
         public RelayCommand ShowDirectoryCompanyViewCommand { get; set; }
         public RelayCommand ShowDirectoryTypeOfPostViewCommand { get; set; }
         public RelayCommand ShowDirectoryPostViewCommand { get; set; }
@@ -50,6 +53,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand ShowSalaryViewCommand { get; set; }
         public RelayCommand ShowExcelToDBCommand { get; set; }
         public RelayCommand ShowDefaultDBCommand { get; set; }
+        public RelayCommand ShowDefaultOfficeDBCommand { get; set; }
 
 
         public MainViewModel() : base()
@@ -64,6 +68,9 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowSalaryViewCommand = new RelayCommand(ShowSalaryView);
             ShowExcelToDBCommand = new RelayCommand(ShowExcelToDB);
             ShowDefaultDBCommand = new RelayCommand(ShowDefaultDB);
+            ShowDefaultOfficeDBCommand = new RelayCommand(ShowDefaultOfficeDB);
+
+            IsNotInitializedDB = true;
 
             Languages = new ObservableCollection<string>(new[] { "ru-RU", "en-US" });
 
@@ -141,12 +148,20 @@ namespace AIS_Enterprise_AV.ViewModels
 
         private void ShowExcelToDB(object parameter)
         {
-            ConvertingExcelToDB.ConvertExcelToDB(BC);
+            IsNotInitializedDB = false;
+            Task.Factory.StartNew(() => ConvertingExcelToDB.ConvertExcelToDB(BC)).ContinueWith((t) => IsNotInitializedDB = true);
         }
 
         private void ShowDefaultDB(object parameter)
         {
-            BC.InitializeDefaultDataBaseWithWorkers();
+            IsNotInitializedDB = false;
+            Task.Factory.StartNew(BC.InitializeDefaultDataBaseWithWorkers).ContinueWith((t) => IsNotInitializedDB = true );
+        }
+
+        private void ShowDefaultOfficeDB(object parameter)
+        {
+            IsNotInitializedDB = false;
+            Task.Factory.StartNew(BC.InitializeDefaultDataBaseWithOfficeWorkers).ContinueWith((t) => IsNotInitializedDB = true);
         }
     }
 }

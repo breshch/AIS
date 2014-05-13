@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         WindowStartupLocation="CenterScreen"
-        Title="Главная форма" Height="380" Width="450">
+        Title="Главная форма" Height="400" Width="450">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -13,17 +13,18 @@
 
     <Grid Margin="30, 20">
         <StackPanel>
-            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0, 3"/>
-            <Button Content="ExcelToDB" Margin="0, 3" Command="{Binding ShowExcelToDBCommand}"/>
-            <Button Content="DefaultDB" Margin="0, 3" Command="{Binding ShowDefaultDBCommand}"/>
-            <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}"/>
-            <Button Content="ЦО" Margin="0, 3" Command="{Binding ShowDirectoryRCViewCommand}"/>
-            <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfPostViewCommand}"/>
-            <Button Content="Должности" Margin="0, 3" Command="{Binding ShowDirectoryPostViewCommand}"/>
-            <Button Content="Добавление Рабов" Margin="0, 3" Command="{Binding ShowDirectoryAddWorkerViewCommand}"/>
-            <Button Content="Список Рабов" Margin="0, 3" Command="{Binding ShowDirectoryWorkerListViewCommand}"/>
-            <Button Content="Месячный табель" Margin="0, 3" Command="{Binding ShowMonthTimeSheetViewCommand}"/>
-            <Button Content="Зарплата" Margin="0, 3" Command="{Binding ShowSalaryViewCommand}"/>
+            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0, 3" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="ExcelToDB" Margin="0, 3" Command="{Binding ShowExcelToDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="DefaultOfficeWorkerToDB" Margin="0, 3" Command="{Binding ShowDefaultOfficeDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="DefaultDB" Margin="0, 3" Command="{Binding ShowDefaultDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="Компании" Margin="0, 3" Command="{Binding ShowDirectoryCompanyViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="ЦО" Margin="0, 3" Command="{Binding ShowDirectoryRCViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="Типы должности" Margin="0, 3" Command="{Binding ShowDirectoryTypeOfPostViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="Должности" Margin="0, 3" Command="{Binding ShowDirectoryPostViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="Добавление Рабов" Margin="0, 3" Command="{Binding ShowDirectoryAddWorkerViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="Список Рабов" Margin="0, 3" Command="{Binding ShowDirectoryWorkerListViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="Месячный табель" Margin="0, 3" Command="{Binding ShowMonthTimeSheetViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+            <Button Content="Зарплата" Margin="0, 3" Command="{Binding ShowSalaryViewCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
         </StackPanel>
     </Grid>
 </Window>

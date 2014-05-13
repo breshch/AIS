@@ -6,7 +6,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen" 
-        Title="Редактирование сотрудника" Height="700" Width="550">
+        Title="Редактирование сотрудника" Height="700" Width="580">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -17,6 +17,7 @@
     <Window.Resources>
         <valueConverters:GenderToMaleBoolValueConverter x:Key="genderToMaleBoolValueConverter"/>
         <valueConverters:GenderToFemaleBoolValueConverter x:Key="genderToFemaleBoolValueConverter"/>
+        <valueConverters:BooleanToStringValueConverter x:Key="booleanToStringValueConverter"/>
 
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -139,7 +140,7 @@
 
             <TextBlock Grid.Row="0" Text="Компании и должности"/>
 
-            <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentCompaniesAndPosts}" SelectedItem="{Binding SelectedCurrentCompanyAndPost, Mode=TwoWay}" AutoGenerateColumns="False"
+            <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentCompaniesAndPosts}" SelectedItem="{Binding SelectedCurrentCompanyAndPost, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndexCurrentCompanyAndPost}" AutoGenerateColumns="False"
                   HeadersVisibility="Column" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single" 
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsEnabled="{Binding IsNotFireDate}">
 
@@ -152,25 +153,24 @@
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryPost.DirectoryCompany.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Совм-во" Binding="{Binding IsTwoCompanies, Converter={StaticResource booleanToStringValueConverter}}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Должность" Binding="{Binding DirectoryPost.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding DirectoryPost.UserWorkerSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <DataGridTextColumn Header="Совместительство" Binding="{Binding DirectoryPost.UserWorkerHalfSalary}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Оклад" Binding="{Binding DirectoryPost.UserWorkerSalary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Доп. оклад" Binding="{Binding DirectoryPost.UserWorkerHalfSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Дата" Binding="{Binding PostChangeDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-
                 </DataGrid.Columns>
             </DataGrid>
 
             <Grid Grid.Row="2" Margin="0, 10, 0, 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Grid.Row="1" Content="Добавить компанию и должность" Command="{Binding AddCompanyAndPostCommand}" IsEnabled="{Binding IsNotFireDate}" Margin="0, 0, 20, 0" />
-                <Button Grid.Column="1" Grid.Row="1" Content="Удалить компанию и должность" Command="{Binding RemoveCompanyAndPostCommand}" IsEnabled="{Binding IsNotFireDate}" Margin="20, 0, 0, 0" />
+                <Button Grid.Column="0" Content="Добавить должность" Command="{Binding AddCompanyAndPostCommand}" IsEnabled="{Binding IsNotFireDate}" Margin="0, 0, 20, 0" />
+                <Button Grid.Column="1" Content="Изменить должность" Command="{Binding EditCompanyAndPostCommand}" IsEnabled="{Binding IsNotFireDate}" Margin="20, 0, 20, 0" />
+                <Button Grid.Column="2" Content="Удалить должность" Command="{Binding RemoveCompanyAndPostCommand}" IsEnabled="{Binding IsNotFireDate}" Margin="20, 0, 0, 0" />
             </Grid>
         </Grid>
 

@@ -30,12 +30,13 @@ namespace AIS_Enterprise_AV.Helpers.Temps
         public string PrepaymentCash { get; set; }
         public string PrepaymentBankTransaction { get; set; }
         public string VocationPayment { get; set; }
-        public string SalaryAV { get; set; }
-        public string SalaryFenox { get; set; }
+        public string CardAV { get; set; }
+        public string CardFenox { get; set; }
         public string Panalty { get; set; }
         public string Inventory { get; set; }
         public double? BirthDays { get; set; }
         public string Bonus { get; set; }
         public double? FinalSalary { get; set; }
+        public bool IsOdd { get; set; }
     }
 }

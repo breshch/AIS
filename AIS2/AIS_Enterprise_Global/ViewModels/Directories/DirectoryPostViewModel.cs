@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using AIS_Enterprise_Global.Helpers.Attributes;
+using AIS_Enterprise_Global.ViewModels.Directories;
+using AIS_Enterprise_Global.Views.Directories;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
@@ -20,12 +22,9 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public DirectoryPostViewModel() : base()
         {
-            DirectoryTypeOfPosts = new ObservableCollection<DirectoryTypeOfPost>(BC.GetDirectoryTypeOfPosts());
-            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
-            SelectedDirectoryPostDate = DateTime.Now;
-
-            AddCommand = new RelayCommand(Add, CanAdding);
-            RemoveCommand = new RelayCommand(Remove, CanRemove);
+            AddCommand = new RelayCommand(Add);
+            EditCommand = new RelayCommand(Edit, IsSelected);
+            RemoveCommand = new RelayCommand(Remove, IsSelected);
 
             RefreshDirectoryPosts();
         }
@@ -33,16 +32,6 @@ namespace AIS_Enterprise_Global.ViewModels
         private void RefreshDirectoryPosts()
         {
             DirectoryPosts = new ObservableCollection<DirectoryPost>(BC.GetDirectoryPosts());
-        }
-
-        private void ClearInputData()
-        {
-            DirectoryPostName = null;
-            SelectedDirectoryTypeOfPost = null;
-            SelectedDirectoryCompany = null;
-            SelectedDirectoryPostDate = DateTime.Now;
-            DirectoryPostUserWorkerSalary = null;
-            DirectoryPostUserWorkerHalfSalary = null;
         }
 
         #endregion
@@ -54,54 +43,35 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public DirectoryPost SelectedDirectoryPost { get; set; }
 
-        [Required]
-        [Display(Name = "Должность")]
-        public string DirectoryPostName { get; set; }
-
-        public ObservableCollection<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
-
-        [RequireSelected]
-        [Display(Name = "Вид должности")]
-        public DirectoryTypeOfPost SelectedDirectoryTypeOfPost { get; set; }
-
-        public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
-
-        [RequireSelected]
-        [Display(Name = "Компания")]
-        public DirectoryCompany SelectedDirectoryCompany { get; set; }
-
-        public DateTime SelectedDirectoryPostDate { get; set; }
-
-        [Required]
-        [DoubleValue(MinValue = 0)]
-        [Display(Name = "Оклад")]
-        public string DirectoryPostUserWorkerSalary { get; set; }
-
-        [Required]
-        [DoubleValue(MinValue = 0)]
-        [Display(Name = "Совместительство")]
-        public string DirectoryPostUserWorkerHalfSalary { get; set; }
-
         #endregion
 
 
         #region Commands
 
         public RelayCommand AddCommand { get; set; }
+        public RelayCommand EditCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
 
         private void Add(object parameter)
         {
-            BC.AddDirectoryPost(DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, SelectedDirectoryPostDate, DirectoryPostUserWorkerSalary, DirectoryPostUserWorkerHalfSalary);
-            
-            RefreshDirectoryPosts();
+            var directoryAddPostViewModel = new DirectoryAddPostViewModel();
+            var directoryAddPostView = new DirectoryAddPostView();
 
-            ClearInputData();
+            directoryAddPostView.DataContext = directoryAddPostViewModel;
+            directoryAddPostView.ShowDialog();
+
+            RefreshDirectoryPosts();
         }
 
-        private bool CanAdding(object parameter)
+        private void Edit(object parameter)
         {
-            return IsValidateAllProperties();
+            var directoryEditPostViewModel = new DirectoryEditPostViewModel(SelectedDirectoryPost);
+            var directoryEditPostView = new DirectoryEditPostView();
+
+            directoryEditPostView.DataContext = directoryEditPostViewModel;
+            directoryEditPostView.ShowDialog();
+
+            RefreshDirectoryPosts();
         }
 
         private void Remove(object parameter)
@@ -110,7 +80,7 @@ namespace AIS_Enterprise_Global.ViewModels
             RefreshDirectoryPosts();
         }
 
-        private bool CanRemove(object parameter)
+        private bool IsSelected(object parameter)
         {
             return SelectedDirectoryPost != null;
         }

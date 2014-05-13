@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using AIS_Enterprise_AV.Models.Directories;
+using AIS_Enterprise_Global.Helpers.Attributes;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
@@ -22,6 +23,8 @@ namespace AIS_Enterprise_AV.ViewModels
         public DirectoryRCViewModel() : base()
         {
             RefreshDirectoryRCs();
+
+            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
 
             AddCommand = new RelayCommand(Add, CanAdding);
             RemoveCommand = new RelayCommand(Remove, CanRemoving);
@@ -59,6 +62,12 @@ namespace AIS_Enterprise_AV.ViewModels
         public int MinimumPercentes { get; set; }
         public int MaximumPercentes { get; set; }
 
+        public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
+
+        [RequireSelected]
+        [Display(Name = "Компания")]
+        public DirectoryCompany SelectedDirectoryCompany { get; set; }
+
 
         #endregion
 
@@ -70,7 +79,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public void Add(object parameter)
         {
-            BC.AddDirectoryRC(DirectoryRCName, Percentes);
+            BC.AddDirectoryRC(DirectoryRCName, SelectedDirectoryCompany,Percentes);
 
             RefreshDirectoryRCs();
 

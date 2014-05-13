@@ -12,5 +12,6 @@ namespace AIS_Enterprise_Global.Helpers.Temps
         public DirectoryPost DirectoryPost { get; set; }
         public DateTime PostChangeDate { get; set; }
         public DateTime? PostFireDate { get; set; }
+        public bool IsTwoCompanies { get; set; }
     }
 }

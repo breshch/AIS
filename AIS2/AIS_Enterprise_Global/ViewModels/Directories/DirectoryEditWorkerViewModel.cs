@@ -48,7 +48,7 @@ namespace AIS_Enterprise_Global.ViewModels
             DirectoryWorkerHomePhone = _selectedDirectoryWorker.HomePhone;
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
-                Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate }));
+                Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate, IsTwoCompanies = c.IsTwoCompanies }));
         }
 
         #endregion

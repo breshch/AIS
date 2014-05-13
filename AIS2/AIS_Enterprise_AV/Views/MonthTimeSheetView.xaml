@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10, 0, 0, 0">
@@ -26,18 +27,17 @@
 
         <DataGrid x:Name="DataGridMonthTimeSheet" Grid.Row="1" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="Cell"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="5" ColumnHeaderHeight="40" 
-                  Margin="0, 20, 0, 0" CellEditEnding="DataGridMonthTimeSheet_CellEditEnding" BeginningEdit="DataGridMonthTimeSheet_BeginningEdit" 
-                  MouseDoubleClick="DataGridMonthTimeSheet_MouseDoubleClick" SelectedCellsChanged="DataGridMonthTimeSheet_SelectedCellsChanged" >
+                  Margin="0, 20, 0, 0" CellEditEnding="DataGridMonthTimeSheet_CellEditEnding" BeginningEdit="DataGridMonthTimeSheet_BeginningEdit" CanUserSortColumns="False"
+                  MouseDoubleClick="DataGridMonthTimeSheet_MouseDoubleClick" SelectedCellsChanged="DataGridMonthTimeSheet_SelectedCellsChanged" LoadingRow="DataGridMonthTimeSheet_LoadingRow" >
 
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
-                    <!--<EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown"></EventSetter>-->
                     <EventSetter Event="MouseRightButtonDown" Handler="DataGridCell_MouseRightButtonDown" />
                 </Style>
             </DataGrid.CellStyle>
             
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding WorkerId}" Header="WorkerId" Visibility="Collapsed" Width="60"/>
+                <DataGridTextColumn Binding="{Binding WorkerId}" Header="WorkerId" Visibility="Collapsed" Width="60" />
                 <DataGridTextColumn Binding="{Binding FullName}" Header="ФИО" IsReadOnly="True" Width="250"/>
                 <DataGridTextColumn Binding="{Binding DirectoryPostId}" Header="PostId" Visibility="Collapsed" Width="60"/>
                 <DataGridTextColumn Binding="{Binding PostChangeDate}" Header="ChangePostDate" Visibility="Collapsed" Width="60"/>
@@ -52,8 +52,8 @@
                 <DataGridTextColumn Binding="{Binding PrepaymentCash}" Header="Аванс Н" Width="60"/>
                 <DataGridTextColumn Binding="{Binding PrepaymentBankTransaction}" Header="Аванс Б" Width="60"/>
                 <DataGridTextColumn Binding="{Binding VocationPayment}" Header="Отпуск Б" Width="60"/>
-                <DataGridTextColumn Binding="{Binding SalaryAV}" Header="Б/Р АВ" Width="60"/>
-                <DataGridTextColumn Binding="{Binding SalaryFenox}" Header="Б/Р Фенокс" Width="60"/>
+                <DataGridTextColumn Binding="{Binding CardAV}" Header="Б/Р АВ" Width="60"/>
+                <DataGridTextColumn Binding="{Binding CardFenox}" Header="Б/Р Фенокс" Width="60"/>
                 <DataGridTextColumn Binding="{Binding Panalty}" Header="Штраф" IsReadOnly="True" Width="60"/>
                 <DataGridTextColumn Binding="{Binding Inventory}" Header="Переучет" Width="60"/>
                 <DataGridTextColumn Binding="{Binding BirthDays}" Header="Д/Р" IsReadOnly="True" Width="60"/>
@@ -61,5 +61,12 @@
                 <DataGridTextColumn Binding="{Binding FinalSalary}" Header="Итого" IsReadOnly="True" Width="60"/>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <TabControl Grid.Row="2">
+            <TabItem Header="Вкладочка 1">
+                <Button Content="FDgjh"/>
+            </TabItem>
+            <TabItem Header="Вкладочка 2"/>
+        </TabControl>
     </Grid>
 </Window>                                      
