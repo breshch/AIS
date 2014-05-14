@@ -16,6 +16,7 @@ namespace AIS_Enterprise_Global.Models.Infos
         public int CountMissDays { get; set; }
         public double PrepaymentCash { get; set; }
         public double PrepaymentBankTransaction { get; set; }
+        public double Compensation { get; set; }
         public double VocationPayment { get; set; }
         public double CardAV { get; set; }
         public double CardFenox { get; set; }

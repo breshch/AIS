@@ -431,6 +431,7 @@ namespace AIS_Enterprise_AV.Helpers
 
             double totalCardAV = 0;
             double totalPrepaymentBankTransactionAV = 0;
+            double totalCompensationAV = 0;
             double totalOverTimeKO5AV = 0;
             double totalOverTimePAM16AV = 0;
             double totalCashAV = 0;
@@ -482,7 +483,7 @@ namespace AIS_Enterprise_AV.Helpers
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV);
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV);
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, infoMonth.PrepaymentBankTransaction);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, 0);
+                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation);
 
                 double totalOverTimeAV = 0;
                 
@@ -572,9 +573,9 @@ namespace AIS_Enterprise_AV.Helpers
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, null);
 
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV -
-                    infoMonth.PrepaymentBankTransaction - 0 - infoMonth.CardFenox);
+                    infoMonth.PrepaymentBankTransaction - infoMonth.Compensation - infoMonth.CardFenox);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + 0 + totalOverTimeAV + cashAV +
+                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
                     infoMonth.CardFenox + totalOverTimeFenox + cashFenox);
 
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox);
@@ -582,13 +583,14 @@ namespace AIS_Enterprise_AV.Helpers
 
                 totalCardAV += infoMonth.CardAV;
                 totalPrepaymentBankTransactionAV += infoMonth.PrepaymentBankTransaction;
+                totalCompensationAV += infoMonth.Compensation;
                 totalCashAV += cashAV;
 
                 totalCardFenox += infoMonth.CardFenox;
                 totalCashFenox += cashFenox;
 
-                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - 0 - infoMonth.CardFenox;
-                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + 0 + totalOverTimeAV + cashAV +
+                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation - infoMonth.CardFenox;
+                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
                     infoMonth.CardFenox + totalOverTimeFenox + cashFenox;
                 totalCashPlusOverTimes += totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox;
             }
@@ -655,10 +657,10 @@ namespace AIS_Enterprise_AV.Helpers
                 double officeCash = salaryAV - infoMonth.CardAV + salaryFenox - infoMonth.CardFenox;
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, officeCash);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - 0 -
+                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation -
                     infoMonth.CardFenox);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + 0 +
+                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
                     infoMonth.CardFenox + officeCash);
 
                 CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, 0);
@@ -669,8 +671,8 @@ namespace AIS_Enterprise_AV.Helpers
                 totalCardFenox += infoMonth.CardFenox;
 
                 totalOffice += officeCash;
-                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - 0 - infoMonth.CardFenox;
-                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + 0 + infoMonth.CardFenox + officeCash;
+                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation - infoMonth.CardFenox;
+                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.CardFenox + officeCash;
             }
 
             indexWorker++;
@@ -679,8 +681,8 @@ namespace AIS_Enterprise_AV.Helpers
 
             CreateCell(sheet, indexWorker + 5, 5, totalCardAV);
             CreateCell(sheet, indexWorker + 5, 6, totalPrepaymentBankTransactionAV);
-            CreateCell(sheet, indexWorker + 5, 7, 0);
-            CreateCell(sheet, indexWorker + 1 + 5, 5, indexWorker + 1 + 5, 7, (totalCardAV + totalPrepaymentBankTransactionAV));
+            CreateCell(sheet, indexWorker + 5, 7, totalCompensationAV);
+            CreateCell(sheet, indexWorker + 1 + 5, 5, indexWorker + 1 + 5, 7, (totalCardAV + totalPrepaymentBankTransactionAV + totalCompensationAV));
 
             CreateCell(sheet, indexWorker + 5, 8, totalOverTimeKO5AV);
             CreateCell(sheet, indexWorker + 5, 9, totalOverTimePAM16AV);

@@ -29,6 +29,7 @@ namespace AIS_Enterprise_AV.Helpers.Temps
 
         public string PrepaymentCash { get; set; }
         public string PrepaymentBankTransaction { get; set; }
+        public string Compensation { get; set; }
         public string VocationPayment { get; set; }
         public string CardAV { get; set; }
         public string CardFenox { get; set; }

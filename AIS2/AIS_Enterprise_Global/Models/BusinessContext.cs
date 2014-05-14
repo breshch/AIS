@@ -647,55 +647,58 @@ namespace AIS_Enterprise_Global.Models
         {
             var lastDate = GetParameterValue<DateTime>("LastDate");
 
-            var workers = GetDirectoryWorkers(lastDate, DateTime.Now).ToList(); //25 f   5 vfz   3 мая 4 мая
-            var holidays = GetHolidays(lastDate, DateTime.Now).ToList();
-
-            for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddDays(1))
+            if (DateTime.Now.Date > lastDate.Date)
             {
-                foreach (var worker in workers)
-                {
-                    if (worker.StartDate.Date <= date.Date && (worker.FireDate == null || worker.FireDate != null && worker.FireDate.Value.Date >= date.Date))
-                    {
-                        if (!worker.InfoDates.Any(d => d.Date.Date == date.Date))
-                        {
-                            var infoDate = new InfoDate
-                            {
-                                Date = date,
-                                DescriptionDay = DescriptionDay.Был,
-                            };
+                var workers = GetDirectoryWorkers(lastDate, DateTime.Now).ToList();
+                var holidays = GetHolidays(lastDate, DateTime.Now).ToList();
 
-                            if (!holidays.Any(h => h.Date == date.Date))
+                for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddDays(1))
+                {
+                    foreach (var worker in workers)
+                    {
+                        if (worker.StartDate.Date <= date.Date && (worker.FireDate == null || worker.FireDate != null && worker.FireDate.Value.Date >= date.Date))
+                        {
+                            if (!worker.InfoDates.Any(d => d.Date.Date == date.Date))
                             {
-                                infoDate.CountHours = 8;
+                                var infoDate = new InfoDate
+                                {
+                                    Date = date,
+                                    DescriptionDay = DescriptionDay.Был,
+                                };
+
+                                if (!holidays.Any(h => h.Date == date.Date))
+                                {
+                                    infoDate.CountHours = 8;
+                                }
+
+                                worker.InfoDates.Add(infoDate);
                             }
 
-                            worker.InfoDates.Add(infoDate);
+
                         }
-
-
                     }
+
+                    _dc.SaveChanges();
                 }
 
-                _dc.SaveChanges();
-            }
-
-            double birthday = GetParameterValue<double>("Birthday");
-            for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddMonths(1))
-            {
-                var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
-                foreach (var worker in workers)
+                double birthday = GetParameterValue<double>("Birthday");
+                for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddMonths(1))
                 {
-                    if (!worker.InfoMonthes.Any(m => m.Date.Year == date.Year && m.Date.Month == date.Month))
+                    var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
+                    foreach (var worker in workers)
                     {
-                        var infoMonth = new InfoMonth
+                        if (!worker.InfoMonthes.Any(m => m.Date.Year == date.Year && m.Date.Month == date.Month))
                         {
-                            BirthDays = birthday,
-                            Date = firstDateInMonth,
-                        };
-                        worker.InfoMonthes.Add(infoMonth);
+                            var infoMonth = new InfoMonth
+                            {
+                                BirthDays = birthday,
+                                Date = firstDateInMonth,
+                            };
+                            worker.InfoMonthes.Add(infoMonth);
+                        }
                     }
+                    _dc.SaveChanges();
                 }
-                _dc.SaveChanges();
             }
         }
 

@@ -1,9 +1,14 @@
 ﻿using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Models;
+using AIS_Enterprise_AV.ViewModels;
+using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
+using AIS_Enterprise_AV.Views.Directories;
+using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.ViewModels;
+using AIS_Enterprise_Global.ViewModels.Directories;
 using AIS_Enterprise_Global.ViewModels.Infos;
 using AIS_Enterprise_Global.Views.Currents;
 using AIS_Enterprise_Global.Views.Directories;
@@ -37,8 +42,8 @@ namespace AIS_Enterprise_AV.Views
         private const int COUNT_COLUMNS_BEFORE_DAYS = 5;
         private const int COUNT_COLUMNS_AFTER_DAYS = 4;
         private const string WEEKEND_DEFINITION = "В";
-        private const int COLUMN_PANALTIES_AFTER_DAYS = 10;
-        private const int COLUMN_FINAL_SALARY_AFTER_DAYS = 14;
+        private const int COLUMN_PANALTIES_AFTER_DAYS = 11;
+        private const int COLUMN_FINAL_SALARY_AFTER_DAYS = 15;
 
         private System.Windows.Media.Brush _brushNoOdd;
         private System.Windows.Media.Brush _brushOdd;
@@ -52,6 +57,12 @@ namespace AIS_Enterprise_AV.Views
         public MonthTimeSheetView()
         {
             InitializeComponent();
+
+            if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
+            {
+                WindowMonthTimeSheet.SizeToContent = System.Windows.SizeToContent.Height;
+                WindowMonthTimeSheet.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+            }
 
             _bc.InitializeAbsentDates();
 
@@ -103,6 +114,9 @@ namespace AIS_Enterprise_AV.Views
             _monthTimeSheetWorkers.Clear();
 
             int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
+
+            TextBlockCountWorkDays.Text = countWorkDaysInMonth + " рабочих дня/ей";
+
             var firstDateInMonth = new DateTime(_currentYear, _currentMonth, 1);
             var lastDateInMonth = HelperMethods.GetLastDateInMonth(_currentYear, _currentMonth);
 
@@ -117,9 +131,10 @@ namespace AIS_Enterprise_AV.Views
                     {
                         Path = new PropertyPath("Hours[" + i + "]")
                     },
-                    Width = 30,
+                    MinWidth = 30,
+                    CellStyle = Resources["CenterTextAlignmentCellWithRightClick"] as Style
                 };
-
+                
                 DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
             }
 
@@ -249,6 +264,7 @@ namespace AIS_Enterprise_AV.Views
                 {
                     monthTimeSheetWorkerFinalSalary.PrepaymentCash = infoMonth.PrepaymentCash.ToString();
                     monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction = infoMonth.PrepaymentBankTransaction.ToString();
+                    monthTimeSheetWorkerFinalSalary.Compensation = infoMonth.Compensation.ToString();
                     monthTimeSheetWorkerFinalSalary.VocationPayment = infoMonth.VocationPayment.ToString();
                     monthTimeSheetWorkerFinalSalary.CardAV = infoMonth.CardAV.ToString();
                     monthTimeSheetWorkerFinalSalary.CardFenox = infoMonth.CardFenox.ToString();
@@ -256,9 +272,8 @@ namespace AIS_Enterprise_AV.Views
                     monthTimeSheetWorkerFinalSalary.Inventory = infoMonth.Inventory.ToString();
                     monthTimeSheetWorkerFinalSalary.BirthDays = infoMonth.BirthDays;
                     monthTimeSheetWorkerFinalSalary.Bonus = infoMonth.Bonus.ToString();
-                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction) -
-                       double.Parse(monthTimeSheetWorkerFinalSalary.VocationPayment) - double.Parse(monthTimeSheetWorkerFinalSalary.CardAV) - double.Parse(monthTimeSheetWorkerFinalSalary.CardFenox) -
-                       double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
+                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - 
+                        double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
                 }
             }
 
@@ -499,9 +514,8 @@ namespace AIS_Enterprise_AV.Views
 
                 var monthTimeSheetWorkerFinalSalary = _monthTimeSheetWorkers.First(m => m.WorkerId == workerId && m.FullName != null);
 
-                salary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentBankTransaction) -
-                       double.Parse(monthTimeSheetWorkerFinalSalary.VocationPayment) - double.Parse(monthTimeSheetWorkerFinalSalary.CardAV) - double.Parse(monthTimeSheetWorkerFinalSalary.CardFenox) -
-                       double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
+                salary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - 
+                    double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
 
                 monthTimeSheetWorkerFinalSalary.FinalSalary = salary;
 
@@ -518,42 +532,44 @@ namespace AIS_Enterprise_AV.Views
                             _bc.EditInfoMonthPayment(workerId, date, "PrepaymentCash", double.Parse(value));
                             ChangeFinalSalary(double.Parse(monthTimeSheetWorker.PrepaymentCash) - double.Parse(value), rowIndexOfFullRow);
                             monthTimeSheetWorker.PrepaymentCash = value;
-
                         }
                         break;
                     case 2:
                         if (IsValidateDoubleValue(e, monthTimeSheetWorker.PrepaymentBankTransaction))
                         {
                             _bc.EditInfoMonthPayment(workerId, date, "PrepaymentBankTransaction", double.Parse(value));
-                            ChangeFinalSalary(double.Parse(monthTimeSheetWorker.PrepaymentBankTransaction) - double.Parse(value), rowIndexOfFullRow);
                             monthTimeSheetWorker.PrepaymentBankTransaction = value;
                         }
                         break;
                     case 3:
-                        if (IsValidateDoubleValue(e, monthTimeSheetWorker.VocationPayment))
+                        if (IsValidateDoubleValue(e, monthTimeSheetWorker.Compensation))
                         {
-                            _bc.EditInfoMonthPayment(workerId, date, "VocationPayment", double.Parse(value));
-                            ChangeFinalSalary(double.Parse(monthTimeSheetWorker.VocationPayment) - double.Parse(value), rowIndexOfFullRow);
-                            monthTimeSheetWorker.VocationPayment = value;
+                            _bc.EditInfoMonthPayment(workerId, date, "Compensation", double.Parse(value));
+                            monthTimeSheetWorker.Compensation = value;
                         }
                         break;
                     case 4:
-                        if (IsValidateDoubleValue(e, monthTimeSheetWorker.CardAV))
+                        if (IsValidateDoubleValue(e, monthTimeSheetWorker.VocationPayment))
                         {
-                            _bc.EditInfoMonthPayment(workerId, date, "CardAV", double.Parse(value));
-                            ChangeFinalSalary(double.Parse(monthTimeSheetWorker.CardAV) - double.Parse(value), rowIndexOfFullRow);
-                            monthTimeSheetWorker.CardAV = value;
+                            _bc.EditInfoMonthPayment(workerId, date, "VocationPayment", double.Parse(value));
+                            monthTimeSheetWorker.VocationPayment = value;
                         }
                         break;
                     case 5:
+                        if (IsValidateDoubleValue(e, monthTimeSheetWorker.CardAV))
+                        {
+                            _bc.EditInfoMonthPayment(workerId, date, "CardAV", double.Parse(value));
+                            monthTimeSheetWorker.CardAV = value;
+                        }
+                        break;
+                    case 6:
                         if (IsValidateDoubleValue(e, monthTimeSheetWorker.CardFenox))
                         {
                             _bc.EditInfoMonthPayment(workerId, date, "CardFenox", double.Parse(value));
-                            ChangeFinalSalary(double.Parse(monthTimeSheetWorker.CardFenox) - double.Parse(value), rowIndexOfFullRow);
                             monthTimeSheetWorker.CardFenox = value;
                         }
                         break;
-                    case 7:
+                    case 8:
                         if (IsValidateDoubleValue(e, monthTimeSheetWorker.Inventory))
                         {
                             _bc.EditInfoMonthPayment(workerId, date, "Inventory", double.Parse(value));
@@ -561,7 +577,7 @@ namespace AIS_Enterprise_AV.Views
                             monthTimeSheetWorker.Inventory = value;
                         }
                         break;
-                    case 9:
+                    case 10:
                         if (IsValidateDoubleValue(e, monthTimeSheetWorker.Bonus))
                         {
                             _bc.EditInfoMonthPayment(workerId, date, "Bonus", double.Parse(value));
@@ -775,9 +791,6 @@ namespace AIS_Enterprise_AV.Views
         private void DataGridMonthTimeSheet_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() => AlterRow(e)));
-
-
-
         }
 
         private void AlterRow(DataGridRowEventArgs e)
@@ -855,6 +868,69 @@ namespace AIS_Enterprise_AV.Views
             _brushVocation = (System.Windows.Media.Brush)converter.ConvertFromString("#FFc4e5c1");
             _brushMissDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFff8282");
             _brushSickDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFeeeeb4");
+        }
+
+        private void Companies_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryCompanyViewModel = new DirectoryCompanyViewModel();
+            var directoryCompanyView = new DirectoryCompanyView();
+
+            directoryCompanyView.DataContext = directoryCompanyViewModel;
+            directoryCompanyView.ShowDialog();
+        }
+
+        private void RCs_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryRCViewModel = new DirectoryRCViewModel();
+            var directoryRCView = new DirectoryRCView();
+
+            directoryRCView.DataContext = directoryRCViewModel;
+            directoryRCView.ShowDialog();
+        }
+
+        private void TypeOfPosts_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryTypeOfPostViewModel = new DirectoryTypeOfPostViewModel();
+            var directoryTypeOfPostView = new DirectoryTypeOfPostView();
+
+            directoryTypeOfPostView.DataContext = directoryTypeOfPostViewModel;
+            directoryTypeOfPostView.ShowDialog();
+        }
+
+        private void ListOfPosts_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryPostViewModel = new DirectoryPostViewModel();
+            var directoryPostView = new DirectoryPostView();
+
+            directoryPostView.DataContext = directoryPostViewModel;
+            directoryPostView.ShowDialog();
+        }
+
+        private void ListOfWorkers_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryWorkerListViewModel = new DirectoryWorkerListViewModel();
+            var directoryWorkerListView = new DirectoryWorkerListView();
+
+            directoryWorkerListView.DataContext = directoryWorkerListViewModel;
+            directoryWorkerListView.ShowDialog();
+        }
+
+        private void AddingWorker_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryWorkerViewModel = new DirectoryAddWorkerViewModel();
+            var directoryWorkerView = new DirectoryAddWorkerView();
+
+            directoryWorkerView.DataContext = directoryWorkerViewModel;
+            directoryWorkerView.ShowDialog();
+        }
+
+        private void Salary_Click(object sender, RoutedEventArgs e)
+        {
+            var salaryViewModel = new SalaryViewModel();
+            var salaryView = new SalaryView();
+
+            salaryView.DataContext = salaryViewModel;
+            salaryView.ShowDialog();
         }
     }
 }
