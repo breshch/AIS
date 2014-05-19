@@ -11,17 +11,27 @@
         Height="Auto" Width="Auto" SizeToContent="WidthAndHeight" Closing="Window_Closing">
 
     <Window.Resources>
-        <Style x:Key="CenterTextAlignmentCell" TargetType="DataGridCell">
+        <Style x:Key="SelectedDataGridCell" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CenterTextAlignmentCell" TargetType="DataGridCell" BasedOn="{StaticResource SelectedDataGridCell}">
             <Style.Setters>
                 <Setter Property="TextBlock.TextAlignment" Value="Center" />
             </Style.Setters>
         </Style>
-        
-        <Style x:Key="CenterTextAlignmentCellWithRightClick" TargetType="DataGridCell">
+
+        <Style x:Key="CenterTextAlignmentCellWithRightClick" TargetType="DataGridCell"  BasedOn="{StaticResource SelectedDataGridCell}">
             <Style.Setters>
                 <Setter Property="TextBlock.TextAlignment" Value="Center" />
                 <EventSetter Event="MouseRightButtonDown" Handler="DataGridCell_MouseRightButtonDown" />
             </Style.Setters>
+           
         </Style>
     </Window.Resources>
 
@@ -69,10 +79,11 @@
             </Grid>
 
             <DataGrid x:Name="DataGridMonthTimeSheet" Grid.Row="1" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="Cell"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="5" ColumnHeaderHeight="40" 
-                  Margin="0, 20, 0, 0" CellEditEnding="DataGridMonthTimeSheet_CellEditEnding" BeginningEdit="DataGridMonthTimeSheet_BeginningEdit" CanUserSortColumns="False"
-                  MouseDoubleClick="DataGridMonthTimeSheet_MouseDoubleClick" SelectedCellsChanged="DataGridMonthTimeSheet_SelectedCellsChanged" LoadingRow="DataGridMonthTimeSheet_LoadingRow" >
-
+                      CellStyle="{StaticResource SelectedDataGridCell}"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="5" ColumnHeaderHeight="40" 
+                      Margin="0, 20, 0, 0" CellEditEnding="DataGridMonthTimeSheet_CellEditEnding" BeginningEdit="DataGridMonthTimeSheet_BeginningEdit" CanUserSortColumns="False"
+                      MouseDoubleClick="DataGridMonthTimeSheet_MouseDoubleClick" SelectedCellsChanged="DataGridMonthTimeSheet_SelectedCellsChanged" LoadingRow="DataGridMonthTimeSheet_LoadingRow" >
+                
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding WorkerId}" Header="WorkerId" Visibility="Collapsed" MinWidth="5" MaxWidth="5"/>
                     <DataGridTextColumn Binding="{Binding FullName}" Header="ФИО" IsReadOnly="True" MinWidth="250" Width="*"/>

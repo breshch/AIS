@@ -13,6 +13,7 @@ using AIS_Enterprise_Global.ViewModels.Infos;
 using AIS_Enterprise_Global.Views.Currents;
 using AIS_Enterprise_Global.Views.Directories;
 using AIS_Enterprise_Global.Views.Infos;
+using Numerizr;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -115,7 +116,9 @@ namespace AIS_Enterprise_AV.Views
 
             int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
 
-            TextBlockCountWorkDays.Text = countWorkDaysInMonth + " рабочих дня/ей";
+            TextBlockCountWorkDays.Text = countWorkDaysInMonth + " " + 
+                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "рабочий", "рабочих", "рабочих") + " " + 
+                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "день", "дня", "дней");
 
             var firstDateInMonth = new DateTime(_currentYear, _currentMonth, 1);
             var lastDateInMonth = HelperMethods.GetLastDateInMonth(_currentYear, _currentMonth);
@@ -867,7 +870,7 @@ namespace AIS_Enterprise_AV.Views
             _brushLessThanEight = (System.Windows.Media.Brush)converter.ConvertFromString("#FFeebebe");
             _brushVocation = (System.Windows.Media.Brush)converter.ConvertFromString("#FFc4e5c1");
             _brushMissDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFff8282");
-            _brushSickDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFeeeeb4");
+            _brushSickDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFffcc33");
         }
 
         private void Companies_Click(object sender, RoutedEventArgs e)
