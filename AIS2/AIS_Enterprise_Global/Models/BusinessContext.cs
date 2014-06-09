@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnidecodeSharpFork;
 
 namespace AIS_Enterprise_Global.Models
 {
@@ -46,6 +47,7 @@ namespace AIS_Enterprise_Global.Models
         {
             _dc.SaveChanges();
         }
+
 
         #endregion
 
@@ -191,9 +193,17 @@ namespace AIS_Enterprise_Global.Models
 
         #region DirectoryWorker
 
+
+        public IQueryable<DirectoryWorker> GetDeadSpiritDirectoryWorkers(DateTime date)
+        {
+            return _dc.DirectoryWorkers.Where(w => w.IsDeadSpirit && (DbFunctions.DiffDays(w.StartDate, date) >= 0 &&
+                (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, date) <= 0))));
+        }
+
+
         public DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender,
             DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
-            DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts)
+            DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
         {
             var worker = new DirectoryWorker
             {
@@ -207,7 +217,9 @@ namespace AIS_Enterprise_Global.Models
                 CellPhone = cellPhone,
                 StartDate = startDate,
                 FireDate = fireDate,
-                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies }))
+                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies })),
+                IsDeadSpirit = isDeadSpirit
+
             };
 
             _dc.DirectoryWorkers.Add(worker);
@@ -260,7 +272,7 @@ namespace AIS_Enterprise_Global.Models
             var firstDateInMonth = new DateTime(year, month, 1);
             var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-            var workers = _dc.DirectoryWorkers.ToList();
+            var workers = GetDirectoryWorkers(year, month).ToList();
 
             foreach (var worker in workers)
             {
@@ -295,7 +307,7 @@ namespace AIS_Enterprise_Global.Models
             var firstDateInMonth = new DateTime(year, month, 1);
             var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-            var workers = _dc.DirectoryWorkers.Include(w => w.InfoDates).Include("InfoDates.InfoPanalty").ToList();
+            var workers = GetDirectoryWorkers(year, month).Include(w => w.InfoDates).Include("InfoDates.InfoPanalty").ToList();
 
             foreach (var worker in workers)
             {
@@ -331,7 +343,7 @@ namespace AIS_Enterprise_Global.Models
         }
 
         public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
-           DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts)
+           DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
         {
             var directoryWorker = GetDirectoryWorker(id);
 
@@ -349,6 +361,7 @@ namespace AIS_Enterprise_Global.Models
             _dc.CurrentPosts.RemoveRange(directoryWorker.CurrentCompaniesAndPosts);
 
             directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies }));
+            directoryWorker.IsDeadSpirit = isDeadSpirit;
 
             _dc.SaveChanges();
 
@@ -430,6 +443,15 @@ namespace AIS_Enterprise_Global.Models
                     return null;
                 }
             }
+        }
+
+        public void EditDeadSpiritHours(int deadSpiritWorkerId, DateTime date, double hoursSpiritWorker)
+        {
+            var deadSpiritWorker = GetDirectoryWorker(deadSpiritWorkerId);
+
+            var infoDateDeadSpirit = deadSpiritWorker.InfoDates.First(d => d.Date.Date == date.Date);
+            infoDateDeadSpirit.CountHours = hoursSpiritWorker;
+            _dc.SaveChanges();
         }
 
         #endregion
@@ -650,7 +672,7 @@ namespace AIS_Enterprise_Global.Models
             if (DateTime.Now.Date > lastDate.Date)
             {
                 var workers = GetDirectoryWorkers(lastDate, DateTime.Now).ToList();
-                var holidays = GetHolidays(lastDate, DateTime.Now).ToList();
+                var holidays = GetHolidays(lastDate.AddDays(-14), DateTime.Now).ToList();
 
                 for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddDays(1))
                 {
@@ -660,21 +682,38 @@ namespace AIS_Enterprise_Global.Models
                         {
                             if (!worker.InfoDates.Any(d => d.Date.Date == date.Date))
                             {
+                                int countPrevDays = 0;
+                                InfoDate prevInfoDate = null;
+                                do
+                                {
+                                    countPrevDays++;
+                                    prevInfoDate = worker.InfoDates.FirstOrDefault(d => d.Date.Date == date.AddDays(-countPrevDays).Date);
+                                } while (prevInfoDate == null || prevInfoDate != null && holidays.Any(h => h.Date == prevInfoDate.Date.Date));
+
+                                var prevDescriptionDay = DescriptionDay.Был;
+                                if (prevInfoDate != null)
+                                {
+                                    prevDescriptionDay = prevInfoDate.DescriptionDay;
+                                }
+
                                 var infoDate = new InfoDate
                                 {
                                     Date = date,
-                                    DescriptionDay = DescriptionDay.Был,
+                                    DescriptionDay = DescriptionDay.Был
                                 };
 
                                 if (!holidays.Any(h => h.Date == date.Date))
                                 {
-                                    infoDate.CountHours = 8;
+                                    if (prevDescriptionDay == DescriptionDay.Был)
+                                    {
+                                        infoDate.CountHours = 8;
+                                    }
+
+                                    infoDate.DescriptionDay = prevDescriptionDay;
                                 }
 
                                 worker.InfoDates.Add(infoDate);
                             }
-
-
                         }
                     }
 
@@ -701,6 +740,150 @@ namespace AIS_Enterprise_Global.Models
                 }
             }
         }
+
+        #endregion
+
+
+        #region DirectoryUserStatus
+        public IQueryable<DirectoryUserStatus> GetDirectoryUserStatuses()
+        {
+            return _dc.DirectoryUserStatuses;
+        }
+
+        public DirectoryUserStatus AddDirectoryUserStatus(string name, List<CurrentUserStatusPrivilege> privileges)
+        {
+            var directoryUserStatus = new DirectoryUserStatus { Name = name, Privileges = privileges };
+            _dc.DirectoryUserStatuses.Add(directoryUserStatus);
+
+            _dc.SaveChanges();
+
+            return directoryUserStatus;
+        }
+
+        public void EditDirectoryUserStatus(int userStatusId, string userStatusName, List<CurrentUserStatusPrivilege> privileges)
+        {
+            var userStatus = _dc.DirectoryUserStatuses.Find(userStatusId);
+            userStatus.Name = userStatusName;
+            _dc.CurrentUserStatusPrivileges.RemoveRange(userStatus.Privileges);
+            userStatus.Privileges = privileges;
+
+            _dc.SaveChanges();
+        }
+
+        public void RemoveDirectoryUserStatus(int id)
+        {
+            var directoryUserStatus = _dc.DirectoryUserStatuses.Include(s => s.Privileges).First(s => s.Id == id);
+            _dc.DirectoryUserStatuses.Remove(directoryUserStatus);
+
+            _dc.SaveChanges();
+        }
+
+        #endregion
+
+
+        #region DirectoryUser
+
+        public IQueryable<DirectoryUser> GetDirectoryUsers()
+        {
+            return _dc.DirectoryUsers;
+        }
+
+        public DirectoryUser GetDirectoryUser(int userId)
+        {
+            return _dc.DirectoryUsers.Find(userId);
+        }
+
+        public DirectoryUser AddDirectoryUser(string userName, string password, DirectoryUserStatus userStatus)
+        {
+            string transcriptionName = userName.Unidecode().Replace(" ", "").Replace("'", "");
+
+            var user = new DirectoryUser
+            {
+                UserName = userName,
+                TranscriptionName = transcriptionName,
+                CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus}
+            };
+
+            _dc.DirectoryUsers.Add(user);
+            _dc.SaveChanges();
+
+            DBUsers.AddUser(_dc, transcriptionName, password);
+
+            _dc.Database.Connection.ConnectionString = "";
+
+            return user;
+        }
+
+        public DirectoryUser AddDirectoryUserAdmin(string userName, string password)
+        {
+            var userStatus = _dc.DirectoryUserStatuses.First(s => s.Name == "Администратор");
+
+            string transcriptionName = userName.Unidecode().Replace(" ", "").Replace("'", "");
+
+            var user = new DirectoryUser
+            {
+                UserName = userName,
+                TranscriptionName = transcriptionName,
+                CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus }
+            };
+
+            _dc.DirectoryUsers.Add(user);
+            _dc.SaveChanges();
+
+            DBUsers.AddUser(_dc, transcriptionName, password);
+
+            return user;
+        }
+
+        public void AddUserButler()
+        {
+            DBUsers.AddUserButler(_dc);
+        }
+
+        public void EditDirectoryUser(int userId, string userName, string password, DirectoryUserStatus userStatus)
+        {
+            string transcriptionName = userName.Unidecode().Replace(" ", "").Replace("'", "");
+
+
+            var user = _dc.DirectoryUsers.Find(userId);
+
+            string prevName = user.TranscriptionName;
+
+            user.UserName = userName;
+            user.TranscriptionName = transcriptionName;
+
+            var prevCurrentUserStatus = user.CurrentUserStatus;
+            
+            user.CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus };
+
+            _dc.SaveChanges();
+
+            _dc.CurrentUserStatuses.Remove(prevCurrentUserStatus);
+            _dc.SaveChanges();
+
+            DBUsers.EditUser(_dc, prevName, userName, password);
+        }
+
+
+        public void RemoveDirectoryUser(DirectoryUser user)
+        {
+            _dc.DirectoryUsers.Remove(user);
+
+            _dc.SaveChanges();
+        }
+
+
+        #endregion
+
+
+
+
+        #region DirectoryUserStatusPrivilege
+
+        public DirectoryUserStatusPrivilege GetDirectoryUserStatusPrivilege(string privilegeName)
+        {
+            return _dc.DirectoryUserStatusPrivileges.First(p => p.Name == privilegeName);
+        } 
 
         #endregion
     }

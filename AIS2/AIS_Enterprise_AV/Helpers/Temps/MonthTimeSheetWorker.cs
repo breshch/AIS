@@ -39,5 +39,6 @@ namespace AIS_Enterprise_AV.Helpers.Temps
         public string Bonus { get; set; }
         public double? FinalSalary { get; set; }
         public bool IsOdd { get; set; }
+        public bool IsDeadSpirit { get; set; }
     }
 }

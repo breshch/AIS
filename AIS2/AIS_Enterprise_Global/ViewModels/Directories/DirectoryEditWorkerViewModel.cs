@@ -49,6 +49,7 @@ namespace AIS_Enterprise_Global.ViewModels
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
                 Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate, IsTwoCompanies = c.IsTwoCompanies }));
+            IsDeadSpirit = _selectedDirectoryWorker.IsDeadSpirit;
         }
 
         #endregion
@@ -84,7 +85,7 @@ namespace AIS_Enterprise_Global.ViewModels
             IsChangeWorker = true;
 
             BC.EditDirectoryWorker(_selectedDirectoryWorker.Id, DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
-                DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, SelectedDirectoryWorkerFireDate, CurrentCompaniesAndPosts);
+                DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, SelectedDirectoryWorkerFireDate, CurrentCompaniesAndPosts, IsDeadSpirit);
 
             var window = (Window)parameter;
 

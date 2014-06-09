@@ -7,6 +7,7 @@ using AIS_Enterprise_AV.Views.Directories;
 using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models.Directories;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
 using AIS_Enterprise_Global.ViewModels.Infos;
@@ -17,13 +18,13 @@ using Numerizr;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace AIS_Enterprise_AV.Views
@@ -54,7 +55,6 @@ namespace AIS_Enterprise_AV.Views
         private System.Windows.Media.Brush _brushMissDay;
         private System.Windows.Media.Brush _brushSickDay;
 
-
         public MonthTimeSheetView()
         {
             InitializeComponent();
@@ -65,6 +65,8 @@ namespace AIS_Enterprise_AV.Views
                 WindowMonthTimeSheet.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
             }
 
+            InitializePrivileges();
+
             _bc.InitializeAbsentDates();
 
             InitializeBrushes();
@@ -74,6 +76,107 @@ namespace AIS_Enterprise_AV.Views
             {
                 ComboboxYears.SelectedIndex = ComboboxYears.Items.Count - 1;
             }
+        }
+
+        //MenuVisibility_Directories_Posts_TypeOfPost
+
+        //name = MenuVisibilityDirectoriesPosts
+        //rule = TypeOfPost
+        //prev = 35
+        //curr = -1
+
+        protected void Recursive(object dynamicObject, MemberInfo[] memberInfos, string privilege, string name, int indexUnderLine)
+        {
+            int prevIndexUnderLine = indexUnderLine;
+            indexUnderLine = privilege.IndexOf("_", prevIndexUnderLine + 1);
+
+            string rule = "";
+            if (indexUnderLine != -1)
+            {
+                rule = privilege.Substring(prevIndexUnderLine + 1, indexUnderLine - prevIndexUnderLine - 1);
+            }
+            else
+            {
+                rule = privilege.Substring(prevIndexUnderLine + 1);
+            }
+
+            var t = memberInfos.FirstOrDefault(i => i.Name == name);
+            if (t != null)
+            {
+                if (indexUnderLine != -1)
+                {
+                    var propertyInfo = this.GetType().GetMembers().FirstOrDefault(p => p.Name == "Menu" + rule);
+                    if (propertyInfo != null)
+                    {
+                        var property = propertyInfo.GetType().GetProperty("Visibility");
+                        property.SetValue(propertyInfo, Visibility.Visible);
+                    }
+
+                    Recursive(dynamicObject, memberInfos, privilege, name + rule, indexUnderLine);
+                }
+                else
+                {
+
+                }
+
+                
+                //string enumName = t.Name;
+
+                //var typeEnums = System.Type.GetType(dynamicObject.GetType().Namespace + "." + dynamicObject.GetType().Name + "+" + enumName + ", " + Assembly.GetAssembly(typeof(Privileges)).FullName);
+                //if (typeEnums != null && (typeEnums.BaseType != null && (typeEnums.BaseType.FullName == "System.Enum")))
+                //{
+                //    var fieldsArray = typeEnums.GetFields(BindingFlags.Public | BindingFlags.Static);
+                //    fieldsArray.First(f => f.Name == rule); 
+                //    foreach (var fInfo in fieldsArray)
+                //    {
+                //        Recursive(dynamicObject, memberInfos, privilege, name + fInfo.Name, indexUnderLine);
+                //    }
+                //}
+            }
+            else
+            {
+                MenuCompanies.Visibility = System.Windows.Visibility.Visible;
+            }
+            
+           
+        }
+
+        private void InitializePrivileges()
+        {
+            var user = _bc.GetDirectoryUser(DirectoryUser.CurrentUserId);
+            var privileges = user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
+
+
+            object dynamicObject = new Privileges();
+            Type dynamicType = dynamicObject.GetType();
+            MemberInfo[] memberInfos = dynamicType.GetMembers(BindingFlags.Public | BindingFlags.Static);
+
+            foreach (var item in this.GetType().GetFields())
+            {
+                Debug.WriteLine(item.Name);
+            }
+
+            foreach (var privilege in privileges)
+            {
+                int indexUndelLine = privilege.IndexOf("_");
+                string rule = privilege.Substring(0, indexUndelLine);
+
+                var ruleEnum = (Privileges.Rules)Enum.Parse(typeof(Privileges.Rules), rule);
+
+                switch (ruleEnum)
+                {
+                    case Privileges.Rules.MenuVisibility:
+                        Recursive(dynamicObject, memberInfos, privilege, rule, indexUndelLine);
+                        break;
+                    case Privileges.Rules.MonthTimeSheetColumnsVisibility:
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            //MenuVisibility_Directotires_Posts_TypeOfPost,
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -116,8 +219,8 @@ namespace AIS_Enterprise_AV.Views
 
             int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
 
-            TextBlockCountWorkDays.Text = countWorkDaysInMonth + " " + 
-                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "рабочий", "рабочих", "рабочих") + " " + 
+            TextBlockCountWorkDays.Text = countWorkDaysInMonth + " " +
+                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "рабочий", "рабочих", "рабочих") + " " +
                 NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "день", "дня", "дней");
 
             var firstDateInMonth = new DateTime(_currentYear, _currentMonth, 1);
@@ -137,7 +240,7 @@ namespace AIS_Enterprise_AV.Views
                     MinWidth = 30,
                     CellStyle = Resources["CenterTextAlignmentCellWithRightClick"] as Style
                 };
-                
+
                 DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
             }
 
@@ -179,6 +282,7 @@ namespace AIS_Enterprise_AV.Views
                         monthTimeSheetWorker.PostChangeDate = currentPost.ChangeDate;
                         monthTimeSheetWorker.PostName = currentPost.DirectoryPost.Name;
                         monthTimeSheetWorker.SalaryInHour = Math.Round(currentPost.DirectoryPost.AdminWorkerSalary.Value / countWorkDaysInMonth / 8, 2);
+                        monthTimeSheetWorker.IsDeadSpirit = worker.IsDeadSpirit;
 
                         monthTimeSheetWorker.Hours = new string[lastDateInMonth.Day];
                     }
@@ -275,7 +379,7 @@ namespace AIS_Enterprise_AV.Views
                     monthTimeSheetWorkerFinalSalary.Inventory = infoMonth.Inventory.ToString();
                     monthTimeSheetWorkerFinalSalary.BirthDays = infoMonth.BirthDays;
                     monthTimeSheetWorkerFinalSalary.Bonus = infoMonth.Bonus.ToString();
-                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - 
+                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) -
                         double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
                 }
             }
@@ -367,16 +471,107 @@ namespace AIS_Enterprise_AV.Views
 
                 monthTimeSheetWorker.Hours[day - 1] = value;
 
+
+                bool isWeekend = _bc.IsWeekend(date);
                 double resultValue;
                 if (double.TryParse(value, out resultValue))
                 {
-                    if ((resultValue > 8 || _bc.IsWeekend(date)) && !_listDatesOfOverTime.Contains(date))
+                    if ((resultValue > 8 || isWeekend))
                     {
-                        _listDatesOfOverTime.Add(date);
-
-                        if (!ButtonOverTimes.IsEnabled)
+                        if (!_listDatesOfOverTime.Contains(date))
                         {
-                            ButtonOverTimes.IsEnabled = true;
+                            _listDatesOfOverTime.Add(date);
+
+                            if (!ButtonOverTimes.IsEnabled)
+                            {
+                                ButtonOverTimes.IsEnabled = true;
+                            }
+                        }
+
+                        double sumOverTimes = 0;
+                        int countOverTimedWorkers = 0;
+                        foreach (var monthTimeSheetWorkerTemp in _monthTimeSheetWorkers.Where(w => !w.IsDeadSpirit))
+                        {
+                            string hour = monthTimeSheetWorkerTemp.Hours[day - 1];
+                            if (hour != null)
+                            {
+                                double hourValue;
+                                if (double.TryParse(hour, out hourValue))
+                                {
+                                    if (!isWeekend)
+                                    {
+                                        if (hourValue > 8)
+                                        {
+                                            sumOverTimes += hourValue - 8;
+                                            countOverTimedWorkers++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        sumOverTimes += hourValue;
+                                        countOverTimedWorkers++;
+                                    }
+                                }
+                            }
+                        }
+
+                        double hoursSpiritWorker;
+                        if (!isWeekend)
+                        {
+                            hoursSpiritWorker = 8 + Math.Round(sumOverTimes / countOverTimedWorkers, 1);
+                        }
+                        else
+                        {
+                            hoursSpiritWorker = Math.Round(sumOverTimes / countOverTimedWorkers, 1);
+                        }
+
+                        var deadSpiritWorkers = _bc.GetDeadSpiritDirectoryWorkers(date).ToList();
+
+                        foreach (var deadSpiritWorker in deadSpiritWorkers)
+                        {
+                            _bc.EditDeadSpiritHours(deadSpiritWorker.Id, date, hoursSpiritWorker);
+
+                            var monthTimeSheetDeadSpiritWorker = _monthTimeSheetWorkers.First(w => w.WorkerId == deadSpiritWorker.Id);
+
+                            int indexRowDeadSpirit = _monthTimeSheetWorkers.IndexOf(monthTimeSheetDeadSpiritWorker);
+                            ChangeCellValue(hoursSpiritWorker, indexRowDeadSpirit, COUNT_COLUMNS_BEFORE_DAYS + day);
+                            monthTimeSheetDeadSpiritWorker.Hours[day - 1] = hoursSpiritWorker.ToString();
+
+                            monthTimeSheetDeadSpiritWorker.OverTime = 0;
+                            double salaryDeadSpirit = 0;
+                            for (int currentDay = 0; currentDay < monthTimeSheetDeadSpiritWorker.Hours.Count(); currentDay++)
+                            {
+                                string hour = monthTimeSheetDeadSpiritWorker.Hours[currentDay];
+
+                                if (hour != null)
+                                {
+                                    double countHours;
+                                    if (double.TryParse(hour, out countHours))
+                                    {
+                                        if (!_weekends.Any(h => h.Date.Date == new DateTime(_currentYear, _currentMonth, currentDay + 1)))
+                                        {
+                                            monthTimeSheetDeadSpiritWorker.OverTime += countHours > 8 ? countHours - 8 : 0;
+                                            salaryDeadSpirit += countHours <= 8 ? countHours * monthTimeSheetDeadSpiritWorker.SalaryInHour : (8 + ((countHours - 8) * 2)) * monthTimeSheetDeadSpiritWorker.SalaryInHour;
+                                        }
+                                        else
+                                        {
+                                            monthTimeSheetDeadSpiritWorker.OverTime += countHours;
+                                            salaryDeadSpirit += countHours * monthTimeSheetDeadSpiritWorker.SalaryInHour * 2;
+                                        }
+                                    }
+                                }
+
+                                ChangeCellValue(monthTimeSheetDeadSpiritWorker.OverTime, indexRowDeadSpirit, COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + 1);
+                            }
+
+                            var monthTimeSheetWorkerFinalSalaryDeadSpirit = _monthTimeSheetWorkers.First(m => m.WorkerId == workerId && m.FullName != null);
+
+                            salaryDeadSpirit = salaryDeadSpirit - double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Panalty) -
+                                double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Inventory) - monthTimeSheetWorkerFinalSalaryDeadSpirit.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Bonus);
+
+                            monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary = salaryDeadSpirit;
+
+                            ChangeCellValue(monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary.Value, indexRowDeadSpirit, columnIndexFinalSalary);
                         }
                     }
                 }
@@ -517,7 +712,7 @@ namespace AIS_Enterprise_AV.Views
 
                 var monthTimeSheetWorkerFinalSalary = _monthTimeSheetWorkers.First(m => m.WorkerId == workerId && m.FullName != null);
 
-                salary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) - 
+                salary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) -
                     double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
 
                 monthTimeSheetWorkerFinalSalary.FinalSalary = salary;
@@ -873,13 +1068,9 @@ namespace AIS_Enterprise_AV.Views
             _brushSickDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFffcc33");
         }
 
-        private void Companies_Click(object sender, RoutedEventArgs e)
+        private void MenuCompanies_Click(object sender, RoutedEventArgs e)
         {
-            var directoryCompanyViewModel = new DirectoryCompanyViewModel();
-            var directoryCompanyView = new DirectoryCompanyView();
-
-            directoryCompanyView.DataContext = directoryCompanyViewModel;
-            directoryCompanyView.ShowDialog();
+            HelperMethods.ShowView(new DirectoryCompanyViewModel(), new DirectoryCompanyView());
         }
 
         private void RCs_Click(object sender, RoutedEventArgs e)
@@ -929,11 +1120,19 @@ namespace AIS_Enterprise_AV.Views
 
         private void Salary_Click(object sender, RoutedEventArgs e)
         {
-            var salaryViewModel = new SalaryViewModel();
-            var salaryView = new SalaryView();
+            HelperMethods.ShowView(new SalaryViewModel(), new SalaryView());
+        }
 
-            salaryView.DataContext = salaryViewModel;
-            salaryView.ShowDialog();
+        private void UserStatuses_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new DirectoryUserStatusesViewModel(), new DirectoryUserStatusesView());
+        }
+
+        private void Users_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new DirectoryUsersViewModel(), new DirectoryUsersView());
         }
     }
+
+
 }

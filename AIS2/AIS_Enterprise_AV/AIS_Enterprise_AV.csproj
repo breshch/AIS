@@ -111,11 +111,15 @@
     <Compile Include="Helpers\Temps\HourWorker.cs" />
     <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
     <Compile Include="ViewModels\Directories\DirectoryRCViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\InitializingDBViewModel.cs" />
     <Compile Include="ViewModels\Helpers\SalaryViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Directories\DirectoryRCView.xaml.cs">
       <DependentUpon>DirectoryRCView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\InitializingDBView.xaml.cs">
+      <DependentUpon>InitializingDBView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Helpers\SalaryView.xaml.cs">
       <DependentUpon>SalaryView.xaml</DependentUpon>
@@ -174,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Helpers\InitializingDBView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Helpers\SalaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -210,8 +218,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Entering\" />
+    <Folder Include="Views\Entering\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\KindOfMagic.1.2.3\tools\KindOfMagic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -44,7 +44,7 @@ namespace AIS_Enterprise_Global.Models.Directories
         public virtual ICollection<InfoDate> InfoDates { get; set; }
         
         public virtual ICollection<InfoMonth> InfoMonthes { get; set; }
-        public bool IsAngel { get; set; }
+        public bool IsDeadSpirit { get; set; }
  
         //public Photo { get; set; }
         //public Docs { get; set; }

@@ -65,11 +65,14 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 int month = int.Parse(date[0]);
                 int year = int.Parse("20" + date[1]);
 
-                if (year != 2014 || year == 2014 && month != 4)
+                if (year != 2014 || year == 2014 && month != 4 && month != 5)
                 {
                     continue;
                 }
-
+                //if (year != 2014)
+                //{
+                //    continue;
+                //}
                 Debug.WriteLine(year + " " + month);
 
                 var rows = worksheet.Elements("{urn:schemas-microsoft-com:office:spreadsheet}Table").Elements("{urn:schemas-microsoft-com:office:spreadsheet}Row").ToList();
@@ -101,7 +104,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             case "заведующий складом":
                                 postName = "ЗавСкладом";
                                 break;
-                            case "зам. Зав. складом":
+                            case "зам. зав. складом":
                                 postName = "ЗамЗавСкладом";
                                 break;
                             case "карщик-кладовщик":
@@ -288,8 +291,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
         public static void ConvertExcelToDB(BusinessContextAV bc)
         {
-            bc.InitializeDefaultDataBaseWithoutWorkers();
-
             _workersFire.Clear();
             AddingFireWorkers();
 

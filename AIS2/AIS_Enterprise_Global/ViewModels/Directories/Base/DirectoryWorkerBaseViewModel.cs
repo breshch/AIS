@@ -21,11 +21,15 @@ namespace AIS_Enterprise_Global.ViewModels
         public DirectoryWorkerBaseViewModel()
             : base()
         {
+            IsAdmin = false;
+
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>();
 
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
             EditCompanyAndPostCommand = new RelayCommand(EditCompanyAndPost, IsSelectedCompanyAndPost);
             RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost, IsSelectedCompanyAndPost);
+
+            
 
             SelectedIndexCurrentCompanyAndPost = -1;
         }
@@ -42,6 +46,7 @@ namespace AIS_Enterprise_Global.ViewModels
             DirectoryWorkerHomePhone = null;
             SelectedDirectoryWorkerStartDate = DateTime.Now;
             CurrentCompaniesAndPosts.Clear();
+            IsDeadSpirit = false;
         }
 
         #endregion
@@ -79,6 +84,9 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public CurrentCompanyAndPost SelectedCurrentCompanyAndPost { get; set; }
         public int SelectedIndexCurrentCompanyAndPost { get; set; }
+
+        public bool IsAdmin { get; set; }
+        public bool IsDeadSpirit { get; set; }
 
         #endregion
 

@@ -17,6 +17,7 @@
         <valueConverters:GenderToMaleBoolValueConverter x:Key="genderToMaleBoolValueConverter"/>
         <valueConverters:GenderToFemaleBoolValueConverter x:Key="genderToFemaleBoolValueConverter"/>
         <valueConverters:BooleanToStringValueConverter x:Key="booleanToStringValueConverter"/>
+        <valueConverters:BooleanToVisibilityValueConverter x:Key="booleanToVisibilityValueConverter"/>
 
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -105,6 +106,7 @@
 
             <Grid Grid.Column="1" Margin="20, 0, 0, 0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -112,12 +114,12 @@
                 <StackPanel Grid.Row="0">
                     <TextBlock Text="Фотография"/>
                     
-                    <Border BorderThickness="1" BorderBrush="#FFABADB3" Height="327">
+                    <!--<Border BorderThickness="1" BorderBrush="#FFABADB3">-->
                         <Image Stretch="Fill"/>
-                    </Border>
+                    <!--</Border>-->
                 </StackPanel>
 
-                <Grid Grid.Row="1" Margin="0, 21, 0, 0">
+                <Grid Grid.Row="1" Margin="0, 20, 0, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -126,6 +128,8 @@
                     <Button Grid.Column="0" Content="Добавить фото" Margin="0, 0, 20, 0"/>
                     <Button Grid.Column="1" Content="Очистить фото" Margin="20, 0, 0, 0"/>
                 </Grid>
+
+                <CheckBox Grid.Row="2" Content="Мёртвая душа" IsChecked="{Binding IsDeadSpirit}" Visibility="{Binding IsAdmin, Converter={StaticResource booleanToVisibilityValueConverter}}" Margin="0, 10, 0, 0"/>
             </Grid>
         </Grid>
 

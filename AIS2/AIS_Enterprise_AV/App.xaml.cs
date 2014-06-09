@@ -1,6 +1,9 @@
 ﻿using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_AV.ViewModels;
+using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
+using AIS_Enterprise_AV.Views.Helpers;
+using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.Views;
@@ -29,18 +32,15 @@ namespace AIS_Enterprise_AV
         {
             base.OnStartup(e);
 
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContextAV>());
-
-            using (var bc = new BusinessContextAV())
+            DataContext.ChangeUserButler();
+            if (DataContext.TryConnection())
             {
-                bc.InitializeDatabase();
+                HelperMethods.ShowView(new MainViewModel(), new MainView());
             }
-
-            var mainViewModel = new MainViewModel();
-            var mainView = new MainView();
-
-            mainView.DataContext = mainViewModel;
-            mainView.ShowDialog();
+            else
+            {
+                HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
+            }
         }
     }
 }

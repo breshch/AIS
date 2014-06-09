@@ -16,7 +16,7 @@ namespace AIS_Enterprise_AV.Models
 {
     public class DataContextAV : DataContext
     {
-        public DataContextAV() : base("Default")
+        public DataContextAV() : base()
         {
 
         }

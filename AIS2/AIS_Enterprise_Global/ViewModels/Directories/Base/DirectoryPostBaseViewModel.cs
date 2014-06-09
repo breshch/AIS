@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories.Base
 {
-    public class DirectoryPostBaseViewModel : ViewModelGlobal
+    public abstract class DirectoryPostBaseViewModel : ViewModelGlobal
     {
         #region Base
 

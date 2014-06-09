@@ -21,4 +21,40 @@ namespace AIS_Enterprise_Global.Helpers
         П,
         С
     }
+
+    public enum UserPrivileges
+    {
+        MenuVisibility_Directories_Companies,
+        MenuVisibility_Directories_Posts_TypeOfPost,
+        MenuVisibility_Directories_Posts_ListPosts,
+    }
+
+   
+
+    public class Privileges
+    {
+        public enum Rules
+        {
+            MenuVisibility,
+            MonthTimeSheetColumnsVisibility
+        }
+
+        public enum MenuVisibility
+        {
+            Directories,
+            Reports
+        }
+
+        public enum MenuVisibilityDirectories
+        {
+            Companies,
+            Posts
+        }
+
+        public enum MenuVisibilityDirectoriesPosts
+        {
+            TypeOfPost,
+            ListPosts
+        }
+    }
 }

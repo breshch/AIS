@@ -9,3 +9,4 @@
 - валидация на форме цо
 - убить MemoryCash в Panalty
 - убить InfoDates при FireDate
+- неправильно отрисовавыет Border на фото

@@ -60,6 +60,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UnidecodeSharpFork">
+      <HintPath>..\packages\UnidecodeSharpFork.1.0.0\lib\UnidecodeSharpFork.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -70,22 +73,30 @@
     <Compile Include="Helpers\Attributes\NotifyAttribute.cs" />
     <Compile Include="Helpers\Attributes\StopNotifyAttribute.cs" />
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
+    <Compile Include="Helpers\DBUsers.cs" />
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\DataGridHelper.cs" />
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
+    <Compile Include="Helpers\Temps\PrivilegeTempViewModel.cs" />
     <Compile Include="Helpers\ValueConverters\BooleanToStringValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\BooleanToVisibilityValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToBooleanValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToVisibilityValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
+    <Compile Include="Models\Currents\CurrentUserStatus.cs" />
+    <Compile Include="Models\Currents\CurrentUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
     <Compile Include="Models\Directories\DirectoryHoliday.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
+    <Compile Include="Models\Directories\DirectoryUser.cs" />
+    <Compile Include="Models\Directories\DirectoryUserStatus.cs" />
+    <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
     <Compile Include="Models\Helpers\Parameter.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />
@@ -96,14 +107,22 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ViewModels\Currents\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\CurrentCompanyAndPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryUserStatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryUserBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditUserStatusViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddUserStatusViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditUserViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddUserViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryUserStatusesViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryTypeOfPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryUsersViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryWorkerListViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
@@ -112,6 +131,21 @@
     <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditUserStatusView.xaml.cs">
+      <DependentUpon>DirectoryEditUserStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddUserStatusView.xaml.cs">
+      <DependentUpon>DirectoryAddUserStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditUserView.xaml.cs">
+      <DependentUpon>DirectoryEditUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddUserView.xaml.cs">
+      <DependentUpon>DirectoryAddUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryUserStatusesView.xaml.cs">
+      <DependentUpon>DirectoryUserStatusesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Directories\DirectoryCompanyView.xaml.cs">
       <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
@@ -140,6 +174,9 @@
     <Compile Include="Views\Directories\DirectoryWorkerFireDateView.xaml.cs">
       <DependentUpon>DirectoryWorkerFireDateView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Directories\DirectoryUsersView.xaml.cs">
+      <DependentUpon>DirectoryUsersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Infos\InfoPanaltiesView.xaml.cs">
       <DependentUpon>InfoPanaltiesView.xaml</DependentUpon>
     </Compile>
@@ -149,6 +186,26 @@
     <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditUserStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddUserStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditUserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddUserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryUserStatusesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Directories\DirectoryCompanyView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -190,6 +247,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Directories\DirectoryUsersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Infos\InfoPanaltiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -229,7 +290,11 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\Currents\" />
+    <Folder Include="ViewModels\Helpers\" />
+    <Folder Include="Views\Helpers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\KindOfMagic.1.2.3\tools\KindOfMagic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

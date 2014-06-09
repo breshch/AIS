@@ -26,7 +26,7 @@
             </Style.Setters>
         </Style>
 
-        <Style x:Key="CenterTextAlignmentCellWithRightClick" TargetType="DataGridCell"  BasedOn="{StaticResource SelectedDataGridCell}">
+        <Style x:Key="CenterTextAlignmentCellWithRightClick" TargetType="DataGridCell" BasedOn="{StaticResource SelectedDataGridCell}">
             <Style.Setters>
                 <Setter Property="TextBlock.TextAlignment" Value="Center" />
                 <EventSetter Event="MouseRightButtonDown" Handler="DataGridCell_MouseRightButtonDown" />
@@ -36,13 +36,13 @@
     </Window.Resources>
 
     <StackPanel Orientation="Vertical">
-        <Menu>
-            <MenuItem Header="Справочники">
-                <MenuItem x:Name="Companies" Header="Компании" Click="Companies_Click"/>
+        <Menu x:Name="Menur">
+            <MenuItem x:Name="MenuDirectories" Header="Справочники" Visibility="Collapsed">
+                <MenuItem x:Name="MenuCompanies" Header="Компании" Click="MenuCompanies_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="RCs" Header="Центры ответственности" Click="RCs_Click"/>
-                <MenuItem Header="Должности">
-                    <MenuItem x:Name="TypeOfPosts" Header="Типы должностей" Click="TypeOfPosts_Click"/>
-                    <MenuItem x:Name="ListOfPosts" Header="Список должностей" Click="ListOfPosts_Click" />
+                <MenuItem x:Name="MenuPosts" Header="Должности">
+                    <MenuItem x:Name="MenuTypeOfPosts" Header="Типы должностей" Click="TypeOfPosts_Click" Visibility="Collapsed"/>
+                    <MenuItem x:Name="MenuListOfPosts" Header="Список должностей" Click="ListOfPosts_Click" Visibility="Collapsed"/>
                 </MenuItem>
                 <MenuItem Header="Работники">
                     <MenuItem x:Name="AddingWorker" Header="Добавление работника" Click="AddingWorker_Click"/>
@@ -51,6 +51,10 @@
             </MenuItem>
             <MenuItem Header="Отчёты">
                 <MenuItem x:Name="Salary" Header="Зарплата" Click="Salary_Click"/>
+            </MenuItem>
+            <MenuItem Header="Административная панель">
+                <MenuItem x:Name="UserStatuses" Header="Статусы пользователей" Click="UserStatuses_Click"/>
+                <MenuItem x:Name="Users" Header="Пользователи" Click="Users_Click"/>
             </MenuItem>
         </Menu>
 

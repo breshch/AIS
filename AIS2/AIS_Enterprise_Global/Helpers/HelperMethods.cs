@@ -53,6 +53,10 @@ namespace AIS_Enterprise_Global.Helpers
                 new DateTime(year, month, DateTime.DaysInMonth(year, month));
         }
 
-        
+        public static void ShowView(ViewModelBase viewModel, Window window)
+        {
+            window.DataContext = viewModel;
+            window.ShowDialog();
+        }
     }
 }

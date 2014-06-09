@@ -23,6 +23,8 @@ namespace AIS_Enterprise_AV.Models
     {
         #region Base
 
+        
+
         private DataContextAV _dc;
 
         public BusinessContextAV() : base()
@@ -56,8 +58,8 @@ namespace AIS_Enterprise_AV.Models
             if (_dc.Database.Exists())
             {
                 _dc.Database.Delete();
-                _dc.Dispose();
-                _dc = new DataContextAV();
+
+                RefreshContext();
             }
 
             _dc.Database.Create();
@@ -76,6 +78,19 @@ namespace AIS_Enterprise_AV.Models
             base.SaveChanges();
 
             _dc.SaveChanges();
+        }
+
+
+        public void RemoveDB()
+        {
+            if (_dc.Database.Exists())
+            {
+                Database.SetInitializer(new DropCreateDatabaseAlways<DataContextAV>());
+
+                //_dc.Database.Delete();
+
+                RefreshContext();
+            }
         }
 
         #endregion
@@ -99,15 +114,6 @@ namespace AIS_Enterprise_AV.Models
 
         public void InitializeDefaultDataBaseWithoutWorkers()
         {
-            if (_dc.Database.Exists())
-            {
-                _dc.Database.Delete();
-
-                _dc.Dispose();
-                _dc = new DataContextAV();
-            }
-
-            _dc.Database.Create();
             InputDateToDataBase(2014);
 
             var parameterBirthday = new Parameter { Name = "Birthday" , Value = "500" };
@@ -118,6 +124,23 @@ namespace AIS_Enterprise_AV.Models
             
             _dc.SaveChanges();
 
+
+            var userStatus = new DirectoryUserStatus { Name = "Администратор" };
+
+            foreach (var privilege in Enum.GetNames(typeof(UserPrivileges)))
+            {
+                var directoryUserStatusPrivilege = new DirectoryUserStatusPrivilege { Name = privilege };
+                _dc.DirectoryUserStatusPrivileges.Add(directoryUserStatusPrivilege);
+
+                var currentUserStatusPrivilege = new CurrentUserStatusPrivilege { DirectoryUserStatusPrivilege = directoryUserStatusPrivilege };
+                _dc.CurrentUserStatusPrivileges.Add(currentUserStatusPrivilege);
+
+                userStatus.Privileges.Add(currentUserStatusPrivilege);
+            }
+
+            _dc.DirectoryUserStatuses.Add(userStatus);
+            _dc.SaveChanges();
+            
 
             var companyAV = new DirectoryCompany { Name = "АВ" };
             _dc.DirectoryCompanies.Add(companyAV);
@@ -273,6 +296,16 @@ namespace AIS_Enterprise_AV.Models
                         post.AdminWorkerSalary = 27000;
                         post.UserWorkerHalfSalary = 10000;
                         break;
+                    case PostName.Логист:
+                        post.UserWorkerSalary = 25000;
+                        post.AdminWorkerSalary = 25000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
+                    case PostName.БригадирОклейщик:
+                        post.UserWorkerSalary = 18000;
+                        post.AdminWorkerSalary = 18000;
+                        post.UserWorkerHalfSalary = 10000;
+                        break;
                 }
 
                 _dc.DirectoryPosts.Add(post);
@@ -282,8 +315,6 @@ namespace AIS_Enterprise_AV.Models
 
         public void InitializeDefaultDataBaseWithWorkers()
         {
-            InitializeDefaultDataBaseWithoutWorkers();
-
             var slave = new DirectoryWorker
             {
                 LastName = "Пупкин",
@@ -609,12 +640,6 @@ namespace AIS_Enterprise_AV.Models
 
         public void InitializeDefaultDataBaseWithOfficeWorkers()
         {
-            if (!_dc.Database.Exists())
-            {
-                _dc.Database.Create();
-                InputDateToDataBase(2014);
-            }
-
             var officePost = new DirectoryPost
             {
                 Name = "ГлавБух_Чернецкая",
@@ -719,7 +744,7 @@ namespace AIS_Enterprise_AV.Models
             AddOfficeWorker("Брещенко", "Алексей", "Директор", "АВ", true);
         }
 
-        private void AddOfficeWorker(string lastName, string firstName, string postName, string companyName, bool isTwoCompanies, bool isAngel = false)
+        private void AddOfficeWorker(string lastName, string firstName, string postName, string companyName, bool isTwoCompanies, bool isDeadSpirit = false)
         {
             var workerOffice = new DirectoryWorker
             {
@@ -733,7 +758,7 @@ namespace AIS_Enterprise_AV.Models
                 StartDate = new DateTime(2014, 01, 01),
                 FireDate = null,
                 Gender = Gender.Female,
-                IsAngel = isAngel,
+                IsDeadSpirit = isDeadSpirit,
                 CurrentCompaniesAndPosts = new List<CurrentPost>(new[] 
                     { 
                         new CurrentPost
@@ -914,6 +939,7 @@ namespace AIS_Enterprise_AV.Models
         }
         #endregion
 
-        
+
+
     }
 }

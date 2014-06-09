@@ -128,8 +128,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                     DirectoryRCs.Clear();
                     foreach (var rc in BC.GetDirectoryRCs().ToList())
                     {
-                        //var directoryRC = new DirectoryRC { Name = rc.Name };
-
                         rc.IsChecked = overTime.CurrentRCs.ToList().Any(r => r.DirectoryRC.Name == rc.Name);
                         DirectoryRCs.Add(rc);
                     }
@@ -138,7 +136,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 }
                 else
                 {
-                    var infoDates = BC.GetInfoDates(_selectedOverTimeDate);
+                    var infoDates = BC.GetInfoDates(_selectedOverTimeDate).ToList();
 
                     double hours = 0;
 
