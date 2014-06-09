@@ -36,25 +36,25 @@
     </Window.Resources>
 
     <StackPanel Orientation="Vertical">
-        <Menu x:Name="Menur">
+        <Menu x:Name="Menu">
             <MenuItem x:Name="MenuDirectories" Header="Справочники" Visibility="Collapsed">
                 <MenuItem x:Name="MenuCompanies" Header="Компании" Click="MenuCompanies_Click" Visibility="Collapsed"/>
-                <MenuItem x:Name="RCs" Header="Центры ответственности" Click="RCs_Click"/>
-                <MenuItem x:Name="MenuPosts" Header="Должности">
-                    <MenuItem x:Name="MenuTypeOfPosts" Header="Типы должностей" Click="TypeOfPosts_Click" Visibility="Collapsed"/>
-                    <MenuItem x:Name="MenuListOfPosts" Header="Список должностей" Click="ListOfPosts_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuRCs" Header="Центры ответственности" Click="MenuRCs_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuPosts" Header="Должности" Visibility="Collapsed">
+                    <MenuItem x:Name="MenuTypeOfPosts" Header="Типы должностей" Click="MenuTypeOfPosts_Click" Visibility="Collapsed"/>
+                    <MenuItem x:Name="MenuListOfPosts" Header="Список должностей" Click="MenuListOfPosts_Click" Visibility="Collapsed"/>
                 </MenuItem>
-                <MenuItem Header="Работники">
-                    <MenuItem x:Name="AddingWorker" Header="Добавление работника" Click="AddingWorker_Click"/>
-                    <MenuItem x:Name="ListOfWorkers" Header="Список работников" Click="ListOfWorkers_Click"/>
+                <MenuItem x:Name="MenuWorkers" Header="Работники" Visibility="Collapsed">
+                    <MenuItem x:Name="MenuAddingWorker" Header="Добавление работника" Click="MenuAddingWorker_Click" Visibility="Collapsed"/>
+                    <MenuItem x:Name="MenuListOfWorkers" Header="Список работников" Click="MenuListOfWorkers_Click" Visibility="Collapsed"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Отчёты">
-                <MenuItem x:Name="Salary" Header="Зарплата" Click="Salary_Click"/>
+            <MenuItem x:Name="MenuReports" Header="Отчёты" Visibility="Collapsed">
+                <MenuItem x:Name="MenuSalary" Header="Зарплата" Click="MenuSalary_Click" Visibility="Collapsed"/>
             </MenuItem>
-            <MenuItem Header="Административная панель">
-                <MenuItem x:Name="UserStatuses" Header="Статусы пользователей" Click="UserStatuses_Click"/>
-                <MenuItem x:Name="Users" Header="Пользователи" Click="Users_Click"/>
+            <MenuItem x:Name="MenuAdminPanel" Header="Административная панель" Visibility="Collapsed">
+                <MenuItem x:Name="MenuUserStatuses" Header="Статусы пользователей" Click="MenuUserStatuses_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuUsers" Header="Пользователи" Click="MenuUsers_Click" Visibility="Collapsed"/>
             </MenuItem>
         </Menu>
 
