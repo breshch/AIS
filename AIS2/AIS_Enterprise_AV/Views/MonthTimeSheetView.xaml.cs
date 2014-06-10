@@ -18,7 +18,6 @@ using Numerizr;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -78,14 +77,7 @@ namespace AIS_Enterprise_AV.Views
             }
         }
 
-        //MenuVisibility_Directories_Posts_TypeOfPost
-
-        //name = MenuVisibilityDirectoriesPosts
-        //rule = TypeOfPost
-        //prev = 35
-        //curr = -1
-
-        protected void Recursive(object dynamicObject, MemberInfo[] memberInfos, string privilege, string name, int indexUnderLine)
+        private void SettingMenuVisibility(string privilege, List<MenuItem> menuItems, int indexUnderLine)
         {
             int prevIndexUnderLine = indexUnderLine;
             indexUnderLine = privilege.IndexOf("_", prevIndexUnderLine + 1);
@@ -100,45 +92,20 @@ namespace AIS_Enterprise_AV.Views
                 rule = privilege.Substring(prevIndexUnderLine + 1);
             }
 
-            var t = memberInfos.FirstOrDefault(i => i.Name == name);
-            if (t != null)
+            var menuItem = menuItems.FirstOrDefault(m => m.Name == "Menu" + rule);
+            if (menuItem != null)
             {
+                if (menuItem.Visibility == System.Windows.Visibility.Collapsed)
+                {
+                    menuItem.Visibility = System.Windows.Visibility.Visible;
+                }
+
                 if (indexUnderLine != -1)
                 {
-                    var propertyInfo = this.GetType().GetMembers().FirstOrDefault(p => p.Name == "Menu" + rule);
-                    if (propertyInfo != null)
-                    {
-                        var property = propertyInfo.GetType().GetProperty("Visibility");
-                        property.SetValue(propertyInfo, Visibility.Visible);
-                    }
-
-                    Recursive(dynamicObject, memberInfos, privilege, name + rule, indexUnderLine);
+                    var newMenuItems = menuItem.Items.Cast<MenuItem>().ToList();
+                    SettingMenuVisibility(privilege, newMenuItems, indexUnderLine);
                 }
-                else
-                {
-
-                }
-
-                
-                //string enumName = t.Name;
-
-                //var typeEnums = System.Type.GetType(dynamicObject.GetType().Namespace + "." + dynamicObject.GetType().Name + "+" + enumName + ", " + Assembly.GetAssembly(typeof(Privileges)).FullName);
-                //if (typeEnums != null && (typeEnums.BaseType != null && (typeEnums.BaseType.FullName == "System.Enum")))
-                //{
-                //    var fieldsArray = typeEnums.GetFields(BindingFlags.Public | BindingFlags.Static);
-                //    fieldsArray.First(f => f.Name == rule); 
-                //    foreach (var fInfo in fieldsArray)
-                //    {
-                //        Recursive(dynamicObject, memberInfos, privilege, name + fInfo.Name, indexUnderLine);
-                //    }
-                //}
             }
-            else
-            {
-                MenuCompanies.Visibility = System.Windows.Visibility.Visible;
-            }
-            
-           
         }
 
         private void InitializePrivileges()
@@ -146,37 +113,22 @@ namespace AIS_Enterprise_AV.Views
             var user = _bc.GetDirectoryUser(DirectoryUser.CurrentUserId);
             var privileges = user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
 
-
-            object dynamicObject = new Privileges();
-            Type dynamicType = dynamicObject.GetType();
-            MemberInfo[] memberInfos = dynamicType.GetMembers(BindingFlags.Public | BindingFlags.Static);
-
-            foreach (var item in this.GetType().GetFields())
-            {
-                Debug.WriteLine(item.Name);
-            }
-
             foreach (var privilege in privileges)
             {
                 int indexUndelLine = privilege.IndexOf("_");
                 string rule = privilege.Substring(0, indexUndelLine);
 
-                var ruleEnum = (Privileges.Rules)Enum.Parse(typeof(Privileges.Rules), rule);
+                var ruleEnum = (Rules)Enum.Parse(typeof(Rules), rule);
 
                 switch (ruleEnum)
                 {
-                    case Privileges.Rules.MenuVisibility:
-                        Recursive(dynamicObject, memberInfos, privilege, rule, indexUndelLine);
-                        break;
-                    case Privileges.Rules.MonthTimeSheetColumnsVisibility:
-                        break;
-                    default:
+                    case Rules.MenuVisibility:
+                        string subPrivilege = privilege.Substring(indexUndelLine + 1);
+                        var menuItems = Menu.Items.Cast<MenuItem>().ToList();
+                        SettingMenuVisibility(subPrivilege, menuItems, -1);
                         break;
                 }
-
             }
-
-            //MenuVisibility_Directotires_Posts_TypeOfPost,
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1073,7 +1025,7 @@ namespace AIS_Enterprise_AV.Views
             HelperMethods.ShowView(new DirectoryCompanyViewModel(), new DirectoryCompanyView());
         }
 
-        private void RCs_Click(object sender, RoutedEventArgs e)
+        private void MenuRCs_Click(object sender, RoutedEventArgs e)
         {
             var directoryRCViewModel = new DirectoryRCViewModel();
             var directoryRCView = new DirectoryRCView();
@@ -1082,7 +1034,7 @@ namespace AIS_Enterprise_AV.Views
             directoryRCView.ShowDialog();
         }
 
-        private void TypeOfPosts_Click(object sender, RoutedEventArgs e)
+        private void MenuTypeOfPosts_Click(object sender, RoutedEventArgs e)
         {
             var directoryTypeOfPostViewModel = new DirectoryTypeOfPostViewModel();
             var directoryTypeOfPostView = new DirectoryTypeOfPostView();
@@ -1091,7 +1043,7 @@ namespace AIS_Enterprise_AV.Views
             directoryTypeOfPostView.ShowDialog();
         }
 
-        private void ListOfPosts_Click(object sender, RoutedEventArgs e)
+        private void MenuListOfPosts_Click(object sender, RoutedEventArgs e)
         {
             var directoryPostViewModel = new DirectoryPostViewModel();
             var directoryPostView = new DirectoryPostView();
@@ -1100,7 +1052,7 @@ namespace AIS_Enterprise_AV.Views
             directoryPostView.ShowDialog();
         }
 
-        private void ListOfWorkers_Click(object sender, RoutedEventArgs e)
+        private void MenuListOfWorkers_Click(object sender, RoutedEventArgs e)
         {
             var directoryWorkerListViewModel = new DirectoryWorkerListViewModel();
             var directoryWorkerListView = new DirectoryWorkerListView();
@@ -1109,7 +1061,7 @@ namespace AIS_Enterprise_AV.Views
             directoryWorkerListView.ShowDialog();
         }
 
-        private void AddingWorker_Click(object sender, RoutedEventArgs e)
+        private void MenuAddingWorker_Click(object sender, RoutedEventArgs e)
         {
             var directoryWorkerViewModel = new DirectoryAddWorkerViewModel();
             var directoryWorkerView = new DirectoryAddWorkerView();
@@ -1118,17 +1070,17 @@ namespace AIS_Enterprise_AV.Views
             directoryWorkerView.ShowDialog();
         }
 
-        private void Salary_Click(object sender, RoutedEventArgs e)
+        private void MenuSalary_Click(object sender, RoutedEventArgs e)
         {
             HelperMethods.ShowView(new SalaryViewModel(), new SalaryView());
         }
 
-        private void UserStatuses_Click(object sender, RoutedEventArgs e)
+        private void MenuUserStatuses_Click(object sender, RoutedEventArgs e)
         {
             HelperMethods.ShowView(new DirectoryUserStatusesViewModel(), new DirectoryUserStatusesView());
         }
 
-        private void Users_Click(object sender, RoutedEventArgs e)
+        private void MenuUsers_Click(object sender, RoutedEventArgs e)
         {
             HelperMethods.ShowView(new DirectoryUsersViewModel(), new DirectoryUsersView());
         }

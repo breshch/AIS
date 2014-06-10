@@ -25,36 +25,20 @@ namespace AIS_Enterprise_Global.Helpers
     public enum UserPrivileges
     {
         MenuVisibility_Directories_Companies,
-        MenuVisibility_Directories_Posts_TypeOfPost,
-        MenuVisibility_Directories_Posts_ListPosts,
+        MenuVisibility_Directories_RCs,
+        MenuVisibility_Directories_Posts_TypeOfPosts,
+        MenuVisibility_Directories_Posts_ListOfPosts,
+        MenuVisibility_Directories_Workers_AddingWorker,
+        MenuVisibility_Directories_Workers_ListOfWorkers,
+        
+        MenuVisibility_Reports_Salary,
+
+        MenuVisibility_AdminPanel_UserStatuses,
+        MenuVisibility_AdminPanel_Users,
     }
 
-   
-
-    public class Privileges
+    public enum Rules
     {
-        public enum Rules
-        {
-            MenuVisibility,
-            MonthTimeSheetColumnsVisibility
-        }
-
-        public enum MenuVisibility
-        {
-            Directories,
-            Reports
-        }
-
-        public enum MenuVisibilityDirectories
-        {
-            Companies,
-            Posts
-        }
-
-        public enum MenuVisibilityDirectoriesPosts
-        {
-            TypeOfPost,
-            ListPosts
-        }
+        MenuVisibility,
     }
 }
