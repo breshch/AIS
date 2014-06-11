@@ -13,5 +13,6 @@ namespace AIS_Enterprise_Global.Helpers.Temps
         public DateTime PostChangeDate { get; set; }
         public DateTime? PostFireDate { get; set; }
         public bool IsTwoCompanies { get; set; }
+        public double Salary { get; set; }
     }
 }

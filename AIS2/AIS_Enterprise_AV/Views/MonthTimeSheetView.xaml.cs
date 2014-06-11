@@ -38,6 +38,8 @@ namespace AIS_Enterprise_AV.Views
         private List<DateTime> _listDatesOfOverTime = new List<DateTime>();
         private List<DateTime> _weekends;
 
+        private List<string> _privileges;
+
         private const int COLUMN_FULL_NAME = 1;
         private const int COLUMN_POST_NAME = 4;
         private const int COUNT_COLUMNS_BEFORE_DAYS = 5;
@@ -108,24 +110,48 @@ namespace AIS_Enterprise_AV.Views
             }
         }
 
+        private void SettingMonthTimeSheetColumnsVisibility(string privilege)
+        {
+            var column = this.FindName("MonthTimeSheet" + privilege) as DataGridTextColumn;
+            if (column != null && column.Visibility == System.Windows.Visibility.Collapsed)
+            {
+                column.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
+        private void SettingMonthTimeSheetColumnsNotReadOnly(string privilege)
+        {
+            var column = this.FindName("MonthTimeSheet" + privilege) as DataGridTextColumn;
+            if (column != null && column.IsReadOnly)
+            {
+                column.IsReadOnly = false;
+            }
+        }
+
         private void InitializePrivileges()
         {
             var user = _bc.GetDirectoryUser(DirectoryUser.CurrentUserId);
-            var privileges = user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
+            _privileges = user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
 
-            foreach (var privilege in privileges)
+            foreach (var privilege in _privileges)
             {
                 int indexUndelLine = privilege.IndexOf("_");
                 string rule = privilege.Substring(0, indexUndelLine);
 
                 var ruleEnum = (Rules)Enum.Parse(typeof(Rules), rule);
+                string subPrivilege = privilege.Substring(indexUndelLine + 1);
 
                 switch (ruleEnum)
                 {
                     case Rules.MenuVisibility:
-                        string subPrivilege = privilege.Substring(indexUndelLine + 1);
                         var menuItems = Menu.Items.Cast<MenuItem>().ToList();
                         SettingMenuVisibility(subPrivilege, menuItems, -1);
+                        break;
+                    case Rules.MonthTimeSheetColumnsVisibility:
+                        SettingMonthTimeSheetColumnsVisibility(subPrivilege);
+                        break;
+                    case Rules.MonthTimeSheetColumnsNotReadOnly:
+                        SettingMonthTimeSheetColumnsNotReadOnly(subPrivilege);
                         break;
                 }
             }
@@ -150,7 +176,7 @@ namespace AIS_Enterprise_AV.Views
 
             if (ComboboxMonthes.Items.Count != 0)
             {
-                ComboboxMonthes.SelectedIndex = ComboboxMonthes.Items.Count - 2;
+                ComboboxMonthes.SelectedIndex = ComboboxMonthes.Items.Count - 1;
             }
         }
 
@@ -180,6 +206,9 @@ namespace AIS_Enterprise_AV.Views
 
             _prevCountLastDaysInMonth = lastDateInMonth.Day;
 
+            var visibility = _privileges.Contains(UserPrivileges.MonthTimeSheetColumnsVisibility_Hours.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            bool isReadOnly = _privileges.Contains(UserPrivileges.MonthTimeSheetColumnsNotReadOnly_Hours.ToString()) ? false : true;
+
             for (int i = 0; i < lastDateInMonth.Day; i++)
             {
                 var column = new DataGridTextColumn
@@ -190,20 +219,47 @@ namespace AIS_Enterprise_AV.Views
                         Path = new PropertyPath("Hours[" + i + "]")
                     },
                     MinWidth = 30,
+                    Visibility = visibility,
+                    IsReadOnly = isReadOnly,
                     CellStyle = Resources["CenterTextAlignmentCellWithRightClick"] as Style
                 };
-
+                
                 DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
             }
+
+            bool isAdminSalary = _privileges.Contains(UserPrivileges.Salary_AdminSalary.ToString()) ? true : false;
 
             _weekends = _bc.GetHolidays(_currentYear, _currentMonth).ToList();
 
             var workers = _bc.GetDirectoryWorkers(_currentYear, _currentMonth).ToList();
 
             int indexWorker = 0;
+
+            var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Склад").ToList();
+            AddingRowWorkers(workerWarehouses, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
+
+            if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
+            {
+                var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).ToList();
+                AddingRowWorkers(workerDeadSpirits, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
+            }
+
+            if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_Office))
+            {
+                var workerOffices = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Офис").ToList();
+                AddingRowWorkers(workerOffices, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
+            }
+
+            DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
+            DataGridMonthTimeSheet.Items.Refresh();
+        }
+
+        private void AddingRowWorkers(List<DirectoryWorker> workers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth, DateTime lastDateInMonth, DateTime firstDateInMonth)
+        {
             foreach (var worker in workers)
             {
                 indexWorker++;
+                Debug.WriteLine(worker.FullName + " " + indexWorker);
 
                 var currentPosts = _bc.GetCurrentPosts(worker.Id, _currentYear, _currentMonth, _prevCountLastDaysInMonth).ToList();
 
@@ -233,7 +289,8 @@ namespace AIS_Enterprise_AV.Views
                         monthTimeSheetWorker.DirectoryPostId = currentPost.DirectoryPostId;
                         monthTimeSheetWorker.PostChangeDate = currentPost.ChangeDate;
                         monthTimeSheetWorker.PostName = currentPost.DirectoryPost.Name;
-                        monthTimeSheetWorker.SalaryInHour = Math.Round(currentPost.DirectoryPost.AdminWorkerSalary.Value / countWorkDaysInMonth / 8, 2);
+                        monthTimeSheetWorker.SalaryInHour = Math.Round((isAdminSalary ? currentPost.DirectoryPost.AdminWorkerSalary.Value :
+                            currentPost.DirectoryPost.UserWorkerSalary) / countWorkDaysInMonth / 8, 2);
                         monthTimeSheetWorker.IsDeadSpirit = worker.IsDeadSpirit;
 
                         monthTimeSheetWorker.Hours = new string[lastDateInMonth.Day];
@@ -335,9 +392,6 @@ namespace AIS_Enterprise_AV.Views
                         double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
                 }
             }
-
-            DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
-            DataGridMonthTimeSheet.Items.Refresh();
         }
 
         private void ComboboxMonthes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -963,43 +1017,47 @@ namespace AIS_Enterprise_AV.Views
             {
                 var cell = DataGridMonthTimeSheet.GetCell(indexRow, indexColumn);
 
-                double result = 0;
-                if (double.TryParse(value, out result))
+                if (cell != null)
                 {
-                    if (result < 8)
-                    {
-                        cell.Background = _brushLessThanEight;
-                    }
-                    else
-                    {
-                        cell.Background = isOdd ? _brushOdd : _brushNoOdd;
-                    }
-                }
-                else
-                {
-                    if (value == WEEKEND_DEFINITION)
-                    {
-                        cell.Background = _brushWeekend;
-                    }
-                    else
-                    {
-                        if (Enum.IsDefined(typeof(DescriptionDay), value))
-                        {
-                            var descriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), value);
 
-                            switch (descriptionDay)
+                    double result = 0;
+                    if (double.TryParse(value, out result))
+                    {
+                        if (result < 8)
+                        {
+                            cell.Background = _brushLessThanEight;
+                        }
+                        else
+                        {
+                            cell.Background = isOdd ? _brushOdd : _brushNoOdd;
+                        }
+                    }
+                    else
+                    {
+                        if (value == WEEKEND_DEFINITION)
+                        {
+                            cell.Background = _brushWeekend;
+                        }
+                        else
+                        {
+                            if (Enum.IsDefined(typeof(DescriptionDay), value))
                             {
-                                case DescriptionDay.Б:
-                                    cell.Background = _brushSickDay;
-                                    break;
-                                case DescriptionDay.П:
-                                    cell.Background = _brushMissDay;
-                                    break;
-                                case DescriptionDay.ДО:
-                                case DescriptionDay.О:
-                                case DescriptionDay.С:
-                                    cell.Background = _brushVocation;
-                                    break;
+                                var descriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), value);
+
+                                switch (descriptionDay)
+                                {
+                                    case DescriptionDay.Б:
+                                        cell.Background = _brushSickDay;
+                                        break;
+                                    case DescriptionDay.П:
+                                        cell.Background = _brushMissDay;
+                                        break;
+                                    case DescriptionDay.ДО:
+                                    case DescriptionDay.О:
+                                    case DescriptionDay.С:
+                                        cell.Background = _brushVocation;
+                                        break;
+                                }
                             }
                         }
                     }

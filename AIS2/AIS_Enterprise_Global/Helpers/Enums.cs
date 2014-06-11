@@ -30,15 +30,60 @@ namespace AIS_Enterprise_Global.Helpers
         MenuVisibility_Directories_Posts_ListOfPosts,
         MenuVisibility_Directories_Workers_AddingWorker,
         MenuVisibility_Directories_Workers_ListOfWorkers,
-        
         MenuVisibility_Reports_Salary,
-
         MenuVisibility_AdminPanel_UserStatuses,
         MenuVisibility_AdminPanel_Users,
+
+        MonthTimeSheetColumnsVisibility_FullName,
+        MonthTimeSheetColumnsVisibility_PostName,
+        MonthTimeSheetColumnsVisibility_SalaryInHour,
+        MonthTimeSheetColumnsVisibility_Hours,
+        MonthTimeSheetColumnsVisibility_OverTime,
+        MonthTimeSheetColumnsVisibility_VocationDays,
+        MonthTimeSheetColumnsVisibility_SickDays,
+        MonthTimeSheetColumnsVisibility_MissDays,
+        MonthTimeSheetColumnsVisibility_PrepaymentCash,
+        MonthTimeSheetColumnsVisibility_PrepaymentBankTransaction,
+        MonthTimeSheetColumnsVisibility_Compensation,
+        MonthTimeSheetColumnsVisibility_VocationPayment,
+        MonthTimeSheetColumnsVisibility_CardAV,
+        MonthTimeSheetColumnsVisibility_CardFenox,
+        MonthTimeSheetColumnsVisibility_Panalty,
+        MonthTimeSheetColumnsVisibility_Inventory,
+        MonthTimeSheetColumnsVisibility_BirthDays,
+        MonthTimeSheetColumnsVisibility_Bonus,
+        MonthTimeSheetColumnsVisibility_FinalSalary,
+
+        MonthTimeSheetColumnsNotReadOnly_Hours,
+        MonthTimeSheetColumnsNotReadOnly_PrepaymentCash,
+        MonthTimeSheetColumnsNotReadOnly_PrepaymentBankTransaction,
+        MonthTimeSheetColumnsNotReadOnly_Compensation,
+        MonthTimeSheetColumnsNotReadOnly_VocationPayment,
+        MonthTimeSheetColumnsNotReadOnly_CardAV,
+        MonthTimeSheetColumnsNotReadOnly_CardFenox,
+        MonthTimeSheetColumnsNotReadOnly_Inventory,
+        MonthTimeSheetColumnsNotReadOnly_Bonus,
+
+        Salary_AdminSalary,
+        
+        WorkersVisibility_DeadSpirit,
+        WorkersVisibility_Office,
+
+        Workers_FireWorkers,
+
+        ButtonsVisibility_AdminButtons
+
+
     }
 
     public enum Rules
     {
         MenuVisibility,
+        MonthTimeSheetColumnsVisibility,
+        MonthTimeSheetColumnsNotReadOnly,
+        Salary,
+        WorkersVisibility,
+        Workers,
+        ButtonsVisibility
     }
 }

@@ -48,6 +48,13 @@ namespace AIS_Enterprise_Global.Models
             _dc.SaveChanges();
         }
 
+        public DataContext DataContext
+        {
+            get
+            {
+                return _dc;
+            }
+        }
 
         #endregion
 
@@ -119,6 +126,11 @@ namespace AIS_Enterprise_Global.Models
             _dc.DirectoryTypeOfPosts.Remove(directoryTypeOfPost);
 
             _dc.SaveChanges();
+        }
+
+        public DirectoryTypeOfPost GetDirectoryTypeOfPost(int workerId, DateTime date)
+        {
+            return GetCurrentPost(workerId, date).DirectoryPost.DirectoryTypeOfPost;
         }
 
         #endregion
@@ -368,8 +380,6 @@ namespace AIS_Enterprise_Global.Models
             return directoryWorker;
         }
 
-
-
         #endregion
 
 
@@ -452,6 +462,13 @@ namespace AIS_Enterprise_Global.Models
             var infoDateDeadSpirit = deadSpiritWorker.InfoDates.First(d => d.Date.Date == date.Date);
             infoDateDeadSpirit.CountHours = hoursSpiritWorker;
             _dc.SaveChanges();
+        }
+
+        public DateTime GetLastWorkDay(int workerId)
+        {
+            var worker = GetDirectoryWorker(workerId);
+            var infoDate = worker.InfoDates.OrderByDescending(d => d.Date).FirstOrDefault(d => d.CountHours != null);
+            return infoDate != null ? infoDate.Date : DateTime.Now;
         }
 
         #endregion
@@ -807,7 +824,7 @@ namespace AIS_Enterprise_Global.Models
             _dc.DirectoryUsers.Add(user);
             _dc.SaveChanges();
 
-            DBUsers.AddUser(_dc, transcriptionName, password);
+            DBCustomQueries.AddUser(_dc, transcriptionName, password);
 
             _dc.Database.Connection.ConnectionString = "";
 
@@ -830,14 +847,14 @@ namespace AIS_Enterprise_Global.Models
             _dc.DirectoryUsers.Add(user);
             _dc.SaveChanges();
 
-            DBUsers.AddUser(_dc, transcriptionName, password);
+            DBCustomQueries.AddUser(_dc, transcriptionName, password);
 
             return user;
         }
 
         public void AddUserButler()
         {
-            DBUsers.AddUserButler(_dc);
+            DBCustomQueries.AddUserButler(_dc);
         }
 
         public void EditDirectoryUser(int userId, string userName, string password, DirectoryUserStatus userStatus)
@@ -861,7 +878,7 @@ namespace AIS_Enterprise_Global.Models
             _dc.CurrentUserStatuses.Remove(prevCurrentUserStatus);
             _dc.SaveChanges();
 
-            DBUsers.EditUser(_dc, prevName, userName, password);
+            DBCustomQueries.EditUser(_dc, prevName, userName, password);
         }
 
 
@@ -874,8 +891,6 @@ namespace AIS_Enterprise_Global.Models
 
 
         #endregion
-
-
 
 
         #region DirectoryUserStatusPrivilege

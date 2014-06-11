@@ -73,7 +73,7 @@
     <Compile Include="Helpers\Attributes\NotifyAttribute.cs" />
     <Compile Include="Helpers\Attributes\StopNotifyAttribute.cs" />
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
-    <Compile Include="Helpers\DBUsers.cs" />
+    <Compile Include="Helpers\DBCustomQueries.cs" />
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\DataGridHelper.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryUser.cs" />
     <Compile Include="Models\Directories\DirectoryUserStatus.cs" />
-    <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
+    <Compile Include="Models\DirectoryUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
     <Compile Include="Models\Helpers\Parameter.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />

@@ -58,5 +58,29 @@ namespace AIS_Enterprise_AV.Properties {
                 this["IP"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultServer {
+            get {
+                return ((string)(this["DefaultServer"]));
+            }
+            set {
+                this["DefaultServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultDataBase {
+            get {
+                return ((string)(this["DefaultDataBase"]));
+            }
+            set {
+                this["DefaultDataBase"] = value;
+            }
+        }
     }
 }

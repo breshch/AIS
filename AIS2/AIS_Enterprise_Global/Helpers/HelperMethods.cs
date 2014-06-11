@@ -15,6 +15,8 @@ namespace AIS_Enterprise_Global.Helpers
 {
     public static class HelperMethods
     {
+        private const string _serverPath = "Servers.txt";
+
         private static readonly Random getrandom = new Random();
         private static readonly object syncLock = new object();
         public static int GetRandomNumber(int min, int max)
@@ -57,6 +59,50 @@ namespace AIS_Enterprise_Global.Helpers
         {
             window.DataContext = viewModel;
             window.ShowDialog();
+        }
+
+        public static List<string> GetPrivileges(BusinessContext bc)
+        {
+            var user = bc.GetDirectoryUser(DirectoryUser.CurrentUserId);
+            return user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
+        }
+
+        public static bool IsPrivilege(BusinessContext bc, UserPrivileges userPrivilege)
+        {
+            return GetPrivileges(bc).Contains(userPrivilege.ToString());
+        }
+
+        public static bool IsPrivilege(List<string> privileges, UserPrivileges userPrivilege)
+        {
+            return privileges.Contains(userPrivilege.ToString());
+        }
+
+        public static List<string> GetServers()
+        {
+            if (File.Exists(_serverPath))
+            {
+                return File.ReadAllLines(_serverPath).ToList();
+            }
+            else
+            {
+                return new List<string>();
+            }
+        }
+
+        public static void AddServer(string serverName)
+        {
+            if (!File.Exists(_serverPath))
+            {
+                var fileStream = File.Create(_serverPath);
+                fileStream.Close();
+            }
+
+            var servers = File.ReadAllLines(_serverPath).ToList();
+            
+            if (!servers.Contains(serverName))
+            {
+                File.AppendAllLines(_serverPath, new List<string> { serverName });
+            }
         }
     }
 }

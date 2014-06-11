@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace AIS_Enterprise_AV.ViewModels
@@ -29,6 +30,17 @@ namespace AIS_Enterprise_AV.ViewModels
         public MainViewModel()
             : base()
         {
+            WindowVisibility = Visibility.Visible;
+            IsAdminButtonsVisibility = false;
+
+            Servers = new ObservableCollection<string>(HelperMethods.GetServers());
+            string defaultServer = Properties.Settings.Default.DefaultServer;
+
+            if (Servers.Contains(defaultServer))
+            {
+                SelectedServer = defaultServer;
+            }
+
             KillTheDBCommand = new RelayCommand(KillTheDB);
             ShowExcelToDBCommand = new RelayCommand(ShowExcelToDB);
             ShowDefaultDBCommand = new RelayCommand(ShowDefaultDB);
@@ -36,10 +48,6 @@ namespace AIS_Enterprise_AV.ViewModels
 
             EnteringCommand = new RelayCommand(Entering);
 
-            RefreshUsers();
-
-            SelectedUser = Users.First();
-           
             IsNotInitializedDB = true;
 
             Languages = new ObservableCollection<string>(new[] { "ru-RU", "en-US" });
@@ -47,7 +55,24 @@ namespace AIS_Enterprise_AV.ViewModels
 
         private void RefreshUsers()
         {
-            Users = new ObservableCollection<DirectoryUser>(BC.GetDirectoryUsers());
+            if (Users != null)
+            {
+                Users.Clear();
+            }
+            else
+            {
+                Users = new ObservableCollection<DirectoryUser>();
+            }
+
+            foreach (var user in BC.GetDirectoryUsers())
+            {
+                Users.Add(user);
+            }
+
+            if (Users.Any())
+            {
+                SelectedUser = Users.First();
+            }
         }
 
         #endregion
@@ -55,6 +80,73 @@ namespace AIS_Enterprise_AV.ViewModels
         #region Properties
 
         public ObservableCollection<string> Languages { get; set; }
+
+        public ObservableCollection<string> Servers { get; set; }
+
+        private string _selectedServer;
+
+        public string SelectedServer
+        {
+            get
+            {
+                return _selectedServer;
+            }
+            set
+            {
+                _selectedServer = value;
+                OnPropertyChanged();
+
+                DataContext.ChangeUserButler(_selectedServer);
+                BC.RefreshContext();
+
+                if (DataBases != null)
+                {
+                    DataBases.Clear();
+                }
+                else
+                {
+                    DataBases = new ObservableCollection<string>();
+                }
+
+                foreach (var dataBase in DBCustomQueries.GetDataBases(BC, _selectedServer))
+                {
+                    DataBases.Add(dataBase);
+                    Debug.WriteLine(dataBase);
+                }
+
+                string defaultDataBase = Properties.Settings.Default.DefaultDataBase;
+                
+                if (DataBases.Contains(defaultDataBase))
+                {
+                    SelectedDataBase = defaultDataBase;
+                }
+            }
+        }
+
+        public ObservableCollection<string> DataBases { get; set; }
+
+        public string _selectedDataBase;
+
+        public string SelectedDataBase 
+        {
+            get
+            {
+                return _selectedDataBase;
+            }
+            set 
+            {
+                _selectedDataBase = value;
+                OnPropertyChanged();
+
+                if (_selectedDataBase != null)
+                {
+                    DataContext.ChangeServerAndDataBase(SelectedServer, _selectedDataBase);
+                    BC.RefreshContext();
+
+                    RefreshUsers();
+                }
+            } 
+        }
 
         private string _selectedLanguage;
         [StopNotify]
@@ -88,8 +180,37 @@ namespace AIS_Enterprise_AV.ViewModels
             }
         }
 
+        private bool _isAdminButtonsVisibility;
+        public bool IsAdminButtonsVisibility
+        {
+            get
+            {
+                return _isAdminButtonsVisibility;
+            }
+            set
+            {
+                _isAdminButtonsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<DirectoryUser> Users { get; set; }
         public DirectoryUser SelectedUser { get; set; }
+
+
+        private Visibility _windowVisibility;
+        public Visibility WindowVisibility
+        {
+            get
+            {
+                return _windowVisibility;
+            }
+            set
+            {
+                _windowVisibility = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -148,10 +269,22 @@ namespace AIS_Enterprise_AV.ViewModels
             {
                 BC.RefreshContext();
 
+                Properties.Settings.Default.DefaultServer = SelectedServer;
+                Properties.Settings.Default.DefaultDataBase = SelectedDataBase;
+                Properties.Settings.Default.Save();
+                
+
                 DirectoryUser.ChangeUserId(SelectedUser.Id);
+
+                WindowVisibility = Visibility.Collapsed;
 
                 var monthTimeSheetView = new MonthTimeSheetView();
                 monthTimeSheetView.ShowDialog();
+
+                WindowVisibility = Visibility.Visible;
+
+                BC.RefreshContext();
+                IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
             }
             else
             {

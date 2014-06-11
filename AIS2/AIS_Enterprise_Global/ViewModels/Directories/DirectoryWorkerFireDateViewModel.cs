@@ -15,9 +15,9 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         private bool _isFireDate;
 
-        public DirectoryWorkerFireDateViewModel()
+        public DirectoryWorkerFireDateViewModel(int workerId)
         {
-            SelectedDirectoryWorkerFireDate = DateTime.Now;
+            SelectedDirectoryWorkerFireDate = BC.GetLastWorkDay(workerId);
 
             FireDirectoryWorkerCommand = new RelayCommand(FireDirectoryWorker);
         }
@@ -36,7 +36,7 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
         #endregion
 
 
-        #region DirectoryWorkerFireDate
+        #region Properties
 
         public DateTime? SelectedDirectoryWorkerFireDate { get; set; }
 

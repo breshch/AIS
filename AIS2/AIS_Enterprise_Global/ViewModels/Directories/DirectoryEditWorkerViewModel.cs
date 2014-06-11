@@ -30,6 +30,13 @@ namespace AIS_Enterprise_Global.ViewModels
         {
             _selectedDirectoryWorker = BC.GetDirectoryWorker(workerId);
 
+            IsFireWorkerEnable = HelperMethods.IsPrivilege(BC, UserPrivileges.Workers_FireWorkers);
+
+            if (!IsNotFireDate)
+            {
+                IsFireWorkerEnable = false;   
+            }
+
             EditWorkerCommand = new RelayCommand(EditWorker, CanEditingWorker);
             FireWorkerCommand = new RelayCommand(FireWorker, CanEditingWorker);
 
@@ -48,7 +55,8 @@ namespace AIS_Enterprise_Global.ViewModels
             DirectoryWorkerHomePhone = _selectedDirectoryWorker.HomePhone;
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
-                Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate, IsTwoCompanies = c.IsTwoCompanies }));
+                Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate, IsTwoCompanies = c.IsTwoCompanies,
+                Salary = IsAdminSalary ? c.DirectoryPost.AdminWorkerSalary.Value : c.DirectoryPost.UserWorkerSalary}));
             IsDeadSpirit = _selectedDirectoryWorker.IsDeadSpirit;
         }
 
@@ -68,6 +76,8 @@ namespace AIS_Enterprise_Global.ViewModels
                 return _selectedDirectoryWorker.FireDate == null;
             }
         }
+
+        public bool IsFireWorkerEnable { get; set; }
 
         [StopNotify]
         public bool IsChangeWorker { get; private set; }
@@ -102,7 +112,9 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void FireWorker(object parameter)
         {
-            var directoryWorkerFireDateViewModel = new DirectoryWorkerFireDateViewModel();
+
+           
+            var directoryWorkerFireDateViewModel = new DirectoryWorkerFireDateViewModel(_selectedDirectoryWorker.Id);
             var directoryWorkerFireDateView = new DirectoryWorkerFireDateView();
 
             directoryWorkerFireDateView.DataContext = directoryWorkerFireDateViewModel;

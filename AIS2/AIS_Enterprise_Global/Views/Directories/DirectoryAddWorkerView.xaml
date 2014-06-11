@@ -129,7 +129,7 @@
                     <Button Grid.Column="1" Content="Очистить фото" Margin="20, 0, 0, 0"/>
                 </Grid>
 
-                <CheckBox Grid.Row="2" Content="Мёртвая душа" IsChecked="{Binding IsDeadSpirit}" Visibility="{Binding IsAdmin, Converter={StaticResource booleanToVisibilityValueConverter}}" Margin="0, 10, 0, 0"/>
+                <CheckBox Grid.Row="2" Content="Мёртвая душа" IsChecked="{Binding IsDeadSpirit}" Visibility="{Binding IsDeadSpiritVisibility, Converter={StaticResource booleanToVisibilityValueConverter}}" Margin="0, 10, 0, 0"/>
             </Grid>
         </Grid>
 
@@ -157,7 +157,7 @@
                     <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryPost.DirectoryCompany.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Совм-во" Binding="{Binding IsTwoCompanies, Converter={StaticResource booleanToStringValueConverter}}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Должность" Binding="{Binding DirectoryPost.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding DirectoryPost.UserWorkerSalary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Header="Оклад" Binding="{Binding Salary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Доп. оклад" Binding="{Binding DirectoryPost.UserWorkerHalfSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Дата" Binding="{Binding PostChangeDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 </DataGrid.Columns>

@@ -21,7 +21,8 @@ namespace AIS_Enterprise_Global.ViewModels
         public DirectoryWorkerBaseViewModel()
             : base()
         {
-            IsAdmin = false;
+            IsAdminSalary = HelperMethods.IsPrivilege(BC, UserPrivileges.Salary_AdminSalary);
+            IsDeadSpiritVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.WorkersVisibility_DeadSpirit);
 
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>();
 
@@ -30,7 +31,6 @@ namespace AIS_Enterprise_Global.ViewModels
             RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost, IsSelectedCompanyAndPost);
 
             
-
             SelectedIndexCurrentCompanyAndPost = -1;
         }
 
@@ -85,8 +85,9 @@ namespace AIS_Enterprise_Global.ViewModels
         public CurrentCompanyAndPost SelectedCurrentCompanyAndPost { get; set; }
         public int SelectedIndexCurrentCompanyAndPost { get; set; }
 
-        public bool IsAdmin { get; set; }
+        public bool IsAdminSalary { get; set; }
         public bool IsDeadSpirit { get; set; }
+        public bool IsDeadSpiritVisibility { get; set; }
 
         #endregion
 
@@ -109,6 +110,8 @@ namespace AIS_Enterprise_Global.ViewModels
 
             if (currentCompanyAndPost != null)
             {
+                currentCompanyAndPost.Salary = IsAdminSalary ? currentCompanyAndPost.DirectoryPost.AdminWorkerSalary.Value : currentCompanyAndPost.DirectoryPost.UserWorkerSalary;
+
                 if (CurrentCompaniesAndPosts.Any())
                 {
                     CurrentCompaniesAndPosts.OrderBy(p => p.PostChangeDate).Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
@@ -132,6 +135,8 @@ namespace AIS_Enterprise_Global.ViewModels
 
             if (currentCompanyAndPost != null)
             {
+                currentCompanyAndPost.Salary = IsAdminSalary ? currentCompanyAndPost.DirectoryPost.AdminWorkerSalary.Value : currentCompanyAndPost.DirectoryPost.UserWorkerSalary;
+
                 if (CurrentCompaniesAndPosts.Any())
                 {
                     //CurrentCompaniesAndPosts.OrderBy(p => p.PostChangeDate).Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);

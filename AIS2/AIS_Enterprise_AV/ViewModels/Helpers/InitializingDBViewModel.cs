@@ -57,6 +57,8 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             }
 
             DataContext.ChangeUserButler();
+
+            HelperMethods.AddServer(IP);
         }
 
         private void Skip(object parameter)

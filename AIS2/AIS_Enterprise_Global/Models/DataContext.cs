@@ -58,6 +58,34 @@ namespace AIS_Enterprise_Global.Models
             _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, nameButler, passwordButler);
         }
 
+        public static void ChangeUserButler(string serverName)
+        {
+            string nameButler = Properties.Settings.Default.NameButler;
+            string passwordButler = Properties.Settings.Default.PasswordButler;
+
+            Properties.Settings.Default.IP = serverName;
+            Properties.Settings.Default.Save();
+
+            _ip = serverName;
+
+            _connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, nameButler, passwordButler);
+        }
+
+        public static void ChangeServerAndDataBase(string serverName, string dataBaseName)
+        {
+            Properties.Settings.Default.IP = serverName;
+            Properties.Settings.Default.DatabaseName = dataBaseName;
+            Properties.Settings.Default.Save();
+
+            _ip = serverName;
+            _databaseName = dataBaseName;
+
+            string nameButler = Properties.Settings.Default.NameButler;
+            string passwordButler = Properties.Settings.Default.PasswordButler;
+
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, nameButler, passwordButler);
+        }
+
         public static bool TryConnection()
         {
             SqlConnection conn = null;

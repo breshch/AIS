@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,7 +32,7 @@ namespace AIS_Enterprise_AV
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
+            
             DataContext.ChangeUserButler();
             if (DataContext.TryConnection())
             {

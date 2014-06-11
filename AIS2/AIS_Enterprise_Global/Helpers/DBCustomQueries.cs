@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers
 {
-    public static class DBUsers
+    public static class DBCustomQueries
     {
         public static void AddUser(DataContext dc, string name, string password)
         {
@@ -62,6 +62,21 @@ namespace AIS_Enterprise_Global.Helpers
                     ", nameButler, passwordButler, dataBaseName);
 
             dc.Database.ExecuteSqlCommand(queryCreateUser);
+        }
+
+        public static IEnumerable<string> GetDataBases(BusinessContext bc, string serverName)
+        {
+            string queryCreateUser = string.Format(
+                   @"SELECT [name]
+                     FROM master.dbo.sysdatabases
+                     WHERE dbid > 4;
+                    ");
+
+            var dbRowSqlQuery = bc.DataContext.Database.SqlQuery(typeof(string), queryCreateUser);
+            foreach (var item in dbRowSqlQuery)
+            {
+                yield return item.ToString();
+            }
         }
     }
 }
