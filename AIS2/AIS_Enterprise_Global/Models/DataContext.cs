@@ -33,6 +33,11 @@ namespace AIS_Enterprise_Global.Models
             Debug.WriteLine(this.Database.Connection.ConnectionString);
         }
 
+        public static void ChangeConnectionStringWithDefaultCredentials()
+        {
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; Persist Security Info=False; User ID=huy; Password=huy;", _ip, _databaseName);
+        }
+
         public static void ChangeConnectionStringWithDefaultCredentials(string ip, string companyName)
         {
             _ip = ip;
@@ -42,7 +47,7 @@ namespace AIS_Enterprise_Global.Models
             Properties.Settings.Default.DatabaseName = _databaseName;
             Properties.Settings.Default.Save();
 
-            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; Persist Security Info=False; User ID=huy; Password=huy;", ip, _databaseName);
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; Persist Security Info=False; User ID=huy; Password=huy;", _ip, _databaseName);
         }
 
         public static void ChangeUser(string userName, string password)
@@ -55,7 +60,7 @@ namespace AIS_Enterprise_Global.Models
             string nameButler = Properties.Settings.Default.NameButler;
             string passwordButler = Properties.Settings.Default.PasswordButler;
 
-            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, nameButler, passwordButler);
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "huy", "huy");
         }
 
         public static void ChangeUserButler(string serverName)
@@ -68,7 +73,7 @@ namespace AIS_Enterprise_Global.Models
 
             _ip = serverName;
 
-            _connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, nameButler, passwordButler);
+            _connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, "huy", "huy");
         }
 
         public static void ChangeServerAndDataBase(string serverName, string dataBaseName)
@@ -83,7 +88,7 @@ namespace AIS_Enterprise_Global.Models
             string nameButler = Properties.Settings.Default.NameButler;
             string passwordButler = Properties.Settings.Default.PasswordButler;
 
-            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, nameButler, passwordButler);
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "huy", "huy");
         }
 
         public static bool TryConnection()

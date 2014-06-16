@@ -16,9 +16,7 @@ namespace AIS_Enterprise_AV.Models.Directories
 
         [MaxLength(128)]
         public string Name { get; set; }
-
         public int Percentes { get; set; }
-
         public int DirectoryCompanyId { get; set; }
         public virtual DirectoryCompany DirectoryCompany { get; set; }
 

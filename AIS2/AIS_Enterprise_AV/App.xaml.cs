@@ -32,8 +32,10 @@ namespace AIS_Enterprise_AV
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            
-            DataContext.ChangeUserButler();
+
+            //Database.SetInitializer(new DropCreateDatabaseAlways<DataContext>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<DataContextAV>());
+
             if (DataContext.TryConnection())
             {
                 HelperMethods.ShowView(new MainViewModel(), new MainView());

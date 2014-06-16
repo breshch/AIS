@@ -58,7 +58,6 @@ namespace AIS_Enterprise_Global.Helpers
                     END;
                     USE {2};
                     CREATE USER {0} FOR LOGIN {0};
-                    GRANT SELECT ON dbo.DirectoryUsers TO {0};
                     ", nameButler, passwordButler, dataBaseName);
 
             dc.Database.ExecuteSqlCommand(queryCreateUser);

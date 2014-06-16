@@ -182,6 +182,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void FillDataGrid()
         {
+            Stopwatch sw = Stopwatch.StartNew();
             _bc.RefreshContext();
 
             DataGridMonthTimeSheet.ItemsSource = null;
@@ -252,6 +253,7 @@ namespace AIS_Enterprise_AV.Views
 
             DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
             DataGridMonthTimeSheet.Items.Refresh();
+            Debug.WriteLine(sw.ElapsedMilliseconds);
         }
 
         private void AddingRowWorkers(List<DirectoryWorker> workers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth, DateTime lastDateInMonth, DateTime firstDateInMonth)

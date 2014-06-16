@@ -15,7 +15,7 @@ namespace AIS_Enterprise_Global.Helpers
 {
     public static class HelperMethods
     {
-        private const string _serverPath = "Servers.txt";
+        private const string _serversPath = "Settings\\Servers.txt";
 
         private static readonly Random getrandom = new Random();
         private static readonly object syncLock = new object();
@@ -79,9 +79,9 @@ namespace AIS_Enterprise_Global.Helpers
 
         public static List<string> GetServers()
         {
-            if (File.Exists(_serverPath))
+            if (File.Exists(_serversPath))
             {
-                return File.ReadAllLines(_serverPath).ToList();
+                return File.ReadAllLines(_serversPath).ToList();
             }
             else
             {
@@ -91,17 +91,17 @@ namespace AIS_Enterprise_Global.Helpers
 
         public static void AddServer(string serverName)
         {
-            if (!File.Exists(_serverPath))
+            if (!File.Exists(_serversPath))
             {
-                var fileStream = File.Create(_serverPath);
+                var fileStream = File.Create(_serversPath);
                 fileStream.Close();
             }
 
-            var servers = File.ReadAllLines(_serverPath).ToList();
+            var servers = File.ReadAllLines(_serversPath).ToList();
             
             if (!servers.Contains(serverName))
             {
-                File.AppendAllLines(_serverPath, new List<string> { serverName });
+                File.AppendAllLines(_serversPath, new List<string> { serverName });
             }
         }
     }

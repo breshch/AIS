@@ -18,6 +18,7 @@ namespace AIS_Enterprise_Global.ViewModels.Directories.Base
         } 
         #endregion
 
+
         #region Properties
 
         public string DirectoryUserName { get; set; }

@@ -123,7 +123,6 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void EditCompanyAndPost(object parameter)
         {
-            Debug.WriteLine(SelectedCurrentCompanyAndPost.IsTwoCompanies);
             int prevIndex = SelectedIndexCurrentCompanyAndPost;
             var currentWorkerCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel(SelectedCurrentCompanyAndPost, SelectedDirectoryWorkerStartDate, DateTime.Now);
             var currentWorkerCompanyAndPostView = new CurrentCompanyAndPostView();

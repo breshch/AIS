@@ -30,7 +30,6 @@ namespace AIS_Enterprise_AV.ViewModels
         public MainViewModel()
             : base()
         {
-            WindowVisibility = Visibility.Visible;
             IsAdminButtonsVisibility = false;
 
             Servers = new ObservableCollection<string>(HelperMethods.GetServers());
@@ -41,6 +40,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 SelectedServer = defaultServer;
             }
 
+            CreateDBCommand = new RelayCommand(CreateDB);
             KillTheDBCommand = new RelayCommand(KillTheDB);
             ShowExcelToDBCommand = new RelayCommand(ShowExcelToDB);
             ShowDefaultDBCommand = new RelayCommand(ShowDefaultDB);
@@ -81,7 +81,19 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public ObservableCollection<string> Languages { get; set; }
 
-        public ObservableCollection<string> Servers { get; set; }
+        private ObservableCollection<string> _servers;
+        public ObservableCollection<string> Servers
+        {
+            get
+            {
+                return _servers;
+            }
+            set
+            {
+                _servers = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _selectedServer;
 
@@ -115,7 +127,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 }
 
                 string defaultDataBase = Properties.Settings.Default.DefaultDataBase;
-                
+
                 if (DataBases.Contains(defaultDataBase))
                 {
                     SelectedDataBase = defaultDataBase;
@@ -123,17 +135,29 @@ namespace AIS_Enterprise_AV.ViewModels
             }
         }
 
-        public ObservableCollection<string> DataBases { get; set; }
+        private ObservableCollection<string> _dataBases;
+        public ObservableCollection<string> DataBases
+        {
+            get
+            {
+                return _dataBases;
+            }
+            set
+            {
+                _dataBases = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string _selectedDataBase;
 
-        public string SelectedDataBase 
+        public string SelectedDataBase
         {
             get
             {
                 return _selectedDataBase;
             }
-            set 
+            set
             {
                 _selectedDataBase = value;
                 OnPropertyChanged();
@@ -145,7 +169,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
                     RefreshUsers();
                 }
-            } 
+            }
         }
 
         private string _selectedLanguage;
@@ -194,50 +218,52 @@ namespace AIS_Enterprise_AV.ViewModels
             }
         }
 
-        public ObservableCollection<DirectoryUser> Users { get; set; }
-        public DirectoryUser SelectedUser { get; set; }
-
-
-        private Visibility _windowVisibility;
-        public Visibility WindowVisibility
+        private ObservableCollection<DirectoryUser> _users;
+        public ObservableCollection<DirectoryUser> Users
         {
             get
             {
-                return _windowVisibility;
+                return _users;
             }
             set
             {
-                _windowVisibility = value;
+                _users = value;
                 OnPropertyChanged();
             }
         }
+        public DirectoryUser SelectedUser { get; set; }
 
         #endregion
 
         #region Commands
 
+        public RelayCommand CreateDBCommand { get; set; }
         public RelayCommand KillTheDBCommand { get; set; }
         public RelayCommand ShowExcelToDBCommand { get; set; }
         public RelayCommand ShowDefaultDBCommand { get; set; }
         public RelayCommand ShowDefaultOfficeDBCommand { get; set; }
         public RelayCommand EnteringCommand { get; set; }
 
+        private void CreateDB(object parameter)
+        {
+            var window = parameter as Window;
+            window.Visibility = Visibility.Collapsed;
+
+            HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
+
+            window.Close();
+        }
 
         private void KillTheDB(object parameter)
         {
             IsNotInitializedDB = false;
-            //Task.Factory.StartNew(BC.RemoveDB).ContinueWith((t) =>
-               // {
-                    BC.RemoveDB();
-                    IsNotInitializedDB = true;
+            BC.RemoveDB();
+            IsNotInitializedDB = true;
 
-                    HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
+            HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
 
-                    BC.RefreshContext();
-                    RefreshUsers();
-                //});
-
-            
+            BC.RefreshContext();
+            RefreshUsers();
         }
 
         private void ShowExcelToDB(object parameter)
@@ -260,36 +286,43 @@ namespace AIS_Enterprise_AV.ViewModels
 
         private void Entering(object parameter)
         {
-            var passwordBox = parameter as PasswordBox;
+            var window = parameter as Window;
+            var passwordBox = window.FindName("PasswordBoxPass") as PasswordBox;
+
             string password = passwordBox.Password;
 
-            DataContext.ChangeUser(SelectedUser.TranscriptionName, password);
-
-            if (DataContext.TryConnection())
+            if (Properties.Settings.Default.DefaultServer != SelectedServer ||
+                Properties.Settings.Default.DefaultDataBase != SelectedDataBase ||
+                DirectoryUser.CurrentUserId != SelectedUser.Id)
             {
+                DataContext.ChangeUser(SelectedUser.TranscriptionName, password);
+
+                if (!DataContext.TryConnection())
+                {
+                    System.Windows.Forms.MessageBox.Show("Errororoororr");
+                    return;
+                }
+
                 BC.RefreshContext();
 
                 Properties.Settings.Default.DefaultServer = SelectedServer;
                 Properties.Settings.Default.DefaultDataBase = SelectedDataBase;
                 Properties.Settings.Default.Save();
-                
 
                 DirectoryUser.ChangeUserId(SelectedUser.Id);
-
-                WindowVisibility = Visibility.Collapsed;
-
-                var monthTimeSheetView = new MonthTimeSheetView();
-                monthTimeSheetView.ShowDialog();
-
-                WindowVisibility = Visibility.Visible;
-
-                BC.RefreshContext();
-                IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
             }
-            else
-            {
-                System.Windows.Forms.MessageBox.Show("Errororoororr");
-            }
+
+            window.Visibility = Visibility.Collapsed;
+
+            var monthTimeSheetView = new MonthTimeSheetView();
+            monthTimeSheetView.ShowDialog();
+
+            window.Visibility = Visibility.Visible;
+
+            DataContext.ChangeConnectionStringWithDefaultCredentials();
+            BC.RefreshContext();
+
+            IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
         }
 
         #endregion

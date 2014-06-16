@@ -21,10 +21,10 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         public InitializingDBViewModel()
         {
             ApplyParametersCommand = new RelayCommand(ApplyParameters);
-            SkipCommand = new RelayCommand(Skip);
         }
 
         #endregion
+
 
         #region Properties
 
@@ -34,45 +34,37 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         #endregion
 
+
         #region Commands
 
         public RelayCommand ApplyParametersCommand { get; set; }
-        public RelayCommand SkipCommand { get; set; }
 
         private void ApplyParameters(object parameter)
         {
-            var passwordBox = parameter as PasswordBox;
+            var window = parameter as Window;
+            var passwordBox = window.FindName("PasswordBoxAdminPass") as PasswordBox;
+
             string password = passwordBox.Password;
 
             DataContext.ChangeConnectionStringWithDefaultCredentials(IP, CompanyName);
-
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContextAV>());
 
             using (var bc = new BusinessContextAV())
             {
                 bc.CreateDatabase();
                 bc.InitializeDefaultDataBaseWithoutWorkers();
                 bc.AddDirectoryUserAdmin(AdminName, password);
-                bc.AddUserButler();
+                //bc.AddUserButler();
             }
 
-            DataContext.ChangeUserButler();
+            //DataContext.ChangeUserButler();
 
             HelperMethods.AddServer(IP);
-        }
 
-        private void Skip(object parameter)
-        {
-            var window = (Window)parameter;
+            window.Visibility = Visibility.Collapsed;
 
-            if (window != null)
-            {
-                window.Visibility = Visibility.Collapsed;
+            HelperMethods.ShowView(new MainViewModel(), new MainView());
 
-                HelperMethods.ShowView(new MainViewModel(), new MainView());
-
-                window.Close();
-            }
+            window.Close();
         }
 
         #endregion

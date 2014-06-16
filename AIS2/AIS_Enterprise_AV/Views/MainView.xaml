@@ -1,10 +1,10 @@
 ﻿<Window x:Class="AIS_Enterprise_AV.Views.MainView"
+        x:Name="MainViewWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         WindowStartupLocation="CenterScreen"
-        Visibility="{Binding WindowVisibility}"
         Title="Главная форма" Height="Auto" SizeToContent="Height" Width="350">
 
     <i:Interaction.Triggers>
@@ -40,12 +40,13 @@
                 <PasswordBox Password="huy" x:Name="PasswordBoxPass" Margin="0, 5, 0, 0"/>
             </StackPanel>
 
-            <Button Content="Войти" Command="{Binding EnteringCommand}" CommandParameter="{Binding ElementName=PasswordBoxPass}" IsEnabled="{Binding IsNotInitializedDB}" Margin="0, 10, 0, 0"/>
+            <Button Content="Войти" Command="{Binding EnteringCommand}" CommandParameter="{Binding ElementName=MainViewWindow}" IsEnabled="{Binding IsNotInitializedDB}" Margin="0, 10, 0, 0"/>
 
             <StackPanel Orientation="Vertical" Visibility="{Binding IsAdminButtonsVisibility, Converter={StaticResource booleanToVisibilityValueConverter}}" Margin="0, 15, 0, 0">
                 <Button Content="ExcelToDB" Margin="0, 3" Command="{Binding ShowExcelToDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="DefaultOfficeWorkerToDB" Margin="0, 3" Command="{Binding ShowDefaultOfficeDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="DefaultDB" Margin="0, 3" Command="{Binding ShowDefaultDBCommand}" IsEnabled="{Binding IsNotInitializedDB, Mode=TwoWay}"/>
+                <Button Content="Создать новую базу" Margin="0, 3" Command="{Binding CreateDBCommand}" CommandParameter="{Binding ElementName=MainViewWindow}" IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Удалить базу" Margin="0, 3" Command="{Binding KillTheDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
             </StackPanel>
         </StackPanel>

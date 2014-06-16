@@ -292,8 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\Currents\" />
-    <Folder Include="ViewModels\Helpers\" />
-    <Folder Include="Views\Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\KindOfMagic.1.2.3\tools\KindOfMagic.targets" />

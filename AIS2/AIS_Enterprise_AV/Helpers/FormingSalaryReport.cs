@@ -1359,8 +1359,6 @@ namespace AIS_Enterprise_AV.Helpers
                 double summOfPayments = allSalary + allOverTimeSalary + infoMonth.Bonus + totalVocations + totalSickDays;
                 double summOfHoldings = workerPanalty + infoMonth.BirthDays + infoMonth.PrepaymentCash;
 
-                //Debug.WriteLine(worker.FullName + " " + allSalary + " " + allOverTimeSalary + " " + totalVocations + " " + totalSickDays);
-
                 ExcelRange footerBodySummOfPayments = sheet.Cells[countRow + 1, 8, countRow + 1, 11];
                 footerBodySummOfPayments.Merge = true;
                 footerBodySummOfPayments.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
