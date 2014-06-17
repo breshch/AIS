@@ -20,10 +20,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Threading;
 
 namespace AIS_Enterprise_AV.Views
@@ -33,12 +36,13 @@ namespace AIS_Enterprise_AV.Views
         private BusinessContextAV _bc = new BusinessContextAV();
         private int _currentYear;
         private int _currentMonth;
-        private int _prevCountLastDaysInMonth;
+        private int _countLastDaysInMonth;
         private List<MonthTimeSheetWorker> _monthTimeSheetWorkers = new List<MonthTimeSheetWorker>();
         private List<DateTime> _listDatesOfOverTime = new List<DateTime>();
         private List<DateTime> _weekends;
 
         private List<string> _privileges;
+        private bool _isFirstLoad = true;
 
         private const int COLUMN_FULL_NAME = 1;
         private const int COLUMN_POST_NAME = 4;
@@ -59,12 +63,6 @@ namespace AIS_Enterprise_AV.Views
         public MonthTimeSheetView()
         {
             InitializeComponent();
-
-            if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
-            {
-                WindowMonthTimeSheet.SizeToContent = System.Windows.SizeToContent.Height;
-                WindowMonthTimeSheet.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
-            }
 
             InitializePrivileges();
 
@@ -180,103 +178,160 @@ namespace AIS_Enterprise_AV.Views
             }
         }
 
+
+
         private void FillDataGrid()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-            _bc.RefreshContext();
+            var blur = new BlurEffect();
+            //var current = this.Background;
+            blur.Radius = 5;
+            //this.Background = new SolidColorBrush(Colors.WhiteSmoke);
+            //this.Effect = blur;
+            DataGridMonthTimeSheet.Effect = blur;
+            ComboboxYears.Effect = blur;
+            ComboboxMonthes.Effect = blur;
+            ButtonOverTimes.Effect = blur;
 
-            DataGridMonthTimeSheet.ItemsSource = null;
-            if (_prevCountLastDaysInMonth != 0)
-            {
-                for (int i = 0; i < _prevCountLastDaysInMonth; i++)
-                {
-                    DataGridMonthTimeSheet.Columns.RemoveAt(6);
-                }
-            }
+            DataGridMonthTimeSheet.IsEnabled = false;
+            ComboboxYears.IsEnabled = false;
+            ComboboxMonthes.IsEnabled = false;
 
-            _monthTimeSheetWorkers.Clear();
+            PictureLoading.Visibility = System.Windows.Visibility.Visible;
 
             int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
-
-            TextBlockCountWorkDays.Text = countWorkDaysInMonth + " " +
-                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "рабочий", "рабочих", "рабочих") + " " +
-                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "день", "дня", "дней");
-
             var firstDateInMonth = new DateTime(_currentYear, _currentMonth, 1);
             var lastDateInMonth = HelperMethods.GetLastDateInMonth(_currentYear, _currentMonth);
 
-            _prevCountLastDaysInMonth = lastDateInMonth.Day;
+            int prevCountLastDaysInMonth = _countLastDaysInMonth;
+            _countLastDaysInMonth = lastDateInMonth.Day;
+           
+            var tmpMonthTimeSheetWorkers = new List<MonthTimeSheetWorker>();
 
-            var visibility = _privileges.Contains(UserPrivileges.MonthTimeSheetColumnsVisibility_Hours.ToString()) ? Visibility.Visible : Visibility.Collapsed;
-            bool isReadOnly = _privileges.Contains(UserPrivileges.MonthTimeSheetColumnsNotReadOnly_Hours.ToString()) ? false : true;
-
-            for (int i = 0; i < lastDateInMonth.Day; i++)
-            {
-                var column = new DataGridTextColumn
+            Task.Factory.StartNew(() =>
                 {
-                    Header = (i + 1).ToString() + Environment.NewLine + new DateTime(_currentYear, _currentMonth, i + 1).ToString("ddd"),
-                    Binding = new Binding
+                    bool isAdminSalary = _privileges.Contains(UserPrivileges.Salary_AdminSalary.ToString()) ? true : false;
+
+                    _weekends = _bc.GetHolidays(_currentYear, _currentMonth).ToList();
+
+                    var workers = _bc.GetDirectoryWorkers(_currentYear, _currentMonth).ToList();
+
+                    int indexWorker = 0;
+
+                    var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Склад").ToList();
+                    AddingRowWorkers(workerWarehouses, tmpMonthTimeSheetWorkers, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
+
+                    if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
                     {
-                        Path = new PropertyPath("Hours[" + i + "]")
-                    },
-                    MinWidth = 30,
-                    Visibility = visibility,
-                    IsReadOnly = isReadOnly,
-                    CellStyle = Resources["CenterTextAlignmentCellWithRightClick"] as Style
-                };
-                
-                DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
-            }
+                        var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).ToList();
+                        AddingRowWorkers(workerDeadSpirits, tmpMonthTimeSheetWorkers, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
+                    }
 
-            bool isAdminSalary = _privileges.Contains(UserPrivileges.Salary_AdminSalary.ToString()) ? true : false;
+                    if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_Office))
+                    {
+                        var workerOffices = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Офис").ToList();
+                        AddingRowWorkers(workerOffices, tmpMonthTimeSheetWorkers, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
+                    }
+                }).ContinueWith((task) =>
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            _bc.RefreshContext();
 
-            _weekends = _bc.GetHolidays(_currentYear, _currentMonth).ToList();
+                            DataGridMonthTimeSheet.ItemsSource = null;
+                            if (!_isFirstLoad)
+                            {
+                                for (int i = 0; i < prevCountLastDaysInMonth; i++)
+                                {
+                                    DataGridMonthTimeSheet.Columns.RemoveAt(6);
+                                }
+                            }
+                            else
+                            {
+                                _isFirstLoad = false;
+                            }
 
-            var workers = _bc.GetDirectoryWorkers(_currentYear, _currentMonth).ToList();
+                            TextBlockCountWorkDays.Text = countWorkDaysInMonth + " " +
+                                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "рабочий", "рабочих", "рабочих") + " " +
+                                NumerizrFactory.Numerize("ru", countWorkDaysInMonth, "день", "дня", "дней");
 
-            int indexWorker = 0;
+                            var visibility = _privileges.Contains(UserPrivileges.MonthTimeSheetColumnsVisibility_Hours.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+                            bool isReadOnly = _privileges.Contains(UserPrivileges.MonthTimeSheetColumnsNotReadOnly_Hours.ToString()) ? false : true;
 
-            var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Склад").ToList();
-            AddingRowWorkers(workerWarehouses, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
+                            for (int i = 0; i < lastDateInMonth.Day; i++)
+                            {
+                                var column = new DataGridTextColumn
+                                {
+                                    Header = (i + 1).ToString() + Environment.NewLine + new DateTime(_currentYear, _currentMonth, i + 1).ToString("ddd"),
+                                    Binding = new Binding
+                                    {
+                                        Path = new PropertyPath("Hours[" + i + "]")
+                                    },
+                                    MinWidth = 30,
+                                    Visibility = visibility,
+                                    IsReadOnly = isReadOnly,
+                                    CellStyle = Resources["CenterTextAlignmentCellWithRightClick"] as Style
+                                };
 
-            if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
-            {
-                var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).ToList();
-                AddingRowWorkers(workerDeadSpirits, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
-            }
+                                DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
+                            }
 
-            if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_Office))
-            {
-                var workerOffices = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Офис").ToList();
-                AddingRowWorkers(workerOffices, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
-            }
 
-            DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
-            DataGridMonthTimeSheet.Items.Refresh();
-            Debug.WriteLine(sw.ElapsedMilliseconds);
+                            _monthTimeSheetWorkers.Clear();
+                            _monthTimeSheetWorkers.AddRange(tmpMonthTimeSheetWorkers);
+                            DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
+                            DataGridMonthTimeSheet.Items.Refresh();
+
+                            if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
+                            {
+                                WindowMonthTimeSheet.SizeToContent = System.Windows.SizeToContent.Height;
+
+                                if (this.Width > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width)
+                                {
+                                    this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+                                }
+                            }
+
+                            PictureLoading.Visibility = System.Windows.Visibility.Collapsed;
+
+                            DataGridMonthTimeSheet.Effect = null;
+                            ComboboxYears.Effect = null;
+                            ComboboxMonthes.Effect = null;
+                            ButtonOverTimes.Effect = null;
+
+                            DataGridMonthTimeSheet.IsEnabled = true;
+                            ComboboxYears.IsEnabled = true;
+                            ComboboxMonthes.IsEnabled = true;
+
+                            //this.Effect = null;
+                            //this.Background = current;
+                            //this.IsEnabled = true;
+                        }));
+                        
+                    });
+            
         }
 
-        private void AddingRowWorkers(List<DirectoryWorker> workers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth, DateTime lastDateInMonth, DateTime firstDateInMonth)
+        private void AddingRowWorkers(List<DirectoryWorker> workers, List<MonthTimeSheetWorker> monthTimeSheetWorkers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth, DateTime lastDateInMonth, DateTime firstDateInMonth)
         {
             foreach (var worker in workers)
             {
                 indexWorker++;
                 Debug.WriteLine(worker.FullName + " " + indexWorker);
 
-                var currentPosts = _bc.GetCurrentPosts(worker.Id, _currentYear, _currentMonth, _prevCountLastDaysInMonth).ToList();
+                var currentPosts = _bc.GetCurrentPosts(worker.Id, _currentYear, _currentMonth, _countLastDaysInMonth).ToList();
 
                 bool isFirst = false;
 
                 double salary = 0;
                 foreach (var currentPost in currentPosts)
                 {
-                    var monthTimeSheetWorker = _monthTimeSheetWorkers.FirstOrDefault(m => m.WorkerId == worker.Id && m.DirectoryPostId == currentPost.DirectoryPostId);
+                    var monthTimeSheetWorker = monthTimeSheetWorkers.FirstOrDefault(m => m.WorkerId == worker.Id && m.DirectoryPostId == currentPost.DirectoryPostId);
 
                     if (monthTimeSheetWorker == null)
                     {
                         monthTimeSheetWorker = new MonthTimeSheetWorker();
 
-                        _monthTimeSheetWorkers.Add(monthTimeSheetWorker);
+                        monthTimeSheetWorkers.Add(monthTimeSheetWorker);
 
                         monthTimeSheetWorker.WorkerId = worker.Id;
 
@@ -375,7 +430,7 @@ namespace AIS_Enterprise_AV.Views
                     }
                 }
 
-                var monthTimeSheetWorkerFinalSalary = _monthTimeSheetWorkers.First(m => m.WorkerId == worker.Id && m.FullName != null);
+                var monthTimeSheetWorkerFinalSalary = monthTimeSheetWorkers.First(m => m.WorkerId == worker.Id && m.FullName != null);
 
                 var infoMonth = worker.InfoMonthes.FirstOrDefault(m => m.Date.Year == _currentYear && m.Date.Month == _currentMonth);
                 if (infoMonth != null)
@@ -421,7 +476,7 @@ namespace AIS_Enterprise_AV.Views
             int rowIndexOfFullRow = _monthTimeSheetWorkers.IndexOf(_monthTimeSheetWorkers.First(w => w.WorkerId == workerId && w.FullName != null));
             int columnIndexFinalSalary = DataGridMonthTimeSheet.Columns.Count - 1;
 
-            if (indexColumn > COUNT_COLUMNS_BEFORE_DAYS && indexColumn <= _prevCountLastDaysInMonth + COUNT_COLUMNS_BEFORE_DAYS)
+            if (indexColumn > COUNT_COLUMNS_BEFORE_DAYS && indexColumn <= _countLastDaysInMonth + COUNT_COLUMNS_BEFORE_DAYS)
             {
                 int day = indexColumn - COUNT_COLUMNS_BEFORE_DAYS;
                 DateTime date = new DateTime(_currentYear, _currentMonth, day);
@@ -539,47 +594,51 @@ namespace AIS_Enterprise_AV.Views
                         {
                             _bc.EditDeadSpiritHours(deadSpiritWorker.Id, date, hoursSpiritWorker);
 
-                            var monthTimeSheetDeadSpiritWorker = _monthTimeSheetWorkers.First(w => w.WorkerId == deadSpiritWorker.Id);
-
-                            int indexRowDeadSpirit = _monthTimeSheetWorkers.IndexOf(monthTimeSheetDeadSpiritWorker);
-                            ChangeCellValue(hoursSpiritWorker, indexRowDeadSpirit, COUNT_COLUMNS_BEFORE_DAYS + day);
-                            monthTimeSheetDeadSpiritWorker.Hours[day - 1] = hoursSpiritWorker.ToString();
-
-                            monthTimeSheetDeadSpiritWorker.OverTime = 0;
-                            double salaryDeadSpirit = 0;
-                            for (int currentDay = 0; currentDay < monthTimeSheetDeadSpiritWorker.Hours.Count(); currentDay++)
+                            if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
                             {
-                                string hour = monthTimeSheetDeadSpiritWorker.Hours[currentDay];
+                                var monthTimeSheetDeadSpiritWorker = _monthTimeSheetWorkers.First(w => w.WorkerId == deadSpiritWorker.Id);
 
-                                if (hour != null)
+                                int indexRowDeadSpirit = _monthTimeSheetWorkers.IndexOf(monthTimeSheetDeadSpiritWorker);
+                                ChangeCellValue(hoursSpiritWorker, indexRowDeadSpirit, COUNT_COLUMNS_BEFORE_DAYS + day);
+                                monthTimeSheetDeadSpiritWorker.Hours[day - 1] = hoursSpiritWorker.ToString();
+
+                                monthTimeSheetDeadSpiritWorker.OverTime = 0;
+                                double salaryDeadSpirit = 0;
+                                for (int currentDay = 0; currentDay < monthTimeSheetDeadSpiritWorker.Hours.Count(); currentDay++)
                                 {
-                                    double countHours;
-                                    if (double.TryParse(hour, out countHours))
+                                    string hour = monthTimeSheetDeadSpiritWorker.Hours[currentDay];
+
+                                    if (hour != null)
                                     {
-                                        if (!_weekends.Any(h => h.Date.Date == new DateTime(_currentYear, _currentMonth, currentDay + 1)))
+                                        double countHours;
+                                        if (double.TryParse(hour, out countHours))
                                         {
-                                            monthTimeSheetDeadSpiritWorker.OverTime += countHours > 8 ? countHours - 8 : 0;
-                                            salaryDeadSpirit += countHours <= 8 ? countHours * monthTimeSheetDeadSpiritWorker.SalaryInHour : (8 + ((countHours - 8) * 2)) * monthTimeSheetDeadSpiritWorker.SalaryInHour;
-                                        }
-                                        else
-                                        {
-                                            monthTimeSheetDeadSpiritWorker.OverTime += countHours;
-                                            salaryDeadSpirit += countHours * monthTimeSheetDeadSpiritWorker.SalaryInHour * 2;
+                                            if (!_weekends.Any(h => h.Date.Date == new DateTime(_currentYear, _currentMonth, currentDay + 1)))
+                                            {
+                                                monthTimeSheetDeadSpiritWorker.OverTime += countHours > 8 ? countHours - 8 : 0;
+                                                salaryDeadSpirit += countHours <= 8 ? countHours * monthTimeSheetDeadSpiritWorker.SalaryInHour : (8 + ((countHours - 8) * 2)) * monthTimeSheetDeadSpiritWorker.SalaryInHour;
+                                            }
+                                            else
+                                            {
+                                                monthTimeSheetDeadSpiritWorker.OverTime += countHours;
+                                                salaryDeadSpirit += countHours * monthTimeSheetDeadSpiritWorker.SalaryInHour * 2;
+                                            }
                                         }
                                     }
+
+                                    ChangeCellValue(monthTimeSheetDeadSpiritWorker.OverTime, indexRowDeadSpirit, COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + 1);
+
                                 }
 
-                                ChangeCellValue(monthTimeSheetDeadSpiritWorker.OverTime, indexRowDeadSpirit, COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + 1);
+                                var monthTimeSheetWorkerFinalSalaryDeadSpirit = _monthTimeSheetWorkers.First(m => m.WorkerId == workerId && m.FullName != null);
+
+                                salaryDeadSpirit = salaryDeadSpirit - double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Panalty) -
+                                    double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Inventory) - monthTimeSheetWorkerFinalSalaryDeadSpirit.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Bonus);
+
+                                monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary = salaryDeadSpirit;
+
+                                ChangeCellValue(monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary.Value, indexRowDeadSpirit, columnIndexFinalSalary);
                             }
-
-                            var monthTimeSheetWorkerFinalSalaryDeadSpirit = _monthTimeSheetWorkers.First(m => m.WorkerId == workerId && m.FullName != null);
-
-                            salaryDeadSpirit = salaryDeadSpirit - double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Panalty) -
-                                double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Inventory) - monthTimeSheetWorkerFinalSalaryDeadSpirit.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Bonus);
-
-                            monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary = salaryDeadSpirit;
-
-                            ChangeCellValue(monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary.Value, indexRowDeadSpirit, columnIndexFinalSalary);
                         }
                     }
                 }
@@ -712,10 +771,10 @@ namespace AIS_Enterprise_AV.Views
                         }
                     }
 
-                    ChangeCellValue(monthTimeSheetWorkerTemp.OverTime, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + 1);
-                    ChangeCellValue(monthTimeSheetWorkerTemp.VocationDays, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + 2);
-                    ChangeCellValue(monthTimeSheetWorkerTemp.SickDays, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + 3);
-                    ChangeCellValue(monthTimeSheetWorkerTemp.MissDays, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + 4);
+                    ChangeCellValue(monthTimeSheetWorkerTemp.OverTime, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + 1);
+                    ChangeCellValue(monthTimeSheetWorkerTemp.VocationDays, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + 2);
+                    ChangeCellValue(monthTimeSheetWorkerTemp.SickDays, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + 3);
+                    ChangeCellValue(monthTimeSheetWorkerTemp.MissDays, indexRow, COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + 4);
                 }
 
                 var monthTimeSheetWorkerFinalSalary = _monthTimeSheetWorkers.First(m => m.WorkerId == workerId && m.FullName != null);
@@ -730,7 +789,7 @@ namespace AIS_Enterprise_AV.Views
             else
             {
                 var date = new DateTime(_currentYear, _currentMonth, 1);
-                switch (indexColumn - (COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + COUNT_COLUMNS_AFTER_DAYS))
+                switch (indexColumn - (COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + COUNT_COLUMNS_AFTER_DAYS))
                 {
                     case 1:
                         if (IsValidateDoubleValue(e, monthTimeSheetWorker.PrepaymentCash))
@@ -814,7 +873,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void ChangeFinalSalary(double change, int rowIndexOfFullRow)
         {
-            var cell = DataGridMonthTimeSheet.GetCell(rowIndexOfFullRow, COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + COLUMN_FINAL_SALARY_AFTER_DAYS);
+            var cell = DataGridMonthTimeSheet.GetCell(rowIndexOfFullRow, COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + COLUMN_FINAL_SALARY_AFTER_DAYS);
             var t = cell.Content as TextBlock;
             t.Text = (double.Parse(t.Text.Replace(".", ",")) + change).ToString().Replace(",", ".");
             _monthTimeSheetWorkers[rowIndexOfFullRow].FinalSalary = double.Parse(t.Text.Replace(".", ","));
@@ -850,7 +909,7 @@ namespace AIS_Enterprise_AV.Views
         private void ShowOverTimeView()
         {
             var infoOverTimeView = new InfoOverTimeView();
-            var infoOverTimeViewModel = new InfoOverTimeViewModel(_listDatesOfOverTime, new DateTime(_currentYear, _currentMonth, 1), new DateTime(_currentYear, _currentMonth, _prevCountLastDaysInMonth));
+            var infoOverTimeViewModel = new InfoOverTimeViewModel(_listDatesOfOverTime, new DateTime(_currentYear, _currentMonth, 1), new DateTime(_currentYear, _currentMonth, _countLastDaysInMonth));
 
             infoOverTimeView.DataContext = infoOverTimeViewModel;
             infoOverTimeView.ShowDialog();
@@ -893,7 +952,7 @@ namespace AIS_Enterprise_AV.Views
                     case COLUMN_POST_NAME:
                         var currentCompanyAndPostView = new CurrentCompanyAndPostView();
                         var currentCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel(new DateTime(_currentYear, _currentMonth, 1),
-                            new DateTime(_currentYear, _currentMonth, _prevCountLastDaysInMonth));
+                            new DateTime(_currentYear, _currentMonth, _countLastDaysInMonth));
                         currentCompanyAndPostView.DataContext = currentCompanyAndPostViewModel;
 
                         currentCompanyAndPostView.ShowDialog();
@@ -908,7 +967,7 @@ namespace AIS_Enterprise_AV.Views
                         break;
                 }
 
-                if (columnIndex == COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + COLUMN_PANALTIES_AFTER_DAYS)
+                if (columnIndex == COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + COLUMN_PANALTIES_AFTER_DAYS)
                 {
 
                     var infoPanaltiesViewModel = new InfoPanaltiesViewModel(monthTimeSheetWorker.WorkerId, _currentYear, _currentMonth);
@@ -941,7 +1000,7 @@ namespace AIS_Enterprise_AV.Views
                     int day = indexColumn - COUNT_COLUMNS_BEFORE_DAYS;
                     Debug.WriteLine(day);
 
-                    if (indexColumn > COUNT_COLUMNS_BEFORE_DAYS && indexColumn <= COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth && monthTimeSheetWorker.Hours[day - 1] != null)
+                    if (indexColumn > COUNT_COLUMNS_BEFORE_DAYS && indexColumn <= COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth && monthTimeSheetWorker.Hours[day - 1] != null)
                     {
                         var contextMenu = new ContextMenu();
                         var itemContextMenu = new MenuItem
@@ -981,7 +1040,7 @@ namespace AIS_Enterprise_AV.Views
             infoPanaltyView.DataContext = infoPanaltyViewModel;
             infoPanaltyView.ShowDialog();
 
-            int indexColumnPanalty = COUNT_COLUMNS_BEFORE_DAYS + _prevCountLastDaysInMonth + COLUMN_PANALTIES_AFTER_DAYS;
+            int indexColumnPanalty = COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + COLUMN_PANALTIES_AFTER_DAYS;
 
             var cellPanalty = DataGridMonthTimeSheet.GetCell(rowIndexOfFullRow, indexColumnPanalty);
 
@@ -1006,7 +1065,7 @@ namespace AIS_Enterprise_AV.Views
 
             e.Row.Background = monthTimeSheetWorker.IsOdd ? _brushOdd : _brushNoOdd;
 
-            for (int indexHour = 0; indexHour < _prevCountLastDaysInMonth; indexHour++)
+            for (int indexHour = 0; indexHour < _countLastDaysInMonth; indexHour++)
             {
                 var value = monthTimeSheetWorker.Hours[indexHour];
                 ColorizeCell(value, indexRow, COUNT_COLUMNS_BEFORE_DAYS + indexHour + 1, monthTimeSheetWorker.IsOdd);
@@ -1144,6 +1203,8 @@ namespace AIS_Enterprise_AV.Views
         {
             HelperMethods.ShowView(new DirectoryUsersViewModel(), new DirectoryUsersView());
         }
+
+     
     }
 
 

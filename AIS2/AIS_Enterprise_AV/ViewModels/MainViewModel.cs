@@ -38,6 +38,27 @@ namespace AIS_Enterprise_AV.ViewModels
             if (Servers.Contains(defaultServer))
             {
                 SelectedServer = defaultServer;
+
+                if (DataBases != null)
+                {
+                    DataBases.Clear();
+                }
+                else
+                {
+                    DataBases = new ObservableCollection<string>();
+                }
+
+                foreach (var dataBase in DBCustomQueries.GetDataBases(BC))
+                {
+                    DataBases.Add(dataBase);
+                }
+
+                string defaultDataBase = Properties.Settings.Default.DefaultDataBase;
+
+                if (DataBases.Contains(defaultDataBase))
+                {
+                    SelectedDataBase = defaultDataBase;
+                }
             }
 
             CreateDBCommand = new RelayCommand(CreateDB);
@@ -45,6 +66,7 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowExcelToDBCommand = new RelayCommand(ShowExcelToDB);
             ShowDefaultDBCommand = new RelayCommand(ShowDefaultDB);
             ShowDefaultOfficeDBCommand = new RelayCommand(ShowDefaultOfficeDB);
+            RefreshDataBasesCommand = new RelayCommand(RefreshDataBases);
 
             EnteringCommand = new RelayCommand(Entering);
 
@@ -69,9 +91,11 @@ namespace AIS_Enterprise_AV.ViewModels
                 Users.Add(user);
             }
 
-            if (Users.Any())
+            string defaultUser = Properties.Settings.Default.DefaultUser;
+
+            if (Users.Select(u => u.TranscriptionName).Contains(defaultUser))
             {
-                SelectedUser = Users.First();
+                SelectedUser = Users.First(u => u.TranscriptionName == defaultUser);
             }
         }
 
@@ -108,30 +132,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 _selectedServer = value;
                 OnPropertyChanged();
 
-                DataContext.ChangeUserButler(_selectedServer);
-                BC.RefreshContext();
 
-                if (DataBases != null)
-                {
-                    DataBases.Clear();
-                }
-                else
-                {
-                    DataBases = new ObservableCollection<string>();
-                }
-
-                foreach (var dataBase in DBCustomQueries.GetDataBases(BC, _selectedServer))
-                {
-                    DataBases.Add(dataBase);
-                    Debug.WriteLine(dataBase);
-                }
-
-                string defaultDataBase = Properties.Settings.Default.DefaultDataBase;
-
-                if (DataBases.Contains(defaultDataBase))
-                {
-                    SelectedDataBase = defaultDataBase;
-                }
             }
         }
 
@@ -235,6 +236,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         #endregion
 
+
         #region Commands
 
         public RelayCommand CreateDBCommand { get; set; }
@@ -243,6 +245,50 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand ShowDefaultDBCommand { get; set; }
         public RelayCommand ShowDefaultOfficeDBCommand { get; set; }
         public RelayCommand EnteringCommand { get; set; }
+        public RelayCommand RefreshDataBasesCommand { get; set; }
+
+
+        private void RefreshDataBases(object parameter)
+        {
+            DataContext.ChangeServer(SelectedServer);
+            BC.RefreshContext();
+
+            HelperMethods.AddServer(SelectedServer);
+
+            string selectedServer = SelectedServer;
+            Servers.Clear();
+
+            foreach (var server in (HelperMethods.GetServers()))
+            {
+                Servers.Add(server);
+            }
+
+            SelectedServer = selectedServer;
+
+            Debug.WriteLine(SelectedServer);
+
+            if (DataBases != null)
+            {
+                DataBases.Clear();
+            }
+            else
+            {
+                DataBases = new ObservableCollection<string>();
+            }
+
+            foreach (var dataBase in DBCustomQueries.GetDataBases(BC))
+            {
+                DataBases.Add(dataBase);
+
+            }
+
+            string defaultDataBase = Properties.Settings.Default.DefaultDataBase;
+
+            if (DataBases.Contains(defaultDataBase))
+            {
+                SelectedDataBase = defaultDataBase;
+            }
+        }
 
         private void CreateDB(object parameter)
         {
@@ -307,6 +353,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
                 Properties.Settings.Default.DefaultServer = SelectedServer;
                 Properties.Settings.Default.DefaultDataBase = SelectedDataBase;
+                Properties.Settings.Default.DefaultUser = SelectedUser.TranscriptionName;
                 Properties.Settings.Default.Save();
 
                 DirectoryUser.ChangeUserId(SelectedUser.Id);
@@ -317,6 +364,7 @@ namespace AIS_Enterprise_AV.ViewModels
             var monthTimeSheetView = new MonthTimeSheetView();
             monthTimeSheetView.ShowDialog();
 
+            passwordBox.Password = null;
             window.Visibility = Visibility.Visible;
 
             DataContext.ChangeConnectionStringWithDefaultCredentials();

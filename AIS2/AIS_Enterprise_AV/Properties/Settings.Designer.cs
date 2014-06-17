@@ -82,5 +82,17 @@ namespace AIS_Enterprise_AV.Properties {
                 this["DefaultDataBase"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultUser {
+            get {
+                return ((string)(this["DefaultUser"]));
+            }
+            set {
+                this["DefaultUser"] = value;
+            }
+        }
     }
 }

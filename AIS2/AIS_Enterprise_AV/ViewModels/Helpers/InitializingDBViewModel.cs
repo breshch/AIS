@@ -21,6 +21,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         public InitializingDBViewModel()
         {
             ApplyParametersCommand = new RelayCommand(ApplyParameters);
+            SkipCommand = new RelayCommand(Skip);
         }
 
         #endregion
@@ -38,6 +39,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         #region Commands
 
         public RelayCommand ApplyParametersCommand { get; set; }
+        public RelayCommand SkipCommand { get; set; }
 
         private void ApplyParameters(object parameter)
         {
@@ -53,12 +55,20 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
                 bc.CreateDatabase();
                 bc.InitializeDefaultDataBaseWithoutWorkers();
                 bc.AddDirectoryUserAdmin(AdminName, password);
-                //bc.AddUserButler();
             }
 
-            //DataContext.ChangeUserButler();
-
             HelperMethods.AddServer(IP);
+
+            window.Visibility = Visibility.Collapsed;
+
+            HelperMethods.ShowView(new MainViewModel(), new MainView());
+
+            window.Close();
+        }
+
+        private void Skip(object parameter)
+        {
+            var window = parameter as Window;
 
             window.Visibility = Visibility.Collapsed;
 

@@ -6,6 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         WindowStartupLocation="CenterScreen"
         Title="Месячный табель" 
         Height="Auto" Width="Auto" SizeToContent="WidthAndHeight" Closing="Window_Closing">
@@ -35,8 +36,13 @@
         </Style>
     </Window.Resources>
 
-    <StackPanel Orientation="Vertical">
-        <Menu x:Name="Menu">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Menu x:Name="Menu" Grid.Row="0">
             <MenuItem x:Name="MenuDirectories" Header="Справочники" Visibility="Collapsed">
                 <MenuItem x:Name="MenuCompanies" Header="Компании" Click="MenuCompanies_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuRCs" Header="Центры ответственности" Click="MenuRCs_Click" Visibility="Collapsed"/>
@@ -58,15 +64,15 @@
             </MenuItem>
         </Menu>
 
-        <Grid Margin="30,20">
+        <Grid Margin="30,20" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -115,6 +121,8 @@
                 </DataGrid.Columns>            
             </DataGrid>
 
+            <Image Grid.Row="1" x:Name="PictureLoading" gif:ImageBehavior.RepeatBehavior="Forever" Stretch="None" gif:ImageBehavior.AnimatedSource="D:\C#\AIS2\Common\Gif\31.gif" />
+
         </Grid>
-    </StackPanel>
+    </Grid>
 </Window>                                      

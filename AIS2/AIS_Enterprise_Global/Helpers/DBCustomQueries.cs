@@ -63,7 +63,7 @@ namespace AIS_Enterprise_Global.Helpers
             dc.Database.ExecuteSqlCommand(queryCreateUser);
         }
 
-        public static IEnumerable<string> GetDataBases(BusinessContext bc, string serverName)
+        public static IEnumerable<string> GetDataBases(BusinessContext bc)
         {
             string queryCreateUser = string.Format(
                    @"SELECT [name]

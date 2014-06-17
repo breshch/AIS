@@ -231,10 +231,40 @@ namespace AIS_Enterprise_Global.Models
                 FireDate = fireDate,
                 CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies })),
                 IsDeadSpirit = isDeadSpirit
-
             };
 
             _dc.DirectoryWorkers.Add(worker);
+            _dc.SaveChanges();
+
+            for (var date = startDate; date <= DateTime.Now; date = date.AddDays(1))
+            {
+                var infoDate = new InfoDate
+                {
+                    Date = date,
+                    DescriptionDay = DescriptionDay.Был,
+                    CountHours = null
+                };
+
+                if (!IsWeekend(date))
+                {
+                    infoDate.CountHours = 8;
+                }
+
+                worker.InfoDates.Add(infoDate);
+            }
+
+            _dc.SaveChanges();
+
+            for (var date = startDate; date <= DateTime.Now; date = date.AddMonths(1))
+            {
+                var infoMonth = new InfoMonth
+                {
+                    Date = new DateTime(date.Year, date.Month, 1),
+                };
+
+                worker.InfoMonthes.Add(infoMonth);
+            }
+
             _dc.SaveChanges();
 
             return worker;

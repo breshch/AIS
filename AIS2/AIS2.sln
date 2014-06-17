@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{DFF9CE2A-BF33-4A3A-B670-3AF070AA51F5}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,12 +24,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{462B227C-3BD2-42C2-AF7F-7A6D3A1F6F27}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{462B227C-3BD2-42C2-AF7F-7A6D3A1F6F27}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{462B227C-3BD2-42C2-AF7F-7A6D3A1F6F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{462B227C-3BD2-42C2-AF7F-7A6D3A1F6F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{462B227C-3BD2-42C2-AF7F-7A6D3A1F6F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{462B227C-3BD2-42C2-AF7F-7A6D3A1F6F27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97DCBB82-B0F2-40EA-974D-F5F41F6371E7}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{97DCBB82-B0F2-40EA-974D-F5F41F6371E7}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{97DCBB82-B0F2-40EA-974D-F5F41F6371E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97DCBB82-B0F2-40EA-974D-F5F41F6371E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97DCBB82-B0F2-40EA-974D-F5F41F6371E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97DCBB82-B0F2-40EA-974D-F5F41F6371E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

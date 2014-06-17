@@ -217,8 +217,8 @@ namespace AIS_Enterprise_AV.Models
                         post.UserWorkerHalfSalary = 10000;
                         break;
                     case PostName.Оклейщик:
-                        post.UserWorkerSalary = 18000;
-                        post.AdminWorkerSalary = 18000;
+                        post.UserWorkerSalary = 17000;
+                        post.AdminWorkerSalary = 17000;
                         post.UserWorkerHalfSalary = 10000;
                         break;
                     case PostName.КарщикКладовщик:
@@ -287,8 +287,8 @@ namespace AIS_Enterprise_AV.Models
                         post.UserWorkerHalfSalary = 10000;
                         break;
                     case PostName.Оклейщик:
-                        post.UserWorkerSalary = 18000;
-                        post.AdminWorkerSalary = 18000;
+                        post.UserWorkerSalary = 17000;
+                        post.AdminWorkerSalary = 17000;
                         post.UserWorkerHalfSalary = 10000;
                         break;
                     case PostName.КарщикКладовщик:

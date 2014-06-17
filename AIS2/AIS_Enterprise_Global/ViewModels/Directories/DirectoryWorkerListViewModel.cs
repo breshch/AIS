@@ -16,7 +16,31 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         public DirectoryWorkerListViewModel() : base()
         {
-            DirectoryWorkers = new ObservableCollection<DirectoryWorker>(BC.GetDirectoryWorkers().ToList().OrderBy(w => w.Status));
+            var directoryWorkers = new List<DirectoryWorker>();
+
+            var workers = BC.GetDirectoryWorkers().ToList();
+
+            var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && w.CurrentDirectoryPost.DirectoryTypeOfPost.Name == "Склад").ToList();
+            directoryWorkers.AddRange(workerWarehouses);
+
+            var user = BC.GetDirectoryUser(DirectoryUser.CurrentUserId);
+            var privileges = user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
+
+            if (HelperMethods.IsPrivilege(privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
+            {
+                var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).ToList();
+
+                directoryWorkers.AddRange(workerDeadSpirits);
+            }
+
+            if (HelperMethods.IsPrivilege(privileges, UserPrivileges.WorkersVisibility_Office))
+            {
+                var workerOffices = workers.Where(w => !w.IsDeadSpirit && w.CurrentDirectoryPost.DirectoryTypeOfPost.Name == "Офис").ToList();
+
+                directoryWorkers.AddRange(workerOffices);
+            }
+
+            DirectoryWorkers = new ObservableCollection<DirectoryWorker>(directoryWorkers.OrderBy(w => w.Status));
 
             ShowDirectoryEditWorkerCommand = new RelayCommand(ShowDirectoryEditWorker);
         }

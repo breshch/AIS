@@ -41,7 +41,7 @@ namespace AIS_Enterprise_Global.Models
         public static void ChangeConnectionStringWithDefaultCredentials(string ip, string companyName)
         {
             _ip = ip;
-            _databaseName = "AIS_Enterprise_" + companyName.Replace("-", "_");
+            _databaseName = companyName.Replace("-", "_");
 
             Properties.Settings.Default.IP = _ip;
             Properties.Settings.Default.DatabaseName = _databaseName;
@@ -91,10 +91,26 @@ namespace AIS_Enterprise_Global.Models
             _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "huy", "huy");
         }
 
+        public static void ChangeServer(string serverName)
+        {
+            Properties.Settings.Default.IP = serverName;
+            Properties.Settings.Default.Save();
+
+            _ip = serverName;
+
+
+            _connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, "huy", "huy");
+        }
+
         public static bool TryConnection()
         {
             SqlConnection conn = null;
 
+            if (string.IsNullOrWhiteSpace(_ip) || string.IsNullOrWhiteSpace(_databaseName))
+            {
+                return false;
+            }
+            
             try
             {
                 conn = new SqlConnection(_connectionString);
