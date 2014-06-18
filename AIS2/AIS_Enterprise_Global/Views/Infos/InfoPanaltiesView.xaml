@@ -6,6 +6,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen" 
+        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
         Title="Штрафы" Height="300" Width="600">
 
     <i:Interaction.Triggers>

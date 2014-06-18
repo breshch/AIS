@@ -1,6 +1,7 @@
 ﻿<Application x:Class="AIS_Enterprise_AV.App"
              x:Name="App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:resx="clr-namespace:AIS_Enterprise_AV.Properties"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Application.Resources>

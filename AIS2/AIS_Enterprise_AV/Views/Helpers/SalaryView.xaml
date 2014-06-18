@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         WindowStartupLocation="CenterScreen"
+        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
         Title="Зарплата" Height="180" Width="400">
 
     <i:Interaction.Triggers>

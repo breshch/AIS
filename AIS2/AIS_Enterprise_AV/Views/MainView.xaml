@@ -4,8 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
+        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
         WindowStartupLocation="CenterScreen"
-        Title="Главная форма" Height="Auto" SizeToContent="Height" Width="350">
+        
+        Title="Главная форма" Height="Auto" SizeToContent="Height" Width="350" >
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">

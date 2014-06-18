@@ -68,7 +68,7 @@ namespace AIS_Enterprise_AV.Views
             InitializeComponent();
 
             ScreenWight();
-
+            
             InitializeGif();
             InitializePrivileges();
             _bc.InitializeAbsentDates();

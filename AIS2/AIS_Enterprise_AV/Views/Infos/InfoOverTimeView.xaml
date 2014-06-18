@@ -8,6 +8,7 @@
         xmlns:helper="clr-namespace:AIS_Enterprise_Global.Helpers;assembly=AIS_Enterprise_Global"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         WindowStartupLocation="CenterScreen"
+        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
         Title="Переработка" Height="430" Width="300">
 
     <i:Interaction.Triggers>

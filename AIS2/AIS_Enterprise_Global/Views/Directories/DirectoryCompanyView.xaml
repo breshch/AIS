@@ -4,6 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         WindowStartupLocation="CenterScreen"
+        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
         Title="Добавление компании" Height="430" Width="450">
 
     <i:Interaction.Triggers>
