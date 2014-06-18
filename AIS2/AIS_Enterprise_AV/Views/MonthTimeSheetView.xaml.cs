@@ -67,13 +67,13 @@ namespace AIS_Enterprise_AV.Views
         {
             InitializeComponent();
 
+            ScreenWight();
+
             InitializeGif();
             InitializePrivileges();
             _bc.InitializeAbsentDates();
             InitializeBrushes();
             InitializeYears();
-
-            ScreenWight();
         }
 
         private void InitializeYears()
@@ -105,6 +105,8 @@ namespace AIS_Enterprise_AV.Views
                     this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
                 }
             }
+
+            this.Left = System.Windows.Forms.Screen.AllScreens[0].WorkingArea.Width / 2 - (this.Width / 2);
         }
 
         private void SettingMenuVisibility(string privilege, List<MenuItem> menuItems, int indexUnderLine)
