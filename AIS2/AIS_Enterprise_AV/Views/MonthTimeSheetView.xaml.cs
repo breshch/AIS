@@ -75,6 +75,21 @@ namespace AIS_Enterprise_AV.Views
             {
                 ComboboxYears.SelectedIndex = ComboboxYears.Items.Count - 1;
             }
+            ScreenWight();
+            
+        }
+
+        private void ScreenWight()
+        {
+            if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
+            {
+                WindowMonthTimeSheet.SizeToContent = System.Windows.SizeToContent.Height;
+
+                if (this.Width > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width)
+                {
+                    this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+                }
+            }
         }
 
         private void SettingMenuVisibility(string privilege, List<MenuItem> menuItems, int indexUnderLine)
@@ -281,15 +296,7 @@ namespace AIS_Enterprise_AV.Views
                             DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
                             DataGridMonthTimeSheet.Items.Refresh();
 
-                            if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
-                            {
-                                WindowMonthTimeSheet.SizeToContent = System.Windows.SizeToContent.Height;
-
-                                if (this.Width > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width)
-                                {
-                                    this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
-                                }
-                            }
+                            ScreenWight();
 
                             PictureLoading.Visibility = System.Windows.Visibility.Collapsed;
 
@@ -1070,6 +1077,8 @@ namespace AIS_Enterprise_AV.Views
                 var value = monthTimeSheetWorker.Hours[indexHour];
                 ColorizeCell(value, indexRow, COUNT_COLUMNS_BEFORE_DAYS + indexHour + 1, monthTimeSheetWorker.IsOdd);
             }
+
+            this.Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2 - (this.Height / 2);
         }
 
         private void ColorizeCell(string value, int indexRow, int indexColumn, bool isOdd)
