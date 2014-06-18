@@ -250,6 +250,9 @@ namespace AIS_Enterprise_AV.ViewModels
 
         private void RefreshDataBases(object parameter)
         {
+            var passwordBox = parameter as PasswordBox;
+            passwordBox.Password = null;
+
             DataContext.ChangeServer(SelectedServer);
             BC.RefreshContext();
 

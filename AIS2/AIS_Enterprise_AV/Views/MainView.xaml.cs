@@ -31,5 +31,10 @@ namespace AIS_Enterprise_AV.Views
             var mainViewModel = new MainViewModel();
             this.DataContext = mainViewModel;
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            PasswordBoxPass.Password = null;
+        }
     }
 }
