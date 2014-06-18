@@ -7,6 +7,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:resx="clr-namespace:AIS_Enterprise_AV.Properties"
         WindowStartupLocation="CenterScreen"
         Title="Месячный табель" 
         Height="Auto" Width="Auto" SizeToContent="WidthAndHeight" Closing="Window_Closing">
@@ -121,7 +122,7 @@
                 </DataGrid.Columns>            
             </DataGrid>
 
-            <Image Grid.Row="1" x:Name="PictureLoading" gif:ImageBehavior.RepeatBehavior="Forever" Stretch="None" gif:ImageBehavior.AnimatedSource="D:\C#\AIS2\Common\Gif\31.gif" />
+            <Image Grid.Row="1" x:Name="PictureLoading" gif:ImageBehavior.RepeatBehavior="Forever" Stretch="None"/>
 
         </Grid>
     </Grid>

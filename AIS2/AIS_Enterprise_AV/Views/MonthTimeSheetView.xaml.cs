@@ -18,6 +18,7 @@ using Numerizr;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -27,7 +28,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using WpfAnimatedGif;
 
 namespace AIS_Enterprise_AV.Views
 {
@@ -64,19 +67,31 @@ namespace AIS_Enterprise_AV.Views
         {
             InitializeComponent();
 
+            InitializeGif();
             InitializePrivileges();
-
             _bc.InitializeAbsentDates();
-
             InitializeBrushes();
+            InitializeYears();
 
+            ScreenWight();
+        }
+
+        private void InitializeYears()
+        {
             ComboboxYears.ItemsSource = _bc.GetYears().ToList();
             if (ComboboxYears.Items.Count != 0)
             {
                 ComboboxYears.SelectedIndex = ComboboxYears.Items.Count - 1;
             }
-            ScreenWight();
-            
+        }
+
+        private void InitializeGif()
+        {
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(Path.Combine(Environment.CurrentDirectory, @"Images\Gifs\31.gif"));
+            image.EndInit();
+            ImageBehavior.SetAnimatedSource(PictureLoading, image);
         }
 
         private void ScreenWight()
