@@ -160,16 +160,41 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         public DateTime SelectedEndTime { get; set; }
 
+        private string _overTimeDescription;
+
         [Required]
         [Display(Name="Переработка")]
-        public string OverTimeDescription { get; set; }
+        public string OverTimeDescription
+        {
+            get
+            {
+                return _overTimeDescription;
+            }
+            set
+            {
+                _overTimeDescription = value;
+                OnPropertyChanged();
+            }
+        }
 
         public CalendarBlackoutDatesCollection BlackoutDates { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public ObservableCollection<DirectoryRC> DirectoryRCs { get; set; }
+        private ObservableCollection<DirectoryRC> _directoryRCs;
+        public ObservableCollection<DirectoryRC> DirectoryRCs
+        {
+            get
+            {
+                return _directoryRCs;
+            }
+            set
+            {
+                _directoryRCs = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
