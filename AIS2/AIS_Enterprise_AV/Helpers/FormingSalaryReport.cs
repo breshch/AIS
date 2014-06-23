@@ -1,7 +1,7 @@
 ﻿using AIS_Enterprise_AV.Helpers.Temps;
-using AIS_Enterprise_AV.Models;
-using AIS_Enterprise_AV.Models.Directories;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Global.Models.Directories;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -68,7 +68,7 @@ namespace AIS_Enterprise_AV.Helpers
         private const int COUNT_COLUMNS_FENOX_MINSK = 6;
 
 
-        public static void CompletedReportMinsk(BusinessContextAV bc, int year, int month)
+        public static void CompletedReportMinsk(BusinessContext bc, int year, int month)
         {
             string path = CreationNewFileReport(PATH_REPORT_MINSK);
             var ep = CreationNewBook(path);
@@ -80,7 +80,7 @@ namespace AIS_Enterprise_AV.Helpers
             Process.Start(path);
         }
 
-        public static void ComplitedReportSalaryWorkers(BusinessContextAV bc, int year, int month)
+        public static void ComplitedReportSalaryWorkers(BusinessContext bc, int year, int month)
         {
             string path = CreationNewFileReport(Path.Combine(PATH_DIRECTORY_REPORT_SALARY_WORKERS, month + "." + year + ".xlsx"));
             var ep = CreationNewBook(path);
@@ -193,7 +193,7 @@ namespace AIS_Enterprise_AV.Helpers
         {
             CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
         }
-        private static void OverTimeReportMinsk(ExcelPackage ep, BusinessContextAV bc, int year, int month)
+        private static void OverTimeReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
             var overTimes = bc.GetInfoOverTimes(year, month).ToList();
 
@@ -342,7 +342,7 @@ namespace AIS_Enterprise_AV.Helpers
         }
 
 
-        private static void SalaryReportMinsk(ExcelPackage ep, BusinessContextAV bc, int year, int month)
+        private static void SalaryReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
             string stringDate = month.ToString() + "'" + year.ToString();
 
@@ -729,7 +729,7 @@ namespace AIS_Enterprise_AV.Helpers
             sheet.Column(INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK).Width = PixelsToInches(70);
         }
 
-        private static void SalaryReportWorkers(ExcelPackage ep, BusinessContextAV bc, int year, int month)
+        private static void SalaryReportWorkers(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
             int countDaysInMonth = DateTime.DaysInMonth(year, month);
             int countWorkDays = bc.GetCountWorkDaysInMonth(year, month);

@@ -89,19 +89,22 @@
     <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
+    <Compile Include="Models\Currents\CurrentRC.cs" />
     <Compile Include="Models\Currents\CurrentUserStatus.cs" />
     <Compile Include="Models\Currents\CurrentUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
     <Compile Include="Models\Directories\DirectoryHoliday.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
+    <Compile Include="Models\Directories\DirectoryRC.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryUser.cs" />
     <Compile Include="Models\Directories\DirectoryUserStatus.cs" />
-    <Compile Include="Models\DirectoryUserStatusPrivilege.cs" />
+    <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
     <Compile Include="Models\Helpers\Parameter.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />
     <Compile Include="Models\Infos\InfoMonth.cs" />
+    <Compile Include="Models\Infos\InfoOverTime.cs" />
     <Compile Include="Models\Infos\InfoPanalty.cs" />
     <Compile Include="Properties\Resources.en-US.Designer.cs">
       <DependentUpon>Resources.en-US.resx</DependentUpon>

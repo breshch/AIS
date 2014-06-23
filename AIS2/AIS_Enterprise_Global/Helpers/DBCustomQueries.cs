@@ -1,6 +1,7 @@
 ﻿using AIS_Enterprise_Global.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,8 +31,8 @@ namespace AIS_Enterprise_Global.Helpers
         {
             string dataBaseName = dc.Database.Connection.Database;
 
-             string queryEditUser = string.Format(
-                   @"ALTER LOGIN {0} WITH NAME = {1};
+            string queryEditUser = string.Format(
+                  @"ALTER LOGIN {0} WITH NAME = {1};
                      ALTER LOGIN {1} WITH PASSWORD = '{2}';
                      USE {3};
                      ALTER USER {0} WITH NAME = {1};
@@ -63,19 +64,36 @@ namespace AIS_Enterprise_Global.Helpers
             dc.Database.ExecuteSqlCommand(queryCreateUser);
         }
 
-        public static IEnumerable<string> GetDataBases(BusinessContext bc)
+        public static IEnumerable<string> GetDataBases(string serverName)
         {
-            string queryCreateUser = string.Format(
-                   @"SELECT [name]
-                     FROM master.dbo.sysdatabases
-                     WHERE dbid > 4;
-                    ");
+            var conn = new SqlConnection(string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", serverName, "master", "huy", "huy"));
 
-            var dbRowSqlQuery = bc.DataContext.Database.SqlQuery(typeof(string), queryCreateUser);
-            foreach (var item in dbRowSqlQuery)
+            conn.Open();
+            SqlDataReader myReader = null;
+            SqlCommand myCommand = new SqlCommand(
+                 @"SELECT [name] 
+                   FROM sys.databases
+                   WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb');
+                   ", conn);
+
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
             {
-                yield return item.ToString();
+                yield return myReader.GetString(0);
             }
+
+
+            //            string queryCreateUser = string.Format(
+            //                   @"SELECT [name] 
+            //                     FROM sys.databases
+            //                     WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb');
+            //                    ");
+
+            //            var dbRowSqlQuery = bc.DataContext.Database.SqlQuery(typeof(string), queryCreateUser);
+            //            foreach (var item in dbRowSqlQuery)
+            //            {
+            //                yield return item.ToString();
+            //            }
         }
     }
 }

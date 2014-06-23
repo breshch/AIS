@@ -1,5 +1,4 @@
-﻿using AIS_Enterprise_AV.Models;
-using AIS_Enterprise_AV.Views;
+﻿using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Models;
 using System;
@@ -48,9 +47,11 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
             string password = passwordBox.Password;
 
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContext>());
+
             DataContext.ChangeConnectionStringWithDefaultCredentials(IP, CompanyName);
 
-            using (var bc = new BusinessContextAV())
+            using (var bc = new BusinessContext())
             {
                 bc.CreateDatabase();
                 bc.InitializeDefaultDataBaseWithoutWorkers();

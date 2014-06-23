@@ -1,6 +1,5 @@
-﻿using AIS_Enterprise_AV.Models.Currents;
-using AIS_Enterprise_AV.Models.Directories;
-using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models.Currents;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise_AV.Models.Infos
+namespace AIS_Enterprise_Global.Models.Infos
 {
     public class InfoOverTime
     {

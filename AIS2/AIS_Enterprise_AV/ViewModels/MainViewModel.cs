@@ -23,7 +23,7 @@ using System.Windows.Controls;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
-    public class MainViewModel : ViewModelAV
+    public class MainViewModel : ViewModelGlobal
     {
         #region Base
 
@@ -48,7 +48,7 @@ namespace AIS_Enterprise_AV.ViewModels
                     DataBases = new ObservableCollection<string>();
                 }
 
-                foreach (var dataBase in DBCustomQueries.GetDataBases(BC))
+                foreach (var dataBase in DBCustomQueries.GetDataBases(SelectedServer))
                 {
                     DataBases.Add(dataBase);
                 }
@@ -253,22 +253,20 @@ namespace AIS_Enterprise_AV.ViewModels
             var passwordBox = parameter as PasswordBox;
             passwordBox.Password = null;
 
-            DataContext.ChangeServer(SelectedServer);
-            BC.RefreshContext();
+            //DataContext.ChangeServer(SelectedServer);
+            //BC.RefreshContext();
 
             HelperMethods.AddServer(SelectedServer);
 
             string selectedServer = SelectedServer;
             Servers.Clear();
 
-            foreach (var server in (HelperMethods.GetServers()))
+            foreach (var server in HelperMethods.GetServers())
             {
                 Servers.Add(server);
             }
 
             SelectedServer = selectedServer;
-
-            Debug.WriteLine(SelectedServer);
 
             if (DataBases != null)
             {
@@ -279,7 +277,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 DataBases = new ObservableCollection<string>();
             }
 
-            foreach (var dataBase in DBCustomQueries.GetDataBases(BC))
+            foreach (var dataBase in DBCustomQueries.GetDataBases(SelectedServer))
             {
                 DataBases.Add(dataBase);
 

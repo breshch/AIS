@@ -1,5 +1,4 @@
 ﻿using AIS_Enterprise_AV.Helpers.Temps;
-using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
@@ -7,6 +6,7 @@ using AIS_Enterprise_AV.Views.Directories;
 using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Directories;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
@@ -36,7 +36,7 @@ namespace AIS_Enterprise_AV.Views
 {
     public partial class MonthTimeSheetView : Window
     {
-        private BusinessContextAV _bc = new BusinessContextAV();
+        private BusinessContext _bc = new BusinessContext();
         private int _currentYear;
         private int _currentMonth;
         private int _countLastDaysInMonth;

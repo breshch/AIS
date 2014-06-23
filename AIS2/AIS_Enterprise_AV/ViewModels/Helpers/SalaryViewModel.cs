@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Helpers
 {
-    public class SalaryViewModel : ViewModelAV
+    public class SalaryViewModel : ViewModelGlobal
     {
         #region Base
         

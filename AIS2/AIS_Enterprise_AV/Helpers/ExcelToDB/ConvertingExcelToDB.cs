@@ -1,5 +1,5 @@
-﻿using AIS_Enterprise_AV.Models;
-using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Currents;
 using AIS_Enterprise_Global.Models.Infos;
 using System;
@@ -51,7 +51,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
 
 
-        private static void AddingWorkers(BusinessContextAV bc)
+        private static void AddingWorkers(BusinessContext bc)
         {
             var doc = XDocument.Load(PATH_TABEL_WORKERS);
             var worksheets = doc.Root.Elements("{urn:schemas-microsoft-com:office:spreadsheet}Worksheet").ToList();
@@ -289,7 +289,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
             bc.EditParameter("LastDate", lastDate.ToString());
         }
 
-        public static void ConvertExcelToDB(BusinessContextAV bc)
+        public static void ConvertExcelToDB(BusinessContext bc)
         {
             _workersFire.Clear();
             AddingFireWorkers();

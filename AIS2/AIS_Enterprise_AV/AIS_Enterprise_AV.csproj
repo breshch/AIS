@@ -108,12 +108,6 @@
     <Compile Include="Helpers\Temps\WorkerPostReportSalary.cs" />
     <Compile Include="Helpers\Temps\WorkerRCSummForReport.cs" />
     <Compile Include="Helpers\Temps\WorkerSummForReport.cs" />
-    <Compile Include="Helpers\ViewModelAV.cs" />
-    <Compile Include="Models\BusinessContextAV.cs" />
-    <Compile Include="Models\Currents\CurrentRC.cs" />
-    <Compile Include="Models\DataContextAV.cs" />
-    <Compile Include="Models\Directories\DirectoryRC.cs" />
-    <Compile Include="Models\Infos\InfoOverTime.cs" />
     <Compile Include="Helpers\Temps\HeaderDayMonthTimeSheet.cs" />
     <Compile Include="Helpers\Temps\HourWorker.cs" />
     <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
@@ -225,9 +219,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Entering\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Settings\Servers.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

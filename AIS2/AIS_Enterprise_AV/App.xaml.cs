@@ -1,5 +1,4 @@
-﻿using AIS_Enterprise_AV.Models;
-using AIS_Enterprise_AV.ViewModels;
+﻿using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Helpers;
@@ -34,7 +33,6 @@ namespace AIS_Enterprise_AV
             base.OnStartup(e);
 
             //Database.SetInitializer(new DropCreateDatabaseAlways<DataContext>());
-            //Database.SetInitializer(new DropCreateDatabaseAlways<DataContextAV>());
 
             if (DataContext.TryConnection())
             {

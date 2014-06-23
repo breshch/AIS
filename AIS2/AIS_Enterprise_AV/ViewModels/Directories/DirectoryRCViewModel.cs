@@ -10,12 +10,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
-using AIS_Enterprise_AV.Models.Directories;
 using AIS_Enterprise_Global.Helpers.Attributes;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
-    public class DirectoryRCViewModel : ViewModelAV
+    public class DirectoryRCViewModel : ViewModelGlobal
     {
         #region Base
         private const int MAXIMUM_PERCENTAGE = 100;

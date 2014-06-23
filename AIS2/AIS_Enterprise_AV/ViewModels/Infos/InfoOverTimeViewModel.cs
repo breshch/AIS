@@ -1,6 +1,6 @@
-﻿using AIS_Enterprise_AV.Models.Directories;
-using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Attributes;
+using AIS_Enterprise_Global.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +14,7 @@ using System.Windows.Controls;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
-    public class InfoOverTimeViewModel : ViewModelAV
+    public class InfoOverTimeViewModel : ViewModelGlobal
     {
         #region Base
 

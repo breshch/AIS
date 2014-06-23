@@ -1,5 +1,4 @@
-﻿using AIS_Enterprise_AV.Models.Infos;
-using AIS_Enterprise_Global.Models.Directories;
+﻿using AIS_Enterprise_Global.Models.Directories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise_AV.Models.Directories
+namespace AIS_Enterprise_Global.Models.Directories
 {
     public class DirectoryRC 
     {
