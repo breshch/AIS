@@ -79,7 +79,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public void Add(object parameter)
         {
-            BC.AddDirectoryRC(DirectoryRCName, SelectedDirectoryCompany,Percentes);
+            BC.AddDirectoryRC(DirectoryRCName, SelectedDirectoryCompany, Percentes);
 
             RefreshDirectoryRCs();
 

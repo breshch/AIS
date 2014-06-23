@@ -248,7 +248,7 @@ namespace AIS_Enterprise_AV.Views
                     var workers = _bc.GetDirectoryWorkers(_currentYear, _currentMonth).ToList();
 
                     int indexWorker = 0;
-
+                    Debug.WriteLine("2345");
                     var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Склад").ToList();
                     AddingRowWorkers(workerWarehouses, tmpMonthTimeSheetWorkers, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth);
 

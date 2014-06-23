@@ -123,7 +123,7 @@
                 </DataGrid.Columns>            
             </DataGrid>
 
-            <Image Grid.Row="1" x:Name="PictureLoading" gif:ImageBehavior.RepeatBehavior="Forever" Stretch="None"/>
+            <Image Grid.Row="1" x:Name="PictureLoading" gif:ImageBehavior.RepeatBehavior="Forever" Stretch="None" Visibility="Collapsed"/>
 
         </Grid>
     </Grid>

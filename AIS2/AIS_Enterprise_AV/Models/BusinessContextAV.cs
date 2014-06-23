@@ -677,7 +677,7 @@ namespace AIS_Enterprise_AV.Models
             var directoryRC = new DirectoryRC
             {
                 Name = directoryRCName,
-                DirectoryCompany = directoryCompany,
+                DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == directoryCompany.Name),
                 Percentes = percentes
             };
 
