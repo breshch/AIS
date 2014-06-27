@@ -29,7 +29,7 @@
             
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryCompany.Name}" Width="*"/>
+                <DataGridTextColumn Header="Компания" Binding="{Binding DescriptionName}" Width="*"/>
                 <DataGridTextColumn Header="Процентное соотношение" Binding="{Binding Percentes}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -41,7 +41,7 @@
         
         <StackPanel Grid.Row="2" Margin="0, 10, 0, 0">
             <TextBlock Text="Компания"/>
-            <ComboBox ItemsSource="{Binding DirectoryCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCompany, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Text="{Binding DescriptionName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         
         <StackPanel Grid.Row="3" Margin="0, 10, 0, 0 ">

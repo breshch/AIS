@@ -34,7 +34,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            PasswordBoxPass.Password = null;
+            //PasswordBoxPass.Password = null;
         }
     }
 }

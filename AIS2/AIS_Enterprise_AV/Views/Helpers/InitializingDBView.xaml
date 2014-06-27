@@ -33,7 +33,7 @@
 
         <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0, 5, 0, 0">
             <TextBlock Text="Пароль администратора"/>
-            <PasswordBox x:Name="PasswordBoxAdminPass"/>
+            <PasswordBox Password="huy" x:Name="PasswordBoxAdminPass"/>
         </StackPanel>
 
         <Button Grid.Row="4" Content="Создать базу данных" Command="{Binding ApplyParametersCommand}" CommandParameter="{Binding ElementName=InitializingDBWindow}" Margin="0, 15, 0, 0"/>

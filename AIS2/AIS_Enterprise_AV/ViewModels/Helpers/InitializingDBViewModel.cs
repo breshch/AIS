@@ -21,6 +21,8 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         {
             ApplyParametersCommand = new RelayCommand(ApplyParameters);
             SkipCommand = new RelayCommand(Skip);
+
+            IP = "127.1";
         }
 
         #endregion
@@ -61,6 +63,11 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             HelperMethods.AddServer(IP);
 
             window.Visibility = Visibility.Collapsed;
+
+            Properties.Settings.Default.DefaultServer = null;
+            Properties.Settings.Default.DefaultDataBase = null;
+            Properties.Settings.Default.DefaultUser = null;
+            Properties.Settings.Default.Save();
 
             HelperMethods.ShowView(new MainViewModel(), new MainView());
 

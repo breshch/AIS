@@ -81,6 +81,7 @@
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Temps\PrivilegeTempViewModel.cs" />
+    <Compile Include="Helpers\Temps\Transport.cs" />
     <Compile Include="Helpers\ValueConverters\BooleanToStringValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\BooleanToVisibilityValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToBooleanValueConverter.cs" />
@@ -88,12 +89,15 @@
     <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
+    <Compile Include="Models\Currents\CurrentNote.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Currents\CurrentRC.cs" />
     <Compile Include="Models\Currents\CurrentUserStatus.cs" />
     <Compile Include="Models\Currents\CurrentUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
+    <Compile Include="Models\Directories\DirectoryCostItem.cs" />
     <Compile Include="Models\Directories\DirectoryHoliday.cs" />
+    <Compile Include="Models\Directories\DirectoryNote.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryRC.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
@@ -102,6 +106,7 @@
     <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
     <Compile Include="Models\Helpers\Parameter.cs" />
+    <Compile Include="Models\Infos\InfoCost.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />
     <Compile Include="Models\Infos\InfoMonth.cs" />
     <Compile Include="Models\Infos\InfoOverTime.cs" />

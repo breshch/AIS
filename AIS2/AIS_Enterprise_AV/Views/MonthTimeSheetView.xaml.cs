@@ -8,6 +8,7 @@ using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Global.Models.Infos;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
 using AIS_Enterprise_Global.ViewModels.Infos;

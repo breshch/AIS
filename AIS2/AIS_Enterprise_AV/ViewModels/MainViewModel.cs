@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_AV.Helpers.ExcelToDB;
+﻿using AIS_Enterprise_AV.Costs.Views;
+using AIS_Enterprise_AV.Helpers.ExcelToDB;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Directories;
@@ -67,6 +68,7 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDefaultDBCommand = new RelayCommand(ShowDefaultDB);
             ShowDefaultOfficeDBCommand = new RelayCommand(ShowDefaultOfficeDB);
             RefreshDataBasesCommand = new RelayCommand(RefreshDataBases);
+            ShowCostsCommand = new RelayCommand(ShowCosts);
 
             EnteringCommand = new RelayCommand(Entering);
 
@@ -246,12 +248,14 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand ShowDefaultOfficeDBCommand { get; set; }
         public RelayCommand EnteringCommand { get; set; }
         public RelayCommand RefreshDataBasesCommand { get; set; }
+        public RelayCommand ShowCostsCommand { get; set; }
+
 
 
         private void RefreshDataBases(object parameter)
         {
             var passwordBox = parameter as PasswordBox;
-            passwordBox.Password = null;
+            //passwordBox.Password = null;
 
             //DataContext.ChangeServer(SelectedServer);
             //BC.RefreshContext();
@@ -372,6 +376,12 @@ namespace AIS_Enterprise_AV.ViewModels
             BC.RefreshContext();
 
             IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
+        }
+
+        private void ShowCosts(object parameter)
+        {
+            var costView = new CostsView();
+            costView.ShowDialog();
         }
 
         #endregion

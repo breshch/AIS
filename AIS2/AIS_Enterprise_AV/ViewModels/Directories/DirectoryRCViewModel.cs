@@ -23,8 +23,6 @@ namespace AIS_Enterprise_AV.ViewModels
         {
             RefreshDirectoryRCs();
 
-            DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
-
             AddCommand = new RelayCommand(Add, CanAdding);
             RemoveCommand = new RelayCommand(Remove, CanRemoving);
             
@@ -61,12 +59,9 @@ namespace AIS_Enterprise_AV.ViewModels
         public int MinimumPercentes { get; set; }
         public int MaximumPercentes { get; set; }
 
-        public ObservableCollection<DirectoryCompany> DirectoryCompanies { get; set; }
-
-        [RequireSelected]
+        [Required]
         [Display(Name = "Компания")]
-        public DirectoryCompany SelectedDirectoryCompany { get; set; }
-
+        public string DescriptionName { get; set; }
 
         #endregion
 
@@ -78,7 +73,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public void Add(object parameter)
         {
-            BC.AddDirectoryRC(DirectoryRCName, SelectedDirectoryCompany, Percentes);
+            BC.AddDirectoryRC(DirectoryRCName, DescriptionName, Percentes);
 
             RefreshDirectoryRCs();
 

@@ -15,11 +15,25 @@ namespace AIS_Enterprise_Global.Models.Directories
 
         [MaxLength(128)]
         public string Name { get; set; }
+        public string DescriptionName { get; set; }
         public int Percentes { get; set; }
-        public int DirectoryCompanyId { get; set; }
-        public virtual DirectoryCompany DirectoryCompany { get; set; }
+       
 
         [NotMapped]
         public bool IsChecked { get; set; }
+
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                if (Name == "ВСЕ")
+                {
+                    return Name;
+                }
+
+                return DescriptionName + " " + Name;
+            }
+        }
     }
 }

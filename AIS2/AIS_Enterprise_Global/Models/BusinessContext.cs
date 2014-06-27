@@ -142,18 +142,84 @@ namespace AIS_Enterprise_Global.Models
 
             _dc.SaveChanges();
 
-            var rC = new DirectoryRC { Name = "МО-5", DirectoryCompany = companyFenox, Percentes = 50 };
+            var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", Percentes = 50 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "КО-5", DirectoryCompany = companyAV, Percentes = 20 };
+            rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", Percentes = 20 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "ПАМ-16", DirectoryCompany = companyAV, Percentes = 20 };
+            rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", Percentes = 20 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "МО-2", DirectoryCompany = companyFenox, Percentes = 5 };
+            rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", Percentes = 5 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "ПАМ-1", DirectoryCompany = companyFenox, Percentes = 5 };
+            rC = new DirectoryRC { Name = "ПАМ-1", DescriptionName = "Фенокс Минск (с.п.)", Percentes = 5 };
+            _dc.DirectoryRCs.Add(rC);
+            rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", Percentes = 0 };
+            _dc.DirectoryRCs.Add(rC);
+            rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", Percentes = 0 };
+            _dc.DirectoryRCs.Add(rC);
+            rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", Percentes = 0 };
+            _dc.DirectoryRCs.Add(rC);
 
-            _dc.DirectoryRCs.Add(rC);
             _dc.SaveChanges();
+
+            var costItem = new DirectoryCostItem { Name = "Аренда (3001)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "З/п (701)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Закупка товара (1090)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Инвестиции" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Канцтовары (1207)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "МБП (1209)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Представительские (9025)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Приход" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Прочие (9025)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Реклама (5061)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Связь (502)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Сертификация (5052)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Таможня (6811)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Таможня (6813)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Топливо (103)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Транспорт (5031)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "Упаковка (1023)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "УСО (509)" };
+            _dc.DirectoryCostItems.Add(costItem);
+
+            _dc.SaveChanges();
+
+
+            var note = new DirectoryNote { Description = "Склад" };
+            _dc.DirectoryNotes.Add(note);
+            note = new DirectoryNote { Description = "Пежо" };
+            _dc.DirectoryNotes.Add(note);
+            note = new DirectoryNote { Description = "Зарплата" };
+            _dc.DirectoryNotes.Add(note);
+            note = new DirectoryNote { Description = "Переработка" };
+            _dc.DirectoryNotes.Add(note);
+            note = new DirectoryNote { Description = "Дождь" };
+            _dc.DirectoryNotes.Add(note);
+            note = new DirectoryNote { Description = "АПЦ" };
+            _dc.DirectoryNotes.Add(note);
+            note = new DirectoryNote { Description = "РосАвтоПром" };
+            _dc.DirectoryNotes.Add(note);
+            note = new DirectoryNote { Description = "Паллеты" };
+            _dc.DirectoryNotes.Add(note);
+
+            _dc.SaveChanges();
+
 
             var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
 
@@ -1538,12 +1604,12 @@ namespace AIS_Enterprise_Global.Models
             return _dc.DirectoryRCs;
         }
 
-        public DirectoryRC AddDirectoryRC(string directoryRCName, DirectoryCompany directoryCompany, int percentes)
+        public DirectoryRC AddDirectoryRC(string directoryRCName, string descriptionName, int percentes)
         {
             var directoryRC = new DirectoryRC
             {
                 Name = directoryRCName,
-                DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == directoryCompany.Name),
+                DescriptionName = descriptionName,
                 Percentes = percentes
             };
 
@@ -1651,6 +1717,94 @@ namespace AIS_Enterprise_Global.Models
                 _dc.InfoOverTimes.Remove(infoOverTime);
                 _dc.SaveChanges();
             }
+        }
+        #endregion
+
+
+        #region InfoCost
+
+        public IQueryable<InfoCost> GetInfoCosts(DateTime date)
+        {
+            return _dc.InfoCosts.Where(c => DbFunctions.DiffDays(date, c.Date) == 0);
+        }
+
+        public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, double summ, List<Transport> transports)
+        {
+            double commonWeight = transports.Sum(t => t.Weight);
+
+            foreach (var rc in transports.Select(t => t.DirectoryRC.Name).Distinct())
+            {
+                var currentNotes = new List<CurrentNote>();
+                double weightRC = 0;
+
+                foreach (var transport in transports.Where(t => t.DirectoryRC.Name == rc))
+                {
+                    currentNotes.Add(new CurrentNote { DirectoryNote = _dc.DirectoryNotes.Find(transport.DirectoryNote.Id) });
+                    weightRC += transport.Weight;
+                }
+
+                var infoCost = new InfoCost
+                {
+                    Date = date,
+                    DirectoryCostItem = _dc.DirectoryCostItems.Find(directoryCostItem.Id),
+                    DirectoryRC = _dc.DirectoryRCs.First(r => r.Name == rc),
+                    IsIncoming = isIncoming,
+                    Summ = summ / commonWeight * weightRC,
+                    CurrentNotes = currentNotes,
+                    Weight = weightRC
+                };
+
+                _dc.InfoCosts.Add(infoCost);
+            }
+            
+            _dc.SaveChanges();
+        }
+
+        public void RemoveInfoCost(InfoCost infoCost)
+        {
+            _dc.InfoCosts.Remove(infoCost);
+            _dc.SaveChanges();
+        }
+
+        #endregion
+
+
+        #region DirectoryCostItem
+        
+        public IQueryable<DirectoryCostItem> GetDirectoryCostItems()
+        {
+            return _dc.DirectoryCostItems;
+        }
+
+        #endregion
+
+
+        #region DirectoryNote
+        
+        public IQueryable<DirectoryNote> GetDirectoryNotes()
+        {
+            return _dc.DirectoryNotes;
+        }
+
+        public DirectoryNote GetDirectoryNote(string description)
+        {
+            return _dc.DirectoryNotes.First(n => n.Description == description);
+        }
+
+        public bool IsDirectoryNote(string note)
+        {
+            return _dc.DirectoryNotes.Select(n => n.Description).Contains(note); 
+        }
+
+        public DirectoryNote AddDirectoryNote(string note)
+        {
+            var directoryNote = new DirectoryNote{ Description = note };
+            
+            _dc.DirectoryNotes.Add(directoryNote);
+            
+            _dc.SaveChanges();
+
+            return directoryNote;
         }
         #endregion
     }
