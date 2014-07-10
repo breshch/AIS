@@ -30,7 +30,10 @@ namespace AIS_Enterprise_Global.Helpers
         MenuVisibility_Directories_Posts_ListOfPosts,
         MenuVisibility_Directories_Workers_AddingWorker,
         MenuVisibility_Directories_Workers_ListOfWorkers,
-        MenuVisibility_Reports_Salary,
+        MenuVisibility_Costs_DayCosts,
+        MenuVisibility_Costs_MonthCosts,
+        MenuVisibility_Reports_ReportSalary,
+        MenuVisibility_Reports_ReportCosts,
         MenuVisibility_AdminPanel_UserStatuses,
         MenuVisibility_AdminPanel_Users,
 
@@ -71,9 +74,9 @@ namespace AIS_Enterprise_Global.Helpers
 
         Workers_FireWorkers,
 
-        ButtonsVisibility_AdminButtons
+        ButtonsVisibility_AdminButtons,
 
-
+        CostsVisibility_IsNotTransportOnly
     }
 
     public enum Rules
@@ -84,6 +87,7 @@ namespace AIS_Enterprise_Global.Helpers
         Salary,
         WorkersVisibility,
         Workers,
-        ButtonsVisibility
+        ButtonsVisibility,
+        CostsVisibility
     }
 }

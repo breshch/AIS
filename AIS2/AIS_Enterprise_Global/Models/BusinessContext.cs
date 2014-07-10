@@ -90,6 +90,7 @@ namespace AIS_Enterprise_Global.Models
 
         #region InitializeDefaultDataBase
 
+
         private enum PostName
         {
             ЗавСкладом,
@@ -107,6 +108,10 @@ namespace AIS_Enterprise_Global.Models
         public void InitializeDefaultDataBaseWithoutWorkers()
         {
             InputDateToDataBase(2014);
+
+            var infoCash = new InfoCash { Cash = 0 };
+            _dc.InfoCashes.Add(infoCash);
+            _dc.SaveChanges();
 
             var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
             _dc.Parameters.Add(parameterBirthday);
@@ -142,21 +147,27 @@ namespace AIS_Enterprise_Global.Models
 
             _dc.SaveChanges();
 
-            var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", Percentes = 50 };
+            var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", ReportName = "ОТ.AM5 / M05", Percentes = 50 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", Percentes = 20 };
+            rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", ReportName = "ОТ.КО5/К05", Percentes = 20 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", Percentes = 20 };
+            rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", ReportName = "П.АМ16/М01.016", Percentes = 20 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", Percentes = 5 };
+            rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", ReportName = "ОТ.AM2/M02", Percentes = 5 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "ПАМ-1", DescriptionName = "Фенокс Минск (с.п.)", Percentes = 5 };
+            rC = new DirectoryRC { Name = "ПАМ-1", DescriptionName = "Фенокс Минск (с.п.)", ReportName = "П.АМ1/М01.1", Percentes = 5 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", Percentes = 0 };
+            rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", ReportName = "ОТ.КО2/К02", Percentes = 0 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", Percentes = 0 };
+            rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", ReportName = "ОТ.КО1/К01", Percentes = 0 };
             _dc.DirectoryRCs.Add(rC);
-            rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", Percentes = 0 };
+            rC = new DirectoryRC { Name = "МД-2", DescriptionName = "Медицина", ReportName = "ОТ.МД2", Percentes = 0 };
+            _dc.DirectoryRCs.Add(rC);
+            rC = new DirectoryRC { Name = "ПАМ-24", DescriptionName = "Запчасти", ReportName = "П.АМ24", Percentes = 0 };
+            _dc.DirectoryRCs.Add(rC);
+            rC = new DirectoryRC { Name = "26А", DescriptionName = "26А", ReportName = "26А", Percentes = 0 };
+            _dc.DirectoryRCs.Add(rC);
+            rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", ReportName = "ВСЕ", Percentes = 0 };
             _dc.DirectoryRCs.Add(rC);
 
             _dc.SaveChanges();
@@ -196,6 +207,8 @@ namespace AIS_Enterprise_Global.Models
             costItem = new DirectoryCostItem { Name = "Упаковка (1023)" };
             _dc.DirectoryCostItems.Add(costItem);
             costItem = new DirectoryCostItem { Name = "УСО (509)" };
+            _dc.DirectoryCostItems.Add(costItem);
+            costItem = new DirectoryCostItem { Name = "26А" };
             _dc.DirectoryCostItems.Add(costItem);
 
             _dc.SaveChanges();
@@ -1512,7 +1525,7 @@ namespace AIS_Enterprise_Global.Models
             {
                 UserName = userName,
                 TranscriptionName = transcriptionName,
-                CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus}
+                CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus }
             };
 
             _dc.DirectoryUsers.Add(user);
@@ -1564,7 +1577,7 @@ namespace AIS_Enterprise_Global.Models
             user.TranscriptionName = transcriptionName;
 
             var prevCurrentUserStatus = user.CurrentUserStatus;
-            
+
             user.CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus };
 
             _dc.SaveChanges();
@@ -1592,7 +1605,7 @@ namespace AIS_Enterprise_Global.Models
         public DirectoryUserStatusPrivilege GetDirectoryUserStatusPrivilege(string privilegeName)
         {
             return _dc.DirectoryUserStatusPrivileges.First(p => p.Name == privilegeName);
-        } 
+        }
 
         #endregion
 
@@ -1602,6 +1615,11 @@ namespace AIS_Enterprise_Global.Models
         public IQueryable<DirectoryRC> GetDirectoryRCs()
         {
             return _dc.DirectoryRCs;
+        }
+
+        public DirectoryRC GetDirectoryRC(string name)
+        {
+            return GetDirectoryRCs().First(r => r.Name == name);
         }
 
         public DirectoryRC AddDirectoryRC(string directoryRCName, string descriptionName, int percentes)
@@ -1626,6 +1644,16 @@ namespace AIS_Enterprise_Global.Models
             _dc.DirectoryRCs.Remove(directoryRC);
 
             _dc.SaveChanges();
+        }
+
+        public IQueryable<DirectoryRC> GetDirectoryRCsMonthIncoming(int year, int month)
+        {
+            return GetInfoCosts(year, month).Where(c => c.DirectoryCostItem.Name == "Приход").Select(c => c.DirectoryRC).Distinct();
+        }
+
+        public IQueryable<DirectoryRC> GetDirectoryRCsMonthExpense(int year, int month)
+        {
+            return GetInfoCosts(year, month).Where(c => !c.IsIncoming).Select(c => c.DirectoryRC).Distinct();
         }
 
         #endregion
@@ -1721,6 +1749,38 @@ namespace AIS_Enterprise_Global.Models
         #endregion
 
 
+        #region InfoCash
+
+        public double GetInfoCash()
+        {
+            var infoCash = _dc.InfoCashes.First();
+            double cash = infoCash.Cash;
+
+            if (cash != 0)
+            {
+                return cash;
+            }
+
+            var infoCosts = _dc.InfoCosts.ToList();
+            cash = infoCosts.Sum(c => c.Incoming) - infoCosts.Sum(c => c.Expense);
+
+            infoCash.Cash = cash;
+            _dc.SaveChanges();
+
+            return cash;
+        }
+
+        public void AddInfoCashSumm(double summ, bool isIncoming)
+        {
+            var infoCash = _dc.InfoCashes.First();
+            infoCash.Cash = isIncoming ? infoCash.Cash + summ : infoCash.Cash - summ;
+
+            _dc.SaveChanges();
+        }
+
+        #endregion
+
+
         #region InfoCost
 
         public IQueryable<InfoCost> GetInfoCosts(DateTime date)
@@ -1728,35 +1788,89 @@ namespace AIS_Enterprise_Global.Models
             return _dc.InfoCosts.Where(c => DbFunctions.DiffDays(date, c.Date) == 0);
         }
 
+        public IQueryable<InfoCost> GetInfoCosts(int year, int month)
+        {
+            return _dc.InfoCosts.Where(c => c.Date.Year == year && c.Date.Month == month);
+        }
+
+        public IQueryable<InfoCost> GetInfoCostsRCIncoming(int year, int month, string rcName)
+        {
+            return _dc.InfoCosts.Where(c => c.Date.Year == year && c.Date.Month == month && c.DirectoryRC.Name == rcName && c.DirectoryCostItem.Name == "Приход");
+        }
+
+        public IQueryable<InfoCost> GetInfoCosts26Expense(int year, int month)
+        {
+            return _dc.InfoCosts.Where(c => c.Date.Year == year && c.Date.Month == month && c.DirectoryRC.Name == "26А" && !c.IsIncoming);
+        }
+
+        public IEnumerable<InfoCost> GetInfoCostsRCAndAll(int year, int month, string rcName)
+        {
+            var infoCosts = GetInfoCosts(year, month).ToList();
+            var infoCostsRC = infoCosts.Where(c => c.DirectoryRC.Name == rcName).ToList();
+
+            if (_dc.DirectoryRCs.First(r => r.Name == rcName).Percentes > 0)
+            {
+                infoCostsRC.AddRange(infoCosts.Where(c => c.DirectoryRC.Name == "ВСЕ").ToList());
+            }
+
+            return infoCostsRC;
+        }
+
+        public IQueryable<InfoCost> GetInfoCostsTransportExpenseOnly(int year, int month)
+        {
+            return GetInfoCosts(year, month).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)");
+        }
+
         public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, double summ, List<Transport> transports)
         {
-            double commonWeight = transports.Sum(t => t.Weight);
-
-            foreach (var rc in transports.Select(t => t.DirectoryRC.Name).Distinct())
+            if (directoryCostItem.Name == "Транспорт (5031)" && (transports[0].DirectoryRC.Name != "26А" || !isIncoming))
             {
-                var currentNotes = new List<CurrentNote>();
-                double weightRC = 0;
+                double commonWeight = transports.Sum(t => t.Weight);
 
-                foreach (var transport in transports.Where(t => t.DirectoryRC.Name == rc))
+                foreach (var rc in transports.Select(t => t.DirectoryRC.Name).Distinct())
                 {
-                    currentNotes.Add(new CurrentNote { DirectoryNote = _dc.DirectoryNotes.Find(transport.DirectoryNote.Id) });
-                    weightRC += transport.Weight;
-                }
+                    var currentNotes = new List<CurrentNote>();
+                    double weightRC = 0;
 
+                    foreach (var transport in transports.Where(t => t.DirectoryRC.Name == rc))
+                    {
+                        currentNotes.Add(new CurrentNote { DirectoryNote = _dc.DirectoryNotes.Find(transport.DirectoryNote.Id) });
+                        weightRC += transport.Weight;
+                    }
+
+                    var infoCost = new InfoCost
+                    {
+                        Date = date,
+                        DirectoryCostItem = _dc.DirectoryCostItems.Find(directoryCostItem.Id),
+                        DirectoryRC = _dc.DirectoryRCs.First(r => r.Name == rc),
+                        IsIncoming = isIncoming,
+                        Summ = weightRC != 0 ? Math.Round(summ / commonWeight * weightRC, 0) : summ,
+                        CurrentNotes = currentNotes,
+                        Weight = weightRC
+                    };
+
+                    _dc.InfoCosts.Add(infoCost);
+
+                    AddInfoCashSumm(infoCost.Summ, infoCost.IsIncoming);
+                }
+            }
+            else
+            {
                 var infoCost = new InfoCost
                 {
                     Date = date,
                     DirectoryCostItem = _dc.DirectoryCostItems.Find(directoryCostItem.Id),
-                    DirectoryRC = _dc.DirectoryRCs.First(r => r.Name == rc),
+                    DirectoryRC = _dc.DirectoryRCs.Find(transports.First().DirectoryRC.Id),
                     IsIncoming = isIncoming,
-                    Summ = summ / commonWeight * weightRC,
-                    CurrentNotes = currentNotes,
-                    Weight = weightRC
+                    Summ = summ,
+                    CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNote = _dc.DirectoryNotes.Find(transports.First().DirectoryNote.Id) } },
+                    Weight = 0
                 };
 
                 _dc.InfoCosts.Add(infoCost);
+                AddInfoCashSumm(infoCost.Summ, infoCost.IsIncoming);
             }
-            
+
             _dc.SaveChanges();
         }
 
@@ -1764,23 +1878,46 @@ namespace AIS_Enterprise_Global.Models
         {
             _dc.InfoCosts.Remove(infoCost);
             _dc.SaveChanges();
+
+            AddInfoCashSumm(-infoCost.Summ, infoCost.IsIncoming);
+        }
+
+        public IEnumerable<int> GetInfoCostYears()
+        {
+            return _dc.InfoCosts.Select(c => c.Date.Year).Distinct().OrderBy(y => y).ToList();
+        }
+
+        public IEnumerable<int> GetInfoCostMonthes(int year)
+        {
+            return _dc.InfoCosts.Where(c => c.Date.Year == year).Select(c => c.Date.Month).Distinct().OrderBy(m => m).ToList();
+        }
+
+        public double GetInfoCost26Summ(int year, int month)
+        {
+            var infoCosts = GetInfoCosts(year, month).Where(c => c.DirectoryRC.Name == "26А" && c.IsIncoming);
+            return infoCosts.Any() ? infoCosts.Sum(c => c.Summ) : 0;
         }
 
         #endregion
 
 
         #region DirectoryCostItem
-        
+
         public IQueryable<DirectoryCostItem> GetDirectoryCostItems()
         {
             return _dc.DirectoryCostItems;
+        }
+
+        public DirectoryCostItem GetDirectoryCostItem(string costItemName)
+        {
+            return GetDirectoryCostItems().First(c => c.Name == costItemName);
         }
 
         #endregion
 
 
         #region DirectoryNote
-        
+
         public IQueryable<DirectoryNote> GetDirectoryNotes()
         {
             return _dc.DirectoryNotes;
@@ -1793,19 +1930,32 @@ namespace AIS_Enterprise_Global.Models
 
         public bool IsDirectoryNote(string note)
         {
-            return _dc.DirectoryNotes.Select(n => n.Description).Contains(note); 
+            return _dc.DirectoryNotes.Select(n => n.Description).Contains(note);
         }
 
         public DirectoryNote AddDirectoryNote(string note)
         {
-            var directoryNote = new DirectoryNote{ Description = note };
-            
+            var directoryNote = _dc.DirectoryNotes.FirstOrDefault(n => n.Description == note);
+
+            if (directoryNote != null)
+            {
+                return directoryNote;
+            }
+
+            directoryNote = new DirectoryNote { Description = note };
+
             _dc.DirectoryNotes.Add(directoryNote);
-            
+
             _dc.SaveChanges();
 
             return directoryNote;
+
         }
         #endregion
+
+
+
+
+
     }
 }

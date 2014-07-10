@@ -16,6 +16,7 @@ namespace AIS_Enterprise_Global.Models.Directories
         [MaxLength(128)]
         public string Name { get; set; }
         public string DescriptionName { get; set; }
+        public string ReportName { get; set; }
         public int Percentes { get; set; }
        
 
@@ -27,10 +28,12 @@ namespace AIS_Enterprise_Global.Models.Directories
         {
             get
             {
-                if (Name == "ВСЕ")
+                if (Name == "ВСЕ" || Name == "26А")
                 {
                     return Name;
                 }
+
+
 
                 return DescriptionName + " " + Name;
             }

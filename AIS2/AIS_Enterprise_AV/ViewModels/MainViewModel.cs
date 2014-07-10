@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_AV.Costs.Views;
+﻿using AIS_Enterprise_AV.Costs.ViewModels;
+using AIS_Enterprise_AV.Costs.Views;
 using AIS_Enterprise_AV.Helpers.ExcelToDB;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
@@ -68,7 +69,7 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDefaultDBCommand = new RelayCommand(ShowDefaultDB);
             ShowDefaultOfficeDBCommand = new RelayCommand(ShowDefaultOfficeDB);
             RefreshDataBasesCommand = new RelayCommand(RefreshDataBases);
-            ShowCostsCommand = new RelayCommand(ShowCosts);
+            CostsExcelToDBCommand = new RelayCommand(CostsExcelToDB);
 
             EnteringCommand = new RelayCommand(Entering);
 
@@ -102,6 +103,7 @@ namespace AIS_Enterprise_AV.ViewModels
         }
 
         #endregion
+
 
         #region Properties
 
@@ -248,9 +250,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand ShowDefaultOfficeDBCommand { get; set; }
         public RelayCommand EnteringCommand { get; set; }
         public RelayCommand RefreshDataBasesCommand { get; set; }
-        public RelayCommand ShowCostsCommand { get; set; }
-
-
+        public RelayCommand CostsExcelToDBCommand { get; set; }
 
         private void RefreshDataBases(object parameter)
         {
@@ -378,10 +378,10 @@ namespace AIS_Enterprise_AV.ViewModels
             IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
         }
 
-        private void ShowCosts(object parameter)
+        private void CostsExcelToDB(object parameter)
         {
-            var costView = new CostsView();
-            costView.ShowDialog();
+            IsNotInitializedDB = false;
+            Task.Factory.StartNew(() => ConvertingCostsExcelToDB.ConvertExcelToDB(BC)).ContinueWith((t) => IsNotInitializedDB = true);
         }
 
         #endregion

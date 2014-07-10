@@ -103,17 +103,24 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Costs\ViewModels\MonthCostsViewModel.cs" />
+    <Compile Include="Costs\Views\MonthCostsView.xaml.cs">
+      <DependentUpon>MonthCostsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ExcelToDB\ConvertingCostsExcelToDB.cs" />
     <Compile Include="Helpers\ExcelToDB\ConvertingExcelToDB.cs" />
-    <Compile Include="Helpers\FormingSalaryReport.cs" />
+    <Compile Include="Reports\CashReports.cs" />
+    <Compile Include="Reports\WorkerSalaryReports.cs" />
     <Compile Include="Helpers\Temps\WorkerPostReportSalary.cs" />
     <Compile Include="Helpers\Temps\WorkerRCSummForReport.cs" />
     <Compile Include="Helpers\Temps\WorkerSummForReport.cs" />
     <Compile Include="Helpers\Temps\HeaderDayMonthTimeSheet.cs" />
     <Compile Include="Helpers\Temps\HourWorker.cs" />
     <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
+    <Compile Include="Reports\Helpers.cs" />
     <Compile Include="ViewModels\Directories\DirectoryRCViewModel.cs" />
     <Compile Include="ViewModels\Helpers\InitializingDBViewModel.cs" />
-    <Compile Include="ViewModels\Helpers\SalaryViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\MonthReportViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Directories\DirectoryRCView.xaml.cs">
@@ -122,8 +129,8 @@
     <Compile Include="Views\Helpers\InitializingDBView.xaml.cs">
       <DependentUpon>InitializingDBView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Helpers\SalaryView.xaml.cs">
-      <DependentUpon>SalaryView.xaml</DependentUpon>
+    <Compile Include="Views\Helpers\MonthReportView.xaml.cs">
+      <DependentUpon>MonthReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoOverTimeView.xaml.cs">
       <DependentUpon>InfoOverTimeView.xaml</DependentUpon>
@@ -134,8 +141,8 @@
     <Compile Include="Views\MonthTimeSheetView.xaml.cs">
       <DependentUpon>MonthTimeSheetView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Costs\Views\CostsView.xaml.cs">
-      <DependentUpon>CostsView.xaml</DependentUpon>
+    <Compile Include="Costs\Views\DayCostsView.xaml.cs">
+      <DependentUpon>DayCostsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -173,11 +180,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ТабельXML\fireHuy.txt">
+    <EmbeddedResource Include="Files\fireHuy.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Costs\Views\MonthCostsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Directories\DirectoryRCView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -186,7 +197,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Helpers\SalaryView.xaml">
+    <Page Include="Views\Helpers\MonthReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,7 +213,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Costs\Views\CostsView.xaml">
+    <Page Include="Costs\Views\DayCostsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -222,13 +233,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ТабельXML\huy.xml">
+    <EmbeddedResource Include="Files\huy.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Costs\ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Settings\Servers.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

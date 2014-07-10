@@ -1,4 +1,7 @@
-﻿using AIS_Enterprise_AV.Helpers.Temps;
+﻿using AIS_Enterprise_AV.Costs.ViewModels;
+using AIS_Enterprise_AV.Costs.Views;
+using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
@@ -8,7 +11,6 @@ using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Directories;
-using AIS_Enterprise_Global.Models.Infos;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
 using AIS_Enterprise_Global.ViewModels.Infos;
@@ -21,13 +23,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -75,6 +75,10 @@ namespace AIS_Enterprise_AV.Views
             _bc.InitializeAbsentDates();
             InitializeBrushes();
             InitializeYears();
+
+            //var infoCash = _bc.DataContext.InfoCashes.First();
+            //infoCash.Cash = 5095268.40;
+            //_bc.SaveChanges();
         }
 
         private void InitializeYears()
@@ -1216,9 +1220,18 @@ namespace AIS_Enterprise_AV.Views
             directoryWorkerView.ShowDialog();
         }
 
-        private void MenuSalary_Click(object sender, RoutedEventArgs e)
+        private void MenuReportSalary_Click(object sender, RoutedEventArgs e)
         {
-            HelperMethods.ShowView(new SalaryViewModel(), new SalaryView());
+            HelperMethods.ShowView(new MonthReportViewModel(
+                "Зарплата",
+                (BC, SelectedYear, SelectedMonth) =>
+                {
+                    WorkerSalaryReports.SalaryOvertimeTransport(BC, SelectedYear, SelectedMonth);
+                    WorkerSalaryReports.ComplitedReportSalaryWorkers(BC, SelectedYear, SelectedMonth);
+                },
+                (BC) => BC.GetYears().ToList(),
+                (BC, year) => BC.GetMonthes(year).ToList()
+                ), new MonthReportView());
         }
 
         private void MenuUserStatuses_Click(object sender, RoutedEventArgs e)
@@ -1229,6 +1242,41 @@ namespace AIS_Enterprise_AV.Views
         private void MenuUsers_Click(object sender, RoutedEventArgs e)
         {
             HelperMethods.ShowView(new DirectoryUsersViewModel(), new DirectoryUsersView());
+        }
+
+        private void MenuReportCosts_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new MonthReportViewModel(
+               "Затраты",
+               (BC, SelectedYear, SelectedMonth) =>
+               {
+                   var directoryRCs = BC.GetDirectoryRCsMonthIncoming(SelectedYear, SelectedMonth).ToList();
+
+                   foreach (var rc in directoryRCs)
+                   {
+                       CashReports.IncomingRC(rc, BC, SelectedYear, SelectedMonth);
+                   }
+
+                   CashReports.Incoming26(BC, SelectedYear, SelectedMonth);
+
+                   CashReports.Expense26(BC, SelectedYear, SelectedMonth);
+
+                   CashReports.ExpenseRCs(BC, SelectedYear, SelectedMonth);
+               },
+               (BC) => BC.GetInfoCostYears().ToList(),
+               (BC, year) => BC.GetInfoCostMonthes(year).ToList()
+               ), new MonthReportView());
+        }
+
+        private void MenuDayCosts_Click(object sender, RoutedEventArgs e)
+        {
+            var costView = new DayCostsView(DateTime.Now);
+            costView.ShowDialog();
+        }
+
+        private void MenuMonthCosts_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new MonthCostsViewModel(), new MonthCostsView());
         }
 
      

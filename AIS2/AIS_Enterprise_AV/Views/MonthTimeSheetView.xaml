@@ -57,8 +57,13 @@
                     <MenuItem x:Name="MenuListOfWorkers" Header="Список работников" Click="MenuListOfWorkers_Click" Visibility="Collapsed"/>
                 </MenuItem>
             </MenuItem>
+            <MenuItem x:Name="MenuCosts" Header="Затраты" Visibility="Collapsed">
+                <MenuItem x:Name="MenuDayCosts" Header="Дневные затраты" Click="MenuDayCosts_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuMonthCosts" Header="Месячные затраты" Click="MenuMonthCosts_Click" Visibility="Collapsed"/>
+            </MenuItem>
             <MenuItem x:Name="MenuReports" Header="Отчёты" Visibility="Collapsed">
-                <MenuItem x:Name="MenuSalary" Header="Зарплата" Click="MenuSalary_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuReportSalary" Header="Зарплата" Click="MenuReportSalary_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuReportCosts" Header="Затраты" Click="MenuReportCosts_Click" Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="MenuAdminPanel" Header="Административная панель" Visibility="Collapsed">
                 <MenuItem x:Name="MenuUserStatuses" Header="Статусы пользователей" Click="MenuUserStatuses_Click" Visibility="Collapsed"/>

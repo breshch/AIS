@@ -64,7 +64,7 @@
                 <Button Content="DefaultDB" Margin="0, 3" Command="{Binding ShowDefaultDBCommand}" IsEnabled="{Binding IsNotInitializedDB, Mode=TwoWay}"/>
                 <Button Content="Создать новую базу" Margin="0, 3" Command="{Binding CreateDBCommand}" CommandParameter="{Binding ElementName=MainViewWindow}" IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Удалить базу" Margin="0, 3" Command="{Binding KillTheDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
-                <Button Content="Затраты" Margin="0, 3" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
+                <Button Content="Затраты" Margin="0, 3" Command="{Binding CostsExcelToDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
             </StackPanel>
         </StackPanel>
         

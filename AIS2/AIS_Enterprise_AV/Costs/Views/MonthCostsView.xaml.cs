@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise_AV.Views.Helpers
+namespace AIS_Enterprise_AV.Costs.Views
 {
     /// <summary>
-    /// Логика взаимодействия для SalaryView.xaml
+    /// Логика взаимодействия для MonthCostsView.xaml
     /// </summary>
-    public partial class SalaryView : Window
+    public partial class MonthCostsView : Window
     {
-        public SalaryView()
+        public MonthCostsView()
         {
             InitializeComponent();
         }

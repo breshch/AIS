@@ -1,5 +1,6 @@
-﻿using AIS_Enterprise_AV.Helpers;
+﻿using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,31 +10,35 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Helpers
 {
-    public class SalaryViewModel : ViewModelGlobal
+    public class MonthReportViewModel : ViewModelGlobal
     {
         #region Base
-        
-        public SalaryViewModel()
+
+        private Action<BusinessContext, int, int> _methodCreationReports;
+        private GettingMonthes _methodGettingMonthes;
+
+        public MonthReportViewModel(string title, Action<BusinessContext, int, int> methodCreationReports, GettingYears methodGettingYears, GettingMonthes methodGettingMonthes)
         {
-            Years = new ObservableCollection<int>(BC.GetYears());
+            TitleName = title;
+            _methodCreationReports = methodCreationReports;
+            _methodGettingMonthes = methodGettingMonthes;
+
+            Years = new ObservableCollection<int>(methodGettingYears(BC));
             if (Years.Any())
             {
                 SelectedYear = Years.Last();
             }
 
             FormingSalaryCommand = new RelayCommand(FormingSalary);
-
-
         }
-
         
         #endregion
 
 
         #region Properties
+
         public ObservableCollection<int> Years { get; set; }
         public ObservableCollection<int> Monthes { get; set; }
-        
         
         private int _selectedYear;
         public int SelectedYear
@@ -47,7 +52,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
                 _selectedYear = value;
                 OnPropertyChanged();
 
-                Monthes = new ObservableCollection<int>(BC.GetMonthes(_selectedYear));
+                Monthes = new ObservableCollection<int>(_methodGettingMonthes(BC, SelectedYear));
                 if (Monthes.Any())
                 {
                     SelectedMonth = Monthes.Last();
@@ -56,6 +61,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         }
         public int SelectedMonth { get; set; }
 
+        public string TitleName { get; set; }
 
         #endregion
 
@@ -66,8 +72,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         private void FormingSalary(object parameter)
         {
-            FormingSalaryReport.CompletedReportMinsk(BC, SelectedYear, SelectedMonth);
-            FormingSalaryReport.ComplitedReportSalaryWorkers(BC, SelectedYear, SelectedMonth);
+            _methodCreationReports.Invoke(BC, SelectedYear, SelectedMonth);
         }
 
 

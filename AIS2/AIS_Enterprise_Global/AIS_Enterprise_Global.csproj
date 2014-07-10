@@ -76,6 +76,7 @@
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
     <Compile Include="Helpers\DBCustomQueries.cs" />
     <Compile Include="Helpers\Enums.cs" />
+    <Compile Include="Helpers\Global.cs" />
     <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\DataGridHelper.cs" />
     <Compile Include="Helpers\NotifyPropertyChangeBase.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
     <Compile Include="Models\Helpers\Parameter.cs" />
+    <Compile Include="Models\Infos\InfoCash.cs" />
     <Compile Include="Models\Infos\InfoCost.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />
     <Compile Include="Models\Infos\InfoMonth.cs" />

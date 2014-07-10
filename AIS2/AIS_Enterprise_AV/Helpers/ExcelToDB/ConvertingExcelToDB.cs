@@ -15,8 +15,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
     public static class ConvertingExcelToDB
     {
-        private const string PATH_FIRE_WORKERS = "ТабельXML/firehuy.txt";
-        private const string PATH_TABEL_WORKERS = "ТабельXML/huy.xml";
+        private const string PATH_FIRE_WORKERS = "Files/firehuy.txt";
+        private const string PATH_TABEL_WORKERS = "Files/huy.xml";
 
         private class WorkerFire
         {

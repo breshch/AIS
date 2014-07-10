@@ -152,6 +152,7 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<InfoPanalty> InfoPanalties { get; set; }
         public DbSet<InfoOverTime> InfoOverTimes { get; set; }
         public DbSet<InfoCost> InfoCosts { get; set; }
+        public DbSet<InfoCash> InfoCashes { get; set; }
 
 
 

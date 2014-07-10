@@ -9,12 +9,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AIS_Enterprise_AV.Helpers
+namespace AIS_Enterprise_AV.Reports
 {
-    public static class FormingSalaryReport
+    public static class WorkerSalaryReports
     {
         private const string COMPANY_NAME_AV = "АВ";
         private const string PATH_REPORT_MINSK = "Зарплата\\Minsk\\Зарплата.xlsx";
@@ -68,131 +66,25 @@ namespace AIS_Enterprise_AV.Helpers
         private const int COUNT_COLUMNS_FENOX_MINSK = 6;
 
 
-        public static void CompletedReportMinsk(BusinessContext bc, int year, int month)
+        public static void SalaryOvertimeTransport(BusinessContext bc, int year, int month)
         {
-            string path = CreationNewFileReport(PATH_REPORT_MINSK);
-            var ep = CreationNewBook(path);
-
-            SalaryReportMinsk(ep, bc, year, month);
-            OverTimeReportMinsk(ep, bc, year, month);
-
-            ep.Save();
-            Process.Start(path);
+            Helpers.CompletedReport(PATH_REPORT_MINSK, new List<Action<ExcelPackage>>
+                {
+                    (ep) => SalaryReportMinsk(ep, bc, year, month),
+                    (ep) => OverTimeReportMinsk(ep, bc, year, month)
+                });
         }
 
         public static void ComplitedReportSalaryWorkers(BusinessContext bc, int year, int month)
         {
-            string path = CreationNewFileReport(Path.Combine(PATH_DIRECTORY_REPORT_SALARY_WORKERS, month + "." + year + ".xlsx"));
-            var ep = CreationNewBook(path);
-
-            SalaryReportWorkers(ep, bc, year, month);
-
-            ep.Save();
-            Process.Start(path);
-        }
-
-        private static string CreationNewFileReport(string path)
-        {
-            if (!Directory.Exists(Path.GetDirectoryName(path)))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-            }
-
-            string newPath = path;
-            int indexExcelNewFile = 0;
-            if (File.Exists(PATH_REPORT_MINSK))
-            {
-                try
+            Helpers.CompletedReport(PATH_REPORT_MINSK, new List<Action<ExcelPackage>>
                 {
-                    File.Delete(PATH_REPORT_MINSK);
-                }
-                catch
-                {
-                    newPath = newPath.Substring(0, newPath.Length - 5) + "_new.xlsx";
-
-                    while (true)
-                    {
-                        indexExcelNewFile++;
-                        newPath = newPath.Substring(0, newPath.Length - 5) + "_" + indexExcelNewFile + ".xlsx";
-
-                        if (File.Exists(newPath))
-                        {
-                            try
-                            {
-                                File.Delete(newPath);
-                                break;
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return newPath;
+                    (ep) =>  SalaryReportWorkers(ep, bc, year, month),
+                    (ep) => OverTimeReportMinsk(ep, bc, year, month)
+                });
         }
 
-        private static ExcelPackage CreationNewBook(string path)
-        {
-            return new ExcelPackage(new FileInfo(path));
-        }
-
-        private static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, string value, Color color,
-            float size = 11, bool isFontBold = false, 
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
-        {
-            var cell = sheet.Cells[fromRow, fromColumn, toRow, toColumn];
-            cell.Merge = true;
-            cell.Style.Font.Size = size;
-            cell.Style.Font.Bold = isFontBold;
-            cell.Style.HorizontalAlignment = alignment;
-            cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-            cell.Style.Border.BorderAround(borderStyle);
-            cell.Style.WrapText = true;
-            cell.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-            cell.Style.Fill.BackgroundColor.SetColor(color);
-            cell.Value = value;
-        }
-
-        private static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, double value, Color color,
-            float size = 11, bool isFontBold = false, 
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
-        {
-            var cell = sheet.Cells[fromRow, fromColumn, toRow, toColumn];
-            cell.Merge = true;
-            cell.Style.Font.Size = size;
-            cell.Style.Font.Bold = isFontBold;
-            cell.Style.HorizontalAlignment = alignment;
-            cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-            cell.Style.Border.BorderAround(borderStyle);
-            cell.Style.WrapText = true;
-            cell.Style.Numberformat.Format = value % 1 == 0 ? "#,##0" : "#,##0.0";
-            cell.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-            cell.Style.Fill.BackgroundColor.SetColor(color);
-            cell.Value = value;
-        }
-
-        private static void CreateCell(ExcelWorksheet sheet, int row, int column, string value, Color color, float size = 11, bool isFontBold = false, 
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
-        {
-            CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
-        }
-
-        private static void CreateCell(ExcelWorksheet sheet, int row, int column, double value, Color color, float size = 11, bool isFontBold = false,
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
-        {
-            CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
-        }
+        
         private static void OverTimeReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
             var overTimes = bc.GetInfoOverTimes(year, month).ToList();
@@ -203,18 +95,12 @@ namespace AIS_Enterprise_AV.Helpers
             }
 
             string name = "Переработка";
-            if (ep.Workbook.Worksheets.Select(ws => ws.Name).Contains(name))
-            {
-                ep.Workbook.Worksheets.Delete(name);
-            }
-            ep.Workbook.Worksheets.Add(name);
-
-            ExcelWorksheet sheet = ep.Workbook.Worksheets.First(ws => ws.Name == name);
+            var sheet = Helpers.GetSheet(ep, name);
 
             var colorTransparent = Color.Transparent;
 
-            CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_OVERTIME - 1, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, "ФИО", colorTransparent);
-            CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_OVERTIME - 1, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, "Должность", colorTransparent);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_OVERTIME - 1, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, "ФИО", colorTransparent);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_OVERTIME - 1, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, "Должность", colorTransparent);
 
             var workers = bc.GetDirectoryWorkers(year, month, false).ToList();
 
@@ -223,10 +109,10 @@ namespace AIS_Enterprise_AV.Helpers
 
             foreach (var worker in workers)
             {
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, worker.FullName, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, worker.FullName, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
 
                 string postName = bc.GetCurrentPost(worker.Id, lastDateInMonth).DirectoryPost.Name;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, postName, colorTransparent);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, postName, colorTransparent);
 
                 indexRowWorker++;
             }
@@ -244,8 +130,8 @@ namespace AIS_Enterprise_AV.Helpers
             {
                 int countRCs = overTime.CurrentRCs.ToList().Count();
 
-                CreateCell(sheet, INDEX_HEADER_ROW_DATE_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_DATE_OVERTIME, indexColumnOverTime + countRCs - 1, overTime.StartDate.ToShortDateString(), colorTransparent);
-                CreateCell(sheet, INDEX_HEADER_ROW_DESCRIPTION_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_DESCRIPTION_OVERTIME, indexColumnOverTime + countRCs - 1, overTime.Description, colorTransparent);
+                Helpers.CreateCell(sheet, INDEX_HEADER_ROW_DATE_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_DATE_OVERTIME, indexColumnOverTime + countRCs - 1, overTime.StartDate.ToShortDateString(), colorTransparent);
+                Helpers.CreateCell(sheet, INDEX_HEADER_ROW_DESCRIPTION_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_DESCRIPTION_OVERTIME, indexColumnOverTime + countRCs - 1, overTime.Description, colorTransparent);
 
                 var currentRCs = overTime.CurrentRCs.ToList();
                 int currentPercentage = currentRCs.Sum(r => r.DirectoryRC.Percentes);
@@ -256,11 +142,11 @@ namespace AIS_Enterprise_AV.Helpers
                         maxRCs.Add(currentRCs[i].DirectoryRC);
                     }
 
-                    CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME, indexColumnOverTime + i, currentRCs[i].DirectoryRC.Name, colorTransparent);
+                    Helpers.CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME, indexColumnOverTime + i, currentRCs[i].DirectoryRC.Name, colorTransparent);
 
                     if (countRCs < 3)
                     {
-                        sheet.Column(indexColumnOverTime + i).Width = PixelsToInches(192 / countRCs);
+                        sheet.Column(indexColumnOverTime + i).Width = Helpers.PixelsToInches(192 / countRCs);
                     }
 
                     int indexRowWorkerRC = 0;
@@ -295,19 +181,19 @@ namespace AIS_Enterprise_AV.Helpers
                             }
                         }
 
-                        CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME + indexRowWorkerRC, indexColumnOverTime + i, valueRC, colorTransparent);
+                        Helpers.CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME + indexRowWorkerRC, indexColumnOverTime + i, valueRC, colorTransparent);
                     }
                 }
 
                 indexColumnOverTime += countRCs;
             }
 
-            CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_SUMM_OVERTIME - 1, indexColumnOverTime + maxRCs.Count - 1, "Итого", colorTransparent);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_SUMM_OVERTIME - 1, indexColumnOverTime + maxRCs.Count - 1, "Итого", colorTransparent);
 
             int indexCurrentRC = indexColumnOverTime;
             foreach (var rc in maxRCs.OrderByDescending(r => r.Percentes))
             {
-                CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME, indexCurrentRC, rc.Name, colorTransparent);
+                Helpers.CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME, indexCurrentRC, rc.Name, colorTransparent);
 
                 int indexRowWorkerSum = 0;
                 foreach (var workerSumm in workerSumms)
@@ -321,38 +207,29 @@ namespace AIS_Enterprise_AV.Helpers
                     }
 
 
-                    CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME + indexRowWorkerSum, indexCurrentRC, valueSumm, colorTransparent);
+                    Helpers.CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME + indexRowWorkerSum, indexCurrentRC, valueSumm, colorTransparent);
                 }
 
 
                 indexCurrentRC++;
             }
 
-            CreateCell(sheet, 1, 1, INDEX_HEADER_ROW_OVERTIME - 1, indexCurrentRC - 1, "Переработка", colorTransparent, 26, true);
+            Helpers.CreateCell(sheet, 1, 1, INDEX_HEADER_ROW_OVERTIME - 1, indexCurrentRC - 1, "Переработка", colorTransparent, 26, true);
 
-            sheet.Column(INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME).Width = PixelsToInches(250);
-            sheet.Column(INDEX_HEADER_COLUMN_POST_NAME_OVERTIME).Width = PixelsToInches(100);
+            sheet.Column(INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME).Width = Helpers.PixelsToInches(250);
+            sheet.Column(INDEX_HEADER_COLUMN_POST_NAME_OVERTIME).Width = Helpers.PixelsToInches(100);
 
             sheet.Row(INDEX_HEADER_ROW_DESCRIPTION_OVERTIME).Height = 90;
         }
 
-        private static double PixelsToInches(double pixels)
-        {
-            return (pixels - 7) / 7d + 1;
-        }
+        
 
 
         private static void SalaryReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
-            string stringDate = month.ToString() + "'" + year.ToString();
+            string name = month.ToString() + "'" + year.ToString();
 
-            if (ep.Workbook.Worksheets.Select(ws => ws.Name).Contains(stringDate))
-            {
-                ep.Workbook.Worksheets.Delete(stringDate);
-            }
-            ep.Workbook.Worksheets.Add(stringDate);
-
-            ExcelWorksheet sheet = ep.Workbook.Worksheets.First(ws => ws.Name == stringDate);
+            var sheet = Helpers.GetSheet(ep, name);
 
             var colorHeaderDate = Color.FromArgb(237, 237, 237);
             var colorAVCash = Color.FromArgb(91, 155, 213);
@@ -367,35 +244,35 @@ namespace AIS_Enterprise_AV.Helpers
             var color26 = Color.FromArgb(255, 230, 153);
 
 
-            CreateCell(sheet, INDEX_HEADER_ROW_DATE_MINSK, INDEX_HEADER_COLUMN_PP_MINSK, INDEX_HEADER_ROW_DATE_MINSK + COUNT_HEADER_ROW_DATE_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, "Зарплатный табель за " + month + "." + year, colorHeaderDate, 20, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_DATE_MINSK, INDEX_HEADER_COLUMN_PP_MINSK, INDEX_HEADER_ROW_DATE_MINSK + COUNT_HEADER_ROW_DATE_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, "Зарплатный табель за " + month + "." + year, colorHeaderDate, 20, true);
 
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_PP_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_PP_MINSK, "№ ПП", colorHeaderDate, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, "ФИО", colorHeaderDate, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_POST_NAME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_POST_NAME_MINSK, "Должность", colorHeaderDate, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_AV_MINSK + COUNT_COLUMNS_AV_MINSK - 1, "АВ-Автотехник", colorAVCash, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK + COUNT_COLUMNS_FENOX_MINSK - 1, "Фенокс Автомотив РУС", colorFenoxCash, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_PP_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_PP_MINSK, "№ ПП", colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, "ФИО", colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_POST_NAME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_POST_NAME_MINSK, "Должность", colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_AV_MINSK + COUNT_COLUMNS_AV_MINSK - 1, "АВ-Автотехник", colorAVCash, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK + COUNT_COLUMNS_FENOX_MINSK - 1, "Фенокс Автомотив РУС", colorFenoxCash, 11, true);
 
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, "Оклад", colorAVSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CARD_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CARD_AV_MINSK, "Безнал", colorAVSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, "Аванс", colorAVSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, "Компенсация", colorAVSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, "Переработка", colorAVSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, "КО-5", colorAVKO5, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, "ПАМ-16", colorAVPam16, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CASH_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CASH_AV_MINSK, "Касса", colorAVCash, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, "Оклад", colorAVSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CARD_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CARD_AV_MINSK, "Безнал", colorAVSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, "Аванс", colorAVSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, "Компенсация", colorAVSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, "Переработка", colorAVSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, "КО-5", colorAVKO5, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, "ПАМ-16", colorAVPam16, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CASH_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CASH_AV_MINSK, "Касса", colorAVCash, 11, true);
 
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, "Оклад", colorFenoxSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, "Безнал", colorFenoxSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, "Переработка", colorFenoxSalary, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, "МО-5", colorFenoxOverTime, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM1_FENOX_MINSK, "ПАМ-1", colorFenoxOverTime, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, "МО-2", colorFenoxOverTime, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, "Касса", colorFenoxCash, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, "Оклад", colorFenoxSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, "Безнал", colorFenoxSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, "Переработка", colorFenoxSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, "МО-5", colorFenoxOverTime, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM1_FENOX_MINSK, "ПАМ-1", colorFenoxOverTime, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, "МО-2", colorFenoxOverTime, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, "Касса", colorFenoxCash, 11, true);
 
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_OFFICE_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_OFFICE_MINSK, "26А", color26, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, "Итого к выдаче",colorHeaderDate, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, "Итого З/П",colorHeaderDate, 11, true);
-            CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, "Касса + переработка",colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_OFFICE_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_OFFICE_MINSK, "26А", color26, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, "Итого к выдаче",colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, "Итого З/П",colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, "Касса + переработка",colorHeaderDate, 11, true);
 
             var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
 
@@ -470,11 +347,11 @@ namespace AIS_Enterprise_AV.Helpers
 
                 int indexRowWorker = (INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1) + indexWorker;
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
 
                 var currentWorkerPost = bc.GetCurrentPost(worker.Id, lastDateInMonth);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, currentWorkerPost.DirectoryPost.Name, colorHeaderDate);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, currentWorkerPost.DirectoryPost.Name, colorHeaderDate);
 
                 var infoMonth = bc.GetInfoMonth(worker.Id, year, month);
 
@@ -498,10 +375,10 @@ namespace AIS_Enterprise_AV.Helpers
                     salaryFenox = currentWorkerPost.DirectoryPost.UserWorkerHalfSalary.Value;
                 }
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV,colorAVSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV,colorAVSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, infoMonth.PrepaymentBankTransaction, colorAVSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV,colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV,colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, infoMonth.PrepaymentBankTransaction, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation, colorAVSalary);
 
                 double totalOverTimeAV = 0;
                 
@@ -521,7 +398,7 @@ namespace AIS_Enterprise_AV.Helpers
 
                 totalOverTimeAV += rcValue;
                 totalOverTimeKO5AV += rcValue;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, rcValue, colorAVKO5);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, rcValue, colorAVKO5);
 
                 rcValue = 0;
                 if (workerSumm != null)
@@ -536,14 +413,14 @@ namespace AIS_Enterprise_AV.Helpers
 
                 totalOverTimeAV += rcValue;
                 totalOverTimePAM16AV += rcValue;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, rcValue, colorAVPam16);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, rcValue, colorAVPam16);
 
                 double cashAV = salaryAV - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_AV_MINSK, cashAV, colorAVCash);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_AV_MINSK, cashAV, colorAVCash);
 
                 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, salaryFenox, colorFenoxSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, infoMonth.CardFenox,colorFenoxSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, salaryFenox, colorFenoxSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, infoMonth.CardFenox,colorFenoxSalary);
 
                 double totalOverTimeFenox = 0;
                 rcValue = 0;
@@ -557,7 +434,7 @@ namespace AIS_Enterprise_AV.Helpers
                 }
                 totalOverTimeFenox += rcValue;
                 totalOverTimeMO5Fenox += rcValue;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, rcValue, colorFenoxOverTime);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, rcValue, colorFenoxOverTime);
 
                 rcValue = 0;
                 if (workerSumm != null)
@@ -570,7 +447,7 @@ namespace AIS_Enterprise_AV.Helpers
                 }
                 totalOverTimeFenox += rcValue;
                 totalOverTimePAM1Fenox += rcValue;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM1_FENOX_MINSK, rcValue, colorFenoxOverTime);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM1_FENOX_MINSK, rcValue, colorFenoxOverTime);
 
                 rcValue = 0;
                 if (workerSumm != null)
@@ -583,20 +460,20 @@ namespace AIS_Enterprise_AV.Helpers
                 }
                 totalOverTimeFenox += rcValue;
                 totalOverTimeMO2Fenox += rcValue;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, rcValue, colorFenoxOverTime);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, rcValue, colorFenoxOverTime);
 
                 double cashFenox = salaryFenox - infoMonth.CardFenox;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, cashFenox, colorFenoxCash);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, cashFenox, colorFenoxCash);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, null, color26);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, null, color26);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV -
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV -
                     infoMonth.PrepaymentBankTransaction - infoMonth.Compensation - infoMonth.CardFenox, colorHeaderDate);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
                     infoMonth.CardFenox + totalOverTimeFenox + cashFenox, colorHeaderDate);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox, colorHeaderDate);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox, colorHeaderDate);
 
 
                 totalCardAV += infoMonth.CardAV;
@@ -622,8 +499,8 @@ namespace AIS_Enterprise_AV.Helpers
 
                 int indexRowWorker = (INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1) + indexWorker;
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
 
                 var currentWorkerPost = bc.GetCurrentPost(worker.Id, lastDateInMonth);
                 string postName = currentWorkerPost.DirectoryPost.Name;
@@ -632,7 +509,7 @@ namespace AIS_Enterprise_AV.Helpers
                     postName = postName.Substring(0, postName.IndexOf("_"));
                 }
                 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, postName, colorHeaderDate);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, postName, colorHeaderDate);
 
                 var infoMonth = bc.GetInfoMonth(worker.Id, year, month);
 
@@ -656,32 +533,32 @@ namespace AIS_Enterprise_AV.Helpers
                     salaryFenox = currentWorkerPost.DirectoryPost.UserWorkerHalfSalary.Value;
                 }
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV, colorAVSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, 0, colorAVSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, 0, colorAVSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, 0, colorAVKO5);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, 0, colorAVPam16);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_AV_MINSK, 0, colorAVCash);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, 0, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, 0, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, 0, colorAVKO5);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, 0, colorAVPam16);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_AV_MINSK, 0, colorAVCash);
 
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, salaryFenox, colorFenoxSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, infoMonth.CardFenox, colorFenoxSalary);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, 0, colorFenoxOverTime);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM1_FENOX_MINSK, 0, colorFenoxOverTime);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, 0, colorFenoxOverTime);
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, 0, colorFenoxCash);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, salaryFenox, colorFenoxSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, infoMonth.CardFenox, colorFenoxSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO5_FENOX_MINSK, 0, colorFenoxOverTime);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM1_FENOX_MINSK, 0, colorFenoxOverTime);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_MO2_FENOX_MINSK, 0, colorFenoxOverTime);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, 0, colorFenoxCash);
 
                 double officeCash = salaryAV - infoMonth.CardAV + salaryFenox - infoMonth.CardFenox;
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, officeCash, color26);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, officeCash, color26);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation -
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation -
                     infoMonth.CardFenox, colorHeaderDate);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
                     infoMonth.CardFenox + officeCash, colorHeaderDate);
 
-                CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, 0, colorHeaderDate);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, 0, colorHeaderDate);
 
 
                 totalCardAV += infoMonth.CardAV;
@@ -695,38 +572,38 @@ namespace AIS_Enterprise_AV.Helpers
 
             indexWorker++;
 
-            CreateCell(sheet, indexWorker + 5, 1, indexWorker + 1 + 5, 4, "Итого", colorHeaderDate);
+            Helpers.CreateCell(sheet, indexWorker + 5, 1, indexWorker + 1 + 5, 4, "Итого", colorHeaderDate);
 
-            CreateCell(sheet, indexWorker + 5, 5, totalCardAV, colorAVCash);
-            CreateCell(sheet, indexWorker + 5, 6, totalPrepaymentBankTransactionAV, colorAVCash);
-            CreateCell(sheet, indexWorker + 5, 7, totalCompensationAV, colorAVCash);
-            CreateCell(sheet, indexWorker + 1 + 5, 5, indexWorker + 1 + 5, 7, (totalCardAV + totalPrepaymentBankTransactionAV + totalCompensationAV), colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 5, totalCardAV, colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 6, totalPrepaymentBankTransactionAV, colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 7, totalCompensationAV, colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 1 + 5, 5, indexWorker + 1 + 5, 7, (totalCardAV + totalPrepaymentBankTransactionAV + totalCompensationAV), colorAVCash);
 
-            CreateCell(sheet, indexWorker + 5, 8, totalOverTimeKO5AV, colorAVCash);
-            CreateCell(sheet, indexWorker + 5, 9, totalOverTimePAM16AV, colorAVCash);
-            CreateCell(sheet, indexWorker + 5, 10, totalCashAV, colorAVCash);
-            CreateCell(sheet, indexWorker + 1 + 5, 8, indexWorker + 1 + 5, 10, (totalOverTimeKO5AV + totalOverTimePAM16AV + totalCashAV), colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 8, totalOverTimeKO5AV, colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 9, totalOverTimePAM16AV, colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 10, totalCashAV, colorAVCash);
+            Helpers.CreateCell(sheet, indexWorker + 1 + 5, 8, indexWorker + 1 + 5, 10, (totalOverTimeKO5AV + totalOverTimePAM16AV + totalCashAV), colorAVCash);
 
-            CreateCell(sheet, indexWorker + 5, 11, indexWorker + 1 + 5, 11, null, colorFenoxSalary);
-            CreateCell(sheet, indexWorker + 5, 12, indexWorker + 1 + 5, 12, totalCardFenox, colorFenoxCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 11, indexWorker + 1 + 5, 11, null, colorFenoxSalary);
+            Helpers.CreateCell(sheet, indexWorker + 5, 12, indexWorker + 1 + 5, 12, totalCardFenox, colorFenoxCash);
 
-            CreateCell(sheet, indexWorker + 5, 13, totalOverTimeMO5Fenox, colorFenoxCash);
-            CreateCell(sheet, indexWorker + 5, 14, totalOverTimePAM1Fenox, colorFenoxCash);
-            CreateCell(sheet, indexWorker + 5, 15, totalOverTimeMO2Fenox, colorFenoxCash);
-            CreateCell(sheet, indexWorker + 5, 16, totalCashFenox, colorFenoxCash);
-            CreateCell(sheet, indexWorker + 1 + 5, 13, indexWorker + 1 + 5, 16, (totalOverTimeMO5Fenox + totalOverTimePAM1Fenox + totalOverTimeMO2Fenox + totalCashFenox), colorFenoxCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 13, totalOverTimeMO5Fenox, colorFenoxCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 14, totalOverTimePAM1Fenox, colorFenoxCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 15, totalOverTimeMO2Fenox, colorFenoxCash);
+            Helpers.CreateCell(sheet, indexWorker + 5, 16, totalCashFenox, colorFenoxCash);
+            Helpers.CreateCell(sheet, indexWorker + 1 + 5, 13, indexWorker + 1 + 5, 16, (totalOverTimeMO5Fenox + totalOverTimePAM1Fenox + totalOverTimeMO2Fenox + totalCashFenox), colorFenoxCash);
 
-            CreateCell(sheet, indexWorker + 5, 17, indexWorker + 1 + 5, 17, totalOffice, color26);
-            CreateCell(sheet, indexWorker + 5, 18, indexWorker + 1 + 5, 18, totalIssueSalary, colorHeaderDate);
-            CreateCell(sheet, indexWorker + 5, 19, indexWorker + 1 + 5, 19, totalTotalSalary, colorHeaderDate);
-            CreateCell(sheet, indexWorker + 5, 20, indexWorker + 1 + 5, 20, totalCashPlusOverTimes, colorHeaderDate);
+            Helpers.CreateCell(sheet, indexWorker + 5, 17, indexWorker + 1 + 5, 17, totalOffice, color26);
+            Helpers.CreateCell(sheet, indexWorker + 5, 18, indexWorker + 1 + 5, 18, totalIssueSalary, colorHeaderDate);
+            Helpers.CreateCell(sheet, indexWorker + 5, 19, indexWorker + 1 + 5, 19, totalTotalSalary, colorHeaderDate);
+            Helpers.CreateCell(sheet, indexWorker + 5, 20, indexWorker + 1 + 5, 20, totalCashPlusOverTimes, colorHeaderDate);
 
 
-            sheet.Column(INDEX_HEADER_COLUMN_PP_MINSK).Width = PixelsToInches(42);
-            sheet.Column(INDEX_HEADER_COLUMN_FULL_NAME_MINSK).Width = PixelsToInches(250);
-            sheet.Column(INDEX_HEADER_COLUMN_POST_NAME_MINSK).Width = PixelsToInches(110);
-            sheet.Column(INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK).Width = PixelsToInches(70);
-            sheet.Column(INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK).Width = PixelsToInches(70);
+            sheet.Column(INDEX_HEADER_COLUMN_PP_MINSK).Width = Helpers.PixelsToInches(42);
+            sheet.Column(INDEX_HEADER_COLUMN_FULL_NAME_MINSK).Width = Helpers.PixelsToInches(250);
+            sheet.Column(INDEX_HEADER_COLUMN_POST_NAME_MINSK).Width = Helpers.PixelsToInches(110);
+            sheet.Column(INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK).Width = Helpers.PixelsToInches(70);
+            sheet.Column(INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK).Width = Helpers.PixelsToInches(70);
         }
 
         private static void SalaryReportWorkers(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -741,13 +618,8 @@ namespace AIS_Enterprise_AV.Helpers
 
             foreach (var worker in workers)
             {
-                if (ep.Workbook.Worksheets.Select(ws => ws.Name).Contains(worker.FullName))
-                {
-                    ep.Workbook.Worksheets.Delete(worker.FullName);
-                }
-                ep.Workbook.Worksheets.Add(worker.FullName);
-
-                ExcelWorksheet sheet = ep.Workbook.Worksheets.First(ws => ws.Name == worker.FullName);
+                string name = worker.FullName;
+                var sheet = Helpers.GetSheet(ep, name);
 
                 sheet.PrinterSettings.PaperSize = ePaperSize.A5;
                 sheet.PrinterSettings.Orientation = eOrientation.Landscape;
