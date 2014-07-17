@@ -39,11 +39,11 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -90,6 +90,7 @@
     <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Currents\CurrentNote.cs" />
     <Compile Include="Models\Currents\CurrentPost.cs" />
     <Compile Include="Models\Currents\CurrentRC.cs" />
@@ -101,11 +102,13 @@
     <Compile Include="Models\Directories\DirectoryNote.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryRC.cs" />
+    <Compile Include="Models\Directories\DirectoryTransportCompany.cs" />
     <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
     <Compile Include="Models\Directories\DirectoryUser.cs" />
     <Compile Include="Models\Directories\DirectoryUserStatus.cs" />
     <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
+    <Compile Include="Models\Helpers\DefaultCost.cs" />
     <Compile Include="Models\Helpers\Parameter.cs" />
     <Compile Include="Models\Infos\InfoCash.cs" />
     <Compile Include="Models\Infos\InfoCost.cs" />

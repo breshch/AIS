@@ -11,6 +11,8 @@ namespace AIS_Enterprise_Global.Models.Currents
     {
         public int Id { get; set; }
         public int DirecoryUserStatusPrivilegeId { get; set; }
-        public virtual DirectoryUserStatusPrivilege DirectoryUserStatusPrivilege { get; set; } 
+        public virtual DirectoryUserStatusPrivilege DirectoryUserStatusPrivilege { get; set; }
+
+        public int DirectoryUserStatusId { get; set; }
     }
 }

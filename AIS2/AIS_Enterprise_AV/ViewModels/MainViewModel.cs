@@ -7,6 +7,7 @@ using AIS_Enterprise_AV.Views.Directories;
 using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Attributes;
+using AIS_Enterprise_Global.Migrations;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Directories;
 using AIS_Enterprise_Global.ViewModels;
@@ -15,6 +16,7 @@ using AIS_Enterprise_Global.Views.Directories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -170,6 +172,8 @@ namespace AIS_Enterprise_AV.ViewModels
                 if (_selectedDataBase != null)
                 {
                     DataContext.ChangeServerAndDataBase(SelectedServer, _selectedDataBase);
+                    
+                    Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
                     BC.RefreshContext();
 
                     RefreshUsers();
@@ -366,14 +370,15 @@ namespace AIS_Enterprise_AV.ViewModels
 
             window.Visibility = Visibility.Collapsed;
 
+
             var monthTimeSheetView = new MonthTimeSheetView();
             monthTimeSheetView.ShowDialog();
 
             passwordBox.Password = null;
             window.Visibility = Visibility.Visible;
 
-            DataContext.ChangeConnectionStringWithDefaultCredentials();
-            BC.RefreshContext();
+            //DataContext.ChangeConnectionStringWithDefaultCredentials();
+            //BC.RefreshContext();
 
             IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
         }

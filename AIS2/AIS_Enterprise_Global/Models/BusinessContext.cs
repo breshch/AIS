@@ -33,7 +33,11 @@ namespace AIS_Enterprise_Global.Models
 
         public virtual void RefreshContext()
         {
-            _dc.Dispose();
+            if (_dc != null)
+            {
+                _dc.Dispose();
+            }
+
             _dc = new DataContext();
         }
 
@@ -118,6 +122,9 @@ namespace AIS_Enterprise_Global.Models
 
             var parameterLastDate = new Parameter { Name = "LastDate", Value = DateTime.Now.ToString() };
             _dc.Parameters.Add(parameterLastDate);
+
+            var parameterDefaultCostsDate = new Parameter { Name = "DefaultCostsDate", Value = DateTime.MinValue.ToString() };
+            _dc.Parameters.Add(parameterDefaultCostsDate);
 
             _dc.SaveChanges();
 
@@ -233,6 +240,15 @@ namespace AIS_Enterprise_Global.Models
 
             _dc.SaveChanges();
 
+
+            var transportCompany = new DirectoryTransportCompany { Name = "Кузин", IsCash = false };
+            _dc.DirectoryTransportCompanies.Add(transportCompany);
+            transportCompany = new DirectoryTransportCompany { Name = "Логистикон", IsCash = false };
+            _dc.DirectoryTransportCompanies.Add(transportCompany);
+            transportCompany = new DirectoryTransportCompany { Name = "Сергиев пассад", IsCash = true };
+            _dc.DirectoryTransportCompanies.Add(transportCompany);
+
+            _dc.SaveChanges();
 
             var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
 
@@ -986,6 +1002,16 @@ namespace AIS_Enterprise_Global.Models
                 (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0)));
         }
 
+        public IQueryable<DirectoryWorker> GetDirectoryWorkersMonthTimeSheet(int year, int month)
+        {
+            var firstDateInMonth = new DateTime(year, month, 1);
+            var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+            return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
+                (w.FireDate == null || (w.FireDate != null && DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0))).
+                Include(w => w.CurrentCompaniesAndPosts.Select(c => c.DirectoryPost.DirectoryTypeOfPost));
+        }
+
         public IEnumerable<DirectoryWorker> GetDirectoryWorkers(int year, int month, bool isOffice)
         {
             var firstDateInMonth = new DateTime(year, month, 1);
@@ -1143,6 +1169,11 @@ namespace AIS_Enterprise_Global.Models
             return worker.InfoDates.AsQueryable().Include(d => d.InfoPanalty).Where(d => d.Date.Year == year && d.Date.Month == month);
         }
 
+        public IQueryable<InfoDate> GetInfoDates(int year, int month)
+        {
+            return _dc.InfoDates.Where(d => d.Date.Year == year && d.Date.Month == month).Include(d => d.InfoPanalty);
+        }
+
         public double? IsOverTime(InfoDate infoDate, List<DateTime> weekEnds)
         {
             if (weekEnds.Any(w => w.Date == infoDate.Date.Date))
@@ -1206,6 +1237,11 @@ namespace AIS_Enterprise_Global.Models
         {
             var worker = GetDirectoryWorker(workerId);
             return worker.InfoMonthes.First(m => m.Date.Year == year && m.Date.Month == month);
+        }
+
+        public IQueryable<InfoMonth> GetInfoMonthes(int year, int month)
+        {
+            return _dc.InfoMonthes.Where(m => m.Date.Year == year && m.Date.Month == month);
         }
 
         #endregion
@@ -1317,8 +1353,6 @@ namespace AIS_Enterprise_Global.Models
         {
             string path = Path.Combine(Environment.CurrentDirectory, "Calendar", year.ToString() + ".txt");
 
-            using (var dc = new DataContext())
-            {
                 using (var sr = new StreamReader(path))
                 {
                     while (!sr.EndOfStream)
@@ -1330,25 +1364,22 @@ namespace AIS_Enterprise_Global.Models
                             var date = DateTime.Parse(line.Substring(0, 10));
 
 
-                            if (!dc.DirectoryHolidays.Select(h => h.Date).Contains(date))
+                            if (!_dc.DirectoryHolidays.Select(h => h.Date).Contains(date))
                             {
                                 var directoryHoliday = new DirectoryHoliday { Date = date };
-                                dc.DirectoryHolidays.Add(directoryHoliday);
+                                _dc.DirectoryHolidays.Add(directoryHoliday);
                             }
                         }
                     }
                 }
-                dc.SaveChanges();
-            }
+                _dc.SaveChanges();
         }
 
         public int GetCountWorkDaysInMonth(int year, int month)
         {
-            using (var dc = new DataContext())
-            {
-                int holiDays = dc.DirectoryHolidays.Where(h => h.Date.Year == year && h.Date.Month == month).Count();
-                return DateTime.DaysInMonth(year, month) - holiDays;
-            }
+
+            int holiDays = _dc.DirectoryHolidays.Where(h => h.Date.Year == year && h.Date.Month == month).Count();
+            return DateTime.DaysInMonth(year, month) - holiDays;
         }
 
         public IQueryable<DateTime> GetHolidays(int year, int month)
@@ -1783,6 +1814,35 @@ namespace AIS_Enterprise_Global.Models
 
         #region InfoCost
 
+        public InfoCost EditInfoCost(DateTime date, DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note, bool isIncomming, double summ, double weight)
+        {
+            var infoCosts = GetInfoCosts(date).ToList();
+            var infoCost = infoCosts.FirstOrDefault(c => c.DirectoryCostItem.Id == costItem.Id && c.DirectoryRCId == rc.Id && c.CurrentNotes.First().DirectoryNoteId == note.Id);
+            if (infoCost == null)
+            {
+                infoCost = new InfoCost
+                {
+                    Date = date,
+                    DirectoryCostItemId = costItem.Id,
+                    DirectoryRCId = rc.Id,
+                    CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = note.Id } },
+                    Summ = summ,
+                    IsIncoming = isIncomming,
+                    Weight = weight,
+                };
+
+                _dc.InfoCosts.Add(infoCost);
+            }
+            else
+            {
+                infoCost.Summ = summ;
+                infoCost.IsIncoming = isIncomming;
+                infoCost.Weight = weight;
+            }
+
+            _dc.SaveChanges();
+            return infoCost;
+        }
         public IQueryable<InfoCost> GetInfoCosts(DateTime date)
         {
             return _dc.InfoCosts.Where(c => DbFunctions.DiffDays(date, c.Date) == 0);
@@ -1790,7 +1850,7 @@ namespace AIS_Enterprise_Global.Models
 
         public IQueryable<InfoCost> GetInfoCosts(int year, int month)
         {
-            return _dc.InfoCosts.Where(c => c.Date.Year == year && c.Date.Month == month);
+            return _dc.InfoCosts.Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
         }
 
         public IQueryable<InfoCost> GetInfoCostsRCIncoming(int year, int month, string rcName)
@@ -1821,7 +1881,7 @@ namespace AIS_Enterprise_Global.Models
             return GetInfoCosts(year, month).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)");
         }
 
-        public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, double summ, List<Transport> transports)
+        public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, DirectoryTransportCompany transportCompany, double summ, List<Transport> transports)
         {
             if (directoryCostItem.Name == "Транспорт (5031)" && (transports[0].DirectoryRC.Name != "26А" || !isIncoming))
             {
@@ -1844,6 +1904,7 @@ namespace AIS_Enterprise_Global.Models
                         DirectoryCostItem = _dc.DirectoryCostItems.Find(directoryCostItem.Id),
                         DirectoryRC = _dc.DirectoryRCs.First(r => r.Name == rc),
                         IsIncoming = isIncoming,
+                        DirectoryTransportCompany = transportCompany != null ? _dc.DirectoryTransportCompanies.Find(transportCompany.Id) : null,
                         Summ = weightRC != 0 ? Math.Round(summ / commonWeight * weightRC, 0) : summ,
                         CurrentNotes = currentNotes,
                         Weight = weightRC
@@ -1862,6 +1923,7 @@ namespace AIS_Enterprise_Global.Models
                     DirectoryCostItem = _dc.DirectoryCostItems.Find(directoryCostItem.Id),
                     DirectoryRC = _dc.DirectoryRCs.Find(transports.First().DirectoryRC.Id),
                     IsIncoming = isIncoming,
+                    DirectoryTransportCompany = transportCompany != null ? _dc.DirectoryTransportCompanies.Find(transportCompany.Id) : null,
                     Summ = summ,
                     CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNote = _dc.DirectoryNotes.Find(transports.First().DirectoryNote.Id) } },
                     Weight = 0
@@ -1954,7 +2016,110 @@ namespace AIS_Enterprise_Global.Models
         #endregion
 
 
+        #region DefaultCosts
 
+        public IQueryable<DefaultCost> GetDefaultCosts()
+        {
+            return _dc.DefaultCosts;
+        }
+
+        public DefaultCost AddDefaultCost(DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note, double summ, int day)
+        {
+            var defaultCost = new DefaultCost
+            {
+                DirectoryCostItem = costItem,
+                DirectoryRC = rc,
+                DirectoryNote = note,
+                SummOfPayment = summ,
+                DayOfPayment = day
+            };
+            _dc.DefaultCosts.Add(defaultCost);
+            _dc.SaveChanges();
+
+            var infoCost = new InfoCost
+            {
+                Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, day),
+                DirectoryCostItemId = defaultCost.DirectoryCostItemId,
+                DirectoryRCId = defaultCost.DirectoryRCId,
+                CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = defaultCost.DirectoryNoteId } },
+                Summ = defaultCost.SummOfPayment,
+                IsIncoming = false,
+                Weight = 0,
+            };
+
+            _dc.InfoCosts.Add(infoCost);
+            _dc.SaveChanges();
+
+            return defaultCost;
+        }
+
+        public void EditDefaultCost(int id, DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note, double summ, int day)
+        {
+            var defaultCost = _dc.DefaultCosts.Find(id);
+
+            defaultCost.DirectoryCostItem = costItem;
+            defaultCost.DirectoryRC = rc;
+            defaultCost.DirectoryNote = note;
+            defaultCost.SummOfPayment = summ;
+            defaultCost.DayOfPayment = day;
+
+            _dc.SaveChanges();
+        }
+
+        public void RemoveDefaultCost(DefaultCost defaultCost)
+        {
+            _dc.DefaultCosts.Remove(defaultCost);
+            _dc.SaveChanges();
+        }
+
+        public void InitializeDefaultCosts()
+        {
+            var defaultCostsDate = GetParameterValue<DateTime>("DefaultCostsDate");
+            var currentDate = DateTime.Now;
+
+            if (defaultCostsDate.Year < currentDate.Year || (defaultCostsDate.Year == currentDate.Year && defaultCostsDate.Month < currentDate.Month))
+            {
+                var defaultCosts = GetDefaultCosts().ToList();
+
+                foreach (var defaultCost in defaultCosts)
+                {
+                    var infoCostDate = new DateTime(currentDate.Year, currentDate.Month, defaultCost.DayOfPayment);
+                    var infoCosts = GetInfoCosts(infoCostDate).ToList();
+                    if (!infoCosts.Any(c => c.DirectoryCostItem.Id == defaultCost.DirectoryCostItemId && c.DirectoryRCId == defaultCost.DirectoryRCId &&
+                        c.CurrentNotes.First().DirectoryNoteId == defaultCost.DirectoryNoteId && c.Summ == defaultCost.SummOfPayment))
+                    {
+                        var infoCost = new InfoCost
+                        {
+                            Date = infoCostDate,
+                            DirectoryCostItemId = defaultCost.DirectoryCostItemId,
+                            DirectoryRCId = defaultCost.DirectoryRCId,
+                            CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = defaultCost.DirectoryNoteId } },
+                            Summ = defaultCost.SummOfPayment,
+                            IsIncoming = false,
+                            Weight = 0,
+                        };
+
+                        _dc.InfoCosts.Add(infoCost);
+                    }
+                }
+
+                _dc.SaveChanges();
+                EditParameter("DefaultCostsDate", DateTime.Now.ToString());
+            }
+        }
+
+        #endregion
+
+
+        #region DirectoryTransportCompanies
+
+        public IQueryable<DirectoryTransportCompany> GetDirectoryTransportCompanies()
+        {
+            return _dc.DirectoryTransportCompanies;
+        }
+
+        
+        #endregion
 
 
     }

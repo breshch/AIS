@@ -60,6 +60,7 @@
             <MenuItem x:Name="MenuCosts" Header="Затраты" Visibility="Collapsed">
                 <MenuItem x:Name="MenuDayCosts" Header="Дневные затраты" Click="MenuDayCosts_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuMonthCosts" Header="Месячные затраты" Click="MenuMonthCosts_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuDefaultCosts" Header="Автоматические затраты" Click="MenuDefaultCosts_Click" Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="MenuReports" Header="Отчёты" Visibility="Collapsed">
                 <MenuItem x:Name="MenuReportSalary" Header="Зарплата" Click="MenuReportSalary_Click" Visibility="Collapsed"/>
@@ -85,9 +86,9 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="10, 0, 0, 0">
-                    <TextBlock Text="Год" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TextBlockYear" Text="Год" VerticalAlignment="Center"/>
                     <ComboBox x:Name="ComboboxYears" Width="150"  Margin="10, 0, 0, 0" VerticalAlignment="Center" SelectionChanged="ComboboxYears_SelectionChanged"/>
-                    <TextBlock Text="Месяц" VerticalAlignment="Center" Margin="20, 0, 0, 0"/>
+                    <TextBlock x:Name="TextBlockMonth" Text="Месяц" VerticalAlignment="Center" Margin="20, 0, 0, 0"/>
                     <ComboBox x:Name="ComboboxMonthes" Width="150" Margin="10, 0, 0, 0" VerticalAlignment="Center" SelectionChanged="ComboboxMonthes_SelectionChanged"/>
                     <Button x:Name="ButtonOverTimes" Content="Переработка" Width="150" Margin="50,0,0,0" VerticalAlignment="Center" Click="ButtonOverTimes_Click" IsEnabled="False"/>
                 </StackPanel>

@@ -24,5 +24,6 @@ namespace AIS_Enterprise_Global.Models.Infos
         public double Inventory { get; set; }
         public double BirthDays { get; set; }
         public double Bonus { get; set; }
+        public int DirectoryWorkerId { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Migrations;
 using AIS_Enterprise_Global.Models;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
             string password = passwordBox.Password;
 
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContext>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
 
             DataContext.ChangeConnectionStringWithDefaultCredentials(IP, CompanyName);
 

@@ -69,7 +69,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                     Weight = 0
                                 }
                             };
-                            bc.AddInfoCosts(date, costItem, isIncoming, summ, transports);
+                            bc.AddInfoCosts(date, costItem, isIncoming, null, summ, transports);
 
                             indexRow++;
                         }

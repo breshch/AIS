@@ -19,6 +19,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
         public MonthCostsViewModel()
         {
+            _isNotTransportOnly = HelperMethods.IsPrivilege(BC, UserPrivileges.CostsVisibility_IsNotTransportOnly);
+
             Costs = new ObservableCollection<InfoCost>();
 
             Years = new ObservableCollection<int>(BC.GetInfoCostYears());
@@ -31,8 +33,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
             ShowDayCostsCommand = new RelayCommand(ShowDayCosts);
 
-            _isNotTransportOnly = HelperMethods.IsPrivilege(BC, UserPrivileges.CostsVisibility_IsNotTransportOnly);
-
+            
             VisibilityCash = _isNotTransportOnly ? Visibility.Visible : Visibility.Collapsed;  
         }
 

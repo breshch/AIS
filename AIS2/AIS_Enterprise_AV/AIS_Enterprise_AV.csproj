@@ -39,11 +39,11 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\packages\EPPlus.3.1.3.3\lib\net35\EPPlus.dll</HintPath>
@@ -103,7 +103,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Costs\ViewModels\AddDefaultCostViewModel.cs" />
+    <Compile Include="Costs\ViewModels\EditDefaultCostViewModel.cs" />
+    <Compile Include="Costs\ViewModels\BaseDefaultCostViewModel.cs" />
+    <Compile Include="Costs\ViewModels\DefaultCostsViewModel.cs" />
     <Compile Include="Costs\ViewModels\MonthCostsViewModel.cs" />
+    <Compile Include="Costs\Views\AddEditDefaultCostView.xaml.cs">
+      <DependentUpon>AddEditDefaultCostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Costs\Views\DefaultCostsView.xaml.cs">
+      <DependentUpon>DefaultCostsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Costs\Views\MonthCostsView.xaml.cs">
       <DependentUpon>MonthCostsView.xaml</DependentUpon>
     </Compile>
@@ -185,6 +195,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Costs\Views\AddEditDefaultCostView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Costs\Views\DefaultCostsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Costs\Views\MonthCostsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

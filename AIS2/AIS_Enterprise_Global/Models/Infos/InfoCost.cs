@@ -23,11 +23,13 @@ namespace AIS_Enterprise_Global.Models.Infos
         public bool IsIncoming { get; set; }
         public double Summ { get; set; }
 
-        public int DirectoryNoteId { get; set; }
         public virtual List<CurrentNote> CurrentNotes { get; set; }
 
         public double Weight { get; set; }
 
+        public int? DirectoryTransportCompanyId { get; set; }
+        public virtual DirectoryTransportCompany DirectoryTransportCompany { get; set; }
+       
         public InfoCost()
         {
             CurrentNotes = new List<CurrentNote>();

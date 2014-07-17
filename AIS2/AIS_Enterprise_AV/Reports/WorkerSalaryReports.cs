@@ -604,6 +604,23 @@ namespace AIS_Enterprise_AV.Reports
             sheet.Column(INDEX_HEADER_COLUMN_POST_NAME_MINSK).Width = Helpers.PixelsToInches(110);
             sheet.Column(INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK).Width = Helpers.PixelsToInches(70);
             sheet.Column(INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK).Width = Helpers.PixelsToInches(70);
+
+            var date = DateTime.Now.AddMonths(1);
+            date = new DateTime(date.Year, date.Month, 5);
+
+            var costItem = bc.GetDirectoryCostItem("З/п (701)");
+            var rcs = bc.GetDirectoryRCs();
+            var noteSalary = bc.GetDirectoryNote("Зарплата");
+            var noteOverTime = bc.GetDirectoryNote("Переработка");
+
+            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, totalCashAV, 0);
+            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, totalOverTimeKO5AV, 0);
+            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, totalOverTimePAM16AV, 0);
+            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, totalCashFenox, 0);
+            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, totalOverTimeMO5Fenox, 0);
+            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, totalOverTimePAM1Fenox, 0);
+            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, totalOverTimeMO2Fenox, 0);
+
         }
 
         private static void SalaryReportWorkers(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -614,7 +631,7 @@ namespace AIS_Enterprise_AV.Reports
 
             var weekendsInMonth = bc.GetHolidays(year, month).ToList();
 
-            var workers = bc.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month, false);
+            var workers = bc.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month, false).ToList();
 
             foreach (var worker in workers)
             {

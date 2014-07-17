@@ -24,7 +24,7 @@ namespace AIS_Enterprise_Global.Models
             _ip = Properties.Settings.Default.IP;
             _databaseName = Properties.Settings.Default.DatabaseName;
 
-            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; Persist Security Info=False; User ID=huy; Password=huy;", _ip, _databaseName);
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
         }
 
         public DataContext()
@@ -35,7 +35,7 @@ namespace AIS_Enterprise_Global.Models
 
         public static void ChangeConnectionStringWithDefaultCredentials()
         {
-            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; Persist Security Info=False; User ID=huy; Password=huy;", _ip, _databaseName);
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
         }
 
         public static void ChangeConnectionStringWithDefaultCredentials(string ip, string companyName)
@@ -47,7 +47,7 @@ namespace AIS_Enterprise_Global.Models
             Properties.Settings.Default.DatabaseName = _databaseName;
             Properties.Settings.Default.Save();
 
-            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; Persist Security Info=False; User ID=huy; Password=huy;", _ip, _databaseName);
+            _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
         }
 
         public static void ChangeUser(string userName, string password)
@@ -138,6 +138,7 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<DirectoryRC> DirectoryRCs { get; set; }
         public DbSet<DirectoryCostItem> DirectoryCostItems { get; set; }
         public DbSet<DirectoryNote> DirectoryNotes { get; set; }
+        public DbSet<DirectoryTransportCompany> DirectoryTransportCompanies { get; set; }
         
 
         public DbSet<CurrentPost> CurrentPosts { get; set; }
@@ -154,7 +155,7 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<InfoCost> InfoCosts { get; set; }
         public DbSet<InfoCash> InfoCashes { get; set; }
 
-
+        public DbSet<DefaultCost> DefaultCosts { get; set; }
 
         public DbSet<Parameter> Parameters { get; set; }
 

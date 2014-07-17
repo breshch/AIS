@@ -13,5 +13,7 @@ namespace AIS_Enterprise_Global.Models.Currents
 
         public int DirectoryNoteId { get; set; }
         public virtual DirectoryNote DirectoryNote { get; set; }
+
+        public int InfoCostId { get; set; }
     }
 }

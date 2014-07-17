@@ -32,6 +32,7 @@ namespace AIS_Enterprise_Global.Helpers
         MenuVisibility_Directories_Workers_ListOfWorkers,
         MenuVisibility_Costs_DayCosts,
         MenuVisibility_Costs_MonthCosts,
+        MenuVisibility_Costs_DefaultCosts,
         MenuVisibility_Reports_ReportSalary,
         MenuVisibility_Reports_ReportCosts,
         MenuVisibility_AdminPanel_UserStatuses,

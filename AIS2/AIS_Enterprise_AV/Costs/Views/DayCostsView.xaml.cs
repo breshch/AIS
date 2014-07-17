@@ -107,6 +107,7 @@ namespace AIS_Enterprise_AV.Costs.Views
             ComboBoxCostItems.ItemsSource = _bc.GetDirectoryCostItems().ToList();
             ComboBoxRCs_1.ItemsSource = _bc.GetDirectoryRCs().ToList();
             ComboBoxNotes_1.ItemsSource = _bc.GetDirectoryNotes().ToList();
+            ComboBoxTransportCompanies.ItemsSource = _bc.GetDirectoryTransportCompanies().ToList();
             RadioButtonExpense.IsChecked = true;
         }
 
@@ -140,7 +141,7 @@ namespace AIS_Enterprise_AV.Costs.Views
             }
 
             _bc.AddInfoCosts(DatePickerDate.SelectedDate.Value, ComboBoxCostItems.SelectedItem as DirectoryCostItem, RadioButtonIncoming.IsChecked.Value,
-                double.Parse(TextBoxSumm.Text), transports);
+                ComboBoxTransportCompanies.SelectedItem as DirectoryTransportCompany, double.Parse(TextBoxSumm.Text), transports);
 
             FillDataGrid(DatePickerDate.SelectedDate.Value);
 
@@ -159,9 +160,11 @@ namespace AIS_Enterprise_AV.Costs.Views
             ComboBoxRCs_1.SelectedItem = null;
             ComboBoxNotes_1.SelectedItem = null;
             ComboBoxNotes_1.Text = null;
+            ComboBoxTransportCompanies.SelectedItem = null;
             TextBoxWeight_1.Text = null;
             StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
             ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
+            ComboBoxTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
 
             if (_isNotTransportOnly)
             {
@@ -194,12 +197,15 @@ namespace AIS_Enterprise_AV.Costs.Views
                 {
                     StackPanelWeight.Visibility = System.Windows.Visibility.Visible;
                     ButtonAddNewCargo.Visibility = System.Windows.Visibility.Visible;
+                    StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Visible;
                 }
                 else
                 {
                     StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
                     ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
+                    StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
                     TextBoxWeight_1.Text = null;
+                    ComboBoxTransportCompanies.SelectedItem = null;
                 }
 
                 if (costItem.Name == "Приход")

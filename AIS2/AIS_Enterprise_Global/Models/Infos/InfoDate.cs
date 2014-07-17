@@ -18,5 +18,7 @@ namespace AIS_Enterprise_Global.Models.Infos
 
         public int? InfoPanaltyId { get; set; }
         public virtual InfoPanalty InfoPanalty { get; set; }
+
+        public int DirectoryWorkerId { get; set; }
     }
 }

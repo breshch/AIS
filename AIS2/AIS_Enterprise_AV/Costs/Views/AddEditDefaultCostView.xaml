@@ -1,0 +1,42 @@
+﻿<Window x:Class="AIS_Enterprise_AV.Costs.Views.AddEditDefaultCostView"
+        x:Name="AddEditDefaultCostWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        Title="AddEditDefaultCostView" Height="350" Width="350">
+    <Grid Margin=" 20, 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Vertical" >
+            <TextBlock Text="Статья затрат"/>
+            <ComboBox ItemsSource="{Binding DirectoryCostItems}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryCostItem, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0, 5, 0, 0" >
+            <TextBlock Text="ЦО"/>
+            <ComboBox ItemsSource="{Binding DirectoryRCs}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryRC, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Vertical"  Margin="0, 5, 0, 0" >
+            <TextBlock Text="Примечание"/>
+            <ComboBox ItemsSource="{Binding DirectoryNotes}" DisplayMemberPath="Description" SelectedItem="{Binding SelectedDirectoryNote, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0, 5, 0, 0" >
+            <TextBlock Text="Сумма"/>
+            <TextBox Text="{Binding SummOfPayment, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Vertical" Margin="0, 5, 0, 0" >
+            <TextBlock Text="День списания"/>
+            <TextBox Text="{Binding DayOfPayment, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <Button Grid.Row="5" Content="{Binding AddEditButtonName}" Command="{Binding AddEditDefaultCostCommand}" CommandParameter="{Binding ElementName=AddEditDefaultCostWindow}" Margin="0, 15, 0, 0"/>
+
+
+
+    </Grid>
+</Window>
