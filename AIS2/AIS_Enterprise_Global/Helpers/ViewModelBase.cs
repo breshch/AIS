@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers
 {
-    public class ViewModelBase : NotifyPropertyChangedBase, IDataErrorInfo
+    public class ViewModelBase : PropertyChangedBase, IDataErrorInfo
     {
         public string Error
         {
@@ -105,7 +105,7 @@ namespace AIS_Enterprise_Global.Helpers
                     displayName = attributeDisplayName.TypedValue.Value.ToString();
                 }
             }
-            else if (property.CustomAttributes.Any(a => a.AttributeType != typeof(NotifyAttribute) && a.AttributeType != typeof(StopNotifyAttribute)))
+            else if (property.CustomAttributes.Any(a => a.AttributeType != typeof(MagicAttribute) && a.AttributeType != typeof(NoMagicAttribute)))
             {
                 Debug.WriteLine("У " + property.Name + " отсутствует атрибут Display");
             }

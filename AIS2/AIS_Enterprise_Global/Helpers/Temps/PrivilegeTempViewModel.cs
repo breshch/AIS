@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Helpers.Temps
 {
-    public class PrivilegeTempViewModel : NotifyPropertyChangedBase
+    public class PrivilegeTempViewModel : PropertyChangedBase
     {
         public PrivilegeTempViewModel(string name)
         {
@@ -41,7 +41,7 @@ namespace AIS_Enterprise_Global.Helpers.Temps
 
             if (updateParent && _parent != null) _parent.VerifyCheckedState();
 
-            OnPropertyChanged("IsChecked");
+            RaisePropertyChanged("IsChecked");
         }
 
         void VerifyCheckedState()

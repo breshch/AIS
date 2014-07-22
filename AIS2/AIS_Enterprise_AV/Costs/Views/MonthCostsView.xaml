@@ -46,6 +46,7 @@
                 <DataGridTextColumn Header="ЦО" Binding="{Binding DirectoryRC.Name}" Width="0.7*"/>
                 <DataGridTextColumn Header="Приход" Binding="{Binding Incoming}" Width="0.8*"/>
                 <DataGridTextColumn Header="Расход" Binding="{Binding Expense}" Width="0.8*"/>
+                <DataGridTextColumn Header="Перевозчик" Binding="{Binding DirectoryTransportCompany.Name}" Width="0.8*"/>
                 <DataGridTextColumn Header="Примечание" Binding="{Binding ConcatNotes}" Width="2*"/>
             </DataGrid.Columns>
         </DataGrid>

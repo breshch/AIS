@@ -111,7 +111,11 @@ namespace AIS_Enterprise_Global.Models
 
         public void InitializeDefaultDataBaseWithoutWorkers()
         {
-            InputDateToDataBase(2014);
+            for (int year = 2011; year <= 2014; year++)
+            {
+                InputDateToDataBase(year);                
+            }
+
 
             var infoCash = new InfoCash { Cash = 0 };
             _dc.InfoCashes.Add(infoCash);

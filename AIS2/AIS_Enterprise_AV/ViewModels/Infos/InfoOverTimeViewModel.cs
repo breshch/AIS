@@ -99,7 +99,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         #region Properties
 
         private DateTime _selectedOverTimeDate;
-        [StopNotify]
+        [NoMagic]
         public DateTime SelectedOverTimeDate
         {
             get
@@ -114,7 +114,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 }
 
                 _selectedOverTimeDate = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
                 ClearInputData();
 
@@ -173,7 +173,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             set
             {
                 _overTimeDescription = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -192,7 +192,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             set
             {
                 _directoryRCs = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 

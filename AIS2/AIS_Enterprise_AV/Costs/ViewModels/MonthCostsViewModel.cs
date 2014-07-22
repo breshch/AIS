@@ -54,7 +54,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             set
             {
                 _selectedYear = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
+
                 Monthes = new ObservableCollection<int>(BC.GetInfoCostMonthes(_selectedYear));
                 if (Monthes.Any())
                 {
@@ -74,7 +75,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             set
             {
                 _selectedMonth = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
                 Costs.Clear();
 

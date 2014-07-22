@@ -55,7 +55,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private DirectoryCompany _selectedDirectoryCompany;
 
-        [StopNotify]
+        [NoMagic]
         [RequireSelected]
         [Display(Name = "Компания")]
         public DirectoryCompany SelectedDirectoryCompany
@@ -67,7 +67,7 @@ namespace AIS_Enterprise_Global.ViewModels
             set
             {
                 _selectedDirectoryCompany = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
                 DirectoryPosts = new ObservableCollection<DirectoryPost>(BC.GetDirectoryPosts(SelectedDirectoryCompany));
 

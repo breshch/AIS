@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using EntityFramework.BulkInsert.Extensions;
+using AIS_Enterprise_Global.Models.Directories;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
@@ -65,15 +67,17 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 int month = int.Parse(date[0]);
                 int year = int.Parse("20" + date[1]);
 
-                if (year != 2014 || year == 2014 && month != 4 && month != 5)
-                {
-                    continue;
-                }
+                //if (year != 2013 || year == 2013 && month != 11)
+                //{
+                //    continue;
+                //}
                 //if (year != 2014)
                 //{
                 //    continue;
                 //}
                 Debug.WriteLine(year + " " + month);
+
+                var workers = new List<DirectoryWorker>();
 
                 var rows = worksheet.Elements("{urn:schemas-microsoft-com:office:spreadsheet}Table").Elements("{urn:schemas-microsoft-com:office:spreadsheet}Row").ToList();
                 for (int row = 3; row < rows.Count; row += 2)
@@ -102,6 +106,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         switch (postName)
                         {
                             case "заведующий складом":
+                            case "зав. складом":
                                 postName = "ЗавСкладом";
                                 break;
                             case "зам. зав. складом":
@@ -116,7 +121,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             case "бригадир-оклейщик":
                                 postName = "БригадирОклейщик";
                                 break;
-
                         }
 
                         if (postName != "")
@@ -139,22 +143,27 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                     {
                         day = 1;
 
-                        if (cellRegularDays[3].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value == "" || cellRegularDays[3].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value == "0")
+                        if (cellRegularDays[3].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data") == null || cellRegularDays[3].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value == "" || cellRegularDays[3].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value == "0")
                         {
                             for (int i = 4; i < cellRegularDays.Count; i++)
                             {
-                                if (cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "" && cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "0")
+                                if (cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data") != null && 
+                                    (cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "" && 
+                                    cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "0"))
                                 {
                                     day = i - 2;
                                     break;
                                 }
 
-                                if (cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value == "")
+                                if (cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data") == null || 
+                                    cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value == "")
                                 {
                                     bool isBreak = false;
                                     for (int j = i + 1; j < cellRegularDays.Count; j++)
                                     {
-                                        if (cellRegularDays[j].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "" && cellRegularDays[j].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "0")
+                                        if (cellRegularDays[j].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data") != null && (
+                                            cellRegularDays[j].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "" && 
+                                            cellRegularDays[j].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value != "0"))
                                         {
                                             day = j - 2;
                                             isBreak = true;
@@ -189,6 +198,9 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                     worker.InfoMonthes.Add(infoMonth);
 
+                    int overTimeCounter = 0;
+                    bool isIndexOverTime = false;
+
                     int countDaysInMonth = DateTime.DaysInMonth(year, month);
                     for (int i = 3 + day; i < countDaysInMonth + 3; i++)
                     {
@@ -205,36 +217,64 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             DescriptionDay = DescriptionDay.Был
                         };
 
-                        string value = cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value;
-
-                        if (value != "")
+                        if (cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data") != null)
                         {
-                            double result;
-                            if (double.TryParse(value, out result))
-                            {
-                                infoDate.CountHours = result;
-                            }
+                            string value = cellRegularDays[i].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value;
 
-                            if (cellOverTimeDays[i + indexPostName - 1].Value != "")
+                            if (value != "")
                             {
-                                if (double.TryParse(cellOverTimeDays[i + indexPostName - 1].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value, out result))
+                                double result;
+                                if (double.TryParse(value, out result))
                                 {
-                                    infoDate.CountHours += result;
-                                }
-                            }
-
-                            if (infoDate.CountHours == 0)
-                            {
-                                if (!bc.IsWeekend(workerDate))
-                                {
-                                    infoDate.DescriptionDay = DescriptionDay.П;
+                                    infoDate.CountHours = result;
                                 }
 
-                                infoDate.CountHours = null;
-                            }
+                                if (!isIndexOverTime)
+                                {
+                                    if (cellOverTimeDays[i + indexPostName - 1 - overTimeCounter].Attribute("{urn:schemas-microsoft-com:office:spreadsheet}Index") != null)
+                                    {
+                                        overTimeCounter++;
+                                        isIndexOverTime = true;
+                                    }
+                                }
+                                else
+                                {
+                                    isIndexOverTime = false;
+                                }
 
-                            worker.InfoDates.Add(infoDate);
+                                if (!isIndexOverTime && cellOverTimeDays[i + indexPostName - 1 - overTimeCounter].Value != "")
+                                {
+                                    if (double.TryParse(cellOverTimeDays[i + indexPostName - 1 - overTimeCounter].Element("{urn:schemas-microsoft-com:office:spreadsheet}Data").Value.Replace(".", ","), out result))
+                                    {
+                                        infoDate.CountHours += result;
+                                    }
+                                }
+
+                               
+
+                                if (infoDate.CountHours == 0)
+                                {
+                                    if (!bc.IsWeekend(workerDate))
+                                    {
+                                        infoDate.DescriptionDay = DescriptionDay.С;
+                                    }
+
+                                    infoDate.CountHours = null;
+                                }
+
+                                worker.InfoDates.Add(infoDate);
+                            }
                         }
+                        else
+                        {
+                            if (!bc.IsWeekend(workerDate))
+                            {
+                                infoDate.DescriptionDay = DescriptionDay.С;
+                            }
+
+                            infoDate.CountHours = null;
+                        }
+
 
                         var workerFire = _workersFire.FirstOrDefault(w => w.FirstName == worker.FirstName && w.LastName == worker.LastName);
 
@@ -243,6 +283,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             if (workerDate.Date == workerFire.FireDate.Date)
                             {
                                 worker.FireDate = workerFire.FireDate;
+                                _workersFire.Remove(workerFire);
                             }
                         }
 
@@ -281,8 +322,11 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             row++;
                         }
                     } while (fio == "" || bc.ExistsDirectoryPost(fio) || fioMass == null || fioMass.Count() < 2);
+
+                    workers.Add(worker);
                 }
 
+               
                 bc.SaveChanges();
             }
 
@@ -293,7 +337,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
         {
             _workersFire.Clear();
             AddingFireWorkers();
-
             AddingWorkers(bc);
         }
     }

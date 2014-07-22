@@ -32,7 +32,7 @@ namespace AIS_Enterprise_AV
         {
             base.OnStartup(e);
 
-            if (DataContext.TryConnection())
+            if (!DataContext.TryConnection())
             {
                 HelperMethods.ShowView(new MainViewModel(), new MainView());
             }

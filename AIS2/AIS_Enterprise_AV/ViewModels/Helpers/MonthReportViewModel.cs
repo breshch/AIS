@@ -50,7 +50,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             set
             {
                 _selectedYear = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
                 Monthes = new ObservableCollection<int>(_methodGettingMonthes(BC, SelectedYear));
                 if (Monthes.Any())

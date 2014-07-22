@@ -73,7 +73,7 @@ namespace AIS_Enterprise_AV.Views
 
             InitializeGif();
             InitializePrivileges();
-            _bc.InitializeAbsentDates();
+            //_bc.InitializeAbsentDates();
             InitializeBrushes();
             InitializeDefaultCosts();
             InitializeYears();
@@ -92,7 +92,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void InitializeYears()
         {
-            ComboboxYears.ItemsSource = _bc.GetYears().ToList();
+            ComboboxYears.ItemsSource = _bc.GetYears().OrderBy(y => y).ToList();
             if (ComboboxYears.Items.Count != 0)
             {
                 ComboboxYears.SelectedIndex = ComboboxYears.Items.Count - 1;
@@ -216,7 +216,7 @@ namespace AIS_Enterprise_AV.Views
         private void ComboboxYears_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _currentYear = int.Parse(ComboboxYears.SelectedItem.ToString());
-            ComboboxMonthes.ItemsSource = _bc.GetMonthes(_currentYear).ToList();
+            ComboboxMonthes.ItemsSource = _bc.GetMonthes(_currentYear).OrderBy(m => m).ToList();
 
             if (ComboboxMonthes.Items.Count != 0)
             {
@@ -506,11 +506,14 @@ namespace AIS_Enterprise_AV.Views
 
         private void ComboboxMonthes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _currentMonth = int.Parse(ComboboxMonthes.SelectedItem.ToString());
+            if (ComboboxMonthes.SelectedItem != null)
+            {
+                _currentMonth = int.Parse(ComboboxMonthes.SelectedItem.ToString());
 
-            ButtonOverTimes.IsEnabled = _bc.GetInfoOverTimeDates(_currentYear, _currentMonth).Any();
+                ButtonOverTimes.IsEnabled = _bc.GetInfoOverTimeDates(_currentYear, _currentMonth).Any();
 
-            FillDataGrid();
+                FillDataGrid();
+            }
         }
 
         private void DataGridMonthTimeSheet_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)

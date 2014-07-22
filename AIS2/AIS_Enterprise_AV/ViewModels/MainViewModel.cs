@@ -121,7 +121,7 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _servers = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -136,7 +136,7 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _selectedServer = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
 
             }
@@ -152,7 +152,7 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _dataBases = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -167,12 +167,12 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _selectedDataBase = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
                 if (_selectedDataBase != null)
                 {
                     DataContext.ChangeServerAndDataBase(SelectedServer, _selectedDataBase);
-                    
+
                     Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
                     BC.RefreshContext();
 
@@ -182,7 +182,7 @@ namespace AIS_Enterprise_AV.ViewModels
         }
 
         private string _selectedLanguage;
-        [StopNotify]
+        [NoMagic]
         public string SelectedLanguage
         {
             get
@@ -192,7 +192,7 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _selectedLanguage = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
                 Properties.Settings.Default.Language = _selectedLanguage;
                 Properties.Settings.Default.Save();
@@ -209,7 +209,7 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _isNotInitializeDB = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -223,7 +223,7 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _isAdminButtonsVisibility = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -237,7 +237,7 @@ namespace AIS_Enterprise_AV.ViewModels
             set
             {
                 _users = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
         public DirectoryUser SelectedUser { get; set; }
@@ -324,7 +324,11 @@ namespace AIS_Enterprise_AV.ViewModels
         private void ShowExcelToDB(object parameter)
         {
             IsNotInitializedDB = false;
-            Task.Factory.StartNew(() => ConvertingExcelToDB.ConvertExcelToDB(BC)).ContinueWith((t) => IsNotInitializedDB = true);
+            Task.Factory.StartNew(() => ConvertingExcelToDB.ConvertExcelToDB(BC)).ContinueWith(
+                (t) =>
+                {
+                    IsNotInitializedDB = true;
+                });
         }
 
         private void ShowDefaultDB(object parameter)

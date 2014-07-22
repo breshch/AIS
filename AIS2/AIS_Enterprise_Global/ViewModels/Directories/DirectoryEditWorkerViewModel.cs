@@ -65,10 +65,10 @@ namespace AIS_Enterprise_Global.ViewModels
 
         #region Properties
 
-        [StopNotify]
+        [NoMagic]
         public DateTime? SelectedDirectoryWorkerFireDate { get; set; }
 
-        [StopNotify]
+        [NoMagic]
         public bool IsNotFireDate
         {
             get
@@ -79,7 +79,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public bool IsFireWorkerEnable { get; set; }
 
-        [StopNotify]
+        [NoMagic]
         public bool IsChangeWorker { get; private set; }
 
         #endregion

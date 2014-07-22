@@ -14,14 +14,14 @@ namespace AIS_Enterprise_AV.Helpers.Temps
     {
         public event Action<int> OnChange;
 
-        [StopNotify]
+        [NoMagic]
         public int WorkerId { get; set; }
 
-        [StopNotify]
+        [NoMagic]
         public DateTime Date { get; set; }
 
         private string _value;
-        [StopNotify]
+        [NoMagic]
         public string Value
         {
             get
@@ -56,7 +56,7 @@ namespace AIS_Enterprise_AV.Helpers.Temps
                 string prevValue = _value;
 
                 _value = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
 
                 BC.EditInfoDateHour(WorkerId, Date, _value);
 
