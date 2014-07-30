@@ -83,6 +83,8 @@
     <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Temps\PrivilegeTempViewModel.cs" />
     <Compile Include="Helpers\Temps\Transport.cs" />
+    <Compile Include="Helpers\ValueConverters\PostToShortPostValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\DoubleToCurrencyValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\BooleanToStringValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\BooleanToVisibilityValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\ValueToBooleanValueConverter.cs" />
@@ -99,6 +101,8 @@
     <Compile Include="Models\Directories\DirectoryCompany.cs" />
     <Compile Include="Models\Directories\DirectoryCostItem.cs" />
     <Compile Include="Models\Directories\DirectoryHoliday.cs" />
+    <Compile Include="Models\Directories\DirectoryKeepingDescription.cs" />
+    <Compile Include="Models\Directories\DirectoryKeepingName.cs" />
     <Compile Include="Models\Directories\DirectoryNote.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryRC.cs" />
@@ -113,6 +117,7 @@
     <Compile Include="Models\Infos\InfoCash.cs" />
     <Compile Include="Models\Infos\InfoCost.cs" />
     <Compile Include="Models\Infos\InfoDate.cs" />
+    <Compile Include="Models\Infos\InfoKeepingMoney.cs" />
     <Compile Include="Models\Infos\InfoMonth.cs" />
     <Compile Include="Models\Infos\InfoOverTime.cs" />
     <Compile Include="Models\Infos\InfoPanalty.cs" />

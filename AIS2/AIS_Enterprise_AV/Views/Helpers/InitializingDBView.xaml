@@ -14,6 +14,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Orientation="Vertical">
@@ -37,6 +38,7 @@
         </StackPanel>
 
         <Button Grid.Row="4" Content="Создать базу данных" Command="{Binding ApplyParametersCommand}" CommandParameter="{Binding ElementName=InitializingDBWindow}" Margin="0, 15, 0, 0"/>
-        <Button Grid.Row="5" Content="Пропустить" Command="{Binding SkipCommand}" CommandParameter="{Binding ElementName=InitializingDBWindow}" Margin="0, 5, 0, 0"/>
+        <Button Grid.Row="5" Content="Создать новую пустую базу"  Command="{Binding CreateEmptyDBCommand}" CommandParameter="{Binding ElementName=InitializingDBWindow}" Margin="0, 5, 0, 0"/>
+        <Button Grid.Row="6" Content="Пропустить" Command="{Binding SkipCommand}" CommandParameter="{Binding ElementName=InitializingDBWindow}" Margin="0, 5, 0, 0"/>
     </Grid>
 </Window>

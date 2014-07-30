@@ -17,6 +17,7 @@
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
+        <valueConverters:PostToShortPostValueConverter x:Key="postToShortPostValueConverter"/>
     </Window.Resources>
 
     <Grid Margin="30, 20">
@@ -39,7 +40,7 @@
                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDay, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Моб. телефон" Binding="{Binding CellPhone}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Должность" Binding="{Binding CurrentDirectoryPost.Name}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding CurrentDirectoryPost.Name,Converter={StaticResource postToShortPostValueConverter}}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
 
             </DataGrid.Columns>

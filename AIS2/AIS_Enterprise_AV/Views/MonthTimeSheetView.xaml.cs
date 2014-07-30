@@ -22,6 +22,7 @@ using Numerizr;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,18 +72,35 @@ namespace AIS_Enterprise_AV.Views
 
             ScreenWight();
 
-            InitializeGif();
-            InitializePrivileges();
-            //_bc.InitializeAbsentDates();
-            InitializeBrushes();
-            InitializeDefaultCosts();
-            InitializeYears();
-            
+            //Notes to upper 
+            //var notes = _bc.GetDirectoryNotes();
+            //foreach (var note in notes)
+            //{
+            //    note.Description = note.Description.Substring(0, 1).ToUpper() + note.Description.Substring(1);
+            //}
+            //_bc.SaveChanges();
 
 
             //var infoCash = _bc.DataContext.InfoCashes.First();
-            //infoCash.Cash = 5095268.40;
+            //infoCash.Cash = 7388883.40;
             //_bc.SaveChanges();
+
+            //foreach (var cost in _bc.DataContext.InfoCosts)
+            //{
+            //    cost.GroupId = Guid.NewGuid();
+            //}
+
+            //_bc.SaveChanges();
+
+
+
+
+            InitializeGif();
+            InitializePrivileges();
+            _bc.InitializeAbsentDates();
+            InitializeBrushes();
+            InitializeDefaultCosts();
+            InitializeYears();
         }
 
         private void InitializeDefaultCosts()
@@ -99,11 +117,19 @@ namespace AIS_Enterprise_AV.Views
             }
         }
 
+        private MemoryStream _streamLoadingPicture;
+
         private void InitializeGif()
         {
+            _streamLoadingPicture = new MemoryStream();
+            var bitmap = Properties.Resources.LoadingPicture;
+            bitmap.Save(_streamLoadingPicture, ImageFormat.Gif);
+            _streamLoadingPicture.Position = 0;
+
             var image = new BitmapImage();
             image.BeginInit();
-            image.UriSource = new Uri(Path.Combine(Environment.CurrentDirectory, @"Images\Gifs\31.gif"));
+            image.StreamSource = _streamLoadingPicture;
+            image.CacheOption = BitmapCacheOption.OnLoad;
             image.EndInit();
             ImageBehavior.SetAnimatedSource(PictureLoading, image);
         }
@@ -208,6 +234,8 @@ namespace AIS_Enterprise_AV.Views
                 ShowOverTimeView();
             }
 
+            _streamLoadingPicture.Close();
+
             _bc.EditParameter("LastDate", DateTime.Now.ToString());
 
             _bc.Dispose();
@@ -245,15 +273,15 @@ namespace AIS_Enterprise_AV.Views
             ComboboxMonthes.IsEnabled = false;
 
             PictureLoading.Visibility = System.Windows.Visibility.Visible;
-            
+
             int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
-            
+
             var firstDateInMonth = new DateTime(_currentYear, _currentMonth, 1);
             var lastDateInMonth = HelperMethods.GetLastDateInMonth(_currentYear, _currentMonth);
 
             int prevCountLastDaysInMonth = _countLastDaysInMonth;
             _countLastDaysInMonth = lastDateInMonth.Day;
-           
+
             var tmpMonthTimeSheetWorkers = new List<MonthTimeSheetWorker>();
 
             Task.Factory.StartNew(() =>
@@ -268,11 +296,11 @@ namespace AIS_Enterprise_AV.Views
 
                     var infoMonthes = _bc.GetInfoMonthes(_currentYear, _currentMonth).ToList();
                     int indexWorker = 0;
-                   
+
                     var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Склад").ToList();
-                    
+
                     AddingRowWorkers(workerWarehouses, tmpMonthTimeSheetWorkers, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth, infoDates, infoMonthes);
-                    
+
                     if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
                     {
                         var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).ToList();
@@ -353,13 +381,13 @@ namespace AIS_Enterprise_AV.Views
                             //this.Background = current;
                             //this.IsEnabled = true;
                         }));
-                        
+
                     });
 
-            
+
         }
 
-        private void AddingRowWorkers(List<DirectoryWorker> workers, List<MonthTimeSheetWorker> monthTimeSheetWorkers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth, 
+        private void AddingRowWorkers(List<DirectoryWorker> workers, List<MonthTimeSheetWorker> monthTimeSheetWorkers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth,
             DateTime lastDateInMonth, DateTime firstDateInMonth, List<InfoDate> infoDates, List<InfoMonth> infoMonthes)
         {
             var sw2 = new Stopwatch();
@@ -394,7 +422,14 @@ namespace AIS_Enterprise_AV.Views
 
                         monthTimeSheetWorker.DirectoryPostId = currentPost.DirectoryPostId;
                         monthTimeSheetWorker.PostChangeDate = currentPost.ChangeDate;
-                        monthTimeSheetWorker.PostName = currentPost.DirectoryPost.Name;
+
+                        string postName = currentPost.DirectoryPost.Name;
+                        if (postName.IndexOf('_') != -1)
+                        {
+                            postName = postName.Substring(0, postName.IndexOf('_'));
+                        }
+
+                        monthTimeSheetWorker.PostName = postName;
                         monthTimeSheetWorker.SalaryInHour = Math.Round((isAdminSalary ? currentPost.DirectoryPost.AdminWorkerSalary.Value :
                             currentPost.DirectoryPost.UserWorkerSalary) / countWorkDaysInMonth / 8, 2);
                         monthTimeSheetWorker.IsDeadSpirit = worker.IsDeadSpirit;
@@ -402,8 +437,8 @@ namespace AIS_Enterprise_AV.Views
                         monthTimeSheetWorker.Hours = new string[lastDateInMonth.Day];
                     }
 
-                    
-                    
+
+
                     int indexHour = 0;
                     for (DateTime date = firstDateInMonth; worker.FireDate == null && date.Date <= lastDateInMonth.Date || date.Date <= lastDateInMonth.Date && worker.FireDate != null && date.Date <= worker.FireDate.Value.Date; date = date.AddDays(1))
                     {
@@ -492,7 +527,7 @@ namespace AIS_Enterprise_AV.Views
                     monthTimeSheetWorkerFinalSalary.VocationPayment = infoMonth.VocationPayment.ToString();
                     monthTimeSheetWorkerFinalSalary.CardAV = infoMonth.CardAV.ToString();
                     monthTimeSheetWorkerFinalSalary.CardFenox = infoMonth.CardFenox.ToString();
-                    monthTimeSheetWorkerFinalSalary.Panalty =  infoDates.Where(d => d.DirectoryWorkerId == worker.Id && d.InfoPanalty != null).Sum(d => d.InfoPanalty.Summ).ToString();
+                    monthTimeSheetWorkerFinalSalary.Panalty = infoDates.Where(d => d.DirectoryWorkerId == worker.Id && d.InfoPanalty != null).Sum(d => d.InfoPanalty.Summ).ToString();
                     monthTimeSheetWorkerFinalSalary.Inventory = infoMonth.Inventory.ToString();
                     monthTimeSheetWorkerFinalSalary.BirthDays = infoMonth.BirthDays;
                     monthTimeSheetWorkerFinalSalary.Bonus = infoMonth.Bonus.ToString();
@@ -1310,7 +1345,7 @@ namespace AIS_Enterprise_AV.Views
             HelperMethods.ShowView(new DefaultCostsViewModel(), new DefaultCostsView());
         }
 
-     
+
     }
 
 

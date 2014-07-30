@@ -93,8 +93,14 @@ namespace AIS_Enterprise_Global.Helpers
         {
             if (!File.Exists(_serversPath))
             {
+                Directory.CreateDirectory("Settings");
                 var fileStream = File.Create(_serversPath);
                 fileStream.Close();
+            }
+
+            using (var sr = new StreamReader(_serversPath))
+            {
+
             }
 
             var servers = File.ReadAllLines(_serversPath).ToList();

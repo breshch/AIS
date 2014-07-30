@@ -12,6 +12,9 @@ namespace AIS_Enterprise_Global.Models.Infos
     public class InfoCost
     {
         public int Id { get; set; }
+
+        public Guid GroupId { get; set; }
+
         public DateTime Date { get; set; }
 
         public int DirectoryCostItemId { get; set; }

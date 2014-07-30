@@ -12,10 +12,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
@@ -54,6 +56,26 @@ namespace AIS_Enterprise_Global.ViewModels
             DirectoryWorkerCellPhone = _selectedDirectoryWorker.CellPhone;
             DirectoryWorkerHomePhone = _selectedDirectoryWorker.HomePhone;
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
+
+            if (_selectedDirectoryWorker.Photo != null && _selectedDirectoryWorker.Photo.Length != 0)
+            {
+                using (var mem = new MemoryStream(_selectedDirectoryWorker.Photo))
+                {
+                    mem.Position = 0;
+
+                    Photo = new BitmapImage();
+                    Photo.BeginInit();
+                    Photo.CacheOption = BitmapCacheOption.OnLoad;
+                    Photo.StreamSource = mem;
+                    Photo.EndInit();
+                }
+                AddPhotoName = "Изменить фото";
+            }
+            else
+            {
+                AddPhotoName = "Добавить фото";
+            }
+
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
                 Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate, IsTwoCompanies = c.IsTwoCompanies,
                 Salary = IsAdminSalary ? c.DirectoryPost.AdminWorkerSalary.Value : c.DirectoryPost.UserWorkerSalary}));
@@ -95,7 +117,7 @@ namespace AIS_Enterprise_Global.ViewModels
             IsChangeWorker = true;
 
             BC.EditDirectoryWorker(_selectedDirectoryWorker.Id, DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
-                DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, SelectedDirectoryWorkerFireDate, CurrentCompaniesAndPosts, IsDeadSpirit);
+                DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, Photo, SelectedDirectoryWorkerFireDate, CurrentCompaniesAndPosts, IsDeadSpirit);
 
             var window = (Window)parameter;
 
@@ -112,8 +134,6 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void FireWorker(object parameter)
         {
-
-           
             var directoryWorkerFireDateViewModel = new DirectoryWorkerFireDateViewModel(_selectedDirectoryWorker.Id);
             var directoryWorkerFireDateView = new DirectoryWorkerFireDateView();
 

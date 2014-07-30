@@ -15,6 +15,8 @@ namespace AIS_Enterprise_Global.Models
 {
     public class DataContext : DbContext
     {
+
+        #region Base
         private static string _connectionString;
         private static string _ip;
         private static string _databaseName;
@@ -125,7 +127,11 @@ namespace AIS_Enterprise_Global.Models
             }
 
             return true;
+
         }
+        #endregion
+
+        #region Properties
 
         public DbSet<DirectoryCompany> DirectoryCompanies { get; set; }
         public DbSet<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
@@ -139,6 +145,8 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<DirectoryCostItem> DirectoryCostItems { get; set; }
         public DbSet<DirectoryNote> DirectoryNotes { get; set; }
         public DbSet<DirectoryTransportCompany> DirectoryTransportCompanies { get; set; }
+        public DbSet<DirectoryKeepingName> DirectoryKeepingNames { get; set; }
+        public DbSet<DirectoryKeepingDescription> DirectoryKeepingDescriptions { get; set; }
         
 
         public DbSet<CurrentPost> CurrentPosts { get; set; }
@@ -154,10 +162,14 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<InfoOverTime> InfoOverTimes { get; set; }
         public DbSet<InfoCost> InfoCosts { get; set; }
         public DbSet<InfoCash> InfoCashes { get; set; }
+        public DbSet<InfoKeepingMoney> InfoKeepingMoney { get; set; }
+
 
         public DbSet<DefaultCost> DefaultCosts { get; set; }
 
         public DbSet<Parameter> Parameters { get; set; }
 
+        #endregion
     }
+
 }

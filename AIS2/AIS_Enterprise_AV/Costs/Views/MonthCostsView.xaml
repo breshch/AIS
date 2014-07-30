@@ -1,11 +1,24 @@
 ﻿<Window x:Class="AIS_Enterprise_AV.Costs.Views.MonthCostsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CostsMonthView" Height="Auto" MaxHeight="800" SizeToContent="Height" Width="1100"
+        xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
+        Title="Месячные затраты" Height="Auto" MaxHeight="800" SizeToContent="Height" Width="1100"
         WindowStartupLocation="CenterScreen">
+    
+    <Window.Resources>
+        <valueConverters:DoubleToCurrencyValueConverter x:Key="doubleToCurrencyValueConverter"/>
+
+        <Style x:Key="CenterTextAlignmentCell" TargetType="DataGridCell">
+            <Style.Setters>
+                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            </Style.Setters>
+        </Style>
+    </Window.Resources>
+    
     <Grid Margin="20, 30">
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -14,9 +27,10 @@
         <Grid Grid.Row="0">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="211*"/>
+                <ColumnDefinition Width="210*"/>
+                <ColumnDefinition Width="241*"/>
+                <ColumnDefinition Width="390*"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0, 0, 10, 0" >
@@ -28,24 +42,63 @@
                 <TextBlock Text="Месяц"/>
                 <ComboBox ItemsSource="{Binding Monthes}" SelectedItem="{Binding SelectedMonth}"/>
             </StackPanel>
+            
+            <Button Grid.Column="2" Content="Фильтр" Command="{Binding FilterCommand}" CommandParameter="{Binding ElementName=FilterGrid}" Margin="30, 16, 0, 2"/>
 
-            <TextBlock Grid.Column="2" Text="{Binding Cash}" Visibility="{Binding VisibilityCash}" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" Foreground="DarkGray"/>
+            <TextBlock Grid.Column="3" Text="{Binding Cash}" Visibility="{Binding VisibilityCash}" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" Foreground="DarkGray" />
 
         </Grid>
 
-        <DataGrid  Grid.Row="1" ItemsSource="{Binding Costs}" SelectedItem="{Binding SelectedCost}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" IsReadOnly="True" Margin="0, 20, 0, 0">
+        <Grid Grid.Row="1" x:Name="FilterGrid" Visibility="Collapsed" Margin="0, 10, 0, 0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0, 0, 20, 0" >
+                <TextBlock Text="Статья затрат"/>
+                <ComboBox ItemsSource="{Binding CostItems}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedCostItem}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20, 0, 20, 0">
+                <TextBlock Text="ЦО"/>
+                <ComboBox ItemsSource="{Binding RCs}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedRC, Mode=TwoWay}"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Column="2" Orientation="Vertical" Margin="20, 0, 20, 0">
+                <TextBlock Text="Приход / Расход"/>
+                <ComboBox ItemsSource="{Binding InOuts}" SelectedItem="{Binding SelectedInOut}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="3" Orientation="Vertical" Margin="20, 0, 20, 0">
+                <TextBlock Text="Перевозчик"/>
+                <ComboBox ItemsSource="{Binding TransportCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedTransportCompany}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="4" Orientation="Vertical" Margin="20, 0, 0, 0">
+                <TextBlock Text="Примечание"/>
+                <ComboBox ItemsSource="{Binding Notes}" DisplayMemberPath="Description" SelectedItem="{Binding SelectedNote}"/>
+            </StackPanel>
+
+        </Grid>
+
+        <DataGrid  Grid.Row="2" ItemsSource="{Binding Costs}" SelectedItem="{Binding SelectedCost}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True" Margin="0, 20, 0, 0">
 
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ShowDayCostsCommand}" />
             </DataGrid.InputBindings>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.7*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.7*"/>
                 <DataGridTextColumn Header="Статья затрат" Binding="{Binding DirectoryCostItem.Name}" Width="0.7*"/>
                 <DataGridTextColumn Header="ЦО" Binding="{Binding DirectoryRC.Name}" Width="0.7*"/>
-                <DataGridTextColumn Header="Приход" Binding="{Binding Incoming}" Width="0.8*"/>
-                <DataGridTextColumn Header="Расход" Binding="{Binding Expense}" Width="0.8*"/>
+                <DataGridTextColumn Header="Приход" Binding="{Binding Incoming,Converter={StaticResource doubleToCurrencyValueConverter}}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.8*"/>
+                <DataGridTextColumn Header="Расход" Binding="{Binding Expense,Converter={StaticResource doubleToCurrencyValueConverter}}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.8*"/>
                 <DataGridTextColumn Header="Перевозчик" Binding="{Binding DirectoryTransportCompany.Name}" Width="0.8*"/>
                 <DataGridTextColumn Header="Примечание" Binding="{Binding ConcatNotes}" Width="2*"/>
             </DataGrid.Columns>

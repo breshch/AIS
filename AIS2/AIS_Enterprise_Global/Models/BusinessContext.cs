@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using UnidecodeSharpFork;
 
 namespace AIS_Enterprise_Global.Models
@@ -109,20 +110,16 @@ namespace AIS_Enterprise_Global.Models
             БригадирОклейщик
         }
 
-        public void InitializeDefaultDataBaseWithoutWorkers()
+        public void InitializeEmptyDB()
         {
             for (int year = 2011; year <= 2014; year++)
             {
-                InputDateToDataBase(year);                
+                InputDateToDataBase(year);
             }
-
 
             var infoCash = new InfoCash { Cash = 0 };
             _dc.InfoCashes.Add(infoCash);
             _dc.SaveChanges();
-
-            var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
-            _dc.Parameters.Add(parameterBirthday);
 
             var parameterLastDate = new Parameter { Name = "LastDate", Value = DateTime.Now.ToString() };
             _dc.Parameters.Add(parameterLastDate);
@@ -148,7 +145,15 @@ namespace AIS_Enterprise_Global.Models
 
             _dc.DirectoryUserStatuses.Add(userStatus);
             _dc.SaveChanges();
+        }
 
+        public void InitializeDefaultDataBaseWithoutWorkers()
+        {
+            InitializeEmptyDB();
+
+
+            var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
+            _dc.Parameters.Add(parameterBirthday);
 
             var companyAV = new DirectoryCompany { Name = "АВ" };
             _dc.DirectoryCompanies.Add(companyAV);
@@ -249,10 +254,43 @@ namespace AIS_Enterprise_Global.Models
             _dc.DirectoryTransportCompanies.Add(transportCompany);
             transportCompany = new DirectoryTransportCompany { Name = "Логистикон", IsCash = false };
             _dc.DirectoryTransportCompanies.Add(transportCompany);
-            transportCompany = new DirectoryTransportCompany { Name = "Сергиев пассад", IsCash = true };
+            transportCompany = new DirectoryTransportCompany { Name = "Павловский Посад", IsCash = true };
             _dc.DirectoryTransportCompanies.Add(transportCompany);
 
             _dc.SaveChanges();
+
+
+            var keepingName = new DirectoryKeepingName { Name = "Сейф" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+            keepingName = new DirectoryKeepingName { Name = "Карточка" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+            keepingName = new DirectoryKeepingName { Name = "Чернецкая" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+            keepingName = new DirectoryKeepingName { Name = "Наличные" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+            keepingName = new DirectoryKeepingName { Name = "Резерв" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+            keepingName = new DirectoryKeepingName { Name = "Аванс" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+            keepingName = new DirectoryKeepingName { Name = "Бобров" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+            keepingName = new DirectoryKeepingName { Name = "Пежо" };
+            _dc.DirectoryKeepingNames.Add(keepingName);
+
+            _dc.SaveChanges();
+
+
+            var keepingDescription = new DirectoryKeepingDescription { Name = "ФАР" };
+            _dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+            keepingDescription = new DirectoryKeepingDescription { Name = "Зарплата" };
+            _dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+            keepingDescription = new DirectoryKeepingDescription { Name = "За Боброва" };
+            _dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+            keepingDescription = new DirectoryKeepingDescription { Name = "За USA" };
+            _dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+
+            _dc.SaveChanges();
+
 
             var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
 
@@ -911,9 +949,21 @@ namespace AIS_Enterprise_Global.Models
 
 
         public DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender,
-            DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
+            DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate, BitmapImage photo,
             DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
         {
+            byte[] dataPhoto = null;
+            if (photo != null)
+            {
+                var encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(photo));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    encoder.Save(ms);
+                    dataPhoto = ms.ToArray();
+                }
+            }
+
             var worker = new DirectoryWorker
             {
                 LastName = lastName,
@@ -925,6 +975,7 @@ namespace AIS_Enterprise_Global.Models
                 HomePhone = homePhone,
                 CellPhone = cellPhone,
                 StartDate = startDate,
+                Photo = dataPhoto,
                 FireDate = fireDate,
                 CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies })),
                 IsDeadSpirit = isDeadSpirit
@@ -1091,10 +1142,22 @@ namespace AIS_Enterprise_Global.Models
             return _dc.DirectoryWorkers.FirstOrDefault(w => w.LastName == lastName && w.FirstName == firstName);
         }
 
-        public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
-           DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
+        public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, 
+            string cellPhone, DateTime startDate, BitmapImage photo, DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
         {
             var directoryWorker = GetDirectoryWorker(id);
+
+            byte[] dataPhoto = null;
+            if (photo != null)
+            {
+                var encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(photo));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    encoder.Save(ms);
+                    dataPhoto = ms.ToArray();
+                }
+            }
 
             directoryWorker.LastName = lastName;
             directoryWorker.FirstName = firstName;
@@ -1105,6 +1168,7 @@ namespace AIS_Enterprise_Global.Models
             directoryWorker.HomePhone = homePhone;
             directoryWorker.CellPhone = cellPhone;
             directoryWorker.StartDate = startDate;
+            directoryWorker.Photo = dataPhoto;
             directoryWorker.FireDate = fireDate;
 
             _dc.CurrentPosts.RemoveRange(directoryWorker.CurrentCompaniesAndPosts);
@@ -1811,6 +1875,8 @@ namespace AIS_Enterprise_Global.Models
             infoCash.Cash = isIncoming ? infoCash.Cash + summ : infoCash.Cash - summ;
 
             _dc.SaveChanges();
+
+            Debug.WriteLine(infoCash.Cash);
         }
 
         #endregion
@@ -1826,6 +1892,7 @@ namespace AIS_Enterprise_Global.Models
             {
                 infoCost = new InfoCost
                 {
+                    GroupId = Guid.NewGuid(),
                     Date = date,
                     DirectoryCostItemId = costItem.Id,
                     DirectoryRCId = rc.Id,
@@ -1880,13 +1947,19 @@ namespace AIS_Enterprise_Global.Models
             return infoCostsRC;
         }
 
-        public IQueryable<InfoCost> GetInfoCostsTransportExpenseOnly(int year, int month)
+        public IQueryable<InfoCost> GetInfoCostsTransportAndNoAllAndExpenseOnly(int year, int month)
         {
-            return GetInfoCosts(year, month).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)");
+            return GetInfoCosts(year, month).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "ВСЕ");
+        }
+
+        public IQueryable<InfoCost> GetInfoCostsTransportAndNoAllAndExpenseOnly(DateTime date)
+        {
+            return GetInfoCosts(date).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "ВСЕ");
         }
 
         public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, DirectoryTransportCompany transportCompany, double summ, List<Transport> transports)
         {
+            var groupId = Guid.NewGuid();
             if (directoryCostItem.Name == "Транспорт (5031)" && (transports[0].DirectoryRC.Name != "26А" || !isIncoming))
             {
                 double commonWeight = transports.Sum(t => t.Weight);
@@ -1904,6 +1977,7 @@ namespace AIS_Enterprise_Global.Models
 
                     var infoCost = new InfoCost
                     {
+                        GroupId = groupId,
                         Date = date,
                         DirectoryCostItem = _dc.DirectoryCostItems.Find(directoryCostItem.Id),
                         DirectoryRC = _dc.DirectoryRCs.First(r => r.Name == rc),
@@ -1923,6 +1997,7 @@ namespace AIS_Enterprise_Global.Models
             {
                 var infoCost = new InfoCost
                 {
+                    GroupId = groupId,
                     Date = date,
                     DirectoryCostItem = _dc.DirectoryCostItems.Find(directoryCostItem.Id),
                     DirectoryRC = _dc.DirectoryRCs.Find(transports.First().DirectoryRC.Id),
@@ -1942,10 +2017,14 @@ namespace AIS_Enterprise_Global.Models
 
         public void RemoveInfoCost(InfoCost infoCost)
         {
-            _dc.InfoCosts.Remove(infoCost);
+            var infoCosts = GetInfoCosts(infoCost.Date).Where(c => c.GroupId == infoCost.GroupId).ToList();
+            _dc.InfoCosts.RemoveRange(infoCosts);
             _dc.SaveChanges();
 
-            AddInfoCashSumm(-infoCost.Summ, infoCost.IsIncoming);
+            foreach (var cost in infoCosts)
+            {
+                AddInfoCashSumm(-cost.Summ, cost.IsIncoming);
+            }
         }
 
         public IEnumerable<int> GetInfoCostYears()

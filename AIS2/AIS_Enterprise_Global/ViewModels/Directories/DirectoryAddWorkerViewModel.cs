@@ -26,6 +26,7 @@ namespace AIS_Enterprise_Global.ViewModels
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>();
             
             AddWorkerCommand = new RelayCommand(AddWorker, CanAddingWorker);
+            AddPhotoName = "Добавить фото";
 
             SelectedDirectoryWorkerStartDate = DateTime.Now;
             SelectedDirectoryWorkerBirthDay = DateTime.Now;
@@ -41,7 +42,7 @@ namespace AIS_Enterprise_Global.ViewModels
         private void AddWorker(object parameter)
         {
             BC.AddDirectoryWorker(DirectoryWorkerLastName, DirectoryWorkerFirstName, DirectoryWorkerMidName, DirectoryWorkerGender, SelectedDirectoryWorkerBirthDay, DirectoryWorkerAddress,
-                DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, null, CurrentCompaniesAndPosts, IsDeadSpirit);
+                DirectoryWorkerHomePhone, DirectoryWorkerCellPhone, SelectedDirectoryWorkerStartDate, Photo, null, CurrentCompaniesAndPosts, IsDeadSpirit);
 
             ClearInputData();
         }

@@ -1,21 +1,26 @@
 ﻿using AIS_Enterprise_AV.Costs.Views;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Models.Directories;
 using AIS_Enterprise_Global.Models.Infos;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace AIS_Enterprise_AV.Costs.ViewModels
 {
     public class MonthCostsViewModel : ViewModelGlobal
     {
         #region Base
+
         private bool _isNotTransportOnly;
+        private List<InfoCost> _costs;
 
         public MonthCostsViewModel()
         {
@@ -29,18 +34,121 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 SelectedYear = Years.Last();
             }
 
-            Cash = BC.GetInfoCash();
+            Cash = BC.GetInfoCash().ToString("c"); 
 
             ShowDayCostsCommand = new RelayCommand(ShowDayCosts);
+            FilterCommand = new RelayCommand(FilterShow);
 
+            VisibilityCash = _isNotTransportOnly ? Visibility.Visible : Visibility.Collapsed;
+
+
+            BC.DataContext.Configuration.AutoDetectChangesEnabled = false;
+
+            CostItems = new ObservableCollection<DirectoryCostItem>(BC.GetDirectoryCostItems());
+            var costItemEmpty = new DirectoryCostItem { Name = null };
+            CostItems.Insert(0, costItemEmpty);
             
-            VisibilityCash = _isNotTransportOnly ? Visibility.Visible : Visibility.Collapsed;  
+
+            RCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs());
+            var rcEmpty = new DirectoryRC { Name = null };
+            RCs.Insert(0, rcEmpty);
+
+            InOuts = new ObservableCollection<string> 
+            {
+                "",
+                "Приход",
+                "Расход"
+            };
+            SelectedInOut = InOuts.First();
+
+            TransportCompanies = new ObservableCollection<DirectoryTransportCompany>(BC.GetDirectoryTransportCompanies());
+            var transportCompanyEmpty = new DirectoryTransportCompany { Name = null };
+            TransportCompanies.Insert(0, transportCompanyEmpty);
+            SelectedTransportCompany = TransportCompanies.First();
+
+            Notes = new ObservableCollection<DirectoryNote>(BC.GetDirectoryNotes().ToList());
+            var noteEmpty = new DirectoryNote { Description = null };
+            Notes.Insert(0, noteEmpty);
+            
+            SelectedNote = Notes.First();
+            
+            SelectedCostItem = CostItems.First();
+
+            BC.DataContext.Configuration.AutoDetectChangesEnabled = true;
+        }
+
+        private void Filter()
+        {
+            Costs.Clear();
+            var costs = _costs;
+
+            if (costs == null)
+            {
+                costs = new List<InfoCost>();
+            }
+
+            if (SelectedCostItem != null && SelectedCostItem.Name != null)
+            {
+                costs = costs.Where(c => c.DirectoryCostItem.Name == SelectedCostItem.Name).ToList();
+            }
+
+            if (SelectedRC != null && SelectedRC.Name != null)
+            {
+                costs = costs.Where(c => c.DirectoryRC.Name == SelectedRC.Name).ToList();
+            }
+
+            if (SelectedInOut != null && SelectedInOut != "")
+            {
+                costs = costs.Where(c => SelectedInOut == "Приход" ? c.IsIncoming : !c.IsIncoming).ToList();
+            }
+
+            if (SelectedTransportCompany != null && SelectedTransportCompany.Name != null)
+            {
+                costs = costs.Where(c => c.DirectoryTransportCompany != null && c.DirectoryTransportCompany.Name == SelectedTransportCompany.Name).ToList();
+            }
+
+            if (SelectedNote != null && SelectedNote.Description != null)
+            {
+                costs = costs.Where(c => c.CurrentNotes.Any(n => n.DirectoryNote.Description == SelectedNote.Description)).ToList();
+            }
+
+
+            costs = costs.OrderByDescending(c => c.Date).ToList();
+
+            foreach (var cost in costs)
+            {
+                Costs.Add(cost);
+            }
+        }
+
+        private void OrderNotes()
+        {
+            var noteEmpty = Notes.Where(n => n.Description == null).ToList();
+            var noteLetters = Notes.Where(n => n.Description != null && char.IsLetter(n.Description[0])).OrderBy(n => n.Description).ToList();
+            var noteDigits = Notes.Where(n => n.Description != null && char.IsDigit(n.Description[0])).OrderBy(n => n.Description).ToList();
+
+            Notes.Clear();
+
+            foreach (var note in noteEmpty)
+            {
+                Notes.Add(note);
+            }
+
+            foreach (var note in noteLetters)
+            {
+                Notes.Add(note);
+            }
+
+            foreach (var note in noteDigits)
+            {
+                Notes.Add(note);
+            }
         }
 
         #endregion
 
         #region Properties
-        public double Cash { get; set; }
+        public string Cash { get; set; }
 
         public ObservableCollection<int> Years { get; set; }
 
@@ -78,21 +186,26 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 RaisePropertyChanged();
 
                 Costs.Clear();
+                _costs = new List<InfoCost>();
 
                 if (_isNotTransportOnly)
                 {
                     foreach (var cost in BC.GetInfoCosts(SelectedYear, _selectedMonth))
                     {
                         Costs.Add(cost);
+                        _costs.Add(cost);
                     }
                 }
                 else
                 {
-                    foreach (var cost in BC.GetInfoCostsTransportExpenseOnly(SelectedYear, _selectedMonth))
+                    foreach (var cost in BC.GetInfoCostsTransportAndNoAllAndExpenseOnly(SelectedYear, _selectedMonth))
                     {
                         Costs.Add(cost);
+                        _costs.Add(cost);
                     }
                 }
+
+                Filter();
             }
         }
         public double Summ { get; set; }
@@ -103,12 +216,207 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
         public Visibility VisibilityCash { get; set; }
 
+        public ObservableCollection<DirectoryCostItem> CostItems { get; set; }
+
+
+        private DirectoryCostItem _selectedCostItem;
+        public DirectoryCostItem SelectedCostItem
+        {
+            get
+            {
+                return _selectedCostItem;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                if (RCs == null || InOuts == null || TransportCompanies == null || Notes == null)
+                {
+                    return;
+                }
+
+                _selectedCostItem = value;
+                RaisePropertyChanged();
+
+                SelectedRC = RCs.First();
+                SelectedInOut = InOuts.First();
+                SelectedTransportCompany = TransportCompanies.First();
+                SelectedNote = Notes.First();
+
+                Filter();
+
+                BC.DataContext.Configuration.AutoDetectChangesEnabled = false;
+
+                RCs.Clear();
+                var rcEmpty = new DirectoryRC { Name = null };
+                RCs.Add(rcEmpty);
+
+                foreach (var rc in Costs.Select(c => c.DirectoryRC).Distinct())
+                {
+                    RCs.Add(rc);
+                }
+
+                InOuts.Clear();
+                InOuts.Add("");
+
+                if (Costs.Any(c => c.IsIncoming))
+	            {
+                    InOuts.Add("Приход");
+	            }
+
+                if (Costs.Any(c => !c.IsIncoming))
+	            {
+                    InOuts.Add("Расход");
+	            }
+
+
+                TransportCompanies.Clear();
+                var transportCompanyEmpty = new DirectoryTransportCompany { Name = null };
+                TransportCompanies.Add(transportCompanyEmpty);
+
+                foreach (var transportCompany in Costs.Select(c => c.DirectoryTransportCompany).Where(t => t != null).Distinct())
+                {
+                    TransportCompanies.Add(transportCompany);
+                }
+
+
+                Notes.Clear();
+                var noteEmpty = new DirectoryNote { Description = null };
+                Notes.Add(noteEmpty);
+
+                foreach (var masNotes in Costs.Select(c => c.CurrentNotes.Select(n => n.DirectoryNote)))
+                {
+                    foreach (var note in masNotes)
+                    {
+                        if (!Notes.Contains(note))
+                        {
+                            Notes.Add(note);
+                        }
+                    }
+                }
+
+                OrderNotes();
+
+                BC.DataContext.Configuration.AutoDetectChangesEnabled = true;
+            }
+        }
+
+        public ObservableCollection<DirectoryRC> RCs { get; set; }
+
+
+        private DirectoryRC _selectedRC;
+        public DirectoryRC SelectedRC
+        {
+            get
+            {
+                return _selectedRC;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                _selectedRC = value;
+                RaisePropertyChanged();
+
+                Filter();
+            }
+        }
+
+        public ObservableCollection<string> InOuts { get; set; }
+
+        private string _selectedInOut;
+        public string SelectedInOut
+        {
+            get
+            {
+                return _selectedInOut;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                _selectedInOut = value;
+
+                Filter();
+            }
+        }
+
+        public ObservableCollection<DirectoryTransportCompany> TransportCompanies { get; set; }
+
+        private DirectoryTransportCompany _selectedTransportCompany;
+        public DirectoryTransportCompany SelectedTransportCompany
+        {
+            get
+            {
+                return _selectedTransportCompany;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                _selectedTransportCompany = value;
+                RaisePropertyChanged();
+
+                Filter();
+            }
+        }
+
+        public ObservableCollection<DirectoryNote> Notes { get; set; }
+
+        private DirectoryNote _selectedNote;
+        public DirectoryNote SelectedNote
+        {
+            get
+            {
+                return _selectedNote;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                _selectedNote = value;
+                RaisePropertyChanged();
+
+                Filter();
+            }
+        }
 
         #endregion
 
         #region Commands
 
         public RelayCommand ShowDayCostsCommand { get; set; }
+        public RelayCommand FilterCommand { get; set; }
+
+        private void FilterShow(object parameter)
+        {
+            var grid = parameter as Grid;
+            grid.Visibility = grid.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+
+            if (grid.Visibility == Visibility.Collapsed)
+            {
+                SelectedCostItem = CostItems.First();
+                SelectedRC = RCs.First();
+                SelectedInOut = InOuts.First();
+                SelectedTransportCompany = TransportCompanies.First();
+                SelectedNote = Notes.First();
+            }
+        }
 
         private void ShowDayCosts(object parameter)
         {
@@ -117,7 +425,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 var dayCostsView = new DayCostsView(SelectedCost.Date);
                 dayCostsView.ShowDialog();
             }
-            
+
         }
 
         #endregion

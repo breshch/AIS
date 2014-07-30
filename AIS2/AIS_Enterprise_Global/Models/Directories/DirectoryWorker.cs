@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace AIS_Enterprise_Global.Models.Directories
 {
@@ -46,7 +47,8 @@ namespace AIS_Enterprise_Global.Models.Directories
         public virtual ICollection<InfoMonth> InfoMonthes { get; set; }
         public bool IsDeadSpirit { get; set; }
  
-        //public Photo { get; set; }
+        public virtual byte[] Photo { get; set; }
+        
         //public Docs { get; set; }
 
         //public DateTime? TimeStamp { get; set; }

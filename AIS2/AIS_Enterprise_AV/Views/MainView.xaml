@@ -49,7 +49,7 @@
             
             <StackPanel Orientation="Vertical" Margin=" 0, 10, 0, 0">
                 <TextBlock Text="Пароль"/>
-                <PasswordBox Password="huy" x:Name="PasswordBoxPass" Margin="0, 5, 0, 0">
+                <PasswordBox x:Name="PasswordBoxPass" Margin="0, 5, 0, 0">
                     <PasswordBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding EnteringCommand}" CommandParameter="{Binding ElementName=MainViewWindow}"/>
                     </PasswordBox.InputBindings>

@@ -25,6 +25,7 @@ namespace AIS_Enterprise_AV.Costs.Views
     {
         private BusinessContext _bc = new BusinessContext();
         private bool _isNotTransportOnly;
+        private List<DirectoryNote> _notes;
 
         public DayCostsView(DateTime date)
         {
@@ -48,11 +49,30 @@ namespace AIS_Enterprise_AV.Costs.Views
                 RadioButtonIncoming.IsEnabled = false;
                 
                 ComboBoxCostItems.SelectedItem = _bc.GetDirectoryCostItem("Транспорт (5031)");
-                ComboBoxCostItems.IsEnabled = false;
 
                 ComboBoxValidation(ComboBoxCostItems);
+                ComboBoxValidation(ComboBoxTransportCompanies);
             }
         }
+
+        private void OrderNotes()
+        {
+            var noteLetters = _notes.Where(n => char.IsLetter(n.Description[0])).OrderBy(n => n.Description).ToList();
+            var noteDigits = _notes.Where(n => char.IsDigit(n.Description[0])).OrderBy(n => n.Description).ToList();
+
+            _notes.Clear();
+
+            foreach (var note in noteLetters)
+            {
+                _notes.Add(note);
+            }
+
+            foreach (var note in noteDigits)
+            {
+                _notes.Add(note);
+            }
+        }
+
 
         private void InitializeValidation(UIElementCollection children)
         {
@@ -93,7 +113,15 @@ namespace AIS_Enterprise_AV.Costs.Views
         private void FillDataGrid(DateTime date)
         {
             DataGridCurrentDateCosts.ItemsSource = null;
-            DataGridCurrentDateCosts.ItemsSource = _bc.GetInfoCosts(date).ToList();
+            if (_isNotTransportOnly)
+            {
+                DataGridCurrentDateCosts.ItemsSource = _bc.GetInfoCosts(date).ToList();
+            }
+            else
+            {
+                DataGridCurrentDateCosts.ItemsSource = _bc.GetInfoCostsTransportAndNoAllAndExpenseOnly(date).ToList();
+            }
+            
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -104,9 +132,21 @@ namespace AIS_Enterprise_AV.Costs.Views
         private void InitializeData()
         {
             DatePickerDate.SelectedDate = DateTime.Now;
-            ComboBoxCostItems.ItemsSource = _bc.GetDirectoryCostItems().ToList();
+
+            if (!_isNotTransportOnly)
+            {
+                ComboBoxCostItems.ItemsSource = _bc.GetDirectoryCostItems().Where(c => c.Name == "Транспорт (5031)" || c.Name == "Приход").ToList();
+            }
+            else
+            {
+                ComboBoxCostItems.ItemsSource = _bc.GetDirectoryCostItems().ToList();
+            }
+            
             ComboBoxRCs_1.ItemsSource = _bc.GetDirectoryRCs().ToList();
-            ComboBoxNotes_1.ItemsSource = _bc.GetDirectoryNotes().ToList();
+
+            _notes = _bc.GetDirectoryNotes().ToList();
+            OrderNotes();
+            ComboBoxNotes_1.ItemsSource = _notes;
             ComboBoxTransportCompanies.ItemsSource = _bc.GetDirectoryTransportCompanies().ToList();
             RadioButtonExpense.IsChecked = true;
         }
@@ -162,14 +202,14 @@ namespace AIS_Enterprise_AV.Costs.Views
             ComboBoxNotes_1.Text = null;
             ComboBoxTransportCompanies.SelectedItem = null;
             TextBoxWeight_1.Text = null;
-            StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
-            ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
-            ComboBoxTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
-
+            
             if (_isNotTransportOnly)
             {
                 ComboBoxCostItems.IsEnabled = true;
                 ComboBoxCostItems.SelectedItem = null;
+                ComboBoxTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
+                StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
+                ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
             }
             
             for (int i = GridTransports.RowDefinitions.Count; i > 1; i--)
@@ -210,6 +250,7 @@ namespace AIS_Enterprise_AV.Costs.Views
 
                 if (costItem.Name == "Приход")
                 {
+                    ComboBoxCostItems.Text = "Приход";
                     RadioButtonIncoming.IsChecked = true;
                     RadioButtonExpense.IsEnabled = false;
                 }
@@ -249,7 +290,7 @@ namespace AIS_Enterprise_AV.Costs.Views
             comboBox.Margin = new Thickness(20, 10, 10, 0);
             comboBox.SetValue(Grid.ColumnProperty, 2);
             comboBox.SetValue(Grid.RowProperty, GridTransports.RowDefinitions.Count - 1);
-            comboBox.ItemsSource = _bc.GetDirectoryNotes().ToList();
+            comboBox.ItemsSource = _notes;
             comboBox.LostFocus += ComboBox_TextChanged;
 
             GridTransports.Children.Add(comboBox);
@@ -298,7 +339,7 @@ namespace AIS_Enterprise_AV.Costs.Views
 
             ChangeButtonAddVisibility("1");
 
-            if (!_isNotTransportOnly)
+            if (_isNotTransportOnly)
             {
                 if (GridTransports.RowDefinitions.Count == 1)
                 {
@@ -370,6 +411,15 @@ namespace AIS_Enterprise_AV.Costs.Views
             }
 
             bool isTransport = ComboBoxCostItems.Text == "Транспорт (5031)" && (ComboBoxRCs_1.Text != "26А" || RadioButtonIncoming.IsChecked == false) ? true : false;
+
+            if (isTransport)
+            {
+                if (ComboBoxTransportCompanies.SelectedIndex == -1)
+                {
+                    ButtonAdd.IsEnabled = false;
+                    return;
+                }
+            }
 
 
             foreach (var item in GridTransports.Children)
@@ -558,6 +608,28 @@ namespace AIS_Enterprise_AV.Costs.Views
         private void DataGridCurrentDateCosts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ButtonRemove.IsEnabled = DataGridCurrentDateCosts.SelectedIndex != -1 ? true : false;
+        }
+
+        private void ComboBoxTransportCompanies_SelectedChanged(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+
+            if (comboBox.SelectedIndex != -1)
+            {
+                comboBox.BorderBrush = Brushes.DarkGray;
+                comboBox.BorderThickness = new Thickness(1);
+
+                comboBox.Tag = "1";
+            }
+            else
+            {
+                comboBox.BorderBrush = Brushes.Red;
+                comboBox.BorderThickness = new Thickness(2);
+
+                comboBox.Tag = null;
+            }
+
+            ChangeButtonAddVisibility(comboBox.Tag);
         }
     }
 }

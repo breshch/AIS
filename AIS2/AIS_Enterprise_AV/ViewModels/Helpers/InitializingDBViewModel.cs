@@ -20,6 +20,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         public InitializingDBViewModel()
         {
+            CreateEmptyDBCommand = new RelayCommand(CreateEmptyDB);
             ApplyParametersCommand = new RelayCommand(ApplyParameters);
             SkipCommand = new RelayCommand(Skip);
 
@@ -40,8 +41,41 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         #region Commands
 
+        public RelayCommand CreateEmptyDBCommand { get; set; }
         public RelayCommand ApplyParametersCommand { get; set; }
         public RelayCommand SkipCommand { get; set; }
+
+        private void CreateEmptyDB(object parameter)
+        {
+            var window = parameter as Window;
+            var passwordBox = window.FindName("PasswordBoxAdminPass") as PasswordBox;
+
+            string password = passwordBox.Password;
+
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+
+            DataContext.ChangeConnectionStringWithDefaultCredentials(IP, CompanyName);
+
+            using (var bc = new BusinessContext())
+            {
+                bc.CreateDatabase();
+                bc.InitializeEmptyDB();
+                bc.AddDirectoryUserAdmin(AdminName, password);
+            }
+
+            HelperMethods.AddServer(IP);
+
+            window.Visibility = Visibility.Collapsed;
+
+            Properties.Settings.Default.DefaultServer = null;
+            Properties.Settings.Default.DefaultDataBase = null;
+            Properties.Settings.Default.DefaultUser = null;
+            Properties.Settings.Default.Save();
+
+            HelperMethods.ShowView(new MainViewModel(), new MainView());
+
+            window.Close();
+        }
 
         private void ApplyParameters(object parameter)
         {

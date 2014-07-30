@@ -1,8 +1,9 @@
-﻿ using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models;
 using AIS_Enterprise_Global.Models.Currents;
 using AIS_Enterprise_Global.Views.Currents;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
@@ -29,8 +32,9 @@ namespace AIS_Enterprise_Global.ViewModels
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
             EditCompanyAndPostCommand = new RelayCommand(EditCompanyAndPost, IsSelectedCompanyAndPost);
             RemoveCompanyAndPostCommand = new RelayCommand(RemoveCompanyAndPost, IsSelectedCompanyAndPost);
+            AddPhotoCommand = new RelayCommand(AddPhoto);
+            RemovePhotoCommand = new RelayCommand(RemovePhoto);
 
-            
             SelectedIndexCurrentCompanyAndPost = -1;
         }
 
@@ -80,6 +84,10 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public DateTime SelectedDirectoryWorkerStartDate { get; set; }
 
+        public BitmapImage Photo { get; set; }
+
+        public string AddPhotoName { get; set; }
+
         public ObservableCollection<CurrentCompanyAndPost> CurrentCompaniesAndPosts { get; set; }
 
         public CurrentCompanyAndPost SelectedCurrentCompanyAndPost { get; set; }
@@ -97,6 +105,9 @@ namespace AIS_Enterprise_Global.ViewModels
         public RelayCommand AddCompanyAndPostCommand { get; set; }
         public RelayCommand EditCompanyAndPostCommand { get; set; }
         public RelayCommand RemoveCompanyAndPostCommand { get; set; }
+
+        public RelayCommand AddPhotoCommand { get; set; }
+        public RelayCommand RemovePhotoCommand { get; set; }
 
         private void AddCompanyAndPost(object parameter)
         {
@@ -154,6 +165,30 @@ namespace AIS_Enterprise_Global.ViewModels
         private bool IsSelectedCompanyAndPost(object parameter)
         {
             return SelectedCurrentCompanyAndPost != null;
+        }
+
+        private void AddPhoto(object parameter)
+        {
+            var dialog = new OpenFileDialog();
+
+            dialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dialog.FileName;
+
+                Photo = new BitmapImage(new Uri(filename));
+                AddPhotoName = "Изменить фото";
+            }
+
+        }
+
+        private void RemovePhoto(object parameter)
+        {
+            Photo = null;
+            AddPhotoName = "Добавить фото";
         }
 
         #endregion

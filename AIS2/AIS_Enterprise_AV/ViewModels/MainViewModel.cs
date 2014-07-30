@@ -124,23 +124,25 @@ namespace AIS_Enterprise_AV.ViewModels
                 RaisePropertyChanged();
             }
         }
+        
+        //private string _selectedServer;
 
-        private string _selectedServer;
+        public string SelectedServer { get; set; }
 
-        public string SelectedServer
-        {
-            get
-            {
-                return _selectedServer;
-            }
-            set
-            {
-                _selectedServer = value;
-                RaisePropertyChanged();
+        //public string SelectedServer
+        //{
+        //    get
+        //    {
+        //        return _selectedServer;
+        //    }
+        //    set
+        //    {
+        //        _selectedServer = value;
+        //        RaisePropertyChanged();
 
 
-            }
-        }
+        //    }
+        //}
 
         private ObservableCollection<string> _dataBases;
         public ObservableCollection<string> DataBases
@@ -256,6 +258,8 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand RefreshDataBasesCommand { get; set; }
         public RelayCommand CostsExcelToDBCommand { get; set; }
 
+
+
         private void RefreshDataBases(object parameter)
         {
             var passwordBox = parameter as PasswordBox;
@@ -266,15 +270,20 @@ namespace AIS_Enterprise_AV.ViewModels
 
             HelperMethods.AddServer(SelectedServer);
 
-            string selectedServer = SelectedServer;
-            Servers.Clear();
-
-            foreach (var server in HelperMethods.GetServers())
+            if (!Servers.Any(s => s == SelectedServer))
             {
-                Servers.Add(server);
+                Servers.Add(SelectedServer);
             }
 
-            SelectedServer = selectedServer;
+            //string selectedServer = SelectedServer;
+            //Servers.Clear();
+
+            //foreach (var server in HelperMethods.GetServers())
+            //{
+            //    Servers.Add(server);
+            //}
+
+           // SelectedServer = selectedServer;
 
             if (DataBases != null)
             {
@@ -308,6 +317,8 @@ namespace AIS_Enterprise_AV.ViewModels
 
             window.Close();
         }
+
+
 
         private void KillTheDB(object parameter)
         {
@@ -386,6 +397,8 @@ namespace AIS_Enterprise_AV.ViewModels
 
             IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
         }
+
+
 
         private void CostsExcelToDB(object parameter)
         {

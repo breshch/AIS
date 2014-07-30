@@ -3,7 +3,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
-        Title="AddEditDefaultCostView" Height="350" Width="350">
+        Height="350" Width="350">
     <Grid Margin=" 20, 30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
