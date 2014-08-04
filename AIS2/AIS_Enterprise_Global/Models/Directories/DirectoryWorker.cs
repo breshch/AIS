@@ -47,7 +47,8 @@ namespace AIS_Enterprise_Global.Models.Directories
         public virtual ICollection<InfoMonth> InfoMonthes { get; set; }
         public bool IsDeadSpirit { get; set; }
  
-        public virtual byte[] Photo { get; set; }
+        public int? DirectoryPhotoId { get; set; }
+        public virtual DirectoryPhoto DirectoryPhoto { get; set; }
         
         //public Docs { get; set; }
 

@@ -93,8 +93,6 @@ namespace AIS_Enterprise_AV.Views
             //_bc.SaveChanges();
 
 
-
-
             InitializeGif();
             InitializePrivileges();
             _bc.InitializeAbsentDates();

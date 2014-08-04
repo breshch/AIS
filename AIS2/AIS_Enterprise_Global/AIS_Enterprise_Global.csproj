@@ -104,6 +104,7 @@
     <Compile Include="Models\Directories\DirectoryKeepingDescription.cs" />
     <Compile Include="Models\Directories\DirectoryKeepingName.cs" />
     <Compile Include="Models\Directories\DirectoryNote.cs" />
+    <Compile Include="Models\Directories\DirectoryPhoto.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
     <Compile Include="Models\Directories\DirectoryRC.cs" />
     <Compile Include="Models\Directories\DirectoryTransportCompany.cs" />

@@ -57,9 +57,9 @@ namespace AIS_Enterprise_Global.ViewModels
             DirectoryWorkerHomePhone = _selectedDirectoryWorker.HomePhone;
             SelectedDirectoryWorkerStartDate = _selectedDirectoryWorker.StartDate;
 
-            if (_selectedDirectoryWorker.Photo != null && _selectedDirectoryWorker.Photo.Length != 0)
+            if (_selectedDirectoryWorker.DirectoryPhoto != null && _selectedDirectoryWorker.DirectoryPhoto.Photo != null && _selectedDirectoryWorker.DirectoryPhoto.Photo.Length != 0)
             {
-                using (var mem = new MemoryStream(_selectedDirectoryWorker.Photo))
+                using (var mem = new MemoryStream(_selectedDirectoryWorker.DirectoryPhoto.Photo))
                 {
                     mem.Position = 0;
 

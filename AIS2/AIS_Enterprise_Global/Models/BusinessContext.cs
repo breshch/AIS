@@ -975,7 +975,7 @@ namespace AIS_Enterprise_Global.Models
                 HomePhone = homePhone,
                 CellPhone = cellPhone,
                 StartDate = startDate,
-                Photo = dataPhoto,
+                DirectoryPhoto = new DirectoryPhoto { Photo = dataPhoto },
                 FireDate = fireDate,
                 CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies })),
                 IsDeadSpirit = isDeadSpirit
@@ -1168,7 +1168,13 @@ namespace AIS_Enterprise_Global.Models
             directoryWorker.HomePhone = homePhone;
             directoryWorker.CellPhone = cellPhone;
             directoryWorker.StartDate = startDate;
-            directoryWorker.Photo = dataPhoto;
+
+            if (directoryWorker.DirectoryPhoto == null)
+            {
+                directoryWorker.DirectoryPhoto = new DirectoryPhoto();
+            }
+
+            directoryWorker.DirectoryPhoto.Photo = dataPhoto;
             directoryWorker.FireDate = fireDate;
 
             _dc.CurrentPosts.RemoveRange(directoryWorker.CurrentCompaniesAndPosts);
@@ -1544,12 +1550,12 @@ namespace AIS_Enterprise_Global.Models
                 }
 
                 double birthday = GetParameterValue<double>("Birthday");
-                for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddMonths(1))
+                for (var dateMonth = new DateTime(lastDate.Year, lastDate.Month, 1); dateMonth.Date <= DateTime.Now.Date; dateMonth = dateMonth.AddMonths(1))
                 {
-                    var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
+                    var firstDateInMonth = new DateTime(dateMonth.Year, dateMonth.Month, 1);
                     foreach (var worker in workers)
                     {
-                        if (!worker.InfoMonthes.Any(m => m.Date.Year == date.Year && m.Date.Month == date.Month))
+                        if (!worker.InfoMonthes.Any(m => m.Date.Year == dateMonth.Year && m.Date.Month == dateMonth.Month))
                         {
                             var infoMonth = new InfoMonth
                             {

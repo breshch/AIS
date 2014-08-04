@@ -81,5 +81,8 @@ namespace AIS_Enterprise_Global.Models.Infos
                 return !IsIncoming ? Summ : 0;
             }
         }
+
+        [NotMapped]    
+        public bool IsReturn { get; set; }
     }
 }

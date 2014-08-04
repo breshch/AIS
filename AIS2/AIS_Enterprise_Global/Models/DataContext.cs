@@ -147,6 +147,7 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<DirectoryTransportCompany> DirectoryTransportCompanies { get; set; }
         public DbSet<DirectoryKeepingName> DirectoryKeepingNames { get; set; }
         public DbSet<DirectoryKeepingDescription> DirectoryKeepingDescriptions { get; set; }
+        public DbSet<DirectoryPhoto> DirectoryPhotoes { get; set; }
         
 
         public DbSet<CurrentPost> CurrentPosts { get; set; }

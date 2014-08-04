@@ -12,7 +12,8 @@ namespace AIS_Enterprise_Global.Helpers.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return ((double)value).ToString("c");
+            double cash = ((double)value);
+            return cash != 0 ? cash.ToString("c") : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

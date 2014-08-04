@@ -1,6 +1,7 @@
 ﻿using AIS_Enterprise_AV.Costs.Views;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Models.Directories;
 using AIS_Enterprise_Global.Models.Infos;
 using System;
@@ -34,10 +35,14 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 SelectedYear = Years.Last();
             }
 
-            Cash = BC.GetInfoCash().ToString("c"); 
+            Cash = BC.GetInfoCash().ToString("c");
 
             ShowDayCostsCommand = new RelayCommand(ShowDayCosts);
             FilterCommand = new RelayCommand(FilterShow);
+            ReturnCommand = new RelayCommand(Return);
+
+            ReturnName = "Компенсация";
+            ReturnVisibility = Visibility.Collapsed;
 
             VisibilityCash = _isNotTransportOnly ? Visibility.Visible : Visibility.Collapsed;
 
@@ -47,7 +52,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             CostItems = new ObservableCollection<DirectoryCostItem>(BC.GetDirectoryCostItems());
             var costItemEmpty = new DirectoryCostItem { Name = null };
             CostItems.Insert(0, costItemEmpty);
-            
+
 
             RCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs());
             var rcEmpty = new DirectoryRC { Name = null };
@@ -69,9 +74,9 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             Notes = new ObservableCollection<DirectoryNote>(BC.GetDirectoryNotes().ToList());
             var noteEmpty = new DirectoryNote { Description = null };
             Notes.Insert(0, noteEmpty);
-            
+
             SelectedNote = Notes.First();
-            
+
             SelectedCostItem = CostItems.First();
 
             BC.DataContext.Configuration.AutoDetectChangesEnabled = true;
@@ -205,7 +210,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                     }
                 }
 
-                Filter();
+                RefreshFilters();
             }
         }
         public double Summ { get; set; }
@@ -233,75 +238,80 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                     return;
                 }
 
-                if (RCs == null || InOuts == null || TransportCompanies == null || Notes == null)
-                {
-                    return;
-                }
-
                 _selectedCostItem = value;
                 RaisePropertyChanged();
 
-                SelectedRC = RCs.First();
-                SelectedInOut = InOuts.First();
-                SelectedTransportCompany = TransportCompanies.First();
-                SelectedNote = Notes.First();
+                RefreshFilters();
+            }
+        }
 
-                Filter();
+        private void RefreshFilters()
+        {
+            if (RCs == null || InOuts == null || TransportCompanies == null || Notes == null)
+            {
+                return;
+            }
 
-                BC.DataContext.Configuration.AutoDetectChangesEnabled = false;
+            SelectedRC = RCs.First();
+            SelectedInOut = InOuts.First();
+            SelectedTransportCompany = TransportCompanies.First();
+            SelectedNote = Notes.First();
 
-                RCs.Clear();
-                var rcEmpty = new DirectoryRC { Name = null };
-                RCs.Add(rcEmpty);
+            Filter();
 
-                foreach (var rc in Costs.Select(c => c.DirectoryRC).Distinct())
+            BC.DataContext.Configuration.AutoDetectChangesEnabled = false;
+
+            RCs.Clear();
+            var rcEmpty = new DirectoryRC { Name = null };
+            RCs.Add(rcEmpty);
+
+            foreach (var rc in Costs.Select(c => c.DirectoryRC).Distinct())
+            {
+                RCs.Add(rc);
+            }
+
+            InOuts.Clear();
+            InOuts.Add("");
+
+            if (Costs.Any(c => c.IsIncoming))
+            {
+                InOuts.Add("Приход");
+            }
+
+            if (Costs.Any(c => !c.IsIncoming))
+            {
+                InOuts.Add("Расход");
+            }
+
+
+            TransportCompanies.Clear();
+            var transportCompanyEmpty = new DirectoryTransportCompany { Name = null };
+            TransportCompanies.Add(transportCompanyEmpty);
+
+            foreach (var transportCompany in Costs.Select(c => c.DirectoryTransportCompany).Where(t => t != null).Distinct())
+            {
+                TransportCompanies.Add(transportCompany);
+            }
+
+
+            Notes.Clear();
+            var noteEmpty = new DirectoryNote { Description = null };
+            Notes.Add(noteEmpty);
+
+            foreach (var masNotes in Costs.Select(c => c.CurrentNotes.Select(n => n.DirectoryNote)))
+            {
+                foreach (var note in masNotes)
                 {
-                    RCs.Add(rc);
-                }
-
-                InOuts.Clear();
-                InOuts.Add("");
-
-                if (Costs.Any(c => c.IsIncoming))
-	            {
-                    InOuts.Add("Приход");
-	            }
-
-                if (Costs.Any(c => !c.IsIncoming))
-	            {
-                    InOuts.Add("Расход");
-	            }
-
-
-                TransportCompanies.Clear();
-                var transportCompanyEmpty = new DirectoryTransportCompany { Name = null };
-                TransportCompanies.Add(transportCompanyEmpty);
-
-                foreach (var transportCompany in Costs.Select(c => c.DirectoryTransportCompany).Where(t => t != null).Distinct())
-                {
-                    TransportCompanies.Add(transportCompany);
-                }
-
-
-                Notes.Clear();
-                var noteEmpty = new DirectoryNote { Description = null };
-                Notes.Add(noteEmpty);
-
-                foreach (var masNotes in Costs.Select(c => c.CurrentNotes.Select(n => n.DirectoryNote)))
-                {
-                    foreach (var note in masNotes)
+                    if (!Notes.Contains(note))
                     {
-                        if (!Notes.Contains(note))
-                        {
-                            Notes.Add(note);
-                        }
+                        Notes.Add(note);
                     }
                 }
-
-                OrderNotes();
-
-                BC.DataContext.Configuration.AutoDetectChangesEnabled = true;
             }
+
+            OrderNotes();
+
+            BC.DataContext.Configuration.AutoDetectChangesEnabled = true;
         }
 
         public ObservableCollection<DirectoryRC> RCs { get; set; }
@@ -396,12 +406,17 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             }
         }
 
+        public string ReturnName { get; set; }
+
+        public Visibility ReturnVisibility { get; set; }
+
         #endregion
 
         #region Commands
 
         public RelayCommand ShowDayCostsCommand { get; set; }
         public RelayCommand FilterCommand { get; set; }
+        public RelayCommand ReturnCommand { get; set; }
 
         private void FilterShow(object parameter)
         {
@@ -424,8 +439,57 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             {
                 var dayCostsView = new DayCostsView(SelectedCost.Date);
                 dayCostsView.ShowDialog();
+
+                _costs.Clear();
+                _costs = BC.GetInfoCosts(SelectedYear, SelectedMonth).ToList();
+                Filter();
             }
 
+        }
+
+        private void Return(object parameter)
+        {
+            if (ReturnName == "Добавить компесацию")
+            {
+                var returnCosts = Costs.Where(c => c.IsReturn && !c.IsIncoming);
+                foreach (var cost in returnCosts)
+                {
+                    var transports = new List<Transport>();
+
+                    bool isFirst = false;
+                    foreach (var note in cost.CurrentNotes)
+                    {
+                        transports.Add(new Transport
+                            {
+                                DirectoryRC = BC.GetDirectoryRC("КО-5"),
+                                DirectoryNote = note.DirectoryNote,
+                                Weight = !isFirst ? cost.Weight : 0
+                            });
+
+                        if (!isFirst)
+                        {
+                            isFirst = true;
+                        }
+                    }
+
+                    BC.AddInfoCosts(cost.Date, cost.DirectoryCostItem, true, cost.DirectoryTransportCompany, cost.Summ, transports);
+                }
+
+                _costs.Clear();
+                _costs = BC.GetInfoCosts(SelectedYear, SelectedMonth).ToList();
+                foreach (var cost in _costs)
+                {
+                    if (cost.IsReturn)
+                    {
+                        cost.IsReturn = false;    
+                    }
+                }
+
+                Filter();
+            }
+
+            ReturnName = ReturnName == "Компенсация" ? "Добавить компесацию" : "Компенсация";
+            ReturnVisibility = ReturnVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion
