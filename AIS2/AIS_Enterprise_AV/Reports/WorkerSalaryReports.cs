@@ -15,8 +15,8 @@ namespace AIS_Enterprise_AV.Reports
     public static class WorkerSalaryReports
     {
         private const string COMPANY_NAME_AV = "АВ";
-        private const string PATH_REPORT_MINSK = "Зарплата\\Minsk\\Зарплата.xlsx";
-        private const string PATH_DIRECTORY_REPORT_SALARY_WORKERS = "Зарплата\\Print\\";
+        private const string PATH_REPORT_MINSK = "Reports\\Minsk\\Зарплата.xlsx";
+        private const string PATH_DIRECTORY_REPORT_SALARY_WORKERS = "Reports\\Print\\Зарплата.xlsx";
 
         private const int INDEX_HEADER_ROW_OVERTIME = 4;
         private const int COUNT_HEADER_ROW_OVERTIME = 3;
@@ -66,24 +66,85 @@ namespace AIS_Enterprise_AV.Reports
         private const int COUNT_COLUMNS_FENOX_MINSK = 6;
 
 
-        public static void SalaryOvertimeTransport(BusinessContext bc, int year, int month)
+        public static void ComplitedReportSalaryOvertimeTransportMinsk(BusinessContext bc, int year, int month)
         {
             Helpers.CompletedReport(PATH_REPORT_MINSK, new List<Action<ExcelPackage>>
                 {
                     (ep) => SalaryReportMinsk(ep, bc, year, month),
-                    (ep) => OverTimeReportMinsk(ep, bc, year, month)
+                    (ep) => OverTimeReportMinsk(ep, bc, year, month),
+                    (ep) => TransportReportMinsk(ep, bc, year, month)
                 });
         }
 
         public static void ComplitedReportSalaryWorkers(BusinessContext bc, int year, int month)
         {
-            Helpers.CompletedReport(PATH_REPORT_MINSK, new List<Action<ExcelPackage>>
+            Helpers.CompletedReport(PATH_DIRECTORY_REPORT_SALARY_WORKERS, new List<Action<ExcelPackage>>
                 {
-                    (ep) =>  SalaryReportWorkers(ep, bc, year, month),
-                    (ep) => OverTimeReportMinsk(ep, bc, year, month)
+                    (ep) => SalaryReportWorkers(ep, bc, year, month),
                 });
         }
 
+
+        private static void TransportReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
+        {
+            string name = "Транспорт";
+            var sheet = Helpers.GetSheet(ep, name);
+
+            var colorTransparent = Color.Transparent;
+
+            Helpers.CreateCell(sheet, 1, 1, "Дата", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 2, "ЦО", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 3, "Приход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 4, "Расход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 5, "Описание", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+
+            int indexRow = 2;
+
+            var costs = bc.GetInfoCosts(year, month).Where(c => c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "26А" && c.DirectoryRC.Name != "ВСЕ").ToList();
+            foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
+            {
+                double summIncoming = 0;
+                double summExpence = 0;
+
+                int firstIndexRow = indexRow;
+                foreach (var cost in costs.Where(c => c.DirectoryRC.Id == rc.Id).OrderBy(c => c.Date))
+                {
+                    Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryRC.Name, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 3, cost.IsIncoming ? cost.Incoming.ToString("c") : null, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense.ToString("c") : null, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 5, cost.ConcatNotes, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+                    summIncoming += cost.Incoming;
+                    summExpence += cost.Expense;
+                    
+                    indexRow++;
+                }
+
+                
+
+                var colorGray = Color.LightGray;
+                Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 3, summIncoming.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 4, summExpence.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 5, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+                sheet.Cells[firstIndexRow, 1, indexRow - 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 2, indexRow - 1, 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 3, indexRow - 1, 3].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 4, indexRow - 1, 4].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 5, indexRow - 1, 5].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+
+                indexRow++;
+            }
+
+            sheet.Column(1).Width = Helpers.PixelsToInches(100);
+            sheet.Column(2).Width = Helpers.PixelsToInches(100);
+            sheet.Column(3).Width = Helpers.PixelsToInches(150);
+            sheet.Column(4).Width = Helpers.PixelsToInches(150);
+            sheet.Column(5).Width = Helpers.PixelsToInches(300);
+        }
         
         private static void OverTimeReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {

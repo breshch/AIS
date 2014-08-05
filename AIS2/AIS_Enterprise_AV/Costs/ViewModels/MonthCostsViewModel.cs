@@ -44,6 +44,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             ReturnName = "Компенсация";
             ReturnVisibility = Visibility.Collapsed;
 
+            ReturnButtonVisibility = _isNotTransportOnly ? Visibility.Visible : Visibility.Collapsed;
+
             VisibilityCash = _isNotTransportOnly ? Visibility.Visible : Visibility.Collapsed;
 
 
@@ -409,6 +411,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
         public string ReturnName { get; set; }
 
         public Visibility ReturnVisibility { get; set; }
+        public Visibility ReturnButtonVisibility { get; set; }
 
         #endregion
 

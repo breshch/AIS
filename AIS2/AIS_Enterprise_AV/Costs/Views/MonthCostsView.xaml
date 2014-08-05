@@ -49,9 +49,9 @@
             
             <Button Grid.Column="2" Content="Фильтр" Command="{Binding FilterCommand}" CommandParameter="{Binding ElementName=FilterGrid}" Margin="30, 16, 0, 2"/>
            
-            <Button Grid.Column="3" Content="{Binding ReturnName}" Command="{Binding ReturnCommand}" Margin="30, 16, 0, 2"/>
+            <Button Grid.Column="3" Content="{Binding ReturnName}" Command="{Binding ReturnCommand}" Margin="30, 16, 0, 2" Visibility="{Binding ReturnButtonVisibility}"/>
 
-            <TextBlock Grid.Column="4" Text="{Binding Cash}" Visibility="{Binding VisibilityCash}" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" Foreground="DarkGray" />
+            <TextBlock Grid.Column="4" Text="{Binding Cash}" Visibility="{Binding VisibilityCash}" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" Foreground="DarkGray" Margin="0, 5, 0, 0"/>
 
         </Grid>
 

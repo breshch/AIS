@@ -1285,11 +1285,11 @@ namespace AIS_Enterprise_AV.Views
                 "Зарплата",
                 (BC, SelectedYear, SelectedMonth) =>
                 {
-                    WorkerSalaryReports.SalaryOvertimeTransport(BC, SelectedYear, SelectedMonth);
+                    WorkerSalaryReports.ComplitedReportSalaryOvertimeTransportMinsk(BC, SelectedYear, SelectedMonth);
                     WorkerSalaryReports.ComplitedReportSalaryWorkers(BC, SelectedYear, SelectedMonth);
                 },
-                (BC) => BC.GetYears().ToList(),
-                (BC, year) => BC.GetMonthes(year).ToList()
+                (BC) => BC.GetYears().OrderBy(y => y).ToList(),
+                (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
                 ), new MonthReportView());
         }
 
@@ -1322,8 +1322,8 @@ namespace AIS_Enterprise_AV.Views
 
                    CashReports.ExpenseRCs(BC, SelectedYear, SelectedMonth);
                },
-               (BC) => BC.GetInfoCostYears().ToList(),
-               (BC, year) => BC.GetInfoCostMonthes(year).ToList()
+               (BC) => BC.GetInfoCostYears().OrderBy(y => y).ToList(),
+               (BC, year) => BC.GetInfoCostMonthes(year).OrderBy(m => m).ToList()
                ), new MonthReportView());
         }
 
