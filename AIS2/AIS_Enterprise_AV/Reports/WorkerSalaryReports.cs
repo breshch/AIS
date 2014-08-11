@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -17,6 +18,7 @@ namespace AIS_Enterprise_AV.Reports
         private const string COMPANY_NAME_AV = "АВ";
         private const string PATH_REPORT_MINSK = "Reports\\Minsk\\Зарплата.xlsx";
         private const string PATH_DIRECTORY_REPORT_SALARY_WORKERS = "Reports\\Print\\Зарплата.xlsx";
+        private const string PATH_CASH_REPORT = "Reports\\Касса.xlsx";
 
         private const int INDEX_HEADER_ROW_OVERTIME = 4;
         private const int COUNT_HEADER_ROW_OVERTIME = 3;
@@ -68,12 +70,15 @@ namespace AIS_Enterprise_AV.Reports
 
         public static void ComplitedReportSalaryOvertimeTransportMinsk(BusinessContext bc, int year, int month)
         {
+            var sw = Stopwatch.StartNew();
             Helpers.CompletedReport(PATH_REPORT_MINSK, new List<Action<ExcelPackage>>
                 {
                     (ep) => SalaryReportMinsk(ep, bc, year, month),
                     (ep) => OverTimeReportMinsk(ep, bc, year, month),
-                    (ep) => TransportReportMinsk(ep, bc, year, month)
+                    (ep) => TransportReportMinsk(ep, bc, year, month),
+                    
                 });
+            Debug.WriteLine("Total time : " + sw.ElapsedMilliseconds);
         }
 
         public static void ComplitedReportSalaryWorkers(BusinessContext bc, int year, int month)
@@ -84,9 +89,17 @@ namespace AIS_Enterprise_AV.Reports
                 });
         }
 
+        public static void ComplitedMonthCashReportMinsk(BusinessContext bc, int year, int month)
+        {
+            Helpers.CompletedReport(PATH_CASH_REPORT, new List<Action<ExcelPackage>>
+                {
+                    (ep) => MonthCashReportMinsk(ep, bc, year, month)
+                });
+        }
 
         private static void TransportReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
+            var sw = Stopwatch.StartNew();
             string name = "Транспорт";
             var sheet = Helpers.GetSheet(ep, name);
 
@@ -100,6 +113,7 @@ namespace AIS_Enterprise_AV.Reports
 
             int indexRow = 2;
 
+            double maxLengthNote = 0;
             var costs = bc.GetInfoCosts(year, month).Where(c => c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "26А" && c.DirectoryRC.Name != "ВСЕ").ToList();
             foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
             {
@@ -109,19 +123,25 @@ namespace AIS_Enterprise_AV.Reports
                 int firstIndexRow = indexRow;
                 foreach (var cost in costs.Where(c => c.DirectoryRC.Id == rc.Id).OrderBy(c => c.Date))
                 {
-                    Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryRC.Name, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 3, cost.IsIncoming ? cost.Incoming.ToString("c") : null, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense.ToString("c") : null, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 5, cost.ConcatNotes, colorTransparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryRC.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 3, cost.IsIncoming ? cost.Incoming.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 5, cost.ConcatNotes, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+                    System.Windows.Media.FormattedText formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
+                        new System.Windows.Media.Typeface("Courier New"), 11, System.Windows.Media.Brushes.Black);
+
+                    if (maxLengthNote < formattedText.Width)
+                    {
+                        maxLengthNote = formattedText.Width;
+                    }
 
                     summIncoming += cost.Incoming;
                     summExpence += cost.Expense;
                     
                     indexRow++;
                 }
-
-                
 
                 var colorGray = Color.LightGray;
                 Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
@@ -139,15 +159,97 @@ namespace AIS_Enterprise_AV.Reports
                 indexRow++;
             }
 
+
             sheet.Column(1).Width = Helpers.PixelsToInches(100);
             sheet.Column(2).Width = Helpers.PixelsToInches(100);
             sheet.Column(3).Width = Helpers.PixelsToInches(150);
             sheet.Column(4).Width = Helpers.PixelsToInches(150);
-            sheet.Column(5).Width = Helpers.PixelsToInches(300);
+            sheet.Column(5).Width = Helpers.PixelsToInches(maxLengthNote * 1.5);
+
+            Debug.WriteLine("Transport : " + sw.ElapsedMilliseconds);
         }
-        
+
+
+        private static void MonthCashReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
+        {
+            var sw = Stopwatch.StartNew();
+            string name = "Касса";
+            var sheet = Helpers.GetSheet(ep, name);
+
+            var colorTransparent = Color.Transparent;
+
+            Helpers.CreateCell(sheet, 1, 1, "Дата", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 2, "Статья затрат", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 3, "ЦО", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 4, "Приход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 5, "Расход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+            Helpers.CreateCell(sheet, 1, 6, "Описание", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+
+            int indexRow = 2;
+
+            double maxLengthNote = 0;
+            var costs = bc.GetInfoCosts(year, month).ToList();
+            foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
+            {
+                double summIncoming = 0;
+                double summExpence = 0;
+
+                int firstIndexRow = indexRow;
+                foreach (var cost in costs.Where(c => c.DirectoryRC.Id == rc.Id).OrderBy(c => c.Date))
+                {
+                    Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryCostItem.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 3, cost.DirectoryRC.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 4, cost.IsIncoming ? cost.Incoming.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 5, !cost.IsIncoming ? cost.Expense.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 6, cost.ConcatNotes, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+                    System.Windows.Media.FormattedText formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
+                        new System.Windows.Media.Typeface("Courier New"), 11, System.Windows.Media.Brushes.Black);
+
+                    if (maxLengthNote < formattedText.Width)
+                    {
+                        maxLengthNote = formattedText.Width;
+                    }
+
+                    summIncoming += cost.Incoming;
+                    summExpence += cost.Expense;
+
+                    indexRow++;
+                }
+
+                var colorGray = Color.LightGray;
+                Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 3, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 4, summIncoming.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 5, summExpence.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 6, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+                sheet.Cells[firstIndexRow, 1, indexRow - 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 2, indexRow - 1, 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 3, indexRow - 1, 3].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 4, indexRow - 1, 4].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 5, indexRow - 1, 5].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                sheet.Cells[firstIndexRow, 6, indexRow - 1, 6].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+
+                indexRow++;
+            }
+
+
+            sheet.Column(1).Width = Helpers.PixelsToInches(100);
+            sheet.Column(2).Width = Helpers.PixelsToInches(150);
+            sheet.Column(3).Width = Helpers.PixelsToInches(100);
+            sheet.Column(4).Width = Helpers.PixelsToInches(100);
+            sheet.Column(5).Width = Helpers.PixelsToInches(150);
+            sheet.Column(6).Width = Helpers.PixelsToInches(maxLengthNote * 1.5);
+
+            Debug.WriteLine("Transport : " + sw.ElapsedMilliseconds);
+        }
+
         private static void OverTimeReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
+            var sw = Stopwatch.StartNew();
             var overTimes = bc.GetInfoOverTimes(year, month).ToList();
 
             if (!overTimes.Any())
@@ -267,8 +369,8 @@ namespace AIS_Enterprise_AV.Reports
                         valueSumm = workerSumm.WorkerRCSummForReports.First(w => w.RCName == rc.Name).Summ;
                     }
 
-
                     Helpers.CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME + indexRowWorkerSum, indexCurrentRC, valueSumm, colorTransparent);
+                    sheet.Column(indexCurrentRC).Width = Helpers.PixelsToInches(80);
                 }
 
 
@@ -281,13 +383,12 @@ namespace AIS_Enterprise_AV.Reports
             sheet.Column(INDEX_HEADER_COLUMN_POST_NAME_OVERTIME).Width = Helpers.PixelsToInches(100);
 
             sheet.Row(INDEX_HEADER_ROW_DESCRIPTION_OVERTIME).Height = 90;
+            Debug.WriteLine("Overtime : " + sw.ElapsedMilliseconds);
         }
-
-        
-
 
         private static void SalaryReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
+            var sw = Stopwatch.StartNew();
             string name = month.ToString() + "'" + year.ToString();
 
             var sheet = Helpers.GetSheet(ep, name);
@@ -335,6 +436,8 @@ namespace AIS_Enterprise_AV.Reports
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, "Итого З/П",colorHeaderDate, 11, true);
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, "Касса + переработка",colorHeaderDate, 11, true);
 
+
+            
             var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
 
             var warehouseWorkers = bc.GetDirectoryWorkers(year, month, false).ToList();
@@ -343,14 +446,19 @@ namespace AIS_Enterprise_AV.Reports
             var weekEndsInMonth = bc.GetHolidays(year, month).ToList();
             var workerSumms = new List<WorkerSummForReport>();
 
+            var currentRCs = bc.GetCurrentRCs(overTimes.Select(o => o.Id)).ToList();
+
             int countWorkDayInMonth = bc.GetCountWorkDaysInMonth(year, month);
 
+
+            var sw2 = Stopwatch.StartNew();
             foreach (var overTime in overTimes)
             {
-                int countRCs = overTime.CurrentRCs.ToList().Count();
+                var overTimeRCs = currentRCs.Where(r => r.InfoOverTimeId == overTime.Id).ToList();
+                int countRCs = overTimeRCs.Count();
 
-                var currentRCs = overTime.CurrentRCs.ToList();
-                int currentPercentage = currentRCs.Sum(r => r.DirectoryRC.Percentes);
+                //var currentRCs = ; // overTime.CurrentRCs.ToList();
+                int currentPercentage = overTimeRCs.Sum(r => r.DirectoryRC.Percentes);
                 for (int i = 0; i < countRCs; i++)
                 {
                     foreach (var worker in warehouseWorkers)
@@ -368,12 +476,12 @@ namespace AIS_Enterprise_AV.Reports
                             var overTimeHours = bc.IsOverTime(infoDate, weekEndsInMonth);
                             if (overTimeHours != null)
                             {
-                                double percentage = overTimeHours.Value * 1.3 * currentRCs[i].DirectoryRC.Percentes / currentPercentage;
+                                double percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentes / currentPercentage;
 
-                                var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == currentRCs[i].DirectoryRC.Name);
+                                var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == overTimeRCs[i].DirectoryRC.Name);
                                 if (workerRCSummForReport == null)
                                 {
-                                    workerRCSummForReport = new WorkerRCSummForReport { RCName = currentRCs[i].DirectoryRC.Name };
+                                    workerRCSummForReport = new WorkerRCSummForReport { RCName = overTimeRCs[i].DirectoryRC.Name };
                                     workerSummForReport.WorkerRCSummForReports.Add(workerRCSummForReport);
                                 }
 
@@ -384,6 +492,8 @@ namespace AIS_Enterprise_AV.Reports
                     }
                 }
             }
+
+            Debug.WriteLine("Before : " + sw2.ElapsedMilliseconds);
 
             double totalCardAV = 0;
             double totalPrepaymentBankTransactionAV = 0;
@@ -401,6 +511,10 @@ namespace AIS_Enterprise_AV.Reports
             double totalTotalSalary = 0;
             double totalCashPlusOverTimes = 0;
 
+            var currentWorkerPosts = bc.GetCurrentPosts(lastDateInMonth).ToList();
+
+            
+
             int indexWorker = 0;
             foreach (var worker in warehouseWorkers)
             {
@@ -411,7 +525,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
 
-                var currentWorkerPost = bc.GetCurrentPost(worker.Id, lastDateInMonth);
+                var currentWorkerPost = currentWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, currentWorkerPost.DirectoryPost.Name, colorHeaderDate);
 
                 var infoMonth = bc.GetInfoMonth(worker.Id, year, month);
@@ -529,7 +643,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, null, color26);
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV -
-                    infoMonth.PrepaymentBankTransaction - infoMonth.Compensation - infoMonth.CardFenox, colorHeaderDate);
+                    infoMonth.PrepaymentBankTransaction + infoMonth.Compensation - infoMonth.CardFenox, colorHeaderDate);
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
                     infoMonth.CardFenox + totalOverTimeFenox + cashFenox, colorHeaderDate);
@@ -545,7 +659,7 @@ namespace AIS_Enterprise_AV.Reports
                 totalCardFenox += infoMonth.CardFenox;
                 totalCashFenox += cashFenox;
 
-                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation - infoMonth.CardFenox;
+                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation - infoMonth.CardFenox;
                 totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
                     infoMonth.CardFenox + totalOverTimeFenox + cashFenox;
                 totalCashPlusOverTimes += totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox;
@@ -563,7 +677,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
 
-                var currentWorkerPost = bc.GetCurrentPost(worker.Id, lastDateInMonth);
+                var currentWorkerPost = currentWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
                 string postName = currentWorkerPost.DirectoryPost.Name;
                 if (postName.Contains("_"))
                 {
@@ -597,7 +711,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, 0, colorAVSalary);
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, 0, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, 0, colorAVKO5);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, 0, colorAVPam16);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_AV_MINSK, 0, colorAVCash);
@@ -613,7 +727,7 @@ namespace AIS_Enterprise_AV.Reports
                 double officeCash = salaryAV - infoMonth.CardAV + salaryFenox - infoMonth.CardFenox;
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, officeCash, color26);
 
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation -
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation -
                     infoMonth.CardFenox, colorHeaderDate);
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
@@ -627,7 +741,7 @@ namespace AIS_Enterprise_AV.Reports
                 totalCardFenox += infoMonth.CardFenox;
 
                 totalOffice += officeCash;
-                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction - infoMonth.Compensation - infoMonth.CardFenox;
+                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation - infoMonth.CardFenox;
                 totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.CardFenox + officeCash;
             }
 
@@ -663,29 +777,61 @@ namespace AIS_Enterprise_AV.Reports
             sheet.Column(INDEX_HEADER_COLUMN_PP_MINSK).Width = Helpers.PixelsToInches(42);
             sheet.Column(INDEX_HEADER_COLUMN_FULL_NAME_MINSK).Width = Helpers.PixelsToInches(250);
             sheet.Column(INDEX_HEADER_COLUMN_POST_NAME_MINSK).Width = Helpers.PixelsToInches(110);
-            sheet.Column(INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK).Width = Helpers.PixelsToInches(70);
-            sheet.Column(INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK).Width = Helpers.PixelsToInches(70);
 
-            var date = DateTime.Now.AddMonths(1);
-            date = new DateTime(date.Year, date.Month, 5);
+            for (int i = 4; i <= INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK; i++)
+            {
+                sheet.Column(i).Width = Helpers.PixelsToInches(90);
+            }
+
+            var date = new DateTime(year, month, 5).AddMonths(1);
 
             var costItem = bc.GetDirectoryCostItem("З/п (701)");
             var rcs = bc.GetDirectoryRCs();
             var noteSalary = bc.GetDirectoryNote("Зарплата");
             var noteOverTime = bc.GetDirectoryNote("Переработка");
 
-            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, totalCashAV, 0);
-            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, totalOverTimeKO5AV, 0);
-            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, totalOverTimePAM16AV, 0);
-            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, totalCashFenox, 0);
-            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, totalOverTimeMO5Fenox, 0);
-            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, totalOverTimePAM1Fenox, 0);
-            bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, totalOverTimeMO2Fenox, 0);
+            if (totalCashAV != 0)
+            {
+                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashAV, 2), 0);
+            }
 
+            if (totalOverTimeKO5AV != 0)
+            {
+                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, Math.Round(totalOverTimeKO5AV, 2), 0);
+            }
+
+            if (totalOverTimePAM16AV != 0)
+            {
+                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, Math.Round(totalOverTimePAM16AV, 2), 0);    
+            }
+
+            if (totalCashFenox != 0)
+            {
+                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), 0);
+            }
+
+            if (totalOverTimeMO5Fenox != 0)
+            {
+                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, Math.Round(totalOverTimeMO5Fenox, 2), 0); 
+            }
+
+            if (totalOverTimePAM1Fenox != 0)
+            {
+                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, Math.Round(totalOverTimePAM1Fenox, 2), 0); 
+            }
+
+            if (totalOverTimeMO2Fenox != 0)
+            {
+                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, Math.Round(totalOverTimeMO2Fenox, 2), 0); 
+            }
+
+            Debug.WriteLine("Minsk : " + sw.ElapsedMilliseconds);
         }
 
         private static void SalaryReportWorkers(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
+            var sw = Stopwatch.StartNew();
+
             int countDaysInMonth = DateTime.DaysInMonth(year, month);
             int countWorkDays = bc.GetCountWorkDaysInMonth(year, month);
             var lastDayInMonth = HelperMethods.GetLastDateInMonth(year, month);
@@ -1387,6 +1533,10 @@ namespace AIS_Enterprise_AV.Reports
                 nextSideFio.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
                 nextSideFio.Value = worker.LastName + " " + worker.FirstName + " " + worker.MidName;
             }
+
+            Debug.WriteLine("Workers : " + sw.ElapsedMilliseconds);
         }
+       
     }
+
 }

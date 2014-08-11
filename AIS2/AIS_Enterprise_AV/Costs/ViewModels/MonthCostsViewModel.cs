@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise_AV.Costs.Views;
+using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Temps;
@@ -35,7 +36,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 SelectedYear = Years.Last();
             }
 
-            Cash = BC.GetInfoCash().ToString("c");
+            IncomingsAndExpenses = new ObservableCollection<IncomingAndExpense>();
+            IncomingsAndExpenses.Add(new IncomingAndExpense());
 
             ShowDayCostsCommand = new RelayCommand(ShowDayCosts);
             FilterCommand = new RelayCommand(FilterShow);
@@ -126,6 +128,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             {
                 Costs.Add(cost);
             }
+
+            SummChange();
         }
 
         private void OrderNotes()
@@ -152,10 +156,20 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
             }
         }
 
+        private void SummChange()
+        {
+            IncomingsAndExpenses.First().Incoming = Costs.Sum(c => c.Incoming);
+            IncomingsAndExpenses.First().Expense = Costs.Sum(c => c.Expense);
+        }
+
         #endregion
 
+
         #region Properties
+
         public string Cash { get; set; }
+
+        public ObservableCollection<IncomingAndExpense> IncomingsAndExpenses { get; set; }
 
         public ObservableCollection<int> Years { get; set; }
 
@@ -213,6 +227,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 }
 
                 RefreshFilters();
+
+                Cash = BC.GetInfoCash(SelectedYear, _selectedMonth).ToString("c");
             }
         }
         public double Summ { get; set; }
@@ -415,6 +431,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
         #endregion
 
+
         #region Commands
 
         public RelayCommand ShowDayCostsCommand { get; set; }
@@ -446,6 +463,9 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 _costs.Clear();
                 _costs = BC.GetInfoCosts(SelectedYear, SelectedMonth).ToList();
                 Filter();
+
+                BC.RefreshContext();
+                Cash = BC.GetInfoCash(SelectedYear, SelectedMonth).ToString("c");
             }
 
         }
@@ -489,6 +509,9 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 }
 
                 Filter();
+
+                BC.RefreshContext();
+                Cash = BC.GetInfoCash(SelectedYear, SelectedMonth).ToString("c");
             }
 
             ReturnName = ReturnName == "Компенсация" ? "Добавить компесацию" : "Компенсация";

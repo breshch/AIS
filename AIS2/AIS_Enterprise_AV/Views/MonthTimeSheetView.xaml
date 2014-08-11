@@ -63,8 +63,10 @@
                 <MenuItem x:Name="MenuDefaultCosts" Header="Автоматические затраты" Click="MenuDefaultCosts_Click" Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="MenuReports" Header="Отчёты" Visibility="Collapsed">
-                <MenuItem x:Name="MenuReportSalary" Header="Зарплата" Click="MenuReportSalary_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuReportSalaryPrint" Header="Зарплата печать" Click="MenuReportSalaryPrint_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuReportSalaryMinsk" Header="Зарплата Минск" Click="MenuReportSalaryMinsk_Click"  Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuReportCosts" Header="Затраты" Click="MenuReportCosts_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuReportCash" Header="Касса" Click="MenuReportCash_Click"  Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="MenuAdminPanel" Header="Административная панель" Visibility="Collapsed">
                 <MenuItem x:Name="MenuUserStatuses" Header="Статусы пользователей" Click="MenuUserStatuses_Click" Visibility="Collapsed"/>

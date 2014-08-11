@@ -16,7 +16,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>..\AIS_Site\Install\</PublishUrl>
+    <PublishUrl>ftp://logistikon.ru/domains/logistikon.ru/AIS_Enterprise_AV/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -26,13 +26,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://ais-enterprise-av.azurewebsites.net/install/</InstallUrl>
+    <InstallUrl>http://logistikon.ru/AIS_Enterprise_AV/</InstallUrl>
     <ProductName>AIS_Enterprise_AV</ProductName>
     <PublisherName>AIS_Enterprise</PublisherName>
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCostsExcelToDB.cs" />
     <Compile Include="Helpers\ExcelToDB\ConvertingExcelToDB.cs" />
+    <Compile Include="Helpers\Temps\IncomingAndExpense.cs" />
     <Compile Include="Reports\CashReports.cs" />
     <Compile Include="Reports\WorkerSalaryReports.cs" />
     <Compile Include="Helpers\Temps\WorkerPostReportSalary.cs" />
@@ -226,6 +227,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="AIS_Enterprise_AV_TemporaryKey.pfx" />
+    <EmbeddedResource Include="Files\Costs.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

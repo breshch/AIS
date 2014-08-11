@@ -49,6 +49,7 @@ namespace AIS_Enterprise_AV.Views
 
         private List<string> _privileges;
         private bool _isFirstLoad = true;
+        private bool _isEnableTimerAbsentDates = false;
 
         private const int COLUMN_FULL_NAME = 1;
         private const int COLUMN_POST_NAME = 4;
@@ -66,12 +67,15 @@ namespace AIS_Enterprise_AV.Views
         private System.Windows.Media.Brush _brushMissDay;
         private System.Windows.Media.Brush _brushSickDay;
 
+        private System.Windows.Forms.Timer _timerAbsentDates = new System.Windows.Forms.Timer();
+
         public MonthTimeSheetView()
         {
             InitializeComponent();
 
             ScreenWight();
 
+            //_bc.EditParameter("LastDate", DateTime.Now.AddDays(-3).ToString());
             //Notes to upper 
             //var notes = _bc.GetDirectoryNotes();
             //foreach (var note in notes)
@@ -82,7 +86,7 @@ namespace AIS_Enterprise_AV.Views
 
 
             //var infoCash = _bc.DataContext.InfoCashes.First();
-            //infoCash.Cash = 7388883.40;
+            //infoCash.Cash = 8919411.40;
             //_bc.SaveChanges();
 
             //foreach (var cost in _bc.DataContext.InfoCosts)
@@ -90,15 +94,51 @@ namespace AIS_Enterprise_AV.Views
             //    cost.GroupId = Guid.NewGuid();
             //}
 
+            //_bc.DataContext.InfoCosts.RemoveRange(_bc.DataContext.InfoCosts);
             //_bc.SaveChanges();
+            ////_bc.SaveChanges();
+            
+            //var _dc = _bc.DataContext;
+            
+            //int id = _dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary").Id;
+            //_dc.CurrentUserStatusPrivileges.RemoveRange(_dc.CurrentUserStatusPrivileges.Where(p => p.DirecoryUserStatusPrivilegeId == id));
 
+            //_dc.SaveChanges();
+            //_dc.DirectoryUserStatusPrivileges.Remove(_dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary"));
+
+
+            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportSalaryPrint" });
+            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportSalaryMinsk" });
+            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportCash" });
+            
+
+            //_dc.SaveChanges();
 
             InitializeGif();
             InitializePrivileges();
             _bc.InitializeAbsentDates();
+
+            _timerAbsentDates.Interval = 1000 * 60 * 10;
+            _timerAbsentDates.Tick += _timerAbsentDates_Tick;
+            _timerAbsentDates.Start();
+
             InitializeBrushes();
             InitializeDefaultCosts();
             InitializeYears();
+        }
+
+        private void _timerAbsentDates_Tick(object sender, EventArgs e)
+        {
+            if (!_isEnableTimerAbsentDates && DateTime.Now.Hour == 3)
+            {
+                _isEnableTimerAbsentDates = true;
+                _bc.InitializeAbsentDates();
+            }
+
+            if (_isEnableTimerAbsentDates && DateTime.Now.Hour == 4)
+            {
+                _isEnableTimerAbsentDates = false;
+            }
         }
 
         private void InitializeDefaultCosts()
@@ -233,8 +273,6 @@ namespace AIS_Enterprise_AV.Views
             }
 
             _streamLoadingPicture.Close();
-
-            _bc.EditParameter("LastDate", DateTime.Now.ToString());
 
             _bc.Dispose();
         }
@@ -533,8 +571,6 @@ namespace AIS_Enterprise_AV.Views
                         double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
                 }
             }
-
-            Debug.WriteLine(sw2.ElapsedMilliseconds);
         }
 
         private void ComboboxMonthes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1279,19 +1315,6 @@ namespace AIS_Enterprise_AV.Views
             directoryWorkerView.ShowDialog();
         }
 
-        private void MenuReportSalary_Click(object sender, RoutedEventArgs e)
-        {
-            HelperMethods.ShowView(new MonthReportViewModel(
-                "Зарплата",
-                (BC, SelectedYear, SelectedMonth) =>
-                {
-                    WorkerSalaryReports.ComplitedReportSalaryOvertimeTransportMinsk(BC, SelectedYear, SelectedMonth);
-                    WorkerSalaryReports.ComplitedReportSalaryWorkers(BC, SelectedYear, SelectedMonth);
-                },
-                (BC) => BC.GetYears().OrderBy(y => y).ToList(),
-                (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
-                ), new MonthReportView());
-        }
 
         private void MenuUserStatuses_Click(object sender, RoutedEventArgs e)
         {
@@ -1341,6 +1364,46 @@ namespace AIS_Enterprise_AV.Views
         private void MenuDefaultCosts_Click(object sender, RoutedEventArgs e)
         {
             HelperMethods.ShowView(new DefaultCostsViewModel(), new DefaultCostsView());
+        }
+
+        private void MenuReportSalaryPrint_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new MonthReportViewModel(
+               "Зарплата",
+               (BC, SelectedYear, SelectedMonth) =>
+               {
+                   WorkerSalaryReports.ComplitedReportSalaryWorkers(BC, SelectedYear, SelectedMonth);
+               },
+               (BC) => BC.GetYears().OrderBy(y => y).ToList(),
+               (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
+               ), new MonthReportView());
+        }
+
+        private void MenuReportSalaryMinsk_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new MonthReportViewModel(
+               "Зарплата",
+               (BC, SelectedYear, SelectedMonth) =>
+               {
+                   WorkerSalaryReports.ComplitedReportSalaryOvertimeTransportMinsk(BC, SelectedYear, SelectedMonth);
+               },
+               (BC) => BC.GetYears().OrderBy(y => y).ToList(),
+               (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
+               ), new MonthReportView());
+        }
+
+        private void MenuReportCash_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new MonthReportViewModel(
+               "Касса",
+               (BC, SelectedYear, SelectedMonth) =>
+               {
+                   WorkerSalaryReports.ComplitedMonthCashReportMinsk(BC, SelectedYear, SelectedMonth);
+               },
+               (BC) => BC.GetYears().OrderBy(y => y).ToList(),
+               (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
+               ), new MonthReportView());
+
         }
 
 

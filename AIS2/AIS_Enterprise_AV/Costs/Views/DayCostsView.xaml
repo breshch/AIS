@@ -4,6 +4,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Дневные затраты" Height="Auto" SizeToContent="Height" MaxHeight="700" Width="1000" MaxWidth="1000" MinWidth="1000" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+    </Window.Resources>
 
     <Grid x:Name="GridCosts" Margin="20, 10, 20. 20">
         <Grid.RowDefinitions>
@@ -54,9 +56,11 @@
 
             <StackPanel x:Name="StackPanelTransportCompanies" Grid.Column="3" Orientation="Vertical" Margin="20 0, 0, 0" Visibility="Collapsed">
                 <TextBlock Text="Перевозчик"/>
-                <ComboBox x:Name="ComboBoxTransportCompanies" DisplayMemberPath="Name" Margin="0, 5, 0, 0" Height="22"  VerticalContentAlignment="Center" LostFocus="ComboBoxTransportCompanies_SelectedChanged"/>
+                <Border x:Name="BorderTransportCompanies" BorderBrush="Red" BorderThickness="2" Margin="0, 5, 0, 0">
+                    <ComboBox x:Name="ComboBoxTransportCompanies" DisplayMemberPath="Name" Height="22"  VerticalContentAlignment="Center" LostFocus="ComboBoxTransportCompanies_SelectedChanged"/>
+                </Border>
             </StackPanel>
-            
+
         </Grid>
 
         <Grid x:Name="GridTransports" Grid.Row="3" Margin="0, 10, 0, 0">
@@ -74,17 +78,27 @@
 
             <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="0, 0, 10, 0">
                 <TextBlock Text="Статья затрат"/>
-                <ComboBox x:Name="ComboBoxCostItems" DisplayMemberPath="Name" IsEditable="True" Margin="0, 5, 0, 0" SelectionChanged="ComboBoxCostItems_SelectionChanged" LostFocus="ComboBoxCostItems_SelectionChanged"/>
+
+                <Border x:Name="BorderCostItems" BorderBrush="Red" BorderThickness="2" Margin="0, 5, 0, 0">
+                    <ComboBox x:Name="ComboBoxCostItems" DisplayMemberPath="Name" IsEditable="True"
+                          SelectionChanged="ComboBoxCostItems_SelectionChanged" LostFocus="ComboBoxCostItems_SelectionChanged" />
+                </Border>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" Margin="10, 0, 0, 0">
                 <TextBlock Text="ЦО"/>
-                <ComboBox x:Name="ComboBoxRCs_1" DisplayMemberPath="FullName" IsEditable="True" Margin="0, 5, 0, 0" SelectionChanged="ComboBox_SelectionChanged" LostFocus="ComboBoxRCs_SelectionChanged"/>
+
+                <Border x:Name="BorderRCs_1" BorderBrush="Red" BorderThickness="2" Margin="0, 5, 0, 0">
+                    <ComboBox x:Name="ComboBoxRCs_1" DisplayMemberPath="FullName" IsEditable="True" SelectionChanged="ComboBox_SelectionChanged" LostFocus="ComboBoxRCs_SelectionChanged"/>
+                </Border>
             </StackPanel>
 
             <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Vertical" Margin="20, 0, 10, 0">
                 <TextBlock Text="Примечание"/>
-                <ComboBox x:Name="ComboBoxNotes_1" DisplayMemberPath="Description" IsEditable="True" Margin="0, 5, 0, 0" LostFocus="ComboBox_TextChanged"/>
+
+                <Border x:Name="BorderNotes_1" BorderBrush="Red" BorderThickness="2" Margin="0, 5, 0, 0">
+                    <ComboBox x:Name="ComboBoxNotes_1" DisplayMemberPath="Description" IsEditable="True" LostFocus="ComboBox_TextChanged"/>
+                </Border>
             </StackPanel>
 
             <StackPanel x:Name="StackPanelWeight" Grid.Column="3" Grid.Row="0" Orientation="Vertical" Visibility="Collapsed" Margin="0, 0, 10, 0">

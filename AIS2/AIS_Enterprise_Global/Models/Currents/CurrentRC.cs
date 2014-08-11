@@ -15,6 +15,7 @@ namespace AIS_Enterprise_Global.Models.Currents
 
         public int DirectoryRCId { get; set; }
         public virtual DirectoryRC DirectoryRC { get; set; }
-        public int InfoOverTime { get; set; }
+
+        public int InfoOverTimeId { get; set; }
     }
 }

@@ -33,8 +33,10 @@ namespace AIS_Enterprise_Global.Helpers
         MenuVisibility_Costs_DayCosts,
         MenuVisibility_Costs_MonthCosts,
         MenuVisibility_Costs_DefaultCosts,
-        MenuVisibility_Reports_ReportSalary,
+        MenuVisibility_Reports_ReportSalaryPrint,
+        MenuVisibility_Reports_ReportSalaryMinsk,
         MenuVisibility_Reports_ReportCosts,
+        MenuVisibility_Reports_ReportCash,
         MenuVisibility_AdminPanel_UserStatuses,
         MenuVisibility_AdminPanel_Users,
 

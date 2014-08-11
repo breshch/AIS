@@ -31,7 +31,7 @@ namespace AIS_Enterprise_AV.Costs.Views
         {
             InitializeComponent();
 
-            _isNotTransportOnly =  HelperMethods.IsPrivilege(_bc, UserPrivileges.CostsVisibility_IsNotTransportOnly);
+            _isNotTransportOnly = HelperMethods.IsPrivilege(_bc, UserPrivileges.CostsVisibility_IsNotTransportOnly);
 
             InitializeData();
 
@@ -47,7 +47,7 @@ namespace AIS_Enterprise_AV.Costs.Views
                 RadioButtonExpense.IsChecked = true;
                 RadioButtonExpense.IsEnabled = false;
                 RadioButtonIncoming.IsEnabled = false;
-                
+
                 ComboBoxCostItems.SelectedItem = _bc.GetDirectoryCostItem("Транспорт (5031)");
 
                 ComboBoxValidation(ComboBoxCostItems);
@@ -121,7 +121,7 @@ namespace AIS_Enterprise_AV.Costs.Views
             {
                 DataGridCurrentDateCosts.ItemsSource = _bc.GetInfoCostsTransportAndNoAllAndExpenseOnly(date).ToList();
             }
-            
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -141,7 +141,7 @@ namespace AIS_Enterprise_AV.Costs.Views
             {
                 ComboBoxCostItems.ItemsSource = _bc.GetDirectoryCostItems().ToList();
             }
-            
+
             ComboBoxRCs_1.ItemsSource = _bc.GetDirectoryRCs().ToList();
 
             _notes = _bc.GetDirectoryNotes().ToList();
@@ -196,22 +196,25 @@ namespace AIS_Enterprise_AV.Costs.Views
         {
             RadioButtonExpense.IsChecked = true;
             TextBoxSumm.Text = null;
-            
+
+            ComboBoxCostItems.SelectedItem = null;
             ComboBoxRCs_1.SelectedItem = null;
             ComboBoxNotes_1.SelectedItem = null;
             ComboBoxNotes_1.Text = null;
             ComboBoxTransportCompanies.SelectedItem = null;
             TextBoxWeight_1.Text = null;
-            
-            if (_isNotTransportOnly)
-            {
-                ComboBoxCostItems.IsEnabled = true;
-                ComboBoxCostItems.SelectedItem = null;
-                ComboBoxTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
-                StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
-                ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
-            }
-            
+
+            ComboBoxCostItems.IsEnabled = true;
+
+            StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
+            StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
+            ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
+
+            BorderCostItems.BorderThickness = new Thickness(2);
+            BorderRCs_1.BorderThickness = new Thickness(2);
+            BorderNotes_1.BorderThickness = new Thickness(2);
+            BorderTransportCompanies.BorderThickness = new Thickness(2);
+
             for (int i = GridTransports.RowDefinitions.Count; i > 1; i--)
             {
                 RemoveGridRow(i);
@@ -267,33 +270,48 @@ namespace AIS_Enterprise_AV.Costs.Views
             var rowDefinition = new RowDefinition();
             GridTransports.RowDefinitions.Add(rowDefinition);
 
+            var border = new Border();
+            border.Name = "BorderRCs_" + GridTransports.RowDefinitions.Count;
+            border.BorderThickness = new Thickness(2);
+            border.BorderBrush = Brushes.Red;
+            border.SetValue(Grid.ColumnProperty, 1);
+            border.SetValue(Grid.RowProperty, GridTransports.RowDefinitions.Count - 1);
+            border.Margin = new Thickness(10, 10, 0, 0);
+            NameScope.GetNameScope(WindowCosts).RegisterName(border.Name, border);
 
             var comboBox = new ComboBox();
             comboBox.Name = "ComboBoxRCs_" + GridTransports.RowDefinitions.Count;
             comboBox.DisplayMemberPath = "FullName";
             comboBox.IsEditable = true;
-            comboBox.Margin = new Thickness(10, 10, 0, 0);
-            comboBox.SetValue(Grid.ColumnProperty, 1);
-            comboBox.SetValue(Grid.RowProperty, GridTransports.RowDefinitions.Count - 1);
             comboBox.ItemsSource = _bc.GetDirectoryRCs().Where(r => r.Name != "26А").ToList();
             comboBox.LostFocus += ComboBoxRCs_SelectionChanged;
             comboBox.SelectionChanged += ComboBox_SelectionChanged;
 
-            GridTransports.Children.Add(comboBox);
+            border.Child = comboBox;
+
+            GridTransports.Children.Add(border);
             NameScope.GetNameScope(WindowCosts).RegisterName(comboBox.Name, comboBox);
 
+
+            border = new Border();
+            border.Name = "BorderBoxNotes_" + GridTransports.RowDefinitions.Count;
+            border.BorderThickness = new Thickness(2);
+            border.BorderBrush = Brushes.Red;
+            border.SetValue(Grid.ColumnProperty, 2);
+            border.SetValue(Grid.RowProperty, GridTransports.RowDefinitions.Count - 1);
+            border.Margin = new Thickness(20, 10, 10, 0);
+            NameScope.GetNameScope(WindowCosts).RegisterName(border.Name, border);
 
             comboBox = new ComboBox();
             comboBox.Name = "ComboBoxNotes_" + GridTransports.RowDefinitions.Count;
             comboBox.DisplayMemberPath = "Description";
             comboBox.IsEditable = true;
-            comboBox.Margin = new Thickness(20, 10, 10, 0);
-            comboBox.SetValue(Grid.ColumnProperty, 2);
-            comboBox.SetValue(Grid.RowProperty, GridTransports.RowDefinitions.Count - 1);
             comboBox.ItemsSource = _notes;
             comboBox.LostFocus += ComboBox_TextChanged;
 
-            GridTransports.Children.Add(comboBox);
+            border.Child = comboBox;
+
+            GridTransports.Children.Add(border);
             NameScope.GetNameScope(WindowCosts).RegisterName(comboBox.Name, comboBox);
 
 
@@ -506,17 +524,19 @@ namespace AIS_Enterprise_AV.Costs.Views
         {
             var comboBox = sender as ComboBox;
 
+            string borderName = "Border" + comboBox.Name.Substring(8);
+            var border = WindowCosts.FindName(borderName) as Border;
+
             if (!string.IsNullOrWhiteSpace(comboBox.Text) && comboBox.ItemsSource.Cast<DirectoryCostItem>().Select(c => c.Name).Contains(comboBox.Text))
             {
-                comboBox.BorderBrush = Brushes.DarkGray;
-                comboBox.BorderThickness = new Thickness(1);
+                border.BorderThickness = new Thickness(0);
 
                 comboBox.Tag = "1";
             }
             else
             {
-                comboBox.BorderBrush = Brushes.Red;
-                comboBox.BorderThickness = new Thickness(2);
+                border.BorderBrush = Brushes.Red;
+                border.BorderThickness = new Thickness(2);
 
                 comboBox.Tag = null;
             }
@@ -529,17 +549,19 @@ namespace AIS_Enterprise_AV.Costs.Views
         {
             var comboBox = sender as ComboBox;
 
+            string borderName = "Border" + comboBox.Name.Substring(8);
+            var border = WindowCosts.FindName(borderName) as Border;
+
             if (!string.IsNullOrWhiteSpace(comboBox.Text) && comboBox.ItemsSource.Cast<DirectoryRC>().Select(r => r.FullName).Contains(comboBox.Text))
             {
-                comboBox.BorderBrush = Brushes.DarkGray;
-                comboBox.BorderThickness = new Thickness(1);
+                border.BorderThickness = new Thickness(0);
 
                 comboBox.Tag = "1";
             }
             else
             {
-                comboBox.BorderBrush = Brushes.Red;
-                comboBox.BorderThickness = new Thickness(2);
+                border.BorderBrush = Brushes.Red;
+                border.BorderThickness = new Thickness(2);
 
                 comboBox.Tag = null;
             }
@@ -557,17 +579,19 @@ namespace AIS_Enterprise_AV.Costs.Views
 
         private void ComboBoxValidation(ComboBox comboBox)
         {
+            string borderName = "Border" + comboBox.Name.Substring(8);
+            var border = WindowCosts.FindName(borderName) as Border;
+
             if (!string.IsNullOrWhiteSpace(comboBox.Text))
             {
-                comboBox.BorderBrush = Brushes.DarkGray;
-                comboBox.BorderThickness = new Thickness(1);
+                border.BorderThickness = new Thickness(0);
 
                 comboBox.Tag = "1";
             }
             else
             {
-                comboBox.BorderBrush = Brushes.Red;
-                comboBox.BorderThickness = new Thickness(2);
+                border.BorderBrush = Brushes.Red;
+                border.BorderThickness = new Thickness(2);
 
                 comboBox.Tag = null;
             }
@@ -614,17 +638,19 @@ namespace AIS_Enterprise_AV.Costs.Views
         {
             var comboBox = sender as ComboBox;
 
+            string borderName = "Border" + comboBox.Name.Substring(8);
+            var border = WindowCosts.FindName(borderName) as Border;
+
             if (comboBox.SelectedIndex != -1)
             {
-                comboBox.BorderBrush = Brushes.DarkGray;
-                comboBox.BorderThickness = new Thickness(1);
+                border.BorderThickness = new Thickness(0);
 
                 comboBox.Tag = "1";
             }
             else
             {
-                comboBox.BorderBrush = Brushes.Red;
-                comboBox.BorderThickness = new Thickness(2);
+                border.BorderBrush = Brushes.Red;
+                border.BorderThickness = new Thickness(2);
 
                 comboBox.Tag = null;
             }

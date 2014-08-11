@@ -1399,6 +1399,14 @@ namespace AIS_Enterprise_Global.Models
             _dc.SaveChanges();
         }
 
+        public IEnumerable<CurrentPost> GetCurrentPosts(DateTime lastDateInMonth)
+        {
+            var firstDateInMonth = new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1);
+
+            return _dc.CurrentPosts.Where(p => DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0 && p.FireDate == null ||
+                p.FireDate != null && DbFunctions.DiffDays(p.FireDate.Value, firstDateInMonth) < 0 && DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0);
+        }
+
         public IEnumerable<CurrentPost> GetCurrentPosts(int workerId, int year, int month, int lastDayInMonth)
         {
             var lastDateInMonth = new DateTime(year, month, lastDayInMonth);
@@ -1407,7 +1415,7 @@ namespace AIS_Enterprise_Global.Models
             var worker = GetDirectoryWorker(workerId);
 
             return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null ||
-                p.FireDate != null && p.FireDate.Value >= firstDateInMonth.Date && p.ChangeDate.Date <= lastDateInMonth.Date);
+                p.FireDate != null && p.FireDate.Value.Date >= firstDateInMonth.Date && p.ChangeDate.Date <= lastDateInMonth.Date);
         }
 
         public CurrentPost GetCurrentPost(int workerId, DateTime date)
@@ -1557,16 +1565,19 @@ namespace AIS_Enterprise_Global.Models
                     {
                         if (!worker.InfoMonthes.Any(m => m.Date.Year == dateMonth.Year && m.Date.Month == dateMonth.Month))
                         {
-                            var infoMonth = new InfoMonth
+                            var infoMonth = new InfoMonth();
+                            infoMonth.Date = firstDateInMonth;
+                            if (worker.CurrentCompaniesAndPosts.Last().DirectoryPost.DirectoryTypeOfPost.Name != "Офис")
                             {
-                                BirthDays = birthday,
-                                Date = firstDateInMonth,
+                                infoMonth.BirthDays = birthday;
                             };
                             worker.InfoMonthes.Add(infoMonth);
                         }
                     }
                     _dc.SaveChanges();
                 }
+
+                EditParameter("LastDate", DateTime.Now.ToString());
             }
         }
 
@@ -1856,23 +1867,38 @@ namespace AIS_Enterprise_Global.Models
 
         #region InfoCash
 
-        public double GetInfoCash()
+        public double GetInfoCash(int year, int month)
         {
             var infoCash = _dc.InfoCashes.First();
             double cash = infoCash.Cash;
 
-            if (cash != 0)
-            {
-                return cash;
-            }
+            var infoCosts = _dc.InfoCosts.Where(c => c.Date.Year > year || (c.Date.Year == year && c.Date.Month > month)).ToList();
+            
+            double totalIncoming = 0;
+            var infoCostsIncoming = infoCosts.Where(c => c.IsIncoming);
+            if (infoCostsIncoming.Any())
+	        {
+                totalIncoming = infoCostsIncoming.Sum(c => c.Summ);
+	        }
 
-            var infoCosts = _dc.InfoCosts.ToList();
-            cash = infoCosts.Sum(c => c.Incoming) - infoCosts.Sum(c => c.Expense);
+            double totalExpense = 0;
+            var infoCostsExpense = infoCosts.Where(c => !c.IsIncoming);
+            if (infoCostsExpense.Any())
+	        {
+                 totalExpense = infoCostsExpense.Sum(c => c.Summ);
+	        }
 
-            infoCash.Cash = cash;
-            _dc.SaveChanges();
+            double cashAfter = totalIncoming - totalExpense;
 
-            return cash;
+            return cash - cashAfter;
+
+            //var infoCosts = _dc.InfoCosts.ToList();
+            //cash = infoCosts.Sum(c => c.Incoming) - infoCosts.Sum(c => c.Expense);
+
+            //infoCash.Cash = cash;
+            //_dc.SaveChanges();
+
+            //return cash;
         }
 
         public void AddInfoCashSumm(double summ, bool isIncoming)
@@ -1881,8 +1907,6 @@ namespace AIS_Enterprise_Global.Models
             infoCash.Cash = isIncoming ? infoCash.Cash + summ : infoCash.Cash - summ;
 
             _dc.SaveChanges();
-
-            Debug.WriteLine(infoCash.Cash);
         }
 
         #endregion
@@ -1908,13 +1932,19 @@ namespace AIS_Enterprise_Global.Models
                     Weight = weight,
                 };
 
+                AddInfoCashSumm(infoCost.Summ, infoCost.IsIncoming);
+
                 _dc.InfoCosts.Add(infoCost);
             }
             else
             {
+                double prevSumm = infoCost.Summ;
+
                 infoCost.Summ = summ;
                 infoCost.IsIncoming = isIncomming;
                 infoCost.Weight = weight;
+
+                AddInfoCashSumm(infoCost.Summ - prevSumm, infoCost.IsIncoming);
             }
 
             _dc.SaveChanges();
@@ -2211,5 +2241,13 @@ namespace AIS_Enterprise_Global.Models
         #endregion
 
 
+        #region CurrentRC
+
+        public IEnumerable<CurrentRC> GetCurrentRCs(IEnumerable<int> ids)
+        {
+            return _dc.CurrentRCs.Include(r => r.DirectoryRC).Where(r => ids.Contains(r.InfoOverTimeId));
+        }
+
+        #endregion
     }
 }

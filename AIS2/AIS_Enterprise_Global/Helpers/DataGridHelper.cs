@@ -111,7 +111,6 @@ namespace AIS_Enterprise_Global.Helpers
                 if ((bool)e.NewValue)
                 {
                     var dataGrid = sender as DataGrid;
-                    Debug.Assert(dataGrid != null);
 
                     EventManager.RegisterClassHandler(typeof(DataGridCell),
                         DataGridCell.PreviewMouseLeftButtonUpEvent,
