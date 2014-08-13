@@ -103,6 +103,7 @@
     <Compile Include="Models\Directories\DirectoryHoliday.cs" />
     <Compile Include="Models\Directories\DirectoryKeepingDescription.cs" />
     <Compile Include="Models\Directories\DirectoryKeepingName.cs" />
+    <Compile Include="Models\Directories\DirectoryLoanTaker.cs" />
     <Compile Include="Models\Directories\DirectoryNote.cs" />
     <Compile Include="Models\Directories\DirectoryPhoto.cs" />
     <Compile Include="Models\Directories\DirectoryPost.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
     <Compile Include="Models\Directories\DirectoryWorker.cs" />
     <Compile Include="Models\Helpers\DefaultCost.cs" />
+    <Compile Include="Models\Helpers\Log.cs" />
     <Compile Include="Models\Helpers\Parameter.cs" />
     <Compile Include="Models\Infos\InfoCash.cs" />
     <Compile Include="Models\Infos\InfoCost.cs" />
@@ -122,6 +124,8 @@
     <Compile Include="Models\Infos\InfoMonth.cs" />
     <Compile Include="Models\Infos\InfoOverTime.cs" />
     <Compile Include="Models\Infos\InfoPanalty.cs" />
+    <Compile Include="Models\Infos\InfoPayment.cs" />
+    <Compile Include="Models\Infos\InfoSafe.cs" />
     <Compile Include="Properties\Resources.en-US.Designer.cs">
       <DependentUpon>Resources.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -147,6 +151,7 @@
     <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryWorkerFireDateViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\LogViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
@@ -196,6 +201,9 @@
     </Compile>
     <Compile Include="Views\Directories\DirectoryUsersView.xaml.cs">
       <DependentUpon>DirectoryUsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\LogView.xaml.cs">
+      <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoPanaltiesView.xaml.cs">
       <DependentUpon>InfoPanaltiesView.xaml</DependentUpon>
@@ -270,6 +278,10 @@
     <Page Include="Views\Directories\DirectoryUsersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\LogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\InfoPanaltiesView.xaml">
       <SubType>Designer</SubType>

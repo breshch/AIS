@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Global.Models.Currents
 {
-    public class CurrentRC 
+    public class CurrentRC
     {
         public int Id { get; set; }
 

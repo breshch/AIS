@@ -61,6 +61,7 @@
                 <MenuItem x:Name="MenuDayCosts" Header="Дневные затраты" Click="MenuDayCosts_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuMonthCosts" Header="Месячные затраты" Click="MenuMonthCosts_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuDefaultCosts" Header="Автоматические затраты" Click="MenuDefaultCosts_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuSafe" Header="Сейф" Click="MenuSafe_Click" Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="MenuReports" Header="Отчёты" Visibility="Collapsed">
                 <MenuItem x:Name="MenuReportSalaryPrint" Header="Зарплата печать" Click="MenuReportSalaryPrint_Click" Visibility="Collapsed"/>
@@ -71,6 +72,7 @@
             <MenuItem x:Name="MenuAdminPanel" Header="Административная панель" Visibility="Collapsed">
                 <MenuItem x:Name="MenuUserStatuses" Header="Статусы пользователей" Click="MenuUserStatuses_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuUsers" Header="Пользователи" Click="MenuUsers_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuLogs" Header="Logs" Click="MenuLogs_Click" Visibility="Collapsed"/>
             </MenuItem>
         </Menu>
 

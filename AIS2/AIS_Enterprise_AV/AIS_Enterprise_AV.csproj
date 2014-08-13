@@ -96,6 +96,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -181,7 +182,11 @@
     <Compile Include="ViewModels\Directories\DirectoryRCViewModel.cs" />
     <Compile Include="ViewModels\Helpers\InitializingDBViewModel.cs" />
     <Compile Include="ViewModels\Helpers\MonthReportViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditInfoSafeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoSafeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseInfoSafeViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoSafeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Directories\DirectoryRCView.xaml.cs">
       <DependentUpon>DirectoryRCView.xaml</DependentUpon>
@@ -192,11 +197,17 @@
     <Compile Include="Views\Helpers\MonthReportView.xaml.cs">
       <DependentUpon>MonthReportView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Infos\AddEditInfoSafeView.xaml.cs">
+      <DependentUpon>AddEditInfoSafeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Infos\InfoKeepingMoneyView.xaml.cs">
       <DependentUpon>InfoKeepingMoneyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoOverTimeView.xaml.cs">
       <DependentUpon>InfoOverTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoSafeView.xaml.cs">
+      <DependentUpon>InfoSafeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -276,11 +287,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Infos\AddEditInfoSafeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Infos\InfoKeepingMoneyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\InfoOverTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\InfoSafeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -358,8 +377,8 @@
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Microsoft.SqlServer.Types">
@@ -368,8 +387,8 @@
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

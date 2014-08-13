@@ -179,6 +179,8 @@ namespace AIS_Enterprise_AV.ViewModels
                     BC.RefreshContext();
 
                     RefreshUsers();
+
+                    PropertyChangedBase.Raise();
                 }
             }
         }
@@ -380,7 +382,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 Properties.Settings.Default.DefaultUser = SelectedUser.TranscriptionName;
                 Properties.Settings.Default.Save();
 
-                DirectoryUser.ChangeUserId(SelectedUser.Id);
+                DirectoryUser.ChangeUserId(SelectedUser.Id, SelectedUser.UserName);
             }
 
             window.Visibility = Visibility.Collapsed;

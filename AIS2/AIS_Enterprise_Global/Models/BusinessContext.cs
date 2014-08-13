@@ -923,11 +923,13 @@ namespace AIS_Enterprise_Global.Models
             return directoryPost;
         }
 
-        public DirectoryPost RemoveDirectoryPost(DirectoryPost post)
+        public void RemoveDirectoryPost(DirectoryPost post)
         {
+            Log(LoggingOptions.Fatal, "Удаление должности", post.Name, post.DirectoryTypeOfPost.Name, post.DirectoryCompany.Name,
+              post.Date.ToString(), post.UserWorkerSalary.ToString(), post.AdminWorkerSalary.ToString(), post.UserWorkerHalfSalary.ToString());
+
             _dc.DirectoryPosts.Remove(post);
             _dc.SaveChanges();
-            return post;
         }
 
         public bool ExistsDirectoryPost(string name)
@@ -1142,7 +1144,7 @@ namespace AIS_Enterprise_Global.Models
             return _dc.DirectoryWorkers.FirstOrDefault(w => w.LastName == lastName && w.FirstName == firstName);
         }
 
-        public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone, 
+        public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender, DateTime birthDay, string address, string homePhone,
             string cellPhone, DateTime startDate, BitmapImage photo, DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
         {
             var directoryWorker = GetDirectoryWorker(id);
@@ -1423,7 +1425,7 @@ namespace AIS_Enterprise_Global.Models
             var worker = GetDirectoryWorker(workerId);
 
             return worker.CurrentCompaniesAndPosts.First(p => p.ChangeDate.Date <= date.Date && p.FireDate == null ||
-                p.FireDate != null && p.FireDate.Value >= date.Date && p.ChangeDate.Date <= date.Date);
+                p.FireDate != null && p.FireDate.Value.Date >= date.Date && p.ChangeDate.Date <= date.Date);
         }
 
         #endregion
@@ -1435,26 +1437,26 @@ namespace AIS_Enterprise_Global.Models
         {
             string path = Path.Combine(Environment.CurrentDirectory, "Calendar", year.ToString() + ".txt");
 
-                using (var sr = new StreamReader(path))
+            using (var sr = new StreamReader(path))
+            {
+                while (!sr.EndOfStream)
                 {
-                    while (!sr.EndOfStream)
+                    string line = sr.ReadLine();
+
+                    if (line[11] == 'в')
                     {
-                        string line = sr.ReadLine();
+                        var date = DateTime.Parse(line.Substring(0, 10));
 
-                        if (line[11] == 'в')
+
+                        if (!_dc.DirectoryHolidays.Select(h => h.Date).Contains(date))
                         {
-                            var date = DateTime.Parse(line.Substring(0, 10));
-
-
-                            if (!_dc.DirectoryHolidays.Select(h => h.Date).Contains(date))
-                            {
-                                var directoryHoliday = new DirectoryHoliday { Date = date };
-                                _dc.DirectoryHolidays.Add(directoryHoliday);
-                            }
+                            var directoryHoliday = new DirectoryHoliday { Date = date };
+                            _dc.DirectoryHolidays.Add(directoryHoliday);
                         }
                     }
                 }
-                _dc.SaveChanges();
+            }
+            _dc.SaveChanges();
         }
 
         public int GetCountWorkDaysInMonth(int year, int month)
@@ -1873,20 +1875,20 @@ namespace AIS_Enterprise_Global.Models
             double cash = infoCash.Cash;
 
             var infoCosts = _dc.InfoCosts.Where(c => c.Date.Year > year || (c.Date.Year == year && c.Date.Month > month)).ToList();
-            
+
             double totalIncoming = 0;
             var infoCostsIncoming = infoCosts.Where(c => c.IsIncoming);
             if (infoCostsIncoming.Any())
-	        {
+            {
                 totalIncoming = infoCostsIncoming.Sum(c => c.Summ);
-	        }
+            }
 
             double totalExpense = 0;
             var infoCostsExpense = infoCosts.Where(c => !c.IsIncoming);
             if (infoCostsExpense.Any())
-	        {
-                 totalExpense = infoCostsExpense.Sum(c => c.Summ);
-	        }
+            {
+                totalExpense = infoCostsExpense.Sum(c => c.Summ);
+            }
 
             double cashAfter = totalIncoming - totalExpense;
 
@@ -1899,6 +1901,32 @@ namespace AIS_Enterprise_Global.Models
             //_dc.SaveChanges();
 
             //return cash;
+        }
+
+        public double GetInfoCash(DateTime date)
+        {
+            var infoCash = _dc.InfoCashes.First();
+            double cash = infoCash.Cash;
+
+            var infoCosts = _dc.InfoCosts.Where(c => DbFunctions.DiffDays(c.Date, date) < 0).ToList();
+
+            double totalIncoming = 0;
+            var infoCostsIncoming = infoCosts.Where(c => c.IsIncoming);
+            if (infoCostsIncoming.Any())
+            {
+                totalIncoming = infoCostsIncoming.Sum(c => c.Summ);
+            }
+
+            double totalExpense = 0;
+            var infoCostsExpense = infoCosts.Where(c => !c.IsIncoming);
+            if (infoCostsExpense.Any())
+            {
+                totalExpense = infoCostsExpense.Sum(c => c.Summ);
+            }
+
+            double cashAfter = totalIncoming - totalExpense;
+
+            return cash - cashAfter;
         }
 
         public void AddInfoCashSumm(double summ, bool isIncoming)
@@ -2082,6 +2110,71 @@ namespace AIS_Enterprise_Global.Models
         #endregion
 
 
+        #region InfoSafe
+
+        public InfoSafe AddInfoSafe(DateTime date, string loanTakerName, double summ, int countPayments, string description)
+        {
+           var loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
+           if (loanTaker == null)
+	       {
+                loanTaker = AddDirectoryLoanTaker(loanTakerName);
+	       };
+
+            var infoSafe = new InfoSafe
+            {
+                DateLoan = date,
+                DirectoryLoanTaker = loanTaker,
+                Summ = summ,
+                CountPayments = countPayments != 0 ? countPayments : default(int?),
+                Description = description
+            };
+
+            _dc.InfoSafes.Add(infoSafe);
+            _dc.SaveChanges();
+
+            return infoSafe;
+        }
+
+        public InfoSafe EditInfoSafe(int id, DateTime date, string loanTakerName, double summ, int countPayments, string description)
+        {
+            var loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
+            if (loanTaker == null)
+            {
+                loanTaker = AddDirectoryLoanTaker(loanTakerName);
+            };
+
+            var infoSafe = _dc.InfoSafes.Find(id);
+            infoSafe.DateLoan = date;
+            infoSafe.DirectoryLoanTaker = loanTaker;
+            infoSafe.Summ = summ;
+            infoSafe.CountPayments = countPayments != 0 ? countPayments : default(int?);
+            infoSafe.Description = description;
+
+            _dc.SaveChanges();
+
+            return infoSafe;
+        }
+
+        public void RemoveInfoSafe(InfoSafe selectedInfoSafe)
+        {
+            _dc.InfoSafes.Remove(selectedInfoSafe);
+            _dc.SaveChanges();
+        }
+
+        public IQueryable<InfoSafe> GetInfoSafes(DateTime date)
+        {
+            return _dc.InfoSafes.Where(s => DbFunctions.DiffDays(s.DateLoan, date) >= 0 &&
+                (s.DateLoanPayment == null || s.DateLoanPayment != null && DbFunctions.DiffDays(s.DateLoanPayment.Value, date) <= 0)).OrderByDescending(s => s.DateLoan);
+        }
+
+        public double GetLoans()
+        {
+            return _dc.InfoSafes.Where(s => s.DateLoanPayment == null).ToList().Sum(s => s.RemainingSumm);
+        }
+
+        #endregion
+
+
         #region DirectoryCostItem
 
         public IQueryable<DirectoryCostItem> GetDirectoryCostItems()
@@ -2237,7 +2330,7 @@ namespace AIS_Enterprise_Global.Models
             return _dc.DirectoryTransportCompanies;
         }
 
-        
+
         #endregion
 
 
@@ -2249,5 +2342,76 @@ namespace AIS_Enterprise_Global.Models
         }
 
         #endregion
+
+
+
+        #region Log
+
+        public void Log(LoggingOptions loggingOptions, string message, params string[] parameters)
+        {
+            string description = message;
+
+            if (parameters.Any())
+            {
+                description += ": ";
+            }
+
+            for (int i = 0; i < parameters.Count(); i++)
+            {
+                if (i != parameters.Count() - 1)
+                {
+                    description += parameters[i] + "; ";
+                }
+                else
+                {
+                    description += parameters[i];
+                }
+            }
+
+            var log = new Log
+            {
+                Date = DateTime.Now,
+                Level = loggingOptions.ToString(),
+                Logger = DirectoryUser.CurrentUserName,
+                Description = description
+            };
+
+            _dc.Logs.Add(log);
+            _dc.SaveChanges();
+        }
+
+        public IQueryable<Log> GetLogs(DateTime date)
+        {
+            return _dc.Logs.Where(l => DbFunctions.DiffDays(l.Date, date) == 0);
+        }
+
+
+        #endregion
+
+
+        #region DirectoryLoanTaker
+
+        public IQueryable<DirectoryLoanTaker> GetDirectoryLoanTakers()
+        {
+            return _dc.DirectoryLoanTakers;
+        }
+
+        public DirectoryLoanTaker AddDirectoryLoanTaker(string name)
+        {
+            var loanTaker = new DirectoryLoanTaker
+            {
+                Name = name
+            };
+
+            _dc.DirectoryLoanTakers.Add(loanTaker);
+            _dc.SaveChanges();
+
+            return loanTaker;
+        }
+
+        #endregion
+
+
+
     }
 }

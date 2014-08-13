@@ -131,6 +131,7 @@ namespace AIS_Enterprise_Global.Models
         }
         #endregion
 
+
         #region Properties
 
         public DbSet<DirectoryCompany> DirectoryCompanies { get; set; }
@@ -148,6 +149,7 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<DirectoryKeepingName> DirectoryKeepingNames { get; set; }
         public DbSet<DirectoryKeepingDescription> DirectoryKeepingDescriptions { get; set; }
         public DbSet<DirectoryPhoto> DirectoryPhotoes { get; set; }
+        public DbSet<DirectoryLoanTaker> DirectoryLoanTakers { get; set; }
         
 
         public DbSet<CurrentPost> CurrentPosts { get; set; }
@@ -164,11 +166,13 @@ namespace AIS_Enterprise_Global.Models
         public DbSet<InfoCost> InfoCosts { get; set; }
         public DbSet<InfoCash> InfoCashes { get; set; }
         public DbSet<InfoKeepingMoney> InfoKeepingMoney { get; set; }
+        public DbSet<InfoSafe> InfoSafes { get; set; }
+        public DbSet<InfoPayment> InfoPayments { get; set; }
 
 
         public DbSet<DefaultCost> DefaultCosts { get; set; }
-
         public DbSet<Parameter> Parameters { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         #endregion
     }

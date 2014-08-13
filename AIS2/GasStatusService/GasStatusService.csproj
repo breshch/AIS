@@ -51,7 +51,7 @@
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
     <Reference Include="xNet">
-      <HintPath>C:\Users\Alexey\Desktop\xNet.dll</HintPath>
+      <HintPath>..\packages\xNet\xNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

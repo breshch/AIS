@@ -30,6 +30,9 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
             BC.AddDirectoryPost(DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, SelectedDirectoryPostDate, DirectoryPostUserWorkerSalary,DirectoryPostAdminWorkerSalary,
                 DirectoryPostUserWorkerHalfSalary);
 
+            BC.Log(LoggingOptions.Info, "Добавление должности", DirectoryPostName, SelectedDirectoryTypeOfPost.Name, SelectedDirectoryCompany.Name, 
+                SelectedDirectoryPostDate.ToString(), DirectoryPostUserWorkerSalary, DirectoryPostAdminWorkerSalary, DirectoryPostUserWorkerHalfSalary);
+
             var window = (Window)parameter;
 
             if (window != null)

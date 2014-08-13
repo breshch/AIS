@@ -14,9 +14,11 @@ using AIS_Enterprise_Global.Models.Directories;
 using AIS_Enterprise_Global.Models.Infos;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
+using AIS_Enterprise_Global.ViewModels.Helpers;
 using AIS_Enterprise_Global.ViewModels.Infos;
 using AIS_Enterprise_Global.Views.Currents;
 using AIS_Enterprise_Global.Views.Directories;
+using AIS_Enterprise_Global.Views.Helpers;
 using AIS_Enterprise_Global.Views.Infos;
 using Numerizr;
 using System;
@@ -107,7 +109,7 @@ namespace AIS_Enterprise_AV.Views
             //_dc.DirectoryUserStatusPrivileges.Remove(_dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary"));
 
 
-            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportSalaryPrint" });
+            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_AdminPanel_Logs" });
             //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportSalaryMinsk" });
             //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportCash" });
             
@@ -1404,6 +1406,18 @@ namespace AIS_Enterprise_AV.Views
                (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
                ), new MonthReportView());
 
+        }
+
+        private void MenuSafe_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new InfoSafeViewModel(), new InfoSafeView());   
+        }
+
+        private void MenuLogs_Click(object sender, RoutedEventArgs e)
+        {
+            _bc.Log(LoggingOptions.Info, "huy");
+
+            HelperMethods.ShowView(new LogViewModel(), new LogView());
         }
 
 

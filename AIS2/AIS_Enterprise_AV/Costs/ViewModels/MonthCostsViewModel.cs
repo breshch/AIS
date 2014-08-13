@@ -190,6 +190,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 {
                     SelectedMonth = Monthes.Last();
                 }
+
+                PropertyChangedBase.Raise();
             }
         }
         public ObservableCollection<int> Monthes { get; set; }
@@ -229,6 +231,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 RefreshFilters();
 
                 Cash = BC.GetInfoCash(SelectedYear, _selectedMonth).ToString("c");
+
+                PropertyChangedBase.Raise();
             }
         }
         public double Summ { get; set; }
@@ -260,6 +264,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 RaisePropertyChanged();
 
                 RefreshFilters();
+
+                PropertyChangedBase.Raise();
             }
         }
 
@@ -353,6 +359,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 RaisePropertyChanged();
 
                 Filter();
+
+                PropertyChangedBase.Raise();
             }
         }
 
@@ -375,6 +383,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 _selectedInOut = value;
 
                 Filter();
+
+                PropertyChangedBase.Raise();
             }
         }
 
@@ -398,6 +408,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 RaisePropertyChanged();
 
                 Filter();
+
+                PropertyChangedBase.Raise();
             }
         }
 
@@ -421,6 +433,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 RaisePropertyChanged();
 
                 Filter();
+
+                PropertyChangedBase.Raise();
             }
         }
 

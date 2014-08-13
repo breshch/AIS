@@ -18,6 +18,7 @@ namespace AIS_Enterprise_Global.Models.Directories
 
 
         private static int _currentUserId = 0;
+        private static string _currentUserName = "";
 
         static DirectoryUser()
         {
@@ -31,9 +32,19 @@ namespace AIS_Enterprise_Global.Models.Directories
             }
         }
 
-        public static void ChangeUserId(int userId)
+        public static string CurrentUserName
+        {
+            get
+            {
+                return _currentUserName;
+            }
+        }
+
+        public static void ChangeUserId(int userId, string userName)
         {
             _currentUserId = userId;
+            _currentUserName = userName;
+
         }
     }
 }
