@@ -23,7 +23,17 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             _infoSafeId = infoSafe.Id;
 
             SelectedDate = infoSafe.DateLoan;
-            SelectedLoanTaker = infoSafe.DirectoryLoanTaker.Name;
+            IsWorker = infoSafe.DirectoryWorker == null ? false : true;
+
+            if (IsWorker.Value)
+            {
+                SelectedWorker = DirectoryWorkers.First(w => w.Id == infoSafe.DirectoryWorkerId);
+            }
+            else
+            {
+                SelectedLoanTaker = infoSafe.DirectoryLoanTaker.Name;
+            }
+            
             SummLoan = infoSafe.Summ;
 
             if (infoSafe.CountPayments != null)
@@ -45,7 +55,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Edit(object parameter)
         {
-            BC.EditInfoSafe(_infoSafeId, SelectedDate, SelectedLoanTaker, SummLoan, CountPayments, Description);
+            BC.EditInfoSafe(_infoSafeId, SelectedDate, SelectedLoanTaker, SelectedWorker, SummLoan, CountPayments, Description);
 
             var window = parameter as Window;
             window.Close();

@@ -19,7 +19,10 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
             SelectedDate = DateTime.Now;
 
+            IsWorker = true;
+
             AddEditCommand = new RelayCommand(Add);
+
         }
 
         #endregion
@@ -29,7 +32,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Add(object parameter)
         {
-            BC.AddInfoSafe(SelectedDate, SelectedLoanTaker, SummLoan, CountPayments, Description);
+            BC.AddInfoSafe(SelectedDate, SelectedLoanTaker, SelectedWorker, SummLoan, CountPayments, Description);
 
             var window = parameter as Window;
             window.Close();
@@ -38,3 +41,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         #endregion
     }
 }
+
+
+ 

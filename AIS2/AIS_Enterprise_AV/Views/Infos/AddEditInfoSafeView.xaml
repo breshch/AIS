@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -21,30 +22,33 @@
             <TextBlock Text="Дата"/>
             <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"/>
         </StackPanel>
-        
-        <StackPanel Grid.Row="1" Margin="0, 5, 0, 0">
-            <TextBlock Text="Кредитуемый" />
-            <ComboBox ItemsSource="{Binding LoanTakers}" IsEditable="True" Text="{Binding SelectedLoanTaker}"/>
-        </StackPanel>
+
+        <CheckBox Grid.Row="1" Margin="0, 5, 0, 0" Content="Работник" IsChecked="{Binding IsWorker, Mode=TwoWay}"/>
 
         <StackPanel Grid.Row="2" Margin="0, 5, 0, 0">
+            <TextBlock Text="Кредитуемый" />
+            <ComboBox ItemsSource="{Binding LoanTakers}"  Visibility="{Binding VisibilityLoanTaker}" DisplayMemberPath="Name" IsEditable="True" Text="{Binding SelectedLoanTaker}"/>
+            <ComboBox ItemsSource="{Binding DirectoryWorkers}" Visibility="{Binding VisibilityWorker}" DisplayMemberPath="FullName" SelectedItem="{Binding SelectedWorker}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Margin="0, 5, 0, 0">
             <TextBlock Text="Сумма кредита" />
             <TextBox Text="{Binding SummLoan}"/>
         </StackPanel>
 
-        <CheckBox Grid.Row="3" Content="Разбивка на платежи" IsChecked="{Binding IsMultiplyPayments}" Margin="0, 5, 0, 0"/>
+        <CheckBox Grid.Row="4" Content="Разбивка на платежи" IsChecked="{Binding IsMultiplyPayments}" Visibility="{Binding VisibilityIsMultiplyPayments}" Margin="0, 5, 0, 0"/>
 
-        <StackPanel Grid.Row="4" Margin="0, 5, 0, 0" Visibility="{Binding VisibilityMultiplyPayments}">
+        <StackPanel Grid.Row="5" Margin="0, 5, 0, 0" Visibility="{Binding VisibilityMultiplyPayments}">
             <TextBlock Text="Количество платежей" />
             <toolkit:IntegerUpDown Text="{Binding CountPayments}"/>
         </StackPanel>
 
-        <DockPanel Grid.Row="5" Margin="0, 5, 0, 0">
+        <DockPanel Grid.Row="6" Margin="0, 5, 0, 0">
             <TextBlock DockPanel.Dock="Top" Text="Примечание" />
             <TextBox DockPanel.Dock="Bottom" Text="{Binding Description}" TextWrapping="Wrap"/>
         </DockPanel>
         
-        <Button Grid.Row="6" Command="{Binding AddEditCommand}" CommandParameter="{Binding ElementName=AddEditInfoSafeWindow}" Content="{Binding AddEditName}" Margin="0, 15, 0, 0" />
+        <Button Grid.Row="7" Command="{Binding AddEditCommand}" CommandParameter="{Binding ElementName=AddEditInfoSafeWindow}" Content="{Binding AddEditName}" Margin="0, 15, 0, 0" />
 
     </Grid>
 </Window>

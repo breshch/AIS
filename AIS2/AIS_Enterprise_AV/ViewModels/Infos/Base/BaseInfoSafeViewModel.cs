@@ -18,8 +18,10 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         public BaseInfoSafeViewModel()
         {
             LoanTakers = new ObservableCollection<DirectoryLoanTaker>(BC.GetDirectoryLoanTakers());
+            DirectoryWorkers = new ObservableCollection<DirectoryWorker>(BC.GetDirectoryWorkers(DateTime.Now.Year, DateTime.Now.Month));
 
             VisibilityMultiplyPayments = Visibility.Collapsed;
+            
         }
 
         #endregion
@@ -27,9 +29,47 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         #region Properties
 
         public DateTime SelectedDate { get; set; }
+
+        private bool? _isWorker;
+        public bool? IsWorker 
+        { 
+            get
+            {
+                return _isWorker;
+            }
+            set
+            {
+                _isWorker = value;
+                RaisePropertyChanged();
+
+                if (_isWorker.Value)
+                {
+                    VisibilityLoanTaker = Visibility.Collapsed;
+                    VisibilityWorker = Visibility.Visible;
+                    VisibilityIsMultiplyPayments = Visibility.Visible;
+                    SelectedLoanTaker = null;
+                }
+                else
+                {
+                    IsMultiplyPayments = false;
+                    VisibilityLoanTaker = Visibility.Visible;
+                    VisibilityWorker = Visibility.Collapsed;
+                    VisibilityIsMultiplyPayments = Visibility.Collapsed;
+                    SelectedWorker = null;
+                }
+            }
+        }
         public ObservableCollection<DirectoryLoanTaker> LoanTakers { get; set; }
         public string SelectedLoanTaker { get; set; }
+        public Visibility VisibilityLoanTaker { get; set; }
+
+        public ObservableCollection<DirectoryWorker> DirectoryWorkers { get; set; }
+        public Visibility VisibilityWorker { get; set; }
+        public DirectoryWorker SelectedWorker { get; set; }
+
         public double SummLoan { get; set; }
+
+        public Visibility VisibilityIsMultiplyPayments { get; set; }
 
         private bool _isMultiplyPayments;
         public bool IsMultiplyPayments
@@ -44,6 +84,15 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 RaisePropertyChanged();
 
                 VisibilityMultiplyPayments = _isMultiplyPayments ? Visibility.Visible : Visibility.Collapsed;
+                
+                if (!_isMultiplyPayments)
+                {
+                    CountPayments = 0;
+                }
+                else
+                {
+                    CountPayments = 1;
+                }
             }
         }
 

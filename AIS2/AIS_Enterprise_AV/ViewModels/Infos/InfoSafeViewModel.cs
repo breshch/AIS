@@ -20,16 +20,16 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
             RefreshInfoSafes();
 
-            TotalSummLoans = BC.GetLoans();
-
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand(Edit, IsSelectedInfoCost);
             RemoveCommand = new RelayCommand(Remove, IsSelectedInfoCost);
+            ShowPaymentsCommand = new RelayCommand(ShowPayments, IsSelectedInfoCost);
         }
 
         private void RefreshInfoSafes()
         {
             InfoSafes = new ObservableCollection<InfoSafe>(BC.GetInfoSafes(SelectedInfoSafeDate));
+            TotalSummLoans = BC.GetLoans();
 
         }
 
@@ -68,12 +68,13 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         public RelayCommand AddCommand { get; set; }
         public RelayCommand EditCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
-
+        public RelayCommand ShowPaymentsCommand { get; set; }
         private void Add(object parameter)
         {
             HelperMethods.ShowView(new AddInfoSafeViewModel(), new AddEditInfoSafeView());
 
             RefreshInfoSafes();
+
         }
 
         private void Edit(object parameter)
@@ -97,6 +98,11 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             return SelectedInfoSafe != null;
         }
 
+
+        private void ShowPayments(object parameter)
+        {
+            HelperMethods.ShowView(new InfoPaymentsViewModel(SelectedInfoSafe.Id), new InfoPaymentsView());
+        }
         #endregion
     }
 }

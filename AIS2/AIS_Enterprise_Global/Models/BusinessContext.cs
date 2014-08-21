@@ -1574,12 +1574,35 @@ namespace AIS_Enterprise_Global.Models
                                 infoMonth.BirthDays = birthday;
                             };
                             worker.InfoMonthes.Add(infoMonth);
+
+                            InitializeWorkerLoanPayments(worker, infoMonth);
                         }
                     }
                     _dc.SaveChanges();
                 }
 
                 EditParameter("LastDate", DateTime.Now.ToString());
+            }
+        }
+
+        private void InitializeWorkerLoanPayments(DirectoryWorker worker, InfoMonth infoMonth)
+        {
+            var infoSafes = _dc.InfoSafes.Where(s => s.DirectoryWorkerId == worker.Id && s.DateLoanPayment == null).ToList();
+            if (infoSafes.Any())
+            {
+                foreach (var safe in infoSafes)
+                {
+                    var payments = _dc.InfoPayments.Where(p => p.InfoSafeId == safe.Id).ToList();
+                    if (payments.Any())
+                    {
+                        var payment = payments.FirstOrDefault(p => p.Date.Date == infoMonth.Date.Date);
+                        if (payment != null)
+                        {
+                            infoMonth.PrepaymentCash = payment.Summ;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -1833,6 +1856,13 @@ namespace AIS_Enterprise_Global.Models
 
                 _dc.SaveChanges();
             }
+        }
+
+        public void EditInfoOverTime(DateTime date, double hoursOverTime)
+        {
+            var overTime = GetInfoOverTime(date);
+            overTime.EndDate = overTime.StartDate.AddHours(hoursOverTime);
+            _dc.SaveChanges();
         }
 
         public InfoOverTime GetInfoOverTime(DateTime date)
@@ -2112,40 +2142,84 @@ namespace AIS_Enterprise_Global.Models
 
         #region InfoSafe
 
-        public InfoSafe AddInfoSafe(DateTime date, string loanTakerName, double summ, int countPayments, string description)
+        public InfoSafe AddInfoSafe(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
         {
-           var loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
-           if (loanTaker == null)
-	       {
-                loanTaker = AddDirectoryLoanTaker(loanTakerName);
-	       };
+            DirectoryLoanTaker loanTaker = null;
+
+            if (loanTakerName != null)
+            {
+                loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
+
+                if (loanTaker == null)
+                {
+                    loanTaker = AddDirectoryLoanTaker(loanTakerName);
+                };
+            }
 
             var infoSafe = new InfoSafe
             {
                 DateLoan = date,
                 DirectoryLoanTaker = loanTaker,
+                DirectoryWorker = directoryWorker,
                 Summ = summ,
                 CountPayments = countPayments != 0 ? countPayments : default(int?),
-                Description = description
+                Description = description,
             };
 
             _dc.InfoSafes.Add(infoSafe);
             _dc.SaveChanges();
 
+            if (loanTakerName == null && countPayments != 0)
+            {
+                double onePaySumm = Math.Round(summ / countPayments, 0);
+                var infoPayment = new InfoPayment
+                {
+                    Date = date,
+                    Summ = onePaySumm,
+                    InfoSafeId = infoSafe.Id
+                };
+                _dc.InfoPayments.Add(infoPayment);
+
+                for (int i = 1; i < countPayments; i++)
+                {
+                    DateTime tmpDate = date.AddMonths(i);
+                    infoPayment = new InfoPayment
+                    {
+                        Date = new DateTime(tmpDate.Year, tmpDate.Month, 1),
+                        Summ = onePaySumm,
+                        InfoSafeId = infoSafe.Id
+                    };
+
+                    _dc.InfoPayments.Add(infoPayment);
+                }
+
+                _dc.SaveChanges();
+
+                EditInfoMonthPayment(directoryWorker.Id, date, "PrepaymentCash", onePaySumm);
+            }
+
+
             return infoSafe;
         }
 
-        public InfoSafe EditInfoSafe(int id, DateTime date, string loanTakerName, double summ, int countPayments, string description)
+        public InfoSafe EditInfoSafe(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
         {
-            var loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
-            if (loanTaker == null)
+            DirectoryLoanTaker loanTaker = null;
+
+            if (loanTakerName != null)
             {
-                loanTaker = AddDirectoryLoanTaker(loanTakerName);
-            };
+                loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
+
+                if (loanTaker == null)
+                {
+                    loanTaker = AddDirectoryLoanTaker(loanTakerName);
+                };
+            }
 
             var infoSafe = _dc.InfoSafes.Find(id);
             infoSafe.DateLoan = date;
             infoSafe.DirectoryLoanTaker = loanTaker;
+            infoSafe.DirectoryWorker = directoryWorker;
             infoSafe.Summ = summ;
             infoSafe.CountPayments = countPayments != 0 ? countPayments : default(int?);
             infoSafe.Description = description;
@@ -2411,7 +2485,40 @@ namespace AIS_Enterprise_Global.Models
 
         #endregion
 
+        #region InfoPayments
+
+        public IQueryable<InfoPayment> GetInfoPayments(int infoSafeId)
+        {
+            return _dc.InfoPayments.Where(p => p.InfoSafeId == infoSafeId).OrderBy(p => p.Date);
+        }
+
+        public InfoPayment AddInfoPayment(int infoSafeId, DateTime date, double summ)
+        {
+            var infoPayment = new InfoPayment
+            {
+                Date = date,
+                Summ = summ,
+                InfoSafeId = infoSafeId
+            };
+
+            _dc.InfoPayments.Add(infoPayment);
+
+            _dc.SaveChanges();
+
+            return infoPayment;
+        }
+
+        public void RemoveInfoPayment(InfoPayment selectedInfoPayment)
+        {
+            _dc.InfoPayments.Remove(selectedInfoPayment);
+            _dc.SaveChanges();
+        }
+
+        #endregion
 
 
+
+
+       
     }
 }

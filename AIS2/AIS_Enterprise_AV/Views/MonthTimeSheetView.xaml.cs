@@ -678,6 +678,7 @@ namespace AIS_Enterprise_AV.Views
                             }
                         }
 
+                        double maxOverTime = 0;
                         double sumOverTimes = 0;
                         int countOverTimedWorkers = 0;
                         foreach (var monthTimeSheetWorkerTemp in _monthTimeSheetWorkers.Where(w => !w.IsDeadSpirit))
@@ -692,18 +693,30 @@ namespace AIS_Enterprise_AV.Views
                                     {
                                         if (hourValue > 8)
                                         {
+                                            if (maxOverTime < hourValue - 8)
+                                            {
+                                                maxOverTime = hourValue - 8;
+                                            }
+
                                             sumOverTimes += hourValue - 8;
                                             countOverTimedWorkers++;
                                         }
                                     }
                                     else
                                     {
+                                        if (maxOverTime < hourValue)
+                                        {
+                                            maxOverTime = hourValue;
+                                        }
+
                                         sumOverTimes += hourValue;
                                         countOverTimedWorkers++;
                                     }
                                 }
                             }
                         }
+
+                        _bc.EditInfoOverTime(date, maxOverTime);
 
                         double hoursSpiritWorker;
                         if (!isWeekend)

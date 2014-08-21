@@ -20,7 +20,7 @@
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Background</UpdateMode>
+    <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
@@ -32,7 +32,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>28</ApplicationRevision>
+    <ApplicationRevision>31</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -182,10 +182,12 @@
     <Compile Include="ViewModels\Directories\DirectoryRCViewModel.cs" />
     <Compile Include="ViewModels\Helpers\InitializingDBViewModel.cs" />
     <Compile Include="ViewModels\Helpers\MonthReportViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoPaymentViewModel.cs" />
     <Compile Include="ViewModels\Infos\EditInfoSafeViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddInfoSafeViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseInfoSafeViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPaymentsViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoSafeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Directories\DirectoryRCView.xaml.cs">
@@ -199,6 +201,12 @@
     </Compile>
     <Compile Include="Views\Infos\AddEditInfoSafeView.xaml.cs">
       <DependentUpon>AddEditInfoSafeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddInfoPaymentView.xaml.cs">
+      <DependentUpon>AddInfoPaymentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoPaymentsView.xaml.cs">
+      <DependentUpon>InfoPaymentsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoKeepingMoneyView.xaml.cs">
       <DependentUpon>InfoKeepingMoneyView.xaml</DependentUpon>
@@ -291,6 +299,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Infos\AddInfoPaymentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\InfoPaymentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Infos\InfoKeepingMoneyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -336,11 +352,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 и x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>Клиентский профиль .NET Framework 3.5 с пакетом обновления 1 %28SP1%29</ProductName>
@@ -377,8 +388,8 @@
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Auto</PublishState>
-      <IncludeHash>False</IncludeHash>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Microsoft.SqlServer.Types">
@@ -387,8 +398,8 @@
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Auto</PublishState>
-      <IncludeHash>False</IncludeHash>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

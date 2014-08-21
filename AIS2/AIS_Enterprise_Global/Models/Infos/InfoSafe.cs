@@ -12,8 +12,12 @@ namespace AIS_Enterprise_Global.Models.Infos
     public class InfoSafe
     {
         public int Id { get; set; }
-        public int DirectoryLoanTakerId { get; set; }
+        
+        public int? DirectoryLoanTakerId { get; set; }
         public virtual DirectoryLoanTaker DirectoryLoanTaker { get; set; }
+
+        public int? DirectoryWorkerId { get; set; }
+        public virtual DirectoryWorker DirectoryWorker { get; set; }
        
         public double Summ { get; set; }
         public int? CountPayments { get; set; }
@@ -21,10 +25,9 @@ namespace AIS_Enterprise_Global.Models.Infos
         public DateTime DateLoan { get; set; }
         public DateTime? DateLoanPayment { get; set; }
 
-     
-
         public virtual IEnumerable<InfoPayment> InfoPayments { get; set; }
-        [MaxLength (512) ]
+
+        [MaxLength(512)]
         public string  Description { get; set; }
 
         public InfoSafe()
@@ -44,6 +47,15 @@ namespace AIS_Enterprise_Global.Models.Infos
                 }
 
                 return Summ - summPayments;
+            }
+        }
+
+        [NotMapped]
+        public string LoanTakerName
+        {
+            get
+            {
+                return DirectoryWorkerId != null ? DirectoryWorker.FullName : DirectoryLoanTaker.Name;
             }
         }
     }
