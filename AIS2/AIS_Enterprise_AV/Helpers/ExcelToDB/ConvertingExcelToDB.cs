@@ -1,7 +1,7 @@
 ﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Models;
-using AIS_Enterprise_Global.Models.Currents;
-using AIS_Enterprise_Global.Models.Infos;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_Data.Infos;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using EntityFramework.BulkInsert.Extensions;
-using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Data.Directories;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {

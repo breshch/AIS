@@ -1,5 +1,5 @@
 ﻿using AIS_Enterprise_Global.Helpers.Attributes;
-using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,7 +1,7 @@
 ﻿using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Migrations;
-using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

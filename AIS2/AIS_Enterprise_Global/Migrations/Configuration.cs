@@ -1,9 +1,9 @@
 namespace AIS_Enterprise_Global.Migrations
 {
-    using AIS_Enterprise_Global.Models;
-    using AIS_Enterprise_Global.Models.Directories;
-    using AIS_Enterprise_Global.Models.Helpers;
-    using AIS_Enterprise_Global.Models.Infos;
+    using AIS_Enterprise_Data;
+    using AIS_Enterprise_Data.Directories;
+    using AIS_Enterprise_Data.Helpers;
+    using AIS_Enterprise_Data.Infos;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;

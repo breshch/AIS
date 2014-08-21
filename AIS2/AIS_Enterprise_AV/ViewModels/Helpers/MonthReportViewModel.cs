@@ -1,6 +1,6 @@
 ﻿using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

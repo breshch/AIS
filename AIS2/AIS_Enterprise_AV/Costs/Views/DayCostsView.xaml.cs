@@ -1,6 +1,6 @@
-﻿using AIS_Enterprise_Global.Models;
-using AIS_Enterprise_Global.Models.Directories;
-using AIS_Enterprise_Global.Models.Infos;
+﻿using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Infos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Data.Temps;
 
 namespace AIS_Enterprise_AV.Costs.Views
 {

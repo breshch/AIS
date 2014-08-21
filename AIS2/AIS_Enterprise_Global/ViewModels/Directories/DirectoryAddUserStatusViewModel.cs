@@ -1,7 +1,7 @@
 ﻿using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Global.Models.Currents;
-using AIS_Enterprise_Global.Models.Directories;
+using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.ViewModels.Directories.Base;
 using System;
 using System.Collections.Generic;

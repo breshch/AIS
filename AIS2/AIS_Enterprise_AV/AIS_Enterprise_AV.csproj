@@ -32,7 +32,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>31</ApplicationRevision>
+    <ApplicationRevision>32</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -260,6 +260,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIS_Enterprise_Data\AIS_Enterprise_Data.csproj">
+      <Project>{3eea2c83-692b-4667-ac2b-fffd38710687}</Project>
+      <Name>AIS_Enterprise_Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AIS_Enterprise_Global\AIS_Enterprise_Global.csproj">
       <Project>{462b227c-3bd2-42c2-af7f-7a6d3a1f6f27}</Project>
       <Name>AIS_Enterprise_Global</Name>

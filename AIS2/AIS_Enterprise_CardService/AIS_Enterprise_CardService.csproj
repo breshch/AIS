@@ -67,6 +67,12 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIS_Enterprise_Data\AIS_Enterprise_Data.csproj">
+      <Project>{3eea2c83-692b-4667-ac2b-fffd38710687}</Project>
+      <Name>AIS_Enterprise_Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

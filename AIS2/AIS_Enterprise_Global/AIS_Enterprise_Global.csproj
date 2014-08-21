@@ -74,15 +74,11 @@
     <Compile Include="Helpers\AttachedProperties.cs" />
     <Compile Include="Helpers\Attributes\DoubleValueAttribute.cs" />
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
-    <Compile Include="Helpers\DBCustomQueries.cs" />
-    <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\Global.cs" />
-    <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\DataGridHelper.cs" />
+    <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\PropertyChangedBase.cs" />
-    <Compile Include="Helpers\Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Helpers\Temps\PrivilegeTempViewModel.cs" />
-    <Compile Include="Helpers\Temps\Transport.cs" />
     <Compile Include="Helpers\ValueConverters\PostToShortPostValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\DoubleToCurrencyValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\BooleanToStringValueConverter.cs" />
@@ -93,39 +89,6 @@
     <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Currents\CurrentNote.cs" />
-    <Compile Include="Models\Currents\CurrentPost.cs" />
-    <Compile Include="Models\Currents\CurrentRC.cs" />
-    <Compile Include="Models\Currents\CurrentUserStatus.cs" />
-    <Compile Include="Models\Currents\CurrentUserStatusPrivilege.cs" />
-    <Compile Include="Models\Directories\DirectoryCompany.cs" />
-    <Compile Include="Models\Directories\DirectoryCostItem.cs" />
-    <Compile Include="Models\Directories\DirectoryHoliday.cs" />
-    <Compile Include="Models\Directories\DirectoryKeepingDescription.cs" />
-    <Compile Include="Models\Directories\DirectoryKeepingName.cs" />
-    <Compile Include="Models\Directories\DirectoryLoanTaker.cs" />
-    <Compile Include="Models\Directories\DirectoryNote.cs" />
-    <Compile Include="Models\Directories\DirectoryPhoto.cs" />
-    <Compile Include="Models\Directories\DirectoryPost.cs" />
-    <Compile Include="Models\Directories\DirectoryRC.cs" />
-    <Compile Include="Models\Directories\DirectoryTransportCompany.cs" />
-    <Compile Include="Models\Directories\DirectoryTypeOfPost.cs" />
-    <Compile Include="Models\Directories\DirectoryUser.cs" />
-    <Compile Include="Models\Directories\DirectoryUserStatus.cs" />
-    <Compile Include="Models\Directories\DirectoryUserStatusPrivilege.cs" />
-    <Compile Include="Models\Directories\DirectoryWorker.cs" />
-    <Compile Include="Models\Helpers\DefaultCost.cs" />
-    <Compile Include="Models\Helpers\Log.cs" />
-    <Compile Include="Models\Helpers\Parameter.cs" />
-    <Compile Include="Models\Infos\InfoCash.cs" />
-    <Compile Include="Models\Infos\InfoCost.cs" />
-    <Compile Include="Models\Infos\InfoDate.cs" />
-    <Compile Include="Models\Infos\InfoKeepingMoney.cs" />
-    <Compile Include="Models\Infos\InfoMonth.cs" />
-    <Compile Include="Models\Infos\InfoOverTime.cs" />
-    <Compile Include="Models\Infos\InfoPanalty.cs" />
-    <Compile Include="Models\Infos\InfoPayment.cs" />
-    <Compile Include="Models\Infos\InfoSafe.cs" />
     <Compile Include="Properties\Resources.en-US.Designer.cs">
       <DependentUpon>Resources.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -252,8 +215,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Helpers\RelayCommand.cs" />
-    <Compile Include="Models\BusinessContext.cs" />
-    <Compile Include="Models\DataContext.cs" />
     <Compile Include="Helpers\ViewModelGlobal.cs" />
     <Page Include="Views\Directories\DirectoryUserStatusesView.xaml">
       <SubType>Designer</SubType>
@@ -324,6 +285,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\Currents\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIS_Enterprise_Data\AIS_Enterprise_Data.csproj">
+      <Project>{3eea2c83-692b-4667-ac2b-fffd38710687}</Project>
+      <Name>AIS_Enterprise_Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

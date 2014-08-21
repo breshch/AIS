@@ -1,5 +1,5 @@
 ﻿using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Global.Models;
+using AIS_Enterprise_Data;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIS_Enterprise_Data.Temps;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
