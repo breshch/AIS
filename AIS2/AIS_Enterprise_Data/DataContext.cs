@@ -166,8 +166,10 @@ namespace AIS_Enterprise_Data
         public DbSet<InfoCost> InfoCosts { get; set; }
         public DbSet<InfoCash> InfoCashes { get; set; }
         public DbSet<InfoKeepingMoney> InfoKeepingMoney { get; set; }
-        public DbSet<InfoSafe> InfoSafes { get; set; }
+        public DbSet<InfoLoan> InfoLoans { get; set; }
         public DbSet<InfoPayment> InfoPayments { get; set; }
+        public DbSet<InfoSafe> InfoSafes { get; set; }
+
 
 
         public DbSet<DefaultCost> DefaultCosts { get; set; }

@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿
+using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,39 +9,36 @@ using System.Windows;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
-    public class AddInfoSafeViewModel : BaseInfoSafeViewModel
+    public class AddInfoSafeViewModel : ViewModelGlobal
     {
         #region Base
 
-        public AddInfoSafeViewModel() : base()
+        public AddInfoSafeViewModel()
         {
-            Title = "Добавление";
-            AddEditName = "Добавить";
-
+            AddCommand = new RelayCommand(Add);
             SelectedDate = DateTime.Now;
-
-            IsWorker = true;
-
-            AddEditCommand = new RelayCommand(Add);
-
         }
 
         #endregion
 
+        #region Properties
+
+        public DateTime  SelectedDate { get; set; }
+        public double SummCash { get; set; }
+        #endregion
 
         #region Commands
 
+        public RelayCommand AddCommand { get; set; }
+
         private void Add(object parameter)
         {
-            BC.AddInfoSafe(SelectedDate, SelectedLoanTaker, SelectedWorker, SummLoan, CountPayments, Description);
-
+            BC.AddInfoSafe(SelectedDate, false, SummCash, CashType.Наличка);
+            
             var window = parameter as Window;
-            window.Close();
+            window.Close();    
         }
 
         #endregion
     }
 }
-
-
- 

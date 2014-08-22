@@ -1423,7 +1423,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void MenuSafe_Click(object sender, RoutedEventArgs e)
         {
-            HelperMethods.ShowView(new InfoSafeViewModel(), new InfoSafeView());   
+            HelperMethods.ShowView(new InfoBudgetViewModel(), new InfoBudgetView());   
         }
 
         private void MenuLogs_Click(object sender, RoutedEventArgs e)

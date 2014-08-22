@@ -12,6 +12,6 @@ namespace AIS_Enterprise_Data.Infos
         public double Summ { get; set; }
         public DateTime Date { get; set; }
 
-        public int InfoSafeId { get; set; }
+        public int InfoLoanId { get; set; }
     }
 }

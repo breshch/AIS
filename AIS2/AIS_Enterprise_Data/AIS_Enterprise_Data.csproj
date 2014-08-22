@@ -91,6 +91,7 @@
     <Compile Include="Infos\InfoOverTime.cs" />
     <Compile Include="Infos\InfoPanalty.cs" />
     <Compile Include="Infos\InfoPayment.cs" />
+    <Compile Include="Infos\InfoLoan.cs" />
     <Compile Include="Infos\InfoSafe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

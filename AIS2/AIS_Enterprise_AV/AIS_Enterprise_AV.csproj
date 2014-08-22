@@ -183,12 +183,13 @@
     <Compile Include="ViewModels\Helpers\InitializingDBViewModel.cs" />
     <Compile Include="ViewModels\Helpers\MonthReportViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddInfoPaymentViewModel.cs" />
-    <Compile Include="ViewModels\Infos\EditInfoSafeViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddInfoSafeViewModel.cs" />
-    <Compile Include="ViewModels\Infos\Base\BaseInfoSafeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditInfoLoanViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoLoanViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseInfoLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPaymentsViewModel.cs" />
-    <Compile Include="ViewModels\Infos\InfoSafeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoBudgetViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Directories\DirectoryRCView.xaml.cs">
       <DependentUpon>DirectoryRCView.xaml</DependentUpon>
@@ -199,11 +200,14 @@
     <Compile Include="Views\Helpers\MonthReportView.xaml.cs">
       <DependentUpon>MonthReportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Infos\AddEditInfoSafeView.xaml.cs">
-      <DependentUpon>AddEditInfoSafeView.xaml</DependentUpon>
+    <Compile Include="Views\Infos\AddEditInfoLoanView.xaml.cs">
+      <DependentUpon>AddEditInfoLoanView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\AddInfoPaymentView.xaml.cs">
       <DependentUpon>AddInfoPaymentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddInfoSafeView.xaml.cs">
+      <DependentUpon>AddInfoSafeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoPaymentsView.xaml.cs">
       <DependentUpon>InfoPaymentsView.xaml</DependentUpon>
@@ -214,8 +218,8 @@
     <Compile Include="Views\Infos\InfoOverTimeView.xaml.cs">
       <DependentUpon>InfoOverTimeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Infos\InfoSafeView.xaml.cs">
-      <DependentUpon>InfoSafeView.xaml</DependentUpon>
+    <Compile Include="Views\Infos\InfoBudgetView.xaml.cs">
+      <DependentUpon>InfoBudgetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -299,11 +303,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Infos\AddEditInfoSafeView.xaml">
+    <Page Include="Views\Infos\AddEditInfoLoanView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\AddInfoPaymentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\AddInfoSafeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,7 +327,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Infos\InfoSafeView.xaml">
+    <Page Include="Views\Infos\InfoBudgetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

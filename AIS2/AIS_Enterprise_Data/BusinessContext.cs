@@ -1587,12 +1587,12 @@ namespace AIS_Enterprise_Data
 
         private void InitializeWorkerLoanPayments(DirectoryWorker worker, InfoMonth infoMonth)
         {
-            var infoSafes = _dc.InfoSafes.Where(s => s.DirectoryWorkerId == worker.Id && s.DateLoanPayment == null).ToList();
+            var infoSafes = _dc.InfoLoans.Where(s => s.DirectoryWorkerId == worker.Id && s.DateLoanPayment == null).ToList();
             if (infoSafes.Any())
             {
                 foreach (var safe in infoSafes)
                 {
-                    var payments = _dc.InfoPayments.Where(p => p.InfoSafeId == safe.Id).ToList();
+                    var payments = _dc.InfoPayments.Where(p => p.InfoLoanId == safe.Id).ToList();
                     if (payments.Any())
                     {
                         var payment = payments.FirstOrDefault(p => p.Date.Date == infoMonth.Date.Date);
@@ -2143,9 +2143,9 @@ namespace AIS_Enterprise_Data
         #endregion
 
 
-        #region InfoSafe
+        #region InfoLoan
 
-        public InfoSafe AddInfoSafe(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        public InfoLoan AddInfoLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
         {
             DirectoryLoanTaker loanTaker = null;
 
@@ -2159,7 +2159,7 @@ namespace AIS_Enterprise_Data
                 };
             }
 
-            var infoSafe = new InfoSafe
+            var infoLoan = new InfoLoan
             {
                 DateLoan = date,
                 DirectoryLoanTaker = loanTaker,
@@ -2169,7 +2169,7 @@ namespace AIS_Enterprise_Data
                 Description = description,
             };
 
-            _dc.InfoSafes.Add(infoSafe);
+            _dc.InfoLoans.Add(infoLoan);
             _dc.SaveChanges();
 
             if (loanTakerName == null && countPayments != 0)
@@ -2179,7 +2179,7 @@ namespace AIS_Enterprise_Data
                 {
                     Date = date,
                     Summ = onePaySumm,
-                    InfoSafeId = infoSafe.Id
+                    InfoLoanId = infoLoan.Id
                 };
                 _dc.InfoPayments.Add(infoPayment);
 
@@ -2190,7 +2190,7 @@ namespace AIS_Enterprise_Data
                     {
                         Date = new DateTime(tmpDate.Year, tmpDate.Month, 1),
                         Summ = onePaySumm,
-                        InfoSafeId = infoSafe.Id
+                        InfoLoanId = infoLoan.Id
                     };
 
                     _dc.InfoPayments.Add(infoPayment);
@@ -2202,10 +2202,10 @@ namespace AIS_Enterprise_Data
             }
 
 
-            return infoSafe;
+            return infoLoan;
         }
 
-        public InfoSafe EditInfoSafe(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        public InfoLoan EditInfoLoan(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
         {
             DirectoryLoanTaker loanTaker = null;
 
@@ -2219,34 +2219,34 @@ namespace AIS_Enterprise_Data
                 };
             }
 
-            var infoSafe = _dc.InfoSafes.Find(id);
-            infoSafe.DateLoan = date;
-            infoSafe.DirectoryLoanTaker = loanTaker;
-            infoSafe.DirectoryWorker = directoryWorker;
-            infoSafe.Summ = summ;
-            infoSafe.CountPayments = countPayments != 0 ? countPayments : default(int?);
-            infoSafe.Description = description;
+            var infoLoan = _dc.InfoLoans.Find(id);
+            infoLoan.DateLoan = date;
+            infoLoan.DirectoryLoanTaker = loanTaker;
+            infoLoan.DirectoryWorker = directoryWorker;
+            infoLoan.Summ = summ;
+            infoLoan.CountPayments = countPayments != 0 ? countPayments : default(int?);
+            infoLoan.Description = description;
 
             _dc.SaveChanges();
 
-            return infoSafe;
+            return infoLoan;
         }
 
-        public void RemoveInfoSafe(InfoSafe selectedInfoSafe)
+        public void RemoveInfoLoan(InfoLoan selectedInfoLoan)
         {
-            _dc.InfoSafes.Remove(selectedInfoSafe);
+            _dc.InfoLoans.Remove(selectedInfoLoan);
             _dc.SaveChanges();
         }
 
-        public IQueryable<InfoSafe> GetInfoSafes(DateTime date)
+        public IQueryable<InfoLoan> GetInfoLoans(DateTime date)
         {
-            return _dc.InfoSafes.Where(s => DbFunctions.DiffDays(s.DateLoan, date) >= 0 &&
+            return _dc.InfoLoans.Where(s => DbFunctions.DiffDays(s.DateLoan, date) >= 0 &&
                 (s.DateLoanPayment == null || s.DateLoanPayment != null && DbFunctions.DiffDays(s.DateLoanPayment.Value, date) <= 0)).OrderByDescending(s => s.DateLoan);
         }
 
         public double GetLoans()
         {
-            return _dc.InfoSafes.Where(s => s.DateLoanPayment == null).ToList().Sum(s => s.RemainingSumm);
+            return _dc.InfoLoans.Where(s => s.DateLoanPayment == null).ToList().Sum(s => s.RemainingSumm);
         }
 
         #endregion
@@ -2488,11 +2488,12 @@ namespace AIS_Enterprise_Data
 
         #endregion
 
+       
         #region InfoPayments
 
         public IQueryable<InfoPayment> GetInfoPayments(int infoSafeId)
         {
-            return _dc.InfoPayments.Where(p => p.InfoSafeId == infoSafeId).OrderBy(p => p.Date);
+            return _dc.InfoPayments.Where(p => p.InfoLoanId == infoSafeId).OrderBy(p => p.Date);
         }
 
         public InfoPayment AddInfoPayment(int infoSafeId, DateTime date, double summ)
@@ -2501,7 +2502,7 @@ namespace AIS_Enterprise_Data
             {
                 Date = date,
                 Summ = summ,
-                InfoSafeId = infoSafeId
+                InfoLoanId = infoSafeId
             };
 
             _dc.InfoPayments.Add(infoPayment);
@@ -2520,6 +2521,7 @@ namespace AIS_Enterprise_Data
         #endregion
 
 
+        #region Random
         private const string _serversPath = "Settings\\Servers.txt";
 
         private static readonly Random getrandom = new Random();
@@ -2530,7 +2532,43 @@ namespace AIS_Enterprise_Data
             {
                 return getrandom.Next(min, max);
             }
+        } 
+        #endregion
+
+
+
+        #region InfoSafe
+
+        public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, CashType cashType)
+        {
+            var infoSafe = new InfoSafe 
+            {
+                Date = date,
+                IsIncoming = isIncoming,
+                Summ = summCash,
+                CashType = cashType
+            };
+
+            _dc.InfoSafes.Add(infoSafe);
+            _dc.SaveChanges();
+            
+            return infoSafe;
         }
+
+        public IQueryable<InfoSafe> GetInfoSafes()
+        {
+            return _dc.InfoSafes.OrderByDescending(s => s.Date);
+        }
+
+        public void RemoveInfoSafe(InfoSafe infoSafe)
+        {
+            _dc.InfoSafes.Remove(infoSafe);
+            _dc.SaveChanges();
+        }
+
+        #endregion
+
+
 
        
     }

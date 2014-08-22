@@ -24,8 +24,7 @@ namespace GasStatusService
 
         protected override void OnStart(string[] args)
         {
-            //Task.Factory.StartNew(GetBalance);
-            SendSMS("huy", "qeryhabe@sms.ru");
+            Task.Factory.StartNew(GetBalance);
         }
 
         protected override void OnStop()
@@ -65,33 +64,33 @@ namespace GasStatusService
 
                     if (balance < 10000)
                     {
-                        string message = "Баланс за ГСМ по Логистикону = " + balance + ". Пожалуйста, пополните баланс.";
-                        
-                        SendSMS(message, "c476ba9f-ed2c-efb4-a912-d8628af89af7+79264323519@sms.ru");
-                        SendSMS(message, "362a7ed6-018c-16b4-756a-f6ec487b3d2a+79268613825@sms.ru");
-                        SendSMS(message, "6feba375-3c8e-dd94-19e6-d69cdc52f385+79035423769@sms.ru");
+                        string message = "Баланс за ГСМ по Логистикону = " + balance;
+
+                        SendSMS(message, "qeryhabe@sms.ru", "79264323519");
+                        SendSMS(message, "5eqyqudu@sms.ru", "79268613825");
+                        SendSMS(message, "zysezyry@sms.ru", "79035423769");
                     }
 
-                    using (var sw = new StreamWriter(@"D:\C#\AIS2\GasStatusService\bin\Release\index.txt"))
-                    {
-                        sw.WriteLine(balance.ToString());
-                    }
+                    //using (var sw = new StreamWriter(@"D:\C#\AIS2\GasStatusService\bin\Release\index.txt"))
+                    //{
+                    //    sw.WriteLine(balance.ToString());
+                    //}
 
                     Thread.Sleep(1000 * 60 * 60 * 5);
                 }
             }
             catch (Exception ex)
             {
-                using (var sw = new StreamWriter(@"E:\C#\AIS2\GasStatusService\bin\Debug\error.txt"))
-                {
-                    sw.WriteLine(ex.ToString());
-                }
+                //using (var sw = new StreamWriter(@"E:\C#\AIS2\GasStatusService\bin\Debug\error.txt"))
+                //{
+                //    sw.WriteLine(ex.ToString());
+                //}
             }
 
-            Environment.Exit(0);
+            //Environment.Exit(0);
         }
 
-        private static void SendSMS(string info, string email)
+        private static void SendSMS(string info, string email, string phone)
         {
             try
             {
@@ -105,7 +104,7 @@ namespace GasStatusService
                 var message = new MailMessage
                 {
                     From = new MailAddress("breshch@mail.ru"),
-                    Subject = "79264323519",
+                    Subject = phone,
                     Body = info
                 };
                 message.To.Add(new MailAddress(email));
@@ -115,32 +114,6 @@ namespace GasStatusService
             catch (Exception ex)
             {
                 
-            }
-        }
-
-        private static void SendSMS2(string info)
-        {
-            try
-            {
-                var client = new SmtpClient("smtp.mail.ru", 587)
-                {
-                    Credentials = new NetworkCredential("robosdk@mail.ru", "qwertyqwerty"),
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network
-                };
-
-                var message = new MailMessage
-                {
-                    From = new MailAddress("robosdk@mail.ru"),
-                    Subject = "79228572097",
-                    Body = info
-                };
-                message.To.Add(new MailAddress("347c43ed-464d-c7f4-c946-92545aaca394@sms.ru"));
-
-                client.Send(message);
-            }
-            catch (Exception ex)
-            {
             }
         }
     }

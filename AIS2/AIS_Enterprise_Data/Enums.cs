@@ -101,4 +101,10 @@ namespace AIS_Enterprise_Global.Helpers
         Info,
         Fatal
     }
+
+    public enum CashType
+    {
+        Наличка,
+        Карточка
+    }
 }
