@@ -1,4 +1,6 @@
-﻿using MailKit;
+﻿using AIS_Enterprise_Data;
+using AIS_Enterprise_Global.Helpers;
+using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
@@ -11,15 +13,22 @@ using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AIS_Enterprise_CardService
 {
     public partial class CardService : ServiceBase
     {
+        private BusinessContext _bc;
+
         public CardService()
         {
             InitializeComponent();
+
+            DataContext.ChangeServerAndDataBase("95.31.130.52", "AV_New_Dev");
+            DataContext.ChangeUser("Breshchenko", "3179");
+            _bc = new BusinessContext();
         }
 
         protected override void OnStart(string[] args)
@@ -28,50 +37,72 @@ namespace AIS_Enterprise_CardService
                 {
                     try
                     {
-                        using (var client = new ImapClient())
+                        while (true)
                         {
-                            client.Connect("imap.gmail.com", 993, true);
+                            //_bc.EditParameter("TotalCard", "121874,57");
 
-                            // Note: since we don't have an OAuth2 token, disable
-                            // the XOAUTH2 authentication mechanism.
-                            client.AuthenticationMechanisms.Remove("XOAUTH");
-
-                            client.Authenticate("breshch", "Mp~7200~aA");
-
-                            // let's search for all messages received after Jan 12, 2013 with "MailKit" in the subject...
-                            var query = SearchQuery.DeliveredAfter(DateTime.Now.AddDays(-1)).And(SearchQuery.All);
-
-                            // The Inbox folder is always available on all IMAP servers...
-                            var psbFolder = client.GetFolder("PSB");
-                            psbFolder.Open(FolderAccess.ReadOnly);
-
-                            using (var sw = new StreamWriter(@"D:\C#\AIS2\AIS_Enterprise_CardService\bin\Debug\mails.txt"))
+                            using (var client = new ImapClient())
                             {
+                                client.Connect("imap.gmail.com", 993, true);
+
+                                client.AuthenticationMechanisms.Remove("XOAUTH");
+
+                                client.Authenticate("breshch", "Mp~7200~aA");
+
+                                var query = SearchQuery.DeliveredAfter(DateTime.Now.AddDays(-1)).And(SearchQuery.All);
+
+                                var psbFolder = client.GetFolder("PSB");
+                                psbFolder.Open(FolderAccess.ReadOnly);
+
+
+                                var mails = new List<Mail>();
 
                                 foreach (var uid in psbFolder.Search(query))
                                 {
-                                    var textPart = psbFolder.GetMessage(uid).BodyParts.First() as TextPart;
-                                    sw.WriteLine(textPart.GetText(Encoding.UTF8));
+                                    var message = psbFolder.GetMessage(uid);
+                                    var textPart = message.BodyParts.First() as TextPart;
+
+                                    var mail = new Mail
+                                    {
+                                        Date = message.Date.LocalDateTime,
+                                        Body = textPart.GetText(Encoding.UTF8)
+                                    };
+                                    mails.Add(mail);
                                 }
 
-                                //sw.WriteLine("Total messages: {0}", psbFolder.Count);
-                                //sw.WriteLine("Recent messages: {0}", psbFolder.Recent);
+                                using (var sw = new StreamWriter(@"D:\C#\AIS2\AIS_Enterprise_CardService\bin\Debug\mails.txt", true))
+                                {
+                                    foreach (var mail in mails)
+                                    {
+                                        string availableName = mail.Body.IndexOf("Dostupno") != -1 ? "Dostupno" : "Доступно";
 
-                                //for (int i = 0; i < psbFolder.Count; i++)
-                                //{
-                                //    var message = psbFolder.GetMessage(i);
-                                //    sw.WriteLine("Subject: {0}", message.Subject);
-                                //}
+                                        string availableSummString = mail.Body.Substring(mail.Body.IndexOf(availableName) + 9, mail.Body.LastIndexOf("RUR") - 1 - (mail.Body.IndexOf(availableName) + 9)).
+                                            Replace(".", ",").Replace(" ", "");
+
+                                        double availableSumm = double.Parse(availableSummString);
+
+                                        int indexSemicolon = mail.Body.IndexOf(";");
+                                        indexSemicolon = mail.Body.IndexOf(";", indexSemicolon + 1);
+
+                                        string description = mail.Body.Substring(indexSemicolon + 1, mail.Body.IndexOf(availableName) - 1 - (indexSemicolon + 1));
+
+                                        _bc.AddInfoSafeCard(mail.Date, availableSumm, description);
+
+                                        sw.WriteLine(DateTime.Now + "\t" + mail.Date + "\t" + availableSumm + "\t" + description);
+                                    }
+                                }
+
+                                client.Disconnect(true);
                             }
 
-                            client.Disconnect(true);
+                            Thread.Sleep(1000 * 60 * 60 * 3);
                         }
                     }
                     catch (Exception ex)
                     {
                         using (var sw = new StreamWriter(@"D:\C#\AIS2\AIS_Enterprise_CardService\bin\Debug\errors.txt", true))
                         {
-                            sw.WriteLine(ex);
+                            sw.WriteLine(DateTime.Now + "\t" + ex);
                         }
                     }
 
@@ -81,6 +112,10 @@ namespace AIS_Enterprise_CardService
 
         protected override void OnStop()
         {
+            if (_bc != null)
+            {
+                _bc.Dispose();
+            }
         }
     }
 }

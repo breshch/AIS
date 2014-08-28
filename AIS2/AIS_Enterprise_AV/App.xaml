@@ -39,5 +39,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style TargetType="DataGrid">
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#FFe8f4fa"/>
+            <Setter Property="AlternationCount" Value="2"/>
+        </Style>
     </Application.Resources>
 </Application>

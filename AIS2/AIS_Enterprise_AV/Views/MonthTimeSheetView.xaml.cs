@@ -76,6 +76,7 @@ namespace AIS_Enterprise_AV.Views
             InitializeComponent();
 
             ScreenWight();
+            //_bc.EditParameter("TotalCard", "121874,57");
 
             //_bc.EditParameter("LastDate", DateTime.Now.AddDays(-3).ToString());
             //Notes to upper 

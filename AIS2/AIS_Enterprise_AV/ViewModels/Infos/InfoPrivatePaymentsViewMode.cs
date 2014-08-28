@@ -10,31 +10,31 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
-    public class InfoPaymentsViewModel :ViewModelGlobal
+    public class InfoPrivatePaymentsViewModel :ViewModelGlobal
     {
 
         #region Base
-        private int _infoLoanId;
-        public InfoPaymentsViewModel (int infoLoanId)
+        private int _infoPrivateLoanId;
+        public InfoPrivatePaymentsViewModel (int infoPrivateLoanid)
 	    {
 
             AddCommand = new RelayCommand(Add);
-            RemoveCommand = new RelayCommand(Remove, IsSelectedPayment);
-            _infoLoanId = infoLoanId;
+            RemoveCommand = new RelayCommand(Remove, IsSelectedPrivatePayment);
+            _infoPrivateLoanId = infoPrivateLoanid;
 
             RefreshPayments();
 	    }
 
         private void RefreshPayments()
         {
-            InfoPayments = new ObservableCollection<InfoPayment>(BC.GetInfoPayments(_infoLoanId));
+            InfoPayments = new ObservableCollection<InfoPrivatePayment>(BC.GetInfoPrivatePayments(_infoPrivateLoanId));
         }
         #endregion
 
         #region Properties
 
-        public ObservableCollection<InfoPayment> InfoPayments { get; set; }
-        public InfoPayment SelectedInfoPayment { get; set; }
+        public ObservableCollection<InfoPrivatePayment> InfoPayments { get; set; }
+        public InfoPrivatePayment SelectedInfoPayment { get; set; }
 
        
         #endregion
@@ -46,17 +46,17 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Add (object parameter)
         {
-            HelperMethods.ShowView(new AddInfoPaymentViewModel(_infoLoanId), new AddInfoPaymentView());
+            HelperMethods.ShowView(new AddInfoPrivatePaymentViewModel(_infoPrivateLoanId), new AddInfoPaymentView());
             RefreshPayments();
         }
 
         private void Remove (object parameter)
         {
-            BC.RemoveInfoPayment(SelectedInfoPayment);
+            BC.RemoveInfoPrivatePayment(SelectedInfoPayment);
             RefreshPayments();
         }
 
-        private bool IsSelectedPayment(object parameter)
+        private bool IsSelectedPrivatePayment(object parameter)
         {
             return SelectedInfoPayment != null;
         }

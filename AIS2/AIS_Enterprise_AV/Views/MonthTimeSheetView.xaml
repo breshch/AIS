@@ -124,7 +124,7 @@
                     <DataGridTextColumn x:Name="MonthTimeSheetCompensation" Binding="{Binding Compensation}" Header="Компе нсация" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetVocationPayment" Binding="{Binding VocationPayment}" Header="Отпуск Б" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetCardAV" Binding="{Binding CardAV}" Header="Б/Р АВ" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetCardFenox" Binding="{Binding CardFenox}" Header=" Б/Р Фенокс" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetCardFenox" Binding="{Binding CardFenox}" Header="   Б/Р Фенокс" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetPanalty" Binding="{Binding Panalty}" Header="Штраф" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetInventory" Binding="{Binding Inventory}" Header="Пере учет" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetBirthDays" Binding="{Binding BirthDays}" Header="Д/Р" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed"/>

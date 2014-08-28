@@ -8,16 +8,16 @@ using System.Windows;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
-    public class AddInfoPaymentViewModel : ViewModelGlobal
+    public class AddInfoPrivatePaymentViewModel : ViewModelGlobal
     {
         #region Base
-        private int _infoLoanId;
-        public AddInfoPaymentViewModel(int infoLoanId)
+        private int _infoPrivateLoanId;
+        public AddInfoPrivatePaymentViewModel(int infoPrivateLoanId)
         {
             SelectedDateLoanPayment = DateTime.Now;
 
             PayCommand = new RelayCommand(Pay);
-            _infoLoanId = infoLoanId;
+            _infoPrivateLoanId = infoPrivateLoanId;
         }
         #endregion
 
@@ -33,7 +33,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Pay(object parameter)
         {
-            BC.AddInfoPayment(_infoLoanId, SelectedDateLoanPayment, SummLoanPayment);
+            BC.AddInfoPrivatePayment(_infoPrivateLoanId, SelectedDateLoanPayment, SummLoanPayment);
           
             var window = parameter as Window;
             window.Close();

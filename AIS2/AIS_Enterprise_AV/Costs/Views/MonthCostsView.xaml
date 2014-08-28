@@ -46,11 +46,10 @@
         <Grid Grid.Row="0">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150*"/>
-                <ColumnDefinition Width="150*"/>
-                <ColumnDefinition Width="150*"/>
-                <ColumnDefinition Width="250*"/>
-                <ColumnDefinition Width="390*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0, 0, 10, 0" >
@@ -66,9 +65,6 @@
             <Button Grid.Column="2" Content="Фильтр" Command="{Binding FilterCommand}" CommandParameter="{Binding ElementName=FilterGrid}" Margin="30, 16, 0, 2"/>
 
             <Button Grid.Column="3" Content="{Binding ReturnName}" Command="{Binding ReturnCommand}" Margin="30, 16, 0, 2" Visibility="{Binding ReturnButtonVisibility}"/>
-
-            <TextBlock Grid.Column="4" Text="{Binding Cash}" Visibility="{Binding VisibilityCash}" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" Foreground="DarkGray" Margin="0, 5, 0, 0"/>
-
         </Grid>
 
         <Grid Grid.Row="1" x:Name="FilterGrid" Visibility="Collapsed" Margin="0, 10, 0, 0">
@@ -131,9 +127,8 @@
         </DataGrid>
 
         <DataGrid  Grid.Row="3" ItemsSource="{Binding Costs}" SelectedItem="{Binding SelectedCost}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="False" Margin="0, 0, 0, 0"
-                   RowBackground="White" AlternatingRowBackground="#FFe8f4fa" AlternationCount="2" helpers:DataGridHelper.IsSingleClickInCell="True"
-                   ScrollViewer.VerticalScrollBarVisibility="Visible">
+                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="False" Margin="0, 0, 0, 0"
+                   helpers:DataGridHelper.IsSingleClickInCell="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
 
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ShowDayCostsCommand}" />

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_CardService
 {
-    public class MailReader
+    public class Mail
     {
-           
+        public DateTime Date { get; set; }
+        public string Body { get; set; }
     }
 }

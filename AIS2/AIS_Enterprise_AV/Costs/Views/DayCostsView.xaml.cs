@@ -148,7 +148,7 @@ namespace AIS_Enterprise_AV.Costs.Views
             _notes = _bc.GetDirectoryNotes().ToList();
             OrderNotes();
             ComboBoxNotes_1.ItemsSource = _notes;
-            ComboBoxTransportCompanies.ItemsSource = _bc.GetDirectoryTransportCompanies().ToList();
+            ComboBoxTransportCompanies.ItemsSource =_bc.GetDirectoryTransportCompanies().ToList();
             RadioButtonExpense.IsChecked = true;
         }
 
@@ -295,7 +295,7 @@ namespace AIS_Enterprise_AV.Costs.Views
 
 
             border = new Border();
-            border.Name = "BorderBoxNotes_" + GridTransports.RowDefinitions.Count;
+            border.Name = "BorderNotes_" + GridTransports.RowDefinitions.Count;
             border.BorderThickness = new Thickness(2);
             border.BorderBrush = Brushes.Red;
             border.SetValue(Grid.ColumnProperty, 2);
@@ -373,9 +373,17 @@ namespace AIS_Enterprise_AV.Costs.Views
             NameScope.GetNameScope(WindowCosts).UnregisterName(comboBox.Name);
             GridTransports.Children.Remove(comboBox);
 
+            var border = WindowCosts.FindName("BorderRCs_" + number) as Border;
+            NameScope.GetNameScope(WindowCosts).UnregisterName(border.Name);
+            GridTransports.Children.Remove(border);
+
             comboBox = WindowCosts.FindName("ComboBoxNotes_" + number) as ComboBox;
             NameScope.GetNameScope(WindowCosts).UnregisterName(comboBox.Name);
             GridTransports.Children.Remove(comboBox);
+
+            border = WindowCosts.FindName("BorderNotes_" + number) as Border;
+            NameScope.GetNameScope(WindowCosts).UnregisterName(border.Name);
+            GridTransports.Children.Remove(border);
 
             var textBox = WindowCosts.FindName("TextBoxWeight_" + number) as TextBox;
             NameScope.GetNameScope(WindowCosts).UnregisterName(textBox.Name);

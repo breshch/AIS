@@ -83,10 +83,11 @@
     <Compile Include="Helpers\DefaultCost.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\Parameter.cs" />
-    <Compile Include="Infos\InfoCash.cs" />
     <Compile Include="Infos\InfoCost.cs" />
     <Compile Include="Infos\InfoDate.cs" />
     <Compile Include="Infos\InfoKeepingMoney.cs" />
+    <Compile Include="Infos\InfoPrivatePayment.cs" />
+    <Compile Include="Infos\InfoPrivateLoan.cs" />
     <Compile Include="Infos\InfoMonth.cs" />
     <Compile Include="Infos\InfoOverTime.cs" />
     <Compile Include="Infos\InfoPanalty.cs" />

@@ -117,10 +117,6 @@ namespace AIS_Enterprise_Data
                 InputDateToDataBase(year);
             }
 
-            var infoCash = new InfoCash { Cash = 0 };
-            _dc.InfoCashes.Add(infoCash);
-            _dc.SaveChanges();
-
             var parameterLastDate = new Parameter { Name = "LastDate", Value = DateTime.Now.ToString() };
             _dc.Parameters.Add(parameterLastDate);
 
@@ -151,9 +147,17 @@ namespace AIS_Enterprise_Data
         {
             InitializeEmptyDB();
 
-
             var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
             _dc.Parameters.Add(parameterBirthday);
+
+            var parameterSafe = new Parameter { Name = "TotalSafe", Value = "0" };
+            _dc.Parameters.Add(parameterSafe);
+
+            var parameterCard = new Parameter { Name = "TotalCard", Value = "0" };
+            _dc.Parameters.Add(parameterCard);
+
+            var parameterCash = new Parameter { Name = "TotalCash", Value = "0" };
+            _dc.Parameters.Add(parameterCash);
 
             var companyAV = new DirectoryCompany { Name = "АВ" };
             _dc.DirectoryCompanies.Add(companyAV);
@@ -1486,6 +1490,18 @@ namespace AIS_Enterprise_Data
 
         #region Parameter
 
+        public void AddParameter(string name, string value)
+        {
+            var parameter = new Parameter
+            {
+                Name = name,
+                Value = value
+            };
+
+            _dc.Parameters.Add(parameter);
+            _dc.SaveChanges();
+        }
+
         public void EditParameter(string name, string value)
         {
             _dc.Parameters.First(p => p.Name == name).Value = value;
@@ -1494,7 +1510,10 @@ namespace AIS_Enterprise_Data
 
         public T GetParameterValue<T>(string name)
         {
-            string value = _dc.Parameters.First(p => p.Name == name).Value;
+            var parameter = _dc.Parameters.First(p => p.Name == name);
+            _dc.Entry<Parameter>(parameter).Reload();
+
+            string value = parameter.Value;
 
             return (T)Convert.ChangeType(value, typeof(T));
         }
@@ -1904,8 +1923,7 @@ namespace AIS_Enterprise_Data
 
         public double GetInfoCash(int year, int month)
         {
-            var infoCash = _dc.InfoCashes.First();
-            double cash = infoCash.Cash;
+            double cash = GetParameterValue<double>("TotalCash");
 
             var infoCosts = _dc.InfoCosts.Where(c => c.Date.Year > year || (c.Date.Year == year && c.Date.Month > month)).ToList();
 
@@ -1938,8 +1956,7 @@ namespace AIS_Enterprise_Data
 
         public double GetInfoCash(DateTime date)
         {
-            var infoCash = _dc.InfoCashes.First();
-            double cash = infoCash.Cash;
+            double cash = GetParameterValue<double>("TotalCash");
 
             var infoCosts = _dc.InfoCosts.Where(c => DbFunctions.DiffDays(c.Date, date) < 0).ToList();
 
@@ -1960,14 +1977,6 @@ namespace AIS_Enterprise_Data
             double cashAfter = totalIncoming - totalExpense;
 
             return cash - cashAfter;
-        }
-
-        public void AddInfoCashSumm(double summ, bool isIncoming)
-        {
-            var infoCash = _dc.InfoCashes.First();
-            infoCash.Cash = isIncoming ? infoCash.Cash + summ : infoCash.Cash - summ;
-
-            _dc.SaveChanges();
         }
 
         #endregion
@@ -1993,7 +2002,7 @@ namespace AIS_Enterprise_Data
                     Weight = weight,
                 };
 
-                AddInfoCashSumm(infoCost.Summ, infoCost.IsIncoming);
+                AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
 
                 _dc.InfoCosts.Add(infoCost);
             }
@@ -2005,7 +2014,10 @@ namespace AIS_Enterprise_Data
                 infoCost.IsIncoming = isIncomming;
                 infoCost.Weight = weight;
 
-                AddInfoCashSumm(infoCost.Summ - prevSumm, infoCost.IsIncoming);
+                if (infoCost.Summ - prevSumm != 0)
+                {
+                    AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ - prevSumm, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
+                }
             }
 
             _dc.SaveChanges();
@@ -2087,7 +2099,7 @@ namespace AIS_Enterprise_Data
 
                     _dc.InfoCosts.Add(infoCost);
 
-                    AddInfoCashSumm(infoCost.Summ, infoCost.IsIncoming);
+                    AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
                 }
             }
             else
@@ -2106,7 +2118,7 @@ namespace AIS_Enterprise_Data
                 };
 
                 _dc.InfoCosts.Add(infoCost);
-                AddInfoCashSumm(infoCost.Summ, infoCost.IsIncoming);
+                AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
             }
 
             _dc.SaveChanges();
@@ -2115,13 +2127,14 @@ namespace AIS_Enterprise_Data
         public void RemoveInfoCost(InfoCost infoCost)
         {
             var infoCosts = GetInfoCosts(infoCost.Date).Where(c => c.GroupId == infoCost.GroupId).ToList();
-            _dc.InfoCosts.RemoveRange(infoCosts);
-            _dc.SaveChanges();
 
             foreach (var cost in infoCosts)
             {
-                AddInfoCashSumm(-cost.Summ, cost.IsIncoming);
+                AddInfoSafe(infoCost.Date, !infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " +  infoCost.ConcatNotes);
             }
+            
+            _dc.InfoCosts.RemoveRange(infoCosts);
+            _dc.SaveChanges();
         }
 
         public IEnumerable<int> GetInfoCostYears()
@@ -2251,6 +2264,110 @@ namespace AIS_Enterprise_Data
 
         #endregion
 
+        #region InfoPrivateLoan
+
+        public InfoPrivateLoan AddInfoPrivateLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        {
+            DirectoryLoanTaker loanTaker = null;
+
+            if (loanTakerName != null)
+            {
+                loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
+
+                if (loanTaker == null)
+                {
+                    loanTaker = AddDirectoryLoanTaker(loanTakerName);
+                };
+            }
+
+            var infoPrivateLoan = new InfoPrivateLoan
+            {
+                DateLoan = date,
+                DirectoryLoanTaker = loanTaker,
+                DirectoryWorker = directoryWorker,
+                Summ = summ,
+                CountPayments = countPayments != 0 ? countPayments : default(int?),
+                Description = description,
+            };
+
+            _dc.InfoPrivateLoans.Add(infoPrivateLoan);
+            _dc.SaveChanges();
+
+            if (loanTakerName == null && countPayments != 0)
+            {
+                double onePaySumm = Math.Round(summ / countPayments, 0);
+                var infoPrivatePayment = new InfoPrivatePayment
+                {
+                    Date = date,
+                    Summ = onePaySumm,
+                    InfoPrivateLoanId = infoPrivateLoan.Id
+                };
+                _dc.InfoPrivatePayments.Add(infoPrivatePayment);
+
+                for (int i = 1; i < countPayments; i++)
+                {
+                    DateTime tmpDate = date.AddMonths(i);
+                    infoPrivatePayment = new InfoPrivatePayment
+                    {
+                        Date = new DateTime(tmpDate.Year, tmpDate.Month, 1),
+                        Summ = onePaySumm,
+                        InfoPrivateLoanId = infoPrivateLoan.Id
+                    };
+
+                    _dc.InfoPrivatePayments.Add(infoPrivatePayment);
+                }
+
+                _dc.SaveChanges();
+            }
+
+            return infoPrivateLoan;
+        }
+
+        public InfoPrivateLoan EditInfoPrivateLoan(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        {
+            DirectoryLoanTaker loanTaker = null;
+
+            if (loanTakerName != null)
+            {
+                loanTaker = _dc.DirectoryLoanTakers.FirstOrDefault(l => l.Name == loanTakerName);
+
+                if (loanTaker == null)
+                {
+                    loanTaker = AddDirectoryLoanTaker(loanTakerName);
+                };
+            }
+
+            var infoPrivateLoan = _dc.InfoPrivateLoans.Find(id);
+            infoPrivateLoan.DateLoan = date;
+            infoPrivateLoan.DirectoryLoanTaker = loanTaker;
+            infoPrivateLoan.DirectoryWorker = directoryWorker;
+            infoPrivateLoan.Summ = summ;
+            infoPrivateLoan.CountPayments = countPayments != 0 ? countPayments : default(int?);
+            infoPrivateLoan.Description = description;
+
+            _dc.SaveChanges();
+
+            return infoPrivateLoan;
+        }
+
+        public void RemoveInfoPrivateLoan(InfoPrivateLoan selectedInfoPrivateLoan)
+        {
+            _dc.InfoPrivateLoans.Remove(selectedInfoPrivateLoan);
+            _dc.SaveChanges();
+        }
+
+        public IQueryable<InfoPrivateLoan> GetInfoPrivateLoans(DateTime date)
+        {
+            return _dc.InfoPrivateLoans.Where(s => DbFunctions.DiffDays(s.DateLoan, date) >= 0 &&
+                (s.DateLoanPayment == null || s.DateLoanPayment != null && DbFunctions.DiffDays(s.DateLoanPayment.Value, date) <= 0)).OrderByDescending(s => s.DateLoan);
+        }
+
+        public double GetPrivateLoans()
+        {
+            return _dc.InfoPrivateLoans.Where(s => s.DateLoanPayment == null).ToList().Sum(s => s.RemainingSumm);
+        }
+
+        #endregion
 
         #region DirectoryCostItem
 
@@ -2421,7 +2538,6 @@ namespace AIS_Enterprise_Data
         #endregion
 
 
-
         #region Log
 
         public void Log(LoggingOptions loggingOptions, string message, params string[] parameters)
@@ -2488,7 +2604,7 @@ namespace AIS_Enterprise_Data
 
         #endregion
 
-       
+
         #region InfoPayments
 
         public IQueryable<InfoPayment> GetInfoPayments(int infoSafeId)
@@ -2532,27 +2648,58 @@ namespace AIS_Enterprise_Data
             {
                 return getrandom.Next(min, max);
             }
-        } 
+        }
         #endregion
-
 
 
         #region InfoSafe
 
-        public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, CashType cashType)
+        public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, CashType cashType, string description)
         {
-            var infoSafe = new InfoSafe 
+            var infoSafe = new InfoSafe
             {
                 Date = date,
                 IsIncoming = isIncoming,
                 Summ = summCash,
-                CashType = cashType
+                CashType = cashType,
+                Description = description
             };
 
             _dc.InfoSafes.Add(infoSafe);
             _dc.SaveChanges();
-            
+
+            if (cashType == CashType.Наличка)
+            {
+                CalcTotalSumm("TotalCash", isIncoming, summCash);
+                CalcTotalSumm("TotalSafe", !isIncoming, summCash);
+            }
+
             return infoSafe;
+        }
+
+        private void CalcTotalSumm(string totalSummName, bool isIncoming, double summCash)
+        {
+            double summ = GetParameterValue<double>(totalSummName);
+            summ += isIncoming ? summCash : -summCash;
+
+            EditParameter(totalSummName, summ.ToString());
+        }
+
+        public InfoSafe AddInfoSafeCard(DateTime date, double availableSumm, string description)
+        {
+            double prevAvailableSumm = GetParameterValue<double>("TotalCard");
+
+            double summ = Math.Round(availableSumm - prevAvailableSumm, 2);
+            bool isIncoming = summ >= 0 ? true : false;
+
+            if (!_dc.InfoSafes.Any(s => s.Date == date && s.CashType == CashType.Карточка && s.Description == description))
+            {
+                EditParameter("TotalCard", availableSumm.ToString());
+
+                return AddInfoSafe(date, isIncoming, Math.Abs(summ), CashType.Карточка, description);
+            }
+
+            return null;
         }
 
         public IQueryable<InfoSafe> GetInfoSafes()
@@ -2560,8 +2707,19 @@ namespace AIS_Enterprise_Data
             return _dc.InfoSafes.OrderByDescending(s => s.Date);
         }
 
+        public IQueryable<InfoSafe> GetInfoSafes(CashType cashType)
+        {
+            return _dc.InfoSafes.Where(s => s.CashType == cashType).OrderByDescending(s => s.Date);
+        }
+
         public void RemoveInfoSafe(InfoSafe infoSafe)
         {
+            if (infoSafe.CashType == CashType.Наличка)
+            {
+                CalcTotalSumm("TotalCash", !infoSafe.IsIncoming, infoSafe.Summ);
+                CalcTotalSumm("TotalSafe", infoSafe.IsIncoming, infoSafe.Summ);
+            }
+
             _dc.InfoSafes.Remove(infoSafe);
             _dc.SaveChanges();
         }
@@ -2570,6 +2728,35 @@ namespace AIS_Enterprise_Data
 
 
 
-       
+        #region InfoPrivatePayments
+
+        public IQueryable<InfoPrivatePayment> GetInfoPrivatePayments(int infoSafeId)
+        {
+            return _dc.InfoPrivatePayments.Where(p => p.InfoPrivateLoanId == infoSafeId).OrderBy(p => p.Date);
+        }
+
+        public InfoPrivatePayment AddInfoPrivatePayment(int infoSafeId, DateTime date, double summ)
+        {
+            var infoPrivatePayment = new InfoPrivatePayment
+            {
+                Date = date,
+                Summ = summ,
+                InfoPrivateLoanId = infoSafeId
+            };
+
+            _dc.InfoPrivatePayments.Add(infoPrivatePayment);
+
+            _dc.SaveChanges();
+
+            return infoPrivatePayment;
+        }
+
+        public void RemoveInfoPrivatePayment(InfoPrivatePayment selectedInfoPrivatePayment)
+        {
+            _dc.InfoPrivatePayments.Remove(selectedInfoPrivatePayment);
+            _dc.SaveChanges();
+        }
+
+        #endregion
     }
 }

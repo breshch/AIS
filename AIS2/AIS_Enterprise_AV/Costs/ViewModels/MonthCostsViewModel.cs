@@ -168,8 +168,6 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
         #region Properties
 
-        public string Cash { get; set; }
-
         public ObservableCollection<IncomingAndExpense> IncomingsAndExpenses { get; set; }
 
         public ObservableCollection<int> Years { get; set; }
@@ -230,8 +228,6 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 }
 
                 RefreshFilters();
-
-                Cash = BC.GetInfoCash(SelectedYear, _selectedMonth).ToString("c");
 
                 PropertyChangedBase.Raise();
             }
@@ -480,7 +476,6 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 Filter();
 
                 BC.RefreshContext();
-                Cash = BC.GetInfoCash(SelectedYear, SelectedMonth).ToString("c");
             }
 
         }
@@ -526,7 +521,6 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                 Filter();
 
                 BC.RefreshContext();
-                Cash = BC.GetInfoCash(SelectedYear, SelectedMonth).ToString("c");
             }
 
             ReturnName = ReturnName == "Компенсация" ? "Добавить компесацию" : "Компенсация";

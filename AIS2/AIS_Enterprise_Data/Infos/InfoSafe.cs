@@ -16,6 +16,9 @@ namespace AIS_Enterprise_Data.Infos
         public double Summ { get; set; }
         public CashType CashType { get; set; }
 
+        //Дублирование данных
+        public string Description { get; set; }
+
         [NotMapped]
         public double Incoming 
         {

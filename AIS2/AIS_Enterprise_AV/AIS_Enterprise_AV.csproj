@@ -32,7 +32,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>32</ApplicationRevision>
+    <ApplicationRevision>34</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -170,6 +170,7 @@
     <Compile Include="Helpers\ExcelToDB\ConvertingCostsExcelToDB.cs" />
     <Compile Include="Helpers\ExcelToDB\ConvertingExcelToDB.cs" />
     <Compile Include="Helpers\Temps\IncomingAndExpense.cs" />
+    <Compile Include="Helpers\Temps\SafeData.cs" />
     <Compile Include="Reports\CashReports.cs" />
     <Compile Include="Reports\WorkerSalaryReports.cs" />
     <Compile Include="Helpers\Temps\WorkerPostReportSalary.cs" />
@@ -182,12 +183,16 @@
     <Compile Include="ViewModels\Directories\DirectoryRCViewModel.cs" />
     <Compile Include="ViewModels\Helpers\InitializingDBViewModel.cs" />
     <Compile Include="ViewModels\Helpers\MonthReportViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoPrivatePaymentViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoPrivateLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddInfoPaymentViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddInfoSafeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditInfoPrivateLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\EditInfoLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddInfoLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseInfoLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPrivatePaymentsViewMode.cs" />
     <Compile Include="ViewModels\Infos\InfoPaymentsViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoBudgetViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

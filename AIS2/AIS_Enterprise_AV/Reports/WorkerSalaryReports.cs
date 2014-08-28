@@ -139,7 +139,7 @@ namespace AIS_Enterprise_AV.Reports
 
                     summIncoming += cost.Incoming;
                     summExpence += cost.Expense;
-                    
+
                     indexRow++;
                 }
 
@@ -388,7 +388,6 @@ namespace AIS_Enterprise_AV.Reports
 
         private static void SalaryReportMinsk(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
-            var sw = Stopwatch.StartNew();
             string name = month.ToString() + "'" + year.ToString();
 
             var sheet = Helpers.GetSheet(ep, name);
@@ -402,7 +401,7 @@ namespace AIS_Enterprise_AV.Reports
             var colorFenoxCash = Color.FromArgb(237, 125, 49);
             var colorFenoxSalary = Color.FromArgb(252, 228, 214);
             var colorFenoxOverTime = Color.FromArgb(248, 203, 173);
-           
+
             var color26 = Color.FromArgb(255, 230, 153);
 
 
@@ -432,12 +431,12 @@ namespace AIS_Enterprise_AV.Reports
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CASH_FENOX_MINSK, "Касса", colorFenoxCash, 11, true);
 
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_OFFICE_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_OFFICE_MINSK, "26А", color26, 11, true);
-            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, "Итого к выдаче",colorHeaderDate, 11, true);
-            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, "Итого З/П",colorHeaderDate, 11, true);
-            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, "Касса + переработка",colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, "Итого к выдаче", colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, "Итого З/П", colorHeaderDate, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_MINSK, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, "Касса + переработка", colorHeaderDate, 11, true);
 
 
-            
+
             var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
 
             var warehouseWorkers = bc.GetDirectoryWorkers(year, month, false).ToList();
@@ -513,7 +512,7 @@ namespace AIS_Enterprise_AV.Reports
 
             var currentWorkerPosts = bc.GetCurrentPosts(lastDateInMonth).ToList();
 
-            
+
 
             int indexWorker = 0;
             foreach (var worker in warehouseWorkers)
@@ -550,13 +549,13 @@ namespace AIS_Enterprise_AV.Reports
                     salaryFenox = currentWorkerPost.DirectoryPost.UserWorkerHalfSalary.Value;
                 }
 
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV,colorAVSalary);
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV,colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, infoMonth.PrepaymentBankTransaction, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation, colorAVSalary);
 
                 double totalOverTimeAV = 0;
-                
+
                 var workerSumm = workerSumms.FirstOrDefault(w => w.WorkerId == worker.Id);
                 WorkerRCSummForReport rc = null;
 
@@ -593,9 +592,9 @@ namespace AIS_Enterprise_AV.Reports
                 double cashAV = salaryAV - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction;
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_AV_MINSK, cashAV, colorAVCash);
 
-                
+
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_FENOX_MINSK, salaryFenox, colorFenoxSalary);
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, infoMonth.CardFenox,colorFenoxSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_FENOX_MINSK, infoMonth.CardFenox, colorFenoxSalary);
 
                 double totalOverTimeFenox = 0;
                 rcValue = 0;
@@ -683,7 +682,7 @@ namespace AIS_Enterprise_AV.Reports
                 {
                     postName = postName.Substring(0, postName.IndexOf("_"));
                 }
-                
+
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, postName, colorHeaderDate);
 
                 var infoMonth = bc.GetInfoMonth(worker.Id, year, month);
@@ -783,49 +782,50 @@ namespace AIS_Enterprise_AV.Reports
                 sheet.Column(i).Width = Helpers.PixelsToInches(90);
             }
 
-            var date = new DateTime(year, month, 5).AddMonths(1);
-
-            var costItem = bc.GetDirectoryCostItem("З/п (701)");
-            var rcs = bc.GetDirectoryRCs();
-            var noteSalary = bc.GetDirectoryNote("Зарплата");
-            var noteOverTime = bc.GetDirectoryNote("Переработка");
-
-            if (totalCashAV != 0)
+            if (DateTime.Now.Year > year || (DateTime.Now.Year == year && DateTime.Now.Month > month))
             {
-                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashAV, 2), 0);
-            }
+                var date = new DateTime(year, month, 5).AddMonths(1);
 
-            if (totalOverTimeKO5AV != 0)
-            {
-                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, Math.Round(totalOverTimeKO5AV, 2), 0);
-            }
+                var costItem = bc.GetDirectoryCostItem("З/п (701)");
+                var rcs = bc.GetDirectoryRCs();
+                var noteSalary = bc.GetDirectoryNote("Зарплата");
+                var noteOverTime = bc.GetDirectoryNote("Переработка");
 
-            if (totalOverTimePAM16AV != 0)
-            {
-                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, Math.Round(totalOverTimePAM16AV, 2), 0);    
-            }
+                if (totalCashAV != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashAV, 2), 0);
+                }
 
-            if (totalCashFenox != 0)
-            {
-                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), 0);
-            }
+                if (totalOverTimeKO5AV != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, Math.Round(totalOverTimeKO5AV, 2), 0);
+                }
 
-            if (totalOverTimeMO5Fenox != 0)
-            {
-                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, Math.Round(totalOverTimeMO5Fenox, 2), 0); 
-            }
+                if (totalOverTimePAM16AV != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, Math.Round(totalOverTimePAM16AV, 2), 0);
+                }
 
-            if (totalOverTimePAM1Fenox != 0)
-            {
-                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, Math.Round(totalOverTimePAM1Fenox, 2), 0); 
-            }
+                if (totalCashFenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), 0);
+                }
 
-            if (totalOverTimeMO2Fenox != 0)
-            {
-                bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, Math.Round(totalOverTimeMO2Fenox, 2), 0); 
-            }
+                if (totalOverTimeMO5Fenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, Math.Round(totalOverTimeMO5Fenox, 2), 0);
+                }
 
-            Debug.WriteLine("Minsk : " + sw.ElapsedMilliseconds);
+                if (totalOverTimePAM1Fenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, Math.Round(totalOverTimePAM1Fenox, 2), 0);
+                }
+
+                if (totalOverTimeMO2Fenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, Math.Round(totalOverTimeMO2Fenox, 2), 0);
+                }
+            }
         }
 
         private static void SalaryReportWorkers(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -1536,7 +1536,7 @@ namespace AIS_Enterprise_AV.Reports
 
             Debug.WriteLine("Workers : " + sw.ElapsedMilliseconds);
         }
-       
+
     }
 
 }

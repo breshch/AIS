@@ -11,10 +11,14 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 {
     public class AddInfoSafeViewModel : ViewModelGlobal
     {
-        #region Base
 
-        public AddInfoSafeViewModel()
+        #region Base
+        private bool _isIncoming;
+        public AddInfoSafeViewModel(string titleName, string buttonName, bool isIncoming)
         {
+            Title = titleName;
+            ButtonName = buttonName;
+            _isIncoming = isIncoming;
             AddCommand = new RelayCommand(Add);
             SelectedDate = DateTime.Now;
         }
@@ -23,6 +27,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         #region Properties
 
+        public string  Title { get; set; }
+        public string  ButtonName { get; set; }
         public DateTime  SelectedDate { get; set; }
         public double SummCash { get; set; }
         #endregion
@@ -33,7 +39,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Add(object parameter)
         {
-            BC.AddInfoSafe(SelectedDate, false, SummCash, CashType.Наличка);
+            BC.AddInfoSafe(SelectedDate, _isIncoming, SummCash, CashType.Наличка, null);
             
             var window = parameter as Window;
             window.Close();    

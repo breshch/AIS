@@ -4,13 +4,42 @@
         xmlns:valueConverters ="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         WindowStartupLocation="CenterScreen"
         Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
-        Title="Бюджет" Height="400" Width="1200">
+        Title="Бюджет" Height="400" Width="900">
 
     <Window.Resources>
         <valueConverters:DoubleToCurrencyValueConverter x:Key="doubleToCurrencyValueConverter"/>
     </Window.Resources>
 
     <TabControl Margin="20, 30">
+
+        <TabItem Header="Сводная информация">
+            <Grid Margin="20, 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <DataGrid Grid.Row="0" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding AllSafeData}">
+
+                    <DataGrid.ItemContainerStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Color}" Value="MediumSlateBlue">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Статья" Binding="{Binding Name }" Width="*"/>
+                        <DataGridTextColumn Header="Сумма" Binding="{Binding Summ, Converter={StaticResource doubleToCurrencyValueConverter}}" Width="2*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
+
         <TabItem Header="Долги">
             <Grid Margin="20, 30">
                 <Grid.RowDefinitions>
@@ -22,68 +51,25 @@
                 <DatePicker Grid.Row="0" Width="200" HorizontalAlignment="Left" SelectedDate="{Binding SelectedInfoLoanDate, Mode=TwoWay}"/>
 
                 <Grid Grid.Row="1" Margin=" 0, 15, 0, 0" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="1.5*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <DataGrid Grid.Column="0" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
+                    <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
                       CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoLoans}" SelectedItem="{Binding SelectedInfoLoan}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Должник" Binding="{Binding LoanTakerName }" Width="2*"/>
                             <DataGridTextColumn Header="Сумма" Binding="{Binding RemainingSumm }" Width="*"/>
-                            <DataGridTextColumn Header="         Дата кредитования" Binding="{Binding DateLoan, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
-                            <DataGridTextColumn Header="Дата погашения" Binding="{Binding DateLoanPayment, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
-                            <DataGridTextColumn Header="Оставшаяся сумма" Binding="{Binding RemainingSumm }" Width="*"/>
+                            <DataGridTextColumn Header="        Дата кредитования" Binding="{Binding DateLoan, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
+                            <DataGridTextColumn Header="     Дата погашения" Binding="{Binding DateLoanPayment, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
+                            <DataGridTextColumn Header="Остаток долга" Binding="{Binding RemainingSumm }" Width="*"/>
                             <DataGridTextColumn Header="Примечание" Binding="{Binding Description }" Width="3*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <Grid Grid.Column="1" Margin="25, 0, 0, 0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <Grid Grid.Row="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="На выбранный день:" />
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TotalSummSelectedDate, Converter={StaticResource doubleToCurrencyValueConverter}}"/>
-
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="На конец месяца:" Margin="0, 15, 0, 0"/>
-                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TotalSummEndingMonth, Converter={StaticResource doubleToCurrencyValueConverter}}" Margin="0, 15, 0, 0"/>
-
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Долги:"  Margin="0, 15, 0, 0"/>
-                            <TextBlock Grid.Column="1" Grid.Row="2"  Text="{Binding TotalSummLoans, Converter={StaticResource doubleToCurrencyValueConverter}}" Margin="0, 15, 0, 0" />
-
-                        </Grid>
-                        <Button Grid.Row="1" Content="Платежи" Command="{Binding ShowPaymentsCommand}" Margin=" 0, 15, 0, 0" />
-
-                    </Grid>
-
-
-
-
                 </Grid>
 
                 <Grid Grid.Row="2" Margin="0, 20, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="1.5*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="0">
+                    <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -91,13 +77,14 @@
 
                         <Button Grid.Column="0" Content="Добавить" Command="{Binding AddLoanCommand}" Margin="0, 0 , 10, 0"/>
                         <Button Grid.Column="1" Content="Редактировать" Command="{Binding EditLoanCommand}" Margin="10, 0 , 10, 0"/>
-                        <Button Grid.Column="2" Content="Удалить" Command="{Binding RemoveLoanCommand}" Margin="10, 0 , 0, 0"/>
+                        <Button Grid.Column="2" Content="Удалить" Command="{Binding RemoveLoanCommand}" Margin="10, 0 , 10, 0"/>
+                        <Button Grid.Column="3" Content="Платежи" Command="{Binding ShowPaymentsCommand}" Margin=" 10, 0, 0, 0" />
                     </Grid>
 
                 </Grid>
             </Grid>
         </TabItem>
-        
+
         <TabItem Header="Наличка">
             <Grid Margin="20, 30">
                 <Grid.RowDefinitions>
@@ -106,17 +93,14 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="1.5*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <DataGrid Grid.Column="0" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
+                    <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
                       CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoSafesCash}" SelectedItem="{Binding SelectedInfoSafeCash}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
                             <DataGridTextColumn Header="Приход" Binding="{Binding Incoming, Converter={StaticResource doubleToCurrencyValueConverter}}" Width="*"/>
                             <DataGridTextColumn Header="Расход" Binding="{Binding Expense, Converter={StaticResource doubleToCurrencyValueConverter}}" Width="*"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="4*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -132,26 +116,87 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="Наличка"/>
-                            <TextBlock Grid.Column="1" Text="{Binding TotalSummCash, Converter={StaticResource doubleToCurrencyValueConverter}}"/>
+
                         </Grid>
                     </Grid>
                 </Grid>
 
                 <Grid Grid.Row="1" Margin="0, 20, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="1.5*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="0">
+                    <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="0" Content="Изъять наличку из сейфа" Command="{Binding AddSafeCashCommand}" Margin="0, 0 , 10, 0"/>
-                        <Button Grid.Column="1" Content="Вернуть наличку в сейф" Command="{Binding RemoveSafeCashCommand}" Margin="10, 0 , 0, 0"/>
+                        <Button Grid.Column="1" Content="Вернуть наличку в сейф" Command="{Binding RemoveSafeCashCommand}" Margin="10, 0 , 10, 0"/>
+                        <Button Grid.Column="2" Content="Внести наличку в сейф" Command="{Binding InsertSafeCashCommand}" Margin="10, 0 , 0, 0"/>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Карточка">
+            <Grid Margin="20, 30">
+
+                <Grid>
+                    <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoSafesCard}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
+                            <DataGridTextColumn Header="Приход" Binding="{Binding Incoming, Converter={StaticResource doubleToCurrencyValueConverter}}" Width="*"/>
+                            <DataGridTextColumn Header="Расход" Binding="{Binding Expense, Converter={StaticResource doubleToCurrencyValueConverter}}" Width="*"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="4*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Частные долги">
+            <Grid Margin="20, 30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <DatePicker Grid.Row="0" Width="200" HorizontalAlignment="Left" SelectedDate="{Binding SelectedInfoPrivateLoanDate, Mode=TwoWay}"/>
+
+                <Grid Grid.Row="1" Margin=" 0, 15, 0, 0" >
+
+                    <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoPrivateLoans}" SelectedItem="{Binding SelectedInfoPrivateLoan}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Должник" Binding="{Binding LoanTakerName }" Width="2*"/>
+                            <DataGridTextColumn Header="Сумма" Binding="{Binding RemainingSumm }" Width="*"/>
+                            <DataGridTextColumn Header="        Дата кредитования" Binding="{Binding DateLoan, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
+                            <DataGridTextColumn Header="     Дата погашения" Binding="{Binding DateLoanPayment, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
+                            <DataGridTextColumn Header="Остаток долга" Binding="{Binding RemainingSumm }" Width="*"/>
+                            <DataGridTextColumn Header="Примечание" Binding="{Binding Description }" Width="3*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0, 20, 0, 0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Content="Добавить" Command="{Binding AddPrivateLoanCommand}" Margin="0, 0 , 10, 0"/>
+                        <Button Grid.Column="1" Content="Редактировать" Command="{Binding EditPrivateLoanCommand}" Margin="10, 0 , 10, 0"/>
+                        <Button Grid.Column="2" Content="Удалить" Command="{Binding RemovePrivateLoanCommand}" Margin="10, 0 , 10, 0"/>
+                        <Button Grid.Column="3" Content="Платежи" Command="{Binding ShowPrivatePaymentsCommand}" Margin=" 10, 0, 0, 0" />
                     </Grid>
 
                 </Grid>
