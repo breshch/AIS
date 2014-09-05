@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Temps;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Data.Infos
 {
-    public class InfoLoan
+    public class InfoLoan : IncomingAndExpenseAndSumm
     {
         public int Id { get; set; }
         
@@ -19,8 +20,7 @@ namespace AIS_Enterprise_Data.Infos
         public int? DirectoryWorkerId { get; set; }
         public virtual DirectoryWorker DirectoryWorker { get; set; }
        
-        public double Summ { get; set; }
-        public int? CountPayments { get; set; }
+        public int CountPayments { get; set; }
 
         public DateTime DateLoan { get; set; }
         public DateTime? DateLoanPayment { get; set; }
@@ -47,6 +47,24 @@ namespace AIS_Enterprise_Data.Infos
                 }
 
                 return Summ - summPayments;
+            }
+        }
+
+        [NotMapped]
+        public string RemainingSummCurrency
+        {
+            get
+            {
+                return Converting.DoubleToCurrency(RemainingSumm, Currency);
+            }
+        }
+
+        [NotMapped]
+        public string SummCurrency
+        {
+            get
+            {
+                return Converting.DoubleToCurrency(Summ, Currency);
             }
         }
 

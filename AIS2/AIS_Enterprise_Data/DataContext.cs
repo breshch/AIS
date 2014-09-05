@@ -164,7 +164,6 @@ namespace AIS_Enterprise_Data
         public DbSet<InfoPanalty> InfoPanalties { get; set; }
         public DbSet<InfoOverTime> InfoOverTimes { get; set; }
         public DbSet<InfoCost> InfoCosts { get; set; }
-        public DbSet<InfoKeepingMoney> InfoKeepingMoney { get; set; }
         public DbSet<InfoLoan> InfoLoans { get; set; }
         public DbSet<InfoPrivateLoan> InfoPrivateLoans { get; set; }
         public DbSet<InfoPayment> InfoPayments { get; set; }
@@ -176,6 +175,7 @@ namespace AIS_Enterprise_Data
         public DbSet<DefaultCost> DefaultCosts { get; set; }
         public DbSet<Parameter> Parameters { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<CurrencyValue> CurrencyValues { get; set; }
 
         #endregion
     }

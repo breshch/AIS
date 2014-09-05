@@ -125,8 +125,8 @@ namespace AIS_Enterprise_AV.Reports
                 {
                     Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
                     Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryRC.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 3, cost.IsIncoming ? cost.Incoming.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 3, cost.IsIncoming ? cost.Incoming : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
                     Helpers.CreateCell(sheet, indexRow, 5, cost.ConcatNotes, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
 
                     System.Windows.Media.FormattedText formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
@@ -137,8 +137,8 @@ namespace AIS_Enterprise_AV.Reports
                         maxLengthNote = formattedText.Width;
                     }
 
-                    summIncoming += cost.Incoming;
-                    summExpence += cost.Expense;
+                    summIncoming += cost.IsIncoming ? cost.Summ : 0;
+                    summExpence += !cost.IsIncoming ? cost.Summ : 0;
 
                     indexRow++;
                 }
@@ -200,8 +200,8 @@ namespace AIS_Enterprise_AV.Reports
                     Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
                     Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryCostItem.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
                     Helpers.CreateCell(sheet, indexRow, 3, cost.DirectoryRC.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 4, cost.IsIncoming ? cost.Incoming.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 5, !cost.IsIncoming ? cost.Expense.ToString("c") : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 4, cost.IsIncoming ? cost.Incoming : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 5, !cost.IsIncoming ? cost.Expense : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
                     Helpers.CreateCell(sheet, indexRow, 6, cost.ConcatNotes, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
 
                     System.Windows.Media.FormattedText formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
@@ -212,8 +212,8 @@ namespace AIS_Enterprise_AV.Reports
                         maxLengthNote = formattedText.Width;
                     }
 
-                    summIncoming += cost.Incoming;
-                    summExpence += cost.Expense;
+                    summIncoming += cost.IsIncoming ? cost.Summ : 0;
+                    summExpence += !cost.IsIncoming ? cost.Summ : 0;
 
                     indexRow++;
                 }
@@ -416,7 +416,7 @@ namespace AIS_Enterprise_AV.Reports
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, "Оклад", colorAVSalary, 11, true);
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_CARD_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_CARD_AV_MINSK, "Безнал", colorAVSalary, 11, true);
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, "Аванс", colorAVSalary, 11, true);
-            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, "Компенсация", colorAVSalary, 11, true);
+            Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK + COUNT_HEADER_ROW_AV_FENOX_MINSK - 1, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, "Ком-ия\\ Отпуск", colorAVSalary, 11, true);
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, INDEX_HEADER_ROW_AV_FENOX_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, "Переработка", colorAVSalary, 11, true);
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, "КО-5", colorAVKO5, 11, true);
             Helpers.CreateCell(sheet, INDEX_HEADER_ROW_AV_FENOX_OVERTIME_MINSK, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, "ПАМ-16", colorAVPam16, 11, true);
@@ -456,7 +456,6 @@ namespace AIS_Enterprise_AV.Reports
                 var overTimeRCs = currentRCs.Where(r => r.InfoOverTimeId == overTime.Id).ToList();
                 int countRCs = overTimeRCs.Count();
 
-                //var currentRCs = ; // overTime.CurrentRCs.ToList();
                 int currentPercentage = overTimeRCs.Sum(r => r.DirectoryRC.Percentes);
                 for (int i = 0; i < countRCs; i++)
                 {
@@ -552,7 +551,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, infoMonth.PrepaymentBankTransaction, colorAVSalary);
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation + infoMonth.VocationPayment, colorAVSalary);
 
                 double totalOverTimeAV = 0;
 
@@ -642,9 +641,9 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, null, color26);
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV -
-                    infoMonth.PrepaymentBankTransaction + infoMonth.Compensation - infoMonth.CardFenox, colorHeaderDate);
+                    infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.VocationPayment - infoMonth.CardFenox, colorHeaderDate);
 
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.VocationPayment + totalOverTimeAV + cashAV +
                     infoMonth.CardFenox + totalOverTimeFenox + cashFenox, colorHeaderDate);
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox, colorHeaderDate);
@@ -652,14 +651,14 @@ namespace AIS_Enterprise_AV.Reports
 
                 totalCardAV += infoMonth.CardAV;
                 totalPrepaymentBankTransactionAV += infoMonth.PrepaymentBankTransaction;
-                totalCompensationAV += infoMonth.Compensation;
+                totalCompensationAV += infoMonth.Compensation + infoMonth.VocationPayment;
                 totalCashAV += cashAV;
 
                 totalCardFenox += infoMonth.CardFenox;
                 totalCashFenox += cashFenox;
 
-                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation - infoMonth.CardFenox;
-                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + totalOverTimeAV + cashAV +
+                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.VocationPayment - infoMonth.CardFenox;
+                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.VocationPayment + totalOverTimeAV + cashAV +
                     infoMonth.CardFenox + totalOverTimeFenox + cashFenox;
                 totalCashPlusOverTimes += totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox;
             }
@@ -710,7 +709,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CARD_AV_MINSK, infoMonth.CardAV, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PREPAYMENT_AV_MINSK, 0, colorAVSalary);
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation, colorAVSalary);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_COMPENSATION_AV_MINSK, infoMonth.Compensation + infoMonth.VocationPayment, colorAVSalary);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_KO5_AV_MINSK, 0, colorAVKO5);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OVERTIME_PAM16_AV_MINSK, 0, colorAVPam16);
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_CASH_AV_MINSK, 0, colorAVCash);
@@ -726,22 +725,23 @@ namespace AIS_Enterprise_AV.Reports
                 double officeCash = salaryAV - infoMonth.CardAV + salaryFenox - infoMonth.CardFenox;
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_OFFICE_MINSK, officeCash, color26);
 
-                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation -
-                    infoMonth.CardFenox, colorHeaderDate);
+                Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_ISSUE_SALARY_MINSK, salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction +
+                    infoMonth.Compensation + infoMonth.VocationPayment - infoMonth.CardFenox, colorHeaderDate);
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_SALARY_MINSK, infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
-                    infoMonth.CardFenox + officeCash, colorHeaderDate);
+                     + infoMonth.VocationPayment + infoMonth.CardFenox + officeCash, colorHeaderDate);
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_TOTAL_CASH_PLUS_OVERTIME_MINSK, 0, colorHeaderDate);
 
 
                 totalCardAV += infoMonth.CardAV;
+                totalCompensationAV += infoMonth.Compensation + infoMonth.VocationPayment;
 
                 totalCardFenox += infoMonth.CardFenox;
 
                 totalOffice += officeCash;
-                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation - infoMonth.CardFenox;
-                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.CardFenox + officeCash;
+                totalIssueSalary += salaryAV + salaryFenox - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.VocationPayment - infoMonth.CardFenox;
+                totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation + infoMonth.VocationPayment + infoMonth.CardFenox + officeCash;
             }
 
             indexWorker++;
@@ -782,50 +782,50 @@ namespace AIS_Enterprise_AV.Reports
                 sheet.Column(i).Width = Helpers.PixelsToInches(90);
             }
 
-            if (DateTime.Now.Year > year || (DateTime.Now.Year == year && DateTime.Now.Month > month))
-            {
-                var date = new DateTime(year, month, 5).AddMonths(1);
+            //if (DateTime.Now.Year > year || (DateTime.Now.Year == year && DateTime.Now.Month > month))
+            //{
+            //    var date = new DateTime(year, month, 5).AddMonths(1);
 
-                var costItem = bc.GetDirectoryCostItem("З/п (701)");
-                var rcs = bc.GetDirectoryRCs();
-                var noteSalary = bc.GetDirectoryNote("Зарплата");
-                var noteOverTime = bc.GetDirectoryNote("Переработка");
+            //    var costItem = bc.GetDirectoryCostItem("З/п (701)");
+            //    var rcs = bc.GetDirectoryRCs();
+            //    var noteSalary = bc.GetDirectoryNote("Зарплата");
+            //    var noteOverTime = bc.GetDirectoryNote("Переработка");
 
-                if (totalCashAV != 0)
-                {
-                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashAV, 2), 0);
-                }
+            //    if (totalCashAV != 0)
+            //    {
+            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashAV, 2), Currency.RUR, 0);
+            //    }
 
-                if (totalOverTimeKO5AV != 0)
-                {
-                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, Math.Round(totalOverTimeKO5AV, 2), 0);
-                }
+            //    if (totalOverTimeKO5AV != 0)
+            //    {
+            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, Math.Round(totalOverTimeKO5AV, 2), Currency.RUR, 0);
+            //    }
 
-                if (totalOverTimePAM16AV != 0)
-                {
-                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, Math.Round(totalOverTimePAM16AV, 2), 0);
-                }
+            //    if (totalOverTimePAM16AV != 0)
+            //    {
+            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, Math.Round(totalOverTimePAM16AV, 2), Currency.RUR, 0);
+            //    }
 
-                if (totalCashFenox != 0)
-                {
-                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), 0);
-                }
+            //    if (totalCashFenox != 0)
+            //    {
+            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), Currency.RUR, 0);
+            //    }
 
-                if (totalOverTimeMO5Fenox != 0)
-                {
-                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, Math.Round(totalOverTimeMO5Fenox, 2), 0);
-                }
+            //    if (totalOverTimeMO5Fenox != 0)
+            //    {
+            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, Math.Round(totalOverTimeMO5Fenox, 2), Currency.RUR, 0);
+            //    }
 
-                if (totalOverTimePAM1Fenox != 0)
-                {
-                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, Math.Round(totalOverTimePAM1Fenox, 2), 0);
-                }
+            //    if (totalOverTimePAM1Fenox != 0)
+            //    {
+            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, Math.Round(totalOverTimePAM1Fenox, 2), Currency.RUR, 0);
+            //    }
 
-                if (totalOverTimeMO2Fenox != 0)
-                {
-                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, Math.Round(totalOverTimeMO2Fenox, 2), 0);
-                }
-            }
+            //    if (totalOverTimeMO2Fenox != 0)
+            //    {
+            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, Math.Round(totalOverTimeMO2Fenox, 2), Currency.RUR, 0);
+            //    }
+            //}
         }
 
         private static void SalaryReportWorkers(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -1004,7 +1004,7 @@ namespace AIS_Enterprise_AV.Reports
 
                     if (infoDate.CountHours != null)
                     {
-                        if (weekendsInMonth.Any(w => w.Date == infoDate.Date))
+                        if (weekendsInMonth.Any(w => w.Date.Date == infoDate.Date.Date))
                         {
                             prevSum += infoDate.CountHours.Value * 2 * workerSalaryInHour;
                             workerPostReportSalary.CountWorkOverTimeHours += infoDate.CountHours.Value;

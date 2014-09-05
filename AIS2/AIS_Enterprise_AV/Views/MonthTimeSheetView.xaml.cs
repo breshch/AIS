@@ -53,9 +53,9 @@ namespace AIS_Enterprise_AV.Views
         private bool _isFirstLoad = true;
         private bool _isEnableTimerAbsentDates = false;
 
-        private const int COLUMN_FULL_NAME = 1;
-        private const int COLUMN_POST_NAME = 4;
-        private const int COUNT_COLUMNS_BEFORE_DAYS = 5;
+        private const int COLUMN_FULL_NAME = 2;
+        private const int COLUMN_POST_NAME = 5;
+        private const int COUNT_COLUMNS_BEFORE_DAYS = 6;
         private const int COUNT_COLUMNS_AFTER_DAYS = 4;
         private const string WEEKEND_DEFINITION = "В";
         private const int COLUMN_PANALTIES_AFTER_DAYS = 11;
@@ -92,16 +92,18 @@ namespace AIS_Enterprise_AV.Views
             //infoCash.Cash = 8919411.40;
             //_bc.SaveChanges();
 
-            //foreach (var cost in _bc.DataContext.InfoCosts)
+            //foreach (var cost in _bc.DataContext.InfoCosts.Where(c => c.GroupId == Guid.Empty))
             //{
             //    cost.GroupId = Guid.NewGuid();
             //}
+
+            //_bc.SaveChanges();
 
             //_bc.DataContext.InfoCosts.RemoveRange(_bc.DataContext.InfoCosts);
             //_bc.SaveChanges();
             ////_bc.SaveChanges();
             
-            //var _dc = _bc.DataContext;
+            var _dc = _bc.DataContext;
             
             //int id = _dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary").Id;
             //_dc.CurrentUserStatusPrivileges.RemoveRange(_dc.CurrentUserStatusPrivileges.Where(p => p.DirecoryUserStatusPrivilegeId == id));
@@ -113,9 +115,13 @@ namespace AIS_Enterprise_AV.Views
             //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_AdminPanel_Logs" });
             //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportSalaryMinsk" });
             //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportCash" });
-            
 
-            //_dc.SaveChanges();
+            _dc.DirectoryWorkers.Find(78).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 9).BirthDays = 0;
+            _dc.DirectoryWorkers.Find(87).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
+            _dc.DirectoryWorkers.Find(88).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
+            _dc.DirectoryWorkers.Find(89).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
+
+            _dc.SaveChanges();
 
             InitializeGif();
             InitializePrivileges();
@@ -291,8 +297,6 @@ namespace AIS_Enterprise_AV.Views
             }
         }
 
-
-
         private void FillDataGrid()
         {
             var blur = new BlurEffect();
@@ -336,13 +340,13 @@ namespace AIS_Enterprise_AV.Views
                     var infoMonthes = _bc.GetInfoMonthes(_currentYear, _currentMonth).ToList();
                     int indexWorker = 0;
 
-                    var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Склад").ToList();
+                    var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && _bc.GetDirectoryTypeOfPost(w.Id, lastDateInMonth).Name == "Склад").OrderBy(w => w.LastName).ToList();
 
                     AddingRowWorkers(workerWarehouses, tmpMonthTimeSheetWorkers, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth, infoDates, infoMonthes);
 
                     if (HelperMethods.IsPrivilege(_privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
                     {
-                        var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).ToList();
+                        var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).OrderBy(w => w.LastName).ToList();
                         AddingRowWorkers(workerDeadSpirits, tmpMonthTimeSheetWorkers, ref indexWorker, isAdminSalary, countWorkDaysInMonth, lastDateInMonth, firstDateInMonth, infoDates, infoMonthes);
                     }
 
@@ -362,7 +366,7 @@ namespace AIS_Enterprise_AV.Views
                             {
                                 for (int i = 0; i < prevCountLastDaysInMonth; i++)
                                 {
-                                    DataGridMonthTimeSheet.Columns.RemoveAt(6);
+                                    DataGridMonthTimeSheet.Columns.RemoveAt(COUNT_COLUMNS_BEFORE_DAYS + 1);
                                 }
                             }
                             else
@@ -392,7 +396,7 @@ namespace AIS_Enterprise_AV.Views
                                     CellStyle = Resources["CenterTextAlignmentCellWithRightClick"] as Style
                                 };
 
-                                DataGridMonthTimeSheet.Columns.Insert(6 + i, column);
+                                DataGridMonthTimeSheet.Columns.Insert(COUNT_COLUMNS_BEFORE_DAYS + 1 + i, column);
                             }
 
 
@@ -453,6 +457,7 @@ namespace AIS_Enterprise_AV.Views
 
                         if (!isFirst)
                         {
+                            monthTimeSheetWorker.WorkerSerialId = indexWorker;
                             monthTimeSheetWorker.FullName = worker.FullName;
                             isFirst = true;
                         }
@@ -570,8 +575,8 @@ namespace AIS_Enterprise_AV.Views
                     monthTimeSheetWorkerFinalSalary.Inventory = infoMonth.Inventory.ToString();
                     monthTimeSheetWorkerFinalSalary.BirthDays = infoMonth.BirthDays;
                     monthTimeSheetWorkerFinalSalary.Bonus = infoMonth.Bonus.ToString();
-                    monthTimeSheetWorkerFinalSalary.FinalSalary = salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) -
-                        double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus);
+                    monthTimeSheetWorkerFinalSalary.FinalSalary = HelperMethods.Round(salary - double.Parse(monthTimeSheetWorkerFinalSalary.PrepaymentCash) - double.Parse(monthTimeSheetWorkerFinalSalary.Panalty) -
+                        double.Parse(monthTimeSheetWorkerFinalSalary.Inventory) - monthTimeSheetWorkerFinalSalary.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalary.Bonus));
                 }
             }
         }

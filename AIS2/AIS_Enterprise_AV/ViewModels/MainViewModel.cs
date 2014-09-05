@@ -91,6 +91,24 @@ namespace AIS_Enterprise_AV.ViewModels
                 Users = new ObservableCollection<DirectoryUser>();
             }
 
+            //foreach (var item in BC.DataContext.InfoLoans)
+            //{
+            //    if (item.CountPayments == null)
+            //    {
+            //        item.CountPayments = 1;
+            //    }
+            //}
+
+            //foreach (var item in BC.DataContext.InfoPrivateLoans)
+            //{
+            //    if (item.CountPayments == null)
+            //    {
+            //        item.CountPayments = 1;
+            //    }
+            //}
+
+            //BC.DataContext.SaveChanges();
+
             foreach (var user in BC.GetDirectoryUsers())
             {
                 Users.Add(user);

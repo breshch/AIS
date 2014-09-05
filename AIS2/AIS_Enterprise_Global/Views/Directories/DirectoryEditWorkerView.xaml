@@ -6,7 +6,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen" 
-        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
+        
         Title="Редактирование сотрудника" Height="700" Width="580">
 
     <i:Interaction.Triggers>
@@ -183,9 +183,18 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Изменить сотрудника" Command="{Binding EditWorkerCommand}" CommandParameter="{Binding ElementName=EditDirectoryWorkerWindow}" IsEnabled="{Binding IsNotFireDate}" Margin="0, 0, 20, 0"/>
-            <Button Grid.Column="1" Content="Уволить сотрудника" Command="{Binding FireWorkerCommand}" CommandParameter="{Binding ElementName=EditDirectoryWorkerWindow}" IsEnabled="{Binding IsFireWorkerEnable}" Margin="20, 0, 0, 0"/>
+            
+            <Button Grid.Column="0" Content="Изменить сотрудника" Command="{Binding EditWorkerCommand}" CommandParameter="{Binding ElementName=EditDirectoryWorkerWindow}" IsEnabled="{Binding IsNotFireDate}" Margin="0, 0, 10, 0"/>
+            
+            <Grid Grid.Column="1" Margin="10, 0, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="Уволить сотрудника" Command="{Binding FireWorkerCommand}" CommandParameter="{Binding ElementName=EditDirectoryWorkerWindow}" IsEnabled="{Binding IsFireWorkerEnable}" Margin="0, 0, 10, 0"/>
+                <Button Grid.Column="1" Content="Воскресить" Visibility="{Binding VisibilityBringAlive}" Command="{Binding BringAliveCommand}" Margin="10, 0, 0, 0"/>
+            </Grid>
         </Grid>     
-        
     </Grid>
 </Window>

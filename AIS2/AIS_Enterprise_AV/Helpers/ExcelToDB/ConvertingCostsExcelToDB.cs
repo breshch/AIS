@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AIS_Enterprise_Data.Temps;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
@@ -70,7 +71,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                     Weight = 0
                                 }
                             };
-                            bc.AddInfoCosts(date, costItem, isIncoming, null, summ, transports);
+                            bc.AddInfoCosts(date, costItem, isIncoming, null, summ, Currency.RUR, transports);
 
                             indexRow++;
                         }

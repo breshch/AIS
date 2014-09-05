@@ -1,5 +1,6 @@
 ﻿using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Global.Helpers;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,12 @@ namespace AIS_Enterprise_AV.Reports
         private const string MEMORANDUM = "СЛУЖЕБНАЯ ЗАПИСКА";
         private const string MEMORANDUM_INCOMING_RC_CONTEXT = "Прошу Вас поставить в приход сумму и уменьшить задолженность по фирмам:";
         private const string MEMORANDUM_INCOMING_26_CONTEXT_FIRST_PART = "Прошу сумму в размере ";
-        private const string MEMORANDUM_INCOMING_26_CONTEXT_SECOND_PART = " RUB, поставить в приход кассы «АВ», и снять из затрат по статье Содержание ФК.";
+        private const string MEMORANDUM_INCOMING_26_CONTEXT_SECOND_PART = ", поставить в приход кассы «АВ», и снять из затрат по статье Содержание ФК.";
         private const string TABLE_HEADER_NAME = "Фирма";
         private const string TABLE_HEADER_SUMM = "Сумма";
         private const string TABLE_FOOTER_NAME = "ИТОГО:";
         private const string FOOTER_MEMORANDUM_FIRTST_PART = "И отнести общую сумму ";
-        private const string FOOTER_MEMORANDUM_SECOND_PART = " RUB на ПРИХОД в кассу «АВ-Автотехник»";
+        private const string FOOTER_MEMORANDUM_SECOND_PART = " на ПРИХОД в кассу «АВ-Автотехник»";
         private const string FOOTER_RC_APEL = "Руководитель ";
         private const string FOOTER_RC_SU_APEL = "Зам. руководителя ";
         private const string FOOTER_26_APEL = "Заместитель директора по Маркетингу";
@@ -99,16 +100,42 @@ namespace AIS_Enterprise_AV.Reports
             foreach (var infoCost in infoCosts)
             {
                 Helpers.CreateCell(sheet, indexRow, 1, infoCost.ConcatNotes.ToString(), Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 2, infoCost.Summ + " RUB", Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 2, Converting.DoubleToCurrency(infoCost.Summ, infoCost.Currency), Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                 indexRow++;
             }
 
+            string totalSumm = "";
+
+            var totalSummsCurrency = bc.GetInfoCostsIncomingTotalSummsCurrency(year, month, rc.Name, true, "Приход").ToList();
+
+            for (int i = 0; i < totalSummsCurrency.Count(); i++)
+            {
+                if (totalSummsCurrency[i] != null)
+                {
+                    totalSumm += totalSummsCurrency[i];
+                    if (i != (totalSummsCurrency.Count() - 1))
+                    {
+                        totalSumm += ", ";
+                    }
+                }
+            }
+
             Helpers.CreateCell(sheet, indexRow, 1, TABLE_FOOTER_NAME, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
-            Helpers.CreateCell(sheet, indexRow, 2, infoCosts.Sum(c => c.Summ) + " RUB", Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right);
+            Helpers.CreateCell(sheet, indexRow, 2, totalSumm, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right);
             indexRow += 2;
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, FOOTER_MEMORANDUM_FIRTST_PART + infoCosts.Sum(c => c.Summ) + FOOTER_MEMORANDUM_SECOND_PART,
-                Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            foreach (var totalSummCurrency in totalSummsCurrency)
+            {
+                if (totalSummCurrency != null)
+                {
+                    Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, FOOTER_MEMORANDUM_FIRTST_PART + totalSummCurrency + FOOTER_MEMORANDUM_SECOND_PART,
+                        Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+                    indexRow++;
+                }
+            }
+
+            
             indexRow += 2;
 
             Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL + rcAdvancedName, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
@@ -132,8 +159,33 @@ namespace AIS_Enterprise_AV.Reports
             Helpers.CreateCell(sheet, indexRow, 2, OFFICE_HEADER_INCOMING_FULL_NAME, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
             indexRow++;
 
-            double summ = bc.GetInfoCost26Summ(year, month);
-            CreationHeader(sheet, ref indexRow, MEMORANDUM_INCOMING_26_CONTEXT_FIRST_PART + summ + MEMORANDUM_INCOMING_26_CONTEXT_SECOND_PART, 2);
+            sheet.View.ShowGridLines = false;
+
+            sheet.Column(1).Width = Helpers.PixelsToInches(330);
+            sheet.Column(2).Width = Helpers.PixelsToInches(450);
+
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow++;
+
+            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow += 7;
+
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow += 2;
+
+
+            var totalSummsCurrency = bc.GetInfoCostsIncomingTotalSummsCurrency(year, month, "26А", true).ToList();
+
+            foreach (var totalSummCurrency in totalSummsCurrency)
+            {
+                if (totalSummCurrency != null)
+                {
+                    Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM_INCOMING_26_CONTEXT_FIRST_PART + totalSummCurrency + MEMORANDUM_INCOMING_26_CONTEXT_SECOND_PART, 
+                        Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+                    indexRow++;
+                }
+            }
 
             indexRow += 10;
 
@@ -147,6 +199,21 @@ namespace AIS_Enterprise_AV.Reports
             var sheet = Helpers.GetSheet(ep, name);
 
             int indexRow = 1;
+
+            sheet.View.ShowGridLines = false;
+
+            sheet.Column(1).Width = Helpers.PixelsToInches(330);
+            sheet.Column(2).Width = Helpers.PixelsToInches(450);
+
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow++;
+
+            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow += 7;
+
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow += 2;
+
             var infoCosts = bc.GetInfoCosts26Expense(year, month).ToList();
 
             int countRows = 0;
@@ -155,11 +222,12 @@ namespace AIS_Enterprise_AV.Reports
 
             foreach (var infoCost in infoCosts)
             {
-                context += "Сумму в размере " + infoCost.Summ + " " + infoCost.ConcatNotes + " – распределение по проектам согласно служебной записке." + Environment.NewLine;
-                countRows += 2;
+                context += "Сумму в размере " + Converting.DoubleToCurrency(infoCost.Summ, infoCost.Currency) + " " + infoCost.ConcatNotes + 
+                    " – распределение по проектам согласно служебной записке." + Environment.NewLine;
             }
 
-            CreationHeader(sheet, ref indexRow, context, countRows);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, context,
+                        Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
 
             indexRow += 6;
 
@@ -200,7 +268,7 @@ namespace AIS_Enterprise_AV.Reports
 
             var rcs = bc.GetDirectoryRCsMonthExpense(year, month).Where(r => r.Name != "26А" && r.Name != "ВСЕ").ToList();
 
-            if (bc.GetInfoCosts(year, month).Any(c => c.DirectoryRC.Name == "ВСЕ"))
+            if (bc.GetInfoCosts(year, month).Any(c => c.DirectoryRC.Name == "ВСЕ" && c.Currency == Currency.RUR))
             {
                 rcs = new List<DirectoryRC>(rcs.Union(bc.GetDirectoryRCs().Where(r => r.Percentes > 0).ToList()));
             }
@@ -213,7 +281,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRow, 1, "Статья затрат", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                 Helpers.CreateCell(sheet, indexRow, 2, rc.ReportName, Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                 Helpers.CreateCell(sheet, indexRow, 3, "ВСЕ", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 4, "Сумма, RUB", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 4, "Сумма,", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                 
                 indexRow++;
 
@@ -232,7 +300,7 @@ namespace AIS_Enterprise_AV.Reports
                     double costItemExpenseSumm = infoCostsCostItem.Where(c => c.DirectoryRC.Name != "ВСЕ").Sum(c => c.Summ);
                     double costItemIncomingSumm = infoCosts.Where(c => c.IsIncoming && c.DirectoryCostItem.Name == costItemName && c.DirectoryRC.Name != "ВСЕ").Sum(c => c.Summ);
                     double costItemRCSumm = costItemExpenseSumm - costItemIncomingSumm;
-                    string costItemRCSummString = costItemRCSumm != 0 ? costItemRCSumm + " RUB" : "";
+                    string costItemRCSummString = costItemRCSumm != 0 ? Converting.DoubleToCurrency(costItemRCSumm, Currency.RUR) : "";
 
                     Helpers.CreateCell(sheet, indexRow, 2, costItemRCSummString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
@@ -240,13 +308,13 @@ namespace AIS_Enterprise_AV.Reports
                     double costItemExpenseSummAll = Math.Round(infoCostsCostItem.Where(c => c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * rc.Percentes / 100, 0);
                     double costItemIncomingSummAll = Math.Round(infoCosts.Where(c => c.IsIncoming && c.DirectoryCostItem.Name == costItemName && c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * rc.Percentes / 100, 0);
                     double costItemRCSummAll = costItemExpenseSummAll - costItemIncomingSummAll;
-                    string costItemRCSummAllString = costItemRCSummAll != 0 ? costItemRCSummAll + " RUB" : "";
+                    string costItemRCSummAllString = costItemRCSummAll != 0 ? Converting.DoubleToCurrency(costItemRCSummAll, Currency.RUR) : "";
 
                     Helpers.CreateCell(sheet, indexRow, 3, costItemRCSummAllString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
 
                     double commonCostItemSumm = costItemRCSumm + costItemRCSummAll;
-                    string commonCostItemSummString = commonCostItemSumm != 0 ? commonCostItemSumm + " RUB" : "";
+                    string commonCostItemSummString = commonCostItemSumm != 0 ? Converting.DoubleToCurrency(commonCostItemSumm, Currency.RUR) : "";
 
 
                     Helpers.CreateCell(sheet, indexRow, 4, commonCostItemSummString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
@@ -255,11 +323,11 @@ namespace AIS_Enterprise_AV.Reports
                     commonAllSumm += costItemRCSummAll;
                     commonRCAndAllSumm += commonCostItemSumm;
                     
-                    indexRow++;               
+                    indexRow++;
                 }
-                string commonRCSummString = commonRCSumm != 0 ? commonRCSumm + " RUB" : "";
-                string commonAllSummString = commonAllSumm != 0 ? commonAllSumm + " RUB" : "";
-                string commonRCAndAllSummString = commonRCAndAllSumm != 0 ? commonRCAndAllSumm + " RUB" : "";
+                string commonRCSummString = commonRCSumm != 0 ? Converting.DoubleToCurrency(commonRCSumm, Currency.RUR) : "";
+                string commonAllSummString = commonAllSumm != 0 ? Converting.DoubleToCurrency(commonAllSumm, Currency.RUR) : "";
+                string commonRCAndAllSummString = commonRCAndAllSumm != 0 ? Converting.DoubleToCurrency(commonRCAndAllSumm, Currency.RUR) : "";
 
                 Helpers.CreateCell(sheet, indexRow, 1, "Итого", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                 Helpers.CreateCell(sheet, indexRow, 2, commonRCSummString, Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
@@ -271,7 +339,7 @@ namespace AIS_Enterprise_AV.Reports
                 indexRow += 2;
             }
 
-            string context = "Просим Вас снять с кассы «АВ» сумму в размере " + commonSumm + " RUB, и отнести на затраты по следующим центрам ответственности и статьям затрат:";
+            string context = "Просим Вас снять с кассы «АВ» сумму в размере " + commonSumm + ", и отнести на затраты по следующим центрам ответственности и статьям затрат:";
             Helpers.CreateCell(sheet, indexContextRow, 1, indexContextRow, 4, context, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
 
             Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
@@ -311,7 +379,7 @@ namespace AIS_Enterprise_AV.Reports
             sheet.View.ShowGridLines = false;
 
             sheet.Column(1).Width = Helpers.PixelsToInches(330);
-            sheet.Column(2).Width = Helpers.PixelsToInches(250);
+            sheet.Column(2).Width = Helpers.PixelsToInches(450);
 
             Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
             indexRow++;

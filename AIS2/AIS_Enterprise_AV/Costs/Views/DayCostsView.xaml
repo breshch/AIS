@@ -35,7 +35,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="194"/>
                 <ColumnDefinition Width="214"/>
-                <ColumnDefinition Width="214"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="84"/>
                 <ColumnDefinition Width="214"/>
             </Grid.ColumnDefinitions>
 
@@ -54,7 +55,12 @@
                 <TextBox x:Name="TextBoxSumm" Margin="0, 5, 0, 0" Height="22"   VerticalContentAlignment="Center" TextChanged="TextBox_TextChanged"/>
             </StackPanel>
 
-            <StackPanel x:Name="StackPanelTransportCompanies" Grid.Column="3" Orientation="Vertical" Margin="20 0, 0, 0" Visibility="Collapsed">
+            <StackPanel Grid.Column="3" Orientation="Vertical" Margin="18 0, 0, 0">
+                <TextBlock Text="Валюта"/>
+                <ComboBox x:Name="ComboBoxCurrencies" Margin="0, 5, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel x:Name="StackPanelTransportCompanies" Grid.Column="4" Orientation="Vertical" Margin="20 0, 0, 0" Visibility="Collapsed">
                 <TextBlock Text="Перевозчик"/>
                 <Border x:Name="BorderTransportCompanies" BorderBrush="Red" BorderThickness="2" Margin="0, 5, 0, 0">
                     <ComboBox x:Name="ComboBoxTransportCompanies" DisplayMemberPath="Name" Height="22"  VerticalContentAlignment="Center" LostFocus="ComboBoxTransportCompanies_SelectedChanged"/>

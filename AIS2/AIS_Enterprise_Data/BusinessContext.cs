@@ -150,14 +150,20 @@ namespace AIS_Enterprise_Data
             var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
             _dc.Parameters.Add(parameterBirthday);
 
-            var parameterSafe = new Parameter { Name = "TotalSafe", Value = "0" };
-            _dc.Parameters.Add(parameterSafe);
+            var currencyValue = new CurrencyValue { Name = "TotalCard" };
+            _dc.CurrencyValues.Add(currencyValue);
 
-            var parameterCard = new Parameter { Name = "TotalCard", Value = "0" };
-            _dc.Parameters.Add(parameterCard);
+            currencyValue = new CurrencyValue { Name = "TotalCash" };
+            _dc.CurrencyValues.Add(currencyValue);
 
-            var parameterCash = new Parameter { Name = "TotalCash", Value = "0" };
-            _dc.Parameters.Add(parameterCash);
+            currencyValue = new CurrencyValue { Name = "TotalSafe" };
+            _dc.CurrencyValues.Add(currencyValue);
+
+            currencyValue = new CurrencyValue { Name = "TotalLoan" };
+            _dc.CurrencyValues.Add(currencyValue);
+
+            currencyValue = new CurrencyValue { Name = "TotalPrivateLoan" };
+            _dc.CurrencyValues.Add(currencyValue);
 
             var companyAV = new DirectoryCompany { Name = "АВ" };
             _dc.DirectoryCompanies.Add(companyAV);
@@ -1009,11 +1015,13 @@ namespace AIS_Enterprise_Data
 
             _dc.SaveChanges();
 
+            double birthday = GetParameterValue<double>("Birthday");
             for (var date = startDate; date <= DateTime.Now; date = date.AddMonths(1))
             {
                 var infoMonth = new InfoMonth
                 {
                     Date = new DateTime(date.Year, date.Month, 1),
+                    BirthDays = !worker.IsDeadSpirit ? birthday : 0
                 };
 
                 worker.InfoMonthes.Add(infoMonth);
@@ -1490,17 +1498,17 @@ namespace AIS_Enterprise_Data
 
         #region Parameter
 
-        public void AddParameter(string name, string value)
-        {
-            var parameter = new Parameter
-            {
-                Name = name,
-                Value = value
-            };
+        //public void AddParameter(string name, string value)
+        //{
+        //    var parameter = new Parameter
+        //    {
+        //        Name = name,
+        //        Value = value
+        //    };
 
-            _dc.Parameters.Add(parameter);
-            _dc.SaveChanges();
-        }
+        //    _dc.Parameters.Add(parameter);
+        //    _dc.SaveChanges();
+        //}
 
         public void EditParameter(string name, string value)
         {
@@ -1527,6 +1535,8 @@ namespace AIS_Enterprise_Data
         {
             var lastDate = GetParameterValue<DateTime>("LastDate");
 
+            double birthday = GetParameterValue<double>("Birthday");
+
             if (DateTime.Now.Date > lastDate.Date)
             {
                 var workers = GetDirectoryWorkers(lastDate, DateTime.Now).ToList();
@@ -1534,8 +1544,22 @@ namespace AIS_Enterprise_Data
 
                 for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddDays(1))
                 {
+                    var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
                     foreach (var worker in workers)
                     {
+                        if (!worker.InfoMonthes.Any(m => m.Date.Year == date.Year && m.Date.Month == date.Month))
+                        {
+                            var infoMonth = new InfoMonth();
+                            infoMonth.Date = firstDateInMonth;
+                            if (worker.CurrentCompaniesAndPosts.Last().DirectoryPost.DirectoryTypeOfPost.Name != "Офис")
+                            {
+                                infoMonth.BirthDays = !worker.IsDeadSpirit ? birthday : 0;
+                            };
+                            worker.InfoMonthes.Add(infoMonth);
+
+                            _dc.SaveChanges();
+                        }
+
                         if (worker.StartDate.Date <= date.Date && (worker.FireDate == null || worker.FireDate != null && worker.FireDate.Value.Date >= date.Date))
                         {
                             if (!worker.InfoDates.Any(d => d.Date.Date == date.Date))
@@ -1571,53 +1595,44 @@ namespace AIS_Enterprise_Data
                                 }
 
                                 worker.InfoDates.Add(infoDate);
+
+                                var salaryDate = new DateTime(date.Year, date.Month, 5);
+                                if (lastDate.Date < salaryDate.Date && date.Date >= salaryDate.Date)
+                                {
+                                    InitializeWorkerLoanPayments(worker, worker.InfoMonthes.First(m => m.Date.Year == date.Year && m.Date.Month == date.Month), salaryDate);                                    
+                                }
                             }
                         }
                     }
 
                     _dc.SaveChanges();
+
+                    EditParameter("LastDate", date.ToString());
+                    lastDate = date;
                 }
-
-                double birthday = GetParameterValue<double>("Birthday");
-                for (var dateMonth = new DateTime(lastDate.Year, lastDate.Month, 1); dateMonth.Date <= DateTime.Now.Date; dateMonth = dateMonth.AddMonths(1))
-                {
-                    var firstDateInMonth = new DateTime(dateMonth.Year, dateMonth.Month, 1);
-                    foreach (var worker in workers)
-                    {
-                        if (!worker.InfoMonthes.Any(m => m.Date.Year == dateMonth.Year && m.Date.Month == dateMonth.Month))
-                        {
-                            var infoMonth = new InfoMonth();
-                            infoMonth.Date = firstDateInMonth;
-                            if (worker.CurrentCompaniesAndPosts.Last().DirectoryPost.DirectoryTypeOfPost.Name != "Офис")
-                            {
-                                infoMonth.BirthDays = birthday;
-                            };
-                            worker.InfoMonthes.Add(infoMonth);
-
-                            InitializeWorkerLoanPayments(worker, infoMonth);
-                        }
-                    }
-                    _dc.SaveChanges();
-                }
-
-                EditParameter("LastDate", DateTime.Now.ToString());
             }
         }
 
-        private void InitializeWorkerLoanPayments(DirectoryWorker worker, InfoMonth infoMonth)
+        private void InitializeWorkerLoanPayments(DirectoryWorker worker, InfoMonth infoMonth, DateTime salaryDate)
         {
-            var infoSafes = _dc.InfoLoans.Where(s => s.DirectoryWorkerId == worker.Id && s.DateLoanPayment == null).ToList();
-            if (infoSafes.Any())
+            var infoLoans = _dc.InfoLoans.Where(s => s.DirectoryWorkerId == worker.Id && (s.DateLoanPayment == null || 
+                (s.DateLoanPayment != null && DbFunctions.DiffDays(s.DateLoanPayment, salaryDate) <= 0))).ToList();
+
+            if (infoLoans.Any())
             {
-                foreach (var safe in infoSafes)
+                foreach (var loan in infoLoans)
                 {
-                    var payments = _dc.InfoPayments.Where(p => p.InfoLoanId == safe.Id).ToList();
+                    var payments = _dc.InfoPayments.Where(p => p.InfoLoanId == loan.Id).ToList();
                     if (payments.Any())
                     {
-                        var payment = payments.FirstOrDefault(p => p.Date.Date == infoMonth.Date.Date);
+                        var payment = payments.FirstOrDefault(p => p.Date.Date == salaryDate.Date);
                         if (payment != null)
                         {
                             infoMonth.PrepaymentCash = payment.Summ;
+                            EditCurrencyValueSummChange("TotalLoan", loan.Currency, payment.Summ);
+                            
+                            AddInfoSafe(payment.Date, true, payment.Summ, loan.Currency, CashType.Наличка, "Возврат долга: " + worker.FullName);
+
                             break;
                         }
                     }
@@ -1813,7 +1828,7 @@ namespace AIS_Enterprise_Data
 
         public IQueryable<DirectoryRC> GetDirectoryRCsMonthExpense(int year, int month)
         {
-            return GetInfoCosts(year, month).Where(c => !c.IsIncoming).Select(c => c.DirectoryRC).Distinct();
+            return GetInfoCosts(year, month).Where(c => !c.IsIncoming && c.Currency == Currency.RUR).Select(c => c.DirectoryRC).Distinct();
         }
 
         #endregion
@@ -1919,72 +1934,9 @@ namespace AIS_Enterprise_Data
         #endregion
 
 
-        #region InfoCash
-
-        public double GetInfoCash(int year, int month)
-        {
-            double cash = GetParameterValue<double>("TotalCash");
-
-            var infoCosts = _dc.InfoCosts.Where(c => c.Date.Year > year || (c.Date.Year == year && c.Date.Month > month)).ToList();
-
-            double totalIncoming = 0;
-            var infoCostsIncoming = infoCosts.Where(c => c.IsIncoming);
-            if (infoCostsIncoming.Any())
-            {
-                totalIncoming = infoCostsIncoming.Sum(c => c.Summ);
-            }
-
-            double totalExpense = 0;
-            var infoCostsExpense = infoCosts.Where(c => !c.IsIncoming);
-            if (infoCostsExpense.Any())
-            {
-                totalExpense = infoCostsExpense.Sum(c => c.Summ);
-            }
-
-            double cashAfter = totalIncoming - totalExpense;
-
-            return cash - cashAfter;
-
-            //var infoCosts = _dc.InfoCosts.ToList();
-            //cash = infoCosts.Sum(c => c.Incoming) - infoCosts.Sum(c => c.Expense);
-
-            //infoCash.Cash = cash;
-            //_dc.SaveChanges();
-
-            //return cash;
-        }
-
-        public double GetInfoCash(DateTime date)
-        {
-            double cash = GetParameterValue<double>("TotalCash");
-
-            var infoCosts = _dc.InfoCosts.Where(c => DbFunctions.DiffDays(c.Date, date) < 0).ToList();
-
-            double totalIncoming = 0;
-            var infoCostsIncoming = infoCosts.Where(c => c.IsIncoming);
-            if (infoCostsIncoming.Any())
-            {
-                totalIncoming = infoCostsIncoming.Sum(c => c.Summ);
-            }
-
-            double totalExpense = 0;
-            var infoCostsExpense = infoCosts.Where(c => !c.IsIncoming);
-            if (infoCostsExpense.Any())
-            {
-                totalExpense = infoCostsExpense.Sum(c => c.Summ);
-            }
-
-            double cashAfter = totalIncoming - totalExpense;
-
-            return cash - cashAfter;
-        }
-
-        #endregion
-
-
         #region InfoCost
 
-        public InfoCost EditInfoCost(DateTime date, DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note, bool isIncomming, double summ, double weight)
+        public InfoCost EditInfoCost(DateTime date, DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note, bool isIncomming, double summ, Currency currency, double weight)
         {
             var infoCosts = GetInfoCosts(date).ToList();
             var infoCost = infoCosts.FirstOrDefault(c => c.DirectoryCostItem.Id == costItem.Id && c.DirectoryRCId == rc.Id && c.CurrentNotes.First().DirectoryNoteId == note.Id);
@@ -1995,28 +1947,30 @@ namespace AIS_Enterprise_Data
                     GroupId = Guid.NewGuid(),
                     Date = date,
                     DirectoryCostItemId = costItem.Id,
-                    DirectoryRCId = rc.Id,
-                    CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = note.Id } },
+                    DirectoryRC = rc,
+                    CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNote = note }},
                     Summ = summ,
+                    Currency = currency,
                     IsIncoming = isIncomming,
                     Weight = weight,
                 };
 
-                AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
-
                 _dc.InfoCosts.Add(infoCost);
+
+                AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, currency, CashType.Наличка, rc.Name + " " + infoCost.ConcatNotes);
             }
             else
             {
                 double prevSumm = infoCost.Summ;
 
                 infoCost.Summ = summ;
+                infoCost.Currency = currency;
                 infoCost.IsIncoming = isIncomming;
                 infoCost.Weight = weight;
 
                 if (infoCost.Summ - prevSumm != 0)
                 {
-                    AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ - prevSumm, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
+                    AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ - prevSumm, currency, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
                 }
             }
 
@@ -2046,11 +2000,11 @@ namespace AIS_Enterprise_Data
         public IEnumerable<InfoCost> GetInfoCostsRCAndAll(int year, int month, string rcName)
         {
             var infoCosts = GetInfoCosts(year, month).ToList();
-            var infoCostsRC = infoCosts.Where(c => c.DirectoryRC.Name == rcName).ToList();
+            var infoCostsRC = infoCosts.Where(c => c.DirectoryRC.Name == rcName && c.Currency == Currency.RUR).ToList();
 
             if (_dc.DirectoryRCs.First(r => r.Name == rcName).Percentes > 0)
             {
-                infoCostsRC.AddRange(infoCosts.Where(c => c.DirectoryRC.Name == "ВСЕ").ToList());
+                infoCostsRC.AddRange(infoCosts.Where(c => c.DirectoryRC.Name == "ВСЕ" && c.Currency == Currency.RUR).ToList());
             }
 
             return infoCostsRC;
@@ -2066,7 +2020,7 @@ namespace AIS_Enterprise_Data
             return GetInfoCosts(date).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "ВСЕ");
         }
 
-        public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, DirectoryTransportCompany transportCompany, double summ, List<Transport> transports)
+        public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, DirectoryTransportCompany transportCompany, double summ, Currency currency, List<Transport> transports)
         {
             var groupId = Guid.NewGuid();
             if (directoryCostItem.Name == "Транспорт (5031)" && (transports[0].DirectoryRC.Name != "26А" || !isIncoming))
@@ -2093,13 +2047,14 @@ namespace AIS_Enterprise_Data
                         IsIncoming = isIncoming,
                         DirectoryTransportCompany = transportCompany != null ? _dc.DirectoryTransportCompanies.Find(transportCompany.Id) : null,
                         Summ = weightRC != 0 ? Math.Round(summ / commonWeight * weightRC, 0) : summ,
+                        Currency = currency,
                         CurrentNotes = currentNotes,
                         Weight = weightRC
                     };
 
                     _dc.InfoCosts.Add(infoCost);
 
-                    AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
+                    AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, currency, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
                 }
             }
             else
@@ -2113,12 +2068,13 @@ namespace AIS_Enterprise_Data
                     IsIncoming = isIncoming,
                     DirectoryTransportCompany = transportCompany != null ? _dc.DirectoryTransportCompanies.Find(transportCompany.Id) : null,
                     Summ = summ,
+                    Currency = currency,
                     CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNote = _dc.DirectoryNotes.Find(transports.First().DirectoryNote.Id) } },
                     Weight = 0
                 };
 
                 _dc.InfoCosts.Add(infoCost);
-                AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
+                AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, currency, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
             }
 
             _dc.SaveChanges();
@@ -2130,7 +2086,7 @@ namespace AIS_Enterprise_Data
 
             foreach (var cost in infoCosts)
             {
-                AddInfoSafe(infoCost.Date, !infoCost.IsIncoming, infoCost.Summ, CashType.Наличка, infoCost.DirectoryRC.Name + " " +  infoCost.ConcatNotes);
+                AddInfoSafe(infoCost.Date, !infoCost.IsIncoming, infoCost.Summ, infoCost.Currency, CashType.Наличка, infoCost.DirectoryRC.Name + " " +  infoCost.ConcatNotes);
             }
             
             _dc.InfoCosts.RemoveRange(infoCosts);
@@ -2153,12 +2109,41 @@ namespace AIS_Enterprise_Data
             return infoCosts.Any() ? infoCosts.Sum(c => c.Summ) : 0;
         }
 
+        public string[] GetInfoCostsIncomingTotalSummsCurrency(int year, int month, string rcName, bool? isIncoming = null, string costItem = null)
+        {
+            string[] totalSumms = new string[Enum.GetNames(typeof(Currency)).Count()];
+
+            for (int i = 0; i < totalSumms.Count(); i++)
+            {
+                var currency = (Currency)Enum.Parse(typeof(Currency), Enum.GetName(typeof(Currency), i));
+                var infoCosts = _dc.InfoCosts.Where(c => c.Date.Year == year && c.Date.Month == month && c.Currency == currency && c.DirectoryRC.Name == rcName);
+
+                if (isIncoming != null)
+                {
+                    infoCosts = infoCosts.Where(c => c.IsIncoming == isIncoming.Value);
+                }
+
+                if (costItem != null)
+                {
+                    infoCosts = infoCosts.Where(c => c.DirectoryCostItem.Name == costItem);
+                }
+
+                if (infoCosts.Any())
+                {
+                    double totalSummCurrency = infoCosts.Sum(c => c.Summ);
+                    totalSumms[i] = totalSummCurrency != 0 ? Converting.DoubleToCurrency(totalSummCurrency, currency) : null;
+                }
+            }
+
+            return totalSumms;
+        }
+
         #endregion
 
 
         #region InfoLoan
 
-        public InfoLoan AddInfoLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        public InfoLoan AddInfoLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ,Currency currency, int countPayments, string description)
         {
             DirectoryLoanTaker loanTaker = null;
 
@@ -2170,7 +2155,14 @@ namespace AIS_Enterprise_Data
                 {
                     loanTaker = AddDirectoryLoanTaker(loanTakerName);
                 };
+
+                AddInfoSafe(date, false, summ, currency, CashType.Наличка, "Выдача долга: " + loanTaker.Name);
             }
+            else
+            {
+                AddInfoSafe(date, false, summ, currency, CashType.Наличка, "Выдача долга: " + directoryWorker.FullName);
+            }
+
 
             var infoLoan = new InfoLoan
             {
@@ -2178,30 +2170,29 @@ namespace AIS_Enterprise_Data
                 DirectoryLoanTaker = loanTaker,
                 DirectoryWorker = directoryWorker,
                 Summ = summ,
-                CountPayments = countPayments != 0 ? countPayments : default(int?),
+                Currency = currency,
+                CountPayments = countPayments,
                 Description = description,
             };
 
             _dc.InfoLoans.Add(infoLoan);
             _dc.SaveChanges();
 
-            if (loanTakerName == null && countPayments != 0)
+            EditCurrencyValueSummChange("TotalLoan", currency, summ);
+
+            var dateLoanPayment = new DateTime(date.Year, date.Month, 5);
+
+            if (loanTakerName == null)
             {
                 double onePaySumm = Math.Round(summ / countPayments, 0);
-                var infoPayment = new InfoPayment
-                {
-                    Date = date,
-                    Summ = onePaySumm,
-                    InfoLoanId = infoLoan.Id
-                };
-                _dc.InfoPayments.Add(infoPayment);
 
-                for (int i = 1; i < countPayments; i++)
+                for (int i = 0; i < countPayments; i++)
                 {
-                    DateTime tmpDate = date.AddMonths(i);
-                    infoPayment = new InfoPayment
+                    dateLoanPayment = dateLoanPayment.AddMonths(1);
+                    
+                    var infoPayment = new InfoPayment
                     {
-                        Date = new DateTime(tmpDate.Year, tmpDate.Month, 1),
+                        Date = dateLoanPayment,
                         Summ = onePaySumm,
                         InfoLoanId = infoLoan.Id
                     };
@@ -2209,16 +2200,17 @@ namespace AIS_Enterprise_Data
                     _dc.InfoPayments.Add(infoPayment);
                 }
 
-                _dc.SaveChanges();
-
                 EditInfoMonthPayment(directoryWorker.Id, date, "PrepaymentCash", onePaySumm);
+
+                infoLoan.DateLoanPayment = dateLoanPayment;
             }
 
+            _dc.SaveChanges();
 
             return infoLoan;
         }
 
-        public InfoLoan EditInfoLoan(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        public InfoLoan EditInfoLoan(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, Currency currency, int countPayments, string description)
         {
             DirectoryLoanTaker loanTaker = null;
 
@@ -2233,11 +2225,15 @@ namespace AIS_Enterprise_Data
             }
 
             var infoLoan = _dc.InfoLoans.Find(id);
+
+            EditCurrencyValueSummChange("TotalLoan", currency, summ - infoLoan.Summ);
+
             infoLoan.DateLoan = date;
             infoLoan.DirectoryLoanTaker = loanTaker;
             infoLoan.DirectoryWorker = directoryWorker;
             infoLoan.Summ = summ;
-            infoLoan.CountPayments = countPayments != 0 ? countPayments : default(int?);
+            infoLoan.Currency = currency;
+            infoLoan.CountPayments = countPayments;
             infoLoan.Description = description;
 
             _dc.SaveChanges();
@@ -2251,10 +2247,11 @@ namespace AIS_Enterprise_Data
             _dc.SaveChanges();
         }
 
-        public IQueryable<InfoLoan> GetInfoLoans(DateTime date)
+        public IQueryable<InfoLoan> GetInfoLoans(DateTime from, DateTime to)
         {
-            return _dc.InfoLoans.Where(s => DbFunctions.DiffDays(s.DateLoan, date) >= 0 &&
-                (s.DateLoanPayment == null || s.DateLoanPayment != null && DbFunctions.DiffDays(s.DateLoanPayment.Value, date) <= 0)).OrderByDescending(s => s.DateLoan);
+            return _dc.InfoLoans.Where(s => DbFunctions.DiffDays(from, s.DateLoan) >= 0 && DbFunctions.DiffDays(to, s.DateLoan) <= 0 &&
+                (s.DateLoanPayment == null || s.DateLoanPayment != null && DbFunctions.DiffDays(DateTime.Now, s.DateLoanPayment) >= 0)).
+                OrderByDescending(s => s.DateLoan);
         }
 
         public double GetLoans()
@@ -2264,9 +2261,10 @@ namespace AIS_Enterprise_Data
 
         #endregion
 
+
         #region InfoPrivateLoan
 
-        public InfoPrivateLoan AddInfoPrivateLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        public InfoPrivateLoan AddInfoPrivateLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, Currency currency, int countPayments, string description)
         {
             DirectoryLoanTaker loanTaker = null;
 
@@ -2286,30 +2284,29 @@ namespace AIS_Enterprise_Data
                 DirectoryLoanTaker = loanTaker,
                 DirectoryWorker = directoryWorker,
                 Summ = summ,
-                CountPayments = countPayments != 0 ? countPayments : default(int?),
+                Currency = currency,
+                CountPayments = countPayments,
                 Description = description,
             };
 
             _dc.InfoPrivateLoans.Add(infoPrivateLoan);
             _dc.SaveChanges();
 
-            if (loanTakerName == null && countPayments != 0)
+            EditCurrencyValueSummChange("TotalPrivateLoan", currency, summ);
+
+            var datePrivateLoanPayment = new DateTime(date.Year, date.Month, 5);
+
+            if (loanTakerName == null)
             {
                 double onePaySumm = Math.Round(summ / countPayments, 0);
-                var infoPrivatePayment = new InfoPrivatePayment
-                {
-                    Date = date,
-                    Summ = onePaySumm,
-                    InfoPrivateLoanId = infoPrivateLoan.Id
-                };
-                _dc.InfoPrivatePayments.Add(infoPrivatePayment);
 
-                for (int i = 1; i < countPayments; i++)
+                for (int i = 0; i < countPayments; i++)
                 {
-                    DateTime tmpDate = date.AddMonths(i);
-                    infoPrivatePayment = new InfoPrivatePayment
+                    datePrivateLoanPayment = datePrivateLoanPayment.AddMonths(1);
+
+                    var infoPrivatePayment = new InfoPrivatePayment
                     {
-                        Date = new DateTime(tmpDate.Year, tmpDate.Month, 1),
+                        Date = datePrivateLoanPayment,
                         Summ = onePaySumm,
                         InfoPrivateLoanId = infoPrivateLoan.Id
                     };
@@ -2317,13 +2314,18 @@ namespace AIS_Enterprise_Data
                     _dc.InfoPrivatePayments.Add(infoPrivatePayment);
                 }
 
-                _dc.SaveChanges();
+                if (countPayments > 1)
+                {
+                    infoPrivateLoan.DateLoanPayment = datePrivateLoanPayment;
+                }
             }
+
+            _dc.SaveChanges();
 
             return infoPrivateLoan;
         }
 
-        public InfoPrivateLoan EditInfoPrivateLoan(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, int countPayments, string description)
+        public InfoPrivateLoan EditInfoPrivateLoan(int id, DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, Currency currency, int countPayments, string description)
         {
             DirectoryLoanTaker loanTaker = null;
 
@@ -2338,11 +2340,15 @@ namespace AIS_Enterprise_Data
             }
 
             var infoPrivateLoan = _dc.InfoPrivateLoans.Find(id);
+
+            EditCurrencyValueSummChange("TotalPrivateLoan", currency, summ - infoPrivateLoan.Summ);
+
             infoPrivateLoan.DateLoan = date;
             infoPrivateLoan.DirectoryLoanTaker = loanTaker;
             infoPrivateLoan.DirectoryWorker = directoryWorker;
             infoPrivateLoan.Summ = summ;
-            infoPrivateLoan.CountPayments = countPayments != 0 ? countPayments : default(int?);
+            infoPrivateLoan.Currency = currency;
+            infoPrivateLoan.CountPayments = countPayments;
             infoPrivateLoan.Description = description;
 
             _dc.SaveChanges();
@@ -2356,10 +2362,11 @@ namespace AIS_Enterprise_Data
             _dc.SaveChanges();
         }
 
-        public IQueryable<InfoPrivateLoan> GetInfoPrivateLoans(DateTime date)
+        public IQueryable<InfoPrivateLoan> GetInfoPrivateLoans(DateTime from, DateTime to)
         {
-            return _dc.InfoPrivateLoans.Where(s => DbFunctions.DiffDays(s.DateLoan, date) >= 0 &&
-                (s.DateLoanPayment == null || s.DateLoanPayment != null && DbFunctions.DiffDays(s.DateLoanPayment.Value, date) <= 0)).OrderByDescending(s => s.DateLoan);
+            return _dc.InfoPrivateLoans.Where(s => DbFunctions.DiffDays(from, s.DateLoan) >= 0 && DbFunctions.DiffDays(to, s.DateLoan) <= 0 &&
+                (s.DateLoanPayment == null || s.DateLoanPayment != null && DbFunctions.DiffDays(DateTime.Now, s.DateLoanPayment) >= 0)).
+                OrderByDescending(s => s.DateLoan);
         }
 
         public double GetPrivateLoans()
@@ -2368,6 +2375,7 @@ namespace AIS_Enterprise_Data
         }
 
         #endregion
+
 
         #region DirectoryCostItem
 
@@ -2607,29 +2615,36 @@ namespace AIS_Enterprise_Data
 
         #region InfoPayments
 
-        public IQueryable<InfoPayment> GetInfoPayments(int infoSafeId)
+        public IQueryable<InfoPayment> GetInfoPayments(int infoLoanId)
         {
-            return _dc.InfoPayments.Where(p => p.InfoLoanId == infoSafeId).OrderBy(p => p.Date);
+            return _dc.InfoPayments.Where(p => p.InfoLoanId == infoLoanId).OrderBy(p => p.Date);
         }
 
-        public InfoPayment AddInfoPayment(int infoSafeId, DateTime date, double summ)
+        public InfoPayment AddInfoPayment(int infoLoanId, DateTime date, double summ)
         {
             var infoPayment = new InfoPayment
             {
                 Date = date,
                 Summ = summ,
-                InfoLoanId = infoSafeId
+                InfoLoanId = infoLoanId
             };
 
             _dc.InfoPayments.Add(infoPayment);
-
             _dc.SaveChanges();
+
+            var infoLoan = _dc.InfoLoans.Find(infoLoanId);
+            EditCurrencyValueSummChange("TotalLoan", infoLoan.Currency, -summ);
+            AddInfoSafe(date, true, summ, infoLoan.Currency, CashType.Наличка, "Возврат долга: " + 
+                (infoLoan.DirectoryLoanTakerId == null ? infoLoan.DirectoryWorker.FullName : infoLoan.DirectoryLoanTaker.Name));
 
             return infoPayment;
         }
 
         public void RemoveInfoPayment(InfoPayment selectedInfoPayment)
         {
+            var currency = _dc.InfoLoans.Find(selectedInfoPayment.InfoLoanId).Currency;
+            EditCurrencyValueSummChange("TotalLoan", currency, selectedInfoPayment.Summ);
+
             _dc.InfoPayments.Remove(selectedInfoPayment);
             _dc.SaveChanges();
         }
@@ -2654,13 +2669,14 @@ namespace AIS_Enterprise_Data
 
         #region InfoSafe
 
-        public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, CashType cashType, string description)
+        public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, Currency currency, CashType cashType, string description)
         {
             var infoSafe = new InfoSafe
             {
                 Date = date,
                 IsIncoming = isIncoming,
                 Summ = summCash,
+                Currency = currency,
                 CashType = cashType,
                 Description = description
             };
@@ -2670,33 +2686,57 @@ namespace AIS_Enterprise_Data
 
             if (cashType == CashType.Наличка)
             {
-                CalcTotalSumm("TotalCash", isIncoming, summCash);
-                CalcTotalSumm("TotalSafe", !isIncoming, summCash);
+                CalcTotalSumm("TotalCash", isIncoming, summCash, currency);
             }
 
             return infoSafe;
         }
 
-        private void CalcTotalSumm(string totalSummName, bool isIncoming, double summCash)
+        public InfoSafe AddInfoSafeHand(DateTime date, bool isIncoming, double summCash, Currency currency, CashType cashType, string description)
         {
-            double summ = GetParameterValue<double>(totalSummName);
-            summ += isIncoming ? summCash : -summCash;
+            var infoSafe = new InfoSafe
+            {
+                Date = date,
+                IsIncoming = isIncoming,
+                Summ = summCash,
+                Currency = currency,
+                CashType = cashType,
+                Description = description
+            };
 
-            EditParameter(totalSummName, summ.ToString());
+            _dc.InfoSafes.Add(infoSafe);
+            _dc.SaveChanges();
+
+            if (cashType == CashType.Наличка)
+            {
+                CalcTotalSumm("TotalCash", isIncoming, summCash, currency);
+                CalcTotalSumm("TotalSafe", !isIncoming, summCash, currency);
+            }
+
+            return infoSafe;
         }
 
-        public InfoSafe AddInfoSafeCard(DateTime date, double availableSumm, string description)
+        private void CalcTotalSumm(string totalSummName, bool isIncoming, double summCash, Currency currency)
         {
-            double prevAvailableSumm = GetParameterValue<double>("TotalCard");
+            double summ = GetCurrencyValueSumm(totalSummName, currency);
+           
+            summ += isIncoming ? summCash : -summCash;
+
+            EditCurrencyValueSumm(totalSummName, currency, summ);
+        }
+
+        public InfoSafe AddInfoSafeCard(DateTime date, double availableSumm, Currency currency, string description)
+        {
+            double prevAvailableSumm = GetCurrencyValue("TotalCard").RUR;
 
             double summ = Math.Round(availableSumm - prevAvailableSumm, 2);
             bool isIncoming = summ >= 0 ? true : false;
 
-            if (!_dc.InfoSafes.Any(s => s.Date == date && s.CashType == CashType.Карточка && s.Description == description))
+            if (!_dc.InfoSafes.Any(s => DbFunctions.DiffSeconds(s.Date, date) == 0 && s.CashType == CashType.Карточка && s.Description == description))
             {
-                EditParameter("TotalCard", availableSumm.ToString());
+                EditCurrencyValueSumm("TotalCard", Currency.RUR, availableSumm);
 
-                return AddInfoSafe(date, isIncoming, Math.Abs(summ), CashType.Карточка, description);
+                return AddInfoSafe(date, isIncoming, Math.Abs(summ), currency, CashType.Карточка, description);
             }
 
             return null;
@@ -2707,17 +2747,17 @@ namespace AIS_Enterprise_Data
             return _dc.InfoSafes.OrderByDescending(s => s.Date);
         }
 
-        public IQueryable<InfoSafe> GetInfoSafes(CashType cashType)
+        public IQueryable<InfoSafe> GetInfoSafes(CashType cashType, DateTime from, DateTime to)
         {
-            return _dc.InfoSafes.Where(s => s.CashType == cashType).OrderByDescending(s => s.Date);
+            return _dc.InfoSafes.Where(s => s.CashType == cashType && DbFunctions.DiffDays(from, s.Date) >= 0 && DbFunctions.DiffDays(to, s.Date) <= 0).OrderByDescending(s => s.Date);
         }
 
         public void RemoveInfoSafe(InfoSafe infoSafe)
         {
             if (infoSafe.CashType == CashType.Наличка)
             {
-                CalcTotalSumm("TotalCash", !infoSafe.IsIncoming, infoSafe.Summ);
-                CalcTotalSumm("TotalSafe", infoSafe.IsIncoming, infoSafe.Summ);
+                CalcTotalSumm("TotalCash", !infoSafe.IsIncoming, infoSafe.Summ, infoSafe.Currency);
+                CalcTotalSumm("TotalSafe", infoSafe.IsIncoming, infoSafe.Summ, infoSafe.Currency);
             }
 
             _dc.InfoSafes.Remove(infoSafe);
@@ -2727,7 +2767,6 @@ namespace AIS_Enterprise_Data
         #endregion
 
 
-
         #region InfoPrivatePayments
 
         public IQueryable<InfoPrivatePayment> GetInfoPrivatePayments(int infoSafeId)
@@ -2735,25 +2774,119 @@ namespace AIS_Enterprise_Data
             return _dc.InfoPrivatePayments.Where(p => p.InfoPrivateLoanId == infoSafeId).OrderBy(p => p.Date);
         }
 
-        public InfoPrivatePayment AddInfoPrivatePayment(int infoSafeId, DateTime date, double summ)
+        public InfoPrivatePayment AddInfoPrivatePayment(int infoPrivateLoanId, DateTime date, double summ)
         {
             var infoPrivatePayment = new InfoPrivatePayment
             {
                 Date = date,
                 Summ = summ,
-                InfoPrivateLoanId = infoSafeId
+                InfoPrivateLoanId = infoPrivateLoanId
             };
 
             _dc.InfoPrivatePayments.Add(infoPrivatePayment);
-
             _dc.SaveChanges();
+
+            var currency = _dc.InfoPrivateLoans.Find(infoPrivateLoanId).Currency;
+            EditCurrencyValueSummChange("TotalPrivateLoan", currency, -summ);
 
             return infoPrivatePayment;
         }
 
         public void RemoveInfoPrivatePayment(InfoPrivatePayment selectedInfoPrivatePayment)
         {
+            var currency = _dc.InfoPrivateLoans.Find(selectedInfoPrivatePayment.InfoPrivateLoanId).Currency;
+            EditCurrencyValueSummChange("TotalPrivateLoan", currency, selectedInfoPrivatePayment.Summ);
+
             _dc.InfoPrivatePayments.Remove(selectedInfoPrivatePayment);
+            _dc.SaveChanges();
+        }
+
+        #endregion
+
+
+        #region CurrencyValue
+
+        public CurrencyValue GetCurrencyValue(string name)
+        {
+            var currencyValue = _dc.CurrencyValues.First(c => c.Name == name);
+            _dc.Entry<CurrencyValue>(currencyValue).Reload();
+            
+            return currencyValue;
+        }
+
+        public double GetCurrencyValueSumm(string name, Currency currency)
+        {
+            var currencyValue = GetCurrencyValue(name);
+
+            double summ = 0;
+            switch (currency)
+            {
+                case Currency.RUR:
+                    summ = currencyValue.RUR;
+                    break;
+                case Currency.USD:
+                    summ = currencyValue.USD;
+                    break;
+                case Currency.EUR:
+                    summ = currencyValue.EUR;
+                    break;
+                case Currency.BYR:
+                    summ = currencyValue.BYR;
+                    break;
+                default:
+                    break;
+            }
+
+            return summ;
+        }
+
+        public void EditCurrencyValueSumm(string name, Currency currency, double summ)
+        {
+            var currencyValue = GetCurrencyValue(name);
+
+            switch (currency)
+            {
+                case Currency.RUR:
+                    currencyValue.RUR = summ;
+                    break;
+                case Currency.USD:
+                    currencyValue.USD = summ;
+                    break;
+                case Currency.EUR:
+                    currencyValue.EUR = summ;
+                    break;
+                case Currency.BYR:
+                    currencyValue.BYR = summ;
+                    break;
+                default:
+                    break;
+            }
+
+            _dc.SaveChanges();
+        }
+
+        public void EditCurrencyValueSummChange(string name, Currency currency, double summ)
+        {
+            var currencyValue = GetCurrencyValue(name);
+
+            switch (currency)
+            {
+                case Currency.RUR:
+                    currencyValue.RUR += summ;
+                    break;
+                case Currency.USD:
+                    currencyValue.USD += summ;
+                    break;
+                case Currency.EUR:
+                    currencyValue.EUR += summ;
+                    break;
+                case Currency.BYR:
+                    currencyValue.BYR += summ;
+                    break;
+                default:
+                    break;
+            }
+
             _dc.SaveChanges();
         }
 

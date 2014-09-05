@@ -32,7 +32,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationRevision>36</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -217,9 +217,6 @@
     <Compile Include="Views\Infos\InfoPaymentsView.xaml.cs">
       <DependentUpon>InfoPaymentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Infos\InfoKeepingMoneyView.xaml.cs">
-      <DependentUpon>InfoKeepingMoneyView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Infos\InfoOverTimeView.xaml.cs">
       <DependentUpon>InfoOverTimeView.xaml</DependentUpon>
     </Compile>
@@ -323,10 +320,6 @@
     <Page Include="Views\Infos\InfoPaymentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Infos\InfoKeepingMoneyView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\InfoOverTimeView.xaml">
       <SubType>Designer</SubType>

@@ -32,7 +32,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Add(object parameter)
         {
-            BC.AddInfoPrivateLoan(SelectedDate, SelectedLoanTaker, SelectedWorker, SummLoan, CountPayments, Description);
+            BC.AddInfoPrivateLoan(SelectedDate, SelectedLoanTaker, SelectedWorker, SummLoan, SelectedCurrency, CountPayments, Description);
 
             var window = parameter as Window;
             window.Close();

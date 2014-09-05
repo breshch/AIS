@@ -37,10 +37,10 @@ namespace AIS_Enterprise_CardService
                 {
                     try
                     {
+                        //_bc.EditCurrencyValueSumm("TotalCard", Currency.RUR, 262941.87);
+
                         while (true)
                         {
-                            //_bc.EditParameter("TotalCard", "121874,57");
-
                             using (var client = new ImapClient())
                             {
                                 client.Connect("imap.gmail.com", 993, true);
@@ -86,7 +86,7 @@ namespace AIS_Enterprise_CardService
 
                                         string description = mail.Body.Substring(indexSemicolon + 1, mail.Body.IndexOf(availableName) - 1 - (indexSemicolon + 1));
 
-                                        _bc.AddInfoSafeCard(mail.Date, availableSumm, description);
+                                        _bc.AddInfoSafeCard(mail.Date, availableSumm, Currency.RUR, description);
 
                                         sw.WriteLine(DateTime.Now + "\t" + mail.Date + "\t" + availableSumm + "\t" + description);
                                     }

@@ -2,6 +2,7 @@
 using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             _isIncoming = isIncoming;
             AddCommand = new RelayCommand(Add);
             SelectedDate = DateTime.Now;
+            Currencies = new ObservableCollection<Currency>(Enum.GetNames(typeof(Currency)).Select(c => (Currency) Enum.Parse(typeof(Currency), c)));
+            SelectedCurrency = Currencies.First();
         }
 
         #endregion
@@ -31,6 +34,9 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         public string  ButtonName { get; set; }
         public DateTime  SelectedDate { get; set; }
         public double SummCash { get; set; }
+        public ObservableCollection<Currency> Currencies { get; set; }
+        public Currency SelectedCurrency { get; set; }
+
         #endregion
 
         #region Commands
@@ -39,7 +45,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Add(object parameter)
         {
-            BC.AddInfoSafe(SelectedDate, _isIncoming, SummCash, CashType.Наличка, null);
+            BC.AddInfoSafeHand(SelectedDate, _isIncoming, SummCash, SelectedCurrency, CashType.Наличка, null);
             
             var window = parameter as Window;
             window.Close();    

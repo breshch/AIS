@@ -108,28 +108,29 @@
                 
                 <DataGrid.Columns>
                     <DataGridTextColumn x:Name="MonthTimeSheetWorkerId" Binding="{Binding WorkerId}" Header="WorkerId" Visibility="Collapsed" MinWidth="5" MaxWidth="5"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetWorkerSerialId" Binding="{Binding WorkerSerialId}" Header="№" MinWidth="30" MaxWidth="30" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetFullName" Binding="{Binding FullName}" Header="ФИО" IsReadOnly="True" MinWidth="250" Width="*" Visibility="Collapsed"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetDirectoryPostId" Binding="{Binding DirectoryPostId}" Header="PostId" Visibility="Collapsed" MinWidth="5" MaxWidth="5"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetPostChangeDate" Binding="{Binding PostChangeDate}" Header="ChangePostDate" Visibility="Collapsed" MinWidth="5" MaxWidth="5"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetPostName" Binding="{Binding PostName}" Header="Должность" IsReadOnly="True" MinWidth="150" MaxWidth="150" Visibility="Collapsed"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetSalaryInHour" Binding="{Binding SalaryInHour}" Header="З/П час" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetSalaryInHour" Binding="{Binding SalaryInHour}" Header="З/П час" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
 
                     <DataGridTextColumn x:Name="MonthTimeSheetOverTime" Binding="{Binding OverTime}" Header="  Пере работка" IsReadOnly="True" MinWidth="60" MaxWidth="60" CellStyle="{StaticResource CenterTextAlignmentCell}" Visibility="Collapsed"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetVocationDays" Binding="{Binding VocationDays}" Header="Отпуск" IsReadOnly="True" MinWidth="60" MaxWidth="60" CellStyle="{StaticResource CenterTextAlignmentCell}" Visibility="Collapsed"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetSickDays" Binding="{Binding SickDays}" Header="  Боль ничные" IsReadOnly="True" MinWidth="60" MaxWidth="60" CellStyle="{StaticResource CenterTextAlignmentCell}" Visibility="Collapsed"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetMissDays" Binding="{Binding MissDays}" Header="Прогулы" IsReadOnly="True" MinWidth="60" MaxWidth="60" CellStyle="{StaticResource CenterTextAlignmentCell}" Visibility="Collapsed"/>
 
-                    <DataGridTextColumn x:Name="MonthTimeSheetPrepaymentCash" Binding="{Binding PrepaymentCash}" Header="Аванс Н" MinWidth="60" MaxWidth="60" Visibility="Collapsed"  IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetPrepaymentBankTransaction" Binding="{Binding PrepaymentBankTransaction}" Header="Аванс Б" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetCompensation" Binding="{Binding Compensation}" Header="Компе нсация" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetVocationPayment" Binding="{Binding VocationPayment}" Header="Отпуск Б" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetCardAV" Binding="{Binding CardAV}" Header="Б/Р АВ" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetCardFenox" Binding="{Binding CardFenox}" Header="   Б/Р Фенокс" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetPanalty" Binding="{Binding Panalty}" Header="Штраф" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetInventory" Binding="{Binding Inventory}" Header="Пере учет" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetBirthDays" Binding="{Binding BirthDays}" Header="Д/Р" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetBonus" Binding="{Binding Bonus}" Header="Премия" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetFinalSalary" Binding="{Binding FinalSalary}" Header="Итого" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetPrepaymentCash" Binding="{Binding PrepaymentCash}" Header="Аванс Н" MinWidth="60" MaxWidth="60" Visibility="Collapsed"  IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetPrepaymentBankTransaction" Binding="{Binding PrepaymentBankTransaction}" Header="Аванс Б" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetCompensation" Binding="{Binding Compensation}" Header="Компе нсация" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetVocationPayment" Binding="{Binding VocationPayment}" Header="Отпуск Б" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True " CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetCardAV" Binding="{Binding CardAV}" Header="Б/Р АВ" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetCardFenox" Binding="{Binding CardFenox}" Header="   Б/Р Фенокс" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetPanalty" Binding="{Binding Panalty}" Header="Штраф" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetInventory" Binding="{Binding Inventory}" Header="Пере учет" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetBirthDays" Binding="{Binding BirthDays}" Header="Д/Р" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetBonus" Binding="{Binding Bonus}" Header="Премия" MinWidth="60" MaxWidth="60" Visibility="Collapsed" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetFinalSalary" Binding="{Binding FinalSalary}" Header="Итого" IsReadOnly="True" MinWidth="60" MaxWidth="60" Visibility="Collapsed" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
                 </DataGrid.Columns>            
             </DataGrid>
 

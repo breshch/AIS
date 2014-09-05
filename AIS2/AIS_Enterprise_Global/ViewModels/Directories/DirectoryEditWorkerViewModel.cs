@@ -37,11 +37,17 @@ namespace AIS_Enterprise_Global.ViewModels
 
             if (!IsNotFireDate)
             {
-                IsFireWorkerEnable = false;   
+                VisibilityBringAlive = Visibility.Visible;
+                IsFireWorkerEnable = false;
+            }
+            else
+            {
+                VisibilityBringAlive = Visibility.Collapsed;
             }
 
             EditWorkerCommand = new RelayCommand(EditWorker, CanEditingWorker);
             FireWorkerCommand = new RelayCommand(FireWorker, CanEditingWorker);
+            BringAliveCommand = new RelayCommand(BringAlive);
 
             FillInputData();
         }
@@ -91,16 +97,25 @@ namespace AIS_Enterprise_Global.ViewModels
         [NoMagic]
         public DateTime? SelectedDirectoryWorkerFireDate { get; set; }
 
+        private bool _isNotFireDate;
+
         [NoMagic]
         public bool IsNotFireDate
         {
             get
             {
-                return _selectedDirectoryWorker.FireDate == null;
+                return _selectedDirectoryWorker.FireDate == null || _isNotFireDate;
+            }
+            set
+            {
+                _isNotFireDate = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsFireWorkerEnable { get; set; }
+
+        public Visibility VisibilityBringAlive { get; set; }
 
         [NoMagic]
         public bool IsChangeWorker { get; private set; }
@@ -112,6 +127,7 @@ namespace AIS_Enterprise_Global.ViewModels
 
         public RelayCommand EditWorkerCommand { get; set; }
         public RelayCommand FireWorkerCommand { get; set; }
+        public RelayCommand BringAliveCommand { get; set; }
 
         private void EditWorker(object parameter)
         {
@@ -152,6 +168,11 @@ namespace AIS_Enterprise_Global.ViewModels
         public override void ViewClose(object parameter)
         {
             base.ViewClose(parameter);
+        }
+
+        private void BringAlive(object parameter)
+        {
+            IsNotFireDate = !IsNotFireDate;
         }
 
         #endregion

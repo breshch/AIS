@@ -86,7 +86,7 @@ namespace AIS_Enterprise_AV.Costs.Views
                 }
 
                 var comboBox = item as ComboBox;
-                if (comboBox != null)
+                if (comboBox != null && comboBox.Name != "ComboBoxCurrencies")
                 {
                     ComboBoxValidation(comboBox);
                 }
@@ -133,6 +133,8 @@ namespace AIS_Enterprise_AV.Costs.Views
         private void InitializeData()
         {
             DatePickerDate.SelectedDate = DateTime.Now;
+            ComboBoxCurrencies.ItemsSource = Enum.GetNames(typeof(Currency));
+            ComboBoxCurrencies.SelectedIndex = 0;
 
             if (!_isNotTransportOnly)
             {
@@ -180,9 +182,10 @@ namespace AIS_Enterprise_AV.Costs.Views
 
                 transports.Add(transport);
             }
+            var currency = (Currency)Enum.Parse(typeof(Currency),ComboBoxCurrencies.SelectedItem.ToString());
 
             _bc.AddInfoCosts(DatePickerDate.SelectedDate.Value, ComboBoxCostItems.SelectedItem as DirectoryCostItem, RadioButtonIncoming.IsChecked.Value,
-                ComboBoxTransportCompanies.SelectedItem as DirectoryTransportCompany, double.Parse(TextBoxSumm.Text), transports);
+                ComboBoxTransportCompanies.SelectedItem as DirectoryTransportCompany, double.Parse(TextBoxSumm.Text), currency, transports);
 
             FillDataGrid(DatePickerDate.SelectedDate.Value);
 
@@ -197,6 +200,7 @@ namespace AIS_Enterprise_AV.Costs.Views
         {
             RadioButtonExpense.IsChecked = true;
             TextBoxSumm.Text = null;
+            ComboBoxCurrencies.SelectedIndex = 0;
 
             ComboBoxCostItems.SelectedItem = null;
             ComboBoxRCs_1.SelectedItem = null;
@@ -242,6 +246,20 @@ namespace AIS_Enterprise_AV.Costs.Views
                     StackPanelWeight.Visibility = System.Windows.Visibility.Visible;
                     ButtonAddNewCargo.Visibility = System.Windows.Visibility.Visible;
                     StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Visible;
+
+                    var rc = ComboBoxRCs_1.SelectedItem as DirectoryRC;
+
+                    if (rc != null)
+                    {
+                        if (rc.Name == "ПАМ-16")
+                        {
+                            RadioButtonIncoming.IsEnabled = true;
+                        }
+                        else
+                        {
+                            RadioButtonIncoming.IsEnabled = false;
+                        }
+                    }
                 }
                 else
                 {
@@ -250,6 +268,7 @@ namespace AIS_Enterprise_AV.Costs.Views
                     StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
                     TextBoxWeight_1.Text = null;
                     ComboBoxTransportCompanies.SelectedItem = null;
+                    RadioButtonIncoming.IsEnabled = false;
                 }
 
                 if (costItem.Name == "Приход")
@@ -557,6 +576,30 @@ namespace AIS_Enterprise_AV.Costs.Views
         private void ComboBoxRCs_SelectionChanged(object sender, RoutedEventArgs e)
         {
             var comboBox = sender as ComboBox;
+
+            var costItem = ComboBoxCostItems.SelectedItem as DirectoryCostItem;
+            if (costItem != null)
+            {
+                if (costItem.Name == "Транспорт (5031)")
+                {
+                    var rc = comboBox.SelectedItem as DirectoryRC;
+                    if (rc != null)
+                    {
+                        if (rc.Name == "ПАМ-16")
+                        {
+                            RadioButtonIncoming.IsEnabled = true;
+                        }
+                        else
+                        {
+                            RadioButtonIncoming.IsEnabled = false;
+                        }
+                    }
+                }
+                else
+                {
+                    RadioButtonIncoming.IsEnabled = false;
+                }
+            }
 
             string borderName = "Border" + comboBox.Name.Substring(8);
             var border = WindowCosts.FindName(borderName) as Border;

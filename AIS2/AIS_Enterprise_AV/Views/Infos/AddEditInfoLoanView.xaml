@@ -4,10 +4,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title}" Height="400" Width="300">
+        Title="{Binding Title}" Height="480" Width="300">
     
     <Grid Margin="20, 30">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -35,20 +36,25 @@
             <TextBlock Text="Сумма кредита" />
             <TextBox Text="{Binding SummLoan}"/>
         </StackPanel>
+        
+        <StackPanel Grid.Row="4" Margin="0, 5, 0, 0">
+            <TextBlock Text="Валюта" />
+            <ComboBox ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedCurrency}"/>
+        </StackPanel>
+        
+        <CheckBox Grid.Row="5" Content="Разбивка на платежи" IsChecked="{Binding IsMultiplyPayments}" Visibility="{Binding VisibilityIsMultiplyPayments}" Margin="0, 5, 0, 0"/>
 
-        <CheckBox Grid.Row="4" Content="Разбивка на платежи" IsChecked="{Binding IsMultiplyPayments}" Visibility="{Binding VisibilityIsMultiplyPayments}" Margin="0, 5, 0, 0"/>
-
-        <StackPanel Grid.Row="5" Margin="0, 5, 0, 0" Visibility="{Binding VisibilityMultiplyPayments}">
+        <StackPanel Grid.Row="6" Margin="0, 5, 0, 0" Visibility="{Binding VisibilityMultiplyPayments}">
             <TextBlock Text="Количество платежей" />
             <toolkit:IntegerUpDown Text="{Binding CountPayments}"/>
         </StackPanel>
 
-        <DockPanel Grid.Row="6" Margin="0, 5, 0, 0">
+        <DockPanel Grid.Row="7" Margin="0, 5, 0, 0">
             <TextBlock DockPanel.Dock="Top" Text="Примечание" />
             <TextBox DockPanel.Dock="Bottom" Text="{Binding Description}" TextWrapping="Wrap"/>
         </DockPanel>
         
-        <Button Grid.Row="7" Command="{Binding AddEditCommand}" CommandParameter="{Binding ElementName=AddEditInfoSafeWindow}" Content="{Binding AddEditName}" Margin="0, 15, 0, 0" />
+        <Button Grid.Row="8" Command="{Binding AddEditCommand}" CommandParameter="{Binding ElementName=AddEditInfoSafeWindow}" Content="{Binding AddEditName}" Margin="0, 15, 0, 0" />
 
     </Grid>
 </Window>

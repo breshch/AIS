@@ -107,4 +107,12 @@ namespace AIS_Enterprise_Global.Helpers
         Наличка,
         Карточка
     }
+
+    public enum Currency
+    {
+        RUR,
+        USD,
+        EUR,
+        BYR
+    }
 }

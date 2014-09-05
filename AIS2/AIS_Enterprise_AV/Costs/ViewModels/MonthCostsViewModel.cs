@@ -159,8 +159,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
         private void SummChange()
         {
-            IncomingsAndExpenses.First().Incoming = Costs.Sum(c => c.Incoming);
-            IncomingsAndExpenses.First().Expense = Costs.Sum(c => c.Expense);
+            IncomingsAndExpenses.First().Incoming = Costs.Sum(c => c.IsIncoming ? c.Summ : 0);
+            IncomingsAndExpenses.First().Expense = Costs.Sum(c => !c.IsIncoming ? c.Summ : 0);
         }
 
         #endregion
@@ -505,7 +505,7 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                         }
                     }
 
-                    BC.AddInfoCosts(cost.Date, cost.DirectoryCostItem, true, cost.DirectoryTransportCompany, cost.Summ, transports);
+                    BC.AddInfoCosts(cost.Date, cost.DirectoryCostItem, true, cost.DirectoryTransportCompany, cost.Summ, cost.Currency, transports);
                 }
 
                 _costs.Clear();

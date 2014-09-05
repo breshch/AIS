@@ -19,9 +19,12 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         {
             LoanTakers = new ObservableCollection<DirectoryLoanTaker>(BC.GetDirectoryLoanTakers());
             DirectoryWorkers = new ObservableCollection<DirectoryWorker>(BC.GetDirectoryWorkers(DateTime.Now.Year, DateTime.Now.Month));
+            Currencies = new ObservableCollection<Currency>(Enum.GetNames(typeof (Currency)).Select(c => (Currency)Enum.Parse(typeof(Currency), c)));
+            SelectedCurrency = Currencies.First();
 
-            VisibilityMultiplyPayments = Visibility.Collapsed;
+            CountPayments = 1;
             
+            VisibilityMultiplyPayments = Visibility.Collapsed;
         }
 
         #endregion
@@ -69,6 +72,9 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         public double SummLoan { get; set; }
 
+        public ObservableCollection<Currency> Currencies { get; set; }
+        public Currency SelectedCurrency { get; set; }
+
         public Visibility VisibilityIsMultiplyPayments { get; set; }
 
         private bool _isMultiplyPayments;
@@ -87,11 +93,11 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 
                 if (!_isMultiplyPayments)
                 {
-                    CountPayments = 0;
+                    CountPayments = 1;
                 }
                 else
                 {
-                    CountPayments = 1;
+                    CountPayments = 2;
                 }
             }
         }

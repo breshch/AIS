@@ -14,6 +14,7 @@ namespace AIS_Enterprise_AV.Helpers.Temps
     public class MonthTimeSheetWorker
     {
         public int WorkerId { get; set; }
+        public int? WorkerSerialId { get; set; }
         public string FullName { get; set; }
         public int DirectoryPostId { get; set; }
         public DateTime PostChangeDate { get; set; }

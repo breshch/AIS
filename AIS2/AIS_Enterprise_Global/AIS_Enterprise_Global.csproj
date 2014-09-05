@@ -71,12 +71,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelperMethods.cs" />
     <Compile Include="Helpers\AttachedProperties.cs" />
     <Compile Include="Helpers\Attributes\DoubleValueAttribute.cs" />
     <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
     <Compile Include="Helpers\Global.cs" />
     <Compile Include="Helpers\DataGridHelper.cs" />
-    <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\PropertyChangedBase.cs" />
     <Compile Include="Helpers\Temps\PrivilegeTempViewModel.cs" />
     <Compile Include="Helpers\ValueConverters\PostToShortPostValueConverter.cs" />

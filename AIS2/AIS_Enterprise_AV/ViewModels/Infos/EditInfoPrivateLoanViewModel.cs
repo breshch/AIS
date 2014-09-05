@@ -36,12 +36,14 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             
             SummLoan = infoPrivateLoan.Summ;
 
-            if (infoPrivateLoan.CountPayments != null)
+            if (infoPrivateLoan.CountPayments != 1)
             {
                 IsMultiplyPayments = true;
                 VisibilityMultiplyPayments = System.Windows.Visibility.Visible;
-                CountPayments = infoPrivateLoan.CountPayments.Value;
+                
             }
+
+            CountPayments = infoPrivateLoan.CountPayments;
 
             Description = infoPrivateLoan.Description;
 
@@ -55,7 +57,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void Edit(object parameter)
         {
-            BC.EditInfoPrivateLoan(_infoLoanId, SelectedDate, SelectedLoanTaker, SelectedWorker, SummLoan, CountPayments, Description);
+            BC.EditInfoPrivateLoan(_infoLoanId, SelectedDate, SelectedLoanTaker, SelectedWorker, SummLoan, SelectedCurrency, CountPayments, Description);
 
             var window = parameter as Window;
             window.Close();

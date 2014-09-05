@@ -1,14 +1,11 @@
 ﻿<Window x:Class="AIS_Enterprise_AV.Costs.Views.MonthCostsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         xmlns:helpers="clr-namespace:AIS_Enterprise_Global.Helpers;assembly=AIS_Enterprise_Global"
         Title="Месячные затраты" Height="Auto" MaxHeight="800" SizeToContent="Height" Width="1100"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <valueConverters:DoubleToCurrencyValueConverter x:Key="doubleToCurrencyValueConverter"/>
-
         <Style x:Key="CenterTextAlignmentCell" TargetType="DataGridCell">
             <Style.Setters>
                 <Setter Property="TextBlock.TextAlignment" Value="Center" />
@@ -115,9 +112,9 @@
                 <DataGridTextColumn Width="0.7*"/>
                 <DataGridTextColumn Width="0.7*"/>
                 
-                <DataGridTextColumn Binding="{Binding Incoming, Converter={StaticResource doubleToCurrencyValueConverter}}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
+                <DataGridTextColumn Binding="{Binding Incoming}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
                                      Width="0.8*"/>
-                <DataGridTextColumn Binding="{Binding Expense, Converter={StaticResource doubleToCurrencyValueConverter}}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
+                <DataGridTextColumn Binding="{Binding Expense}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
                                      Width="0.8*"/>
 
                 <DataGridTextColumn Width="0.5*" Visibility="{Binding DataContext.ReturnVisibility, Source={StaticResource ProxyElement}}"/>
@@ -138,9 +135,9 @@
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" CellStyle="{StaticResource CenterTextAlignmentCell}" IsReadOnly="True" Width="0.7*"/>
                 <DataGridTextColumn Header="Статья затрат" Binding="{Binding DirectoryCostItem.Name}" IsReadOnly="True"  Width="0.7*"/>
                 <DataGridTextColumn Header="ЦО" Binding="{Binding DirectoryRC.Name}"  IsReadOnly="True" Width="0.7*"/>
-                <DataGridTextColumn Header="Приход" Binding="{Binding Incoming,Converter={StaticResource doubleToCurrencyValueConverter}}" CellStyle="{StaticResource CenterTextAlignmentCell}"
+                <DataGridTextColumn Header="Приход" Binding="{Binding Incoming}" CellStyle="{StaticResource CenterTextAlignmentCell}"
                                      IsReadOnly="True" Width="0.8*"/>
-                <DataGridTextColumn Header="Расход" Binding="{Binding Expense,Converter={StaticResource doubleToCurrencyValueConverter}}" CellStyle="{StaticResource CenterTextAlignmentCell}"
+                <DataGridTextColumn Header="Расход" Binding="{Binding Expense}" CellStyle="{StaticResource CenterTextAlignmentCell}"
                                      IsReadOnly="True" Width="0.8*"/>
 
 
@@ -166,8 +163,8 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             
-            <Label Grid.Column="3" Content="{Binding SummIncommingByFilter, Converter={StaticResource doubleToCurrencyValueConverter}}" HorizontalContentAlignment="Center" />
-            <Label Grid.Column="4" Content="{Binding SummExpenseByFilter, Converter={StaticResource doubleToCurrencyValueConverter}}" HorizontalContentAlignment="Center"  />
+            <Label Grid.Column="3" Content="{Binding SummIncommingByFilter}" HorizontalContentAlignment="Center" />
+            <Label Grid.Column="4" Content="{Binding SummExpenseByFilter}" HorizontalContentAlignment="Center"  />
             
        
         </Grid>-->
