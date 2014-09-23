@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_AV.ViewModels.Infos.Base;
+using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

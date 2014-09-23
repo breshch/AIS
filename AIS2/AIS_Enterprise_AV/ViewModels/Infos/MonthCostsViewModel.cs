@@ -1,4 +1,4 @@
-﻿using AIS_Enterprise_AV.Costs.Views;
+﻿using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_Global.Helpers;
@@ -16,7 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using AIS_Enterprise_Data.Temps;
 
-namespace AIS_Enterprise_AV.Costs.ViewModels
+namespace AIS_Enterprise_AV.ViewModels.Infos
 {
     public class MonthCostsViewModel : ViewModelGlobal
     {
@@ -27,6 +27,9 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
         public MonthCostsViewModel()
         {
+            var firstWorkingArea = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+            MaxHeightForm = firstWorkingArea.Height - 100;
+
             _isNotTransportOnly = HelperMethods.IsPrivilege(BC, UserPrivileges.CostsVisibility_IsNotTransportOnly);
 
             Costs = new ObservableCollection<InfoCost>();
@@ -215,7 +218,6 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                     foreach (var cost in BC.GetInfoCosts(SelectedYear, _selectedMonth))
                     {
                         Costs.Add(cost);
-                        _costs.Add(cost);
                     }
                 }
                 else
@@ -223,10 +225,10 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
                     foreach (var cost in BC.GetInfoCostsTransportAndNoAllAndExpenseOnly(SelectedYear, _selectedMonth))
                     {
                         Costs.Add(cost);
-                        _costs.Add(cost);
                     }
                 }
 
+                _costs.AddRange(Costs);
                 RefreshFilters();
 
                 PropertyChangedBase.Raise();
@@ -439,6 +441,8 @@ namespace AIS_Enterprise_AV.Costs.ViewModels
 
         public Visibility ReturnVisibility { get; set; }
         public Visibility ReturnButtonVisibility { get; set; }
+
+        public int MaxHeightForm { get; set; }
 
         #endregion
 

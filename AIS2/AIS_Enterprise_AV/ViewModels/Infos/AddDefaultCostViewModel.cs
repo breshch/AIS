@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_AV.ViewModels.Infos.Base;
+using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS_Enterprise_AV.Costs.ViewModels
+namespace AIS_Enterprise_AV.ViewModels.Infos
 {
     public class AddDefaultCostViewModel : BaseDefaultCostViewModel 
     {

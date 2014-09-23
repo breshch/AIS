@@ -20,7 +20,7 @@ using AIS_Enterprise_Global.Helpers.Temps;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Data.Temps;
 
-namespace AIS_Enterprise_AV.Costs.Views
+namespace AIS_Enterprise_AV.Views.Infos
 {
     public partial class DayCostsView : Window
     {

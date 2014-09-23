@@ -1,6 +1,4 @@
-﻿using AIS_Enterprise_AV.Costs.ViewModels;
-using AIS_Enterprise_AV.Costs.Views;
-using AIS_Enterprise_AV.Helpers.Temps;
+﻿using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
@@ -75,7 +73,7 @@ namespace AIS_Enterprise_AV.Views
         {
             InitializeComponent();
 
-            ScreenWight();
+            //ScreenWight();
             //_bc.EditParameter("TotalCard", "121874,57");
 
             //_bc.EditParameter("LastDate", DateTime.Now.AddDays(-3).ToString());
@@ -103,7 +101,7 @@ namespace AIS_Enterprise_AV.Views
             //_bc.SaveChanges();
             ////_bc.SaveChanges();
             
-            var _dc = _bc.DataContext;
+            //var _dc = _bc.DataContext;
             
             //int id = _dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary").Id;
             //_dc.CurrentUserStatusPrivileges.RemoveRange(_dc.CurrentUserStatusPrivileges.Where(p => p.DirecoryUserStatusPrivilegeId == id));
@@ -116,12 +114,12 @@ namespace AIS_Enterprise_AV.Views
             //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportSalaryMinsk" });
             //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportCash" });
 
-            _dc.DirectoryWorkers.Find(78).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 9).BirthDays = 0;
-            _dc.DirectoryWorkers.Find(87).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
-            _dc.DirectoryWorkers.Find(88).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
-            _dc.DirectoryWorkers.Find(89).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
+            //_dc.DirectoryWorkers.Find(78).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 9).BirthDays = 0;
+            //_dc.DirectoryWorkers.Find(87).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
+            //_dc.DirectoryWorkers.Find(88).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
+            //_dc.DirectoryWorkers.Find(89).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
 
-            _dc.SaveChanges();
+            //_dc.SaveChanges();
 
             InitializeGif();
             InitializePrivileges();
@@ -181,7 +179,7 @@ namespace AIS_Enterprise_AV.Views
             ImageBehavior.SetAnimatedSource(PictureLoading, image);
         }
 
-        private void ScreenWight()
+        private void SetScreenSize()
         {
             if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
             {
@@ -193,7 +191,10 @@ namespace AIS_Enterprise_AV.Views
                 }
             }
 
-            this.Left = System.Windows.Forms.Screen.AllScreens[0].WorkingArea.Width / 2 - (this.Width / 2);
+            var firstWorkingArea = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+
+            this.Left = firstWorkingArea.Width / 2 - (this.Width / 2);
+            this.MaxHeight = firstWorkingArea.Height - 100;
         }
 
         private void SettingMenuVisibility(string privilege, List<MenuItem> menuItems, int indexUnderLine)
@@ -247,8 +248,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void InitializePrivileges()
         {
-            var user = _bc.GetDirectoryUser(DirectoryUser.CurrentUserId);
-            _privileges = user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
+            _privileges = DirectoryUser.Privileges;
 
             foreach (var privilege in _privileges)
             {
@@ -405,7 +405,7 @@ namespace AIS_Enterprise_AV.Views
                             DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
                             DataGridMonthTimeSheet.Items.Refresh();
 
-                            ScreenWight();
+                            SetScreenSize();
 
                             PictureLoading.Visibility = System.Windows.Visibility.Collapsed;
 

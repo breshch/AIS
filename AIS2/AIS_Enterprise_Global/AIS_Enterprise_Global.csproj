@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -94,164 +95,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ViewModels\Directories\CurrentCompanyAndPostViewModel.cs" />
-    <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
-    <Compile Include="ViewModels\Directories\Base\DirectoryUserStatusBaseViewModel.cs" />
-    <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
-    <Compile Include="ViewModels\Directories\Base\DirectoryUserBaseViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryEditUserStatusViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryAddUserStatusViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryEditUserViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryAddUserViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryUserStatusesViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryEditPostViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryTypeOfPostViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryUsersViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryWorkerListViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryWorkerFireDateViewModel.cs" />
-    <Compile Include="ViewModels\Helpers\LogViewModel.cs" />
-    <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
-    <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
-    <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
-      <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryEditUserStatusView.xaml.cs">
-      <DependentUpon>DirectoryEditUserStatusView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryAddUserStatusView.xaml.cs">
-      <DependentUpon>DirectoryAddUserStatusView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryEditUserView.xaml.cs">
-      <DependentUpon>DirectoryEditUserView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryAddUserView.xaml.cs">
-      <DependentUpon>DirectoryAddUserView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryCompanyView.xaml.cs">
-      <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryAddPostView.xaml.cs">
-      <DependentUpon>DirectoryAddPostView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryEditPostView.xaml.cs">
-      <DependentUpon>DirectoryEditPostView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryPostView.xaml.cs">
-      <DependentUpon>DirectoryPostView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryTypeOfPostView.xaml.cs">
-      <DependentUpon>DirectoryTypeOfPostView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryUserStatusesView.xaml.cs">
-      <DependentUpon>DirectoryUserStatusesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryWorkerListView.xaml.cs">
-      <DependentUpon>DirectoryWorkerListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryAddWorkerView.xaml.cs">
-      <DependentUpon>DirectoryAddWorkerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryEditWorkerView.xaml.cs">
-      <DependentUpon>DirectoryEditWorkerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryWorkerFireDateView.xaml.cs">
-      <DependentUpon>DirectoryWorkerFireDateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryUsersView.xaml.cs">
-      <DependentUpon>DirectoryUsersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Helpers\LogView.xaml.cs">
-      <DependentUpon>LogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Infos\InfoPanaltiesView.xaml.cs">
-      <DependentUpon>InfoPanaltiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Infos\InfoPanaltyView.xaml.cs">
-      <DependentUpon>InfoPanaltyView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Directories\DirectoryEditUserStatusView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryAddUserStatusView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Directories\DirectoryEditUserView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryAddUserView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryCompanyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryAddPostView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryEditPostView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryPostView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Directories\DirectoryTypeOfPostView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ViewModelGlobal.cs" />
-    <Page Include="Views\Directories\DirectoryUserStatusesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Directories\DirectoryWorkerListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Directories\DirectoryAddWorkerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryEditWorkerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryWorkerFireDateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Directories\DirectoryUsersView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Helpers\LogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Infos\InfoPanaltiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Infos\InfoPanaltyView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -283,9 +128,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Currents\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AIS_Enterprise_Data\AIS_Enterprise_Data.csproj">
       <Project>{3eea2c83-692b-4667-ac2b-fffd38710687}</Project>

@@ -153,18 +153,98 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Costs\ViewModels\AddDefaultCostViewModel.cs" />
-    <Compile Include="Costs\ViewModels\EditDefaultCostViewModel.cs" />
-    <Compile Include="Costs\ViewModels\BaseDefaultCostViewModel.cs" />
-    <Compile Include="Costs\ViewModels\DefaultCostsViewModel.cs" />
-    <Compile Include="Costs\ViewModels\MonthCostsViewModel.cs" />
-    <Compile Include="Costs\Views\AddEditDefaultCostView.xaml.cs">
+    <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryUserBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryUserStatusBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddUserStatusViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddUserViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditUserStatusViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditUserViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryTypeOfPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryUserStatusesViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryUsersViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerFireDateViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerListViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\LogViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddDefaultCostViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditDefaultCostViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseDefaultCostViewModel.cs" />
+    <Compile Include="ViewModels\Infos\DefaultCostsViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
+    <Compile Include="ViewModels\Infos\MonthCostsViewModel.cs" />
+    <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
+      <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddPostView.xaml.cs">
+      <DependentUpon>DirectoryAddPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddUserStatusView.xaml.cs">
+      <DependentUpon>DirectoryAddUserStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddUserView.xaml.cs">
+      <DependentUpon>DirectoryAddUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddWorkerView.xaml.cs">
+      <DependentUpon>DirectoryAddWorkerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryCompanyView.xaml.cs">
+      <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditPostView.xaml.cs">
+      <DependentUpon>DirectoryEditPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditUserStatusView.xaml.cs">
+      <DependentUpon>DirectoryEditUserStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditUserView.xaml.cs">
+      <DependentUpon>DirectoryEditUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditWorkerView.xaml.cs">
+      <DependentUpon>DirectoryEditWorkerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryPostView.xaml.cs">
+      <DependentUpon>DirectoryPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryTypeOfPostView.xaml.cs">
+      <DependentUpon>DirectoryTypeOfPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryUserStatusesView.xaml.cs">
+      <DependentUpon>DirectoryUserStatusesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryUsersView.xaml.cs">
+      <DependentUpon>DirectoryUsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryWorkerFireDateView.xaml.cs">
+      <DependentUpon>DirectoryWorkerFireDateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryWorkerListView.xaml.cs">
+      <DependentUpon>DirectoryWorkerListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\LogView.xaml.cs">
+      <DependentUpon>LogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditDefaultCostView.xaml.cs">
       <DependentUpon>AddEditDefaultCostView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Costs\Views\DefaultCostsView.xaml.cs">
+    <Compile Include="Views\Infos\DefaultCostsView.xaml.cs">
       <DependentUpon>DefaultCostsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Costs\Views\MonthCostsView.xaml.cs">
+    <Compile Include="Views\Infos\InfoPanaltiesView.xaml.cs">
+      <DependentUpon>InfoPanaltiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoPanaltyView.xaml.cs">
+      <DependentUpon>InfoPanaltyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\MonthCostsView.xaml.cs">
       <DependentUpon>MonthCostsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCostsExcelToDB.cs" />
@@ -190,7 +270,7 @@
     <Compile Include="ViewModels\Infos\EditInfoPrivateLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\EditInfoLoanViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddInfoLoanViewModel.cs" />
-    <Compile Include="ViewModels\Infos\Base\BaseInfoLoanViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseInfoSafeViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPrivatePaymentsViewMode.cs" />
     <Compile Include="ViewModels\Infos\InfoPaymentsViewModel.cs" />
@@ -229,7 +309,7 @@
     <Compile Include="Views\MonthTimeSheetView.xaml.cs">
       <DependentUpon>MonthTimeSheetView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Costs\Views\DayCostsView.xaml.cs">
+    <Compile Include="Views\Infos\DayCostsView.xaml.cs">
       <DependentUpon>DayCostsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -263,7 +343,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIS_Enterprise_Data\AIS_Enterprise_Data.csproj">
@@ -281,15 +363,91 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Costs\Views\AddEditDefaultCostView.xaml">
+    <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddUserStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddUserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddWorkerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryCompanyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditUserStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditUserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditWorkerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryTypeOfPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryUserStatusesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryUsersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryWorkerFireDateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryWorkerListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\LogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditDefaultCostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Costs\Views\DefaultCostsView.xaml">
+    <Page Include="Views\Infos\DefaultCostsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Costs\Views\MonthCostsView.xaml">
+    <Page Include="Views\Infos\InfoPanaltiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoPanaltyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\MonthCostsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -337,7 +495,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Costs\Views\DayCostsView.xaml">
+    <Page Include="Views\Infos\DayCostsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

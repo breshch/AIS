@@ -78,15 +78,9 @@ namespace AIS_Enterprise_Global.Helpers
             window.ShowDialog();
         }
 
-        public static List<string> GetPrivileges(BusinessContext bc)
-        {
-            var user = bc.GetDirectoryUser(DirectoryUser.CurrentUserId);
-            return user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
-        }
-
         public static bool IsPrivilege(BusinessContext bc, UserPrivileges userPrivilege)
         {
-            return GetPrivileges(bc).Contains(userPrivilege.ToString());
+            return DirectoryUser.Privileges.Contains(userPrivilege.ToString());
         }
 
         public static bool IsPrivilege(List<string> privileges, UserPrivileges userPrivilege)

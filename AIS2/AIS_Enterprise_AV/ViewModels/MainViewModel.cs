@@ -1,6 +1,4 @@
-﻿using AIS_Enterprise_AV.Costs.ViewModels;
-using AIS_Enterprise_AV.Costs.Views;
-using AIS_Enterprise_AV.Helpers.ExcelToDB;
+﻿using AIS_Enterprise_AV.Helpers.ExcelToDB;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Directories;
@@ -400,7 +398,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 Properties.Settings.Default.DefaultUser = SelectedUser.TranscriptionName;
                 Properties.Settings.Default.Save();
 
-                DirectoryUser.ChangeUserId(SelectedUser.Id, SelectedUser.UserName);
+                DirectoryUser.ChangeUserId(BC, SelectedUser.Id, SelectedUser.UserName);
             }
 
             window.Visibility = Visibility.Collapsed;

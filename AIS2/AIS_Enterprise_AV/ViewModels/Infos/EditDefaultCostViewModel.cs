@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AIS_Enterprise_AV.ViewModels.Infos.Base;
 
-namespace AIS_Enterprise_AV.Costs.ViewModels
+namespace AIS_Enterprise_AV.ViewModels.Infos
 {
     public class EditDefaultCostViewModel : BaseDefaultCostViewModel
     {

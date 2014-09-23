@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories
 {
@@ -16,15 +17,15 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         public DirectoryWorkerListViewModel() : base()
         {
+            var firstWorkingArea = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+            MaxHeightForm = firstWorkingArea.Height - 100;
             var directoryWorkers = new List<DirectoryWorker>();
-
+            
             var workers = BC.GetDirectoryWorkers().ToList();
-
-            var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && w.CurrentDirectoryPost.DirectoryTypeOfPost.Name == "Склад").ToList();
+            var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && BC.GetDirectoryTypeOfPost(w.Id, DateTime.Now).Name == "Склад").ToList();
             directoryWorkers.AddRange(workerWarehouses);
 
-            var user = BC.GetDirectoryUser(DirectoryUser.CurrentUserId);
-            var privileges = user.CurrentUserStatus.DirectoryUserStatus.Privileges.Select(p => p.DirectoryUserStatusPrivilege.Name).ToList();
+            var privileges = DirectoryUser.Privileges;
 
             if (HelperMethods.IsPrivilege(privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
             {
@@ -35,7 +36,7 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
             if (HelperMethods.IsPrivilege(privileges, UserPrivileges.WorkersVisibility_Office))
             {
-                var workerOffices = workers.Where(w => !w.IsDeadSpirit && w.CurrentDirectoryPost.DirectoryTypeOfPost.Name == "Офис").ToList();
+                var workerOffices = workers.Where(w => !w.IsDeadSpirit && BC.GetDirectoryTypeOfPost(w.Id, DateTime.Now).Name == "Офис").ToList();
 
                 directoryWorkers.AddRange(workerOffices);
             }
@@ -53,6 +54,8 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
         public ObservableCollection<DirectoryWorker> DirectoryWorkers { get; set; }
 
         public DirectoryWorker SelectedDirectoryWorker { get; set; }
+
+        public int MaxHeightForm { get; set; }
 
         #endregion
 

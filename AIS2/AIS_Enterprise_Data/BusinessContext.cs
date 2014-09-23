@@ -1059,7 +1059,7 @@ namespace AIS_Enterprise_Data
 
         public IQueryable<DirectoryWorker> GetDirectoryWorkers()
         {
-            return _dc.DirectoryWorkers;
+            return _dc.DirectoryWorkers.Include(w => w.CurrentCompaniesAndPosts.Select(c => c.DirectoryPost.DirectoryTypeOfPost));
         }
 
         public IQueryable<DirectoryWorker> GetDirectoryWorkers(int year, int month)
@@ -1782,6 +1782,15 @@ namespace AIS_Enterprise_Data
             return _dc.DirectoryUserStatusPrivileges.First(p => p.Name == privilegeName);
         }
 
+        public List<string> GetPrivileges(int userId)
+        {
+            int currentUserStatusId = _dc.DirectoryUsers.Find(userId).CurrentUserStatusId;
+            int directoryUserStatusId = _dc.CurrentUserStatuses.Find(currentUserStatusId).DirectoryUserStatusId;
+            var directoryUserStatusPrivilegeIds = _dc.CurrentUserStatusPrivileges.Where(p => p.DirectoryUserStatusId == directoryUserStatusId).Select(p => p.DirectoryUserStatusPrivilegeId);
+            var privileges = _dc.DirectoryUserStatusPrivileges.Where(p => directoryUserStatusPrivilegeIds.Contains(p.Id)).Select(p => p.Name).ToList();
+            return privileges;
+        }
+
         #endregion
 
 
@@ -1984,7 +1993,9 @@ namespace AIS_Enterprise_Data
 
         public IQueryable<InfoCost> GetInfoCosts(int year, int month)
         {
-            return _dc.InfoCosts.Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
+            return _dc.InfoCosts.Include(c => c.DirectoryCostItem).Include(c => c.DirectoryRC).
+                Include(c => c.DirectoryTransportCompany).Include(c => c.CurrentNotes.Select(n => n.DirectoryNote)).
+                Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
         }
 
         public IQueryable<InfoCost> GetInfoCostsRCIncoming(int year, int month, string rcName)
@@ -2012,7 +2023,9 @@ namespace AIS_Enterprise_Data
 
         public IQueryable<InfoCost> GetInfoCostsTransportAndNoAllAndExpenseOnly(int year, int month)
         {
-            return GetInfoCosts(year, month).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "ВСЕ");
+            return GetInfoCosts(year, month).Include(c => c.DirectoryCostItem).Include(c => c.DirectoryRC).
+                Include(c => c.DirectoryTransportCompany).Include(c => c.CurrentNotes.Select(n => n.DirectoryNote)).
+                Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "ВСЕ");
         }
 
         public IQueryable<InfoCost> GetInfoCostsTransportAndNoAllAndExpenseOnly(DateTime date)

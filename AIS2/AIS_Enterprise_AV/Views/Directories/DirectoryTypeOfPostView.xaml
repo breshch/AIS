@@ -24,7 +24,7 @@
         <ListBox Grid.Row="0" ItemsSource="{Binding DirectoryTypeOfPosts, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryTypeOfPost, Mode=TwoWay}"/>
 
         <StackPanel Grid.Row="1" Margin="0, 15, 0, 0">
-            <TextBlock Text="{x:Static res:Resources.DirectoryTypeOfPostName}"/>
+            <TextBlock Text="Тип должности"/>
             <TextBox Text="{Binding DirectoryTypeOfPostName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="32"/>
         </StackPanel>
 

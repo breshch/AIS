@@ -1,4 +1,4 @@
-﻿using AIS_Enterprise_AV.Costs.Views;
+﻿using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Data.Helpers;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise_AV.Costs.ViewModels
+namespace AIS_Enterprise_AV.ViewModels.Infos
 {
     public class DefaultCostsViewModel : ViewModelGlobal
     {

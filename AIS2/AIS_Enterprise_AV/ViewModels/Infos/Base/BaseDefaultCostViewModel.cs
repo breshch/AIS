@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise_AV.Costs.ViewModels
+namespace AIS_Enterprise_AV.ViewModels.Infos.Base
 {
     public abstract class BaseDefaultCostViewModel : ViewModelGlobal
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS_Enterprise_AV.ViewModels.Infos
+namespace AIS_Enterprise_AV.ViewModels.Infos.Base
 {
     public abstract class BaseInfoSafeViewModel : ViewModelGlobal
     {
@@ -28,6 +28,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         }
 
         #endregion
+
 
         #region Properties
 
@@ -60,6 +61,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                     VisibilityIsMultiplyPayments = Visibility.Collapsed;
                     SelectedWorker = null;
                 }
+
+                Raise();
             }
         }
         public ObservableCollection<DirectoryLoanTaker> LoanTakers { get; set; }
@@ -99,6 +102,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 {
                     CountPayments = 2;
                 }
+
+                Raise();
             }
         }
 
@@ -110,6 +115,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         public string AddEditName { get; set; }
 
         #endregion
+
 
         #region Commands
 
