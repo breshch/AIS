@@ -137,6 +137,7 @@ namespace AIS_Enterprise_Data
         public DbSet<DirectoryCompany> DirectoryCompanies { get; set; }
         public DbSet<DirectoryTypeOfPost> DirectoryTypeOfPosts { get; set; }
         public DbSet<DirectoryPost> DirectoryPosts { get; set; }
+        public DbSet<DirectoryPostSalary> DirectoryPostSalaries { get; set; }
         public DbSet<DirectoryWorker> DirectoryWorkers { get; set; }
         public DbSet<DirectoryHoliday> DirectoryHolidays { get; set; }
         public DbSet<DirectoryUser> DirectoryUsers { get; set; }

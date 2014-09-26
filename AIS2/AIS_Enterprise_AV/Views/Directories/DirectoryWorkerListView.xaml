@@ -5,7 +5,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         WindowStartupLocation="CenterScreen"
         Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
-        Title="Список работников" Height="Auto" SizeToContent="Height" Width="800" MaxHeight="{Binding MaxHeightForm}">
+        Title="Список работников" Height="Auto" SizeToContent="Height" Width="900" MaxHeight="{Binding MaxHeightForm}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -37,11 +37,11 @@
                 </DataGrid.InputBindings>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDay, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Моб. телефон" Binding="{Binding CellPhone}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Должность" Binding="{Binding CurrentDirectoryPost.Name,Converter={StaticResource postToShortPostValueConverter}}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="1.5*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDay, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Моб. телефон" Binding="{Binding CellPhone}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding CurrentDirectoryPost.Name,Converter={StaticResource postToShortPostValueConverter}}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
 
             </DataGrid.Columns>
         </DataGrid>

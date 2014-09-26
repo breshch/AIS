@@ -17,9 +17,9 @@ namespace AIS_Enterprise_Global.Views.Directories
     /// <summary>
     /// Логика взаимодействия для DirectoryPostView.xaml
     /// </summary>
-    public partial class DirectoryAddPostView : Window
+    public partial class AddEditDirectoryPostView : Window
     {
-        public DirectoryAddPostView()
+        public AddEditDirectoryPostView()
         {
             InitializeComponent();
         }

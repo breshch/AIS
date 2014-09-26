@@ -85,7 +85,9 @@ namespace AIS_Enterprise_Global.ViewModels
 
             CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(_selectedDirectoryWorker.CurrentCompaniesAndPosts.
                 Select(c => new CurrentCompanyAndPost { DirectoryPost = c.DirectoryPost, PostChangeDate = c.ChangeDate, PostFireDate = c.FireDate, IsTwoCompanies = c.IsTwoCompanies,
-                Salary = IsAdminSalary ? c.DirectoryPost.AdminWorkerSalary.Value : c.DirectoryPost.UserWorkerSalary}));
+                Salary = IsAdminSalary ? c.DirectoryPost.DirectoryPostSalaries.OrderByDescending(s => s.Date).First().AdminWorkerSalary.Value : 
+                c.DirectoryPost.DirectoryPostSalaries.OrderByDescending(s => s.Date).First().UserWorkerSalary}));
+
             IsDeadSpirit = _selectedDirectoryWorker.IsDeadSpirit;
         }
 

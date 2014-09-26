@@ -54,23 +54,16 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void Add(object parameter)
         {
-            var directoryAddPostViewModel = new DirectoryAddPostViewModel();
-            var directoryAddPostView = new DirectoryAddPostView();
-
-            directoryAddPostView.DataContext = directoryAddPostViewModel;
-            directoryAddPostView.ShowDialog();
+            HelperMethods.ShowView(new DirectoryAddPostViewModel(), new AddEditDirectoryPostView());
 
             RefreshDirectoryPosts();
         }
 
         private void Edit(object parameter)
         {
-            var directoryEditPostViewModel = new DirectoryEditPostViewModel(SelectedDirectoryPost);
-            var directoryEditPostView = new DirectoryEditPostView();
+            HelperMethods.ShowView(new DirectoryEditPostViewModel(SelectedDirectoryPost), new AddEditDirectoryPostView());
 
-            directoryEditPostView.DataContext = directoryEditPostViewModel;
-            directoryEditPostView.ShowDialog();
-
+            BC.RefreshContext();
             RefreshDirectoryPosts();
         }
 

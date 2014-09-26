@@ -109,7 +109,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn x:Name="MonthTimeSheetWorkerId" Binding="{Binding WorkerId}" Header="WorkerId" Visibility="Collapsed" MinWidth="5" MaxWidth="5"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetWorkerSerialId" Binding="{Binding WorkerSerialId}" Header="№" MinWidth="30" MaxWidth="30" IsReadOnly="True" CellStyle="{StaticResource CenterTextAlignmentCell}"/>
-                    <DataGridTextColumn x:Name="MonthTimeSheetFullName" Binding="{Binding FullName}" Header="ФИО" IsReadOnly="True" MinWidth="250" Width="*" Visibility="Collapsed"/>
+                    <DataGridTextColumn x:Name="MonthTimeSheetFullName" Binding="{Binding FullName}" Header="ФИО" IsReadOnly="True" MinWidth="250" Visibility="Collapsed"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetDirectoryPostId" Binding="{Binding DirectoryPostId}" Header="PostId" Visibility="Collapsed" MinWidth="5" MaxWidth="5"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetPostChangeDate" Binding="{Binding PostChangeDate}" Header="ChangePostDate" Visibility="Collapsed" MinWidth="5" MaxWidth="5"/>
                     <DataGridTextColumn x:Name="MonthTimeSheetPostName" Binding="{Binding PostName}" Header="Должность" IsReadOnly="True" MinWidth="150" MaxWidth="150" Visibility="Collapsed"/>

@@ -78,7 +78,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void RefreshDirectoryRCs()
         {
-            DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs());
+            DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCsByPercentage());
         }
 
         private void ClearInputData()
@@ -126,7 +126,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                     SelectedEndTime = overTime.EndDate;
 
                     DirectoryRCs.Clear();
-                    foreach (var rc in BC.GetDirectoryRCs().ToList())
+                    foreach (var rc in BC.GetDirectoryRCsByPercentage().ToList())
                     {
                         rc.IsChecked = overTime.CurrentRCs.ToList().Any(r => r.DirectoryRC.Name == rc.Name);
                         DirectoryRCs.Add(rc);

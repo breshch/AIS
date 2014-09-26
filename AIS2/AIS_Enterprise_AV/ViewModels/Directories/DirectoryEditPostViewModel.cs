@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories
 {
@@ -20,25 +21,23 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
             DirectoryPostName = directoryPost.Name;
             SelectedDirectoryTypeOfPost = DirectoryTypeOfPosts.First(p => p.Name == directoryPost.DirectoryTypeOfPost.Name);
             SelectedDirectoryCompany = DirectoryCompanies.First(c => c.Name == directoryPost.DirectoryCompany.Name);
-            SelectedDirectoryPostDate = directoryPost.Date;
-            DirectoryPostUserWorkerSalary = directoryPost.UserWorkerSalary.ToString();
-            DirectoryPostAdminWorkerSalary = directoryPost.AdminWorkerSalary.ToString();
-            DirectoryPostUserWorkerHalfSalary = directoryPost.UserWorkerHalfSalary.ToString();
             _postId = directoryPost.Id;
 
-            EditCommand = new RelayCommand(Edit);
+            DirectoryPostSalaries = new ObservableCollection<DirectoryPostSalary>(BC.GetDirectoryPostSalaries(directoryPost.Id));
+
+            AddEditPostCommand = new RelayCommand(Edit);
+
+            AddEditPostTitle = "Редактирование должности";
+            AddEditPostName = "Изменить должность";
         }
 
         #endregion 
 
         #region Commands
 
-        public RelayCommand EditCommand { get; set; }
-
         private void Edit(object parameter)
         {
-            BC.EditDirectoryPost(_postId, DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, SelectedDirectoryPostDate, DirectoryPostUserWorkerSalary, DirectoryPostAdminWorkerSalary,
-                DirectoryPostUserWorkerHalfSalary);
+            BC.EditDirectoryPost(_postId, DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, DirectoryPostSalaries.ToList());
 
             var window = (Window)parameter;
 

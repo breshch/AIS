@@ -73,6 +73,7 @@
     <Compile Include="Directories\DirectoryNote.cs" />
     <Compile Include="Directories\DirectoryPhoto.cs" />
     <Compile Include="Directories\DirectoryPost.cs" />
+    <Compile Include="Directories\DirectoryPostSalary.cs" />
     <Compile Include="Directories\DirectoryRC.cs" />
     <Compile Include="Directories\DirectoryTransportCompany.cs" />
     <Compile Include="Directories\DirectoryTypeOfPost.cs" />

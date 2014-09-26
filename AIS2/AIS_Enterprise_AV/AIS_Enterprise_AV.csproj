@@ -32,7 +32,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>37</ApplicationRevision>
+    <ApplicationRevision>40</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -154,15 +154,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryPostSalaryBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryUserBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryUserStatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddPostSalaryViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddUserStatusViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddUserViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditPostSalaryViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditUserStatusViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryEditUserViewModel.cs" />
@@ -184,8 +187,11 @@
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Directories\DirectoryAddPostView.xaml.cs">
-      <DependentUpon>DirectoryAddPostView.xaml</DependentUpon>
+    <Compile Include="Views\Directories\AddEditDirectoryPostView.xaml.cs">
+      <DependentUpon>AddEditDirectoryPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\AddEditPostSalaryView.xaml.cs">
+      <DependentUpon>AddEditPostSalaryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Directories\DirectoryAddUserStatusView.xaml.cs">
       <DependentUpon>DirectoryAddUserStatusView.xaml</DependentUpon>
@@ -198,9 +204,6 @@
     </Compile>
     <Compile Include="Views\Directories\DirectoryCompanyView.xaml.cs">
       <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Directories\DirectoryEditPostView.xaml.cs">
-      <DependentUpon>DirectoryEditPostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Directories\DirectoryEditUserStatusView.xaml.cs">
       <DependentUpon>DirectoryEditUserStatusView.xaml</DependentUpon>
@@ -367,9 +370,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Directories\DirectoryAddPostView.xaml">
+    <Page Include="Views\Directories\AddEditDirectoryPostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\AddEditPostSalaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Directories\DirectoryAddUserStatusView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -384,10 +391,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Directories\DirectoryCompanyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Directories\DirectoryEditPostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

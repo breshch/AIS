@@ -8,6 +8,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIS_Enterprise_AV.ViewModels.Directories;
+using AIS_Enterprise_AV.Views.Directories;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories.Base
 {
@@ -20,12 +22,21 @@ namespace AIS_Enterprise_Global.ViewModels.Directories.Base
         {
             DirectoryTypeOfPosts = new ObservableCollection<DirectoryTypeOfPost>(BC.GetDirectoryTypeOfPosts());
             DirectoryCompanies = new ObservableCollection<DirectoryCompany>(BC.GetDirectoryCompanies());
+
+            AddPostSalaryCommand = new RelayCommand(AddPostSalary);
+            EditPostSalaryCommand = new RelayCommand(EditPostSalary);
+            RemovePostSalaryCommand = new RelayCommand(RemovePostSalary);
+
+            DirectoryPostSalaries = new ObservableCollection<DirectoryPostSalary>();
         }
+
 
         #endregion
 
 
         #region Properties
+
+        public string AddEditPostTitle { get; set; }
 
         [Required]
         [Display(Name = "Должность")]
@@ -43,22 +54,51 @@ namespace AIS_Enterprise_Global.ViewModels.Directories.Base
         [Display(Name = "Компания")]
         public DirectoryCompany SelectedDirectoryCompany { get; set; }
 
-        public DateTime SelectedDirectoryPostDate { get; set; }
+        public ObservableCollection<DirectoryPostSalary> DirectoryPostSalaries { get; set; }
+        public DirectoryPostSalary SelectedDirectoryPostSalary { get; set; }
 
-        [Required]
-        [DoubleValue(MinValue = 0)]
-        [Display(Name = "Оклад")]
-        public string DirectoryPostUserWorkerSalary { get; set; }
+        public string AddEditPostName { get; set; }
 
-        [Required]
-        [DoubleValue(MinValue = 0)]
-        [Display(Name = "Админ Оклад")]
-        public string DirectoryPostAdminWorkerSalary { get; set; }
+        #endregion
 
-        [Required]
-        [DoubleValue(MinValue = 0)]
-        [Display(Name = "Совместительство")]
-        public string DirectoryPostUserWorkerHalfSalary { get; set; }
+        #region Commands
+
+        public RelayCommand AddPostSalaryCommand { get; set; }
+        public RelayCommand EditPostSalaryCommand { get; set; }
+        public RelayCommand RemovePostSalaryCommand { get; set; }
+        public RelayCommand AddEditPostCommand { get; set; }
+
+        private void AddPostSalary(object parameter)
+        {
+            var viewModel = new DirectoryAddPostSalaryViewModel();
+            HelperMethods.ShowView(viewModel, new AddEditPostSalaryView());
+
+            if (viewModel.DirectoryPostSalary != null)
+            {
+                var postSalary = viewModel.DirectoryPostSalary;
+                DirectoryPostSalaries.Add(postSalary);
+            }
+        }
+
+        private void EditPostSalary(object parameter)
+        {
+            int index = DirectoryPostSalaries.IndexOf(SelectedDirectoryPostSalary);
+
+            var viewModel = new DirectoryEditPostSalaryViewModel(SelectedDirectoryPostSalary);
+            HelperMethods.ShowView(viewModel, new AddEditPostSalaryView());
+
+            if (viewModel.DirectoryPostSalary != null)
+            {
+                var postSalary = viewModel.DirectoryPostSalary;
+                DirectoryPostSalaries.RemoveAt(index);
+                DirectoryPostSalaries.Insert(index, postSalary);
+            }
+        }
+
+        private void RemovePostSalary(object parameter)
+        {
+            DirectoryPostSalaries.Remove(SelectedDirectoryPostSalary);
+        }
 
         #endregion
     }

@@ -14,24 +14,19 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
         # region Base
         public DirectoryAddPostViewModel() : base()
         {
-            SelectedDirectoryPostDate = DateTime.Now;
+            AddEditPostCommand = new RelayCommand(Add);
 
-            AddCommand = new RelayCommand(Add);
+            AddEditPostTitle = "Добавление должности";
+            AddEditPostName = "Добавить должность";
         }
 
         #endregion 
 
         #region Commands
 
-        public RelayCommand AddCommand { get; set; }
-
         private void Add(object parameter)
         {
-            BC.AddDirectoryPost(DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, SelectedDirectoryPostDate, DirectoryPostUserWorkerSalary,DirectoryPostAdminWorkerSalary,
-                DirectoryPostUserWorkerHalfSalary);
-
-            BC.Log(LoggingOptions.Info, "Добавление должности", DirectoryPostName, SelectedDirectoryTypeOfPost.Name, SelectedDirectoryCompany.Name, 
-                SelectedDirectoryPostDate.ToString(), DirectoryPostUserWorkerSalary, DirectoryPostAdminWorkerSalary, DirectoryPostUserWorkerHalfSalary);
+            BC.AddDirectoryPost(DirectoryPostName, SelectedDirectoryTypeOfPost, SelectedDirectoryCompany, DirectoryPostSalaries.ToList());
 
             var window = (Window)parameter;
 

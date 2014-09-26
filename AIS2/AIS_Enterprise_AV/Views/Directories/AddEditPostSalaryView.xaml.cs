@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AIS_Enterprise_Global.Views.Directories
+namespace AIS_Enterprise_AV.Views.Directories
 {
     /// <summary>
-    /// Логика взаимодействия для DirectoryPostView.xaml
+    /// Логика взаимодействия для AddEditPostSalaryView.xaml
     /// </summary>
-    public partial class DirectoryEditPostView : Window
+    public partial class AddEditPostSalaryView : Window
     {
-        public DirectoryEditPostView()
+        public AddEditPostSalaryView()
         {
             InitializeComponent();
         }

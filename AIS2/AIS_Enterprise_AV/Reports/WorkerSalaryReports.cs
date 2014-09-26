@@ -339,7 +339,10 @@ namespace AIS_Enterprise_AV.Reports
                                     workerSummForReport.WorkerRCSummForReports.Add(workerRCSummForReport);
                                 }
 
-                                double salaryInHour = bc.GetCurrentPost(worker.Id, infoDate.Date).DirectoryPost.AdminWorkerSalary.Value / 8 / countWorkDayInMonth;
+                                var post = bc.GetCurrentPost(worker.Id, infoDate.Date).DirectoryPost;
+                                var postSalary = bc.GetDirectoryPostSalaryByDate(post.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+
+                                double salaryInHour = postSalary.AdminWorkerSalary.Value / 8 / countWorkDayInMonth;
                                 workerRCSummForReport.Summ += valueRC * 2 * salaryInHour;
                             }
                         }
@@ -483,7 +486,10 @@ namespace AIS_Enterprise_AV.Reports
                                     workerSummForReport.WorkerRCSummForReports.Add(workerRCSummForReport);
                                 }
 
-                                double salaryInHour = bc.GetCurrentPost(worker.Id, infoDate.Date).DirectoryPost.AdminWorkerSalary.Value / 8 / countWorkDayInMonth;
+                                var post = bc.GetCurrentPost(worker.Id, infoDate.Date).DirectoryPost;
+                                var postSalary = bc.GetDirectoryPostSalaryByDate(post.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+
+                                double salaryInHour = postSalary.AdminWorkerSalary.Value / 8 / countWorkDayInMonth;
                                 workerRCSummForReport.Summ += percentage * 2 * salaryInHour;
                             }
                         }
@@ -531,21 +537,23 @@ namespace AIS_Enterprise_AV.Reports
                 double salaryAV = 0;
                 double salaryFenox = 0;
 
+                var postSalary = bc.GetDirectoryPostSalaryByDate(currentWorkerPost.DirectoryPost.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+
                 if (!currentWorkerPost.IsTwoCompanies)
                 {
                     if (currentWorkerPost.DirectoryPost.DirectoryCompany.Name == "АВ")
                     {
-                        salaryAV = currentWorkerPost.DirectoryPost.AdminWorkerSalary.Value;
+                        salaryAV = postSalary.AdminWorkerSalary.Value;
                     }
                     else
                     {
-                        salaryFenox = currentWorkerPost.DirectoryPost.AdminWorkerSalary.Value;
+                        salaryFenox = postSalary.AdminWorkerSalary.Value;
                     }
                 }
                 else
                 {
-                    salaryAV = currentWorkerPost.DirectoryPost.AdminWorkerSalary.Value - currentWorkerPost.DirectoryPost.UserWorkerHalfSalary.Value;
-                    salaryFenox = currentWorkerPost.DirectoryPost.UserWorkerHalfSalary.Value;
+                    salaryAV = postSalary.AdminWorkerSalary.Value - postSalary.UserWorkerHalfSalary.Value;
+                    salaryFenox = postSalary.UserWorkerHalfSalary.Value;
                 }
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
@@ -689,21 +697,23 @@ namespace AIS_Enterprise_AV.Reports
                 double salaryAV = 0;
                 double salaryFenox = 0;
 
+                var postSalary = bc.GetDirectoryPostSalaryByDate(currentWorkerPost.DirectoryPost.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+
                 if (!currentWorkerPost.IsTwoCompanies)
                 {
                     if (currentWorkerPost.DirectoryPost.DirectoryCompany.Name == "АВ")
                     {
-                        salaryAV = currentWorkerPost.DirectoryPost.AdminWorkerSalary.Value;
+                        salaryAV = postSalary.AdminWorkerSalary.Value;
                     }
                     else
                     {
-                        salaryFenox = currentWorkerPost.DirectoryPost.AdminWorkerSalary.Value;
+                        salaryFenox = postSalary.AdminWorkerSalary.Value;
                     }
                 }
                 else
                 {
-                    salaryAV = currentWorkerPost.DirectoryPost.AdminWorkerSalary.Value;
-                    salaryFenox = currentWorkerPost.DirectoryPost.UserWorkerHalfSalary.Value;
+                    salaryAV = postSalary.AdminWorkerSalary.Value;
+                    salaryFenox = postSalary.UserWorkerHalfSalary.Value;
                 }
 
                 Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_SALARY_AV_MINSK, salaryAV, colorAVSalary);
@@ -782,50 +792,50 @@ namespace AIS_Enterprise_AV.Reports
                 sheet.Column(i).Width = Helpers.PixelsToInches(90);
             }
 
-            //if (DateTime.Now.Year > year || (DateTime.Now.Year == year && DateTime.Now.Month > month))
-            //{
-            //    var date = new DateTime(year, month, 5).AddMonths(1);
+            if (DateTime.Now.Year > year || (DateTime.Now.Year == year && DateTime.Now.Month > month))
+            {
+                var date = new DateTime(year, month, 5).AddMonths(1);
 
-            //    var costItem = bc.GetDirectoryCostItem("З/п (701)");
-            //    var rcs = bc.GetDirectoryRCs();
-            //    var noteSalary = bc.GetDirectoryNote("Зарплата");
-            //    var noteOverTime = bc.GetDirectoryNote("Переработка");
+                var costItem = bc.GetDirectoryCostItem("З/п (701)");
+                var rcs = bc.GetDirectoryRCs();
+                var noteSalary = bc.GetDirectoryNote("Зарплата");
+                var noteOverTime = bc.GetDirectoryNote("Переработка");
 
-            //    if (totalCashAV != 0)
-            //    {
-            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashAV, 2), Currency.RUR, 0);
-            //    }
+                if (totalCashAV != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashAV, 2), Currency.RUR, 0);
+                }
 
-            //    if (totalOverTimeKO5AV != 0)
-            //    {
-            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, Math.Round(totalOverTimeKO5AV, 2), Currency.RUR, 0);
-            //    }
+                if (totalOverTimeKO5AV != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "КО-5"), noteOverTime, false, Math.Round(totalOverTimeKO5AV, 2), Currency.RUR, 0);
+                }
 
-            //    if (totalOverTimePAM16AV != 0)
-            //    {
-            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, Math.Round(totalOverTimePAM16AV, 2), Currency.RUR, 0);
-            //    }
+                if (totalOverTimePAM16AV != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-16"), noteOverTime, false, Math.Round(totalOverTimePAM16AV, 2), Currency.RUR, 0);
+                }
 
-            //    if (totalCashFenox != 0)
-            //    {
-            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), Currency.RUR, 0);
-            //    }
+                if (totalCashFenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), Currency.RUR, 0);
+                }
 
-            //    if (totalOverTimeMO5Fenox != 0)
-            //    {
-            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, Math.Round(totalOverTimeMO5Fenox, 2), Currency.RUR, 0);
-            //    }
+                if (totalOverTimeMO5Fenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteOverTime, false, Math.Round(totalOverTimeMO5Fenox, 2), Currency.RUR, 0);
+                }
 
-            //    if (totalOverTimePAM1Fenox != 0)
-            //    {
-            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, Math.Round(totalOverTimePAM1Fenox, 2), Currency.RUR, 0);
-            //    }
+                if (totalOverTimePAM1Fenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ПАМ-1"), noteOverTime, false, Math.Round(totalOverTimePAM1Fenox, 2), Currency.RUR, 0);
+                }
 
-            //    if (totalOverTimeMO2Fenox != 0)
-            //    {
-            //        bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, Math.Round(totalOverTimeMO2Fenox, 2), Currency.RUR, 0);
-            //    }
-            //}
+                if (totalOverTimeMO2Fenox != 0)
+                {
+                    bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-2"), noteOverTime, false, Math.Round(totalOverTimeMO2Fenox, 2), Currency.RUR, 0);
+                }
+            }
         }
 
         private static void SalaryReportWorkers(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -834,7 +844,7 @@ namespace AIS_Enterprise_AV.Reports
 
             int countDaysInMonth = DateTime.DaysInMonth(year, month);
             int countWorkDays = bc.GetCountWorkDaysInMonth(year, month);
-            var lastDayInMonth = HelperMethods.GetLastDateInMonth(year, month);
+            var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
 
             var weekendsInMonth = bc.GetHolidays(year, month).ToList();
 
@@ -880,7 +890,7 @@ namespace AIS_Enterprise_AV.Reports
 
                     sheet.Column(i).Width = 2.7;
 
-                    if (i > lastDayInMonth.Day)
+                    if (i > lastDateInMonth.Day)
                     {
                         continue;
                     }
@@ -920,7 +930,8 @@ namespace AIS_Enterprise_AV.Reports
                     bodyDay.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
                     var currentWorkerPost = bc.GetCurrentPost(worker.Id, infoDate.Date);
-                    double workerSalaryInHour = (double)((currentWorkerPost.DirectoryPost.AdminWorkerSalary) / countWorkDays / 8);
+                    var postSalary = bc.GetDirectoryPostSalaryByDate(currentWorkerPost.DirectoryPost.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+                    double workerSalaryInHour = (double)((postSalary.AdminWorkerSalary) / countWorkDays / 8);
 
                     var workerPostReportSalary = workerPostReportSalaries.FirstOrDefault(w => w.PostId == currentWorkerPost.Id);
 
@@ -930,7 +941,7 @@ namespace AIS_Enterprise_AV.Reports
                         {
                             PostId = currentWorkerPost.Id,
                             PostName = currentWorkerPost.DirectoryPost.Name,
-                            AdminWorkerSalary = currentWorkerPost.DirectoryPost.AdminWorkerSalary.Value,
+                            AdminWorkerSalary = postSalary.AdminWorkerSalary.Value,
                             ChangePostDay = currentWorkerPost.ChangeDate.Date >= new DateTime(year, month, 1).Date ? currentWorkerPost.ChangeDate.Day : 1
                         };
 
@@ -1153,7 +1164,7 @@ namespace AIS_Enterprise_AV.Reports
                 ExcelRange downLeftBodyLastPeriod = sheet.Cells[countRow, 9, countRow, 10];
                 downLeftBodyLastPeriod.Merge = true;
                 downLeftBodyLastPeriod.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                downLeftBodyLastPeriod.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].ChangePostDay + "-" + "-" + lastDayInMonth.Day;
+                downLeftBodyLastPeriod.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].ChangePostDay + "-" + "-" + lastDateInMonth.Day;
 
                 ExcelRange downLeftBodyLastDays = sheet.Cells[countRow, 11, countRow, 12];
                 downLeftBodyLastDays.Merge = true;

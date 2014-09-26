@@ -41,7 +41,7 @@
                 <DataGridTextColumn Header="Должность" Binding="{Binding Name}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Вид должности" Binding="{Binding DirectoryTypeOfPost.Name}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryCompany.Name}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Дата создания должности" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Дата изменения оклада" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Оклад" Binding="{Binding UserWorkerSalary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Админ Оклад" Binding="{Binding AdminWorkerSalary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Совместительство" Binding="{Binding UserWorkerHalfSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AIS_Enterprise_Data.Temps;
+using System.Data.Entity;
 
 namespace AIS_Enterprise_Global.ViewModels
 {
@@ -27,8 +28,6 @@ namespace AIS_Enterprise_Global.ViewModels
         {
             IsAdminSalary = HelperMethods.IsPrivilege(BC, UserPrivileges.Salary_AdminSalary);
             IsDeadSpiritVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.WorkersVisibility_DeadSpirit);
-
-            CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>();
 
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
             EditCompanyAndPostCommand = new RelayCommand(EditCompanyAndPost, IsSelectedCompanyAndPost);
@@ -122,14 +121,24 @@ namespace AIS_Enterprise_Global.ViewModels
 
             if (currentCompanyAndPost != null)
             {
-                currentCompanyAndPost.Salary = IsAdminSalary ? currentCompanyAndPost.DirectoryPost.AdminWorkerSalary.Value : currentCompanyAndPost.DirectoryPost.UserWorkerSalary;
+                var postSalary = BC.GetDirectoryPostSalaryByDate(currentCompanyAndPost.DirectoryPost.Id, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+
+                currentCompanyAndPost.Salary = IsAdminSalary ? postSalary.AdminWorkerSalary.Value : postSalary.UserWorkerSalary;
 
                 if (CurrentCompaniesAndPosts.Any())
                 {
-                    CurrentCompaniesAndPosts.OrderBy(p => p.PostChangeDate).Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+                    var prevPost = CurrentCompaniesAndPosts.OrderByDescending(s => s.PostChangeDate).First(s => currentCompanyAndPost.PostChangeDate.Date >= s.PostChangeDate.Date);
+                    prevPost.PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+
+                    int index = CurrentCompaniesAndPosts.ToList().IndexOf(prevPost);
+                    if (index != (CurrentCompaniesAndPosts.Count - 1))
+                    {
+                        currentCompanyAndPost.PostFireDate = CurrentCompaniesAndPosts[index + 1].PostChangeDate.AddDays(-1);
+                    }
                 }
 
                 CurrentCompaniesAndPosts.Add(currentCompanyAndPost);
+                CurrentCompaniesAndPosts = new ObservableCollection<CurrentCompanyAndPost>(CurrentCompaniesAndPosts.OrderBy(p => p.PostChangeDate));
             }
         }
 
@@ -146,11 +155,19 @@ namespace AIS_Enterprise_Global.ViewModels
 
             if (currentCompanyAndPost != null)
             {
-                currentCompanyAndPost.Salary = IsAdminSalary ? currentCompanyAndPost.DirectoryPost.AdminWorkerSalary.Value : currentCompanyAndPost.DirectoryPost.UserWorkerSalary;
+                var postSalary = BC.GetDirectoryPostSalaryByDate(currentCompanyAndPost.DirectoryPost.Id, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+
+                currentCompanyAndPost.Salary = IsAdminSalary ? postSalary.AdminWorkerSalary.Value : postSalary.UserWorkerSalary;
 
                 if (CurrentCompaniesAndPosts.Any())
                 {
-                    //CurrentCompaniesAndPosts.OrderBy(p => p.PostChangeDate).Last().PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+                    var prevPost = CurrentCompaniesAndPosts[prevIndex != 0 ? prevIndex - 1 : 0];
+                    prevPost.PostFireDate = currentCompanyAndPost.PostChangeDate.AddDays(-1);
+
+                    if (prevIndex != (CurrentCompaniesAndPosts.Count - 1))
+                    {
+                        currentCompanyAndPost.PostFireDate = CurrentCompaniesAndPosts[prevIndex + 1].PostChangeDate.AddDays(-1);
+                    }
                 }
 
                 CurrentCompaniesAndPosts.Remove(SelectedCurrentCompanyAndPost);
@@ -160,7 +177,12 @@ namespace AIS_Enterprise_Global.ViewModels
 
         private void RemoveCompanyAndPost(object parameter)
         {
+            int index = CurrentCompaniesAndPosts.IndexOf(SelectedCurrentCompanyAndPost);
+            var fireDate = index < CurrentCompaniesAndPosts.Count - 1 ? CurrentCompaniesAndPosts[index + 1].PostChangeDate.AddDays(-1) : default(DateTime?);
+
             CurrentCompaniesAndPosts.Remove(SelectedCurrentCompanyAndPost);
+
+            CurrentCompaniesAndPosts[index - 1].PostFireDate = fireDate;
         }
 
         private bool IsSelectedCompanyAndPost(object parameter)

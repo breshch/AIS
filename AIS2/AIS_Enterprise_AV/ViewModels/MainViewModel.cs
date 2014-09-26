@@ -35,9 +35,10 @@ namespace AIS_Enterprise_AV.ViewModels
             IsAdminButtonsVisibility = false;
 
             Servers = new ObservableCollection<string>(HelperMethods.GetServers());
-            string defaultServer = Properties.Settings.Default.DefaultServer;
-
-            if (Servers.Contains(defaultServer))
+            ////string defaultServer = Properties.Settings.Default.DefaultServer;
+            string defaultServer = "95.31.130.52";
+            
+            //if (Servers.Contains(defaultServer))
             {
                 SelectedServer = defaultServer;
 

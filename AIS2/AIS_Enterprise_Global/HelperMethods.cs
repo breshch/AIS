@@ -121,5 +121,16 @@ namespace AIS_Enterprise_Global.Helpers
                 File.AppendAllLines(_serversPath, new List<string> { serverName });
             }
         }
+
+        public static void CloseWindow(object parameter)
+        {
+            var window = (Window)parameter;
+
+
+            if (window != null)
+            {
+                window.Close();
+            }
+        }
     }
 }

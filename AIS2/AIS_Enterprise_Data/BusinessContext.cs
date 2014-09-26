@@ -311,144 +311,83 @@ namespace AIS_Enterprise_Data
             _dc.DirectoryTypeOfPosts.Add(typeOfPost);
             _dc.SaveChanges();
 
-            foreach (var postName in Enum.GetNames(typeof(PostName)))
+            foreach (var company in _dc.DirectoryCompanies.ToList())
             {
-                var post = new DirectoryPost
+                foreach (var postName in Enum.GetNames(typeof(PostName)))
                 {
-                    Name = postName,
-                    DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Склад"),
-                    DirectoryCompany = companyAV,
-                    Date = new DateTime(2011, 01, 01),
-                };
+                    var post = new DirectoryPost
+                    {
+                        Name = postName,
+                        DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Склад"),
+                        DirectoryCompany = company
+                    };
 
-                var postNameEnum = (PostName)Enum.Parse(typeof(PostName), postName);
+                    var postNameEnum = (PostName)Enum.Parse(typeof(PostName), postName);
 
-                switch (postNameEnum)
-                {
-                    case PostName.ЗавСкладом:
-                        post.UserWorkerSalary = 30000;
-                        post.AdminWorkerSalary = 42000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Грузчик:
-                        post.UserWorkerSalary = 22000;
-                        post.AdminWorkerSalary = 22000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Карщик:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Кладовщик:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.ЗамЗавСкладом:
-                        post.UserWorkerSalary = 30000;
-                        post.AdminWorkerSalary = 30000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Оператор:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Оклейщик:
-                        post.UserWorkerSalary = 17000;
-                        post.AdminWorkerSalary = 17000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.КарщикКладовщик:
-                        post.UserWorkerSalary = 27000;
-                        post.AdminWorkerSalary = 27000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Логист:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.БригадирОклейщик:
-                        post.UserWorkerSalary = 18000;
-                        post.AdminWorkerSalary = 18000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
+                    var postSalary = new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01)
+                    };
+
+                    switch (postNameEnum)
+                    {
+                        case PostName.ЗавСкладом:
+                            postSalary.UserWorkerSalary = 30000;
+                            postSalary.AdminWorkerSalary = 42000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.Грузчик:
+                            postSalary.UserWorkerSalary = 22000;
+                            postSalary.AdminWorkerSalary = 22000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.Карщик:
+                            postSalary.UserWorkerSalary = 25000;
+                            postSalary.AdminWorkerSalary = 25000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.Кладовщик:
+                            postSalary.UserWorkerSalary = 25000;
+                            postSalary.AdminWorkerSalary = 25000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.ЗамЗавСкладом:
+                            postSalary.UserWorkerSalary = 30000;
+                            postSalary.AdminWorkerSalary = 30000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.Оператор:
+                            postSalary.UserWorkerSalary = 25000;
+                            postSalary.AdminWorkerSalary = 25000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.Оклейщик:
+                            postSalary.UserWorkerSalary = 17000;
+                            postSalary.AdminWorkerSalary = 17000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.КарщикКладовщик:
+                            postSalary.UserWorkerSalary = 27000;
+                            postSalary.AdminWorkerSalary = 27000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.Логист:
+                            postSalary.UserWorkerSalary = 25000;
+                            postSalary.AdminWorkerSalary = 25000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                        case PostName.БригадирОклейщик:
+                            postSalary.UserWorkerSalary = 18000;
+                            postSalary.AdminWorkerSalary = 18000;
+                            postSalary.UserWorkerHalfSalary = 10000;
+                            break;
+                    }
+
+                    post.DirectoryPostSalaries.Add(postSalary);
+
+                    _dc.DirectoryPosts.Add(post);
+                    _dc.SaveChanges();
                 }
-
-                _dc.DirectoryPosts.Add(post);
-                _dc.SaveChanges();
-            }
-
-            foreach (var postName in Enum.GetNames(typeof(PostName)))
-            {
-                var post = new DirectoryPost
-                {
-                    Name = postName,
-                    DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Склад"),
-                    DirectoryCompany = companyFenox,
-                    Date = new DateTime(2011, 01, 01),
-                };
-
-                var postNameEnum = (PostName)Enum.Parse(typeof(PostName), postName);
-
-                switch (postNameEnum)
-                {
-                    case PostName.ЗавСкладом:
-                        post.UserWorkerSalary = 30000;
-                        post.AdminWorkerSalary = 42000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Грузчик:
-                        post.UserWorkerSalary = 22000;
-                        post.AdminWorkerSalary = 22000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Карщик:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Кладовщик:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.ЗамЗавСкладом:
-                        post.UserWorkerSalary = 30000;
-                        post.AdminWorkerSalary = 30000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Оператор:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Оклейщик:
-                        post.UserWorkerSalary = 17000;
-                        post.AdminWorkerSalary = 17000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.КарщикКладовщик:
-                        post.UserWorkerSalary = 27000;
-                        post.AdminWorkerSalary = 27000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.Логист:
-                        post.UserWorkerSalary = 25000;
-                        post.AdminWorkerSalary = 25000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                    case PostName.БригадирОклейщик:
-                        post.UserWorkerSalary = 18000;
-                        post.AdminWorkerSalary = 18000;
-                        post.UserWorkerHalfSalary = 10000;
-                        break;
-                }
-
-                _dc.DirectoryPosts.Add(post);
-                _dc.SaveChanges();
             }
         }
 
@@ -633,10 +572,16 @@ namespace AIS_Enterprise_Data
                 Name = "ГлавБух_Чернецкая",
                 DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Офис"),
                 DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == "АВ"),
-                Date = new DateTime(2011, 01, 01),
-                UserWorkerSalary = 45000,
-                AdminWorkerSalary = 45000,
-                UserWorkerHalfSalary = 45000
+                DirectoryPostSalaries = new List<DirectoryPostSalary>
+                {
+                    new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01),
+                        UserWorkerSalary = 45000,
+                        AdminWorkerSalary = 45000,
+                        UserWorkerHalfSalary = 45000
+                    }
+                }
             };
 
             _dc.DirectoryPosts.Add(officePost);
@@ -646,10 +591,16 @@ namespace AIS_Enterprise_Data
                 Name = "Бухгалтер_Казёнова",
                 DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Офис"),
                 DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == "АВ"),
-                Date = new DateTime(2011, 01, 01),
-                UserWorkerSalary = 40000,
-                AdminWorkerSalary = 40000,
-                UserWorkerHalfSalary = 0
+                DirectoryPostSalaries = new List<DirectoryPostSalary>
+                {
+                    new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01),
+                        UserWorkerSalary = 40000,
+                        AdminWorkerSalary = 40000,
+                        UserWorkerHalfSalary = 0
+                    }
+                }
             };
 
             _dc.DirectoryPosts.Add(officePost);
@@ -659,10 +610,16 @@ namespace AIS_Enterprise_Data
                 Name = "Бухгалтер_Дикрет_Губашева",
                 DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Офис"),
                 DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == "АВ"),
-                Date = new DateTime(2011, 01, 01),
-                UserWorkerSalary = 0,
-                AdminWorkerSalary = 0,
-                UserWorkerHalfSalary = 0
+                DirectoryPostSalaries = new List<DirectoryPostSalary>
+                {
+                    new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01),
+                        UserWorkerSalary = 0,
+                        AdminWorkerSalary = 0,
+                        UserWorkerHalfSalary = 0
+                    }
+                }
             };
 
             _dc.DirectoryPosts.Add(officePost);
@@ -672,10 +629,16 @@ namespace AIS_Enterprise_Data
                 Name = "Бухгалтер_Гаганова",
                 DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Офис"),
                 DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == "Фенокс"),
-                Date = new DateTime(2011, 01, 01),
-                UserWorkerSalary = 30000,
-                AdminWorkerSalary = 30000,
-                UserWorkerHalfSalary = 0
+                DirectoryPostSalaries = new List<DirectoryPostSalary>
+                {
+                    new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01),
+                        UserWorkerSalary = 30000,
+                        AdminWorkerSalary = 30000,
+                        UserWorkerHalfSalary = 0
+                    }
+                }
             };
 
             _dc.DirectoryPosts.Add(officePost);
@@ -685,10 +648,16 @@ namespace AIS_Enterprise_Data
                 Name = "Бухгалтер_Крицкая",
                 DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Офис"),
                 DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == "АВ"),
-                Date = new DateTime(2011, 01, 01),
-                UserWorkerSalary = 30000,
-                AdminWorkerSalary = 30000,
-                UserWorkerHalfSalary = 0
+                DirectoryPostSalaries = new List<DirectoryPostSalary>
+                {
+                    new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01),
+                        UserWorkerSalary = 30000,
+                        AdminWorkerSalary = 30000,
+                        UserWorkerHalfSalary = 0
+                    }
+                }
             };
 
             _dc.DirectoryPosts.Add(officePost);
@@ -698,10 +667,16 @@ namespace AIS_Enterprise_Data
                 Name = "Бухгалтер_Рыжова",
                 DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Офис"),
                 DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == "АВ"),
-                Date = new DateTime(2011, 01, 01),
-                UserWorkerSalary = 12000,
-                AdminWorkerSalary = 12000,
-                UserWorkerHalfSalary = 13000
+                DirectoryPostSalaries = new List<DirectoryPostSalary>
+                {
+                    new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01),
+                        UserWorkerSalary = 12000,
+                        AdminWorkerSalary = 12000,
+                        UserWorkerHalfSalary = 13000
+                    }
+                }
             };
 
             _dc.DirectoryPosts.Add(officePost);
@@ -711,10 +686,16 @@ namespace AIS_Enterprise_Data
                 Name = "Директор",
                 DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Офис"),
                 DirectoryCompany = _dc.DirectoryCompanies.First(c => c.Name == "АВ"),
-                Date = new DateTime(2011, 01, 01),
-                UserWorkerSalary = 35000,
-                AdminWorkerSalary = 35000,
-                UserWorkerHalfSalary = 30000
+                DirectoryPostSalaries = new List<DirectoryPostSalary>
+                {
+                    new DirectoryPostSalary
+                    {
+                        Date = new DateTime(2011, 01, 01),
+                        UserWorkerSalary = 35000,
+                        AdminWorkerSalary = 35000,
+                        UserWorkerHalfSalary = 30000
+                    }
+                }
             };
 
             _dc.DirectoryPosts.Add(officePost);
@@ -898,17 +879,14 @@ namespace AIS_Enterprise_Data
             return _dc.DirectoryPosts.FirstOrDefault(p => p.Name == postName);
         }
 
-        public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string adminWorkerSalary, string userWorkerHalfSalary)
+        public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, List<DirectoryPostSalary> postSalaries)
         {
             var directoryPost = new DirectoryPost
             {
                 Name = name,
                 DirectoryTypeOfPost = typeOfPost,
                 DirectoryCompany = company,
-                Date = date,
-                UserWorkerSalary = double.Parse(userWorkerSalary),
-                AdminWorkerSalary = double.Parse(adminWorkerSalary),
-                UserWorkerHalfSalary = double.Parse(userWorkerHalfSalary)
+                DirectoryPostSalaries = postSalaries
             };
 
             _dc.DirectoryPosts.Add(directoryPost);
@@ -917,17 +895,15 @@ namespace AIS_Enterprise_Data
             return directoryPost;
         }
 
-        public DirectoryPost EditDirectoryPost(int postId, string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, DateTime date, string userWorkerSalary, string adminWorkerSalary, string userWorkerHalfSalary)
+        public DirectoryPost EditDirectoryPost(int postId, string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company, List<DirectoryPostSalary> postSalaries)
         {
             var directoryPost = _dc.DirectoryPosts.Find(postId);
             directoryPost.Name = name;
             directoryPost.DirectoryTypeOfPost = typeOfPost;
             directoryPost.DirectoryCompany = company;
-            directoryPost.Date = date;
-            directoryPost.UserWorkerSalary = double.Parse(userWorkerSalary);
-            directoryPost.AdminWorkerSalary = double.Parse(adminWorkerSalary);
-            directoryPost.UserWorkerHalfSalary = double.Parse(userWorkerHalfSalary);
-
+            _dc.DirectoryPostSalaries.RemoveRange(directoryPost.DirectoryPostSalaries);
+            _dc.SaveChanges();
+            directoryPost.DirectoryPostSalaries = postSalaries;
             _dc.SaveChanges();
 
             return directoryPost;
@@ -935,8 +911,7 @@ namespace AIS_Enterprise_Data
 
         public void RemoveDirectoryPost(DirectoryPost post)
         {
-            Log(LoggingOptions.Fatal, "Удаление должности", post.Name, post.DirectoryTypeOfPost.Name, post.DirectoryCompany.Name,
-              post.Date.ToString(), post.UserWorkerSalary.ToString(), post.AdminWorkerSalary.ToString(), post.UserWorkerHalfSalary.ToString());
+            Log(LoggingOptions.Fatal, "Удаление должности", post.Name, post.DirectoryTypeOfPost.Name, post.DirectoryCompany.Name);
 
             _dc.DirectoryPosts.Remove(post);
             _dc.SaveChanges();
@@ -1149,6 +1124,11 @@ namespace AIS_Enterprise_Data
         public DirectoryWorker GetDirectoryWorker(int workerId)
         {
             return _dc.DirectoryWorkers.Find(workerId);
+        }
+
+        public DirectoryWorker GetDirectoryWorkerWithPosts(int workerId)
+        {
+            return _dc.DirectoryWorkers.Include(w => w.CurrentCompaniesAndPosts.Select(p => p.DirectoryPost.DirectoryPostSalaries)).First(w => w.Id == workerId);
         }
 
         public DirectoryWorker GetDirectoryWorker(string lastName, string firstName)
@@ -1599,7 +1579,7 @@ namespace AIS_Enterprise_Data
                                 var salaryDate = new DateTime(date.Year, date.Month, 5);
                                 if (lastDate.Date < salaryDate.Date && date.Date >= salaryDate.Date)
                                 {
-                                    InitializeWorkerLoanPayments(worker, worker.InfoMonthes.First(m => m.Date.Year == date.Year && m.Date.Month == date.Month), salaryDate);                                    
+                                    InitializeWorkerLoanPayments(worker, worker.InfoMonthes.First(m => m.Date.Year == date.Year && m.Date.Month == date.Month), salaryDate);
                                 }
                             }
                         }
@@ -1615,7 +1595,7 @@ namespace AIS_Enterprise_Data
 
         private void InitializeWorkerLoanPayments(DirectoryWorker worker, InfoMonth infoMonth, DateTime salaryDate)
         {
-            var infoLoans = _dc.InfoLoans.Where(s => s.DirectoryWorkerId == worker.Id && (s.DateLoanPayment == null || 
+            var infoLoans = _dc.InfoLoans.Where(s => s.DirectoryWorkerId == worker.Id && (s.DateLoanPayment == null ||
                 (s.DateLoanPayment != null && DbFunctions.DiffDays(s.DateLoanPayment, salaryDate) <= 0))).ToList();
 
             if (infoLoans.Any())
@@ -1630,7 +1610,7 @@ namespace AIS_Enterprise_Data
                         {
                             infoMonth.PrepaymentCash = payment.Summ;
                             EditCurrencyValueSummChange("TotalLoan", loan.Currency, payment.Summ);
-                            
+
                             AddInfoSafe(payment.Date, true, payment.Summ, loan.Currency, CashType.Наличка, "Возврат долга: " + worker.FullName);
 
                             break;
@@ -1801,6 +1781,11 @@ namespace AIS_Enterprise_Data
             return _dc.DirectoryRCs;
         }
 
+        public IQueryable<DirectoryRC> GetDirectoryRCsByPercentage()
+        {
+            return _dc.DirectoryRCs.Where(r => r.Percentes > 0);
+        }
+
         public DirectoryRC GetDirectoryRC(string name)
         {
             return GetDirectoryRCs().First(r => r.Name == name);
@@ -1957,7 +1942,7 @@ namespace AIS_Enterprise_Data
                     Date = date,
                     DirectoryCostItemId = costItem.Id,
                     DirectoryRC = rc,
-                    CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNote = note }},
+                    CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNote = note } },
                     Summ = summ,
                     Currency = currency,
                     IsIncoming = isIncomming,
@@ -2099,9 +2084,9 @@ namespace AIS_Enterprise_Data
 
             foreach (var cost in infoCosts)
             {
-                AddInfoSafe(infoCost.Date, !infoCost.IsIncoming, infoCost.Summ, infoCost.Currency, CashType.Наличка, infoCost.DirectoryRC.Name + " " +  infoCost.ConcatNotes);
+                AddInfoSafe(infoCost.Date, !infoCost.IsIncoming, infoCost.Summ, infoCost.Currency, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
             }
-            
+
             _dc.InfoCosts.RemoveRange(infoCosts);
             _dc.SaveChanges();
         }
@@ -2156,7 +2141,7 @@ namespace AIS_Enterprise_Data
 
         #region InfoLoan
 
-        public InfoLoan AddInfoLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ,Currency currency, int countPayments, string description)
+        public InfoLoan AddInfoLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ, Currency currency, int countPayments, string description)
         {
             DirectoryLoanTaker loanTaker = null;
 
@@ -2202,7 +2187,7 @@ namespace AIS_Enterprise_Data
                 for (int i = 0; i < countPayments; i++)
                 {
                     dateLoanPayment = dateLoanPayment.AddMonths(1);
-                    
+
                     var infoPayment = new InfoPayment
                     {
                         Date = dateLoanPayment,
@@ -2647,7 +2632,7 @@ namespace AIS_Enterprise_Data
 
             var infoLoan = _dc.InfoLoans.Find(infoLoanId);
             EditCurrencyValueSummChange("TotalLoan", infoLoan.Currency, -summ);
-            AddInfoSafe(date, true, summ, infoLoan.Currency, CashType.Наличка, "Возврат долга: " + 
+            AddInfoSafe(date, true, summ, infoLoan.Currency, CashType.Наличка, "Возврат долга: " +
                 (infoLoan.DirectoryLoanTakerId == null ? infoLoan.DirectoryWorker.FullName : infoLoan.DirectoryLoanTaker.Name));
 
             return infoPayment;
@@ -2732,7 +2717,7 @@ namespace AIS_Enterprise_Data
         private void CalcTotalSumm(string totalSummName, bool isIncoming, double summCash, Currency currency)
         {
             double summ = GetCurrencyValueSumm(totalSummName, currency);
-           
+
             summ += isIncoming ? summCash : -summCash;
 
             EditCurrencyValueSumm(totalSummName, currency, summ);
@@ -2823,7 +2808,7 @@ namespace AIS_Enterprise_Data
         {
             var currencyValue = _dc.CurrencyValues.First(c => c.Name == name);
             _dc.Entry<CurrencyValue>(currencyValue).Reload();
-            
+
             return currencyValue;
         }
 
@@ -2903,6 +2888,27 @@ namespace AIS_Enterprise_Data
             _dc.SaveChanges();
         }
 
+        #endregion
+
+
+        #region DirectoryPostSalary
+
+        public IQueryable<DirectoryPostSalary> GetDirectoryPostSalaries(int postId)
+        {
+            return _dc.DirectoryPostSalaries.Where(s => s.DirectoryPostId == postId);
+        }
+
+        public DirectoryPostSalary GetDirectoryPostSalaryByDate(int postId, DateTime date)
+        {
+            return _dc.DirectoryPostSalaries.Where(s => s.DirectoryPostId == postId).OrderByDescending(s => s.Date).First(s => DbFunctions.DiffDays(date, s.Date) <= 0);
+        }
+
+        //date = 20/1/14
+
+        //10/1/14 15000
+        //1/1/13  10000
+        
+        
         #endregion
     }
 }
