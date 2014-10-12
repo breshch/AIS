@@ -17,38 +17,7 @@
     </Window.Resources>
 
     <TabControl Margin="20, 30">
-        <TabItem Header="Сводная информация">
-            <Grid Margin="20, 10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <DataGrid Grid.Row="0" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True" CanUserSortColumns="False"
-                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding AllSafeData}">
-
-                    <DataGrid.ItemContainerStyle>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Color}" Value="MediumSlateBlue">
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
-
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Статья" Binding="{Binding Name }" Width="0.66*"/>
-                        <DataGridTextColumn Header="RUR" Binding="{Binding SummRUR}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
-                        <DataGridTextColumn Header="USD" Binding="{Binding SummUSD}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
-                        <DataGridTextColumn Header="EUR" Binding="{Binding SummEUR}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
-                        <DataGridTextColumn Header="BYR" Binding="{Binding SummBYR}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </TabItem>
-
-        <TabItem Header="Долги">
+        <TabItem Header="Долги" Visibility="{Binding BudgetTabVisibilityLoans}">
             <Grid Margin="20, 10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -107,7 +76,7 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Наличка">
+        <TabItem Header="Наличка" Visibility="{Binding BudgetTabVisibilityAll}">
             <Grid Margin="20, 10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -176,7 +145,7 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Карточка">
+        <TabItem Header="Карточка" Visibility="{Binding BudgetTabVisibilityAll}">
             <Grid Margin="20, 10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -214,7 +183,7 @@
 
         </TabItem>
 
-        <TabItem Header="Частные долги">
+        <TabItem Header="Частные долги" Visibility="{Binding BudgetTabVisibilityAll}">
             <Grid Margin="20, 10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -269,6 +238,37 @@
                     </Grid>
 
                 </Grid>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Сводная информация" Visibility="{Binding BudgetTabVisibilityAll}">
+            <Grid Margin="20, 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DataGrid Grid.Row="0" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True" CanUserSortColumns="False"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding AllSafeData}">
+
+                    <DataGrid.ItemContainerStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Color}" Value="MediumSlateBlue">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Статья" Binding="{Binding Name }" Width="0.66*"/>
+                        <DataGridTextColumn Header="RUR" Binding="{Binding SummRUR}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
+                        <DataGridTextColumn Header="USD" Binding="{Binding SummUSD}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
+                        <DataGridTextColumn Header="EUR" Binding="{Binding SummEUR}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
+                        <DataGridTextColumn Header="BYR" Binding="{Binding SummBYR}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="0.5*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </TabItem>
     </TabControl>

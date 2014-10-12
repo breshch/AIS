@@ -1,0 +1,57 @@
+﻿<Window x:Class="AIS_Enterprise_AV.Views.Currents.AddEditCurrentContainerCarPartsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding TitleContainerName}" Height="500" Width="560">
+    <Grid Margin=" 20, 30">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+          
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Дата" Width="150"/>
+                <DatePicker SelectedDate="{Binding Date,  StringFormat='{}{0:dd.MM.yyyy}'}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
+                <TextBlock Text= "Номер" Width="150"/>
+                <TextBox Text="{Binding Name}"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
+                <TextBlock Text="Описание" Width="150"/>
+                <TextBox Text="{Binding Description}"/>
+            </StackPanel>
+     
+        </StackPanel>
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single" 
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding CurrentContainerCarParts}"
+                  SelectedItem="{Binding SelectedCurrentContainerCarPart}"  Margin="0, 10, 0, 0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Артикул" Binding="{Binding DirectoryCarPart.Article}" Width="*"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding DirectoryCarPart.Description}" Width="*"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding CountCarParts}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2" Margin=" 0, 20, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0" Content="Добавить запчасть" Command="{Binding AddCarPartCommnad}" Margin=" 0, 0, 10, 0"/>
+            <Button Grid.Column="1" Content="Изменить запчасть" Command="{Binding EditCarPartCommnad}" Margin=" 10, 0, 10, 0"/>
+            <Button Grid.Column="2" Content="Удалить запчасть" Command="{Binding RemoveCarPartCommnad}" Margin=" 10, 0, 0, 0"/>
+        </Grid>
+        
+        <Button Grid.Row="3" Content="{Binding ButtonAddEditContainerName}" Command="{Binding AddConteinerCommand}" Margin="0, 20, 0, 0"/>
+        
+    </Grid>
+</Window>

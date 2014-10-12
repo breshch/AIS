@@ -11,6 +11,7 @@ using AIS_Enterprise_AV.Helpers.Temps;
 using System.Windows.Media;
 using System.Windows;
 using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
@@ -18,8 +19,12 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
     {
         #region Base
 
+        private List<string> _privileges;
+
         public InfoBudgetViewModel()
         {
+            InitializePrivileges();
+
             SelectedInfoLoanDate = DateTime.Now;
             SelectedInfoPrivateLoanDate = DateTime.Now;
 
@@ -54,6 +59,29 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             AddSafeCashCommand = new RelayCommand(AddSafeCash);
             RemoveSafeCashCommand = new RelayCommand(RemoveSafeCash, IsSelectedInfoSafeCash);
             InsertSafeCashCommand = new RelayCommand(InsertSafeCash);
+        }
+
+        private void InitializePrivileges()
+        {
+            BudgetTabVisibilityAll = Visibility.Collapsed;
+            BudgetTabVisibilityLoans = Visibility.Collapsed;
+
+            _privileges = DirectoryUser.Privileges;
+
+            foreach (var privilege in _privileges)
+            {
+                var privilegeEnum = (UserPrivileges)Enum.Parse(typeof(UserPrivileges), privilege);
+
+                switch (privilegeEnum)
+                {
+                    case UserPrivileges.BudgetTabVisibility_All:
+                        BudgetTabVisibilityAll = Visibility.Visible;
+                        break;
+                    case UserPrivileges.BudgetTabVisibility_Loans:
+                        BudgetTabVisibilityLoans = Visibility.Visible;
+                        break;
+                }
+            }
         }
 
         private void RefreshAllSafeData()
@@ -108,6 +136,9 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         #endregion
 
         #region Properties
+
+        public Visibility BudgetTabVisibilityAll { get; set; }
+        public Visibility BudgetTabVisibilityLoans { get; set; }
 
         public ObservableCollection<SafeData> AllSafeData { get; set; }
         public ObservableCollection<InfoLoan> InfoLoans { get; set; }

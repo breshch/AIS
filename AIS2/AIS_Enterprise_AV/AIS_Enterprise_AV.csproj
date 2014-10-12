@@ -32,7 +32,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>40</ApplicationRevision>
+    <ApplicationRevision>42</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -99,6 +99,14 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -153,12 +161,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\ExcelToDB\ConvertingCarPartsExcelToDB.cs" />
+    <Compile Include="Reports\CarsReports.cs" />
+    <Compile Include="ViewModels\AddEditContainersViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryContainerBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostSalaryBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryUserBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryUserStatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddContainerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddPostSalaryViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddUserStatusViewModel.cs" />
@@ -176,16 +189,22 @@
     <Compile Include="ViewModels\Directories\DirectoryUsersViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryWorkerFireDateViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryWorkerListViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\FromToDatesReportViewModel.cs" />
     <Compile Include="ViewModels\Helpers\LogViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddDefaultCostViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
     <Compile Include="ViewModels\Infos\EditDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\DefaultCostsViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
     <Compile Include="ViewModels\Infos\MonthCostsViewModel.cs" />
+    <Compile Include="ViewModels\MainProjectChoiseViewModel.cs" />
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Currents\AddEditCurrentContainerCarPartsView.xaml.cs">
+      <DependentUpon>AddEditCurrentContainerCarPartsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Directories\AddEditDirectoryPostView.xaml.cs">
       <DependentUpon>AddEditDirectoryPostView.xaml</DependentUpon>
@@ -232,8 +251,14 @@
     <Compile Include="Views\Directories\DirectoryWorkerListView.xaml.cs">
       <DependentUpon>DirectoryWorkerListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Helpers\FromToDatesReportView.xaml.cs">
+      <DependentUpon>FromToDatesReportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Helpers\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditContainersView.xaml.cs">
+      <DependentUpon>AddEditContainersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\AddEditDefaultCostView.xaml.cs">
       <DependentUpon>AddEditDefaultCostView.xaml</DependentUpon>
@@ -251,7 +276,7 @@
       <DependentUpon>MonthCostsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCostsExcelToDB.cs" />
-    <Compile Include="Helpers\ExcelToDB\ConvertingExcelToDB.cs" />
+    <Compile Include="Helpers\ExcelToDB\ConvertingWorkersExcelToDB.cs" />
     <Compile Include="Helpers\Temps\IncomingAndExpense.cs" />
     <Compile Include="Helpers\Temps\SafeData.cs" />
     <Compile Include="Reports\CashReports.cs" />
@@ -305,6 +330,9 @@
     </Compile>
     <Compile Include="Views\Infos\InfoBudgetView.xaml.cs">
       <DependentUpon>InfoBudgetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainProjectChoiseView.xaml.cs">
+      <DependentUpon>MainProjectChoiseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -370,6 +398,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Currents\AddEditCurrentContainerCarPartsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Directories\AddEditDirectoryPostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -430,9 +462,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Helpers\FromToDatesReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Helpers\LogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditContainersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\AddEditDefaultCostView.xaml">
       <SubType>Designer</SubType>
@@ -487,6 +527,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\InfoBudgetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainProjectChoiseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -583,6 +627,11 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <Import Project="..\packages\KindOfMagic.1.2.3\tools\KindOfMagic.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

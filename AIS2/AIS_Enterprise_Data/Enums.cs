@@ -38,9 +38,11 @@ namespace AIS_Enterprise_Global.Helpers
         MenuVisibility_Reports_ReportSalaryMinsk,
         MenuVisibility_Reports_ReportCosts,
         MenuVisibility_Reports_ReportCash,
+        MenuVisibility_Reports_ReportCars,
         MenuVisibility_AdminPanel_UserStatuses,
         MenuVisibility_AdminPanel_Users,
         MenuVisibility_AdminPanel_Logs,
+        MenuVisibility_AdminPanel_Calendar,
 
         MonthTimeSheetColumnsVisibility_FullName,
         MonthTimeSheetColumnsVisibility_PostName,
@@ -81,7 +83,10 @@ namespace AIS_Enterprise_Global.Helpers
 
         ButtonsVisibility_AdminButtons,
 
-        CostsVisibility_IsNotTransportOnly
+        CostsVisibility_IsNotTransportOnly,
+
+        BudgetTabVisibility_All,
+        BudgetTabVisibility_Loans,
     }
 
     public enum Rules
@@ -93,7 +98,8 @@ namespace AIS_Enterprise_Global.Helpers
         WorkersVisibility,
         Workers,
         ButtonsVisibility,
-        CostsVisibility
+        CostsVisibility,
+        BudgetTabVisibility
     }
 
     public enum LoggingOptions

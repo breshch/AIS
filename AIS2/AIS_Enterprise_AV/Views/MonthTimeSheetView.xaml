@@ -68,11 +68,13 @@
                 <MenuItem x:Name="MenuReportSalaryMinsk" Header="Зарплата Минск" Click="MenuReportSalaryMinsk_Click"  Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuReportCosts" Header="Затраты" Click="MenuReportCosts_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuReportCash" Header="Касса" Click="MenuReportCash_Click"  Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuReportCars" Header="Машины" Click="MenuReportCars_Click"  Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="MenuAdminPanel" Header="Административная панель" Visibility="Collapsed">
                 <MenuItem x:Name="MenuUserStatuses" Header="Статусы пользователей" Click="MenuUserStatuses_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuUsers" Header="Пользователи" Click="MenuUsers_Click" Visibility="Collapsed"/>
-                <MenuItem x:Name="MenuLogs" Header="Logs" Click="MenuLogs_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuLogs" Header="Логи" Click="MenuLogs_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuCalendar" Header="Календарь" Click="MenuCalendar_Click"  Visibility="Collapsed"/>
             </MenuItem>
         </Menu>
 

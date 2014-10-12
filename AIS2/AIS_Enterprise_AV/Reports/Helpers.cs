@@ -13,6 +13,8 @@ namespace AIS_Enterprise_AV.Reports
 {
     public static class Helpers
     {
+        private static object _syncLock = new object();
+
         public static string CreationNewFileReport(string path)
         {
             if (!Directory.Exists(Path.GetDirectoryName(path)))
@@ -71,10 +73,10 @@ namespace AIS_Enterprise_AV.Reports
             string newPath = Helpers.CreationNewFileReport(path);
             var ep = Helpers.CreationNewBook(newPath);
 
-            foreach (var method in methods)
+            methods.AsParallel().ForAll((method) =>
             {
                 method.Invoke(ep);
-            }
+            });
 
             ep.Save();
             Process.Start(newPath);
@@ -82,11 +84,14 @@ namespace AIS_Enterprise_AV.Reports
 
         public static ExcelWorksheet GetSheet(ExcelPackage ep, string name)
         {
-            if (ep.Workbook.Worksheets.Select(ws => ws.Name).Contains(name))
+            lock (_syncLock)
             {
-                ep.Workbook.Worksheets.Delete(name);
+                if (ep.Workbook.Worksheets.Select(ws => ws.Name).Contains(name))
+                {
+                    ep.Workbook.Worksheets.Delete(name);
+                }
+                ep.Workbook.Worksheets.Add(name);
             }
-            ep.Workbook.Worksheets.Add(name);
 
             return ep.Workbook.Worksheets.First(ws => ws.Name == name);
         }

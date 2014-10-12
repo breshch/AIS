@@ -354,7 +354,7 @@ namespace AIS_Enterprise_AV.ViewModels
         private void ShowExcelToDB(object parameter)
         {
             IsNotInitializedDB = false;
-            Task.Factory.StartNew(() => ConvertingExcelToDB.ConvertExcelToDB(BC)).ContinueWith(
+            Task.Factory.StartNew(() => ConvertingWorkersExcelToDB.ConvertExcelToDB(BC)).ContinueWith(
                 (t) =>
                 {
                     IsNotInitializedDB = true;
@@ -404,11 +404,9 @@ namespace AIS_Enterprise_AV.ViewModels
 
             window.Visibility = Visibility.Collapsed;
 
-
-            var monthTimeSheetView = new MonthTimeSheetView();
-            monthTimeSheetView.ShowDialog();
-
+            HelperMethods.ShowView(new MainProjectChoiseViewModel(), new MainProjectChoiseView());
             passwordBox.Password = null;
+            
             window.Visibility = Visibility.Visible;
 
             //DataContext.ChangeConnectionStringWithDefaultCredentials();

@@ -1463,6 +1463,11 @@ namespace AIS_Enterprise_Data
             return _dc.DirectoryHolidays.Where(h => h.Date.Year == year && h.Date.Month == month).Select(h => h.Date);
         }
 
+        public IQueryable<DateTime> GetHolidays(int year)
+        {
+            return _dc.DirectoryHolidays.Where(h => h.Date.Year == year).Select(h => h.Date);
+        }
+
         public IQueryable<DateTime> GetHolidays(DateTime fromDate, DateTime toDate)
         {
             return _dc.DirectoryHolidays.Where(h => DbFunctions.DiffDays(h.Date, fromDate) <= 0 && DbFunctions.DiffDays(h.Date, toDate) >= 0).Select(h => h.Date);
@@ -1471,6 +1476,21 @@ namespace AIS_Enterprise_Data
         public bool IsWeekend(DateTime date)
         {
             return _dc.DirectoryHolidays.Any(w => DbFunctions.DiffDays(w.Date, date) == 0);
+        }
+
+        public void SetHolidays(int year, List<DateTime> holidays)
+        {
+            var holidaysInDB = GetHolidays(year).ToList();
+
+            foreach (var holiday in holidays)
+            {
+                if (!holidaysInDB.Any(h => h.Date == holiday.Date))
+                {
+                    _dc.DirectoryHolidays.Add(new DirectoryHoliday { Date = holiday });
+                }
+            }
+
+            _dc.SaveChanges();
         }
 
         #endregion
@@ -1870,7 +1890,9 @@ namespace AIS_Enterprise_Data
                 overTime.EndDate = endDate;
                 overTime.Description = description;
 
-                overTime.CurrentRCs.Clear();
+                _dc.CurrentRCs.RemoveRange(overTime.CurrentRCs);
+
+                _dc.SaveChanges();
 
                 foreach (var directoryRC in directoryRCs)
                 {
@@ -2025,7 +2047,12 @@ namespace AIS_Enterprise_Data
             {
                 double commonWeight = transports.Sum(t => t.Weight);
 
-                foreach (var rc in transports.Select(t => t.DirectoryRC.Name).Distinct())
+                int indexCargo = 1;
+
+                double totalSummTransport = 0;
+                var cargos = transports.Select(t => t.DirectoryRC.Name).Distinct();
+
+                foreach (var rc in cargos)
                 {
                     var currentNotes = new List<CurrentNote>();
                     double weightRC = 0;
@@ -2036,6 +2063,17 @@ namespace AIS_Enterprise_Data
                         weightRC += transport.Weight;
                     }
 
+                    double summTransport = 0;
+                    if (indexCargo < cargos.Count())
+                    {
+                        summTransport = weightRC != 0 ? Math.Round(summ / commonWeight * weightRC, 0) : summ;
+                        totalSummTransport += summTransport;
+                    }
+                    else
+                    {
+                        summTransport = summ - totalSummTransport;
+                    }
+
                     var infoCost = new InfoCost
                     {
                         GroupId = groupId,
@@ -2044,7 +2082,7 @@ namespace AIS_Enterprise_Data
                         DirectoryRC = _dc.DirectoryRCs.First(r => r.Name == rc),
                         IsIncoming = isIncoming,
                         DirectoryTransportCompany = transportCompany != null ? _dc.DirectoryTransportCompanies.Find(transportCompany.Id) : null,
-                        Summ = weightRC != 0 ? Math.Round(summ / commonWeight * weightRC, 0) : summ,
+                        Summ = summTransport,
                         Currency = currency,
                         CurrentNotes = currentNotes,
                         Weight = weightRC
@@ -2053,6 +2091,8 @@ namespace AIS_Enterprise_Data
                     _dc.InfoCosts.Add(infoCost);
 
                     AddInfoSafe(infoCost.Date, infoCost.IsIncoming, infoCost.Summ, currency, CashType.Наличка, infoCost.DirectoryRC.Name + " " + infoCost.ConcatNotes);
+
+                    indexCargo++;
                 }
             }
             else
@@ -2907,8 +2947,76 @@ namespace AIS_Enterprise_Data
 
         //10/1/14 15000
         //1/1/13  10000
+
+
+        #endregion
+
+
+        #region DirectoryCarPart
+
+        public DirectoryCarPart AddDirectoryCarPart(string article, string mark, string description, string originalNumber,
+            string factoryNumber, string crossNumber, string material, string attachment, string countInBox)
+        {
+            var carPart = new DirectoryCarPart
+            {
+                Article = article,
+                Mark = mark,
+                Description = description,
+                OriginalNumber = originalNumber,
+                Note = new CarPartNote
+                {
+                    Material = material,
+                    Attachment = attachment
+                },
+                FactoryAndCross = new CarPartFactoryAndCross
+                {
+                    FactoryNumber = factoryNumber,
+                    CrossNumber = crossNumber
+                },
+                CountInBox = countInBox
+            };
+
+            _dc.DirectoryCarParts.Add(carPart);
+            _dc.SaveChanges();
+
+            return carPart;
+        }
+
+        #endregion
+
+        #region DirectoryContainer
+        public IEnumerable<int> GetContainerYears()
+        {
+            return _dc.DirectoryContainers.Select(c => c.Date.Year).Distinct().OrderBy(c => c);
+        }
+
+        public IEnumerable<int> GetContainerMonthes(int selectedYear)
+        {
+            return _dc.DirectoryContainers.Where(c => c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
+        }
+
+        public IQueryable<DirectoryContainer> GetContainers(int year, int month)
+        {
+            return _dc.DirectoryContainers.Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
+        }
+
+        public void RemoveDirectoryContainer(DirectoryContainer container)
+        {
+            _dc.DirectoryContainers.Remove(container);
+            _dc.SaveChanges();
+        }
+
+        #endregion
+
+
+        #region CurrentContainerCarPart
         
-        
+        public void RemoveCurrentContainerCarPart(CurrentContainerCarPart currentContainerCarPart)
+        {
+            _dc.CurrentContainerCarParts.Remove(currentContainerCarPart);
+            _dc.SaveChanges();
+        } 
+
         #endregion
     }
 }

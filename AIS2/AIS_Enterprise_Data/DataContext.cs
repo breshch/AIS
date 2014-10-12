@@ -151,6 +151,8 @@ namespace AIS_Enterprise_Data
         public DbSet<DirectoryKeepingDescription> DirectoryKeepingDescriptions { get; set; }
         public DbSet<DirectoryPhoto> DirectoryPhotoes { get; set; }
         public DbSet<DirectoryLoanTaker> DirectoryLoanTakers { get; set; }
+        public DbSet<DirectoryCarPart> DirectoryCarParts { get; set; }
+        public DbSet<DirectoryContainer> DirectoryContainers { get; set; }
         
 
         public DbSet<CurrentPost> CurrentPosts { get; set; }
@@ -158,6 +160,9 @@ namespace AIS_Enterprise_Data
         public DbSet<CurrentUserStatus> CurrentUserStatuses { get; set; }
         public DbSet<CurrentRC> CurrentRCs { get; set; }
         public DbSet<CurrentNote> CurrentNotes { get; set; }
+        public DbSet<CurrentCarPart> CurrentCarParts { get; set; }
+        public DbSet<CurrentContainerCarPart> CurrentContainerCarParts { get; set; }
+
 
 
         public DbSet<InfoDate> InfoDates { get; set; }
@@ -170,7 +175,6 @@ namespace AIS_Enterprise_Data
         public DbSet<InfoPayment> InfoPayments { get; set; }
         public DbSet<InfoPrivatePayment> InfoPrivatePayments { get; set; }
         public DbSet<InfoSafe> InfoSafes { get; set; }
-
 
 
         public DbSet<DefaultCost> DefaultCosts { get; set; }

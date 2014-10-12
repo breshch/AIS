@@ -34,6 +34,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using WpfAnimatedGif;
+using System.Data.Entity;
 
 namespace AIS_Enterprise_AV.Views
 {
@@ -87,6 +88,10 @@ namespace AIS_Enterprise_AV.Views
         {
             InitializeComponent();
 
+            
+
+            
+
             //ScreenWight();
             //_bc.EditParameter("TotalCard", "121874,57");
 
@@ -115,7 +120,14 @@ namespace AIS_Enterprise_AV.Views
             //_bc.SaveChanges();
             ////_bc.SaveChanges();
 
-            var _dc = _bc.DataContext;
+            //var _dc = _bc.DataContext;
+
+            //foreach (var item in _dc.InfoCosts.Include(c => c.CurrentNotes.Select(n => n.DirectoryNote)).ToList().Where(c => c.CurrentNotes.First().DirectoryNote.Description == "Брак"))
+            //{
+            //    item.DirectoryTransportCompanyId = 4;
+
+            //}
+            //_dc.SaveChanges();
 
             //int id = _dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary").Id;
             //_dc.CurrentUserStatusPrivileges.RemoveRange(_dc.CurrentUserStatusPrivileges.Where(p => p.DirecoryUserStatusPrivilegeId == id));
@@ -408,11 +420,11 @@ namespace AIS_Enterprise_AV.Views
 
             foreach (var privilege in _privileges)
             {
-                int indexUndelLine = privilege.IndexOf("_");
-                string rule = privilege.Substring(0, indexUndelLine);
+                int indexUnderLine = privilege.IndexOf("_");
+                string rule = privilege.Substring(0, indexUnderLine);
 
                 var ruleEnum = (Rules)Enum.Parse(typeof(Rules), rule);
-                string subPrivilege = privilege.Substring(indexUndelLine + 1);
+                string subPrivilege = privilege.Substring(indexUnderLine + 1);
 
                 switch (ruleEnum)
                 {
@@ -1549,7 +1561,7 @@ namespace AIS_Enterprise_AV.Views
                "Зарплата",
                (BC, SelectedYear, SelectedMonth) =>
                {
-                   WorkerSalaryReports.ComplitedReportSalaryWorkers(BC, SelectedYear, SelectedMonth);
+                   WorkerSalaryReports.ComplitedReportSalaryWorkers(SelectedYear, SelectedMonth);
                },
                (BC) => BC.GetYears().OrderBy(y => y).ToList(),
                (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
@@ -1562,7 +1574,7 @@ namespace AIS_Enterprise_AV.Views
                "Зарплата",
                (BC, SelectedYear, SelectedMonth) =>
                {
-                   WorkerSalaryReports.ComplitedReportSalaryOvertimeTransportMinsk(BC, SelectedYear, SelectedMonth);
+                   WorkerSalaryReports.ComplitedReportSalaryOvertimeTransportMinsk(SelectedYear, SelectedMonth);
                },
                (BC) => BC.GetYears().OrderBy(y => y).ToList(),
                (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
@@ -1575,7 +1587,7 @@ namespace AIS_Enterprise_AV.Views
                "Касса",
                (BC, SelectedYear, SelectedMonth) =>
                {
-                   WorkerSalaryReports.ComplitedMonthCashReportMinsk(BC, SelectedYear, SelectedMonth);
+                   WorkerSalaryReports.ComplitedMonthCashReportMinsk(SelectedYear, SelectedMonth);
                },
                (BC) => BC.GetYears().OrderBy(y => y).ToList(),
                (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
@@ -1595,8 +1607,19 @@ namespace AIS_Enterprise_AV.Views
             HelperMethods.ShowView(new LogViewModel(), new LogView());
         }
 
+        private void MenuCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            GetCalendar();
+        }
 
+        private async void GetCalendar()
+        {
+            await ParsingCalendar.GetCalendar(_bc, DateTime.Now.AddYears(1).Year);
+        }
+
+        private void MenuReportCars_Click(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new FromToDatesReportViewModel(), new FromToDatesReportView());
+        }
     }
-
-
 }

@@ -57,6 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessContext.cs" />
+    <Compile Include="Currents\CurrentCarPart.cs" />
+    <Compile Include="Currents\CurrentContainerCarPart.cs" />
     <Compile Include="Currents\CurrentNote.cs" />
     <Compile Include="Currents\CurrentPost.cs" />
     <Compile Include="Currents\CurrentRC.cs" />
@@ -64,7 +66,9 @@
     <Compile Include="Currents\CurrentUserStatusPrivilege.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="DBCustomQueries.cs" />
+    <Compile Include="Directories\DirectoryCarPart.cs" />
     <Compile Include="Directories\DirectoryCompany.cs" />
+    <Compile Include="Directories\DirectoryContainer.cs" />
     <Compile Include="Directories\DirectoryCostItem.cs" />
     <Compile Include="Directories\DirectoryHoliday.cs" />
     <Compile Include="Directories\DirectoryKeepingDescription.cs" />

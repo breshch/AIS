@@ -15,7 +15,7 @@ using AIS_Enterprise_Data.Directories;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
-    public static class ConvertingExcelToDB
+    public static class ConvertingWorkersExcelToDB
     {
         private const string PATH_FIRE_WORKERS = "Files/firehuy.txt";
         private const string PATH_TABEL_WORKERS = "Files/huy.xml";
