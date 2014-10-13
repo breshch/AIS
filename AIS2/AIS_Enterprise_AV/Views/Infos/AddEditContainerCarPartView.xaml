@@ -1,0 +1,19 @@
+﻿<Window x:Class="AIS_Enterprise_AV.Views.Infos.AddEditContainerCarPartView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AddEditContainerCarPartView" Height="300" Width="300">
+    
+    <Grid Margin="20, 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Артукул"/>
+            <ComboBox ItemsSource="{Binding }"
+        </StackPanel>
+    </Grid>
+</Window>

@@ -257,6 +257,9 @@
     <Compile Include="Views\Helpers\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Infos\AddEditContainerCarPartView.xaml.cs">
+      <DependentUpon>AddEditContainerCarPartView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Infos\AddEditContainersView.xaml.cs">
       <DependentUpon>AddEditContainersView.xaml</DependentUpon>
     </Compile>
@@ -469,6 +472,10 @@
     <Page Include="Views\Helpers\LogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditContainerCarPartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\AddEditContainersView.xaml">
       <SubType>Designer</SubType>
