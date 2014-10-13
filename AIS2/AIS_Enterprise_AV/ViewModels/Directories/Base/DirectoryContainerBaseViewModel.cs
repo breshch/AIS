@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_Data.Currents;
+﻿using AIS_Enterprise_AV.ViewModels.Infos;
+using AIS_Enterprise_AV.Views.Infos;
+using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
 using System;
@@ -47,7 +49,18 @@ namespace AIS_Enterprise_AV.ViewModels.Directories.Base
 
         public void Add(object parameter)
         {
- 
+            var viewModel = new AddContainerCarPartViewModel();
+            viewModel.AddingCarPart += viewModel_AddingCarPart;
+
+            var view = new AddEditContainerCarPartView();
+
+            view.DataContext = viewModel;
+            view.Show();
+        }
+
+        private void viewModel_AddingCarPart(CurrentContainerCarPart currentContainerCarPart)
+        {
+            CurrentContainerCarParts.Add(currentContainerCarPart);     
         }
 
         public void Edit(object parameter)

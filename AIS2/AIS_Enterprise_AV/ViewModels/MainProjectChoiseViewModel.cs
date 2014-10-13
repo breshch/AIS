@@ -1,4 +1,5 @@
 ﻿using AIS_Enterprise_AV.Helpers.ExcelToDB;
+using AIS_Enterprise_AV.Infos.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Infos;
@@ -60,8 +61,7 @@ namespace AIS_Enterprise_AV.ViewModels
             //    ConvertingCarPartsExcelToDB.ConvertRussian(BC, path);
             //}
 
-            HelperMethods.ShowView(new AddEditContainersViewModel(), new AddEditContainersView())
-
+            HelperMethods.ShowView(new AddEditContainersViewModel(), new AddEditContainersView());
             HelperMethods.CloseWindow(parameter);
         }
         #endregion

@@ -163,7 +163,8 @@
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCarPartsExcelToDB.cs" />
     <Compile Include="Reports\CarsReports.cs" />
-    <Compile Include="ViewModels\AddEditContainersViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryContainerBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostSalaryBaseViewModel.cs" />
@@ -192,7 +193,8 @@
     <Compile Include="ViewModels\Helpers\FromToDatesReportViewModel.cs" />
     <Compile Include="ViewModels\Helpers\LogViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddDefaultCostViewModel.cs" />
-    <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseContainerCarPartViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseContainerViewModel.cs" />
     <Compile Include="ViewModels\Infos\EditDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\DefaultCostsViewModel.cs" />

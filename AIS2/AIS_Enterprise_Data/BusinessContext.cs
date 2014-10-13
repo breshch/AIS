@@ -2982,6 +2982,11 @@ namespace AIS_Enterprise_Data
             return carPart;
         }
 
+        public IQueryable<DirectoryCarPart> GetDirectoryCarParts()
+        {
+            return _dc.DirectoryCarParts.OrderBy(c => c.Article);
+        }
+
         #endregion
 
         #region DirectoryContainer
@@ -3018,5 +3023,7 @@ namespace AIS_Enterprise_Data
         } 
 
         #endregion
+
+        
     }
 }
