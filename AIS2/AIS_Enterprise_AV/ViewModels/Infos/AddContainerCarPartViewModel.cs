@@ -1,5 +1,6 @@
 ﻿using AIS_Enterprise_AV.ViewModels.Infos.Base;
 using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,21 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
-    public class AddContainerCarPartViewModel : BaseContainerCarPartViewModel
+    public class AddContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart> : BaseContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart>
+        where InfoContainer : InfoBaseContainer
+        where CurrentContainerCarPart : CurrentBaseContainerCarPart, new()
     {
         #region Base
 
-        public event Action<CurrentContainerCarPart> AddingCarPart = delegate { }; 
+        public event Action<CurrentContainerCarPart> AddingCarPart = delegate { };
 
         private CurrentContainerCarPart _currentContainerCarPart;
 
         public AddContainerCarPartViewModel() : base()
         {
             AddEditCarPartCommand = new RelayCommand(AddCarPart);
+            AddEditCarPartTitle = "Добавление автозапчасти";
+            AddEditCarPartName = "Добавить автозапчасть";
         }
 
         private void ClearForm()
@@ -36,6 +41,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         {
             _currentContainerCarPart = new CurrentContainerCarPart
             {
+                DirectoryCarPart = SelectedCarPart,
                 DirectoryCarPartId = SelectedCarPart.Id,
                 CountCarParts = CountCarParts
             };

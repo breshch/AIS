@@ -1,8 +1,8 @@
-﻿<Window x:Class="AIS_Enterprise_AV.Views.Infos.AddEditContainersView"
+﻿<Window x:Class="AIS_Enterprise_AV.Views.Infos.AddEditOutcomingsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding AddEditContainersTitle}" Height="500" Width="700">
+        Title="AddEditContainersView" Height="500" Width="700">
 
     <Grid Margin="20, 30">
 
@@ -31,7 +31,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер приказа" Binding="{Binding Name}" Width="*"/>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*"/>
-                <DataGridTextColumn Header="Номер" Binding="{Binding Description}" Width="*"/>
+                <DataGridTextColumn Header="Номер контейнера" Binding="{Binding Description}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 

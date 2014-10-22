@@ -2989,41 +2989,134 @@ namespace AIS_Enterprise_Data
 
         #endregion
 
-        #region DirectoryContainer
-        public IEnumerable<int> GetContainerYears()
+
+        #region InfoContainer
+
+        public IEnumerable<int> GetContainerYears<T>() where T : InfoBaseContainer
         {
-            return _dc.DirectoryContainers.Select(c => c.Date.Year).Distinct().OrderBy(c => c);
+            return _dc.Set<T>().Select(c => c.Date.Year).Distinct().OrderBy(c => c);
         }
 
-        public IEnumerable<int> GetContainerMonthes(int selectedYear)
+        public IEnumerable<int> GetContainerMonthes<T>(int selectedYear) where T : InfoBaseContainer
         {
-            return _dc.DirectoryContainers.Where(c => c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
+            return _dc.Set<T>().Where(c => c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
         }
 
-        public IQueryable<DirectoryContainer> GetContainers(int year, int month)
+        public IQueryable<T> GetContainers<T>(int year, int month) where T : InfoBaseContainer
         {
-            return _dc.DirectoryContainers.Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
+            return _dc.Set<T>().Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
         }
 
-        public void RemoveDirectoryContainer(DirectoryContainer container)
+        public T GetInfoContainer<T>(int containerId) where T : InfoBaseContainer
         {
-            _dc.DirectoryContainers.Remove(container);
+            return _dc.Set<T>().Find(containerId);
+        }
+
+        public void RemoveInfoContainer<T>(T container) where T : InfoBaseContainer
+        {
+            _dc.Set<T>().Remove(container);
+            _dc.SaveChanges();
+        }
+
+        public InfoContainer AddInfoContainer<InfoContainer, CurrentContainerCarPart>(string name, string description, DateTime date, IEnumerable<CurrentContainerCarPart> carParts) 
+            where InfoContainer : InfoBaseContainer, new()
+            where CurrentContainerCarPart : CurrentBaseContainerCarPart
+        {
+            var container = new InfoContainer
+            {
+                Name = name,
+                Description = description,
+                Date = date,
+                CarParts = carParts
+            };
+
+            _dc.Set<InfoContainer>().Add(container);
+            _dc.SaveChanges();
+
+            return container;
+        }
+
+        public void EditInfoContainer<InfoContainer, CurrentContainerCarPart>(int containerId, string name, string description, DateTime date, IEnumerable<CurrentContainerCarPart> carParts)
+            where InfoContainer : InfoBaseContainer
+            where CurrentContainerCarPart : CurrentBaseContainerCarPart
+        {
+            var container = _dc.Set<InfoContainer>().Find(containerId);
+            container.Name = name;
+            container.Description = description;
+            container.Date = date;
+
+            //_dc.Set<CurrentContainerCarPart>().RemoveRange(container.CarParts);
+            _dc.SaveChanges();
+
+            container.CarParts.ToList().Clear();
+            container.CarParts = carParts;
+
             _dc.SaveChanges();
         }
 
         #endregion
 
 
-        #region CurrentContainerCarPart
-        
-        public void RemoveCurrentContainerCarPart(CurrentContainerCarPart currentContainerCarPart)
-        {
-            _dc.CurrentContainerCarParts.Remove(currentContainerCarPart);
-            _dc.SaveChanges();
-        } 
+        //#region InfoOutContainer
 
-        #endregion
+        //public IEnumerable<int> GetOutContainerYears()
+        //{
+        //    return _dc.InfoOutContainers.Select(c => c.Date.Year).Distinct().OrderBy(c => c);
+        //}
 
-        
+        //public IEnumerable<int> GetOutContainerMonthes(int selectedYear)
+        //{
+        //    return _dc.InfoOutContainers.Where(c => c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
+        //}
+
+        //public IQueryable<InfoOutContainer> GetOutContainers(int year, int month)
+        //{
+        //    return _dc.InfoOutContainers.Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
+        //}
+
+        //public InfoOutContainer GetInfoOutContainer(int containerId)
+        //{
+        //    return _dc.InfoOutContainers.Find(containerId);
+        //}
+
+        //public void RemoveInfoOutContainer(InfoOutContainer container)
+        //{
+        //    _dc.InfoOutContainers.Remove(container);
+        //    _dc.SaveChanges();
+        //}
+
+        //public InfoOutContainer AddInfoOutContainer(string name, string description, DateTime date, List<CurrentOutContainerCarPart> carParts)
+        //{
+        //    var container = new InfoOutContainer
+        //    {
+        //        Name = name,
+        //        Description = description,
+        //        Date = date,
+        //        CarParts = carParts
+        //    };
+
+        //    _dc.InfoOutContainers.Add(container);
+        //    _dc.SaveChanges();
+
+        //    return container;
+        //}
+
+        //public void EditInfoOutContainer(int containerId, string name, string description, DateTime date, List<CurrentOutContainerCarPart> carParts)
+        //{
+        //    var container = _dc.InfoOutContainers.Find(containerId);
+        //    container.Name = name;
+        //    container.Description = description;
+        //    container.Date = date;
+
+        //    _dc.CurrentOutContainerCarParts.RemoveRange(container.CarParts);
+        //    _dc.SaveChanges();
+
+        //    container.CarParts.Clear();
+        //    container.CarParts = carParts;
+
+        //    _dc.SaveChanges();
+        //}
+ 
+        //#endregion
     }
 }

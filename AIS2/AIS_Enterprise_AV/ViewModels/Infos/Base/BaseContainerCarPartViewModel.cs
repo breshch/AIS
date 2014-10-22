@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_Data.Directories;
+﻿using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,9 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos.Base
 {
-    public class BaseContainerCarPartViewModel : ViewModelGlobal
+    public class BaseContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart> : ViewModelGlobal
+        where InfoContainer : InfoBaseContainer
+        where CurrentContainerCarPart : CurrentBaseContainerCarPart
     {
         #region Base
 
@@ -39,7 +43,14 @@ namespace AIS_Enterprise_AV.ViewModels.Infos.Base
                 _selectedCarPart = value;
                 RaisePropertyChanged();
 
-                SelectedDescription = _selectedCarPart.Description;
+                if (_selectedCarPart == null)
+                {
+                    SelectedDescription = null;    
+                }
+                else
+                {
+                    SelectedDescription = _selectedCarPart.Description + " " + _selectedCarPart.OriginalNumber;
+                }
             }
         }
 

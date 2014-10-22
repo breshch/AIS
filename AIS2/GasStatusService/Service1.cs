@@ -24,7 +24,10 @@ namespace GasStatusService
 
         protected override void OnStart(string[] args)
         {
-            Task.Factory.StartNew(GetBalance);
+            //SendSMS("www", "qeryhabe@sms.ru", "79264323519");
+
+
+            //Task.Factory.StartNew(GetBalance);
         }
 
         protected override void OnStop()
@@ -62,32 +65,32 @@ namespace GasStatusService
 
                     double balance = double.Parse(html);
 
-                    if (balance < 10000)
+                    if (balance > 10000)
                     {
                         string message = "Баланс за ГСМ по Логистикону = " + balance;
 
                         SendSMS(message, "qeryhabe@sms.ru", "79264323519");
                         SendSMS(message, "5eqyqudu@sms.ru", "79268613825");
-                        SendSMS(message, "zysezyry@sms.ru", "79035423769");
+                       // SendSMS(message, "zysezyry@sms.ru", "79035423769");
                     }
 
-                    //using (var sw = new StreamWriter(@"D:\C#\AIS2\GasStatusService\bin\Release\index.txt"))
-                    //{
-                    //    sw.WriteLine(balance.ToString());
-                    //}
+                    using (var sw = new StreamWriter(@"D:\C#\AIS2\GasStatusService\bin\Release\index.txt"))
+                    {
+                        sw.WriteLine(balance.ToString());
+                    }
 
                     Thread.Sleep(1000 * 60 * 60 * 5);
                 }
             }
             catch (Exception ex)
             {
-                //using (var sw = new StreamWriter(@"E:\C#\AIS2\GasStatusService\bin\Debug\error.txt"))
-                //{
-                //    sw.WriteLine(ex.ToString());
-                //}
+                using (var sw = new StreamWriter(@"E:\C#\AIS2\GasStatusService\bin\Debug\error.txt"))
+                {
+                    sw.WriteLine(ex.ToString());
+                }
             }
 
-            //Environment.Exit(0);
+            Environment.Exit(0);
         }
 
         private static void SendSMS(string info, string email, string phone)

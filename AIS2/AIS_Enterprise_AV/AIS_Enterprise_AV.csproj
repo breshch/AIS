@@ -163,16 +163,18 @@
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCarPartsExcelToDB.cs" />
     <Compile Include="Reports\CarsReports.cs" />
+    <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddEditOutContainersViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
-    <Compile Include="ViewModels\Directories\Base\DirectoryContainerBaseViewModel.cs" />
+    <Compile Include="ViewModels\Currents\Base\CurrentBaseContainerViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostSalaryBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryUserBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryUserStatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
     <Compile Include="ViewModels\Directories\CurrentCompanyAndPostViewModel.cs" />
-    <Compile Include="ViewModels\Directories\DirectoryAddContainerViewModel.cs" />
+    <Compile Include="ViewModels\Currents\CurrentAddContainerViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddPostSalaryViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
     <Compile Include="ViewModels\Directories\DirectoryAddUserStatusViewModel.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="ViewModels\Infos\AddDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseContainerCarPartViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseContainerViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditContainerCarPartViewModel.cs" />
     <Compile Include="ViewModels\Infos\EditDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\DefaultCostsViewModel.cs" />
@@ -261,6 +264,9 @@
     </Compile>
     <Compile Include="Views\Infos\AddEditContainerCarPartView.xaml.cs">
       <DependentUpon>AddEditContainerCarPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditOutcomingsView.xaml.cs">
+      <DependentUpon>AddEditOutcomingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\AddEditContainersView.xaml.cs">
       <DependentUpon>AddEditContainersView.xaml</DependentUpon>
@@ -478,6 +484,10 @@
     <Page Include="Views\Infos\AddEditContainerCarPartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\AddEditOutcomingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Infos\AddEditContainersView.xaml">
       <SubType>Designer</SubType>
