@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Data.Infos
 {
-    public class InfoBaseContainer
+    public class InfoContainer
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
+        public bool IsIncoming { get; set; }
 
-        public virtual IEnumerable<CurrentBaseContainerCarPart> CarParts { get; set; }
+        public virtual List<CurrentContainerCarPart> CarParts { get; set; }
 
-        public InfoBaseContainer()
+        public InfoContainer()
         {
-
+            CarParts = new List<CurrentContainerCarPart>();
         }
     }
 }

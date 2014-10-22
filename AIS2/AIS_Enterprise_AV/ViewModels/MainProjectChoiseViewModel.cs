@@ -51,13 +51,13 @@ namespace AIS_Enterprise_AV.ViewModels
 
         private void Incoming(object parameter)
         {
-            HelperMethods.ShowView(new AddEditContainersViewModel<InfoInContainer, CurrentInContainerCarPart>("Приход"), new AddEditContainersView());
+            HelperMethods.ShowView(new AddEditContainersViewModel(true), new AddEditContainersView());
             HelperMethods.CloseWindow(parameter);
         }
 
         private void Outcoming(object parameter)
         {
-            HelperMethods.ShowView(new AddEditContainersViewModel<InfoOutContainer, CurrentOutContainerCarPart>("Расход"), new AddEditContainersView());
+            HelperMethods.ShowView(new AddEditContainersViewModel(false), new AddEditContainersView());
             HelperMethods.CloseWindow(parameter);
         }
 

@@ -11,14 +11,12 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Currents
 {
-    public class CurrentAddContainerViewModel<InfoContainer, CurrentContainerCarPart> : CurrentBaseContainerViewModel<InfoContainer, CurrentContainerCarPart>
-        where InfoContainer : InfoBaseContainer, new()
-        where CurrentContainerCarPart : CurrentBaseContainerCarPart
+    public class CurrentAddContainerViewModel : CurrentBaseContainerViewModel
     {
         #region Base
 
-        public CurrentAddContainerViewModel()
-            : base()
+        public CurrentAddContainerViewModel(bool isIncoming)
+            : base(isIncoming)
         {
             TitleContainerName = "Добавление контейнера";
             ButtonAddEditContainerName = "Добавить контейнер";
@@ -33,7 +31,7 @@ namespace AIS_Enterprise_AV.ViewModels.Currents
 
         private void AddContainer(object parameter)
         {
-            BC.AddInfoContainer<InfoContainer, CurrentContainerCarPart>(Name, Description, Date, CurrentContainerCarParts.ToList());
+            BC.AddInfoContainer(Name, Description, Date, _isIncoming, CurrentContainerCarParts.ToList());
 
             HelperMethods.CloseWindow(parameter);
         }

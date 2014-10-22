@@ -11,9 +11,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos.Base
 {
-    public class BaseContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart> : ViewModelGlobal
-        where InfoContainer : InfoBaseContainer
-        where CurrentContainerCarPart : CurrentBaseContainerCarPart
+    public class BaseContainerCarPartViewModel : ViewModelGlobal
     {
         #region Base
 

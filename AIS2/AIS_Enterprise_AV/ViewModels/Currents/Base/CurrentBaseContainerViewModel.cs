@@ -13,14 +13,16 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Currents.Base
 {
-    public abstract class CurrentBaseContainerViewModel<InfoContainer,CurrentContainerCarPart> : ViewModelGlobal
-        where InfoContainer : InfoBaseContainer, new()
-        where CurrentContainerCarPart : CurrentBaseContainerCarPart, new()
+    public abstract class CurrentBaseContainerViewModel : ViewModelGlobal
     {
         #region Base
 
-        public CurrentBaseContainerViewModel()
+        protected bool _isIncoming;
+
+        public CurrentBaseContainerViewModel(bool isIncoming)
         {
+            _isIncoming = isIncoming;
+
             AddCarPartCommnad = new RelayCommand(Add);
             EditCarPartCommnad = new RelayCommand(Edit, IsSelectedCarPart);
             RemoveCarPartCommnad = new RelayCommand(Remove, IsSelectedCarPart);
@@ -54,7 +56,7 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
 
         private void Add(object parameter)
         {
-            var viewModel = new AddContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart>();
+            var viewModel = new AddContainerCarPartViewModel();
             viewModel.AddingCarPart += viewModel_AddingCarPart;
 
             var view = new AddEditContainerCarPartView();
@@ -72,7 +74,7 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
         {
             int index = CurrentContainerCarParts.IndexOf(SelectedCurrentContainerCarPart);
 
-            var viewModel = new EditContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart>(SelectedCurrentContainerCarPart);
+            var viewModel = new EditContainerCarPartViewModel(SelectedCurrentContainerCarPart);
             HelperMethods.ShowView(viewModel, new AddEditContainerCarPartView());
 
             var carPart = viewModel.CurrentNewContainerCarPart;

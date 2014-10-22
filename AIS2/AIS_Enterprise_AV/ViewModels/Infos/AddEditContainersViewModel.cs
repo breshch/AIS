@@ -14,31 +14,33 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.Infos.ViewModels
 {
-    public class AddEditContainersViewModel<InfoContainer, CurrentContainerCarPart> : ViewModelGlobal 
-        where InfoContainer : InfoBaseContainer , new()
-        where CurrentContainerCarPart : CurrentBaseContainerCarPart
+    public class AddEditContainersViewModel : ViewModelGlobal 
     {
         #region Base
 
-        public AddEditContainersViewModel(string title)
+        private bool _isIncoming;
+
+        public AddEditContainersViewModel(bool isIncoming)
         {
-            Years = new ObservableCollection<int>(BC.GetContainerYears<InfoContainer>());
+            _isIncoming = isIncoming;
+
+            Years = new ObservableCollection<int>(BC.GetContainerYears(isIncoming));
            
             if (Years.Any())
             {
-                SelectedYear = Years.Last(); 
+                SelectedYear = Years.Last();
             }
 
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand(Edit, IsSelectedContainer);
             RemoveCommand = new RelayCommand(Remove, IsSelectedContainer);
 
-            AddEditContainersTitle = title;
+            AddEditContainersTitle = isIncoming ? "Приход" : "Расход";
         }
 
         private void RefreshContainers()
         {
-            InfoContainers = new ObservableCollection<InfoContainer>(BC.GetContainers<InfoContainer>(SelectedYear, _selectedMonth));
+            InfoContainers = new ObservableCollection<InfoContainer>(BC.GetContainers(SelectedYear, _selectedMonth, _isIncoming));
         }
 
         #endregion
@@ -62,12 +64,12 @@ namespace AIS_Enterprise_AV.Infos.ViewModels
 
                 if (Monthes == null)
                 {
-                    Monthes = new ObservableCollection<int>(BC.GetContainerMonthes<InfoContainer>(_selectedYear));
+                    Monthes = new ObservableCollection<int>(BC.GetContainerMonthes(_selectedYear, _isIncoming));
                 }
                 else
                 {
                     Monthes.Clear();
-                    foreach (var month in BC.GetContainerMonthes<InfoContainer>(_selectedYear))
+                    foreach (var month in BC.GetContainerMonthes(_selectedYear, _isIncoming))
                     {
                         Monthes.Add(month);
                     }
@@ -105,13 +107,13 @@ namespace AIS_Enterprise_AV.Infos.ViewModels
 
         private void Add(object parameter)
         {
-            HelperMethods.ShowView(new CurrentAddContainerViewModel<InfoContainer, CurrentContainerCarPart>(), new AddEditCurrentContainerCarPartsView());
+            HelperMethods.ShowView(new CurrentAddContainerViewModel(_isIncoming), new AddEditCurrentContainerCarPartsView());
 
             RefreshContainers();
         }
         private void Edit(object parameter)
         {
-            HelperMethods.ShowView(new CurrentEditContainerViewModel<InfoContainer, CurrentContainerCarPart>(SelectedInfoContainer.Id), new AddEditCurrentContainerCarPartsView());
+            HelperMethods.ShowView(new CurrentEditContainerViewModel(SelectedInfoContainer.Id, _isIncoming), new AddEditCurrentContainerCarPartsView());
 
             BC.RefreshContext();
 
@@ -119,7 +121,7 @@ namespace AIS_Enterprise_AV.Infos.ViewModels
         }
         private void Remove(object parameter)
         {
-            BC.RemoveInfoContainer<InfoContainer>(SelectedInfoContainer);
+            BC.RemoveInfoContainer(SelectedInfoContainer);
 
             RefreshContainers();
         }

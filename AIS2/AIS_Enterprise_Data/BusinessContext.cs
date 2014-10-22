@@ -2992,63 +2992,60 @@ namespace AIS_Enterprise_Data
 
         #region InfoContainer
 
-        public IEnumerable<int> GetContainerYears<T>() where T : InfoBaseContainer
+        public IEnumerable<int> GetContainerYears(bool isIncoming)
         {
-            return _dc.Set<T>().Select(c => c.Date.Year).Distinct().OrderBy(c => c);
+            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming).Select(c => c.Date.Year).Distinct().OrderBy(c => c);
         }
 
-        public IEnumerable<int> GetContainerMonthes<T>(int selectedYear) where T : InfoBaseContainer
+        public IEnumerable<int> GetContainerMonthes(int selectedYear, bool isIncoming)
         {
-            return _dc.Set<T>().Where(c => c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
+            return  _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
         }
 
-        public IQueryable<T> GetContainers<T>(int year, int month) where T : InfoBaseContainer
+        public IQueryable<InfoContainer> GetContainers(int year, int month, bool isIncoming)
         {
-            return _dc.Set<T>().Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
+            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
         }
 
-        public T GetInfoContainer<T>(int containerId) where T : InfoBaseContainer
+        public InfoContainer GetInfoContainer(int containerId)
         {
-            return _dc.Set<T>().Find(containerId);
+            return _dc.InfoContainers.Include(c => c.CarParts).First(c => c.Id == containerId);
         }
 
-        public void RemoveInfoContainer<T>(T container) where T : InfoBaseContainer
+        public void RemoveInfoContainer(InfoContainer container)
         {
-            _dc.Set<T>().Remove(container);
+            _dc.InfoContainers.Remove(container);
             _dc.SaveChanges();
         }
 
-        public InfoContainer AddInfoContainer<InfoContainer, CurrentContainerCarPart>(string name, string description, DateTime date, IEnumerable<CurrentContainerCarPart> carParts) 
-            where InfoContainer : InfoBaseContainer, new()
-            where CurrentContainerCarPart : CurrentBaseContainerCarPart
+        public InfoContainer AddInfoContainer(string name, string description, DateTime date, bool isIncoming, List<CurrentContainerCarPart> carParts) 
         {
             var container = new InfoContainer
             {
                 Name = name,
                 Description = description,
                 Date = date,
+                IsIncoming = isIncoming,
                 CarParts = carParts
             };
 
-            _dc.Set<InfoContainer>().Add(container);
+            _dc.InfoContainers.Add(container);
             _dc.SaveChanges();
 
             return container;
         }
 
-        public void EditInfoContainer<InfoContainer, CurrentContainerCarPart>(int containerId, string name, string description, DateTime date, IEnumerable<CurrentContainerCarPart> carParts)
-            where InfoContainer : InfoBaseContainer
-            where CurrentContainerCarPart : CurrentBaseContainerCarPart
+        public void EditInfoContainer(int containerId, string name, string description, DateTime date, bool isIncoming, List<CurrentContainerCarPart> carParts)
         {
-            var container = _dc.Set<InfoContainer>().Find(containerId);
+            var container = _dc.InfoContainers.Find(containerId);
             container.Name = name;
             container.Description = description;
             container.Date = date;
+            container.IsIncoming = isIncoming;
 
-            //_dc.Set<CurrentContainerCarPart>().RemoveRange(container.CarParts);
             _dc.SaveChanges();
 
-            container.CarParts.ToList().Clear();
+            container.CarParts.Clear();
             container.CarParts = carParts;
 
             _dc.SaveChanges();

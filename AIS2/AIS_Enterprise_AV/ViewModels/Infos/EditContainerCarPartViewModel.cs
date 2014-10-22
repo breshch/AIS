@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
-    public class EditContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart> : BaseContainerCarPartViewModel<InfoContainer, CurrentContainerCarPart>
-        where InfoContainer : InfoBaseContainer
-        where CurrentContainerCarPart : CurrentBaseContainerCarPart
+    public class EditContainerCarPartViewModel : BaseContainerCarPartViewModel
     {
         #region Base
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AIS_Enterprise_Data.Currents
 {
-    public class CurrentBaseContainerCarPart
+    public class CurrentContainerCarPart
     {
         public int Id { get; set; }
 
@@ -15,9 +15,6 @@ namespace AIS_Enterprise_Data.Currents
         public virtual DirectoryCarPart DirectoryCarPart { get; set; }
         public int CountCarParts { get; set; }
 
-        public CurrentBaseContainerCarPart()
-        {
-
-        }
+        public int InfoContainerId { get; set; }
     }
 }

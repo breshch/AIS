@@ -165,7 +165,6 @@
     <Compile Include="Reports\CarsReports.cs" />
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
-    <Compile Include="ViewModels\Infos\AddEditOutContainersViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
     <Compile Include="ViewModels\Currents\Base\CurrentBaseContainerViewModel.cs" />
     <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
