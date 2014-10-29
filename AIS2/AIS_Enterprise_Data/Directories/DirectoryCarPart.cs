@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,23 @@ namespace AIS_Enterprise_Data.Directories
         public CarPartFactoryAndCross FactoryAndCross { get; set; }
 
         public string CountInBox { get; set; }
+
+        [NotMapped]
+        public string FullCarPartName
+        {
+            get
+            {
+                return Article + " " + Mark;
+            }
+        }
     }
+
+
 
     public class CarPartFactoryAndCross
     {
         public string FactoryNumber { get; set; }
-        public string  CrossNumber { get; set; }
+        public string CrossNumber { get; set; }
     }
 
     public class CarPartNote
@@ -32,4 +44,6 @@ namespace AIS_Enterprise_Data.Directories
         public string Material { get; set; }
         public string Attachment { get; set; }
     }
+
+
 }

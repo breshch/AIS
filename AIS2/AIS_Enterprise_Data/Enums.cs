@@ -87,6 +87,9 @@ namespace AIS_Enterprise_Global.Helpers
 
         BudgetTabVisibility_All,
         BudgetTabVisibility_Loans,
+
+        MultyProject_MonthTimeSheetEnable,
+        MultyProject_DbFenoxEnable,
     }
 
     public enum Rules
@@ -99,7 +102,8 @@ namespace AIS_Enterprise_Global.Helpers
         Workers,
         ButtonsVisibility,
         CostsVisibility,
-        BudgetTabVisibility
+        BudgetTabVisibility,
+        MultyProject
     }
 
     public enum LoggingOptions

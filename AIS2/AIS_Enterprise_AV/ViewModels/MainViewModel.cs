@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
@@ -37,7 +38,7 @@ namespace AIS_Enterprise_AV.ViewModels
             Servers = new ObservableCollection<string>(HelperMethods.GetServers());
             ////string defaultServer = Properties.Settings.Default.DefaultServer;
             string defaultServer = "95.31.130.52";
-            
+
             //if (Servers.Contains(defaultServer))
             {
                 SelectedServer = defaultServer;
@@ -71,6 +72,8 @@ namespace AIS_Enterprise_AV.ViewModels
             ShowDefaultOfficeDBCommand = new RelayCommand(ShowDefaultOfficeDB);
             RefreshDataBasesCommand = new RelayCommand(RefreshDataBases);
             CostsExcelToDBCommand = new RelayCommand(CostsExcelToDB);
+            RussiansCommand = new RelayCommand(Russians);
+            ImportsCommand = new RelayCommand(Imports);
 
             EnteringCommand = new RelayCommand(Entering);
 
@@ -141,7 +144,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 RaisePropertyChanged();
             }
         }
-        
+
         //private string _selectedServer;
 
         public string SelectedServer { get; set; }
@@ -276,6 +279,8 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand EnteringCommand { get; set; }
         public RelayCommand RefreshDataBasesCommand { get; set; }
         public RelayCommand CostsExcelToDBCommand { get; set; }
+        public RelayCommand RussiansCommand { get; set; }
+        public RelayCommand ImportsCommand { get; set; }
 
 
 
@@ -302,7 +307,7 @@ namespace AIS_Enterprise_AV.ViewModels
             //    Servers.Add(server);
             //}
 
-           // SelectedServer = selectedServer;
+            // SelectedServer = selectedServer;
 
             if (DataBases != null)
             {
@@ -402,11 +407,11 @@ namespace AIS_Enterprise_AV.ViewModels
                 DirectoryUser.ChangeUserId(BC, SelectedUser.Id, SelectedUser.UserName);
             }
 
-            window.Visibility = Visibility.Collapsed;
+            window.Visibility = Visibility.Hidden;
 
             HelperMethods.ShowView(new MainProjectChoiseViewModel(), new MainProjectChoiseView());
             passwordBox.Password = null;
-            
+
             window.Visibility = Visibility.Visible;
 
             //DataContext.ChangeConnectionStringWithDefaultCredentials();
@@ -421,6 +426,30 @@ namespace AIS_Enterprise_AV.ViewModels
         {
             IsNotInitializedDB = false;
             Task.Factory.StartNew(() => ConvertingCostsExcelToDB.ConvertExcelToDB(BC)).ContinueWith((t) => IsNotInitializedDB = true);
+        }
+
+        private void Russians(object parameter)
+        {
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                IsNotInitializedDB = false;
+                Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertRussian(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
+
+            }
+        }
+
+        private void Imports(object parameter)
+        {
+
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                IsNotInitializedDB = false;
+                Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertImport(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
+            }
         }
 
         #endregion

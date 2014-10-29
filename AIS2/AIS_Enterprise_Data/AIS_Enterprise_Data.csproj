@@ -101,6 +101,7 @@
     <Compile Include="Helpers\Parameter.cs" />
     <Compile Include="Infos\InfoCost.cs" />
     <Compile Include="Infos\InfoDate.cs" />
+    <Compile Include="Infos\InfoLastMonthDayRemain.cs" />
     <Compile Include="Infos\InfoPrivatePayment.cs" />
     <Compile Include="Infos\InfoPrivateLoan.cs" />
     <Compile Include="Infos\InfoMonth.cs" />
@@ -117,6 +118,7 @@
     </Compile>
     <Compile Include="Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Temps\IncomingAndExpenseAndSumm.cs" />
+    <Compile Include="Temps\InfoCarPartMovement.cs" />
     <Compile Include="Temps\Transport.cs" />
   </ItemGroup>
   <ItemGroup>

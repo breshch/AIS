@@ -15,7 +15,7 @@
         
         <StackPanel Grid.Row="0">
             <TextBlock Text="Артукул"/>
-            <ComboBox ItemsSource="{Binding CarParts}" DisplayMemberPath="Article" 
+            <ComboBox ItemsSource="{Binding CarParts}" DisplayMemberPath="FullCarPartName"
                       SelectedItem="{Binding SelectedCarPart}" IsEditable="True"/>
         </StackPanel>
         
