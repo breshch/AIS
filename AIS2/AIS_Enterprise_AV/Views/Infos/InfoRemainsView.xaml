@@ -3,45 +3,52 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
         Title="Остатки" Height="200" Width="800">
-    
-    <Grid Margin="20, 30">
-       
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            
-            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <TextBlock Text="Артикул" Margin="0,5,0,5"/>
-                <ComboBox DataContext="{Binding Article}" SelectedItem="{Binding SelectedArticle}" IsEditable="True" Width="150" Margin="20, 0, 0, 0"/>
-            </StackPanel>
-            
-            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="20,0,0,0">
-                <TextBlock Text="Дата"  Margin="0,5,0,5"/>
-                <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"  Width="150" Margin="20, 0, 0, 0"/> 
-            </StackPanel> 
 
-        </Grid>
-        <Grid Grid.Row="1" Margin="0,20,0,0">
-            
-            <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
-                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoCarPartRemain}" SelectedItem="{Binding SelectedCarPartRemain}">>
-            
-            <DataGrid.Columns>
-                    <DataGridTextColumn Header="Остаток на 1-ое число" Binding="{Binding FirstRemains }" Width="*"/>
-                    <DataGridTextColumn Header="Всего приходов за месяц" Binding="{Binding Incommings}" Width="*"/>
-                    <DataGridTextColumn Header="Всего расходов за месяц" Binding="{Binding Outcomes}" Width="*"/>
-                <DataGridTextColumn Header="Всего остаток на складе " Binding="{Binding RemainToDate}" Width="*"/>
-            </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+    <Grid>
+        <Menu>
+            <MenuItem Header="Приход" Command="{Binding IncomingCommand}"/>
+            <MenuItem Header="Расход" Command="{Binding OutcomingCommand}"/>
+            <MenuItem Header="Движение товара" Command="{Binding MovementCommand}"/>
+        </Menu>
+        <Grid Margin="20, 30">
 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="Артикул" Margin="0,5,0,5"/>
+                    <ComboBox ItemsSource="{Binding DirectoryCarParts}" DisplayMemberPath="FullCarPartName" SelectedItem="{Binding SelectedDirectoryCarPart}" IsEditable="True" Width="150" Margin="20, 0, 0, 0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="20,0,0,0">
+                    <TextBlock Text="Дата"  Margin="0,5,0,5"/>
+                    <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"  Width="150" Margin="20, 0, 0, 0"/>
+                </StackPanel>
+
+            </Grid>
+            <Grid Grid.Row="1" Margin="0,20,0,0">
+
+                <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoCarPartRemains}"
+                      SelectedItem="{Binding SelectedInfoCarPartRemain}">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Остаток на 1-ое число" Binding="{Binding LastMonthDayRemain }" Width="*"/>
+                        <DataGridTextColumn Header="Всего приходов за месяц" Binding="{Binding Incomings}" Width="*"/>
+                        <DataGridTextColumn Header="Всего расходов за месяц" Binding="{Binding Outcomings}" Width="*"/>
+                        <DataGridTextColumn Header="Всего остаток на складе " Binding="{Binding RemainToDate}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
     

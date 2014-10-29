@@ -159,6 +159,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCarPartsExcelToDB.cs" />
+    <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
     <Compile Include="Reports\CarsReports.cs" />
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="ViewModels\Infos\EditDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\DefaultCostsViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoCarPartMovementViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoRemainsViewModel.cs" />
@@ -273,6 +275,9 @@
     </Compile>
     <Compile Include="Views\Infos\DefaultCostsView.xaml.cs">
       <DependentUpon>DefaultCostsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoCarPartMovementView.xaml.cs">
+      <DependentUpon>InfoCarPartMovementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoPanaltiesView.xaml.cs">
       <DependentUpon>InfoPanaltiesView.xaml</DependentUpon>
@@ -498,6 +503,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\DefaultCostsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\InfoCarPartMovementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

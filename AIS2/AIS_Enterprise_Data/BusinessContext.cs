@@ -91,7 +91,7 @@ namespace AIS_Enterprise_Data
         }
 
         #endregion
-        
+
 
         #region InitializeDefaultDataBase
 
@@ -2999,7 +2999,7 @@ namespace AIS_Enterprise_Data
 
         public IEnumerable<int> GetContainerMonthes(int selectedYear, bool isIncoming)
         {
-            return  _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
+            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
         }
 
         public IQueryable<InfoContainer> GetContainers(int year, int month, bool isIncoming)
@@ -3018,7 +3018,7 @@ namespace AIS_Enterprise_Data
             _dc.SaveChanges();
         }
 
-        public InfoContainer AddInfoContainer(string name, string description, DateTime date, bool isIncoming, List<CurrentContainerCarPart> carParts) 
+        public InfoContainer AddInfoContainer(string name, string description, DateTime date, bool isIncoming, List<CurrentContainerCarPart> carParts)
         {
             var container = new InfoContainer
             {
@@ -3026,7 +3026,11 @@ namespace AIS_Enterprise_Data
                 Description = description,
                 Date = date,
                 IsIncoming = isIncoming,
-                CarParts = carParts
+                CarParts = carParts.Select(c => new CurrentContainerCarPart
+                {
+                    DirectoryCarPartId = c.DirectoryCarPartId,
+                    CountCarParts = c.CountCarParts,
+                }).ToList()
             };
 
             _dc.InfoContainers.Add(container);
@@ -3051,69 +3055,45 @@ namespace AIS_Enterprise_Data
             _dc.SaveChanges();
         }
 
+        public IEnumerable<InfoCarPartMovement> GetMovementsByDates(DirectoryCarPart selectedDirectoryCarPart, DateTime selectedDateFrom, DateTime selectedDateTo)
+        {
+            return from container in _dc.InfoContainers
+                   where DbFunctions.DiffDays(selectedDateFrom, container.Date) >= 0 && DbFunctions.DiffDays(container.Date, selectedDateTo) >= 0
+                   join carPart in _dc.CurrentContainerCarParts on container.Id equals carPart.InfoContainerId
+                   where carPart.DirectoryCarPartId == selectedDirectoryCarPart.Id
+                   orderby container.Date descending
+                   select new InfoCarPartMovement
+                   {
+                       Date = container.Date,
+                       FullDescription = container.Name + " " + container.Description,
+                       Incoming = container.IsIncoming ? carPart.CountCarParts : default(int?),
+                       Outcoming = !container.IsIncoming ? carPart.CountCarParts : default(int?)
+                   };
+        }
+
         #endregion
 
 
-        //#region InfoOutContainer
+        #region InfoLastMonthDayRemain
 
-        //public IEnumerable<int> GetOutContainerYears()
-        //{
-        //    return _dc.InfoOutContainers.Select(c => c.Date.Year).Distinct().OrderBy(c => c);
-        //}
+        public InfoLastMonthDayRemain GetInfoLastMonthDayRemain(DateTime date, int carPartId)
+        {
+            return _dc.InfoLastMonthDayRemains.FirstOrDefault(p => p.DirectoryCarPartId == carPartId && (p.Date.Year == date.Year && p.Date.Month == date.Month));
+        }
 
-        //public IEnumerable<int> GetOutContainerMonthes(int selectedYear)
-        //{
-        //    return _dc.InfoOutContainers.Where(c => c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
-        //}
+        public int GetInfoCarPartIncomingCountTillDate(DateTime date, int carPartId, bool isIncoming)
+        {
+            DateTime firstDateInMonth = new DateTime(date.Year, date.Month, 1);
+            var containers = _dc.InfoContainers.Include(c => c.CarParts).Where(c => c.IsIncoming == isIncoming &&
+                (DbFunctions.DiffDays(firstDateInMonth, c.Date) >= 0 && DbFunctions.DiffDays(c.Date, date) >= 0)).ToList();
 
-        //public IQueryable<InfoOutContainer> GetOutContainers(int year, int month)
-        //{
-        //    return _dc.InfoOutContainers.Where(c => c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
-        //}
+            return containers.Sum(c => c.CarParts.Where(p => p.DirectoryCarPartId == carPartId).Sum(c2 => c2.CountCarParts));
+        }
 
-        //public InfoOutContainer GetInfoOutContainer(int containerId)
-        //{
-        //    return _dc.InfoOutContainers.Find(containerId);
-        //}
+        #endregion
 
-        //public void RemoveInfoOutContainer(InfoOutContainer container)
-        //{
-        //    _dc.InfoOutContainers.Remove(container);
-        //    _dc.SaveChanges();
-        //}
 
-        //public InfoOutContainer AddInfoOutContainer(string name, string description, DateTime date, List<CurrentOutContainerCarPart> carParts)
-        //{
-        //    var container = new InfoOutContainer
-        //    {
-        //        Name = name,
-        //        Description = description,
-        //        Date = date,
-        //        CarParts = carParts
-        //    };
 
-        //    _dc.InfoOutContainers.Add(container);
-        //    _dc.SaveChanges();
 
-        //    return container;
-        //}
-
-        //public void EditInfoOutContainer(int containerId, string name, string description, DateTime date, List<CurrentOutContainerCarPart> carParts)
-        //{
-        //    var container = _dc.InfoOutContainers.Find(containerId);
-        //    container.Name = name;
-        //    container.Description = description;
-        //    container.Date = date;
-
-        //    _dc.CurrentOutContainerCarParts.RemoveRange(container.CarParts);
-        //    _dc.SaveChanges();
-
-        //    container.CarParts.Clear();
-        //    container.CarParts = carParts;
-
-        //    _dc.SaveChanges();
-        //}
- 
-        //#endregion
     }
 }

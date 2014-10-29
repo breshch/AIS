@@ -1,6 +1,12 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Infos.ViewModels;
+using AIS_Enterprise_AV.Views.Infos;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Global.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,27 +15,105 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 {
     public class InfoRemainsViewModel : ViewModelGlobal
     {
+        #region Base
 
+        public InfoRemainsViewModel()
+        {
+            SelectedDate = DateTime.Now;
+            DirectoryCarParts = new ObservableCollection<DirectoryCarPart>(BC.GetDirectoryCarParts());
+            InfoCarPartRemains = new ObservableCollection<InfoCarPartRemain>();
+
+            IncomingCommand = new RelayCommand(Incoming);
+            OutcomingCommand = new RelayCommand(Outcoming);
+            MovementCommand = new RelayCommand(Movement);
+
+        }
+        
+        #endregion
+
+        #region Properties
+
+        public ObservableCollection<DirectoryCarPart> DirectoryCarParts { get; set; }
+
+
+        private DirectoryCarPart _selectedDirectoryCarPart;
+        public DirectoryCarPart SelectedDirectoryCarPart
+        {
+            get
+            {
+                return _selectedDirectoryCarPart;
+            }
+            set
+            {
+                _selectedDirectoryCarPart = value;
+                RaisePropertyChanged();
+
+                var infoCarPartRemain = new InfoCarPartRemain();
+
+                var infoLastMonthDayRemain = BC.GetInfoLastMonthDayRemain(SelectedDate, _selectedDirectoryCarPart.Id);
+                if (infoLastMonthDayRemain != null)
+                {
+                    infoCarPartRemain.LastMonthDayRemain = infoLastMonthDayRemain.Count;
+                }
+
+                infoCarPartRemain.Incomings = BC.GetInfoCarPartIncomingCountTillDate(SelectedDate, _selectedDirectoryCarPart.Id, true);
+
+                infoCarPartRemain.Outcomings = BC.GetInfoCarPartIncomingCountTillDate(SelectedDate, _selectedDirectoryCarPart.Id, false);
+
+                infoCarPartRemain.RemainToDate = infoCarPartRemain.LastMonthDayRemain + infoCarPartRemain.Incomings - infoCarPartRemain.Outcomings;
+                
+                InfoCarPartRemains.Clear();
+                InfoCarPartRemains.Add(infoCarPartRemain);
+            }
+        }
+
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
+        {
+            get
+            {
+                return _selectedDate;
+            }
+            set
+            {
+                _selectedDate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<InfoCarPartRemain> InfoCarPartRemains { get; set; }
+        public InfoCarPartRemain SelectedInfoCarPartRemain { get; set; }
+
+
+        #endregion
+
+        #region Commands
+
+        public RelayCommand IncomingCommand { get; set; }
+
+        private void Incoming(object parameter)
+        {
+            HelperMethods.ShowView(new AddEditContainersViewModel(true), new AddEditContainersView());
+            HelperMethods.CloseWindow(parameter);
+
+        }
+
+        public RelayCommand OutcomingCommand { get; set; }
+
+        private void Outcoming(object parameter)
+        {
+            HelperMethods.ShowView(new AddEditContainersViewModel(false), new AddEditContainersView());
+            HelperMethods.CloseWindow(parameter);
+
+        }
+        public RelayCommand MovementCommand { get; set; }
+
+        private void Movement(object parameter)
+        {
+            HelperMethods.ShowView(new InfoCarPartMovementViewModel(), new InfoCarPartMovementView());
+            HelperMethods.CloseWindow(parameter);
+
+        }
+        #endregion
     }
 }
- //<StackPanel Grid.Column="0" Orientation="Horizontal">
- //               <TextBlock Text="Артикул" Margin="0,5,0,5"/>
- //               <ComboBox DataContext="{Binding Article}" SelectedItem="{Binding SelectedArticle}" IsEditable="True" Width="150" Margin="20, 0, 0, 0"/>
- //           </StackPanel>
-            
- //           <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="20,0,0,0">
- //               <TextBlock Text="Дата"  Margin="0,5,0,5"/>
- //               <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"  Width="150" Margin="20, 0, 0, 0"/> 
- //           </StackPanel> 
-
- //       </Grid>
- //       <Grid Grid.Row="1" Margin="0,20,0,0">
-            
- //           <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
- //                     CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoCarPartRemain}" SelectedItem="{Binding SelectedCarPartRemain}">>
-            
- //           <DataGrid.Columns>
- //                   <DataGridTextColumn Header="Остаток на 1-ое число" Binding="{Binding FirstRemains }" Width="*"/>
- //                   <DataGridTextColumn Header="Всего приходов за месяц" Binding="{Binding Incommings}" Width="*"/>
- //                   <DataGridTextColumn Header="Всего расходов за месяц" Binding="{Binding Outcomes}" Width="*"/>
- //               <DataGridTextColumn Header="Всего остаток на складе " Binding="{Binding RemainToDate}" Width="*"/>

@@ -4,6 +4,7 @@ using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
 using System;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace AIS_Enterprise_AV.ViewModels
@@ -22,60 +24,54 @@ namespace AIS_Enterprise_AV.ViewModels
         public MainProjectChoiseViewModel()
         {
             MonthTimeSheetCommand = new RelayCommand(MonthTimeSheet);
-            IncomingCommand = new RelayCommand(Incoming);
-            OutcomingCommand = new RelayCommand(Outcoming);
+            RemainsCommand = new RelayCommand(Remains);
+            
+            if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_MonthTimeSheetEnable.ToString()))
+            {
+                IsEnabledMonthTimeSheet = true;
+            }
+
+            if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_DbFenoxEnable.ToString()))
+            {
+                IsEnabledDbFenox = true;
+            }
         }
 
         #endregion
 
 
         #region Properties
-        
 
+        public bool IsEnabledMonthTimeSheet { get; set; }
 
+        public bool IsEnabledDbFenox { get; set; }
         #endregion
+
 
         #region Commands
 
         public RelayCommand MonthTimeSheetCommand { get; set; }
-        public RelayCommand IncomingCommand { get; set; }
-        public RelayCommand OutcomingCommand { get; set; }
+        public RelayCommand RemainsCommand { get; set; }
 
         private void MonthTimeSheet(object parameter)
         {
+            var window = parameter as Window;
+            window.Visibility = Visibility.Hidden;
+
             var monthTimeSheetView = new MonthTimeSheetView();
             monthTimeSheetView.ShowDialog();
 
             HelperMethods.CloseWindow(parameter);
         }
 
-        private void Incoming(object parameter)
+        private void Remains(object parameter)
         {
-            HelperMethods.ShowView(new AddEditContainersViewModel(true), new AddEditContainersView());
+            var window = parameter as Window;
+            window.Visibility = Visibility.Hidden;
+
+            HelperMethods.ShowView(new InfoRemainsViewModel(), new InfoRemainsView());
+
             HelperMethods.CloseWindow(parameter);
-        }
-
-        private void Outcoming(object parameter)
-        {
-            HelperMethods.ShowView(new AddEditContainersViewModel(false), new AddEditContainersView());
-            HelperMethods.CloseWindow(parameter);
-        }
-
-        private void CarParts(object parameter)
-        {
-            //var dialog = new OpenFileDialog();
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    string path = dialog.FileName;
-            //    ConvertingCarPartsExcelToDB.ConvertImport(BC, path);
-            //}
-
-            //dialog = new OpenFileDialog();
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    string path = dialog.FileName;
-            //    ConvertingCarPartsExcelToDB.ConvertRussian(BC, path);
-            //}
         }
 
         #endregion
