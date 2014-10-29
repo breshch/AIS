@@ -34,7 +34,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         #region Properties
 
         public ObservableCollection<DirectoryCarPart> DirectoryCarParts { get; set; }
-
+        public string Description { get; set; }
 
         private DirectoryCarPart _selectedDirectoryCarPart;
         public DirectoryCarPart SelectedDirectoryCarPart
@@ -47,6 +47,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             {
                 _selectedDirectoryCarPart = value;
                 RaisePropertyChanged();
+
+                Description = _selectedDirectoryCarPart.Description;
 
                 var infoCarPartRemain = new InfoCarPartRemain();
 
