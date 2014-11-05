@@ -16,6 +16,7 @@ namespace AIS_Enterprise_Data.Currents
         public int DirectoryPostId { get; set; }
         public virtual DirectoryPost DirectoryPost { get; set; }
         public bool IsTwoCompanies { get; set; }
+        public bool  IsTemporaryPost { get; set; }
 
         public int DirectoryWorkerId { get; set; }
     }

@@ -68,7 +68,7 @@ namespace AIS_Enterprise_AV.Views
         private System.Windows.Media.Brush _brushMissDay;
         private System.Windows.Media.Brush _brushSickDay;
 
-        private System.Windows.Forms.Timer _timerAbsentDates = new System.Windows.Forms.Timer();
+        private readonly System.Windows.Forms.Timer _timerAbsentDates = new System.Windows.Forms.Timer();
 
         private enum PostName
         {
@@ -1264,8 +1264,8 @@ namespace AIS_Enterprise_AV.Views
                         }
                         break;
                     case COLUMN_POST_NAME:
-                        var currentCompanyAndPostView = new CurrentCompanyAndPostView();
-                        var currentCompanyAndPostViewModel = new CurrentCompanyAndPostViewModel(new DateTime(_currentYear, _currentMonth, 1),
+                        var currentCompanyAndPostView = new CurrentTemporaryPostView();
+                        var currentCompanyAndPostViewModel = new CurrentTemporaryPostViewModel(monthTimeSheetWorker.WorkerId,
                             new DateTime(_currentYear, _currentMonth, _countLastDaysInMonth));
                         currentCompanyAndPostView.DataContext = currentCompanyAndPostViewModel;
 

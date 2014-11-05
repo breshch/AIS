@@ -108,7 +108,8 @@ namespace AIS_Enterprise_Global.ViewModels
             {
                 DirectoryPost = SelectedDirectoryPost,
                 PostChangeDate = SelectedPostChangeDate,
-                IsTwoCompanies = IsTwoCompanies
+                IsTwoCompanies = IsTwoCompanies,
+                IsTemporaryPost = false
             };
 
             var window = (Window)parameter;

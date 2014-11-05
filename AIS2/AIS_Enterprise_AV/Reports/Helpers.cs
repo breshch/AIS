@@ -73,10 +73,7 @@ namespace AIS_Enterprise_AV.Reports
             string newPath = Helpers.CreationNewFileReport(path);
             var ep = Helpers.CreationNewBook(newPath);
 
-            methods.AsParallel().ForAll((method) =>
-            {
-                method.Invoke(ep);
-            });
+            methods.ForEach(method => method.Invoke(ep));
 
             ep.Save();
             Process.Start(newPath);

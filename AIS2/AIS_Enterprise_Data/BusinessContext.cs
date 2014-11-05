@@ -964,7 +964,15 @@ namespace AIS_Enterprise_Data
                 StartDate = startDate,
                 DirectoryPhoto = new DirectoryPhoto { Photo = dataPhoto },
                 FireDate = fireDate,
-                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies })),
+                CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts
+                    .Select(c => new CurrentPost
+                    {
+                        ChangeDate = c.PostChangeDate,
+                        FireDate = c.PostFireDate,
+                        DirectoryPostId = c.DirectoryPost.Id,
+                        IsTwoCompanies = c.IsTwoCompanies,
+                        IsTemporaryPost = c.IsTemporaryPost
+                    })),
                 IsDeadSpirit = isDeadSpirit
             };
 
@@ -1173,7 +1181,15 @@ namespace AIS_Enterprise_Data
 
             _dc.CurrentPosts.RemoveRange(directoryWorker.CurrentCompaniesAndPosts);
 
-            directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts.Select(c => new CurrentPost { ChangeDate = c.PostChangeDate, FireDate = c.PostFireDate, DirectoryPostId = c.DirectoryPost.Id, IsTwoCompanies = c.IsTwoCompanies }));
+            directoryWorker.CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts
+                .Select(c => new CurrentPost
+                {
+                    ChangeDate = c.PostChangeDate,
+                    FireDate = c.PostFireDate,
+                    DirectoryPostId = c.DirectoryPost.Id,
+                    IsTwoCompanies = c.IsTwoCompanies,
+                    IsTemporaryPost = c.IsTemporaryPost
+                }));
             directoryWorker.IsDeadSpirit = isDeadSpirit;
 
             _dc.SaveChanges();
@@ -1386,7 +1402,8 @@ namespace AIS_Enterprise_Data
                 ChangeDate = currentCompanyAndPost.PostChangeDate,
                 DirectoryPost = _dc.DirectoryPosts.First(p => p.Name == currentCompanyAndPost.DirectoryPost.Name &&
                     p.DirectoryCompany.Name == currentCompanyAndPost.DirectoryPost.DirectoryCompany.Name),
-                IsTwoCompanies = currentCompanyAndPost.IsTwoCompanies
+                IsTwoCompanies = currentCompanyAndPost.IsTwoCompanies,
+                IsTemporaryPost = currentCompanyAndPost.IsTemporaryPost
             };
             worker.CurrentCompaniesAndPosts.Add(currentPost);
 
@@ -1418,6 +1435,28 @@ namespace AIS_Enterprise_Data
 
             return worker.CurrentCompaniesAndPosts.First(p => p.ChangeDate.Date <= date.Date && p.FireDate == null ||
                 p.FireDate != null && p.FireDate.Value.Date >= date.Date && p.ChangeDate.Date <= date.Date);
+        }
+
+        public CurrentPost GetMainPost(int workerId, DateTime date)
+        {
+            return
+                _dc.CurrentPosts.Where(
+                    p =>
+                        p.DirectoryWorkerId == workerId && p.IsTemporaryPost != true &&
+                        DbFunctions.DiffDays(date, p.ChangeDate) <= 0).OrderByDescending(p => p.ChangeDate).First();
+        }
+
+        public IEnumerable<CurrentPost> GetCurrentMainPosts(DateTime lastDateInMonth)
+        {
+            var workers = GetDirectoryWorkers(lastDateInMonth.Year, lastDateInMonth.Month).ToList();
+
+            var allMainPosts =
+                  _dc.CurrentPosts.Where(
+                      p =>
+                          p.IsTemporaryPost != true &&
+                          DbFunctions.DiffDays(lastDateInMonth, p.ChangeDate) <= 0).OrderByDescending(p => p.ChangeDate).ToList();
+
+            return workers.Select(worker => allMainPosts.First(p => p.DirectoryWorkerId == worker.Id));
         }
 
         #endregion
@@ -3091,8 +3130,6 @@ namespace AIS_Enterprise_Data
         }
 
         #endregion
-
-
 
 
     }
