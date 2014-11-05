@@ -131,7 +131,7 @@ namespace AIS_Enterprise_AV.Reports
                         Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
                         Helpers.CreateCell(sheet, indexRow, 5, cost.ConcatNotes, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
 
-                        System.Windows.Media.FormattedText formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
+                        var formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
                             new System.Windows.Media.Typeface("Courier New"), 11, System.Windows.Media.Brushes.Black);
 
                         if (maxLengthNote < formattedText.Width)
@@ -525,9 +525,7 @@ namespace AIS_Enterprise_AV.Reports
                 double totalTotalSalary = 0;
                 double totalCashPlusOverTimes = 0;
 
-                var currentWorkerPosts = bc.GetCurrentPosts(lastDateInMonth).ToList();
-
-
+                var currentMainWorkerPosts = bc.GetCurrentMainPosts(lastDateInMonth).ToList();
 
                 int indexWorker = 0;
                 foreach (var worker in warehouseWorkers)
@@ -539,7 +537,7 @@ namespace AIS_Enterprise_AV.Reports
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
 
-                    var currentWorkerPost = currentWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
+                    var currentWorkerPost = currentMainWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, currentWorkerPost.DirectoryPost.Name, colorHeaderDate);
 
                     var infoMonth = bc.GetInfoMonth(worker.Id, year, month);
@@ -693,7 +691,7 @@ namespace AIS_Enterprise_AV.Reports
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
 
-                    var currentWorkerPost = currentWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
+                    var currentWorkerPost = currentMainWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
                     string postName = currentWorkerPost.DirectoryPost.Name;
                     if (postName.Contains("_"))
                     {

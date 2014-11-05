@@ -162,6 +162,7 @@
     <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
     <Compile Include="Reports\CarsReports.cs" />
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\CurrentTemporaryPostViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
     <Compile Include="ViewModels\Currents\Base\CurrentBaseContainerViewModel.cs" />
@@ -204,6 +205,9 @@
     <Compile Include="ViewModels\Infos\InfoRemainsViewModel.cs" />
     <Compile Include="ViewModels\Infos\MonthCostsViewModel.cs" />
     <Compile Include="ViewModels\MainProjectChoiseViewModel.cs" />
+    <Compile Include="Views\Currents\CurrentTemporaryPostView.xaml.cs">
+      <DependentUpon>CurrentTemporaryPostView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
       <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
     </Compile>
@@ -410,6 +414,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Currents\CurrentTemporaryPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

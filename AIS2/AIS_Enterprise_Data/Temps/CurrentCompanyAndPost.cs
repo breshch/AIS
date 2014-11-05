@@ -13,6 +13,7 @@ namespace AIS_Enterprise_Data.Temps
         public DateTime PostChangeDate { get; set; }
         public DateTime? PostFireDate { get; set; }
         public bool IsTwoCompanies { get; set; }
+        public bool IsTemporaryPost { get; set; }
         public double Salary { get; set; }
     }
 }
