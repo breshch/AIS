@@ -67,6 +67,7 @@
                 <Button Content="Затраты" Margin="0, 3" Command="{Binding CostsExcelToDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Вёдра" Command="{Binding RussiansCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Иномарки" Command="{Binding ImportsCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
+                <Button Content="Остатки" Command="{Binding RemainsCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
             </StackPanel>
         </StackPanel>
         

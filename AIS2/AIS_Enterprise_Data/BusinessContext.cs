@@ -3129,6 +3129,20 @@ namespace AIS_Enterprise_Data
             return containers.Sum(c => c.CarParts.Where(p => p.DirectoryCarPartId == carPartId).Sum(c2 => c2.CountCarParts));
         }
 
+        public InfoLastMonthDayRemain AddInfoLastMonthDayRemain(DirectoryCarPart carPart, DateTime date, int count)
+        {
+            var lastMonthDayRemain = new InfoLastMonthDayRemain
+            {
+                DirectoryCarPart = carPart,
+                Count = count,
+                Date = date,
+            };
+            _dc.InfoLastMonthDayRemains.Add(lastMonthDayRemain);
+            _dc.SaveChanges();
+
+
+            return lastMonthDayRemain;
+        }
         #endregion
 
 
