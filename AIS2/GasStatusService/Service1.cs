@@ -24,10 +24,7 @@ namespace GasStatusService
 
         protected override void OnStart(string[] args)
         {
-            //SendSMS("www", "qeryhabe@sms.ru", "79264323519");
-
-
-            //Task.Factory.StartNew(GetBalance);
+            Task.Factory.StartNew(GetBalance);
         }
 
         protected override void OnStop()
@@ -65,13 +62,14 @@ namespace GasStatusService
 
                     double balance = double.Parse(html);
 
-                    if (balance > 10000)
+                    if (balance < 10000)
                     {
                         string message = "Баланс за ГСМ по Логистикону = " + balance;
 
-                        SendSMS(message, "qeryhabe@sms.ru", "79264323519");
-                        SendSMS(message, "5eqyqudu@sms.ru", "79268613825");
-                       // SendSMS(message, "zysezyry@sms.ru", "79035423769");
+                        SendEmail(message, "breshch@gmail.com");
+                        SendEmail(message, "vaukalak@gmail.com");
+                        SendEmail(message, "lelia2502@yandex.ru");
+                        SendEmail(message, "natacha_buch@mail.ru");
                     }
 
                     using (var sw = new StreamWriter(@"D:\C#\AIS2\GasStatusService\bin\Release\index.txt"))
@@ -93,30 +91,45 @@ namespace GasStatusService
             Environment.Exit(0);
         }
 
-        private static void SendSMS(string info, string email, string phone)
+        private static void SendEmail(string info, string email)
         {
             try
             {
-                var client = new SmtpClient("smtp.mail.ru", 587)
+                var fromAddress = new MailAddress("LogistikonCompany@gmail.com");
+                var toAddress = new MailAddress(email);
+                const string fromPassword = "Mp7200aA";
+                const string subject = "Закончились средства на ГСМ !!!";
+                string body = info;
+
+                var smtp = new SmtpClient
                 {
-                    Credentials = new NetworkCredential("breshch@mail.ru", "Mp7200aA"),
+                    Host = "smtp.gmail.com",
+                    Port = 587,
                     EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                 };
-
-                var message = new MailMessage
+                using (var message = new MailMessage(fromAddress, toAddress)
                 {
-                    From = new MailAddress("breshch@mail.ru"),
-                    Subject = phone,
-                    Body = info
-                };
-                message.To.Add(new MailAddress(email));
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
 
-                client.Send(message);
+                using (var sw = new StreamWriter(@"D:\C#\AIS\AIS2\GasStatusService\bin\Release\error.txt"))
+                {
+                    sw.WriteLine("success");
+                }
             }
             catch (Exception ex)
             {
-                
+                using (var sw = new StreamWriter(@"D:\C#\AIS\AIS2\GasStatusService\bin\Release\error.txt"))
+                {
+                    sw.WriteLine(ex.ToString());
+                }
             }
         }
     }
