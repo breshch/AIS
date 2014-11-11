@@ -74,6 +74,7 @@ namespace AIS_Enterprise_AV.ViewModels
             CostsExcelToDBCommand = new RelayCommand(CostsExcelToDB);
             RussiansCommand = new RelayCommand(Russians);
             ImportsCommand = new RelayCommand(Imports);
+            RemainsCommand = new RelayCommand(Remains);
 
             EnteringCommand = new RelayCommand(Entering);
 
@@ -281,7 +282,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand CostsExcelToDBCommand { get; set; }
         public RelayCommand RussiansCommand { get; set; }
         public RelayCommand ImportsCommand { get; set; }
-
+        public RelayCommand RemainsCommand { get; set; }
 
 
         private void RefreshDataBases(object parameter)
@@ -449,6 +450,16 @@ namespace AIS_Enterprise_AV.ViewModels
                 string path = dialog.FileName;
                 IsNotInitializedDB = false;
                 Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertImport(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
+            }
+        }
+
+        private void Remains(object parameter)
+        {
+         var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                ConvertingRemainsExcelToDb.ConvertRemains(BC, path);
             }
         }
 

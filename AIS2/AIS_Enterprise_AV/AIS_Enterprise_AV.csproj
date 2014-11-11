@@ -33,7 +33,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>42</ApplicationRevision>
+    <ApplicationRevision>44</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -159,6 +159,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCarPartsExcelToDB.cs" />
+    <Compile Include="Helpers\ExcelToDB\ConvertingRemainsExcelToDb.cs" />
     <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
     <Compile Include="Reports\CarsReports.cs" />
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
