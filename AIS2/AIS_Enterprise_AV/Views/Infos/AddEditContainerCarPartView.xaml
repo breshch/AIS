@@ -16,14 +16,14 @@
         <StackPanel Grid.Row="0">
             <TextBlock Text="Артукул"/>
             <ComboBox ItemsSource="{Binding CarParts}" DisplayMemberPath="FullCarPartName"
-                      SelectedItem="{Binding SelectedCarPart}" IsEditable="True"/>
+                      SelectedItem="{Binding SelectedCarPart}" IsEditable="True" Text="{Binding SelectedCarPartText, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         
         <TextBlock Grid.Row="1" Text="{Binding SelectedDescription}" Margin="0, 10, 0, 0"/>
         
         <StackPanel Grid.Row="2" Margin="0, 10, 0, 0">
             <TextBlock Text="Количество"/>
-            <TextBox Text="{Binding CountCarParts}"/>
+            <TextBox Text="{Binding CountCarParts, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
         <Button Grid.Row="3" Content="{Binding AddEditCarPartName}" Command="{Binding AddEditCarPartCommand}" CommandParameter="{Binding ElementName=AddEditCarPartWindow}" Margin="0, 15, 0, 0"/>

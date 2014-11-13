@@ -3026,6 +3026,11 @@ namespace AIS_Enterprise_Data
             return _dc.DirectoryCarParts.OrderBy(c => c.Article);
         }
 
+        public DirectoryCarPart GetDirectoryCarPart(string article, string mark)
+        {
+            return _dc.DirectoryCarParts.FirstOrDefault(c => c.Article == article && c.Mark == mark);
+        }
+
         #endregion
 
 
@@ -3145,6 +3150,31 @@ namespace AIS_Enterprise_Data
         }
         #endregion
 
+        #region CurrentCarParts
 
+        public CurrentCarPart AddCurrentCarPart(DirectoryCarPart directoryCarPart, DateTime priceDate, double priceBase, double? priceBigWholesale, double? priceSmallWholesale)
+        {
+            var currentCarPart = new CurrentCarPart
+            {
+                DirectoryCarPart = directoryCarPart,
+                Date = priceDate,
+                PriceBase = priceBase,
+                PriceBigWholesale = priceBigWholesale,
+                PriceSmallWholesale = priceSmallWholesale
+            };
+
+            _dc.CurrentCarParts.Add(currentCarPart);
+            _dc.SaveChanges();
+
+            return currentCarPart;
+        }
+
+        public CurrentCarPart GetCurrentCarPart(int directoryCarPartId, DateTime date)
+        {
+           return _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPartId)
+                .OrderByDescending(c => c.Date)
+                .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) < 0);
+        }
+        #endregion
     }
 }

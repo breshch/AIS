@@ -33,7 +33,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>44</ApplicationRevision>
+    <ApplicationRevision>46</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -159,10 +159,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\ExcelToDB\ConvertingCarPartsExcelToDB.cs" />
-    <Compile Include="Helpers\ExcelToDB\ConvertingRemainsExcelToDb.cs" />
     <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
     <Compile Include="Reports\CarsReports.cs" />
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\AddDirectoryCarPartViewModel.cs" />
     <Compile Include="ViewModels\Directories\CurrentTemporaryPostViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
@@ -214,6 +214,9 @@
     </Compile>
     <Compile Include="Views\Currents\AddEditCurrentContainerCarPartsView.xaml.cs">
       <DependentUpon>AddEditCurrentContainerCarPartsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\AddDirectoryCarPartVew.xaml.cs">
+      <DependentUpon>AddDirectoryCarPartVew.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Directories\AddEditDirectoryPostView.xaml.cs">
       <DependentUpon>AddEditDirectoryPostView.xaml</DependentUpon>
@@ -424,6 +427,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Currents\AddEditCurrentContainerCarPartsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Directories\AddDirectoryCarPartVew.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

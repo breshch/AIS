@@ -35,7 +35,7 @@
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding CurrentContainerCarParts}"
                   SelectedItem="{Binding SelectedCurrentContainerCarPart}"  Margin="0, 10, 0, 0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Артикул" Binding="{Binding DirectoryCarPart.Article}" Width="*"/>
+                <DataGridTextColumn Header="Артикул" Binding="{Binding DirectoryCarPart.FullCarPartName}" Width="*"/>
                 <DataGridTextColumn Header="Описание" Binding="{Binding DirectoryCarPart.Description}" Width="*"/>
                 <DataGridTextColumn Header="Количество" Binding="{Binding CountCarParts}" Width="*"/>
             </DataGrid.Columns>

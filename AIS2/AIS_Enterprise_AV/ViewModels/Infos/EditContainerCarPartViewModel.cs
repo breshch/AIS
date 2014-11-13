@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_AV.ViewModels.Infos.Base;
+﻿using AIS_Enterprise_AV.ViewModels.Directories;
+using AIS_Enterprise_AV.ViewModels.Infos.Base;
+using AIS_Enterprise_AV.Views.Directories;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
@@ -24,7 +26,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             AddEditCarPartName = "Изменить автозапчасть";
 
             SelectedCarPart = CarParts.First(c => c.Id == carPart.DirectoryCarPartId);
-            CountCarParts = carPart.CountCarParts;
+            SelectedCarPartText = SelectedCarPart.FullCarPartName;
+            CountCarParts = carPart.CountCarParts.ToString();
 
             CurrentNewContainerCarPart = carPart;
         }
@@ -35,9 +38,31 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void EditCarPart(object parameter)
         {
-            CurrentNewContainerCarPart.DirectoryCarPart = SelectedCarPart;
-            CurrentNewContainerCarPart.DirectoryCarPartId = SelectedCarPart.Id;
-            CurrentNewContainerCarPart.CountCarParts = CountCarParts;
+            if (SelectedCarPartText != null && SelectedCarPart == null)
+            {
+                var view = new AddDirectoryCarPartVew();
+                var viewModel = new AddDirectoryCarPartViewModel();
+                view.DataContext = viewModel;
+
+                view.ShowDialog();
+
+                if (viewModel.NewDirectoryCarPart == null)
+                {
+                    return;
+                }
+
+                var newCarPart = viewModel.NewDirectoryCarPart;
+
+                CurrentNewContainerCarPart.DirectoryCarPart = newCarPart;
+                CurrentNewContainerCarPart.DirectoryCarPartId = newCarPart.Id;
+                CurrentNewContainerCarPart.CountCarParts = int.Parse(CountCarParts);
+            }
+            else
+            {
+                CurrentNewContainerCarPart.DirectoryCarPart = SelectedCarPart;
+                CurrentNewContainerCarPart.DirectoryCarPartId = SelectedCarPart.Id;
+                CurrentNewContainerCarPart.CountCarParts = int.Parse(CountCarParts);
+            }
 
             HelperMethods.CloseWindow(parameter);
         }
