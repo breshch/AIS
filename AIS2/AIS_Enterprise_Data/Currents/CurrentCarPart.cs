@@ -15,6 +15,8 @@ namespace AIS_Enterprise_Data.Currents
         public virtual DirectoryCarPart DirectoryCarPart { get; set; }
         
         public DateTime Date { get; set; }
-        public double Price { get; set; }
+        public double PriceBase { get; set; }
+        public double? PriceBigWholesale { get; set; }
+        public double? PriceSmallWholesale { get; set; }
     }
 }

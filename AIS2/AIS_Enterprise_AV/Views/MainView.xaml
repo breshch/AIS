@@ -68,6 +68,8 @@
                 <Button Content="Вёдра" Command="{Binding RussiansCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Иномарки" Command="{Binding ImportsCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Остатки" Command="{Binding RemainsCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
+                <Button Content="Цены Тазики" Command="{Binding CarPartPriceRusCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
+                <Button Content="Цены Иномарки" Command="{Binding CarPartPriceImportCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
             </StackPanel>
         </StackPanel>
         

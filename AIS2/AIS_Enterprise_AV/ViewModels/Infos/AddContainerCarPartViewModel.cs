@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_AV.ViewModels.Infos.Base;
+﻿using AIS_Enterprise_AV.ViewModels.Directories;
+using AIS_Enterprise_AV.ViewModels.Infos.Base;
+using AIS_Enterprise_AV.Views.Directories;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
@@ -20,7 +22,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         public AddContainerCarPartViewModel() : base()
         {
-            AddEditCarPartCommand = new RelayCommand(AddCarPart);
+            AddEditCarPartCommand = new RelayCommand(AddCarPart, IsFullData);
             AddEditCarPartTitle = "Добавление автозапчасти";
             AddEditCarPartName = "Добавить автозапчасть";
         }
@@ -28,7 +30,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         private void ClearForm()
         {
             SelectedCarPart = null;
-            CountCarParts = 0;
+            SelectedCarPartText = null;
+            CountCarParts = null;
         }
 
         #endregion
@@ -37,12 +40,37 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void AddCarPart(object parameter)
         {
-            _currentContainerCarPart = new CurrentContainerCarPart
+            if (SelectedCarPartText != null && SelectedCarPart == null)
             {
-                DirectoryCarPart = SelectedCarPart,
-                DirectoryCarPartId = SelectedCarPart.Id,
-                CountCarParts = CountCarParts
-            };
+                var view = new AddDirectoryCarPartVew();
+                var viewModel = new AddDirectoryCarPartViewModel();
+                view.DataContext = viewModel;
+
+                view.ShowDialog();
+
+                if (viewModel.NewDirectoryCarPart == null)
+                {
+                    return;
+                }
+
+                var newCarPart = viewModel.NewDirectoryCarPart;
+
+                _currentContainerCarPart = new CurrentContainerCarPart
+                {
+                    DirectoryCarPart = newCarPart,
+                    DirectoryCarPartId = newCarPart.Id,
+                    CountCarParts = int.Parse(CountCarParts)
+                };
+            }
+            else
+            {
+                _currentContainerCarPart = new CurrentContainerCarPart
+                {
+                    DirectoryCarPart = SelectedCarPart,
+                    DirectoryCarPartId = SelectedCarPart.Id,
+                    CountCarParts = int.Parse(CountCarParts)
+                };     
+            }
 
             AddingCarPart(_currentContainerCarPart);
 

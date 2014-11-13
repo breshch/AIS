@@ -29,6 +29,8 @@ namespace AIS_Enterprise_AV.ViewModels.Infos.Base
 
         public ObservableCollection<DirectoryCarPart> CarParts { get; set; }
 
+        public string SelectedCarPartText { get; set; }
+
         private DirectoryCarPart _selectedCarPart;
         public DirectoryCarPart SelectedCarPart
         {
@@ -54,7 +56,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos.Base
 
         public string SelectedDescription { get; set; }
 
-        public int CountCarParts { get; set; }
+        public string CountCarParts { get; set; }
 
         public string AddEditCarPartName { get; set; }
 
@@ -64,6 +66,12 @@ namespace AIS_Enterprise_AV.ViewModels.Infos.Base
         #region Commands
 
         public RelayCommand AddEditCarPartCommand { get; set; }
+
+        protected bool IsFullData(object parameter)
+        {
+            int count;
+            return SelectedCarPartText != null && int.TryParse(CountCarParts, out count) && count > 0;
+        }
 
         #endregion
     }
