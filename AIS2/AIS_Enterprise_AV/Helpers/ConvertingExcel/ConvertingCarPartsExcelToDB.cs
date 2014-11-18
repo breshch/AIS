@@ -334,7 +334,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             string crossNumber = GetValue(sheet.Cells[indexRow, 8].Value);
                             string countInBox = GetValue(sheet.Cells[indexRow, 12].Value);
 
-                            var equalCarPart = carParts.FirstOrDefault(p => p.Article == article);
+                            var equalCarPart = carParts.FirstOrDefault(p => p.FullCarPartName == article);
                             if (equalCarPart == null)
                             {
                                 equalCarPart = bc.AddDirectoryCarPart(article, null, description, originalNumber,

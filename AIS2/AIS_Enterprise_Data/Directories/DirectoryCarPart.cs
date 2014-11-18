@@ -26,7 +26,7 @@ namespace AIS_Enterprise_Data.Directories
         {
             get
             {
-                return Article + " " + Mark;
+                return Article + Mark;
             }
         }
     }

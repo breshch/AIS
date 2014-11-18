@@ -123,6 +123,12 @@ namespace AIS_Enterprise_Data
             var parameterDefaultCostsDate = new Parameter { Name = "DefaultCostsDate", Value = DateTime.MinValue.ToString() };
             _dc.Parameters.Add(parameterDefaultCostsDate);
 
+            var parameterPercentageRusBookKeeping = new Parameter { Name = "PercentageRusBookKeeping", Value = "22" };
+            _dc.Parameters.Add(parameterPercentageRusBookKeeping);
+
+            var parameterPercentageImportBookKeeping = new Parameter { Name = "PercentageImportBookKeeping", Value = "22" };
+            _dc.Parameters.Add(parameterPercentageImportBookKeeping);
+
             _dc.SaveChanges();
 
 
@@ -3160,7 +3166,7 @@ namespace AIS_Enterprise_Data
                 Date = priceDate,
                 PriceBase = priceBase,
                 PriceBigWholesale = priceBigWholesale,
-                PriceSmallWholesale = priceSmallWholesale
+                PriceSmallWholesale = priceSmallWholesale,
             };
 
             _dc.CurrentCarParts.Add(currentCarPart);
@@ -3175,6 +3181,24 @@ namespace AIS_Enterprise_Data
                 .OrderByDescending(c => c.Date)
                 .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) < 0);
         }
+
+        public IQueryable<ArticlePrice> GetArticlePrices(DateTime date)
+        {
+            return (from directoryCarPart in _dc.DirectoryCarParts
+                let currentCarPart =
+                    _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
+                        .OrderByDescending(c => c.Date)
+                        .FirstOrDefault(c => date.Date >= c.Date)
+                where currentCarPart != null
+                select new ArticlePrice
+                {
+                    Article = directoryCarPart.Article,
+                    Mark = directoryCarPart.Mark,
+                    Description = directoryCarPart.Description,
+                    Price = currentCarPart.PriceBase
+                });
+        }
+
         #endregion
     }
 }
