@@ -158,12 +158,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\ExcelToDB\ConvertingCarPartsExcelToDB.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ConvertingCarPartsExcelToDB.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ProcessingInvoice.cs" />
     <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
+    <Compile Include="Helpers\Temps\Invoice.cs" />
     <Compile Include="Reports\CarsReports.cs" />
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
     <Compile Include="ViewModels\Directories\AddDirectoryCarPartViewModel.cs" />
     <Compile Include="ViewModels\Directories\CurrentTemporaryPostViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\PercentageProcessingBookKeepingViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
     <Compile Include="ViewModels\Currents\Base\CurrentBaseContainerViewModel.cs" />
@@ -269,6 +272,9 @@
     <Compile Include="Views\Helpers\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Helpers\PercentageProcessingBookKeepingView.xaml.cs">
+      <DependentUpon>PercentageProcessingBookKeepingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Infos\AddEditContainerCarPartView.xaml.cs">
       <DependentUpon>AddEditContainerCarPartView.xaml</DependentUpon>
     </Compile>
@@ -299,8 +305,8 @@
     <Compile Include="Views\Infos\MonthCostsView.xaml.cs">
       <DependentUpon>MonthCostsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ExcelToDB\ConvertingCostsExcelToDB.cs" />
-    <Compile Include="Helpers\ExcelToDB\ConvertingWorkersExcelToDB.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ConvertingCostsExcelToDB.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ConvertingWorkersExcelToDB.cs" />
     <Compile Include="Helpers\Temps\IncomingAndExpense.cs" />
     <Compile Include="Helpers\Temps\SafeData.cs" />
     <Compile Include="Reports\CashReports.cs" />
@@ -501,6 +507,10 @@
     <Page Include="Views\Helpers\LogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\PercentageProcessingBookKeepingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\AddEditContainerCarPartView.xaml">
       <SubType>Designer</SubType>

@@ -1,7 +1,9 @@
 ﻿using AIS_Enterprise_AV.Helpers.ExcelToDB;
 using AIS_Enterprise_AV.Infos.ViewModels;
+using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views;
+using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
@@ -25,10 +27,16 @@ namespace AIS_Enterprise_AV.ViewModels
         {
             MonthTimeSheetCommand = new RelayCommand(MonthTimeSheet);
             RemainsCommand = new RelayCommand(Remains);
+            ProcessingBookKeepingCommand = new RelayCommand(ProcessingBookKeeping);
             
             if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_MonthTimeSheetEnable.ToString()))
             {
                 IsEnabledMonthTimeSheet = true;
+            }
+
+            if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_DbFenoxEnable.ToString()))
+            {
+                IsEnabledDbFenox = true;
             }
 
             if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_DbFenoxEnable.ToString()))
@@ -45,6 +53,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public bool IsEnabledMonthTimeSheet { get; set; }
 
         public bool IsEnabledDbFenox { get; set; }
+        public bool IsEnabledProcessingBookKeeping { get; set; }
         #endregion
 
 
@@ -52,6 +61,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public RelayCommand MonthTimeSheetCommand { get; set; }
         public RelayCommand RemainsCommand { get; set; }
+        public RelayCommand ProcessingBookKeepingCommand { get; set; }
 
         private void MonthTimeSheet(object parameter)
         {
@@ -70,6 +80,16 @@ namespace AIS_Enterprise_AV.ViewModels
             window.Visibility = Visibility.Hidden;
 
             HelperMethods.ShowView(new InfoRemainsViewModel(), new InfoRemainsView());
+
+            HelperMethods.CloseWindow(parameter);
+        }
+
+        private void ProcessingBookKeeping(object parameter)
+        {
+            var window = parameter as Window;
+            window.Visibility = Visibility.Hidden;
+
+            HelperMethods.ShowView(new PercentageProcessingBookKeepingViewModel(), new PercentageProcessingBookKeepingView());
 
             HelperMethods.CloseWindow(parameter);
         }
