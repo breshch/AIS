@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Data;
+﻿using System.Runtime.InteropServices;
+using AIS_Enterprise_Data;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace AIS_Enterprise_AV.Reports
     public static class Helpers
     {
         private static object _syncLock = new object();
+
+        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteFile(string name);
 
         public static string CreationNewFileReport(string path)
         {
@@ -149,6 +154,11 @@ namespace AIS_Enterprise_AV.Reports
             OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
         {
             CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
+        }
+
+        public static bool Unlocker(string path)
+        {
+            return DeleteFile(path + ":Zone.Identifier");
         }
     }
 }

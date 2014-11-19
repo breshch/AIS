@@ -1004,7 +1004,7 @@ namespace AIS_Enterprise_Data
 
             _dc.SaveChanges();
 
-            double birthday = GetParameterValue<double>("Birthday");
+            double birthday = GetParameterValue<double>(ParameterType.Birthday);
             for (var date = startDate; date <= DateTime.Now; date = date.AddMonths(1))
             {
                 var infoMonth = new InfoMonth
@@ -1555,15 +1555,15 @@ namespace AIS_Enterprise_Data
         //    _dc.SaveChanges();
         //}
 
-        public void EditParameter(string name, string value)
+        public void EditParameter(ParameterType parameterType, string value)
         {
-            _dc.Parameters.First(p => p.Name == name).Value = value;
+            _dc.Parameters.First(p => p.Name == parameterType.ToString()).Value = value;
             _dc.SaveChanges();
         }
 
-        public T GetParameterValue<T>(string name)
+        public T GetParameterValue<T>(ParameterType parameterType)
         {
-            var parameter = _dc.Parameters.First(p => p.Name == name);
+            var parameter = _dc.Parameters.First(p => p.Name == parameterType.ToString());
             _dc.Entry<Parameter>(parameter).Reload();
 
             string value = parameter.Value;
@@ -1578,9 +1578,9 @@ namespace AIS_Enterprise_Data
 
         public void InitializeAbsentDates()
         {
-            var lastDate = GetParameterValue<DateTime>("LastDate");
+            var lastDate = GetParameterValue<DateTime>(ParameterType.LastDate);
 
-            double birthday = GetParameterValue<double>("Birthday");
+            double birthday = GetParameterValue<double>(ParameterType.Birthday);
 
             if (DateTime.Now.Date > lastDate.Date)
             {
@@ -1652,7 +1652,7 @@ namespace AIS_Enterprise_Data
 
                     _dc.SaveChanges();
 
-                    EditParameter("LastDate", date.ToString());
+                    EditParameter(ParameterType.LastDate, date.ToString());
                     lastDate = date;
                 }
             }
@@ -2571,7 +2571,7 @@ namespace AIS_Enterprise_Data
 
         public void InitializeDefaultCosts()
         {
-            var defaultCostsDate = GetParameterValue<DateTime>("DefaultCostsDate");
+            var defaultCostsDate = GetParameterValue<DateTime>(ParameterType.DefaultCostsDate);
             var currentDate = DateTime.Now;
 
             if (defaultCostsDate.Year < currentDate.Year || (defaultCostsDate.Year == currentDate.Year && defaultCostsDate.Month < currentDate.Month))
@@ -2601,7 +2601,7 @@ namespace AIS_Enterprise_Data
                 }
 
                 _dc.SaveChanges();
-                EditParameter("DefaultCostsDate", DateTime.Now.ToString());
+                EditParameter(ParameterType.DefaultCostsDate, DateTime.Now.ToString());
             }
         }
 
@@ -3175,6 +3175,27 @@ namespace AIS_Enterprise_Data
             return currentCarPart;
         }
 
+        public CurrentCarPart AddCurrentCarPartNoSave(DirectoryCarPart directoryCarPart, DateTime priceDate, double priceBase, double? priceBigWholesale, double? priceSmallWholesale)
+        {
+            var currentCarPart = new CurrentCarPart
+            {
+                DirectoryCarPart = directoryCarPart,
+                Date = priceDate,
+                PriceBase = priceBase,
+                PriceBigWholesale = priceBigWholesale,
+                PriceSmallWholesale = priceSmallWholesale,
+            };
+
+            _dc.CurrentCarParts.Add(currentCarPart);
+
+            return currentCarPart;
+        }
+
+        public IQueryable<CurrentCarPart> GetCurrentCarParts()
+        {
+            return _dc.CurrentCarParts;
+        }
+
         public CurrentCarPart GetCurrentCarPart(int directoryCarPartId, DateTime date)
         {
            return _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPartId)
@@ -3200,5 +3221,7 @@ namespace AIS_Enterprise_Data
         }
 
         #endregion
+
+       
     }
 }

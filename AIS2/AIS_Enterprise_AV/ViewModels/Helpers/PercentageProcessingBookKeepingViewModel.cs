@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AIS_Enterprise_AV.Helpers.ConvertingExcel;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_AV.Helpers.ExcelToDB;
 
 namespace AIS_Enterprise_AV.ViewModels.Helpers
 {
@@ -18,11 +19,16 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         public PercentageProcessingBookKeepingViewModel()
         {
+            CarPartPriceRusCommand = new RelayCommand(CarPartPriceRus);
+            CarPartPriceImportCommand = new RelayCommand(CarPartPriceImport);
             LoadingFileCommand = new RelayCommand(LoadingFile);
 
-            PercentageRus = BC.GetParameterValue<int>("PercentageRusBookKeeping");
-            PercentageImport = BC.GetParameterValue<int>("PercentageImportBookKeeping");
+            
+            PercentageRus = BC.GetParameterValue<int>(ParameterType.PercentageRusBookKeeping);
+            PercentageImport = BC.GetParameterValue<int>(ParameterType.PercentageImportBookKeeping);
 
+            LastRusDate = BC.GetParameterValue<string>(ParameterType.LastRusDate);
+            LastImportDate = BC.GetParameterValue<string>(ParameterType.LastImportDate);
             _prevPercentageRus = PercentageRus;
             _prevPercentageImport = PercentageImport;
         }
@@ -34,13 +40,45 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         public int PercentageRus { get; set; }
         public int PercentageImport { get; set; }
+        public string LastRusDate { get; set; }
+        public string LastImportDate { get; set; }
+
 
         #endregion
 
 
         #region Commands
 
+        public RelayCommand CarPartPriceRusCommand { get; set; }
+        public RelayCommand CarPartPriceImportCommand { get; set; }
         public RelayCommand LoadingFileCommand { get; set; }
+
+
+
+        private void CarPartPriceRus(object parameter)
+        {
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                var priceDate = ConvertingCarPartsExcelToDB.ConvertPriceRus(BC, path);
+                BC.EditParameter(ParameterType.LastRusDate, priceDate.ToShortDateString());
+                LastRusDate = priceDate.ToShortDateString();
+            }
+        }
+
+        private void CarPartPriceImport(object parameter)
+        {
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                var priceDate = ConvertingCarPartsExcelToDB.ConvertPriceImport(BC, path);
+                BC.EditParameter(ParameterType.LastImportDate, priceDate.ToShortDateString());
+                LastImportDate = priceDate.ToShortDateString();
+            }
+        }
+
 
         private void LoadingFile(object parameter)
         {
@@ -54,13 +92,13 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
                     if (_prevPercentageRus != PercentageRus)
                     {
-                        BC.EditParameter("PercentageRusBookKeeping", PercentageRus.ToString());
+                        BC.EditParameter(ParameterType.PercentageRusBookKeeping, PercentageRus.ToString());
                         _prevPercentageRus = PercentageRus;
                     }
 
                     if (_prevPercentageImport != PercentageImport)
                     {
-                        BC.EditParameter("PercentageImportBookKeeping", PercentageImport.ToString());
+                        BC.EditParameter(ParameterType.PercentageImportBookKeeping, PercentageImport.ToString());
                         _prevPercentageImport = PercentageImport;
                     }
                 }

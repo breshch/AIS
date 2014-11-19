@@ -71,6 +71,7 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
 
                     if (!isFound)
                     {
+                        article = prevArticle;
                         for (j = article.Length; j > 0; j--)
                         {
                             article = article.Substring(0, j);
@@ -140,15 +141,15 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
             int index = 4;
             foreach (var invoice in invoices)
             {
-                double pricePercentage = invoice.PriceBase *
-                                         ((100 - (invoice.IsRus ? percentageRus : percentageImport)) / 100.0);
+                double pricePercentage = Math.Round(invoice.PriceBase *
+                                         ((100 - (invoice.IsRus ? percentageRus : percentageImport)) / 100.0), 2);
 
                 Reports.Helpers.CreateCell(sheet, index, 1, invoice.Article, Color.Transparent);
                 Reports.Helpers.CreateCell(sheet, index, 2, invoice.Description, Color.Transparent);
-                Reports.Helpers.CreateCell(sheet, index, 3, invoice.PriceBase.ToString("N4"), Color.Transparent);
-                Reports.Helpers.CreateCell(sheet, index, 4, pricePercentage.ToString("N4"), Color.Transparent);
+                Reports.Helpers.CreateCell(sheet, index, 3, invoice.PriceBase.ToString("N2"), Color.Transparent);
+                Reports.Helpers.CreateCell(sheet, index, 4, pricePercentage.ToString("N2"), Color.Transparent);
                 Reports.Helpers.CreateCell(sheet, index, 5, invoice.Count, Color.Transparent);
-                Reports.Helpers.CreateCell(sheet, index, 6, (invoice.Count * pricePercentage).ToString("N4"), Color.Transparent);
+                Reports.Helpers.CreateCell(sheet, index, 6, (invoice.Count * pricePercentage).ToString("N2"), Color.Transparent);
 
                 index++;
             }

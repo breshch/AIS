@@ -1,5 +1,10 @@
-﻿using AIS_Enterprise_Data;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
+using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -8,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
@@ -27,24 +33,24 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         var sheet = workBook.Worksheets.First();
                         int indexRow = 6;
 
-                        string number =  GetValue(sheet.Cells[indexRow, 1].Value);
+                        string number = GetValue(sheet.Cells[indexRow, 1].Value);
                         while (!string.IsNullOrWhiteSpace(number))
                         {
-                            string article =  GetValue(sheet.Cells[indexRow, 2].Value);
+                            string article = GetValue(sheet.Cells[indexRow, 2].Value);
 
                             if (string.IsNullOrWhiteSpace(article) || article == "№ Fenox")
                             {
                                 indexRow++;
                                 number = GetValue(sheet.Cells[indexRow, 1].Value);
-                                continue;   
+                                continue;
                             }
 
                             string description = GetValue(sheet.Cells[indexRow, 3].Value);
-                            string originalNumber =  GetValue(sheet.Cells[indexRow, 4].Value);
-                            string material =  GetValue(sheet.Cells[indexRow, 5].Value);
-                            string attachment =  GetValue(sheet.Cells[indexRow, 6].Value);
-                            string factoryNumber =  GetValue(sheet.Cells[indexRow, 7].Value);
-                            string crossNumber =  GetValue(sheet.Cells[indexRow, 8].Value);
+                            string originalNumber = GetValue(sheet.Cells[indexRow, 4].Value);
+                            string material = GetValue(sheet.Cells[indexRow, 5].Value);
+                            string attachment = GetValue(sheet.Cells[indexRow, 6].Value);
+                            string factoryNumber = GetValue(sheet.Cells[indexRow, 7].Value);
+                            string crossNumber = GetValue(sheet.Cells[indexRow, 8].Value);
                             string countInBox = GetValue(sheet.Cells[indexRow, 12].Value);
 
                             if (bc.GetDirectoryCarPart(article, null) == null)
@@ -87,7 +93,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         string crossNumber = null;
                         string countInBox = GetValue(sheet.Cells[indexRow, 11].Value);
 
-                       
+
                         while (!(string.IsNullOrWhiteSpace(number) && string.IsNullOrWhiteSpace(name)))
                         {
                             if (string.IsNullOrWhiteSpace(number) && !string.IsNullOrWhiteSpace(name))
@@ -196,11 +202,77 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
             }
         }
 
+        private const int WM_CLOSE = 16;
+        private const uint WM_COMMAND = 0x0111;
+        private const int BN_CLICKED = 245;
+        private const int IDOK = 1;
 
-        public static void ConvertPriceRus(BusinessContext bc, string path)
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+        //[DllImport("coredll.dll")]
+        //private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int SendMessage(IntPtr hWnd, uint msg, int wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private static void PushButtons()
         {
-            var existingFile = new FileInfo(path);
+            Task.Factory.StartNew(() =>
+            {
+                bool isFirst = false;
+                while (true)
+                {
+                    IntPtr hwnd;
+                    IntPtr hwndChild = IntPtr.Zero;
 
+                    //Get a handle for the Calculator Application main window
+                    hwnd = FindWindow(null, "Microsoft Excel");
+                    if (hwnd != IntPtr.Zero)
+                    {
+                        SetForegroundWindow(hwnd);
+                        SendKeys.Send("{ENTER}");
+
+                        if (isFirst)
+                        {
+                            break;
+                        }
+                        isFirst = true;
+                    }
+
+                    Thread.Sleep(500);
+                }
+            });
+        }
+
+
+        public static DateTime ConvertPriceRus(BusinessContext bc, string path)
+        {
+            DateTime priceDate = DateTime.Now;
+
+            if (Path.GetExtension(path).Count() == 4)
+            {
+                PushButtons();
+
+                var app = new Microsoft.Office.Interop.Excel.Application();
+                var wb = app.Workbooks.Open(path);
+                
+                wb.SaveAs(
+                    Filename: path + "x",
+                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+                wb.Close();
+                app.Quit();
+                File.Delete(path);
+                path += "x";
+            }
+
+            var existingFile = new FileInfo(path);
             using (var package = new ExcelPackage(existingFile))
             {
                 var workBook = package.Workbook;
@@ -212,7 +284,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                         string date = GetValue(sheet.Cells[3, 8].Value);
                         date = date.Substring(date.IndexOf("от") + 3);
-                        DateTime priceDate = DateTime.Parse(date);
+                        priceDate = DateTime.Parse(date);
 
                         int indexRow = 8;
 
@@ -231,7 +303,9 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         string countInBox = GetValue(sheet.Cells[indexRow, 11].Value);
 
                         var carParts = bc.GetDirectoryCarParts().ToList();
+                        var currentCarParts = bc.GetCurrentCarParts().ToList();
 
+                        int counter = 1;
                         while (!(string.IsNullOrWhiteSpace(number) && string.IsNullOrWhiteSpace(name)))
                         {
                             if (string.IsNullOrWhiteSpace(number) && !string.IsNullOrWhiteSpace(name))
@@ -266,36 +340,67 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 equalCarPart.Note.Material = material;
                                 equalCarPart.Note.Attachment = attachment;
                                 equalCarPart.CountInBox = countInBox;
-                                bc.SaveChanges();
+                                counter++;
                             }
 
-                            double priceBase = double.Parse( GetValue(sheet.Cells[indexRow, 9].Value));
+                            double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 9].Value));
                             double priceBigWholesale = double.Parse(GetValue(sheet.Cells[indexRow, 14].Value));
                             double priceSmallWholesale = double.Parse(GetValue(sheet.Cells[indexRow, 15].Value));
 
-                            var lastCurrentCarPart = bc.GetCurrentCarPart(equalCarPart.Id, priceDate);
+                            var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
+                                .OrderByDescending(c => c.Date)
+                                .FirstOrDefault(c => priceDate.Date > c.Date);
 
                             if (lastCurrentCarPart == null ||
                                 (lastCurrentCarPart.PriceBase != priceBase ||
                                  lastCurrentCarPart.PriceBigWholesale != priceBigWholesale ||
                                  lastCurrentCarPart.PriceSmallWholesale != priceSmallWholesale))
                             {
-                                bc.AddCurrentCarPart(equalCarPart, priceDate, priceBase, priceBigWholesale,
+                                bc.AddCurrentCarPartNoSave(equalCarPart, priceDate, priceBase, priceBigWholesale,
                                     priceSmallWholesale);
+                                counter++;
                             }
 
                             indexRow++;
 
                             name = GetValue(sheet.Cells[indexRow, 2].Value);
                             number = GetValue(sheet.Cells[indexRow, 1].Value);
+
+                            if (counter > 50)
+                            {
+                                counter = 0;
+                                bc.SaveChanges();
+                            }
                         }
+
+                        bc.SaveChanges();
                     }
                 }
             }
+
+            return priceDate;
         }
 
-        public static void ConvertPriceImport(BusinessContext bc, string path)
+        public static DateTime ConvertPriceImport(BusinessContext bc, string path)
         {
+            DateTime priceDate = DateTime.Now;
+
+            if (Path.GetExtension(path).Count() == 4)
+            {
+                PushButtons();
+
+                var app = new Microsoft.Office.Interop.Excel.Application();
+                var wb = app.Workbooks.Open(path);
+
+                wb.SaveAs(
+                    Filename: path + "x",
+                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+                wb.Close();
+                app.Quit();
+                File.Delete(path);
+                path += "x";
+            }
+
             var existingFile = new FileInfo(path);
 
             using (var package = new ExcelPackage(existingFile))
@@ -308,11 +413,12 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         var sheet = workBook.Worksheets.First();
 
                         string date = path.Substring(path.LastIndexOf(" ") + 1, path.LastIndexOf(".") - (path.LastIndexOf(" ") + 1));
-                        DateTime priceDate = DateTime.Parse(date);
+                        priceDate = DateTime.Parse(date);
 
                         int indexRow = 6;
 
                         var carParts = bc.GetDirectoryCarParts().ToList();
+                        var currentCarParts = bc.GetCurrentCarParts().ToList();
 
                         string number = GetValue(sheet.Cells[indexRow, 1].Value);
                         while (!string.IsNullOrWhiteSpace(number))
@@ -356,7 +462,9 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                             double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 9].Value));
 
-                            var lastCurrentCarPart = bc.GetCurrentCarPart(equalCarPart.Id, priceDate);
+                            var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
+                                .OrderByDescending(c => c.Date)
+                                .FirstOrDefault(c => priceDate.Date > c.Date);
 
                             if (lastCurrentCarPart == null || lastCurrentCarPart.PriceBase != priceBase)
                             {
@@ -365,9 +473,11 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                             indexRow++;
                         }
+
                     }
                 }
             }
+            return priceDate;
         }
 
 

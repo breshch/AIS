@@ -330,7 +330,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 bc.SaveChanges();
             }
 
-            bc.EditParameter("LastDate", lastDate.ToString());
+            bc.EditParameter(ParameterType.LastDate, lastDate.ToString());
         }
 
         public static void ConvertExcelToDB(BusinessContext bc)

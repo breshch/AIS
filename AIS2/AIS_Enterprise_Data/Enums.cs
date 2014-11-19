@@ -125,4 +125,15 @@ namespace AIS_Enterprise_Global.Helpers
         EUR,
         BYR
     }
+
+    public enum ParameterType
+    {
+        PercentageRusBookKeeping,
+        PercentageImportBookKeeping,
+        LastRusDate,
+        LastImportDate,
+        Birthday,
+        LastDate,
+        DefaultCostsDate
+    }
 }
