@@ -29,13 +29,12 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
 
             var articlePrices = bc.GetArticlePrices(date).ToList();
 
-            while (sheet.Cells[i, 1].Value == null || sheet.Cells[i, 1].Value.ToString() != "1")
+            while (sheet.Cells[i, 1].Value == null || sheet.Cells[i, 1].Value.ToString() != "2")
             {
                 i++;
             }
 
-            i++;
-
+            i--;
             var invoices = new List<Invoice>();
             while (sheet.Cells[i, 11].Value == null || sheet.Cells[i, 11].Value.ToString() != "0")
             {

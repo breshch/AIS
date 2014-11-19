@@ -3,7 +3,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using System;
@@ -14,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
@@ -237,7 +240,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                     if (hwnd != IntPtr.Zero)
                     {
                         SetForegroundWindow(hwnd);
-                        SendKeys.Send("{ENTER}");
+                        SendKeys.SendWait("{ENTER}");
 
                         if (isFirst)
                         {
@@ -305,7 +308,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         var carParts = bc.GetDirectoryCarParts().ToList();
                         var currentCarParts = bc.GetCurrentCarParts().ToList();
 
-                        int counter = 1;
+                        var currentCarPartsMemory = new List<CurrentCarPart>();
+                        
                         while (!(string.IsNullOrWhiteSpace(number) && string.IsNullOrWhiteSpace(name)))
                         {
                             if (string.IsNullOrWhiteSpace(number) && !string.IsNullOrWhiteSpace(name))
@@ -325,7 +329,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             material = GetValue(sheet.Cells[indexRow, 7].Value) ?? material;
                             attachment = GetValue(sheet.Cells[indexRow, 8].Value) ?? attachment;
                             countInBox = GetValue(sheet.Cells[indexRow, 11].Value) ?? countInBox;
-
+                            
                             var equalCarPart = carParts.FirstOrDefault(p => (p.Article + p.Mark) == fullName);
                             if (equalCarPart == null)
                             {
@@ -340,7 +344,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 equalCarPart.Note.Material = material;
                                 equalCarPart.Note.Attachment = attachment;
                                 equalCarPart.CountInBox = countInBox;
-                                counter++;
                             }
 
                             double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 9].Value));
@@ -349,30 +352,26 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                             var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
                                 .OrderByDescending(c => c.Date)
-                                .FirstOrDefault(c => priceDate.Date > c.Date);
+                                .FirstOrDefault(c => priceDate.Date >= c.Date);
 
                             if (lastCurrentCarPart == null ||
                                 (lastCurrentCarPart.PriceBase != priceBase ||
                                  lastCurrentCarPart.PriceBigWholesale != priceBigWholesale ||
                                  lastCurrentCarPart.PriceSmallWholesale != priceSmallWholesale))
                             {
-                                bc.AddCurrentCarPartNoSave(equalCarPart, priceDate, priceBase, priceBigWholesale,
+                                var currentCarPart = bc.AddCurrentCarPartNoSave(equalCarPart.Id, priceDate, priceBase, priceBigWholesale,
                                     priceSmallWholesale);
-                                counter++;
+
+                                currentCarPartsMemory.Add(currentCarPart);
                             }
 
                             indexRow++;
 
                             name = GetValue(sheet.Cells[indexRow, 2].Value);
                             number = GetValue(sheet.Cells[indexRow, 1].Value);
-
-                            if (counter > 50)
-                            {
-                                counter = 0;
-                                bc.SaveChanges();
-                            }
                         }
 
+                        bc.DataContext.BulkInsert(currentCarPartsMemory);
                         bc.SaveChanges();
                     }
                 }
@@ -413,32 +412,93 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         var sheet = workBook.Worksheets.First();
 
                         string date = path.Substring(path.LastIndexOf(" ") + 1, path.LastIndexOf(".") - (path.LastIndexOf(" ") + 1));
-                        priceDate = DateTime.Parse(date);
-
-                        int indexRow = 6;
+                        if (!DateTime.TryParse(date, out priceDate))
+                        {
+                            priceDate = DateTime.Now;
+                        }
 
                         var carParts = bc.GetDirectoryCarParts().ToList();
                         var currentCarParts = bc.GetCurrentCarParts().ToList();
 
-                        string number = GetValue(sheet.Cells[indexRow, 1].Value);
-                        while (!string.IsNullOrWhiteSpace(number))
-                        {
-                            string article = GetValue(sheet.Cells[indexRow, 2].Value);
+                        var currentCarPartsMemory = new List<CurrentCarPart>();
 
-                            if (string.IsNullOrWhiteSpace(article) || article == "№ Fenox")
+
+                        int indexRow = 1;
+                        while (true)
+                        {
+                            var value = GetValue(sheet.Cells[indexRow, 2].Value);
+                            if (value != null && value.ToLower() == "№ fenox")
+                            {
+                                break;
+                            }
+                            indexRow++;
+                        }
+
+                        int factoryNumberColumn = 0;
+                        int crossNumberColumn = 0;
+                        int countInBoxColumn = 0;
+                        int priceBaseColumn = 0;
+
+                        int indexColumn = 3;
+
+                        while (factoryNumberColumn == 0 || crossNumberColumn == 0 || countInBoxColumn == 0 || priceBaseColumn == 0)
+                        {
+                            var value = GetValue(sheet.Cells[indexRow, indexColumn].Value);
+                            if (value != null)
+                            {
+                                value = value.Trim().ToLower();
+                                switch (value)
+                                {
+                                    case "оригинальные номера":
+                                        factoryNumberColumn = indexColumn;
+                                        break;
+                                    case "аналоги":
+                                        crossNumberColumn = indexColumn;
+                                        break;
+                                    case "групп.упак.шт":
+                                    case "групп. упак. шт":
+                                        countInBoxColumn = indexColumn;
+                                        break;
+                                    case "цена rub":
+                                    case "цена rub базовая":
+                                        priceBaseColumn = indexColumn;
+                                        break;
+                                }
+                            }
+
+                            indexColumn++;
+                        }
+
+                        indexRow++;
+                        if (GetValue(sheet.Cells[indexRow,2].Value) == null)
+                        {
+                            indexRow += 2;
+                        }
+
+                        string number1 = GetValue(sheet.Cells[indexRow, 2].Value);
+                        string number2 = GetValue(sheet.Cells[indexRow + 1, 2].Value);
+
+                        while (!(string.IsNullOrWhiteSpace(number1) || string.IsNullOrWhiteSpace(number2)))
+                        {
+                            string checkLine = GetValue(sheet.Cells[indexRow, 3].Value);
+
+                            if (string.IsNullOrWhiteSpace(checkLine) || checkLine == "Наименование")
                             {
                                 indexRow++;
-                                number = GetValue(sheet.Cells[indexRow, 1].Value);
+                                number1 = GetValue(sheet.Cells[indexRow, 2].Value);
+                                number2 = GetValue(sheet.Cells[indexRow + 1, 2].Value);
                                 continue;
                             }
 
+                            string article = GetValue(sheet.Cells[indexRow, 2].Value);
                             string description = GetValue(sheet.Cells[indexRow, 3].Value);
                             string originalNumber = GetValue(sheet.Cells[indexRow, 4].Value);
                             string material = GetValue(sheet.Cells[indexRow, 5].Value);
                             string attachment = GetValue(sheet.Cells[indexRow, 6].Value);
-                            string factoryNumber = GetValue(sheet.Cells[indexRow, 7].Value);
-                            string crossNumber = GetValue(sheet.Cells[indexRow, 8].Value);
-                            string countInBox = GetValue(sheet.Cells[indexRow, 12].Value);
+
+                            string factoryNumber = GetValue(sheet.Cells[indexRow, factoryNumberColumn].Value);
+                            string crossNumber = GetValue(sheet.Cells[indexRow, crossNumberColumn].Value);
+                            string countInBox = GetValue(sheet.Cells[indexRow, countInBoxColumn].Value);
 
                             var equalCarPart = carParts.FirstOrDefault(p => p.FullCarPartName == article);
                             if (equalCarPart == null)
@@ -460,20 +520,24 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 bc.SaveChanges();
                             }
 
-                            double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 9].Value));
+                            double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, priceBaseColumn].Value));
 
                             var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
                                 .OrderByDescending(c => c.Date)
-                                .FirstOrDefault(c => priceDate.Date > c.Date);
+                                .FirstOrDefault(c => priceDate.Date >= c.Date);
 
                             if (lastCurrentCarPart == null || lastCurrentCarPart.PriceBase != priceBase)
                             {
-                                bc.AddCurrentCarPart(equalCarPart, priceDate, priceBase, null, null);
+                                var currentCarPart = bc.AddCurrentCarPartNoSave(equalCarPart.Id, priceDate, priceBase, null, null);
+
+                                currentCarPartsMemory.Add(currentCarPart);
                             }
 
                             indexRow++;
                         }
 
+                        bc.DataContext.BulkInsert(currentCarPartsMemory);
+                        bc.SaveChanges();
                     }
                 }
             }

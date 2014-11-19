@@ -478,7 +478,8 @@ namespace AIS_Enterprise_AV.ViewModels
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string path = dialog.FileName;
-                ConvertingCarPartsExcelToDB.ConvertPriceRus(BC, path);
+                IsNotInitializedDB = false;
+                Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertPriceRus(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
             }
         }
 
@@ -488,7 +489,8 @@ namespace AIS_Enterprise_AV.ViewModels
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string path = dialog.FileName;
-                ConvertingCarPartsExcelToDB.ConvertPriceImport(BC, path);
+                IsNotInitializedDB = false;
+                Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertPriceImport(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
             }
         }
 

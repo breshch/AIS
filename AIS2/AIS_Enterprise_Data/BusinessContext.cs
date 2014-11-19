@@ -3175,18 +3175,16 @@ namespace AIS_Enterprise_Data
             return currentCarPart;
         }
 
-        public CurrentCarPart AddCurrentCarPartNoSave(DirectoryCarPart directoryCarPart, DateTime priceDate, double priceBase, double? priceBigWholesale, double? priceSmallWholesale)
+        public CurrentCarPart AddCurrentCarPartNoSave(int directoryCarPartId, DateTime priceDate, double priceBase, double? priceBigWholesale, double? priceSmallWholesale)
         {
             var currentCarPart = new CurrentCarPart
             {
-                DirectoryCarPart = directoryCarPart,
+                DirectoryCarPartId = directoryCarPartId,
                 Date = priceDate,
                 PriceBase = priceBase,
                 PriceBigWholesale = priceBigWholesale,
                 PriceSmallWholesale = priceSmallWholesale,
             };
-
-            _dc.CurrentCarParts.Add(currentCarPart);
 
             return currentCarPart;
         }
