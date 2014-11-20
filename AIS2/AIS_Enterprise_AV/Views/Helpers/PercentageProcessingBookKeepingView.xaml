@@ -12,6 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="Проценты"/>
@@ -43,5 +44,6 @@
             <Button Content="Цены Иномарки" Command="{Binding CarPartPriceImportCommand}" Margin="0, 3"/>
         </StackPanel>
         <Button Grid.Row="4" Command="{Binding LoadingFileCommand}" Content="Выбрать накладную" Margin="0, 20, 0, 0"/>
+        <Button Grid.Row="5" Command="{Binding LoadingFolderCommand}" Content="Выбрать папку с накладными" Margin="0, 20, 0, 0"/>
     </Grid>
 </Window>

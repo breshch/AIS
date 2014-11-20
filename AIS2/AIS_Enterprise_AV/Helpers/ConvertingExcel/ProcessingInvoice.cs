@@ -16,7 +16,7 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
 {
     public static class ProcessingInvoice
     {
-        public static void Procesing(BusinessContext bc, string path, int percentageRus, int percentageImport)
+        public static List<Invoice> Procesing(BusinessContext bc, string path, int percentageRus, int percentageImport)
         {
             var ep = new ExcelPackage(new FileInfo(path));
             var sheet = ep.Workbook.Worksheets.First(s => s.Name == "АВ ТТН");
@@ -110,12 +110,18 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
                 sw.WriteLine("#############################################");
             }
 
-            ComplitedCompliteInvoice(path, percentageRus, percentageImport, invoices);
+            return invoices;
         }
 
-        private static void ComplitedCompliteInvoice(string path, int percentageRus, int percentageImport, List<Invoice> invoices)
+        public static void ComplitedCompliteInvoice(string path, int percentageRus, int percentageImport, List<Invoice> invoices)
         {
-            Reports.Helpers.CompletedReport(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CompliteInvoice_" + Path.GetFileName(path)),
+            string directory = Path.Combine(Path.GetDirectoryName(path), "Обработанные накладные");
+            if (!Directory.Exists(Path.Combine(Path.GetDirectoryName(path), "Обработанные накладные")))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            
+            Reports.Helpers.CompletedReport(Path.Combine(directory, Path.GetFileName(path)),
                new List<Action<ExcelPackage>>
                 {
                     ep => CreatingCompliteInvoice(ep, percentageRus, percentageImport, path, invoices)

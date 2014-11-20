@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             CarPartPriceRusCommand = new RelayCommand(CarPartPriceRus);
             CarPartPriceImportCommand = new RelayCommand(CarPartPriceImport);
             LoadingFileCommand = new RelayCommand(LoadingFile);
+            LoadingFolderCommand = new RelayCommand(LoadingFolder);
 
             
             PercentageRus = BC.GetParameterValue<int>(ParameterType.PercentageRusBookKeeping);
@@ -52,7 +54,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         public RelayCommand CarPartPriceRusCommand { get; set; }
         public RelayCommand CarPartPriceImportCommand { get; set; }
         public RelayCommand LoadingFileCommand { get; set; }
-
+        public RelayCommand LoadingFolderCommand { get; set; }
 
 
         private void CarPartPriceRus(object parameter)
@@ -88,7 +90,41 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
                 {
                     string path = openDialog.FileName;
 
-                    ProcessingInvoice.Procesing(BC, path, PercentageRus, PercentageImport);
+                    var invoices = ProcessingInvoice.Procesing(BC, path, PercentageRus, PercentageImport);
+                    ProcessingInvoice.ComplitedCompliteInvoice(path, PercentageRus, PercentageImport, invoices);
+
+                    if (_prevPercentageRus != PercentageRus)
+                    {
+                        BC.EditParameter(ParameterType.PercentageRusBookKeeping, PercentageRus.ToString());
+                        _prevPercentageRus = PercentageRus;
+                    }
+
+                    if (_prevPercentageImport != PercentageImport)
+                    {
+                        BC.EditParameter(ParameterType.PercentageImportBookKeeping, PercentageImport.ToString());
+                        _prevPercentageImport = PercentageImport;
+                    }
+                }
+            }
+        }
+
+        private void LoadingFolder(object parameter)
+        {
+            using (var openDialog = new FolderBrowserDialog())
+            {
+                if (openDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string directoryPath = openDialog.SelectedPath;
+
+                    foreach (var path in Directory.GetFiles(directoryPath))
+                    {
+                        var extension = Path.GetExtension(path);
+                        if (extension == ".xls" || extension == ".xlsx")
+                        {
+                            var invoices = ProcessingInvoice.Procesing(BC, path, PercentageRus, PercentageImport);
+                            ProcessingInvoice.ComplitedCompliteInvoice(path, PercentageRus, PercentageImport, invoices);
+                        }
+                    }
 
                     if (_prevPercentageRus != PercentageRus)
                     {
