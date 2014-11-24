@@ -3000,7 +3000,7 @@ namespace AIS_Enterprise_Data
         #region DirectoryCarPart
 
         public DirectoryCarPart AddDirectoryCarPart(string article, string mark, string description, string originalNumber,
-            string factoryNumber, string crossNumber, string material, string attachment, string countInBox)
+            string factoryNumber, string crossNumber, string material, string attachment, string countInBox, bool isImport)
         {
             var carPart = new DirectoryCarPart
             {
@@ -3018,7 +3018,8 @@ namespace AIS_Enterprise_Data
                     FactoryNumber = factoryNumber,
                     CrossNumber = crossNumber
                 },
-                CountInBox = countInBox
+                CountInBox = countInBox,
+                IsImport = isImport
             };
 
             _dc.DirectoryCarParts.Add(carPart);
@@ -3055,6 +3056,23 @@ namespace AIS_Enterprise_Data
         public IQueryable<InfoContainer> GetContainers(int year, int month, bool isIncoming)
         {
             return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
+        }
+
+        public IEnumerable<InfoContainer> GetInfoContainers(List<InfoContainer> containers)
+        {
+            return _dc.InfoContainers.ToList()
+                .Where(c => containers.Any(c2 => c.Name == c2.Name && c.Date.Date == c2.Date.Date
+                                                 && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming))
+                                                 .Select(c => new InfoContainer
+                                                 {
+                                                     Id = c.Id,
+                                                     Name = c.Name,
+                                                     Date = c.Date,
+                                                     Description = c.Description,
+                                                     IsIncoming = c.IsIncoming,
+                                                     CarParts = containers.First(c2 => c.Name == c2.Name && c.Date.Date == c2.Date.Date
+                                                        && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming).CarParts
+                                                 });
         }
 
         public InfoContainer GetInfoContainer(int containerId)
@@ -3196,30 +3214,100 @@ namespace AIS_Enterprise_Data
 
         public CurrentCarPart GetCurrentCarPart(int directoryCarPartId, DateTime date)
         {
-           return _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPartId)
-                .OrderByDescending(c => c.Date)
-                .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) < 0);
+            return _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPartId)
+                 .OrderByDescending(c => c.Date)
+                 .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) < 0);
         }
 
         public IQueryable<ArticlePrice> GetArticlePrices(DateTime date)
         {
             return (from directoryCarPart in _dc.DirectoryCarParts
-                let currentCarPart =
-                    _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
-                        .OrderByDescending(c => c.Date)
-                        .FirstOrDefault(c => date.Date >= c.Date)
-                where currentCarPart != null
-                select new ArticlePrice
-                {
-                    Article = directoryCarPart.Article,
-                    Mark = directoryCarPart.Mark,
-                    Description = directoryCarPart.Description,
-                    Price = currentCarPart.PriceBase
-                });
+                    let currentCarPart =
+                        _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
+                            .OrderByDescending(c => c.Date)
+                            .FirstOrDefault(c => date.Date >= c.Date)
+                    where currentCarPart != null
+                    select new ArticlePrice
+                    {
+                        Article = directoryCarPart.Article,
+                        Mark = directoryCarPart.Mark,
+                        Description = directoryCarPart.Description,
+                        Price = currentCarPart.PriceBase
+                    });
         }
 
         #endregion
 
-       
+
+
+        #region CurrentCarPartsRemainsToDate
+
+
+        public IEnumerable<CarPartRemain> GetRemainsToDate(DateTime date)
+        {
+            var lastMonthDayRemains = _dc.InfoLastMonthDayRemains.Where(p => (p.Date.Year == date.Year && p.Date.Month == date.Month)
+                && p.Count > 0).ToList();
+
+            var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
+
+
+            var containers = _dc.InfoContainers.Include(c => c.CarParts).Where(c =>
+                (DbFunctions.DiffDays(firstDateInMonth, c.Date) >= 0 && DbFunctions.DiffDays(c.Date, date) >= 0)).ToList();
+
+            var carParts = (from directoryCarPart in _dc.DirectoryCarParts
+                            let currentCarPart =
+                                _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
+                                    .OrderByDescending(c => c.Date)
+                                    .FirstOrDefault(c => date.Date >= c.Date)
+                            where currentCarPart != null
+                            select new ArticlePrice
+                            {
+                                CarPartId = directoryCarPart.Id,
+                                Article = directoryCarPart.Article,
+                                Mark = directoryCarPart.Mark,
+                                Description = directoryCarPart.Description,
+                                Price = directoryCarPart.IsImport ? currentCarPart.PriceBase : currentCarPart.PriceSmallWholesale.Value
+                            }).ToList();
+
+            var carPartsId = lastMonthDayRemains.Select(r => r.DirectoryCarPartId).
+                Union(containers.SelectMany(c => c.CarParts.Select(p => p.DirectoryCarPartId))).Distinct();
+
+            var carPartRemains = new List<CarPartRemain>();
+            foreach (var carPartId in carPartsId)
+            {
+                var carPart = carParts.FirstOrDefault(c => c.CarPartId == carPartId);
+                if (carPart == null)
+                {
+                    continue;
+                }
+
+                int remains = 0;
+                var lastMonthDayRemain = lastMonthDayRemains.FirstOrDefault(r => r.DirectoryCarPartId == carPartId);
+                if (lastMonthDayRemain != null)
+                {
+                    remains = lastMonthDayRemain.Count;
+                }
+
+                remains +=
+                    containers.Sum(
+                        c =>
+                            c.CarParts.Where(p => p.DirectoryCarPartId == carPartId)
+                                .Sum(c2 => (c.IsIncoming ? c2.CountCarParts : -c2.CountCarParts)));
+
+                var carPartRemain = new CarPartRemain
+                {
+                    Article = carPart.Article + carPart.Mark,
+                    Description = carPart.Description,
+                    Price = carPart.Price,
+                    Remain = remains
+                };
+
+                carPartRemains.Add(carPartRemain);
+            }
+
+            return carPartRemains;
+        }
+
+        #endregion
     }
 }

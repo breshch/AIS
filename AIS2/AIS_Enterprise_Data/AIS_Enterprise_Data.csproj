@@ -117,6 +117,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Temps\ArticlePrice.cs" />
+    <Compile Include="Temps\CarPartRemain.cs" />
     <Compile Include="Temps\CurrentCompanyAndPost.cs" />
     <Compile Include="Temps\IncomingAndExpenseAndSumm.cs" />
     <Compile Include="Temps\InfoCarPartMovement.cs" />

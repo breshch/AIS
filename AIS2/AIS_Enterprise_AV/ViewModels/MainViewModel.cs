@@ -74,9 +74,9 @@ namespace AIS_Enterprise_AV.ViewModels
             CostsExcelToDBCommand = new RelayCommand(CostsExcelToDB);
             RussiansCommand = new RelayCommand(Russians);
             ImportsCommand = new RelayCommand(Imports);
-            RemainsCommand = new RelayCommand(Remains);
             CarPartPriceRusCommand = new RelayCommand(CarPartPriceRus);
             CarPartPriceImportCommand = new RelayCommand(CarPartPriceImport);
+            CarPartRemainsToDbCommand = new RelayCommand(CarPartRemainsToDb);
 
             EnteringCommand = new RelayCommand(Entering);
 
@@ -284,9 +284,9 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand CostsExcelToDBCommand { get; set; }
         public RelayCommand RussiansCommand { get; set; }
         public RelayCommand ImportsCommand { get; set; }
-        public RelayCommand RemainsCommand { get; set; }
         public RelayCommand CarPartPriceRusCommand { get; set; }
         public RelayCommand CarPartPriceImportCommand { get; set; }
+        public RelayCommand CarPartRemainsToDbCommand { get; set; }
 
         private void RefreshDataBases(object parameter)
         {
@@ -456,21 +456,6 @@ namespace AIS_Enterprise_AV.ViewModels
             }
         }
 
-        private void Remains(object parameter)
-        {
-            BC.DataContext.DirectoryCarParts.RemoveRange(
-                BC.DataContext.DirectoryCarParts.ToList()
-                    .Where(c => c.Mark != null && c.Mark.Count() == 1 && !c.Mark.Any(m => char.IsLetter(m))));
-
-            BC.DataContext.SaveChanges();
-
-         var dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                string path = dialog.FileName;
-                ConvertingCarPartsExcelToDB.ConvertRemains(BC, path);
-            }
-        }
 
         private void CarPartPriceRus(object parameter)
         {
@@ -494,6 +479,17 @@ namespace AIS_Enterprise_AV.ViewModels
             }
         }
 
+
+        private void CarPartRemainsToDb(object parameter)
+        {
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                IsNotInitializedDB = false;
+                Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertingCarPartRemainsToDb(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
+            }
+        }
         #endregion
     }
 }

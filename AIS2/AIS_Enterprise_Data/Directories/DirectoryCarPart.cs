@@ -14,6 +14,7 @@ namespace AIS_Enterprise_Data.Directories
         public string Mark { get; set; }
         public string Description { get; set; }
         public string OriginalNumber { get; set; }
+        public bool IsImport { get; set; }
 
         public CarPartNote Note { get; set; }
 
