@@ -24,12 +24,12 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Grid.Column="0" Margin="0, 0, 10, 0">
-                <TextBlock Text="Отечека" HorizontalAlignment="Center"/>
+                <TextBlock Text="Отечка" HorizontalAlignment="Center"/>
                 <toolkit:IntegerUpDown Value="{Binding PercentageRus}" Minimum="0" Maximum="100" Margin="30, 5, 30, 0"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="10, 0, 0, 0">
-                <TextBlock Text="Иномрка" HorizontalAlignment="Center"/>
+                <TextBlock Text="Иномарка" HorizontalAlignment="Center"/>
                 <toolkit:IntegerUpDown Value="{Binding PercentageImport}" Minimum="0" Maximum="100" Margin="30, 5, 30, 0"/>
             </StackPanel>
         </Grid>
@@ -40,7 +40,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="3" Margin="0, 10, 0, 0">
-            <TextBlock Text="{Binding LastImportDate, StringFormat='Последний отеч. прайс: {0}'}"/>
+            <TextBlock Text="{Binding LastImportDate, StringFormat='Последний ином. прайс: {0}'}"/>
             <Button Content="Цены Иномарки" Command="{Binding CarPartPriceImportCommand}" Margin="0, 3"/>
         </StackPanel>
         <Button Grid.Row="4" Command="{Binding LoadingFileCommand}" Content="Выбрать накладную" Margin="0, 20, 0, 0"/>

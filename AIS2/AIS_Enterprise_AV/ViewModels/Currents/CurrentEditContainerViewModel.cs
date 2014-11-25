@@ -28,7 +28,8 @@ namespace AIS_Enterprise_AV.ViewModels.Currents
 
             Name = container.Name;
             Description = container.Description;
-            Date = container.Date;
+            DatePhysical = container.DatePhysical;
+            DateOrder = container.DateOrder;
             CurrentContainerCarParts = new ObservableCollection<CurrentContainerCarPart>(container.CarParts);
             _containerId = container.Id;
 
@@ -41,7 +42,7 @@ namespace AIS_Enterprise_AV.ViewModels.Currents
 
         private void EditContainer(object parameter)
         {
-            BC.EditInfoContainer(_containerId, Name, Description, Date, _isIncoming, CurrentContainerCarParts.ToList());
+            BC.EditInfoContainer(_containerId, Name, Description, DatePhysical, DateOrder, _isIncoming, CurrentContainerCarParts.ToList());
 
             HelperMethods.CloseWindow(parameter);
         }

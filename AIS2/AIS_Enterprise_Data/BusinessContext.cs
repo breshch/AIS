@@ -3045,32 +3045,32 @@ namespace AIS_Enterprise_Data
 
         public IEnumerable<int> GetContainerYears(bool isIncoming)
         {
-            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming).Select(c => c.Date.Year).Distinct().OrderBy(c => c);
+            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming).Select(c => c.DatePhysical.Year).Distinct().OrderBy(c => c);
         }
 
         public IEnumerable<int> GetContainerMonthes(int selectedYear, bool isIncoming)
         {
-            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.Date.Year == selectedYear).Select(c => c.Date.Month).Distinct().OrderBy(c => c);
+            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.DatePhysical.Year == selectedYear).Select(c => c.DatePhysical.Month).Distinct().OrderBy(c => c);
         }
 
         public IQueryable<InfoContainer> GetContainers(int year, int month, bool isIncoming)
         {
-            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.Date.Year == year && c.Date.Month == month).OrderBy(c => c.Date);
+            return _dc.InfoContainers.Where(c => c.IsIncoming == isIncoming && c.DatePhysical.Year == year && c.DatePhysical.Month == month).OrderBy(c => c.DatePhysical);
         }
 
         public IEnumerable<InfoContainer> GetInfoContainers(List<InfoContainer> containers)
         {
             return _dc.InfoContainers.ToList()
-                .Where(c => containers.Any(c2 => c.Name == c2.Name && c.Date.Date == c2.Date.Date
+                .Where(c => containers.Any(c2 => c.Name == c2.Name && c.DatePhysical.Date == c2.DatePhysical.Date
                                                  && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming))
                                                  .Select(c => new InfoContainer
                                                  {
                                                      Id = c.Id,
                                                      Name = c.Name,
-                                                     Date = c.Date,
+                                                     DatePhysical = c.DatePhysical,
                                                      Description = c.Description,
                                                      IsIncoming = c.IsIncoming,
-                                                     CarParts = containers.First(c2 => c.Name == c2.Name && c.Date.Date == c2.Date.Date
+                                                     CarParts = containers.First(c2 => c.Name == c2.Name && c.DatePhysical.Date == c2.DatePhysical.Date
                                                         && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming).CarParts
                                                  });
         }
@@ -3086,13 +3086,14 @@ namespace AIS_Enterprise_Data
             _dc.SaveChanges();
         }
 
-        public InfoContainer AddInfoContainer(string name, string description, DateTime date, bool isIncoming, List<CurrentContainerCarPart> carParts)
+        public InfoContainer AddInfoContainer(string name, string description, DateTime datePhysical, DateTime? dateOrder, bool isIncoming, List<CurrentContainerCarPart> carParts)
         {
             var container = new InfoContainer
             {
                 Name = name,
                 Description = description,
-                Date = date,
+                DatePhysical = datePhysical,
+                DateOrder = dateOrder,
                 IsIncoming = isIncoming,
                 CarParts = carParts.Select(c => new CurrentContainerCarPart
                 {
@@ -3107,12 +3108,13 @@ namespace AIS_Enterprise_Data
             return container;
         }
 
-        public void EditInfoContainer(int containerId, string name, string description, DateTime date, bool isIncoming, List<CurrentContainerCarPart> carParts)
+        public void EditInfoContainer(int containerId, string name, string description, DateTime datePhysical, DateTime? dateOrder, bool isIncoming, List<CurrentContainerCarPart> carParts)
         {
             var container = _dc.InfoContainers.Find(containerId);
             container.Name = name;
             container.Description = description;
-            container.Date = date;
+            container.DatePhysical = datePhysical;
+            container.DateOrder = dateOrder;
             container.IsIncoming = isIncoming;
 
             _dc.SaveChanges();
@@ -3126,13 +3128,13 @@ namespace AIS_Enterprise_Data
         public IEnumerable<InfoCarPartMovement> GetMovementsByDates(DirectoryCarPart selectedDirectoryCarPart, DateTime selectedDateFrom, DateTime selectedDateTo)
         {
             return from container in _dc.InfoContainers
-                   where DbFunctions.DiffDays(selectedDateFrom, container.Date) >= 0 && DbFunctions.DiffDays(container.Date, selectedDateTo) >= 0
+                   where DbFunctions.DiffDays(selectedDateFrom, container.DatePhysical) >= 0 && DbFunctions.DiffDays(container.DatePhysical, selectedDateTo) >= 0
                    join carPart in _dc.CurrentContainerCarParts on container.Id equals carPart.InfoContainerId
                    where carPart.DirectoryCarPartId == selectedDirectoryCarPart.Id
-                   orderby container.Date descending
+                   orderby container.DatePhysical descending
                    select new InfoCarPartMovement
                    {
-                       Date = container.Date,
+                       Date = container.DatePhysical,
                        FullDescription = container.Name + " " + container.Description,
                        Incoming = container.IsIncoming ? carPart.CountCarParts : default(int?),
                        Outcoming = !container.IsIncoming ? carPart.CountCarParts : default(int?)
@@ -3153,7 +3155,7 @@ namespace AIS_Enterprise_Data
         {
             DateTime firstDateInMonth = new DateTime(date.Year, date.Month, 1);
             var containers = _dc.InfoContainers.Include(c => c.CarParts).Where(c => c.IsIncoming == isIncoming &&
-                (DbFunctions.DiffDays(firstDateInMonth, c.Date) >= 0 && DbFunctions.DiffDays(c.Date, date) >= 0)).ToList();
+                (DbFunctions.DiffDays(firstDateInMonth, c.DatePhysical) >= 0 && DbFunctions.DiffDays(c.DatePhysical, date) >= 0)).ToList();
 
             return containers.Sum(c => c.CarParts.Where(p => p.DirectoryCarPartId == carPartId).Sum(c2 => c2.CountCarParts));
         }
@@ -3225,7 +3227,7 @@ namespace AIS_Enterprise_Data
                     let currentCarPart =
                         _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
                             .OrderByDescending(c => c.Date)
-                            .FirstOrDefault(c => date.Date >= c.Date)
+                            .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0)
                     where currentCarPart != null
                     select new ArticlePrice
                     {
@@ -3250,15 +3252,14 @@ namespace AIS_Enterprise_Data
 
             var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
 
-
             var containers = _dc.InfoContainers.Include(c => c.CarParts).Where(c =>
-                (DbFunctions.DiffDays(firstDateInMonth, c.Date) >= 0 && DbFunctions.DiffDays(c.Date, date) >= 0)).ToList();
+                (DbFunctions.DiffDays(firstDateInMonth, c.DatePhysical) >= 0 && DbFunctions.DiffDays(c.DatePhysical, date) >= 0)).ToList();
 
             var carParts = (from directoryCarPart in _dc.DirectoryCarParts
                             let currentCarPart =
                                 _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
                                     .OrderByDescending(c => c.Date)
-                                    .FirstOrDefault(c => date.Date >= c.Date)
+                                    .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0)
                             where currentCarPart != null
                             select new ArticlePrice
                             {

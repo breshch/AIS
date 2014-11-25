@@ -23,7 +23,7 @@ namespace AIS_Enterprise_AV.Infos.ViewModels
         public AddEditContainersViewModel(bool isIncoming)
         {
             _isIncoming = isIncoming;
-
+            
             Years = new ObservableCollection<int>(BC.GetContainerYears(isIncoming));
            
             if (Years.Any())
@@ -46,7 +46,6 @@ namespace AIS_Enterprise_AV.Infos.ViewModels
         #endregion
 
         #region Properties
-
         public string AddEditContainersTitle { get; set; }
 
         public ObservableCollection<int> Years { get; set; }

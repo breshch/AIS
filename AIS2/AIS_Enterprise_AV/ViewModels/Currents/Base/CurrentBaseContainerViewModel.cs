@@ -22,6 +22,8 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
         public CurrentBaseContainerViewModel(bool isIncoming)
         {
             _isIncoming = isIncoming;
+            DiscriptionTitle = isIncoming ? "Номер контейнера (SS)" : "Название клиента";
+            DatePhysicalTitle = isIncoming ? "Дата прихода" : "Дата расхода";
 
             AddCarPartCommnad = new RelayCommand(Add);
             EditCarPartCommnad = new RelayCommand(Edit, IsSelectedCarPart);
@@ -33,9 +35,12 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
         #endregion
 
         #region Properties
+        public string DiscriptionTitle { get; set; }
+        public string DatePhysicalTitle { get; set; }
 
         public string TitleContainerName { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DatePhysical { get; set; }
+        public DateTime? DateOrder { get; set; }
 
         public string Name { get; set; }
         public string  Description { get; set; }

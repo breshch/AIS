@@ -182,7 +182,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
             });
         }
 
-
         public static DateTime ConvertPriceRus(BusinessContext bc, string path)
         {
             DateTime priceDate = DateTime.Now;
@@ -352,14 +351,27 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
 
                         int indexRow = 1;
+                        int indexBaseColumn = 1;
                         while (true)
                         {
-                            var value = GetValue(sheet.Cells[indexRow, 2].Value);
-                            if (value != null && value.ToLower() == "№ fenox")
+                            bool isFound = false;
+                            for (int i = 1; i <= 50; i++)
+                            {
+                                var value = GetValue(sheet.Cells[i, indexBaseColumn].Value);
+                                if (value != null && value.ToLower() == "№ fenox")
+                                {
+                                    indexRow = i;
+                                    isFound = true;
+                                    break;
+                                }
+                            }
+
+                            if (isFound)
                             {
                                 break;
                             }
-                            indexRow++;
+
+                            indexBaseColumn++;
                         }
 
                         int factoryNumberColumn = 0;
@@ -389,6 +401,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                         break;
                                     case "цена rub":
                                     case "цена rub базовая":
+                                    case "цена базовая":
                                         priceBaseColumn = indexColumn;
                                         break;
                                 }
@@ -398,31 +411,31 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         }
 
                         indexRow++;
-                        if (GetValue(sheet.Cells[indexRow, 2].Value) == null)
+                        if (GetValue(sheet.Cells[indexRow, indexBaseColumn].Value) == null)
                         {
                             indexRow += 2;
                         }
 
-                        string number1 = GetValue(sheet.Cells[indexRow, 2].Value);
-                        string number2 = GetValue(sheet.Cells[indexRow + 1, 2].Value);
+                        string number1 = GetValue(sheet.Cells[indexRow, indexBaseColumn].Value);
+                        string number2 = GetValue(sheet.Cells[indexRow + 1, indexBaseColumn].Value);
 
                         while (!(string.IsNullOrWhiteSpace(number1) || string.IsNullOrWhiteSpace(number2)))
                         {
-                            string checkLine = GetValue(sheet.Cells[indexRow, 3].Value);
+                            string checkLine = GetValue(sheet.Cells[indexRow, indexBaseColumn + 1].Value);
 
                             if (string.IsNullOrWhiteSpace(checkLine) || checkLine == "Наименование")
                             {
                                 indexRow++;
-                                number1 = GetValue(sheet.Cells[indexRow, 2].Value);
-                                number2 = GetValue(sheet.Cells[indexRow + 1, 2].Value);
+                                number1 = GetValue(sheet.Cells[indexRow, indexBaseColumn].Value);
+                                number2 = GetValue(sheet.Cells[indexRow + 1, indexBaseColumn].Value);
                                 continue;
                             }
 
-                            string article = GetValue(sheet.Cells[indexRow, 2].Value);
-                            string description = GetValue(sheet.Cells[indexRow, 3].Value);
-                            string originalNumber = GetValue(sheet.Cells[indexRow, 4].Value);
-                            string material = GetValue(sheet.Cells[indexRow, 5].Value);
-                            string attachment = GetValue(sheet.Cells[indexRow, 6].Value);
+                            string article = GetValue(sheet.Cells[indexRow, indexBaseColumn].Value);
+                            string description = GetValue(sheet.Cells[indexRow, indexBaseColumn + 1].Value);
+                            string originalNumber = GetValue(sheet.Cells[indexRow, indexBaseColumn + 2].Value);
+                            string material = GetValue(sheet.Cells[indexRow, indexBaseColumn + 3].Value);
+                            string attachment = GetValue(sheet.Cells[indexRow, indexBaseColumn + 4].Value);
 
                             string factoryNumber = GetValue(sheet.Cells[indexRow, factoryNumberColumn].Value);
                             string crossNumber = GetValue(sheet.Cells[indexRow, crossNumberColumn].Value);
@@ -474,6 +487,22 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
         public static void ConvertingCarPartRemainsToDb(BusinessContext bc, string path)
         {
+            if (Path.GetExtension(path).Count() == 4)
+            {
+                PushButtons();
+
+                var app = new Microsoft.Office.Interop.Excel.Application();
+                var wb = app.Workbooks.Open(path);
+
+                wb.SaveAs(
+                    Filename: path + "x",
+                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+                wb.Close();
+                app.Quit();
+                File.Delete(path);
+                path += "x";
+            }
+
             var existingFile = new FileInfo(path);
 
             using (var package = new ExcelPackage(existingFile))
@@ -483,7 +512,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        var sheet = workBook.Worksheets.First(s => s.Name == "Октябрь 2014");
+                        var sheet = workBook.Worksheets.First(s => s.Name == "Сентябрь 2014");
 
                         var carParts = bc.GetDirectoryCarParts().ToList();
                         var excelCarParts = new List<DirectoryCarPart>();
@@ -496,7 +525,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             sw.WriteLine();
                         }
 
-                        var date = new DateTime(2014, 10, 01);
+                        var date = new DateTime(2014, 9, 01);
                         string article = GetValue(sheet.Cells[indexRow, 1].Value);
                         while (!string.IsNullOrWhiteSpace(article))
                         {
@@ -577,7 +606,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                                 var container = new InfoContainer
                                 {
-                                    Date = dateContainer,
+                                    DatePhysical = dateContainer,
+                                    DateOrder = dateContainer,
                                     IsIncoming = true,
                                     Name = name,
                                     Description = description,
@@ -596,9 +626,9 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             if (containerName != null)
                             {
                                 string[] lines = containerName.Split(' ');
-                                string name = lines[0];
-                                DateTime dateContainer = DateTime.Parse(lines[2].Replace(',', '.'));
-                                string description = lines.Length > 2 ? lines[3] : null;
+                                string name = lines[0].Trim(new[] { '.', ',' });
+                                DateTime dateContainer = DateTime.Parse(lines[2].Replace(',', '.').Trim(new []{'.', ','}));
+                                string description = lines.Length > 2 ? lines[3].Trim(new[] { '.', ',' }) : null;
 
                                 var containerCarParts = new List<CurrentContainerCarPart>();
                                 for (int row = 3; row < 1227; row++)
@@ -616,7 +646,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                                 var container = new InfoContainer
                                 {
-                                    Date = dateContainer,
+                                    DatePhysical = dateContainer,
+                                    DateOrder = dateContainer,
                                     IsIncoming = false,
                                     Name = name,
                                     Description = description,

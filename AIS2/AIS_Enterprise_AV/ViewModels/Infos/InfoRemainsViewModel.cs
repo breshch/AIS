@@ -36,17 +36,13 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         public ObservableCollection<DirectoryCarPart> DirectoryCarParts { get; set; }
         public string Description { get; set; }
 
-        private DirectoryCarPart _selectedDirectoryCarPart;
+        public DirectoryCarPart _selectedDirectoryCarPart;
         public DirectoryCarPart SelectedDirectoryCarPart
         {
-            get
-            {
-                return _selectedDirectoryCarPart;
-            }
+            get { return _selectedDirectoryCarPart; }
             set
             {
                 _selectedDirectoryCarPart = value;
-                RaisePropertyChanged();
 
                 Description = _selectedDirectoryCarPart.Description;
 
@@ -63,9 +59,30 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 infoCarPartRemain.Outcomings = BC.GetInfoCarPartIncomingCountTillDate(SelectedDate, _selectedDirectoryCarPart.Id, false);
 
                 infoCarPartRemain.RemainToDate = infoCarPartRemain.LastMonthDayRemain + infoCarPartRemain.Incomings - infoCarPartRemain.Outcomings;
-                
+
                 InfoCarPartRemains.Clear();
                 InfoCarPartRemains.Add(infoCarPartRemain);
+            }
+        }
+
+        private string _selectedDirectoryCarPartText;
+        public string SelectedDirectoryCarPartText
+        {
+            get
+            {
+                return _selectedDirectoryCarPartText;
+            }
+            set
+            {
+                _selectedDirectoryCarPartText = value;
+                RaisePropertyChanged();
+
+                var carPart = DirectoryCarParts.FirstOrDefault(c => c.FullCarPartName.ToLower() == _selectedDirectoryCarPartText.ToLower());
+
+                if (carPart != null)
+                {
+                    SelectedDirectoryCarPart = carPart;
+                }
             }
         }
 

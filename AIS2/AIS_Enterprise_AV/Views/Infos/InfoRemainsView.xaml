@@ -31,7 +31,8 @@
                 
                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20, 0, 0, 0">
                     <TextBlock Text="Артикул"/>
-                    <ComboBox ItemsSource="{Binding DirectoryCarParts}" DisplayMemberPath="FullCarPartName" SelectedItem="{Binding SelectedDirectoryCarPart}" IsEditable="True" Width="150" Margin="0, 5, 0, 0"/>
+                    <ComboBox ItemsSource="{Binding DirectoryCarParts}" DisplayMemberPath="FullCarPartName" 
+                              Text="{Binding SelectedDirectoryCarPartText}" IsEditable="True" Width="150" Margin="0, 5, 0, 0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Vertical" Margin="20, 0, 0, 0">

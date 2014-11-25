@@ -20,7 +20,8 @@ namespace AIS_Enterprise_AV.ViewModels.Currents
         {
             TitleContainerName = "Добавление контейнера";
             ButtonAddEditContainerName = "Добавить контейнер";
-            Date = DateTime.Now;
+            DatePhysical = DateTime.Now;
+            DateOrder = DateTime.Now;
 
             AddEditConteinerCommand = new RelayCommand(AddContainer, IsAnyCarParts);
         }
@@ -31,7 +32,7 @@ namespace AIS_Enterprise_AV.ViewModels.Currents
 
         private void AddContainer(object parameter)
         {
-            BC.AddInfoContainer(Name, Description, Date, _isIncoming, CurrentContainerCarParts.ToList());
+            BC.AddInfoContainer(Name, Description, DatePhysical, DateOrder, _isIncoming, CurrentContainerCarParts.ToList());
 
             HelperMethods.CloseWindow(parameter);
         }
