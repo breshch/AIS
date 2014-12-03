@@ -26,6 +26,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
     {
         public static void ConvertImport(BusinessContext bc, string path)
         {
+            path = Reports.Helpers.ConvertXlsToXlsx(path);
+
             var existingFile = new FileInfo(path);
 
             using (var package = new ExcelPackage(existingFile))
@@ -73,6 +75,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
         public static void ConvertRussian(BusinessContext bc, string path)
         {
+            path = Reports.Helpers.ConvertXlsToXlsx(path);
+
             var existingFile = new FileInfo(path);
 
             using (var package = new ExcelPackage(existingFile))
@@ -133,74 +137,11 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
             }
         }
 
-        private const int WM_CLOSE = 16;
-        private const uint WM_COMMAND = 0x0111;
-        private const int BN_CLICKED = 245;
-        private const int IDOK = 1;
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
-
-        //[DllImport("coredll.dll")]
-        //private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SendMessage(IntPtr hWnd, uint msg, int wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        private static void PushButtons()
-        {
-            Task.Factory.StartNew(() =>
-            {
-                bool isFirst = false;
-                while (true)
-                {
-                    IntPtr hwnd;
-                    IntPtr hwndChild = IntPtr.Zero;
-
-                    //Get a handle for the Calculator Application main window
-                    hwnd = FindWindow(null, "Microsoft Excel");
-                    if (hwnd != IntPtr.Zero)
-                    {
-                        SetForegroundWindow(hwnd);
-                        SendKeys.SendWait("{ENTER}");
-
-                        if (isFirst)
-                        {
-                            break;
-                        }
-                        isFirst = true;
-                    }
-
-                    Thread.Sleep(500);
-                }
-            });
-        }
-
         public static DateTime ConvertPriceRus(BusinessContext bc, string path)
         {
+            path = Reports.Helpers.ConvertXlsToXlsx(path);
+
             DateTime priceDate = DateTime.Now;
-
-            if (Path.GetExtension(path).Count() == 4)
-            {
-                PushButtons();
-
-                var app = new Microsoft.Office.Interop.Excel.Application();
-                var wb = app.Workbooks.Open(path);
-
-                wb.SaveAs(
-                    Filename: path + "x",
-                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
-                wb.Close();
-                app.Quit();
-                File.Delete(path);
-                path += "x";
-            }
 
             var existingFile = new FileInfo(path);
             using (var package = new ExcelPackage(existingFile))
@@ -309,23 +250,9 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
         public static DateTime ConvertPriceImport(BusinessContext bc, string path)
         {
+            path = Reports.Helpers.ConvertXlsToXlsx(path);
+
             DateTime priceDate = DateTime.Now;
-
-            if (Path.GetExtension(path).Count() == 4)
-            {
-                PushButtons();
-
-                var app = new Microsoft.Office.Interop.Excel.Application();
-                var wb = app.Workbooks.Open(path);
-
-                wb.SaveAs(
-                    Filename: path + "x",
-                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
-                wb.Close();
-                app.Quit();
-                File.Delete(path);
-                path += "x";
-            }
 
             var existingFile = new FileInfo(path);
 
@@ -487,21 +414,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
         public static void ConvertingCarPartRemainsToDb(BusinessContext bc, string path)
         {
-            if (Path.GetExtension(path).Count() == 4)
-            {
-                PushButtons();
-
-                var app = new Microsoft.Office.Interop.Excel.Application();
-                var wb = app.Workbooks.Open(path);
-
-                wb.SaveAs(
-                    Filename: path + "x",
-                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
-                wb.Close();
-                app.Quit();
-                File.Delete(path);
-                path += "x";
-            }
+            path = Reports.Helpers.ConvertXlsToXlsx(path);
 
             var existingFile = new FileInfo(path);
 
@@ -512,7 +425,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        var sheet = workBook.Worksheets.First(s => s.Name == "Сентябрь 2014");
+                        var sheet = workBook.Worksheets.First(s => s.Name == "Ноябрь 2014");
 
                         var carParts = bc.GetDirectoryCarParts().ToList();
                         var excelCarParts = new List<DirectoryCarPart>();

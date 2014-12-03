@@ -1,4 +1,6 @@
 ﻿using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 using AIS_Enterprise_Data;
 using OfficeOpenXml;
 using System;
@@ -156,9 +158,56 @@ namespace AIS_Enterprise_AV.Reports
             CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
         }
 
-        public static bool Unlocker(string path)
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private static void PushButtons()
         {
-            return DeleteFile(path + ":Zone.Identifier");
+            Task.Factory.StartNew(() =>
+            {
+                bool isFirst = false;
+                while (true)
+                {
+                    var hwnd = FindWindow(null, "Microsoft Excel");
+                    if (hwnd != IntPtr.Zero)
+                    {
+                        SetForegroundWindow(hwnd);
+                        SendKeys.SendWait("{ENTER}");
+
+                        if (isFirst)
+                        {
+                            break;
+                        }
+                        isFirst = true;
+                    }
+
+                    Thread.Sleep(500);
+                }
+            });
+        }
+
+        public static string ConvertXlsToXlsx(string path)
+        {
+            if (Path.GetExtension(path).Count() == 4)
+            {
+                PushButtons();
+
+                var app = new Microsoft.Office.Interop.Excel.Application();
+                var wb = app.Workbooks.Open(path);
+
+                wb.SaveAs(
+                    Filename: path + "x",
+                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+                wb.Close();
+                app.Quit();
+                File.Delete(path);
+                path += "x";
+            }
+
+            return path;
         }
     }
 }
