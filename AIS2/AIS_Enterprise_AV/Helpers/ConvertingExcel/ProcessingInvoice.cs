@@ -143,6 +143,7 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
             Reports.Helpers.CreateCell(sheet, 3, 5, "Количество", Color.Transparent);
             Reports.Helpers.CreateCell(sheet, 3, 6, "Итого", Color.Transparent);
 
+            double totalSumPrice = 0;
             int index = 4;
             foreach (var invoice in invoices)
             {
@@ -156,8 +157,12 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
                 Reports.Helpers.CreateCell(sheet, index, 5, invoice.Count, Color.Transparent);
                 Reports.Helpers.CreateCell(sheet, index, 6, (invoice.Count * pricePercentage).ToString("N2"), Color.Transparent);
 
+                totalSumPrice += (invoice.Count*pricePercentage);
+
                 index++;
             }
+
+            Reports.Helpers.CreateCell(sheet, index, 6, totalSumPrice.ToString("N2"), Color.Transparent);
         }
 
     }
