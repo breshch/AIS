@@ -90,6 +90,8 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
                 {
                     string path = openDialog.FileName;
 
+                    path = Reports.Helpers.ConvertXlsToXlsx(path);
+
                     var invoices = ProcessingInvoice.Procesing(BC, path, PercentageRus, PercentageImport);
                     ProcessingInvoice.ComplitedCompliteInvoice(path, PercentageRus, PercentageImport, invoices);
 
@@ -121,8 +123,11 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
                         var extension = Path.GetExtension(path);
                         if (extension == ".xls" || extension == ".xlsx")
                         {
-                            var invoices = ProcessingInvoice.Procesing(BC, path, PercentageRus, PercentageImport);
-                            ProcessingInvoice.ComplitedCompliteInvoice(path, PercentageRus, PercentageImport, invoices);
+                            string pathFile = path;
+                            pathFile = Reports.Helpers.ConvertXlsToXlsx(path);
+
+                            var invoices = ProcessingInvoice.Procesing(BC, pathFile, PercentageRus, PercentageImport);
+                            ProcessingInvoice.ComplitedCompliteInvoice(pathFile, PercentageRus, PercentageImport, invoices);
                         }
                     }
 

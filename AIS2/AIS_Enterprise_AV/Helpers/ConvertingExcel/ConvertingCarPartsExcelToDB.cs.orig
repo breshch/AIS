@@ -439,9 +439,13 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
+<<<<<<< HEAD
                         foreach (var month in monthes)
                         {
                             var sheet = workBook.Worksheets.First(s => s.Name == month.Key);
+=======
+                        var sheet = workBook.Worksheets.First(s => s.Name == "Ноябрь 2014");
+>>>>>>> 1dce0ed41ac48f7b2c63d3c49b181b8468a1f44f
 
                             var carParts = bc.GetDirectoryCarParts().ToList();
                             var excelCarParts = new List<DirectoryCarPart>();
