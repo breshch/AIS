@@ -1533,6 +1533,8 @@ namespace AIS_Enterprise_AV.Views
                    CashReports.Expense26(BC, SelectedYear, SelectedMonth);
 
                    CashReports.ExpenseRCs(BC, SelectedYear, SelectedMonth);
+
+                   CashReports.ExpensePAM16(BC, SelectedYear, SelectedMonth);
                },
                (BC) => BC.GetInfoCostYears().OrderBy(y => y).ToList(),
                (BC, year) => BC.GetInfoCostMonthes(year).OrderBy(m => m).ToList()
@@ -1620,6 +1622,11 @@ namespace AIS_Enterprise_AV.Views
         private void MenuReportCars_Click(object sender, RoutedEventArgs e)
         {
             HelperMethods.ShowView(new FromToDatesReportViewModel(), new FromToDatesReportView());
+        }
+
+        private void MenuReportPAM16Percentage_OnClick(object sender, RoutedEventArgs e)
+        {
+            HelperMethods.ShowView(new Pam16PercentageViewModel(), new Pam16PercentageView());
         }
     }
 }

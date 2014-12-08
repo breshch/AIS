@@ -1563,8 +1563,17 @@ namespace AIS_Enterprise_Data
 
         public T GetParameterValue<T>(ParameterType parameterType)
         {
-            var parameter = _dc.Parameters.First(p => p.Name == parameterType.ToString());
-            _dc.Entry<Parameter>(parameter).Reload();
+            var parameter = _dc.Parameters.FirstOrDefault(p => p.Name == parameterType.ToString());
+            if (parameter == null)
+            {
+                parameter = _dc.Parameters.Add(new Parameter
+                {
+                    Name = parameterType.ToString(),
+                    Value = default(T).ToString()
+                });
+                _dc.SaveChanges();
+            }
+            _dc.Entry(parameter).Reload();
 
             string value = parameter.Value;
 

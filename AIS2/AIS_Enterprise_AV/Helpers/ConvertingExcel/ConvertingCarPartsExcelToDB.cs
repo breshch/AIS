@@ -505,6 +505,20 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
             var existingFile = new FileInfo(path);
 
+            var monthes = new Dictionary<string, int>
+            {
+                { "Январь 2014", 1 },
+                { "Февраль 2014", 2 },
+                { "Март 2014", 3 },
+                { "Апрель 2014", 4 },
+                { "Май 2014", 5 },
+                { "Июнь 2014", 6 },
+                { "Июль 2014", 7 },
+                { "Август 2014", 8 },
+                { "Сентябрь 2014", 9 },
+                { "Октябрь 2014", 10 },
+            };
+
             using (var package = new ExcelPackage(existingFile))
             {
                 var workBook = package.Workbook;
@@ -512,167 +526,190 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        var sheet = workBook.Worksheets.First(s => s.Name == "Сентябрь 2014");
-
-                        var carParts = bc.GetDirectoryCarParts().ToList();
-                        var excelCarParts = new List<DirectoryCarPart>();
-                        var excelRemains = new List<InfoLastMonthDayRemain>();
-
-                        int indexRow = 3;
-
-                        using (var sw = new StreamWriter("articles.txt"))
+                        foreach (var month in monthes)
                         {
-                            sw.WriteLine();
-                        }
+                            var sheet = workBook.Worksheets.First(s => s.Name == month.Key);
 
-                        var date = new DateTime(2014, 9, 01);
-                        string article = GetValue(sheet.Cells[indexRow, 1].Value);
-                        while (!string.IsNullOrWhiteSpace(article))
-                        {
-                            int indexDigit = -1;
-                            for (int i = 0; i < article.Length; i++)
+                            var carParts = bc.GetDirectoryCarParts().ToList();
+                            var excelCarParts = new List<DirectoryCarPart>();
+                            var excelRemains = new List<InfoLastMonthDayRemain>();
+
+                            int indexRow = 3;
+
+                            using (var sw = new StreamWriter("articles.txt"))
                             {
-                                if (char.IsDigit(article[i]))
-                                {
-                                    indexDigit = i;
-                                }
-                                else if (char.IsLetter(article[i]) && indexDigit != -1)
-                                {
-                                    indexDigit = i - 1;
-                                    break;
-                                }
+                                sw.WriteLine();
                             }
 
-                            string newArticle = article.Substring(0, indexDigit + 1);
-                            string mark = indexDigit != (article.Length - 1)
-                                ? article.Substring(indexDigit + 1)
-                                : null;
-
-
-                            var equalCarPart = carParts.FirstOrDefault(p => ((p.Article + p.Mark) == article) ||
-                                (p.Mark == null && p.Article == newArticle));
-                            if (equalCarPart == null)
+                            var date = new DateTime(2014, month.Value, 01);
+                            string article = GetValue(sheet.Cells[indexRow, 1].Value);
+                            while (!string.IsNullOrWhiteSpace(article))
                             {
-                                equalCarPart = bc.AddDirectoryCarPart(newArticle, mark, GetValue(sheet.Cells[indexRow, 5].Value),
-                                    null, null, null, null, null, null, string.IsNullOrWhiteSpace(mark));
-
-                                using (var sw = new StreamWriter("articles.txt", true))
+                                int indexDigit = -1;
+                                for (int i = 0; i < article.Length; i++)
                                 {
-                                    sw.WriteLine(equalCarPart.Article + equalCarPart.Mark);
-                                }
-                            }
-
-                            int remain = int.Parse(GetValue(sheet.Cells[indexRow, 6].Value));
-
-                            excelCarParts.Add(equalCarPart);
-                            excelRemains.Add(new InfoLastMonthDayRemain
-                            {
-                                Count = remain,
-                                DirectoryCarPartId = equalCarPart.Id,
-                                Date = date
-                            });
-
-                            indexRow++;
-                            article = GetValue(sheet.Cells[indexRow, 1].Value);
-                        }
-
-                        int indexColumn = 7;
-
-                        var containers = new List<InfoContainer>();
-
-                        while (GetValue(sheet.Cells[2, indexColumn].Value) != "И того приход")
-                        {
-                            var containerName = GetValue(sheet.Cells[2, indexColumn].Value);
-                            if (containerName != null)
-                            {
-                                string[] lines = containerName.Split(' ');
-                                string name = lines[0];
-                                DateTime dateContainer = DateTime.Parse(lines[2].Replace(',', '.'));
-                                string description = lines.Length > 2 ? lines[3] : null;
-
-                                var containerCarParts = new List<CurrentContainerCarPart>();
-                                for (int row = 3; row < 1227; row++)
-                                {
-                                    var countCarPart = GetValue(sheet.Cells[row, indexColumn].Value);
-                                    if (countCarPart != null)
+                                    if (char.IsDigit(article[i]))
                                     {
-                                        containerCarParts.Add(new CurrentContainerCarPart
-                                        {
-                                            CountCarParts = int.Parse(countCarPart),
-                                            DirectoryCarPartId = excelCarParts[row - 3].Id
-                                        });
+                                        indexDigit = i;
+                                    }
+                                    else if (char.IsLetter(article[i]) && indexDigit != -1)
+                                    {
+                                        indexDigit = i - 1;
+                                        break;
                                     }
                                 }
 
-                                var container = new InfoContainer
+                                string newArticle = article.Substring(0, indexDigit + 1);
+                                string mark = indexDigit != (article.Length - 1)
+                                    ? article.Substring(indexDigit + 1)
+                                    : null;
+
+
+                                var equalCarPart = carParts.FirstOrDefault(p => ((p.Article + p.Mark) == article) ||
+                                                                                (p.Mark == null &&
+                                                                                 p.Article == newArticle));
+                                if (equalCarPart == null)
                                 {
-                                    DatePhysical = dateContainer,
-                                    DateOrder = dateContainer,
-                                    IsIncoming = true,
-                                    Name = name,
-                                    Description = description,
-                                    CarParts = containerCarParts
-                                };
-                               containers.Add(container); 
-                            }
-                            indexColumn++;
-                        }
+                                    equalCarPart = bc.AddDirectoryCarPart(newArticle, mark,
+                                        GetValue(sheet.Cells[indexRow, 5].Value),
+                                        null, null, null, null, null, null, string.IsNullOrWhiteSpace(mark));
 
-                        indexColumn++;
-
-                        while (GetValue(sheet.Cells[2, indexColumn].Value) != "Расход")
-                        {
-                            var containerName = GetValue(sheet.Cells[2, indexColumn].Value);
-                            if (containerName != null)
-                            {
-                                string[] lines = containerName.Split(' ');
-                                string name = lines[0].Trim(new[] { '.', ',' });
-                                DateTime dateContainer = DateTime.Parse(lines[2].Replace(',', '.').Trim(new []{'.', ','}));
-                                string description = lines.Length > 2 ? lines[3].Trim(new[] { '.', ',' }) : null;
-
-                                var containerCarParts = new List<CurrentContainerCarPart>();
-                                for (int row = 3; row < 1227; row++)
-                                {
-                                    var countCarPart = GetValue(sheet.Cells[row, indexColumn].Value);
-                                    if (countCarPart != null)
+                                    using (var sw = new StreamWriter("articles.txt", true))
                                     {
-                                        containerCarParts.Add(new CurrentContainerCarPart
-                                        {
-                                            CountCarParts = int.Parse(countCarPart),
-                                            DirectoryCarPartId = excelCarParts[row - 3].Id,
-                                        });
+                                        sw.WriteLine(equalCarPart.Article + equalCarPart.Mark);
                                     }
                                 }
 
-                                var container = new InfoContainer
+                                int remain = int.Parse(GetValue(sheet.Cells[indexRow, 6].Value) ?? "0");
+
+                                excelCarParts.Add(equalCarPart);
+                                excelRemains.Add(new InfoLastMonthDayRemain
                                 {
-                                    DatePhysical = dateContainer,
-                                    DateOrder = dateContainer,
-                                    IsIncoming = false,
-                                    Name = name,
-                                    Description = description,
-                                    CarParts = containerCarParts
-                                };
-                                containers.Add(container);
+                                    Count = remain,
+                                    DirectoryCarPartId = equalCarPart.Id,
+                                    Date = date
+                                });
+
+                                indexRow++;
+                                article = GetValue(sheet.Cells[indexRow, 1].Value);
                             }
-                            indexColumn++;
-                        }
 
-                        bc.DataContext.BulkInsert(excelRemains);
-                        bc.DataContext.BulkInsert(containers);
-                        
-                        var containersDB = bc.GetInfoContainers(containers).ToList();
+                            int indexColumn = 7;
 
-                        foreach (var container in containersDB)
-                        {
-                            var c = container;
+                            var containers = new List<InfoContainer>();
 
-                            bc.DataContext.BulkInsert(c.CarParts.Select(p => new CurrentContainerCarPart
+                            while (GetValue(sheet.Cells[2, indexColumn].Value) != "И того приход")
                             {
-                                CountCarParts = p.CountCarParts,
-                                DirectoryCarPartId = p.DirectoryCarPartId,
-                                InfoContainerId = c.Id
-                            }));
+                                var containerName = GetValue(sheet.Cells[2, indexColumn].Value);
+                                if (containerName != null)
+                                {
+                                    if (!containerName.Contains("от"))
+                                    {
+                                        indexColumn++;
+                                        continue;
+                                    }
+                                    string name = containerName.Substring(0, containerName.IndexOf("от")).Trim();
+                                    DateTime dateContainer = DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3,
+                                        containerName.IndexOf(" ", containerName.IndexOf("от") + 3) - (containerName.IndexOf("от") + 3))
+                                        .Replace(",", ".").Trim(new[] { ' ', '.' }));
+                                    string description = containerName.Substring(containerName.IndexOf("от") + 11).Replace(",", " ").Trim();
+
+                                    var containerCarParts = new List<CurrentContainerCarPart>();
+                                    for (int row = 3; row < 1227; row++)
+                                    {
+                                        var countCarPart = GetValue(sheet.Cells[row, indexColumn].Value);
+                                        if (countCarPart != null)
+                                        {
+                                            containerCarParts.Add(new CurrentContainerCarPart
+                                            {
+                                                CountCarParts = int.Parse(countCarPart),
+                                                DirectoryCarPartId = excelCarParts[row - 3].Id
+                                            });
+                                        }
+                                    }
+
+                                    var container = new InfoContainer
+                                    {
+                                        DatePhysical = dateContainer,
+                                        DateOrder = dateContainer,
+                                        IsIncoming = true,
+                                        Name = name,
+                                        Description = description,
+                                        CarParts = containerCarParts
+                                    };
+                                    containers.Add(container);
+                                }
+                                indexColumn++;
+                            }
+
+                            indexColumn++;
+
+                            while (GetValue(sheet.Cells[2, indexColumn].Value) != "Расход")
+                            {
+                                var containerName = GetValue(sheet.Cells[2, indexColumn].Value);
+                                if (containerName != null)
+                                {
+                                    if (!containerName.Contains("от"))
+                                    {
+                                        indexColumn++;
+                                        continue;
+                                    }
+                                    string name = containerName.Substring(0, containerName.IndexOf("от")).Trim();
+                                    DateTime dateContainer =
+                                        DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3,
+                                            containerName.IndexOf(" ", containerName.IndexOf("от") + 3) -
+                                            (containerName.IndexOf("от") + 3))
+                                            .Replace(",", ".").Trim(new[] { ' ', '.' }));
+                                    string description =
+                                        containerName.Substring(containerName.IndexOf("от") + 11)
+                                            .Replace(",", " ")
+                                            .Trim();
+
+                                    var containerCarParts = new List<CurrentContainerCarPart>();
+                                    for (int row = 3; row < 1227; row++)
+                                    {
+                                        var countCarPart = GetValue(sheet.Cells[row, indexColumn].Value);
+                                        if (countCarPart != null)
+                                        {
+                                            containerCarParts.Add(new CurrentContainerCarPart
+                                            {
+                                                CountCarParts = int.Parse(countCarPart),
+                                                DirectoryCarPartId = excelCarParts[row - 3].Id,
+                                            });
+                                        }
+                                    }
+
+
+                                    var container = new InfoContainer
+                                    {
+                                        DatePhysical = dateContainer,
+                                        DateOrder = dateContainer,
+                                        IsIncoming = false,
+                                        Name = name,
+                                        Description = description,
+                                        CarParts = containerCarParts
+                                    };
+                                    containers.Add(container);
+                                }
+                                indexColumn++;
+                            }
+
+                            bc.DataContext.BulkInsert(excelRemains);
+                            bc.DataContext.BulkInsert(containers);
+
+                            var containersDB = bc.GetInfoContainers(containers).ToList();
+
+                            foreach (var container in containersDB)
+                            {
+                                var c = container;
+
+                                bc.DataContext.BulkInsert(c.CarParts.Select(p => new CurrentContainerCarPart
+                                {
+                                    CountCarParts = p.CountCarParts,
+                                    DirectoryCarPartId = p.DirectoryCarPartId,
+                                    InfoContainerId = c.Id
+                                }));
+                            }
                         }
                     }
                 }

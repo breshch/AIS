@@ -66,6 +66,7 @@
             <MenuItem x:Name="MenuReports" Header="Отчёты" Visibility="Collapsed">
                 <MenuItem x:Name="MenuReportSalaryPrint" Header="Зарплата печать" Click="MenuReportSalaryPrint_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuReportSalaryMinsk" Header="Зарплата Минск" Click="MenuReportSalaryMinsk_Click"  Visibility="Collapsed"/>
+                <MenuItem x:Name="MenuReportPam16Percentage" Header="Проценты ПАМ-16" Click="MenuReportPAM16Percentage_OnClick"  Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuReportCosts" Header="Затраты" Click="MenuReportCosts_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuReportCash" Header="Касса" Click="MenuReportCash_Click"  Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuReportCars" Header="Машины" Click="MenuReportCars_Click"  Visibility="Collapsed"/>

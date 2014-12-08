@@ -34,12 +34,15 @@ namespace AIS_Enterprise_AV.Reports
         private const string FOOTER_RC_SU_APEL = "Зам. руководителя ";
         private const string FOOTER_26_APEL = "Заместитель директора по Маркетингу";
         private const string OFFICE_NAME = "(26А)";
+        private const string RC_PAM16 = "(PAM-16)";
         private const string OFFICE_HEADER_INCOMING_FULL_NAME = "26А/5013";
 
         private const string FOOTER_RC_KO2_APEL_NAME = "Бобров.А.Г";
         private const string FOOTER_RC_ALL_APEL_NAME = "Голоколенко.В";
         private const string FOOTER_26_APEL_NAME = "Жилинский Е.В.";
         private const string FOOTER_RC_PAM16_APEL_NAME = "Михеенко А.";
+
+        private static double _pam16Percentage = 5.3;
 
 
         public static void IncomingRC(DirectoryRC rc, BusinessContext bc, int year, int month)
@@ -75,6 +78,15 @@ namespace AIS_Enterprise_AV.Reports
             Helpers.CompletedReport(path, new List<Action<ExcelPackage>>
                 {
                     (ep) => Expense26Report(ep, bc, year, month),
+                });
+        }
+
+        public static void ExpensePAM16(BusinessContext bc, int year, int month)
+        {
+            string path = Path.Combine(PATH_DIRECTORY_COST_REPORTS, PATH_EXPENSE_REPORT + " " + RC_PAM16 + " " + month + "." + year + ".xlsx");
+            Helpers.CompletedReport(path, new List<Action<ExcelPackage>>
+                {
+                    (ep) => ExpensePAM16Report(ep, bc, year, month),
                 });
         }
 
@@ -235,6 +247,44 @@ namespace AIS_Enterprise_AV.Reports
             Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
         }
 
+        private static void ExpensePAM16Report(ExcelPackage ep, BusinessContext bc, int year, int month)
+        {
+            string name = PATH_EXPENSE_REPORT + " " + RC_PAM16;
+            var sheet = Helpers.GetSheet(ep, name);
+
+            int indexRow = 1;
+
+            sheet.View.ShowGridLines = false;
+
+            sheet.Column(1).Width = Helpers.PixelsToInches(330);
+            sheet.Column(2).Width = Helpers.PixelsToInches(450);
+
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow++;
+
+            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow += 7;
+
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            indexRow += 2;
+
+            var sumAll = bc.GetInfoCosts(year, month)
+                .Where(c => !c.IsIncoming && c.DirectoryRC.Name == "ВСЕ")
+                .Sum(c => c.Summ);
+
+            string context = "Прошу снять из кассы АВ следующую сумму: " + (sumAll * _pam16Percentage / 100).ToString("N2") + 
+                " р., состоящую из " + _pam16Percentage + " процентов от всех затрат в размере " + sumAll.ToString("N2") + 
+                " р. – и поставить в затрату проекту ПАМ-16 (Кедр).";
+
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, context,
+                        Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+
+            indexRow += 6;
+
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+        }
+
         private static void ExpenseRCsReport(ExcelPackage ep, BusinessContext bc, int year, int month)
         {
             string name = PATH_EXPENSES_REPORT;
@@ -307,7 +357,7 @@ namespace AIS_Enterprise_AV.Reports
 
                     double costItemExpenseSummAll = Math.Round(infoCostsCostItem.Where(c => c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * rc.Percentes / 100, 0);
                     double costItemIncomingSummAll = Math.Round(infoCosts.Where(c => c.IsIncoming && c.DirectoryCostItem.Name == costItemName && c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * rc.Percentes / 100, 0);
-                    double costItemRCSummAll = costItemExpenseSummAll - costItemIncomingSummAll;
+                    double costItemRCSummAll = (costItemExpenseSummAll - costItemIncomingSummAll) * (100 - _pam16Percentage) / 100;
                     string costItemRCSummAllString = costItemRCSummAll != 0 ? Converting.DoubleToCurrency(costItemRCSummAll, Currency.RUR) : "";
 
                     Helpers.CreateCell(sheet, indexRow, 3, costItemRCSummAllString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
@@ -315,7 +365,6 @@ namespace AIS_Enterprise_AV.Reports
 
                     double commonCostItemSumm = costItemRCSumm + costItemRCSummAll;
                     string commonCostItemSummString = commonCostItemSumm != 0 ? Converting.DoubleToCurrency(commonCostItemSumm, Currency.RUR) : "";
-
 
                     Helpers.CreateCell(sheet, indexRow, 4, commonCostItemSummString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 

@@ -18,10 +18,7 @@ namespace AIS_Enterprise_AV.Reports
             string path = Path.Combine(Environment.SpecialFolder.Desktop.ToString(), "Залог остатки" + date.ToShortDateString() +".xlsx");
             Helpers.CompletedReport(path, new List<Action<ExcelPackage>>
                 {
-                    (ep) =>
-                    {
-                        LoanRemainsToDate(ep, bc, date);    
-                    }
+                    (ep) => LoanRemainsToDate(ep, bc, date)
                 });
         }
 
@@ -42,7 +39,7 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRow, 1, carPartRemain.Article, Color.Transparent);
                 Helpers.CreateCell(sheet, indexRow, 2, carPartRemain.Description, Color.Transparent);
                 Helpers.CreateCell(sheet, indexRow, 3, carPartRemain.Remain, Color.Transparent);
-                Helpers.CreateCell(sheet, indexRow, 4, carPartRemain.Price, Color.Transparent);
+                Helpers.CreateCell(sheet, indexRow, 4, carPartRemain.Price.ToString("N2")+" р.", Color.Transparent);
                 
                 indexRow++;
             }

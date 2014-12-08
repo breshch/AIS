@@ -174,6 +174,7 @@
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
     <Compile Include="ViewModels\Directories\AddDirectoryCarPartViewModel.cs" />
     <Compile Include="ViewModels\Directories\CurrentTemporaryPostViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\Pam16PercentageViewModel.cs" />
     <Compile Include="ViewModels\Helpers\PickDateReportViewModel.cs" />
     <Compile Include="ViewModels\Helpers\PercentageProcessingBookKeepingViewModel.cs" />
     <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
@@ -372,6 +373,9 @@
     </Compile>
     <Compile Include="Views\Infos\InfoBudgetView.xaml.cs">
       <DependentUpon>InfoBudgetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\Pam16PercentageView.xaml.cs">
+      <DependentUpon>Pam16PercentageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainProjectChoiseView.xaml.cs">
       <DependentUpon>MainProjectChoiseView.xaml</DependentUpon>
@@ -601,6 +605,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\InfoBudgetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Helpers\Pam16PercentageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

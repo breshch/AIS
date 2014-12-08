@@ -36,6 +36,7 @@ namespace AIS_Enterprise_Global.Helpers
         MenuVisibility_Costs_Safe,
         MenuVisibility_Reports_ReportSalaryPrint,
         MenuVisibility_Reports_ReportSalaryMinsk,
+        MenuVisibility_Reports_ReportPam16Percentage,
         MenuVisibility_Reports_ReportCosts,
         MenuVisibility_Reports_ReportCash,
         MenuVisibility_Reports_ReportCars,
@@ -134,6 +135,7 @@ namespace AIS_Enterprise_Global.Helpers
         LastImportDate,
         Birthday,
         LastDate,
-        DefaultCostsDate
+        DefaultCostsDate,
+        Pam16Percentage
     }
 }
