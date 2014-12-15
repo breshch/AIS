@@ -29,7 +29,8 @@ namespace AIS_Enterprise_AV.Reports
             Helpers.CreateCell(sheet, 1, 1, "Артикул", Color.Transparent);
             Helpers.CreateCell(sheet, 1, 2, "Описание", Color.Transparent);
             Helpers.CreateCell(sheet, 1, 3, "Остаток на дату", Color.Transparent);
-            Helpers.CreateCell(sheet, 1, 4, "Цена", Color.Transparent);
+            Helpers.CreateCell(sheet, 1, 4, "Цена RUR", Color.Transparent);
+            Helpers.CreateCell(sheet, 1, 5, "Цена USD", Color.Transparent);
 
             var carPartRemains = bc.GetRemainsToDate(date);
 
@@ -39,7 +40,10 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRow, 1, carPartRemain.Article, Color.Transparent);
                 Helpers.CreateCell(sheet, indexRow, 2, carPartRemain.Description, Color.Transparent);
                 Helpers.CreateCell(sheet, indexRow, 3, carPartRemain.Remain, Color.Transparent);
-                Helpers.CreateCell(sheet, indexRow, 4, carPartRemain.Price.ToString("N2")+" р.", Color.Transparent);
+                Helpers.CreateCell(sheet, indexRow, 4, carPartRemain.PriceRUR.ToString("N2")+" р.", Color.Transparent);
+                Helpers.CreateCell(sheet, indexRow, 5, (carPartRemain.PriceUSD != null 
+                    ? carPartRemain.PriceUSD.Value.ToString("N2") 
+                    : "0") +" $.", Color.Transparent);
                 
                 indexRow++;
             }

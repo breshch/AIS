@@ -24,10 +24,12 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             CarPartPriceImportCommand = new RelayCommand(CarPartPriceImport);
             LoadingFileCommand = new RelayCommand(LoadingFile);
             LoadingFolderCommand = new RelayCommand(LoadingFolder);
-
             
             PercentageRus = BC.GetParameterValue<int>(ParameterType.PercentageRusBookKeeping);
             PercentageImport = BC.GetParameterValue<int>(ParameterType.PercentageImportBookKeeping);
+
+            Currencies = Enum.GetValues(typeof(Currency)).Cast<Currency>().ToList();
+            SelectedCurrency = Currency.RUR;
 
             LastRusDate = BC.GetParameterValue<string>(ParameterType.LastRusDate);
             LastImportDate = BC.GetParameterValue<string>(ParameterType.LastImportDate);
@@ -44,7 +46,8 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         public int PercentageImport { get; set; }
         public string LastRusDate { get; set; }
         public string LastImportDate { get; set; }
-
+        public List<Currency> Currencies  { get; set; }
+        public Currency SelectedCurrency { get; set; }
 
         #endregion
 
@@ -63,7 +66,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string path = dialog.FileName;
-                var priceDate = ConvertingCarPartsExcelToDB.ConvertPriceRus(BC, path);
+                var priceDate = ConvertingCarPartsExcelToDB.ConvertPriceRus(BC, path, SelectedCurrency);
                 BC.EditParameter(ParameterType.LastRusDate, priceDate.ToShortDateString());
                 LastRusDate = priceDate.ToShortDateString();
             }
@@ -75,7 +78,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string path = dialog.FileName;
-                var priceDate = ConvertingCarPartsExcelToDB.ConvertPriceImport(BC, path);
+                var priceDate = ConvertingCarPartsExcelToDB.ConvertPriceImport(BC, path, SelectedCurrency);
                 BC.EditParameter(ParameterType.LastImportDate, priceDate.ToShortDateString());
                 LastImportDate = priceDate.ToShortDateString();
             }

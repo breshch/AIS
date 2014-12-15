@@ -40,8 +40,6 @@ namespace AIS_Enterprise_AV.ViewModels.Directories
             {
                 Article = Article,
                 Mark = Mark,
-                Note = new CarPartNote(),
-                FactoryAndCross = new CarPartFactoryAndCross()
             };
            
             HelperMethods.CloseWindow(parameter);

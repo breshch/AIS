@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -6,6 +7,7 @@ using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
+using AIS_Enterprise_Global.Helpers;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Office.Interop.Excel;
@@ -137,7 +139,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
             }
         }
 
-        public static DateTime ConvertPriceRus(BusinessContext bc, string path)
+        public static DateTime ConvertPriceRus(BusinessContext bc, string path, Currency currency)
         {
             path = Reports.Helpers.ConvertXlsToXlsx(path);
 
@@ -159,7 +161,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                         int indexRow = 8;
 
-                        string fullName = GetValue(sheet.Cells[indexRow, 18].Value);
+
 
                         string name = GetValue(sheet.Cells[indexRow, 2].Value);
                         string number = GetValue(sheet.Cells[indexRow, 1].Value);
@@ -173,9 +175,12 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         string crossNumber = null;
                         string countInBox = GetValue(sheet.Cells[indexRow, 11].Value);
 
+                        string fullName = article + mark;
+
                         var carParts = bc.GetDirectoryCarParts().ToList();
                         var currentCarParts = bc.GetCurrentCarParts().ToList();
 
+                        var carPartsMemory = new List<DirectoryCarPart>();
                         var currentCarPartsMemory = new List<CurrentCarPart>();
 
                         while (!(string.IsNullOrWhiteSpace(number) && string.IsNullOrWhiteSpace(name)))
@@ -188,8 +193,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 continue;
                             }
 
-                            fullName = GetValue(sheet.Cells[indexRow, 18].Value);
-
                             description = GetValue(sheet.Cells[indexRow, 2].Value) ?? description;
                             originalNumber = GetValue(sheet.Cells[indexRow, 3].Value) ?? originalNumber;
                             article = GetValue(sheet.Cells[indexRow, 4].Value) ?? article;
@@ -198,25 +201,46 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             attachment = GetValue(sheet.Cells[indexRow, 8].Value) ?? attachment;
                             countInBox = GetValue(sheet.Cells[indexRow, 11].Value) ?? countInBox;
 
-                            var equalCarPart = carParts.FirstOrDefault(p => (p.Article + p.Mark) == fullName);
+                            fullName = article + mark;
+
+                            var equalCarPart = carParts.FirstOrDefault(p => p.FullCarPartName == fullName);
                             if (equalCarPart == null)
                             {
-                                equalCarPart = bc.AddDirectoryCarPart(article, mark, description, originalNumber, factoryNumber,
-                                    crossNumber, material, attachment, countInBox, false);
+                                //equalCarPart = bc.AddDirectoryCarPart(article, mark, description, originalNumber, factoryNumber,
+                                //    crossNumber, material, attachment, countInBox, false);
+                                equalCarPart = new DirectoryCarPart
+                                {
+                                    Article = article,
+                                    Mark = mark,
+                                    Description = description,
+                                    OriginalNumber = originalNumber,
+                                    Material = material,
+                                    Attachment = attachment,
+                                    FactoryNumber = factoryNumber,
+                                    CrossNumber = crossNumber,
+                                    CountInBox = countInBox,
+                                    IsImport = false
+                                };
+
+                                carPartsMemory.Add(equalCarPart);
                             }
 
                             if (equalCarPart.Description == null)
                             {
                                 equalCarPart.Description = description;
                                 equalCarPart.OriginalNumber = originalNumber;
-                                equalCarPart.Note.Material = material;
-                                equalCarPart.Note.Attachment = attachment;
+                                equalCarPart.Material = material;
+                                equalCarPart.Attachment = attachment;
                                 equalCarPart.CountInBox = countInBox;
                             }
 
                             double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 9].Value));
-                            double priceBigWholesale = double.Parse(GetValue(sheet.Cells[indexRow, 14].Value));
-                            double priceSmallWholesale = double.Parse(GetValue(sheet.Cells[indexRow, 15].Value));
+                            double? priceBigWholesale = GetValue(sheet.Cells[indexRow, 14].Value) != null
+                                ? double.Parse(GetValue(sheet.Cells[indexRow, 14].Value))
+                                : default(double?);
+                            double? priceSmallWholesale = GetValue(sheet.Cells[indexRow, 15].Value) != null
+                                ? double.Parse(GetValue(sheet.Cells[indexRow, 15].Value))
+                                : default(double?);
 
                             var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
                                 .OrderByDescending(c => c.Date)
@@ -227,8 +251,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                  lastCurrentCarPart.PriceBigWholesale != priceBigWholesale ||
                                  lastCurrentCarPart.PriceSmallWholesale != priceSmallWholesale))
                             {
-                                var currentCarPart = bc.AddCurrentCarPartNoSave(equalCarPart.Id, priceDate, priceBase, priceBigWholesale,
-                                    priceSmallWholesale);
+                                var currentCarPart = bc.AddCurrentCarPartNoSave(priceDate, priceBase, priceBigWholesale,
+                                    priceSmallWholesale, currency, fullName);
 
                                 currentCarPartsMemory.Add(currentCarPart);
                             }
@@ -239,8 +263,16 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             number = GetValue(sheet.Cells[indexRow, 1].Value);
                         }
 
+                        bc.DataContext.BulkInsert(carPartsMemory);
+
+                        carParts = bc.GetDirectoryCarParts().ToList();
+
+                        foreach (var currentCarPart in currentCarPartsMemory)
+                        {
+                            currentCarPart.DirectoryCarPartId = carParts.First(p => p.FullCarPartName == currentCarPart.FullName).Id;
+                        }
+
                         bc.DataContext.BulkInsert(currentCarPartsMemory);
-                        bc.SaveChanges();
                     }
                 }
             }
@@ -248,7 +280,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
             return priceDate;
         }
 
-        public static DateTime ConvertPriceImport(BusinessContext bc, string path)
+        public static DateTime ConvertPriceImport(BusinessContext bc, string path, Currency currency)
         {
             path = Reports.Helpers.ConvertXlsToXlsx(path);
 
@@ -274,6 +306,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         var carParts = bc.GetDirectoryCarParts().ToList();
                         var currentCarParts = bc.GetCurrentCarParts().ToList();
 
+                        var carPartsMemory = new List<DirectoryCarPart>();
                         var currentCarPartsMemory = new List<CurrentCarPart>();
 
 
@@ -329,6 +362,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                     case "цена rub":
                                     case "цена rub базовая":
                                     case "цена базовая":
+                                    case "цена usd":
                                         priceBaseColumn = indexColumn;
                                         break;
                                 }
@@ -371,19 +405,31 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             var equalCarPart = carParts.FirstOrDefault(p => p.FullCarPartName == article);
                             if (equalCarPart == null)
                             {
-                                equalCarPart = bc.AddDirectoryCarPart(article, null, description, originalNumber,
-                                    factoryNumber,
-                                    crossNumber, material, attachment, countInBox, true);
+                                equalCarPart = new DirectoryCarPart
+                                {
+                                    Article = article,
+                                    Mark = null,
+                                    Description = description,
+                                    OriginalNumber = originalNumber,
+                                    Material = material,
+                                    Attachment = attachment,
+                                    FactoryNumber = factoryNumber,
+                                    CrossNumber = crossNumber,
+                                    CountInBox = countInBox,
+                                    IsImport = true
+                                };
+
+                                carPartsMemory.Add(equalCarPart);
                             }
 
                             if (equalCarPart.Description == null)
                             {
                                 equalCarPart.Description = description;
                                 equalCarPart.OriginalNumber = originalNumber;
-                                equalCarPart.Note.Material = material;
-                                equalCarPart.Note.Attachment = attachment;
-                                equalCarPart.FactoryAndCross.FactoryNumber = factoryNumber;
-                                equalCarPart.FactoryAndCross.CrossNumber = crossNumber;
+                                equalCarPart.Material = material;
+                                equalCarPart.Attachment = attachment;
+                                equalCarPart.FactoryNumber = factoryNumber;
+                                equalCarPart.CrossNumber = crossNumber;
                                 equalCarPart.CountInBox = countInBox;
                                 bc.SaveChanges();
                             }
@@ -396,7 +442,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                             if (lastCurrentCarPart == null || lastCurrentCarPart.PriceBase != priceBase)
                             {
-                                var currentCarPart = bc.AddCurrentCarPartNoSave(equalCarPart.Id, priceDate, priceBase, null, null);
+                                var currentCarPart = bc.AddCurrentCarPartNoSave(priceDate, priceBase, null, null, currency, article);
 
                                 currentCarPartsMemory.Add(currentCarPart);
                             }
@@ -404,8 +450,16 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             indexRow++;
                         }
 
+                        bc.DataContext.BulkInsert(carPartsMemory);
+
+                        carParts = bc.GetDirectoryCarParts().ToList();
+
+                        foreach (var currentCarPart in currentCarPartsMemory)
+                        {
+                            currentCarPart.DirectoryCarPartId = carParts.First(p => p.FullCarPartName == currentCarPart.FullName).Id;
+                        }
+
                         bc.DataContext.BulkInsert(currentCarPartsMemory);
-                        bc.SaveChanges();
                     }
                 }
             }
@@ -430,6 +484,8 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 { "Август 2014", 8 },
                 { "Сентябрь 2014", 9 },
                 { "Октябрь 2014", 10 },
+                { "Ноябрь 2014", 11 },
+                { "Декабрь 2014", 12 },
             };
 
             using (var package = new ExcelPackage(existingFile))
@@ -439,7 +495,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        foreach (var month in monthes)
+                        foreach (var month in monthes.Where(m => m.Value >= 12))
                         {
                             var sheet = workBook.Worksheets.First(s => s.Name == month.Key);
 
@@ -635,3 +691,4 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
         }
     }
 }
+

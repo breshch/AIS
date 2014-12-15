@@ -3017,16 +3017,10 @@ namespace AIS_Enterprise_Data
                 Mark = mark,
                 Description = description,
                 OriginalNumber = originalNumber,
-                Note = new CarPartNote
-                {
-                    Material = material,
-                    Attachment = attachment
-                },
-                FactoryAndCross = new CarPartFactoryAndCross
-                {
-                    FactoryNumber = factoryNumber,
-                    CrossNumber = crossNumber
-                },
+                Material = material,
+                Attachment = attachment,
+                FactoryNumber = factoryNumber,
+                CrossNumber = crossNumber,
                 CountInBox = countInBox,
                 IsImport = isImport
             };
@@ -3204,15 +3198,17 @@ namespace AIS_Enterprise_Data
             return currentCarPart;
         }
 
-        public CurrentCarPart AddCurrentCarPartNoSave(int directoryCarPartId, DateTime priceDate, double priceBase, double? priceBigWholesale, double? priceSmallWholesale)
+        public CurrentCarPart AddCurrentCarPartNoSave(DateTime priceDate, double priceBase, double? priceBigWholesale,
+            double? priceSmallWholesale, Currency currency, string fullName)
         {
             var currentCarPart = new CurrentCarPart
             {
-                DirectoryCarPartId = directoryCarPartId,
                 Date = priceDate,
+                Currency = currency,
                 PriceBase = priceBase,
                 PriceBigWholesale = priceBigWholesale,
                 PriceSmallWholesale = priceSmallWholesale,
+                FullName = fullName
             };
 
             return currentCarPart;
@@ -3230,20 +3226,20 @@ namespace AIS_Enterprise_Data
                  .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) < 0);
         }
 
-        public IQueryable<ArticlePrice> GetArticlePrices(DateTime date)
+        public IQueryable<ArticlePrice> GetArticlePrices(DateTime date, Currency currency)
         {
             return (from directoryCarPart in _dc.DirectoryCarParts
                     let currentCarPart =
                         _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
                             .OrderByDescending(c => c.Date)
                             .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0)
-                    where currentCarPart != null
+                    where currentCarPart != null && currentCarPart.Currency == currency
                     select new ArticlePrice
                     {
                         Article = directoryCarPart.Article,
                         Mark = directoryCarPart.Mark,
                         Description = directoryCarPart.Description,
-                        Price = currentCarPart.PriceBase
+                        PriceRUR = currentCarPart.PriceBase
                     });
         }
 
@@ -3264,20 +3260,27 @@ namespace AIS_Enterprise_Data
             var containers = _dc.InfoContainers.Include(c => c.CarParts).Where(c =>
                 (DbFunctions.DiffDays(firstDateInMonth, c.DatePhysical) >= 0 && DbFunctions.DiffDays(c.DatePhysical, date) >= 0)).ToList();
 
-            var carParts = (from directoryCarPart in _dc.DirectoryCarParts
-                            let currentCarPart =
-                                _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
-                                    .OrderByDescending(c => c.Date)
-                                    .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0)
-                            where currentCarPart != null
-                            select new ArticlePrice
-                            {
-                                CarPartId = directoryCarPart.Id,
-                                Article = directoryCarPart.Article,
-                                Mark = directoryCarPart.Mark,
-                                Description = directoryCarPart.Description,
-                                Price = directoryCarPart.IsImport ? currentCarPart.PriceBase : currentCarPart.PriceSmallWholesale.Value
-                            }).ToList();
+            var carPartsRUR = (from directoryCarPart in _dc.DirectoryCarParts
+                               let currentCarPartRUR =
+                                   _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
+                                       .OrderByDescending(c => c.Date)
+                                       .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0 && c.Currency == Currency.RUR)
+                               let currentCarPartUSD =
+                                  _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
+                                      .OrderByDescending(c => c.Date)
+                                      .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0 && c.Currency == Currency.USD)
+                               where currentCarPartRUR != null
+                               select new ArticlePrice
+                               {
+                                   CarPartId = directoryCarPart.Id,
+                                   Article = directoryCarPart.Article,
+                                   Mark = directoryCarPart.Mark,
+                                   Description = directoryCarPart.Description,
+                                   PriceRUR = directoryCarPart.IsImport ? currentCarPartRUR.PriceBase : currentCarPartRUR.PriceSmallWholesale.Value,
+                                   PriceUSD = currentCarPartUSD != null
+                                       ? currentCarPartUSD.PriceBase
+                                       : default(double?),
+                               }).ToList();
 
             var carPartsId = lastMonthDayRemains.Select(r => r.DirectoryCarPartId).
                 Union(containers.SelectMany(c => c.CarParts.Select(p => p.DirectoryCarPartId))).Distinct();
@@ -3285,7 +3288,7 @@ namespace AIS_Enterprise_Data
             var carPartRemains = new List<CarPartRemain>();
             foreach (var carPartId in carPartsId)
             {
-                var carPart = carParts.FirstOrDefault(c => c.CarPartId == carPartId);
+                var carPart = carPartsRUR.FirstOrDefault(c => c.CarPartId == carPartId);
                 if (carPart == null)
                 {
                     continue;
@@ -3308,7 +3311,8 @@ namespace AIS_Enterprise_Data
                 {
                     Article = carPart.Article + carPart.Mark,
                     Description = carPart.Description,
-                    Price = carPart.Price,
+                    PriceRUR = carPart.PriceRUR,
+                    PriceUSD = carPart.PriceUSD,
                     Remain = remains
                 };
 

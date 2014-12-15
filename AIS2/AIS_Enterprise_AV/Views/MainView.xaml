@@ -67,8 +67,6 @@
                 <Button Content="Затраты" Margin="0, 3" Command="{Binding CostsExcelToDBCommand}" IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Вёдра" Command="{Binding RussiansCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Иномарки" Command="{Binding ImportsCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
-                <Button Content="Цены Тазики" Command="{Binding CarPartPriceRusCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
-                <Button Content="Цены Иномарки" Command="{Binding CarPartPriceImportCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
                 <Button Content="Перелив остатков" Command="{Binding CarPartRemainsToDbCommand}" Margin="0, 3"  IsEnabled="{Binding IsNotInitializedDB}"/>
             </StackPanel>
         </StackPanel>

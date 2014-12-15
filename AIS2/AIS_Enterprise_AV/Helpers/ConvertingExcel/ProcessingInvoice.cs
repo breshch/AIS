@@ -27,7 +27,7 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
             }
             var date = DateTime.Parse(sheet.Cells[i + 1, 13].Value.ToString());
 
-            var articlePrices = bc.GetArticlePrices(date).ToList();
+            var articlePrices = bc.GetArticlePrices(date, Currency.RUR).ToList();
 
             while (sheet.Cells[i, 1].Value == null || sheet.Cells[i, 1].Value.ToString() != "2")
             {
@@ -59,7 +59,7 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
                                 Article = equalArticle.Article + equalArticle.Mark,
                                 Count = count,
                                 Description = equalArticle.Description,
-                                PriceBase = equalArticle.Price,
+                                PriceBase = equalArticle.PriceRUR,
                                 IsRus = equalArticle.Mark != null
                             };
                             invoices.Add(invoice);
@@ -85,7 +85,7 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
                                     Article = equalArticle.Article + equalArticle.Mark,
                                     Count = count,
                                     Description = equalArticle.Description,
-                                    PriceBase = equalArticle.Price,
+                                    PriceBase = equalArticle.PriceRUR,
                                     IsRus = equalArticle.Mark != null
                                 };
                                 invoices.Add(invoice);
