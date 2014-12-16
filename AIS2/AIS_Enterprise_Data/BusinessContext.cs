@@ -2082,6 +2082,16 @@ namespace AIS_Enterprise_Data
             return infoCostsRC;
         }
 
+        public IEnumerable<InfoCost> GetInfoCostsPAM16(int year, int month)
+        {
+            var infoCosts = GetInfoCosts(year, month).ToList();
+            var infoCostsRC = infoCosts.Where(c => c.DirectoryRC.Name == "ПАМ-16" && c.Currency == Currency.RUR).ToList();
+
+            infoCostsRC.AddRange(infoCosts.Where(c => c.DirectoryRC.Name == "ВСЕ" && c.Currency == Currency.RUR).ToList());
+
+            return infoCostsRC;
+        }
+
         public IQueryable<InfoCost> GetInfoCostsTransportAndNoAllAndExpenseOnly(int year, int month)
         {
             return GetInfoCosts(year, month).Include(c => c.DirectoryCostItem).Include(c => c.DirectoryRC).

@@ -1,5 +1,6 @@
 ﻿using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Helpers;
 using AIS_Enterprise_Global.Helpers;
 using OfficeOpenXml;
 using System;
@@ -41,9 +42,6 @@ namespace AIS_Enterprise_AV.Reports
         private const string FOOTER_RC_ALL_APEL_NAME = "Голоколенко.В";
         private const string FOOTER_26_APEL_NAME = "Жилинский Е.В.";
         private const string FOOTER_RC_PAM16_APEL_NAME = "Михеенко А.";
-
-        private static double _pam16Percentage = 5.3;
-
 
         public static void IncomingRC(DirectoryRC rc, BusinessContext bc, int year, int month)
         {
@@ -272,14 +270,44 @@ namespace AIS_Enterprise_AV.Reports
                 .Where(c => !c.IsIncoming && c.DirectoryRC.Name == "ВСЕ")
                 .Sum(c => c.Summ);
 
-            string context = "Прошу снять из кассы АВ следующую сумму: " + (sumAll * _pam16Percentage / 100).ToString("N2") + 
-                " р., состоящую из " + _pam16Percentage + " процентов от всех затрат в размере " + sumAll.ToString("N2") + 
+            var pam16Percentage = bc.GetParameterValue<double>(ParameterType.Pam16Percentage);
+
+            string context = "Прошу снять из кассы АВ следующую сумму: " + (sumAll * pam16Percentage / 100).ToString("N2") + 
+                " р., состоящую из " + pam16Percentage + " процентов от всех затрат в размере " + sumAll.ToString("N2") + 
                 " р. – и поставить в затрату проекту ПАМ-16 (Кедр).";
 
             Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, context,
                         Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
 
-            indexRow += 6;
+            indexRow += 2;
+
+            double commonAllSumm = 0;
+
+            var infoCosts = bc.GetInfoCostsPAM16(year, month).ToList();
+            foreach (var infoCostsCostItem in infoCosts.Where(c => !c.IsIncoming).GroupBy(c => c.DirectoryCostItem.Name))
+            {
+                string costItemName = infoCostsCostItem.First().DirectoryCostItem.Name;
+
+                Helpers.CreateCell(sheet, indexRow, 1, costItemName, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+                double costItemExpenseSummAll = Math.Round(infoCostsCostItem.Where(c => c.DirectoryRC.Name == "ВСЕ")
+                    .Sum(c => c.Summ) * pam16Percentage / 100, 2);
+
+                Helpers.CreateCell(sheet, indexRow, 2, costItemExpenseSummAll, Color.Transparent, 10, false, 
+                    OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+                commonAllSumm += costItemExpenseSummAll;
+
+                indexRow++;
+            }
+            string commonAllSummString = commonAllSumm != 0 ? Converting.DoubleToCurrency(commonAllSumm, Currency.RUR) : "";
+
+            Helpers.CreateCell(sheet, indexRow, 1, "Итого", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, 
+                OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            Helpers.CreateCell(sheet, indexRow, 2, commonAllSummString, Color.LightGray, 11, true, 
+                OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+            indexRow += 4;
 
             Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
             Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
@@ -338,6 +366,8 @@ namespace AIS_Enterprise_AV.Reports
                 double commonRCSumm = 0;
                 double commonAllSumm = 0;
                 double commonRCAndAllSumm = 0;
+
+                var _pam16Percentage = bc.GetParameterValue<double>(ParameterType.Pam16Percentage);
 
                 var infoCosts = bc.GetInfoCostsRCAndAll(year, month, rc.Name).ToList();
                 foreach (var infoCostsCostItem in infoCosts.Where(c => !c.IsIncoming).GroupBy(c => c.DirectoryCostItem.Name))
