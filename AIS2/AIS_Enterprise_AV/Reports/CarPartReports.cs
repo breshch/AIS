@@ -40,10 +40,9 @@ namespace AIS_Enterprise_AV.Reports
                 Helpers.CreateCell(sheet, indexRow, 1, carPartRemain.Article, Color.Transparent);
                 Helpers.CreateCell(sheet, indexRow, 2, carPartRemain.Description, Color.Transparent);
                 Helpers.CreateCell(sheet, indexRow, 3, carPartRemain.Remain, Color.Transparent);
-                Helpers.CreateCell(sheet, indexRow, 4, carPartRemain.PriceRUR.ToString("N2")+" р.", Color.Transparent);
-                Helpers.CreateCell(sheet, indexRow, 5, (carPartRemain.PriceUSD != null 
-                    ? carPartRemain.PriceUSD.Value.ToString("N2") 
-                    : "0") +" $.", Color.Transparent);
+                Helpers.CreateCell(sheet, indexRow, 4, carPartRemain.PriceRUR, Color.Transparent);
+                Helpers.CreateCell(sheet, indexRow, 5, carPartRemain.PriceUSD != null 
+                    ? carPartRemain.PriceUSD.Value : 0, Color.Transparent);
                 
                 indexRow++;
             }

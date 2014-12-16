@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -34,11 +35,21 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
                 i++;
             }
 
+            if (File.Exists("Ненайденные позиции.txt"))
+            {
+                File.Delete("Ненайденные позиции.txt");
+            }
+
+            using (var sw = new StreamWriter("DebugArticles.txt", true))
+            {
+                sw.WriteLine("################ " + date.ToShortDateString() + " " + Path.GetFileName(path) + " ################");
+            }
+
             i--;
             var invoices = new List<Invoice>();
-            while (sheet.Cells[i, 11].Value == null || sheet.Cells[i, 11].Value.ToString() != "0")
+            while (sheet.Cells[i, 12].Value != null && sheet.Cells[i, 12].Value.ToString() != "0.00")
             {
-                if (sheet.Cells[i, 3].Value != null)
+                if (sheet.Cells[i, 3].Value != null && sheet.Cells[i, 11].Value != null && sheet.Cells[i, 11].Value.ToString() != "0")
                 {
                     var article = sheet.Cells[i, 3].Value.ToString().Replace(" ", "");
                     var prevArticle = article;
@@ -96,6 +107,11 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
 
                     if (j == 0)
                     {
+                        using (var sw = new StreamWriter("Ненайденные позиции.txt", true))
+                        {
+                            sw.WriteLine(prevArticle);
+                        }
+
                         using (var sw = new StreamWriter("DebugArticles.txt", true))
                         {
                             sw.WriteLine(prevArticle);
@@ -105,9 +121,9 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
                 i++;
             }
 
-            using (var sw = new StreamWriter("DebugArticles.txt", true))
+            if (File.Exists("Ненайденные позиции.txt"))
             {
-                sw.WriteLine("#############################################");
+                Process.Start(Path.Combine(Environment.CurrentDirectory, "Ненайденные позиции.txt"));
             }
 
             return invoices;
