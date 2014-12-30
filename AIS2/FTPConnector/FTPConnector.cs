@@ -122,22 +122,11 @@ namespace FTP
             ftpRequest.UseBinary = true;
             ftpRequest.KeepAlive = true;
 
-            const int bufferLength = 4096;
-            var buffer = new byte[bufferLength];
-
-            using (var fs = new FileStream(localPath, FileMode.Create, FileAccess.Write))
+            using (var streamWriter = new StreamWriter(localPath))
             {
-                using (var rs = ftpRequest.GetResponse().GetResponseStream())
+                using (var streamReader = new StreamReader(ftpRequest.GetResponse().GetResponseStream()))
                 {
-                    int bytes;
-                    do
-                    {
-                        bytes = rs.Read(buffer, 0, buffer.Length);
-                        fs.Write(buffer, 0, bytes);
-
-                        //Thread.Sleep(100);
-                    } while (bytes == bufferLength);
-                    fs.Flush();
+                    streamWriter.Write(streamReader.ReadToEnd());
                 }
             }
         }
@@ -189,11 +178,6 @@ namespace FTP
 
         public void DownloadDirectory(string ftpPath, string localPath)
         {
-            DownloadDirectoryRecurcive(ftpPath, localPath, ftpPath);
-        }
-
-        private void DownloadDirectoryRecurcive(string ftpPath, string localPath, string nameBaseDirectory)
-        {
             if (!Directory.Exists(localPath))
             {
                 Directory.CreateDirectory(localPath);
@@ -202,20 +186,18 @@ namespace FTP
             var filesFtp = GetFiles(ftpPath);
             var directoriesFtp = GetDirectories(ftpPath);
 
-            var filesLocal = Directory.GetFiles(localPath);
-            var directories = Directory.GetDirectories(localPath);
-
             foreach (var file in filesFtp)
             {
                 string fileLocal = Path.Combine(localPath, file);
-                DownLoadFile(Path.Combine(nameBaseDirectory, file), fileLocal);
+                DownLoadFile(Path.Combine(ftpPath, file), fileLocal);
             }
 
-            //foreach (var directory in directoriesFtp)
-            //{
-            //    string name = Path.Combine(nameBaseDirectory, directory.Substring(0 + 1));
-            //    DownloadDirectoryRecurcive(directory, name, nameBaseDirectory);
-            //}
+            foreach (var directory in directoriesFtp)
+            {
+                string directoryName = Path.Combine(ftpPath, directory);
+                string name = Path.Combine(localPath, directory);
+                DownloadDirectory(directoryName, name);
+            }
         }
 
         public void RemoveDirectory(string directory)
@@ -251,21 +233,23 @@ namespace FTP
 
         public bool IsFile(string file)
         {
-            var response = GetResponse(file, WebRequestMethods.Ftp.ListDirectory);
+            //var response = GetResponse(file, WebRequestMethods.Ftp.ListDirectory);
 
-            using (var streamReader = new StreamReader(response.GetResponseStream()))
-            {
-                while (!streamReader.EndOfStream)
-                {
-                    string path = streamReader.ReadLine();
-                    if (path == "." || path.EndsWith("/."))
-                    {
-                        return false;
-                    }
-                }
-            }
+            //using (var streamReader = new StreamReader(response.GetResponseStream()))
+            //{
+            //    while (!streamReader.EndOfStream)
+            //    {
+            //        string path = streamReader.ReadLine();
+            //        if (path == "." || path.EndsWith("/."))
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //}
 
-            return true;
+            //return true;
+
+            return Path.GetExtension(file) != "";
         }
 
         private void RemoveEmptyDirectory(string directory)
