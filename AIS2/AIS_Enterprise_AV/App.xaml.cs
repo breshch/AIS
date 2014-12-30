@@ -1,4 +1,8 @@
-﻿using AIS_Enterprise_AV.ViewModels;
+﻿using System.Deployment.Application;
+using System.IO;
+using System.Net;
+using System.Net.FtpClient;
+using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Helpers;
@@ -31,6 +35,7 @@ namespace AIS_Enterprise_AV
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
 
             if (DataContext.TryConnection())
             {

@@ -1,4 +1,6 @@
-﻿using AIS_Enterprise_AV.Helpers.ExcelToDB;
+﻿using System.Deployment.Application;
+using AIS_Enterprise_AV.Helpers.ExcelToDB;
+using AIS_Enterprise_AV.Properties;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Directories;
@@ -23,6 +25,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
+using Timer = System.Windows.Forms.Timer;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
@@ -399,6 +404,8 @@ namespace AIS_Enterprise_AV.ViewModels
 
                 BC.RefreshContext();
 
+                //CheckNewVersion();
+
                 Properties.Settings.Default.DefaultServer = SelectedServer;
                 Properties.Settings.Default.DefaultDataBase = SelectedDataBase;
                 Properties.Settings.Default.DefaultUser = SelectedUser.TranscriptionName;
@@ -420,7 +427,44 @@ namespace AIS_Enterprise_AV.ViewModels
             IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
         }
 
+        private Timer _timer;
 
+        private void CheckNewVersion()
+        {
+            FirstChecking();
+
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
+
+            _timer = new Timer
+            {
+                Interval = 1000 * 60 * 10
+            };
+
+            _timer.Tick += _timer_Tick;
+            _timer.Start();
+        }
+
+        void _timer_Tick(object sender, EventArgs e)
+        {
+            FirstChecking();
+        }
+
+        private void FirstChecking()
+        {
+            var version = Version.Parse(Settings.Default.ApplicationVersion);
+            if (HelperMethods.IsNewVersion(BC, ref version))
+            {
+                Settings.Default.ApplicationVersion = version.ToString();
+                Settings.Default.Save();
+
+                MessageBox.Show("Вышла новая версия. Программа будет обновлена и перезагружена.", "Новая версия", MessageBoxButton.OK);
+                Process.Start(System.Windows.Forms.Application.ExecutablePath);
+                Application.Current.Shutdown();
+            }
+        }
 
         private void CostsExcelToDB(object parameter)
         {

@@ -136,6 +136,7 @@ namespace AIS_Enterprise_Global.Helpers
         Birthday,
         LastDate,
         DefaultCostsDate,
-        Pam16Percentage
+        Pam16Percentage,
+        Version
     }
 }

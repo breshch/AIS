@@ -20,5 +20,8 @@
     <Setting Name="DefaultUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ApplicationVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1.0.0.0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

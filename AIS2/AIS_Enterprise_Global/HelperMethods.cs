@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Data;
+﻿using System.Net;
+using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
 using System;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using AIS_Enterprise_Global.Properties;
 
 namespace AIS_Enterprise_Global.Helpers
 {
@@ -130,6 +132,36 @@ namespace AIS_Enterprise_Global.Helpers
             if (window != null)
             {
                 window.Close();
+            }
+        }
+
+        public static bool IsNewVersion(BusinessContext bc, ref Version lastVersion)
+        {
+            var ftpRequest = (FtpWebRequest)WebRequest.Create("ftp://logistikon.ru/domains/logistikon.ru/AIS_Enterprise_AV/Application%20Files/");
+
+            ftpRequest.Credentials = new NetworkCredential("breshch", "Mp7200aA");
+            ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+            var response = (FtpWebResponse)ftpRequest.GetResponse();
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                var directories = new List<string>();
+
+                string line = streamReader.ReadLine();
+                while (!string.IsNullOrEmpty(line))
+                {
+                    directories.Add(line);
+                    line = streamReader.ReadLine();
+                }
+
+                var ftpVersion = Version.Parse(directories.OrderByDescending(d => d).First().Substring(18).Replace("_", "."));
+
+                bool isNewVersion = ftpVersion > lastVersion;
+                if (ftpVersion > lastVersion)
+                {
+                    lastVersion = ftpVersion;
+                }
+
+                return isNewVersion;
             }
         }
     }

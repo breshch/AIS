@@ -8,6 +8,7 @@ using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
+using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Office.Interop.Excel;
@@ -663,7 +664,10 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 indexColumn++;
                             }
 
+                            bc.RemoveInfoLastMonthDayRemains(date.Year, date.Month);
                             bc.DataContext.BulkInsert(excelRemains);
+
+                            bc.RemoveContainers(date.Year, date.Month);
                             bc.DataContext.BulkInsert(containers);
 
                             var containersDB = bc.GetInfoContainers(containers).ToList();

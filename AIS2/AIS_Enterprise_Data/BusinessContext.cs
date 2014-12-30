@@ -1857,7 +1857,7 @@ namespace AIS_Enterprise_Data
 
         public IQueryable<DirectoryRC> GetDirectoryRCsByPercentage()
         {
-            return _dc.DirectoryRCs.Where(r => r.Percentes > 0);
+            return _dc.DirectoryRCs.Where(r => r.Percentes > 0 || r.Name == "ПАМ-16");
         }
 
         public DirectoryRC GetDirectoryRC(string name)
@@ -3154,6 +3154,15 @@ namespace AIS_Enterprise_Data
                    };
         }
 
+        public void RemoveContainers(int year, int month)
+        {
+            _dc.InfoContainers.RemoveRange(
+                _dc.InfoContainers
+                .Where(c => c.DatePhysical.Year == year && c.DatePhysical.Month == month));
+
+            _dc.SaveChanges();
+        }
+
         #endregion
 
 
@@ -3186,6 +3195,15 @@ namespace AIS_Enterprise_Data
 
 
             return lastMonthDayRemain;
+        }
+
+        public void RemoveInfoLastMonthDayRemains(int year, int month)
+        {
+            _dc.InfoLastMonthDayRemains
+                .RemoveRange(_dc.InfoLastMonthDayRemains
+                .Where(r => r.Date.Year == year && r.Date.Month == month));
+
+            _dc.SaveChanges();
         }
         #endregion
 
@@ -3254,7 +3272,6 @@ namespace AIS_Enterprise_Data
         }
 
         #endregion
-
 
 
         #region CurrentCarPartsRemainsToDate
