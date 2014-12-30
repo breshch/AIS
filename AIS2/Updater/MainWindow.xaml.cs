@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.IO.Packaging;
 using System.Linq;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +28,7 @@ namespace Updater
     public partial class MainWindow : Window
     {
         private FTPConnector _ftpConnector;
+        private DateTime _dateBackup;
         private const string DefaultFTPFolder = @"ftp://95.31.130.52/";
 
         public MainWindow()
@@ -32,14 +37,16 @@ namespace Updater
 
             _ftpConnector = new FTPConnector("breshch", "Mp7200aA", DefaultFTPFolder);
 
-            _ftpConnector.DownloadDirectory(@"AIS_Enterprise_AV", @"D:\AIS_Enterprise_AV");
             //if (IsNewVersion())
-            //{
-
-            //}
+            {
+                Backup();
+                //_ftpConnector.DownloadDirectory(@"AIS_Enterprise_AV", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AIS_Enterprise_AV"));
+            }
 
             //InitializeTimer();
         }
+
+
 
         private bool IsNewVersion()
         {
@@ -49,6 +56,14 @@ namespace Updater
             return ftpVersion > currentVersion;
         }
 
+        private void Backup()
+        {
+            _dateBackup = DateTime.Now;
+
+            ZipFile.CreateFromDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AIS_Enterprise_AV", "Images"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "AIS_Enterprise_AV", "Backup_" + _dateBackup.Ticks + ".zip"));
+        }
         
 
         private void InitializeTimer()
