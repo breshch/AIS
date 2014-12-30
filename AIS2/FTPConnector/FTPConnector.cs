@@ -121,6 +121,7 @@ namespace FTP
             ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
             ftpRequest.UseBinary = true;
             ftpRequest.KeepAlive = true;
+            ftpRequest.Timeout = Timeout.Infinite;
 
             using (var streamWriter = new StreamWriter(localPath))
             {
