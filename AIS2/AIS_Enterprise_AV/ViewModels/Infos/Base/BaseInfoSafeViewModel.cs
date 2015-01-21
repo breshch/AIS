@@ -61,8 +61,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos.Base
                     VisibilityIsMultiplyPayments = Visibility.Collapsed;
                     SelectedWorker = null;
                 }
-
-                Raise();
             }
         }
         public ObservableCollection<DirectoryLoanTaker> LoanTakers { get; set; }
@@ -102,8 +100,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos.Base
                 {
                     CountPayments = 2;
                 }
-
-                Raise();
             }
         }
 

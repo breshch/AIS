@@ -192,8 +192,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 {
                     SelectedMonth = Monthes.Last();
                 }
-
-                PropertyChangedBase.Raise();
             }
         }
         public ObservableCollection<int> Monthes { get; set; }
@@ -230,8 +228,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
                 _costs.AddRange(Costs);
                 RefreshFilters();
-
-                PropertyChangedBase.Raise();
             }
         }
         public double Summ { get; set; }
@@ -263,8 +259,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 RaisePropertyChanged();
 
                 RefreshFilters();
-
-                PropertyChangedBase.Raise();
             }
         }
 
@@ -358,8 +352,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 RaisePropertyChanged();
 
                 Filter();
-
-                PropertyChangedBase.Raise();
             }
         }
 
@@ -382,8 +374,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 _selectedInOut = value;
 
                 Filter();
-
-                PropertyChangedBase.Raise();
             }
         }
 
@@ -407,8 +397,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 RaisePropertyChanged();
 
                 Filter();
-
-                PropertyChangedBase.Raise();
             }
         }
 
@@ -432,8 +420,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 RaisePropertyChanged();
 
                 Filter();
-
-                PropertyChangedBase.Raise();
             }
         }
 

@@ -162,10 +162,15 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
                         int indexRow = 8;
 
-
+                        int indexNumber = 1;
 
                         string name = GetValue(sheet.Cells[indexRow, 2].Value);
-                        string number = GetValue(sheet.Cells[indexRow, 1].Value);
+                        string number = GetValue(sheet.Cells[indexRow, indexNumber].Value);
+                        if (string.IsNullOrWhiteSpace(number))
+                        {
+                            indexNumber = 9;
+                        }
+
                         string description = GetValue(sheet.Cells[indexRow, 2].Value);
                         string originalNumber = GetValue(sheet.Cells[indexRow, 3].Value);
                         string article = GetValue(sheet.Cells[indexRow, 4].Value);
@@ -190,7 +195,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             {
                                 indexRow++;
                                 name = GetValue(sheet.Cells[indexRow, 2].Value);
-                                number = GetValue(sheet.Cells[indexRow, 1].Value);
+                                number = GetValue(sheet.Cells[indexRow, indexNumber].Value);
                                 continue;
                             }
 
@@ -207,8 +212,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             var equalCarPart = carParts.FirstOrDefault(p => p.FullCarPartName == fullName);
                             if (equalCarPart == null)
                             {
-                                //equalCarPart = bc.AddDirectoryCarPart(article, mark, description, originalNumber, factoryNumber,
-                                //    crossNumber, material, attachment, countInBox, false);
                                 equalCarPart = new DirectoryCarPart
                                 {
                                     Article = article,
@@ -261,7 +264,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             indexRow++;
 
                             name = GetValue(sheet.Cells[indexRow, 2].Value);
-                            number = GetValue(sheet.Cells[indexRow, 1].Value);
+                            number = GetValue(sheet.Cells[indexRow, indexNumber].Value);
                         }
 
                         bc.DataContext.BulkInsert(carPartsMemory);
@@ -473,21 +476,22 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
             var existingFile = new FileInfo(path);
 
-            var monthes = new Dictionary<string, int>
-            {
-                { "Январь 2014", 1 },
-                { "Февраль 2014", 2 },
-                { "Март 2014", 3 },
-                { "Апрель 2014", 4 },
-                { "Май 2014", 5 },
-                { "Июнь 2014", 6 },
-                { "Июль 2014", 7 },
-                { "Август 2014", 8 },
-                { "Сентябрь 2014", 9 },
-                { "Октябрь 2014", 10 },
-                { "Ноябрь 2014", 11 },
-                { "Декабрь 2014", 12 },
-            };
+            //var monthes = new Dictionary<string, int>
+            //{
+            //    { "Январь 2014", 1 },
+            //    { "Февраль 2014", 2 },
+            //    { "Март 2014", 3 },
+            //    { "Апрель 2014", 4 },
+            //    { "Май 2014", 5 },
+            //    { "Июнь 2014", 6 },
+            //    { "Июль 2014", 7 },
+            //    { "Август 2014", 8 },
+            //    { "Сентябрь 2014", 9 },
+            //    { "Октябрь 2014", 10 },
+            //    { "Ноябрь 2014", 11 },
+            //    { "Декабрь 2014", 12 },
+            //    { "Январь 2015", 1 },
+            //};
 
             using (var package = new ExcelPackage(existingFile))
             {
@@ -496,9 +500,9 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        foreach (var month in monthes.Where(m => m.Value >= 12))
+                        for (var date = new DateTime(2014, 12, 1); date <= new DateTime(2015, 1, 1); date = date.AddMonths(1))
                         {
-                            var sheet = workBook.Worksheets.First(s => s.Name == month.Key);
+                            var sheet = workBook.Worksheets.First(s => s.Name == date.ToString("MMMM yyyy"));
 
                             var carParts = bc.GetDirectoryCarParts().ToList();
                             var excelCarParts = new List<DirectoryCarPart>();
@@ -511,7 +515,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 sw.WriteLine();
                             }
 
-                            var date = new DateTime(2014, month.Value, 01);
                             string article = GetValue(sheet.Cells[indexRow, 1].Value);
                             while (!string.IsNullOrWhiteSpace(article))
                             {

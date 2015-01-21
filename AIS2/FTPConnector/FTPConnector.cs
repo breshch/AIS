@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,9 @@ namespace FTP
 {
     public class FTPConnector
     {
+        public event Action<string, long> OnGetFileInfo = delegate {  };
+        public event Action<long, long> OnFileSizeLoaded = delegate { };
+
         private readonly string _login;
         private readonly string _password;
         private readonly string _defaultFTPFolder;
@@ -93,6 +97,12 @@ namespace FTP
             }
         }
 
+        public long GetFileSize(string nameFile)
+        {
+            var response = GetResponse(nameFile, WebRequestMethods.Ftp.GetFileSize);
+            return response.ContentLength;
+        }
+
         public void DownLoadFile(string nameFile, string localPath)
         {
             DateTime? dateFtp = null;
@@ -109,26 +119,78 @@ namespace FTP
             {
                 var fi = new FileInfo(localPath);
 
-                if (dateFtp != null && dateFtp.Value <= fi.LastWriteTime.AddMilliseconds(-fi.LastWriteTime.Millisecond))
-                {
-                    return;
-                }
+                //if (dateFtp != null && dateFtp.Value <= fi.LastWriteTime.AddMilliseconds(-fi.LastWriteTime.Millisecond))
+                //{
+                //    return;
+                //}
             }
 
-            var ftpRequest = (FtpWebRequest)WebRequest.Create(Path.Combine(_defaultFTPFolder, nameFile));
+            long fileSize = GetFileSize(nameFile);
 
-            ftpRequest.Credentials = new NetworkCredential(_login, _password);
-            ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
-            ftpRequest.UseBinary = true;
-            ftpRequest.KeepAlive = true;
-            ftpRequest.Timeout = Timeout.Infinite;
+            if (fileSize == 0)
+                return;
 
-            using (var streamWriter = new StreamWriter(localPath))
+            OnGetFileInfo(Path.GetFileName(nameFile), fileSize);
+
+            int countRetries = 1;
+            while (countRetries <= 5)
             {
-                using (var streamReader = new StreamReader(ftpRequest.GetResponse().GetResponseStream()))
+                try
                 {
-                    streamWriter.Write(streamReader.ReadToEnd());
+                    var ftpRequest = (FtpWebRequest)WebRequest.Create(Path.Combine(_defaultFTPFolder, nameFile));
+
+                    ftpRequest.Credentials = new NetworkCredential(_login, _password);
+                    ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+                    ftpRequest.UseBinary = true;
+                    ftpRequest.KeepAlive = true;
+                    ftpRequest.Timeout = Timeout.Infinite;
+
+                    const int countBytes = 1024 * 32;
+                    var buffer = new byte[countBytes];
+
+                    using (var writer = new FileStream(localPath, FileMode.Create))
+                    {
+                        using (var rs = ftpRequest.GetResponse().GetResponseStream())
+                        {
+                            int bytes;
+                            int loadedBytes = 0;
+                            do
+                            {
+                                bytes = rs.Read(buffer, 0, buffer.Length);
+                                writer.Write(buffer, 0, bytes);
+                                loadedBytes += bytes;
+
+                                OnFileSizeLoaded(loadedBytes, fileSize);
+
+                                Thread.Sleep(50 + (countRetries - 1) * 25);
+                            } while (bytes == countBytes);
+                            writer.Flush();
+                        }
+                    }
                 }
+                catch
+                {
+                    Debug.WriteLine("1) " + nameFile);
+                    countRetries++;
+                    Thread.Sleep(100);
+                    continue;
+                }
+
+                var fi = new FileInfo(localPath);
+                if (fileSize != fi.Length)
+                {
+                    Debug.WriteLine("2) " + nameFile);
+                    countRetries++;
+                    Thread.Sleep(100);
+                    continue;
+                }
+
+                break;
+            }
+
+            if (countRetries == 6)
+            {
+                throw new Exception();
             }
         }
 

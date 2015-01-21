@@ -1,8 +1,34 @@
 ﻿<Window x:Class="Updater.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Title="Обновление программы" SizeToContent="Height" Width="500">
+    <Grid Margin="30, 40">
         
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Text="Обновление программы AV" />
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 10, 0, 0"> 
+            <TextBlock Text="Загрузка: " />
+            <TextBlock x:Name="TextBlockFileName" />
+        </StackPanel>
+        
+        <ProgressBar x:Name="ProgressBarPercentage" Grid.Row="2" Height="10" Margin="0, 15, 0, 0"/>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0, 15, 0, 0">
+            <TextBlock Text="Загружено " />
+            <TextBlock x:Name="TextBlockLoaded" />
+            <TextBlock Text=" / " />
+            <TextBlock x:Name="TextBlockFileSize" />
+            <TextBlock Text=" байт" />
+        </StackPanel>
     </Grid>
 </Window>

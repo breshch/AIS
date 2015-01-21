@@ -30,7 +30,8 @@ namespace FTPLoader
 
             _ftpConnector = new FTPConnector("breshch", "Mp7200aA", DefaultFTPFolder);
 
-            _ftpConnector.LoadDirectory(@"D:\AIS_Dev\AIS\AIS2\AIS_Enterprise_AV\bin\Release", @"AIS_Enterprise_AV");
+            _ftpConnector.LoadDirectory(@"D:\AIS_Dev\AIS\AIS2\AIS_Enterprise_AV\bin\Release", @"AIS_Enterprise_AV\Application");
+            _ftpConnector.LoadDirectory(@"D:\AIS_Dev\AIS\AIS2\Updater\bin\Release", @"AIS_Enterprise_AV\Updater");
         }
     }
 }

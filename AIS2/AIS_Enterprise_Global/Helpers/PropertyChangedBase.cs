@@ -18,9 +18,6 @@ namespace AIS_Enterprise_Global.Helpers
     [Magic]
     public class PropertyChangedBase : INotifyPropertyChanged
     {
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        protected static void Raise() { }
-
         protected virtual void RaisePropertyChanged([CallerMemberName] string prop = "")
         {
             var e = PropertyChanged;

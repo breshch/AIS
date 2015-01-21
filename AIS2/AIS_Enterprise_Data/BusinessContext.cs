@@ -3279,8 +3279,7 @@ namespace AIS_Enterprise_Data
 
         public IEnumerable<CarPartRemain> GetRemainsToDate(DateTime date)
         {
-            var lastMonthDayRemains = _dc.InfoLastMonthDayRemains.Where(p => (p.Date.Year == date.Year && p.Date.Month == date.Month)
-                && p.Count > 0).ToList();
+            var lastMonthDayRemains = _dc.InfoLastMonthDayRemains.Where(p => (p.Date.Year == date.Year && p.Date.Month == date.Month)).ToList();
 
             var firstDateInMonth = new DateTime(date.Year, date.Month, 1);
 
@@ -3303,36 +3302,84 @@ namespace AIS_Enterprise_Data
                                    Article = directoryCarPart.Article,
                                    Mark = directoryCarPart.Mark,
                                    Description = directoryCarPart.Description,
-                                   PriceRUR = directoryCarPart.IsImport ? currentCarPartRUR.PriceBase : currentCarPartRUR.PriceSmallWholesale.Value,
+                                   PriceRUR = currentCarPartRUR.PriceBase,
                                    PriceUSD = currentCarPartUSD != null
                                        ? currentCarPartUSD.PriceBase
                                        : default(double?),
                                }).ToList();
 
             var carPartsId = lastMonthDayRemains.Select(r => r.DirectoryCarPartId).
-                Union(containers.SelectMany(c => c.CarParts.Select(p => p.DirectoryCarPartId))).Distinct();
+                Union(containers.SelectMany(c => c.CarParts.Select(p => p.DirectoryCarPartId))).Distinct().ToList();
+
+            var carParts = _dc.DirectoryCarParts.ToList();
+            var marks = carParts.Select(c => c.Mark).Distinct().ToList();
 
             var carPartRemains = new List<CarPartRemain>();
             foreach (var carPartId in carPartsId)
             {
                 var carPart = carPartsRUR.FirstOrDefault(c => c.CarPartId == carPartId);
+                var baseArticle = carParts.First(c => c.Id == carPartId).Article.ToLower();
+
                 if (carPart == null)
                 {
-                    continue;
+                    bool isFound = false;
+                    foreach (var mark in marks)
+                    {
+                        var tmpMark = mark != null ? mark.ToLower() : null;
+                        carPart = carPartsRUR.FirstOrDefault(c => c.Article.ToLower() == baseArticle && c.Mark.ToLower() == tmpMark);
+                        if (carPart != null)
+                        {
+                            isFound = true;
+                            break;
+                        }
+                    }
+
+                    if (!isFound)
+                    {
+                        using (var sw = new StreamWriter(Path.Combine(Environment.CurrentDirectory,"NonInDB.txt"),true))
+                        {
+                            sw.WriteLine(baseArticle);
+                        }
+                        continue;
+                    }
                 }
 
-                int remains = 0;
                 var lastMonthDayRemain = lastMonthDayRemains.FirstOrDefault(r => r.DirectoryCarPartId == carPartId);
-                if (lastMonthDayRemain != null)
+                if (lastMonthDayRemain == null)
                 {
-                    remains = lastMonthDayRemain.Count;
+                    bool isFound = false;
+                    foreach (var mark in marks)
+                    {
+                        var tmpMark = mark != null ? mark.ToLower() : null;
+                        var directoryCarPart = carParts.FirstOrDefault(c => c.Article.ToLower() == baseArticle && c.Mark.ToLower() == tmpMark);
+                        if (directoryCarPart != null)
+                        {
+                            lastMonthDayRemain = lastMonthDayRemains.FirstOrDefault(r => r.DirectoryCarPartId == directoryCarPart.Id);
+                            if (lastMonthDayRemain != null)
+                            {
+                                isFound = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!isFound)
+                    {
+                        continue;
+                    }
                 }
 
+                var remains = lastMonthDayRemain.Count;
                 remains +=
                     containers.Sum(
                         c =>
                             c.CarParts.Where(p => p.DirectoryCarPartId == carPartId)
                                 .Sum(c2 => (c.IsIncoming ? c2.CountCarParts : -c2.CountCarParts)));
+
+                if (remains <= 0)
+                {
+                    continue;
+                }
 
                 var carPartRemain = new CarPartRemain
                 {

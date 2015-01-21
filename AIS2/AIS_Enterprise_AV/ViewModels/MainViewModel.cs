@@ -205,8 +205,6 @@ namespace AIS_Enterprise_AV.ViewModels
                     BC.RefreshContext();
 
                     RefreshUsers();
-
-                    PropertyChangedBase.Raise();
                 }
             }
         }

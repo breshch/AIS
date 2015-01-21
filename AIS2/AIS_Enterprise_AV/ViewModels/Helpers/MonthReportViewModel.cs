@@ -57,8 +57,6 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
                 {
                     SelectedMonth = Monthes.Last();
                 }
-
-                PropertyChangedBase.Raise();
             }
         }
         public int SelectedMonth { get; set; }
