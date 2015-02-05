@@ -3254,21 +3254,32 @@ namespace AIS_Enterprise_Data
                  .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) < 0);
         }
 
-        public IQueryable<ArticlePrice> GetArticlePrices(DateTime date, Currency currency)
+        public IEnumerable<ArticlePrice> GetArticlePrices(DateTime date, Currency currency)
         {
-            return (from directoryCarPart in _dc.DirectoryCarParts
-                    let currentCarPart =
-                        _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
-                            .OrderByDescending(c => c.Date)
-                            .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0)
-                    where currentCarPart != null && currentCarPart.Currency == currency
-                    select new ArticlePrice
-                    {
-                        Article = directoryCarPart.Article,
-                        Mark = directoryCarPart.Mark,
-                        Description = directoryCarPart.Description,
-                        PriceRUR = currentCarPart.PriceBase
-                    });
+	        var directoryCarParts = _dc.DirectoryCarParts.ToList();
+	        var currentCarParts = _dc.CurrentCarParts.ToList();
+
+	        var articlePrices = new List<ArticlePrice>();
+	        foreach (var directoryCarPart in directoryCarParts)
+	        {
+		        var currentCarPart = currentCarParts
+					.Where(c => c.DirectoryCarPartId == directoryCarPart.Id && c.Currency == currency)
+			        .OrderByDescending(c => c.Date)
+			        .FirstOrDefault(c => date.Date >= c.Date.Date);
+
+		        if (currentCarPart != null)
+		        {
+			        articlePrices.Add(new ArticlePrice
+			        {
+						Article = directoryCarPart.Article,
+						Mark = directoryCarPart.Mark,
+						Description = directoryCarPart.Description,
+						PriceRUR = currentCarPart.PriceBase
+			        });
+		        }
+	        }
+
+	        return articlePrices;
         }
 
         #endregion

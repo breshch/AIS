@@ -29,7 +29,6 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
             var date = DateTime.Parse(sheet.Cells[i + 1, 13].Value.ToString());
 
             var articlePrices = bc.GetArticlePrices(date, Currency.RUR).ToList();
-
             while (sheet.Cells[i, 1].Value == null || sheet.Cells[i, 1].Value.ToString() != "2")
             {
                 i++;

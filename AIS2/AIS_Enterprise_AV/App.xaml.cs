@@ -37,7 +37,7 @@ namespace AIS_Enterprise_AV
             base.OnStartup(e);
 
             string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
-                "Updater/AIS_Enterprise_AV_Updater.exe");
+                "Updater/AIS_Enterprise_Updater.exe");
 
             if (File.Exists(pathUpdater))
             {
