@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
+        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
         Title="Добавление ЦО" Height="430" Width="450">
 
     <i:Interaction.Triggers>

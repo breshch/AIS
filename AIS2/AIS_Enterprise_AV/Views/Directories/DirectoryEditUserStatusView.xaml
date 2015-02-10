@@ -3,7 +3,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
+        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
         Title="DirectoryAddUserStatusView" Height="400" Width="300">
     
     <Grid Margin="20,30">

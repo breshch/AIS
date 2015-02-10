@@ -43,7 +43,7 @@ namespace Updater
             this.Visibility = Visibility.Hidden;
             this.ShowInTaskbar = false;
 
-            PathApplication = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AIS_Enterprise_AV");
+	        PathApplication = Directory.GetParent(Environment.CurrentDirectory).FullName;
 
             _ftpConnector = new FTPConnector("breshch", "Mp7200aA", DefaultFTPFolder);
             _ftpConnector.OnGetFileInfo += _ftpConnector_OnGetFileInfo;
@@ -98,7 +98,7 @@ namespace Updater
 
                 File.Delete(Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"));
 
-                Process.Start(Path.Combine(PathApplication, "Application/AIS_Enterprise_AV.exe"));
+                Process.Start(Path.Combine(PathApplication, "Application/AIS_Enterprise.exe"));
 
                 SyncContext(() => this.ShowInTaskbar = false);
                 SyncContext(() => this.Visibility = Visibility.Hidden);

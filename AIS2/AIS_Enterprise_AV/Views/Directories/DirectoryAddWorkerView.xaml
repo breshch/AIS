@@ -5,7 +5,7 @@
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_Global.Helpers.ValueConverters;assembly=AIS_Enterprise_Global"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise_AV;component/Images/Icons/icon.ico"
+        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
         Title="Добавление сотрудника" Height="700" Width="580">
 
     <i:Interaction.Triggers>

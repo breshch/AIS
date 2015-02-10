@@ -3262,11 +3262,16 @@ namespace AIS_Enterprise_Data
 	        var articlePrices = new List<ArticlePrice>();
 	        foreach (var directoryCarPart in directoryCarParts)
 	        {
+		        if (directoryCarPart.Id == 84624)
+		        {
+			        Debug.WriteLine("bryaka");
+		        }
+
 		        var currentCarPart = currentCarParts
 					.Where(c => c.DirectoryCarPartId == directoryCarPart.Id && c.Currency == currency)
 			        .OrderByDescending(c => c.Date)
 			        .FirstOrDefault(c => date.Date >= c.Date.Date);
-
+				
 		        if (currentCarPart != null)
 		        {
 			        articlePrices.Add(new ArticlePrice

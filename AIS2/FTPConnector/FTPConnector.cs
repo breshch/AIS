@@ -20,6 +20,8 @@ namespace FTP
         private readonly string _password;
         private readonly string _defaultFTPFolder;
 
+	    private string[] _extentionsFolder = {".publish"};
+
         public FTPConnector(string login, string password, string defaultFtpFolder)
         {
             _login = login;
@@ -311,8 +313,8 @@ namespace FTP
             //}
 
             //return true;
-
-            return Path.GetExtension(file) != "";
+	        string extension = Path.GetExtension(file);
+            return extension != "" && !_extentionsFolder.Contains(extension);
         }
 
         private void RemoveEmptyDirectory(string directory)
