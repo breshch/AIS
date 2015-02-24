@@ -399,6 +399,16 @@
     <Compile Include="Views\Infos\DayCostsView.xaml.cs">
       <DependentUpon>DayCostsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WareHouse\AddressCell.cs" />
+    <Compile Include="WareHouse\CarPartData.cs" />
+    <Compile Include="WareHouse\RoadType.cs" />
+    <Compile Include="WareHouse\SchemeCell.cs" />
+    <Compile Include="WareHouse\Scheme.xaml.cs">
+      <DependentUpon>Scheme.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WareHouse\SchemeData.cs" />
+    <Compile Include="WareHouse\SchemeDrawing.cs" />
+    <Compile Include="WareHouse\SchemeRoad.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -632,6 +642,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\DayCostsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WareHouse\Scheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using AIS_Enterprise_AV.WareHouse;
 
 namespace AIS_Enterprise_AV
 {
@@ -36,22 +37,24 @@ namespace AIS_Enterprise_AV
         {
             base.OnStartup(e);
 
-            string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
-                "Updater/AIS_Enterprise_Updater.exe");
+	       // new Scheme().ShowDialog();
 
-            if (File.Exists(pathUpdater))
-            {
-                Process.Start(pathUpdater);
-            }
+			//string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
+			//	"Updater/AIS_Enterprise_Updater.exe");
 
-            if (DataContext.TryConnection())
-            {
-                HelperMethods.ShowView(new MainViewModel(), new MainView());
-            }
-            else
-            {
-                HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
-            }
+			//if (File.Exists(pathUpdater))
+			//{
+			//	Process.Start(pathUpdater);
+			//}
+
+			if (DataContext.TryConnection())
+			{
+				HelperMethods.ShowView(new MainViewModel(), new MainView());
+			}
+			else
+			{
+				HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
+			}
         }
     }
 }
