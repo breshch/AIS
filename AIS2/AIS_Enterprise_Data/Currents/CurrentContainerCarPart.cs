@@ -15,6 +15,6 @@ namespace AIS_Enterprise_Data.Currents
         public virtual DirectoryCarPart DirectoryCarPart { get; set; }
         public int CountCarParts { get; set; }
 
-        public int InfoContainerId { get; set; }
+        public int? InfoContainerId { get; set; }
     }
 }

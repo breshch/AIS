@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using AIS_Enterprise_Data.Directories;
 
@@ -12,9 +13,11 @@ namespace AIS_Enterprise_AV.WareHouse
 	public class SchemeCell
 	{
 		public AddressCell Address { get; set; }
-		public bool IsEnabled { get; set; }
+		public Point Coordinates { get; set; }
+		public Size Size { get; set; }
 
-		private CarPartData[] _carParts;
+		public CarPartData[] CarParts { get; private set; }
+
 
 		private static readonly Random _random = new Random();
 		private static readonly object _lockRandom = new object();
@@ -29,9 +32,7 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		public SchemeCell()
 		{
-			IsEnabled = true;
-
-			_carParts = GetRandom(0, 2) == 0
+			CarParts = GetRandom(0, 2) == 0
 				? Enumerable
 					.Range(1, GetRandom(1, 4))
 					.Select(number => new CarPartData
@@ -49,8 +50,14 @@ namespace AIS_Enterprise_AV.WareHouse
 		{
 			get
 			{
-				return _carParts.Any();
+				return CarParts.Any();
 			}
+		}
+
+		public bool IsFind(Point mousePoint)
+		{
+			return mousePoint.X >= Coordinates.X && mousePoint.X <= (Coordinates.X + Size.Width) &&
+				   mousePoint.Y >= Coordinates.Y && mousePoint.Y <= (Coordinates.Y + Size.Height);
 		}
 	}
 }

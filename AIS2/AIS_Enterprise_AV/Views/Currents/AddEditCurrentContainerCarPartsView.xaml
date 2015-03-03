@@ -10,7 +10,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Orientation="Horizontal">
@@ -34,21 +35,29 @@
                 <TextBlock Text= "Номер приказа" Width="150"/>
                 <TextBox Text="{Binding Name}"/>
             </StackPanel>
-            
-           
-     
         </StackPanel>
+		
         <DataGrid Grid.Row="1" AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single" 
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding CurrentContainerCarParts}"
-                  SelectedItem="{Binding SelectedCurrentContainerCarPart}"  Margin="0, 10, 0, 0">
+                  SelectedItem="{Binding SelectedCurrentContainerCarPart}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0, 10, 0, 0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Артикул" Binding="{Binding DirectoryCarPart.FullCarPartName}" Width="*"/>
                 <DataGridTextColumn Header="Описание" Binding="{Binding DirectoryCarPart.Description}" Width="*"/>
-                <DataGridTextColumn Header="Количество" Binding="{Binding CountCarParts}" Width="*"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding CountCarParts}" CellStyle="{StaticResource CenterTextAlignmentCell}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="2" Margin=" 0, 20, 0, 0">
+		<DataGrid Grid.Row="2" AutoGenerateColumns="False" HeadersVisibility="None" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single" 
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ScrollViewer.VerticalScrollBarVisibility="Visible"
+				  ItemsSource="{Binding TotalCarPartsCount}" RowHeight="36" Margin="0, 0, 0, 0">
+			<DataGrid.Columns>
+				<DataGridTextColumn Binding="{Binding Text}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}" Width="*"/>
+				<DataGridTextColumn Width="*"/>
+				<DataGridTextColumn Binding="{Binding Count}"  CellStyle="{StaticResource CenterTextAlignmentCellTotal}" Width="*"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Grid Grid.Row="3" Margin=" 0, 20, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -60,7 +69,7 @@
             <Button Grid.Column="2" Content="Удалить запчасть" Command="{Binding RemoveCarPartCommnad}" Margin=" 10, 0, 0, 0"/>
         </Grid>
 
-        <Button Grid.Row="3" Content="{Binding ButtonAddEditContainerName}" Command="{Binding AddEditConteinerCommand}"
+        <Button Grid.Row="4" Content="{Binding ButtonAddEditContainerName}" Command="{Binding AddEditConteinerCommand}"
                 CommandParameter="{Binding ElementName=AddEditCurrentContainerCarPartsWindow}" Margin="0, 20, 0, 0"/>
         
     </Grid>

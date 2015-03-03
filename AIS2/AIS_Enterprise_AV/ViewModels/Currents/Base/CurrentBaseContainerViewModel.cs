@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIS_Enterprise_AV.Helpers.Temps;
 
 namespace AIS_Enterprise_AV.ViewModels.Currents.Base
 {
@@ -30,6 +31,7 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
             RemoveCarPartCommnad = new RelayCommand(Remove, IsSelectedCarPart);
 
             CurrentContainerCarParts = new ObservableCollection<CurrentContainerCarPart>();
+
         }
 
         #endregion
@@ -46,6 +48,7 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
         public string  Description { get; set; }
         public ObservableCollection<CurrentContainerCarPart> CurrentContainerCarParts { get; set; }
         public CurrentContainerCarPart SelectedCurrentContainerCarPart { get; set; }
+		public ObservableCollection<ContainerCountCarParts> TotalCarPartsCount { get; set; }		
 
         public string ButtonAddEditContainerName { get; set; }
         

@@ -33,7 +33,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>63</ApplicationRevision>
+    <ApplicationRevision>64</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -127,6 +127,7 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -177,6 +178,7 @@
     </Compile>
     <Compile Include="Helpers\ConvertingExcel\ConvertingCarPartsExcelToDB.cs" />
     <Compile Include="Helpers\ConvertingExcel\ProcessingInvoice.cs" />
+    <Compile Include="Helpers\Temps\ContainerCountCarParts.cs" />
     <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
     <Compile Include="Helpers\Temps\Invoice.cs" />
     <Compile Include="Reports\CarPartReports.cs" />
@@ -400,6 +402,7 @@
       <DependentUpon>DayCostsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WareHouse\AddressCell.cs" />
+    <Compile Include="WareHouse\AddressBlock.cs" />
     <Compile Include="WareHouse\CarPartData.cs" />
     <Compile Include="WareHouse\RoadType.cs" />
     <Compile Include="WareHouse\SchemeCell.cs" />

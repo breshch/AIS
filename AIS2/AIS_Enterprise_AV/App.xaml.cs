@@ -23,21 +23,21 @@ using AIS_Enterprise_AV.WareHouse;
 
 namespace AIS_Enterprise_AV
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Логика взаимодействия для App.xaml
+	/// </summary>
+	public partial class App : Application
+	{
+		public App()
+		{
+			InitializeComponent();
+		}
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
 
-	       // new Scheme().ShowDialog();
+			//new Scheme().ShowDialog();
 
 			//string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
 			//	"Updater/AIS_Enterprise_Updater.exe");
@@ -55,6 +55,6 @@ namespace AIS_Enterprise_AV
 			{
 				HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
 			}
-        }
-    }
+		}
+	}
 }

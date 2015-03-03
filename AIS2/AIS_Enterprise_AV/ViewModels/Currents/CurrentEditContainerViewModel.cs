@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIS_Enterprise_AV.Helpers.Temps;
 
 namespace AIS_Enterprise_AV.ViewModels.Currents
 {
@@ -31,6 +32,14 @@ namespace AIS_Enterprise_AV.ViewModels.Currents
             DatePhysical = container.DatePhysical;
             DateOrder = container.DateOrder;
             CurrentContainerCarParts = new ObservableCollection<CurrentContainerCarPart>(container.CarParts);
+			TotalCarPartsCount = new ObservableCollection<ContainerCountCarParts>
+			{
+				new ContainerCountCarParts
+				{
+					Text = "Итого",
+					Count = CurrentContainerCarParts.Sum(p => p.CountCarParts)
+				}
+			};
             _containerId = container.Id;
 
             AddEditConteinerCommand = new RelayCommand(EditContainer, IsAnyCarParts);

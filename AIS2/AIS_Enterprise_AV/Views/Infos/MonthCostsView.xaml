@@ -6,27 +6,9 @@
         WindowStartupLocation="CenterScreen" MaxHeight="{Binding MaxHeightForm}">
 
     <Window.Resources>
-        <Style x:Key="CenterTextAlignmentCell" TargetType="DataGridCell">
-            <Style.Setters>
-                <Setter Property="TextBlock.TextAlignment" Value="Center" />
-            </Style.Setters>
-        </Style>
+        
 
-        <Style x:Key="CenterTextAlignmentCellTotal" TargetType="DataGridCell" BasedOn="{StaticResource CenterTextAlignmentCell}">
-            <Style.Setters>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type DataGridCell}">
-                            <Grid Background="{TemplateBinding Background}">
-                                <ContentPresenter VerticalAlignment="Center" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="TextBlock.FontSize" Value="14" />
-                <Setter Property="TextBlock.FontWeight" Value="Bold" />
-            </Style.Setters>
-        </Style>
+       
 
         <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
     </Window.Resources>
