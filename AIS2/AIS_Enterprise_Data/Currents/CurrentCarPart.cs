@@ -1,10 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using AIS_Enterprise_Data.Directories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_Data.Currents

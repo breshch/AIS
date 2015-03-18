@@ -1,12 +1,5 @@
-﻿using AIS_Enterprise_Data.Currents;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
+using AIS_Enterprise_Data.Currents;
 
 namespace AIS_Enterprise_Data.Directories
 {

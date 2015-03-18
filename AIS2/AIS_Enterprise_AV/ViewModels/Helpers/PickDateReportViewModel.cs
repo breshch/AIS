@@ -1,12 +1,6 @@
-﻿using AIS_Enterprise_AV.Reports;
-using AIS_Enterprise_Data;
+﻿using System;
+using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_Global.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Helpers
 {

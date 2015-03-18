@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AIS_Enterprise_AV.WareHouse
 {
 	public class SchemeData
 	{
-		private List<SchemeCell> _schemeCells = new List<SchemeCell>();
-		private List<SchemeRoad> _schemeRoads = new List<SchemeRoad>();
+		private readonly List<SchemeCell> _schemeCells = new List<SchemeCell>();
+		private readonly List<SchemeRoad> _schemeRoads = new List<SchemeRoad>();
 
 		public int CountRows { get; private set; }
 		public int CountPlaces { get; private set; }
@@ -21,9 +18,9 @@ namespace AIS_Enterprise_AV.WareHouse
 			CountPlaces = countPlaces;
 		}
 
-		public void AddCell(int row, int place, int floor, int cell)
+		public void AddCell(int row, int place, int floor, int cell, CarPartData[] carPartData)
 		{
-			_schemeCells.Add(new SchemeCell
+			_schemeCells.Add(new SchemeCell(carPartData)
 			{
 				Address = new AddressCell
 				{
@@ -55,23 +52,6 @@ namespace AIS_Enterprise_AV.WareHouse
 			return !_schemeCells.Any(c => c.Address.Row == row && c.Address.Place == place);
 		}
 
-		public AddressBlock GetBlock(Point mousePoint)
-		{
-			foreach (var cell in _schemeCells)
-			{
-				if (cell.IsFind(mousePoint))
-				{
-					return new AddressBlock
-					{
-						Row = cell.Address.Row,
-						Place = cell.Address.Place
-					};
-				}
-			}
-
-			return null;
-		}
-
 		public bool IsRoad(RoadType roadType, int startRoadType, int finishRoadType, int positionInverseRoadType)
 		{
 			var roads = _schemeRoads.Where(r => r.Type == roadType);
@@ -90,16 +70,6 @@ namespace AIS_Enterprise_AV.WareHouse
 			}
 
 			return false;
-		}
-
-		public void FillCoordinates(int row, int place, Point coordinates, Size size)
-		{
-			var cells =_schemeCells.Where(c => c.Address.Row == row && c.Address.Place == place);
-			foreach (var cell in cells)
-			{
-				cell.Coordinates = coordinates;
-				cell.Size = size;
-			}
 		}
 
 		public SchemeCell[] GetCells(int row, int place)

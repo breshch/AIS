@@ -1,16 +1,9 @@
-﻿using AIS_Enterprise_AV.ViewModels.Currents;
-using AIS_Enterprise_AV.ViewModels.Directories;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using AIS_Enterprise_AV.ViewModels.Currents;
 using AIS_Enterprise_AV.Views.Currents;
-using AIS_Enterprise_Data.Currents;
-using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.Infos.ViewModels
 {

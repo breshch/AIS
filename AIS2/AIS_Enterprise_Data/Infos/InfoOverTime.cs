@@ -1,11 +1,7 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Data.Currents;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Data.Currents;
 
 namespace AIS_Enterprise_Data.Infos
 {

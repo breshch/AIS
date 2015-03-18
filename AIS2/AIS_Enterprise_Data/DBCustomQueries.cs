@@ -1,10 +1,6 @@
-﻿using AIS_Enterprise_Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Data.Properties;
 
 namespace AIS_Enterprise_Data
 {
@@ -43,8 +39,8 @@ namespace AIS_Enterprise_Data
 
         public static void AddUserButler(DataContext dc)
         {
-            string nameButler = Properties.Settings.Default.NameButler;
-            string passwordButler = Properties.Settings.Default.PasswordButler;
+            string nameButler = Settings.Default.NameButler;
+            string passwordButler = Settings.Default.PasswordButler;
 
             string dataBaseName = dc.Database.Connection.Database;
 

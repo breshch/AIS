@@ -1,11 +1,13 @@
-﻿namespace AIS_Enterprise_CardService
+﻿using System.ComponentModel;
+
+namespace AIS_Enterprise_CardService
 {
     partial class CardService
     {
         /// <summary> 
         /// Требуется переменная конструктора.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Освободить все используемые ресурсы.

@@ -1,13 +1,11 @@
-﻿using AIS_Enterprise_Data;
-using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
+using AIS_Enterprise_Data;
 using Numerizr;
-using System.Threading.Tasks;
+using OfficeOpenXml;
 
 namespace AIS_Enterprise_AV.Reports
 {

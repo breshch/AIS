@@ -1,20 +1,15 @@
-﻿using AIS_Enterprise_AV.Views.Infos;
-using AIS_Enterprise_AV.Helpers.Temps;
-using AIS_Enterprise_AV.Reports;
-using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Data.Infos;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
+using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Views.Infos;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Data.Temps;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
@@ -27,7 +22,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         public MonthCostsViewModel()
         {
-            var firstWorkingArea = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+            var firstWorkingArea = Screen.AllScreens[0].WorkingArea;
             MaxHeightForm = firstWorkingArea.Height - 100;
 
             _isNotTransportOnly = HelperMethods.IsPrivilege(BC, UserPrivileges.CostsVisibility_IsNotTransportOnly);

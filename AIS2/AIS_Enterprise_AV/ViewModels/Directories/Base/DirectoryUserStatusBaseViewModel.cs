@@ -1,13 +1,10 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Data.Currents;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Temps;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories.Base
 {

@@ -1,33 +1,23 @@
-﻿using System.Deployment.Application;
-using AIS_Enterprise_AV.Helpers.ExcelToDB;
-using AIS_Enterprise_AV.Properties;
-using AIS_Enterprise_AV.ViewModels.Helpers;
-using AIS_Enterprise_AV.Views;
-using AIS_Enterprise_AV.Views.Directories;
-using AIS_Enterprise_AV.Views.Helpers;
-using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Attributes;
-using AIS_Enterprise_Global.Migrations;
-using AIS_Enterprise_Data;
-using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Global.ViewModels;
-using AIS_Enterprise_Global.ViewModels.Directories;
-using AIS_Enterprise_Global.Views.Directories;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using Application = System.Windows.Application;
-using MessageBox = System.Windows.MessageBox;
-using Timer = System.Windows.Forms.Timer;
+using AIS_Enterprise_AV.Helpers.ExcelToDB;
+using AIS_Enterprise_AV.Properties;
+using AIS_Enterprise_AV.ViewModels.Helpers;
+using AIS_Enterprise_AV.Views;
+using AIS_Enterprise_AV.Views.Helpers;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Migrations;
+using Application = System.Windows.Forms.Application;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
@@ -62,7 +52,7 @@ namespace AIS_Enterprise_AV.ViewModels
                     DataBases.Add(dataBase);
                 }
 
-                string defaultDataBase = Properties.Settings.Default.DefaultDataBase;
+                string defaultDataBase = Settings.Default.DefaultDataBase;
 
                 if (DataBases.Contains(defaultDataBase))
                 {
@@ -122,7 +112,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 Users.Add(user);
             }
 
-            string defaultUser = Properties.Settings.Default.DefaultUser;
+            string defaultUser = Settings.Default.DefaultUser;
 
             if (Users.Select(u => u.TranscriptionName).Contains(defaultUser))
             {
@@ -222,8 +212,8 @@ namespace AIS_Enterprise_AV.ViewModels
                 _selectedLanguage = value;
                 RaisePropertyChanged();
 
-                Properties.Settings.Default.Language = _selectedLanguage;
-                Properties.Settings.Default.Save();
+                Settings.Default.Language = _selectedLanguage;
+                Settings.Default.Save();
             }
         }
 
@@ -327,7 +317,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
             }
 
-            string defaultDataBase = Properties.Settings.Default.DefaultDataBase;
+            string defaultDataBase = Settings.Default.DefaultDataBase;
 
             if (DataBases.Contains(defaultDataBase))
             {
@@ -388,15 +378,15 @@ namespace AIS_Enterprise_AV.ViewModels
 
             string password = passwordBox.Password;
 
-            if (Properties.Settings.Default.DefaultServer != SelectedServer ||
-                Properties.Settings.Default.DefaultDataBase != SelectedDataBase ||
+            if (Settings.Default.DefaultServer != SelectedServer ||
+                Settings.Default.DefaultDataBase != SelectedDataBase ||
                 DirectoryUser.CurrentUserId != SelectedUser.Id)
             {
                 DataContext.ChangeUser(SelectedUser.TranscriptionName, password);
 
                 if (!DataContext.TryConnection())
                 {
-                    System.Windows.Forms.MessageBox.Show("Errororoororr");
+                    MessageBox.Show("Errororoororr");
                     return;
                 }
 
@@ -404,10 +394,10 @@ namespace AIS_Enterprise_AV.ViewModels
 
                 //CheckNewVersion();
 
-                Properties.Settings.Default.DefaultServer = SelectedServer;
-                Properties.Settings.Default.DefaultDataBase = SelectedDataBase;
-                Properties.Settings.Default.DefaultUser = SelectedUser.TranscriptionName;
-                Properties.Settings.Default.Save();
+                Settings.Default.DefaultServer = SelectedServer;
+                Settings.Default.DefaultDataBase = SelectedDataBase;
+                Settings.Default.DefaultUser = SelectedUser.TranscriptionName;
+                Settings.Default.Save();
 
                 DirectoryUser.ChangeUserId(BC, SelectedUser.Id, SelectedUser.UserName);
             }
@@ -458,9 +448,9 @@ namespace AIS_Enterprise_AV.ViewModels
                 Settings.Default.ApplicationVersion = version.ToString();
                 Settings.Default.Save();
 
-                MessageBox.Show("Вышла новая версия. Программа будет обновлена и перезагружена.", "Новая версия", MessageBoxButton.OK);
-                Process.Start(System.Windows.Forms.Application.ExecutablePath);
-                Application.Current.Shutdown();
+                System.Windows.MessageBox.Show("Вышла новая версия. Программа будет обновлена и перезагружена.", "Новая версия", MessageBoxButton.OK);
+                Process.Start(Application.ExecutablePath);
+                System.Windows.Application.Current.Shutdown();
             }
         }
 

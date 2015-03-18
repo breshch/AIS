@@ -1,18 +1,12 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Attributes;
-using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Data;
-using AIS_Enterprise_Data.Directories;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Temps;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
 
 namespace AIS_Enterprise_Global.ViewModels
 {

@@ -1,21 +1,12 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Data;
-using AIS_Enterprise_Data.Currents;
-using AIS_Enterprise_Global.Views.Currents;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AIS_Enterprise_Data.Temps;
-using System.Data.Entity;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Views.Currents;
+using Microsoft.Win32;
 
 namespace AIS_Enterprise_Global.ViewModels
 {

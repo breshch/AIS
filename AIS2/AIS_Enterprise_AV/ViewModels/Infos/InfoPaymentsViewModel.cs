@@ -1,12 +1,7 @@
-﻿using AIS_Enterprise_AV.Views.Infos;
-using AIS_Enterprise_Global.Helpers;
+﻿using System.Collections.ObjectModel;
+using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data.Infos;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {

@@ -33,7 +33,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>64</ApplicationRevision>
+    <ApplicationRevision>65</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -403,6 +403,7 @@
     </Compile>
     <Compile Include="WareHouse\AddressCell.cs" />
     <Compile Include="WareHouse\AddressBlock.cs" />
+    <Compile Include="WareHouse\AddressPallet.cs" />
     <Compile Include="WareHouse\CarPartData.cs" />
     <Compile Include="WareHouse\RoadType.cs" />
     <Compile Include="WareHouse\SchemeCell.cs" />
@@ -411,6 +412,8 @@
     </Compile>
     <Compile Include="WareHouse\SchemeData.cs" />
     <Compile Include="WareHouse\SchemeDrawing.cs" />
+    <Compile Include="WareHouse\SchemeDrawingBlock.cs" />
+    <Compile Include="WareHouse\SchemeDrawingWarehouse.cs" />
     <Compile Include="WareHouse\SchemeRoad.cs" />
   </ItemGroup>
   <ItemGroup>

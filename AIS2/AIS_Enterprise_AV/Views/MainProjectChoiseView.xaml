@@ -11,6 +11,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -20,6 +21,8 @@
         <Button Grid.Row="2" Content="Обработка бух." Command="{Binding ProcessingBookKeepingCommand}" CommandParameter="{Binding ElementName=MainProjectChoiseWindow}" IsEnabled="{Binding IsEnabledProcessingFenox}"
                 Margin="0, 20, 0, 0"/>
         <Button Grid.Row="3" Content="Остатки залог." Command="{Binding RemainsLoanCommand}" CommandParameter="{Binding ElementName=MainProjectChoiseWindow}" IsEnabled="{Binding IsEnabledProcessingFenox}"
+                Margin="0, 20, 0, 0"/>
+		<Button Grid.Row="4" Content="Склад" Command="{Binding WarehouseCommand}" CommandParameter="{Binding ElementName=MainProjectChoiseWindow}" IsEnabled="{Binding IsEnabledProcessingFenox}"
                 Margin="0, 20, 0, 0"/>
     </Grid>
 </Window>

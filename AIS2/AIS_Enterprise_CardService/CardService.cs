@@ -1,20 +1,17 @@
-﻿using AIS_Enterprise_Data;
-using AIS_Enterprise_Global.Helpers;
-using MailKit;
-using MailKit.Net.Imap;
-using MailKit.Search;
-using MimeKit;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Global.Helpers;
+using MailKit;
+using MailKit.Net.Imap;
+using MailKit.Search;
+using MimeKit;
 
 namespace AIS_Enterprise_CardService
 {

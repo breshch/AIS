@@ -1,15 +1,17 @@
-﻿using AIS_Enterprise_AV.Helpers.Temps;
-using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Data;
-using AIS_Enterprise_Data.Directories;
-using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Global.Helpers;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using Color = System.Drawing.Color;
 
 namespace AIS_Enterprise_AV.Reports
 {
@@ -107,11 +109,11 @@ namespace AIS_Enterprise_AV.Reports
 
                 var colorTransparent = Color.Transparent;
 
-                Helpers.CreateCell(sheet, 1, 1, "Дата", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 2, "ЦО", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 3, "Приход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 4, "Расход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 5, "Описание", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 1, "Дата", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 2, "ЦО", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 3, "Приход", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 4, "Расход", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 5, "Описание", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
 
                 int indexRow = 2;
 
@@ -125,14 +127,14 @@ namespace AIS_Enterprise_AV.Reports
                     int firstIndexRow = indexRow;
                     foreach (var cost in costs.Where(c => c.DirectoryRC.Id == rc.Id).OrderBy(c => c.Date))
                     {
-                        Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryRC.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 3, cost.IsIncoming ? cost.Incoming : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 5, cost.ConcatNotes, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryRC.Name, colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 3, cost.IsIncoming ? cost.Incoming : null, colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 4, !cost.IsIncoming ? cost.Expense : null, colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 5, cost.ConcatNotes, colorTransparent, 11, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
-                        var formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
-                            new System.Windows.Media.Typeface("Courier New"), 11, System.Windows.Media.Brushes.Black);
+                        var formattedText = new FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                            new Typeface("Courier New"), 11, Brushes.Black);
 
                         if (maxLengthNote < formattedText.Width)
                         {
@@ -146,17 +148,17 @@ namespace AIS_Enterprise_AV.Reports
                     }
 
                     var colorGray = Color.LightGray;
-                    Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 3, summIncoming.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 4, summExpence.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 5, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 3, summIncoming.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 4, summExpence.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 5, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
 
-                    sheet.Cells[firstIndexRow, 1, indexRow - 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 2, indexRow - 1, 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 3, indexRow - 1, 3].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 4, indexRow - 1, 4].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 5, indexRow - 1, 5].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 1, indexRow - 1, 1].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 2, indexRow - 1, 2].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 3, indexRow - 1, 3].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 4, indexRow - 1, 4].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 5, indexRow - 1, 5].Style.Border.BorderAround(ExcelBorderStyle.Thick);
 
                     indexRow++;
                 }
@@ -182,12 +184,12 @@ namespace AIS_Enterprise_AV.Reports
 
                 var colorTransparent = Color.Transparent;
 
-                Helpers.CreateCell(sheet, 1, 1, "Дата", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 2, "Статья затрат", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 3, "ЦО", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 4, "Приход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 5, "Расход", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                Helpers.CreateCell(sheet, 1, 6, "Описание", colorTransparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 1, "Дата", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 2, "Статья затрат", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 3, "ЦО", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 4, "Приход", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 5, "Расход", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+                Helpers.CreateCell(sheet, 1, 6, "Описание", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
 
                 int indexRow = 2;
 
@@ -201,15 +203,15 @@ namespace AIS_Enterprise_AV.Reports
                     int firstIndexRow = indexRow;
                     foreach (var cost in costs.Where(c => c.DirectoryRC.Id == rc.Id).OrderBy(c => c.Date))
                     {
-                        Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryCostItem.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 3, cost.DirectoryRC.Name, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 4, cost.IsIncoming ? cost.Incoming : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 5, !cost.IsIncoming ? cost.Expense : null, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                        Helpers.CreateCell(sheet, indexRow, 6, cost.ConcatNotes, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryCostItem.Name, colorTransparent, 11, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 3, cost.DirectoryRC.Name, colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 4, cost.IsIncoming ? cost.Incoming : null, colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 5, !cost.IsIncoming ? cost.Expense : null, colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                        Helpers.CreateCell(sheet, indexRow, 6, cost.ConcatNotes, colorTransparent, 11, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
-                        System.Windows.Media.FormattedText formattedText = new System.Windows.Media.FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight,
-                            new System.Windows.Media.Typeface("Courier New"), 11, System.Windows.Media.Brushes.Black);
+                        FormattedText formattedText = new FormattedText(cost.ConcatNotes, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                            new Typeface("Courier New"), 11, Brushes.Black);
 
                         if (maxLengthNote < formattedText.Width)
                         {
@@ -223,19 +225,19 @@ namespace AIS_Enterprise_AV.Reports
                     }
 
                     var colorGray = Color.LightGray;
-                    Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 3, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 4, summIncoming.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 5, summExpence.ToString("c"), colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
-                    Helpers.CreateCell(sheet, indexRow, 6, null, colorGray, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 3, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 4, summIncoming.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 5, summExpence.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+                    Helpers.CreateCell(sheet, indexRow, 6, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
 
-                    sheet.Cells[firstIndexRow, 1, indexRow - 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 2, indexRow - 1, 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 3, indexRow - 1, 3].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 4, indexRow - 1, 4].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 5, indexRow - 1, 5].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[firstIndexRow, 6, indexRow - 1, 6].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 1, indexRow - 1, 1].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 2, indexRow - 1, 2].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 3, indexRow - 1, 3].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 4, indexRow - 1, 4].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 5, indexRow - 1, 5].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[firstIndexRow, 6, indexRow - 1, 6].Style.Border.BorderAround(ExcelBorderStyle.Thick);
 
                     indexRow++;
                 }
@@ -279,7 +281,7 @@ namespace AIS_Enterprise_AV.Reports
 
                 foreach (var worker in workers)
                 {
-                    Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, worker.FullName, colorTransparent, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
+                    Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_OVERTIME, worker.FullName, colorTransparent, 11, false, ExcelHorizontalAlignment.Left);
 
                     string postName = bc.GetCurrentPost(worker.Id, lastDateInMonth).DirectoryPost.Name;
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, postName, colorTransparent);
@@ -535,7 +537,7 @@ namespace AIS_Enterprise_AV.Reports
                     int indexRowWorker = (INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1) + indexWorker;
 
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
-                    Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
+                    Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, ExcelHorizontalAlignment.Left);
 
                     var currentWorkerPost = currentMainWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_POST_NAME_MINSK, currentWorkerPost.DirectoryPost.Name, colorHeaderDate);
@@ -689,7 +691,7 @@ namespace AIS_Enterprise_AV.Reports
                     int indexRowWorker = (INDEX_HEADER_ROW_MINSK + COUNT_HEADER_ROW_MINSK - 1) + indexWorker;
 
                     Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_PP_MINSK, indexWorker, colorHeaderDate);
-                    Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
+                    Helpers.CreateCell(sheet, indexRowWorker, INDEX_HEADER_COLUMN_FULL_NAME_MINSK, worker.FullName, colorHeaderDate, 11, false, ExcelHorizontalAlignment.Left);
 
                     var currentWorkerPost = currentMainWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
                     string postName = currentWorkerPost.DirectoryPost.Name;
@@ -879,20 +881,20 @@ namespace AIS_Enterprise_AV.Reports
                     //Header
                     ExcelRange headerName = sheet.Cells[1, 1, 1, countDaysInMonth];
                     headerName.Merge = true;
-                    headerName.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    headerName.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     headerName.Value = worker.LastName + " " + worker.FirstName + " " + worker.MidName;
 
                     ExcelRange headerDate = sheet.Cells[2, 1, 2, countDaysInMonth];
                     headerDate.Merge = true;
-                    headerDate.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    headerDate.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     headerDate.Value = month + "." + year;
 
                     ExcelRange headerPost = sheet.Cells[3, 1, 3, countDaysInMonth];
                     headerPost.Merge = true;
-                    headerPost.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    headerPost.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     headerPost.Value = countWorkDays + " рабочих дня(-ей)";
 
-                    sheet.Cells[1, 1, 3, countDaysInMonth].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                    sheet.Cells[1, 1, 3, countDaysInMonth].Style.Border.BorderAround(ExcelBorderStyle.Thick);
 
 
                     int count = 0;
@@ -913,16 +915,16 @@ namespace AIS_Enterprise_AV.Reports
 
                         if (weekendsInMonth.Any(w => w.Date == workerDay.Date))
                         {
-                            headerDay.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            headerDay.Style.Fill.PatternType = ExcelFillStyle.Solid;
                             headerDay.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                         }
-                        headerDay.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        headerDay.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         headerDay.Value = i;
                     }
 
                     for (int i = 1; i <= count; i++)
                     {
-                        sheet.Column(i).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        sheet.Column(i).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     }
 
                     //Body
@@ -943,7 +945,7 @@ namespace AIS_Enterprise_AV.Reports
                     foreach (var infoDate in infoDates)
                     {
                         ExcelRange bodyDay = sheet.Cells[6, infoDate.Date.Day];
-                        bodyDay.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        bodyDay.Style.Border.BorderAround(ExcelBorderStyle.Thin);
 
                         var currentWorkerPost = bc.GetCurrentPost(worker.Id, infoDate.Date);
                         var postSalary = bc.GetDirectoryPostSalaryByDate(currentWorkerPost.DirectoryPost.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
@@ -1012,7 +1014,7 @@ namespace AIS_Enterprise_AV.Reports
                             else
                             {
                                 bodyDay.Style.Font.Bold = true;
-                                bodyDay.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                bodyDay.Style.Fill.PatternType = ExcelFillStyle.Solid;
                                 bodyDay.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                                 bodyDay.Value = "В";
                             }
@@ -1053,85 +1055,85 @@ namespace AIS_Enterprise_AV.Reports
                         }
                     }
 
-                    sheet.Cells[5, 1, 6, countDaysInMonth].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                    sheet.Cells[5, 1, 6, countDaysInMonth].Style.Border.BorderAround(ExcelBorderStyle.Thick);
 
                     //downheader
 
                     ExcelRange downHeaderTypeOfCharge = sheet.Cells[8, 1, 8, 8];
                     downHeaderTypeOfCharge.Merge = true;
-                    downHeaderTypeOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderTypeOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderTypeOfCharge.Style.Font.Bold = true;
-                    downHeaderTypeOfCharge.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderTypeOfCharge.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderTypeOfCharge.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderTypeOfCharge.Value = "Начисления";
 
                     ExcelRange downHeaderPeriod = sheet.Cells[8, 9, 8, 10];
                     downHeaderPeriod.Merge = true;
-                    downHeaderPeriod.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderPeriod.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderPeriod.Style.Font.Bold = true;
-                    downHeaderPeriod.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderPeriod.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderPeriod.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderPeriod.Value = "Дата";
 
                     ExcelRange downHeaderDays = sheet.Cells[8, 11, 8, 12];
                     downHeaderDays.Merge = true;
-                    downHeaderDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderDays.Style.Font.Bold = true;
-                    downHeaderDays.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderDays.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderDays.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderDays.Value = "Дни";
 
                     ExcelRange downHeaderHours = sheet.Cells[8, 13, 8, 14];
                     downHeaderHours.Merge = true;
-                    downHeaderHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderHours.Style.Font.Bold = true;
-                    downHeaderHours.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderHours.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderHours.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderHours.Value = "Часы";
 
                     ExcelRange downHeaderSalaryInHour = sheet.Cells[8, 15, 8, 17];
                     downHeaderSalaryInHour.Merge = true;
-                    downHeaderSalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderSalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderSalaryInHour.Style.Font.Bold = true;
-                    downHeaderSalaryInHour.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderSalaryInHour.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderSalaryInHour.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderSalaryInHour.Value = "Зп/Час";
 
                     ExcelRange downHeaderSummOfCharge = sheet.Cells[8, 18, 8, 20];
                     downHeaderSummOfCharge.Merge = true;
-                    downHeaderSummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderSummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderSummOfCharge.Style.Font.Bold = true;
-                    downHeaderSummOfCharge.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderSummOfCharge.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderSummOfCharge.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderSummOfCharge.Value = "Сумма";
 
                     ExcelRange downHeaderTypeOfHolding = sheet.Cells[8, 21, 8, 25];
                     downHeaderTypeOfHolding.Merge = true;
-                    downHeaderTypeOfHolding.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderTypeOfHolding.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderTypeOfHolding.Style.Font.Bold = true;
-                    downHeaderTypeOfHolding.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderTypeOfHolding.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderTypeOfHolding.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderTypeOfHolding.Value = "Удержания";
 
                     ExcelRange downHeaderCount = sheet.Cells[8, 26, 8, 27];
                     downHeaderCount.Merge = true;
-                    downHeaderCount.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderCount.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderCount.Style.Font.Bold = true;
-                    downHeaderCount.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderCount.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderCount.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderCount.Value = "К-во";
 
                     ExcelRange downHeaderSummOfHolding = sheet.Cells[8, 28, 8, countDaysInMonth];
                     downHeaderSummOfHolding.Merge = true;
-                    downHeaderSummOfHolding.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downHeaderSummOfHolding.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downHeaderSummOfHolding.Style.Font.Bold = true;
-                    downHeaderSummOfHolding.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    downHeaderSummOfHolding.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     downHeaderSummOfHolding.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                     downHeaderSummOfHolding.Value = "Сумма";
 
                     ExcelRange downLeftHeaderSalary = sheet.Cells[9, 1, 9, 3];
                     downLeftHeaderSalary.Merge = true;
-                    downLeftHeaderSalary.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderSalary.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderSalary.Value = "Оклад";
 
 
@@ -1141,32 +1143,32 @@ namespace AIS_Enterprise_AV.Reports
                     {
                         ExcelRange downLeftBodyPost = sheet.Cells[countRow, 4, countRow, 8];
                         downLeftBodyPost.Merge = true;
-                        downLeftBodyPost.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyPost.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyPost.Value = workerPostReportSalaries[i].PostName;
 
                         ExcelRange downLeftBodyPeriod = sheet.Cells[countRow, 9, countRow, 10];
                         downLeftBodyPeriod.Merge = true;
-                        downLeftBodyPeriod.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyPeriod.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyPeriod.Value = workerPostReportSalaries[i].ChangePostDay + "-" + (workerPostReportSalaries[i + 1].ChangePostDay - 1);
 
                         ExcelRange downLeftBodyDays = sheet.Cells[countRow, 11, countRow, 12];
                         downLeftBodyDays.Merge = true;
-                        downLeftBodyDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyDays.Value = workerPostReportSalaries[i].CountWorkDays;
 
                         ExcelRange downLeftBodyHours = sheet.Cells[countRow, 13, countRow, 14];
                         downLeftBodyHours.Merge = true;
-                        downLeftBodyHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyHours.Value = workerPostReportSalaries[i].CountWorkHours;
 
                         ExcelRange downLeftBodySalaryInHour = sheet.Cells[countRow, 15, countRow, 17];
                         downLeftBodySalaryInHour.Merge = true;
-                        downLeftBodySalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodySalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodySalaryInHour.Value = Math.Round(((double)workerPostReportSalaries[i].AdminWorkerSalary / countWorkDays / 8), 2) + " р.";
 
                         ExcelRange downLeftBodySummOfCharge = sheet.Cells[countRow, 18, countRow, 20];
                         downLeftBodySummOfCharge.Merge = true;
-                        downLeftBodySummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodySummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodySummOfCharge.Value = Math.Round(((double)workerPostReportSalaries[i].AdminWorkerSalary / countWorkDays / 8) * workerPostReportSalaries[i].CountWorkHours, 2) + " р.";
 
                         countRow++;
@@ -1174,32 +1176,32 @@ namespace AIS_Enterprise_AV.Reports
 
                     ExcelRange downLeftBodyLastPost = sheet.Cells[countRow, 4, countRow, 8];
                     downLeftBodyLastPost.Merge = true;
-                    downLeftBodyLastPost.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastPost.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastPost.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].PostName;
 
                     ExcelRange downLeftBodyLastPeriod = sheet.Cells[countRow, 9, countRow, 10];
                     downLeftBodyLastPeriod.Merge = true;
-                    downLeftBodyLastPeriod.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastPeriod.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastPeriod.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].ChangePostDay + "-" + "-" + lastDateInMonth.Day;
 
                     ExcelRange downLeftBodyLastDays = sheet.Cells[countRow, 11, countRow, 12];
                     downLeftBodyLastDays.Merge = true;
-                    downLeftBodyLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastDays.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].CountWorkDays;
 
                     ExcelRange downLeftBodyLastHours = sheet.Cells[countRow, 13, countRow, 14];
                     downLeftBodyLastHours.Merge = true;
-                    downLeftBodyLastHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastHours.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].CountWorkHours;
 
                     ExcelRange downLeftBodyLastSalaryInHour = sheet.Cells[countRow, 15, countRow, 17];
                     downLeftBodyLastSalaryInHour.Merge = true;
-                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSalaryInHour.Value = Math.Round(((double)workerPostReportSalaries[workerPostReportSalaries.Count - 1].AdminWorkerSalary / countWorkDays / 8), 2) + " р.";
 
                     ExcelRange downLeftBodyLastSummOfCharge = sheet.Cells[countRow, 18, countRow, 20];
                     downLeftBodyLastSummOfCharge.Merge = true;
-                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSummOfCharge.Value = Math.Round(((double)workerPostReportSalaries[workerPostReportSalaries.Count - 1].AdminWorkerSalary / countWorkDays / 8) *
                         workerPostReportSalaries[workerPostReportSalaries.Count - 1].CountWorkHours, 2) + " р.";
 
@@ -1209,39 +1211,39 @@ namespace AIS_Enterprise_AV.Reports
                     {
                         ExcelRange downLeftHeaderOverTime = sheet.Cells[countRow, 1, countRow, 3];
                         downLeftHeaderOverTime.Merge = true;
-                        downLeftHeaderOverTime.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftHeaderOverTime.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftHeaderOverTime.Value = "Переработка";
 
                         for (int i = 0; i < workerPostReportSalaries.Count - 1; i++)
                         {
                             ExcelRange downLeftBodyPost = sheet.Cells[countRow, 4, countRow, 8];
                             downLeftBodyPost.Merge = true;
-                            downLeftBodyPost.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            downLeftBodyPost.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                             downLeftBodyPost.Value = workerPostReportSalaries[i].PostName;
 
                             ExcelRange downLeftBodyPeriod = sheet.Cells[countRow, 9, countRow, 10];
                             downLeftBodyPeriod.Merge = true;
-                            downLeftBodyPeriod.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            downLeftBodyPeriod.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                             downLeftBodyPeriod.Value = "—";
 
                             ExcelRange downLeftBodyDays = sheet.Cells[countRow, 11, countRow, 12];
                             downLeftBodyDays.Merge = true;
-                            downLeftBodyDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            downLeftBodyDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                             downLeftBodyDays.Value = "—";
 
                             ExcelRange downLeftBodyHours = sheet.Cells[countRow, 13, countRow, 14];
                             downLeftBodyHours.Merge = true;
-                            downLeftBodyHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            downLeftBodyHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                             downLeftBodyHours.Value = workerPostReportSalaries[i].CountWorkOverTimeHours;
 
                             ExcelRange downLeftBodySalaryInHour = sheet.Cells[countRow, 15, countRow, 17];
                             downLeftBodySalaryInHour.Merge = true;
-                            downLeftBodySalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            downLeftBodySalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                             downLeftBodySalaryInHour.Value = Math.Round((((double)workerPostReportSalaries[i].AdminWorkerSalary / countWorkDays / 8) * 2), 2) + " р.";
 
                             ExcelRange downLeftBodySummOfCharge = sheet.Cells[countRow, 18, countRow, 20];
                             downLeftBodySummOfCharge.Merge = true;
-                            downLeftBodySummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            downLeftBodySummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                             downLeftBodySummOfCharge.Value = Math.Round((((double)workerPostReportSalaries[i].AdminWorkerSalary / countWorkDays / 8) *
                                 workerPostReportSalaries[i].CountWorkOverTimeHours) * 2, 2) + " р.";
 
@@ -1250,32 +1252,32 @@ namespace AIS_Enterprise_AV.Reports
 
                         ExcelRange downLeftBodyOvertimeLastPost = sheet.Cells[countRow, 4, countRow, 8];
                         downLeftBodyOvertimeLastPost.Merge = true;
-                        downLeftBodyOvertimeLastPost.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyOvertimeLastPost.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyOvertimeLastPost.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].PostName;
 
                         ExcelRange downLeftBodyOvertimeLastPeriod = sheet.Cells[countRow, 9, countRow, 10];
                         downLeftBodyOvertimeLastPeriod.Merge = true;
-                        downLeftBodyOvertimeLastPeriod.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyOvertimeLastPeriod.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyOvertimeLastPeriod.Value = "—";
 
                         ExcelRange downLeftBodyOvertimeLastDays = sheet.Cells[countRow, 11, countRow, 12];
                         downLeftBodyOvertimeLastDays.Merge = true;
-                        downLeftBodyOvertimeLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyOvertimeLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyOvertimeLastDays.Value = "—";
 
                         ExcelRange downLeftBodyOvertimeLastHours = sheet.Cells[countRow, 13, countRow, 14];
                         downLeftBodyOvertimeLastHours.Merge = true;
-                        downLeftBodyOvertimeLastHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyOvertimeLastHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyOvertimeLastHours.Value = workerPostReportSalaries[workerPostReportSalaries.Count - 1].CountWorkOverTimeHours;
 
                         ExcelRange downLeftBodyOvertimeLastSalaryInHour = sheet.Cells[countRow, 15, countRow, 17];
                         downLeftBodyOvertimeLastSalaryInHour.Merge = true;
-                        downLeftBodyOvertimeLastSalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyOvertimeLastSalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyOvertimeLastSalaryInHour.Value = Math.Round((((double)workerPostReportSalaries[workerPostReportSalaries.Count - 1].AdminWorkerSalary / countWorkDays / 8) * 2), 2) + " р.";
 
                         ExcelRange downLeftBodyOvertimeLastSummOfCharge = sheet.Cells[countRow, 18, countRow, 20];
                         downLeftBodyOvertimeLastSummOfCharge.Merge = true;
-                        downLeftBodyOvertimeLastSummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        downLeftBodyOvertimeLastSummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                         downLeftBodyOvertimeLastSummOfCharge.Value = Math.Round((((double)workerPostReportSalaries[workerPostReportSalaries.Count - 1].AdminWorkerSalary / countWorkDays / 8) *
                                 workerPostReportSalaries[workerPostReportSalaries.Count - 1].CountWorkOverTimeHours) * 2, 2) + " р.";
 
@@ -1286,186 +1288,186 @@ namespace AIS_Enterprise_AV.Reports
 
                     ExcelRange downLeftHeaderBonus = sheet.Cells[countRow, 1, countRow, 8];
                     downLeftHeaderBonus.Merge = true;
-                    downLeftHeaderBonus.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderBonus.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderBonus.Value = "Премия";
 
                     downLeftBodyLastDays = sheet.Cells[countRow, 9, countRow, 10];
                     downLeftBodyLastDays.Merge = true;
-                    downLeftBodyLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastDays.Value = "—";
 
                     downLeftBodyLastHours = sheet.Cells[countRow, 11, countRow, 12];
                     downLeftBodyLastHours.Merge = true;
-                    downLeftBodyLastHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastHours.Value = "—";
 
                     downLeftBodyLastSalaryInHour = sheet.Cells[countRow, 13, countRow, 14];
                     downLeftBodyLastSalaryInHour.Merge = true;
-                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSalaryInHour.Value = "—";
 
                     downLeftBodyLastDays = sheet.Cells[countRow, 15, countRow, 17];
                     downLeftBodyLastDays.Merge = true;
-                    downLeftBodyLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastDays.Value = "—";
 
                     downLeftBodyLastSummOfCharge = sheet.Cells[countRow, 18, countRow, 20];
                     downLeftBodyLastSummOfCharge.Merge = true;
-                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSummOfCharge.Value = infoMonth.Bonus + " р.";
 
                     countRow++;
 
                     ExcelRange downLeftHeaderVocation = sheet.Cells[countRow, 1, countRow, 8];
                     downLeftHeaderVocation.Merge = true;
-                    downLeftHeaderVocation.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderVocation.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderVocation.Value = "Отпускные";
 
                     downLeftBodyLastDays = sheet.Cells[countRow, 9, countRow, 10];
                     downLeftBodyLastDays.Merge = true;
-                    downLeftBodyLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastDays.Value = "—";
 
                     downLeftBodyLastHours = sheet.Cells[countRow, 11, countRow, 12];
                     downLeftBodyLastHours.Merge = true;
-                    downLeftBodyLastHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastHours.Value = countVocationDays;
 
                     downLeftBodyLastSalaryInHour = sheet.Cells[countRow, 13, countRow, 14];
                     downLeftBodyLastSalaryInHour.Merge = true;
-                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSalaryInHour.Value = countVocationDays * 8;
 
                     downLeftBodyLastDays = sheet.Cells[countRow, 15, countRow, 17];
                     downLeftBodyLastDays.Merge = true;
-                    downLeftBodyLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastDays.Value = "—";
 
                     downLeftBodyLastSummOfCharge = sheet.Cells[countRow, 18, countRow, 20];
                     downLeftBodyLastSummOfCharge.Merge = true;
-                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSummOfCharge.Value = Math.Round(totalVocations, 2) + " р.";
 
                     countRow++;
 
                     ExcelRange downLeftHeaderSickDays = sheet.Cells[countRow, 1, countRow, 8];
                     downLeftHeaderSickDays.Merge = true;
-                    downLeftHeaderSickDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderSickDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderSickDays.Value = "Больничные";
 
                     downLeftBodyLastDays = sheet.Cells[countRow, 9, countRow, 10];
                     downLeftBodyLastDays.Merge = true;
-                    downLeftBodyLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastDays.Value = "—";
 
                     downLeftBodyLastHours = sheet.Cells[countRow, 11, countRow, 12];
                     downLeftBodyLastHours.Merge = true;
-                    downLeftBodyLastHours.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastHours.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastHours.Value = countSickDays;
 
                     downLeftBodyLastSalaryInHour = sheet.Cells[countRow, 13, countRow, 14];
                     downLeftBodyLastSalaryInHour.Merge = true;
-                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSalaryInHour.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSalaryInHour.Value = countSickDays * 8;
 
                     downLeftBodyLastDays = sheet.Cells[countRow, 15, countRow, 17];
                     downLeftBodyLastDays.Merge = true;
-                    downLeftBodyLastDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastDays.Value = "—";
 
                     downLeftBodyLastSummOfCharge = sheet.Cells[countRow, 18, countRow, 20];
                     downLeftBodyLastSummOfCharge.Merge = true;
-                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftBodyLastSummOfCharge.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftBodyLastSummOfCharge.Value = Math.Round(totalSickDays, 2) + " р.";
 
                     countRow++;
 
                     ExcelRange downLeftHeaderPanalty = sheet.Cells[9, 21, 9, 25];
                     downLeftHeaderPanalty.Merge = true;
-                    downLeftHeaderPanalty.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderPanalty.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderPanalty.Value = "Штраф";
 
                     ExcelRange downLeftHeaderMissDays = sheet.Cells[10, 21, 10, 25];
                     downLeftHeaderMissDays.Merge = true;
-                    downLeftHeaderMissDays.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderMissDays.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderMissDays.Value = "Прогул";
 
                     ExcelRange downLeftHeaderBirthDay = sheet.Cells[11, 21, 11, 25];
                     downLeftHeaderBirthDay.Merge = true;
-                    downLeftHeaderBirthDay.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderBirthDay.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderBirthDay.Value = "Дни рождения";
 
                     ExcelRange downLeftHeaderPrePayment = sheet.Cells[12, 21, 12, 25];
                     downLeftHeaderPrePayment.Merge = true;
-                    downLeftHeaderPrePayment.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downLeftHeaderPrePayment.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downLeftHeaderPrePayment.Value = "Аванс";
 
                     ExcelRange downBodyCount = sheet.Cells[9, 26, 9, 27];
                     downBodyCount.Merge = true;
-                    downBodyCount.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodyCount.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodyCount.Value = countPanalty;
 
                     ExcelRange downBodySummOfHolding = sheet.Cells[9, 28, 9, countDaysInMonth];
                     downBodySummOfHolding.Merge = true;
-                    downBodySummOfHolding.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodySummOfHolding.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodySummOfHolding.Value = Math.Round(workerPanalty, 2) + " р.";
 
                     //downbody//Progul
 
                     downBodyCount = sheet.Cells[10, 26, 10, 27];
                     downBodyCount.Merge = true;
-                    downBodyCount.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodyCount.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodyCount.Value = countMissimgDays;
 
                     downBodySummOfHolding = sheet.Cells[10, 28, 10, countDaysInMonth];
                     downBodySummOfHolding.Merge = true;
-                    downBodySummOfHolding.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodySummOfHolding.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodySummOfHolding.Value = "—";
 
                     //downbody//Birthday
 
                     downBodyCount = sheet.Cells[11, 26, 11, 27];
                     downBodyCount.Merge = true;
-                    downBodyCount.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodyCount.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodyCount.Value = "—";
 
                     downBodySummOfHolding = sheet.Cells[11, 28, 11, countDaysInMonth];
                     downBodySummOfHolding.Merge = true;
-                    downBodySummOfHolding.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodySummOfHolding.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodySummOfHolding.Value = infoMonth.BirthDays + " р.";
 
                     //downbody//Prepayment
 
                     downBodyCount = sheet.Cells[12, 26, 12, 27];
                     downBodyCount.Merge = true;
-                    downBodyCount.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodyCount.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodyCount.Value = "—";
 
                     downBodySummOfHolding = sheet.Cells[12, 28, 12, countDaysInMonth];
                     downBodySummOfHolding.Merge = true;
-                    downBodySummOfHolding.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    downBodySummOfHolding.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     downBodySummOfHolding.Value = infoMonth.PrepaymentCash + " р.";
 
 
-                    sheet.Cells[8, 1, countRow - 1, 20].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
-                    sheet.Cells[8, 21, countRow - 1, countDaysInMonth].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                    sheet.Cells[8, 1, countRow - 1, 20].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                    sheet.Cells[8, 21, countRow - 1, countDaysInMonth].Style.Border.BorderAround(ExcelBorderStyle.Thick);
                     //footerHeader
 
                     ExcelRange footerHeaderSummOfPayments = sheet.Cells[countRow + 1, 1, countRow + 1, 7];
                     footerHeaderSummOfPayments.Merge = true;
-                    footerHeaderSummOfPayments.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    footerHeaderSummOfPayments.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     footerHeaderSummOfPayments.Style.Font.Bold = true;
                     footerHeaderSummOfPayments.Value = "Всего начислено";
 
                     ExcelRange footerHeaderAllHolds = sheet.Cells[countRow + 1, 12, countRow + 1, 17];
                     footerHeaderAllHolds.Merge = true;
-                    footerHeaderAllHolds.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    footerHeaderAllHolds.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     footerHeaderAllHolds.Style.Font.Bold = true;
                     footerHeaderAllHolds.Value = "Всего удержано";
 
                     ExcelRange footerHeaderCleanPayments = sheet.Cells[countRow + 1, 22, countRow + 1, 27];
                     footerHeaderCleanPayments.Merge = true;
-                    footerHeaderCleanPayments.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    footerHeaderCleanPayments.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     footerHeaderCleanPayments.Style.Font.Bold = true;
                     footerHeaderCleanPayments.Value = "Всего выплачено";
 
@@ -1484,22 +1486,22 @@ namespace AIS_Enterprise_AV.Reports
 
                     ExcelRange footerBodySummOfPayments = sheet.Cells[countRow + 1, 8, countRow + 1, 11];
                     footerBodySummOfPayments.Merge = true;
-                    footerBodySummOfPayments.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    footerBodySummOfPayments.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     footerBodySummOfPayments.Value = Math.Round(summOfPayments, 2) + " р.";
 
                     ExcelRange footerBodyAllHolds = sheet.Cells[countRow + 1, 18, countRow + 1, 21];
                     footerBodyAllHolds.Merge = true;
-                    footerBodyAllHolds.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    footerBodyAllHolds.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     footerBodyAllHolds.Value = Math.Round(summOfHoldings, 2) + " р.";
 
                     ExcelRange footerBodyCleanPayments = sheet.Cells[countRow + 1, 28, countRow + 1, countDaysInMonth];
                     footerBodyCleanPayments.Merge = true;
-                    footerBodyCleanPayments.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    footerBodyCleanPayments.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     footerBodyCleanPayments.Value = Math.Round(summOfPayments - summOfHoldings, 2) + " р.";
 
                     countRow++;
 
-                    sheet.Cells[countRow, 1, countRow, countDaysInMonth].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                    sheet.Cells[countRow, 1, countRow, countDaysInMonth].Style.Border.BorderAround(ExcelBorderStyle.Thick);
 
                     countRow += 2;
 
@@ -1514,10 +1516,10 @@ namespace AIS_Enterprise_AV.Reports
                             {
                                 ExcelRange footerPanaltyReportHeader = sheet.Cells[countRow, 1, countRow, countDaysInMonth];
                                 footerPanaltyReportHeader.Merge = true;
-                                footerPanaltyReportHeader.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                                footerPanaltyReportHeader.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-                                footerPanaltyReportHeader.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-                                footerPanaltyReportHeader.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                footerPanaltyReportHeader.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                                footerPanaltyReportHeader.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                                footerPanaltyReportHeader.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                footerPanaltyReportHeader.Style.Fill.PatternType = ExcelFillStyle.Solid;
                                 footerPanaltyReportHeader.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(230, 230, 230));
                                 footerPanaltyReportHeader.Style.Font.Bold = true;
                                 footerPanaltyReportHeader.Value = "Расшифровка штрафов";
@@ -1529,18 +1531,18 @@ namespace AIS_Enterprise_AV.Reports
                             {
                                 ExcelRange footerPanaltyReportDate = sheet.Cells[countRow, 1, countRow, 3];
                                 footerPanaltyReportDate.Merge = true;
-                                footerPanaltyReportDate.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                                footerPanaltyReportDate.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                                 footerPanaltyReportDate.Value = infoDate.Date.ToShortDateString();
 
                                 ExcelRange footerPanaltyReportSumm = sheet.Cells[countRow, 4, countRow, 8];
                                 footerPanaltyReportSumm.Merge = true;
-                                footerPanaltyReportSumm.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                                footerPanaltyReportSumm.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                                 footerPanaltyReportSumm.Value = infoDate.InfoPanalty.Summ + " р.";
 
                                 ExcelRange footerPanaltyReportDescription = sheet.Cells[countRow, 9, countRow, countDaysInMonth];
                                 footerPanaltyReportDescription.Merge = true;
-                                footerPanaltyReportDescription.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                                footerPanaltyReportDescription.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                                footerPanaltyReportDescription.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                                footerPanaltyReportDescription.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                                 footerPanaltyReportDescription.Value = infoDate.InfoPanalty.Description;
                                 countRow++;
                             }
@@ -1549,15 +1551,15 @@ namespace AIS_Enterprise_AV.Reports
 
                     if (enterValueOfCountRow < countRow)
                     {
-                        sheet.Cells[enterValueOfCountRow, 1, countRow - 1, countDaysInMonth].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
+                        sheet.Cells[enterValueOfCountRow, 1, countRow - 1, countDaysInMonth].Style.Border.BorderAround(ExcelBorderStyle.Thick);
                     }
 
                     ExcelRange nextSideFio = sheet.Cells[33, 3, 34, countDaysInMonth - 3];
                     nextSideFio.Merge = true;
-                    nextSideFio.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    nextSideFio.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     nextSideFio.Style.Font.Bold = true;
                     nextSideFio.Style.Font.Size = 17;
-                    nextSideFio.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    nextSideFio.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     nextSideFio.Value = worker.LastName + " " + worker.FirstName + " " + worker.MidName;
                 }
 

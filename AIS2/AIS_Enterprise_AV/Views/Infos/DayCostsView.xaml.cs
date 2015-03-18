@@ -1,24 +1,15 @@
-﻿using AIS_Enterprise_Data;
-using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Data.Infos;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Data.Entity;
-using System.Diagnostics;
-using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Data.Temps;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.Views.Infos
 {
@@ -125,7 +116,7 @@ namespace AIS_Enterprise_AV.Views.Infos
 
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             _bc.Dispose();
         }
@@ -211,9 +202,9 @@ namespace AIS_Enterprise_AV.Views.Infos
 
             ComboBoxCostItems.IsEnabled = true;
 
-            StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
-            StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
-            ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
+            StackPanelTransportCompanies.Visibility = Visibility.Collapsed;
+            StackPanelWeight.Visibility = Visibility.Collapsed;
+            ButtonAddNewCargo.Visibility = Visibility.Collapsed;
 
             BorderCostItems.BorderThickness = new Thickness(2);
             BorderRCs_1.BorderThickness = new Thickness(2);
@@ -243,9 +234,9 @@ namespace AIS_Enterprise_AV.Views.Infos
             {
                 if (costItem.Name == "Транспорт (5031)")
                 {
-                    StackPanelWeight.Visibility = System.Windows.Visibility.Visible;
-                    ButtonAddNewCargo.Visibility = System.Windows.Visibility.Visible;
-                    StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Visible;
+                    StackPanelWeight.Visibility = Visibility.Visible;
+                    ButtonAddNewCargo.Visibility = Visibility.Visible;
+                    StackPanelTransportCompanies.Visibility = Visibility.Visible;
 
                     var rc = ComboBoxRCs_1.SelectedItem as DirectoryRC;
 
@@ -263,9 +254,9 @@ namespace AIS_Enterprise_AV.Views.Infos
                 }
                 else
                 {
-                    StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
-                    ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
-                    StackPanelTransportCompanies.Visibility = System.Windows.Visibility.Collapsed;
+                    StackPanelWeight.Visibility = Visibility.Collapsed;
+                    ButtonAddNewCargo.Visibility = Visibility.Collapsed;
+                    StackPanelTransportCompanies.Visibility = Visibility.Collapsed;
                     TextBoxWeight_1.Text = null;
                     ComboBoxTransportCompanies.SelectedItem = null;
                     RadioButtonIncoming.IsEnabled = false;
@@ -338,7 +329,7 @@ namespace AIS_Enterprise_AV.Views.Infos
             var textBox = new TextBox();
             textBox.Name = "TextBoxWeight_" + GridTransports.RowDefinitions.Count;
             textBox.Height = 22;
-            textBox.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
+            textBox.VerticalContentAlignment = VerticalAlignment.Center;
             textBox.Margin = new Thickness(0, 10, 10, 0);
             textBox.SetValue(Grid.ColumnProperty, 3);
             textBox.SetValue(Grid.RowProperty, GridTransports.RowDefinitions.Count - 1);
@@ -663,14 +654,14 @@ namespace AIS_Enterprise_AV.Views.Infos
             {
                 if (ComboBoxRCs_1.Text == "26А" && RadioButtonIncoming.IsChecked.Value)
                 {
-                    StackPanelWeight.Visibility = System.Windows.Visibility.Collapsed;
-                    ButtonAddNewCargo.Visibility = System.Windows.Visibility.Collapsed;
+                    StackPanelWeight.Visibility = Visibility.Collapsed;
+                    ButtonAddNewCargo.Visibility = Visibility.Collapsed;
                     TextBoxWeight_1.Text = null;
                 }
                 else
                 {
-                    StackPanelWeight.Visibility = System.Windows.Visibility.Visible;
-                    ButtonAddNewCargo.Visibility = System.Windows.Visibility.Visible;
+                    StackPanelWeight.Visibility = Visibility.Visible;
+                    ButtonAddNewCargo.Visibility = Visibility.Visible;
                 }
             }
         }

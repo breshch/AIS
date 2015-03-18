@@ -1,16 +1,11 @@
-﻿using AIS_Enterprise_Global.Helpers.Temps;
-using AIS_Enterprise_Data;
-using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Temps;
 using AIS_Enterprise_Global.Helpers;
+using OfficeOpenXml;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {

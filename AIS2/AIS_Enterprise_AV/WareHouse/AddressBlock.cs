@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.Windows;
 
 namespace AIS_Enterprise_AV.WareHouse
 {
@@ -10,5 +7,7 @@ namespace AIS_Enterprise_AV.WareHouse
 	{
 		public int Row { get; set; }
 		public int Place { get; set; }
+		public Point Point { get; set; }
+		public Size Size { get; set; }
 	}
 }

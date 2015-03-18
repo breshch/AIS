@@ -1,12 +1,7 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.ViewModels.Directories.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.ViewModels.Directories.Base;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories
 {

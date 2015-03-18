@@ -1,17 +1,6 @@
-﻿using AIS_Enterprise_Global.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using AIS_Enterprise_Global.ViewModels;
 
 namespace AIS_Enterprise_Global.Views.Directories
 {
@@ -27,7 +16,7 @@ namespace AIS_Enterprise_Global.Views.Directories
             Closing += DirectoryEditWorkerView_Closing;
         }
 
-        void DirectoryEditWorkerView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        void DirectoryEditWorkerView_Closing(object sender, CancelEventArgs e)
         {
             var directoryEditWorkerViewModel = (DirectoryEditWorkerViewModel)this.DataContext;
 

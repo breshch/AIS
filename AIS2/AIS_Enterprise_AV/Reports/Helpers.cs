@@ -1,16 +1,17 @@
-﻿using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows.Forms;
-using AIS_Enterprise_Data;
-using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using Application = Microsoft.Office.Interop.Excel.Application;
 
 namespace AIS_Enterprise_AV.Reports
 {
@@ -77,8 +78,8 @@ namespace AIS_Enterprise_AV.Reports
 
         public static void CompletedReport(string path, List<Action<ExcelPackage>> methods)
         {
-            string newPath = Helpers.CreationNewFileReport(path);
-            var ep = Helpers.CreationNewBook(newPath);
+            string newPath = CreationNewFileReport(path);
+            var ep = CreationNewBook(newPath);
 
             methods.ForEach(method => method.Invoke(ep));
 
@@ -107,18 +108,18 @@ namespace AIS_Enterprise_AV.Reports
 
         public static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, string value, Color color,
             float size = 11, bool isFontBold = false,
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
+            ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
+            ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
         {
             var cell = sheet.Cells[fromRow, fromColumn, toRow, toColumn];
             cell.Merge = true;
             cell.Style.Font.Size = size;
             cell.Style.Font.Bold = isFontBold;
             cell.Style.HorizontalAlignment = alignment;
-            cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+            cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             cell.Style.Border.BorderAround(borderStyle);
             cell.Style.WrapText = true;
-            cell.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
             cell.Style.Fill.BackgroundColor.SetColor(color);
             cell.Style.Font.Name = "Courier New";
             cell.Value = value;
@@ -126,34 +127,34 @@ namespace AIS_Enterprise_AV.Reports
 
         public static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, double value, Color color,
             float size = 11, bool isFontBold = false,
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
+            ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
+            ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
         {
             var cell = sheet.Cells[fromRow, fromColumn, toRow, toColumn];
             cell.Merge = true;
             cell.Style.Font.Size = size;
             cell.Style.Font.Bold = isFontBold;
             cell.Style.HorizontalAlignment = alignment;
-            cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+            cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             cell.Style.Border.BorderAround(borderStyle);
             cell.Style.WrapText = true;
             cell.Style.Numberformat.Format = value % 1 == 0 ? "#,##0" : "#,##0.0";
-            cell.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
             cell.Style.Fill.BackgroundColor.SetColor(color);
             cell.Style.Font.Name = "Courier New";
             cell.Value = value;
         }
 
         public static void CreateCell(ExcelWorksheet sheet, int row, int column, string value, Color color, float size = 11, bool isFontBold = false,
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
+            ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
+            ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
         {
             CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
         }
 
         public static void CreateCell(ExcelWorksheet sheet, int row, int column, double value, Color color, float size = 11, bool isFontBold = false,
-            OfficeOpenXml.Style.ExcelHorizontalAlignment alignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center,
-            OfficeOpenXml.Style.ExcelBorderStyle borderStyle = OfficeOpenXml.Style.ExcelBorderStyle.Medium)
+            ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
+            ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
         {
             CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
         }
@@ -195,12 +196,12 @@ namespace AIS_Enterprise_AV.Reports
             {
                 PushButtons();
 
-                var app = new Microsoft.Office.Interop.Excel.Application();
+                var app = new Application();
                 var wb = app.Workbooks.Open(path);
 
                 wb.SaveAs(
                     Filename: path + "x",
-                    FileFormat: Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+                    FileFormat: XlFileFormat.xlOpenXMLWorkbook);
                 wb.Close();
                 app.Quit();
                 File.Delete(path);

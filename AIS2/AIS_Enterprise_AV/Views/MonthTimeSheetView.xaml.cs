@@ -1,4 +1,20 @@
-﻿using AIS_Enterprise_AV.Helpers.Temps;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
@@ -6,10 +22,10 @@ using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views.Directories;
 using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.Views.Infos;
-using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
+using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.ViewModels;
 using AIS_Enterprise_Global.ViewModels.Directories;
 using AIS_Enterprise_Global.ViewModels.Helpers;
@@ -19,22 +35,12 @@ using AIS_Enterprise_Global.Views.Directories;
 using AIS_Enterprise_Global.Views.Helpers;
 using AIS_Enterprise_Global.Views.Infos;
 using Numerizr;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using WpfAnimatedGif;
-using System.Data.Entity;
+using Binding = System.Windows.Data.Binding;
+using ContextMenu = System.Windows.Controls.ContextMenu;
+using MenuItem = System.Windows.Controls.MenuItem;
+using MessageBox = System.Windows.MessageBox;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace AIS_Enterprise_AV.Views
 {
@@ -60,15 +66,15 @@ namespace AIS_Enterprise_AV.Views
         private const int COLUMN_PANALTIES_AFTER_DAYS = 11;
         private const int COLUMN_FINAL_SALARY_AFTER_DAYS = 15;
 
-        private System.Windows.Media.Brush _brushNoOdd;
-        private System.Windows.Media.Brush _brushOdd;
-        private System.Windows.Media.Brush _brushWeekend;
-        private System.Windows.Media.Brush _brushLessThanEight;
-        private System.Windows.Media.Brush _brushVocation;
-        private System.Windows.Media.Brush _brushMissDay;
-        private System.Windows.Media.Brush _brushSickDay;
+        private Brush _brushNoOdd;
+        private Brush _brushOdd;
+        private Brush _brushWeekend;
+        private Brush _brushLessThanEight;
+        private Brush _brushVocation;
+        private Brush _brushMissDay;
+        private Brush _brushSickDay;
 
-        private readonly System.Windows.Forms.Timer _timerAbsentDates = new System.Windows.Forms.Timer();
+        private readonly Timer _timerAbsentDates = new Timer();
 
         private enum PostName
         {
@@ -349,17 +355,17 @@ namespace AIS_Enterprise_AV.Views
 
         private void SetScreenSize()
         {
-            if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
+            if (Screen.AllScreens.Count() > 1)
             {
-                WindowMonthTimeSheet.SizeToContent = System.Windows.SizeToContent.Height;
+                WindowMonthTimeSheet.SizeToContent = SizeToContent.Height;
 
-                if (this.Width > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width)
+                if (this.Width > Screen.PrimaryScreen.WorkingArea.Width)
                 {
-                    this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+                    this.Width = Screen.PrimaryScreen.WorkingArea.Width;
                 }
             }
 
-            var firstWorkingArea = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+            var firstWorkingArea = Screen.AllScreens[0].WorkingArea;
 
             this.Left = firstWorkingArea.Width / 2 - (this.Width / 2);
             this.MaxHeight = firstWorkingArea.Height - 100;
@@ -383,9 +389,9 @@ namespace AIS_Enterprise_AV.Views
             var menuItem = menuItems.FirstOrDefault(m => m.Name == "Menu" + rule);
             if (menuItem != null)
             {
-                if (menuItem.Visibility == System.Windows.Visibility.Collapsed)
+                if (menuItem.Visibility == Visibility.Collapsed)
                 {
-                    menuItem.Visibility = System.Windows.Visibility.Visible;
+                    menuItem.Visibility = Visibility.Visible;
                 }
 
                 if (indexUnderLine != -1)
@@ -399,9 +405,9 @@ namespace AIS_Enterprise_AV.Views
         private void SettingMonthTimeSheetColumnsVisibility(string privilege)
         {
             var column = this.FindName("MonthTimeSheet" + privilege) as DataGridTextColumn;
-            if (column != null && column.Visibility == System.Windows.Visibility.Collapsed)
+            if (column != null && column.Visibility == Visibility.Collapsed)
             {
-                column.Visibility = System.Windows.Visibility.Visible;
+                column.Visibility = Visibility.Visible;
             }
         }
 
@@ -442,7 +448,7 @@ namespace AIS_Enterprise_AV.Views
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             while (_listDatesOfOverTime.Any())
             {
@@ -483,7 +489,7 @@ namespace AIS_Enterprise_AV.Views
             ComboboxYears.IsEnabled = false;
             ComboboxMonthes.IsEnabled = false;
 
-            PictureLoading.Visibility = System.Windows.Visibility.Visible;
+            PictureLoading.Visibility = Visibility.Visible;
 
             int countWorkDaysInMonth = _bc.GetCountWorkDaysInMonth(_currentYear, _currentMonth);
 
@@ -575,7 +581,7 @@ namespace AIS_Enterprise_AV.Views
 
                             SetScreenSize();
 
-                            PictureLoading.Visibility = System.Windows.Visibility.Collapsed;
+                            PictureLoading.Visibility = Visibility.Collapsed;
 
                             DataGridMonthTimeSheet.Effect = null;
                             ComboboxYears.Effect = null;
@@ -1384,7 +1390,7 @@ namespace AIS_Enterprise_AV.Views
                 ColorizeCell(value, indexRow, COUNT_COLUMNS_BEFORE_DAYS + indexHour + 1, monthTimeSheetWorker.IsOdd);
             }
 
-            this.Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2 - (this.Height / 2);
+            this.Top = Screen.PrimaryScreen.WorkingArea.Height / 2 - (this.Height / 2);
         }
 
         private void ColorizeCell(string value, int indexRow, int indexColumn, bool isOdd)
@@ -1443,15 +1449,15 @@ namespace AIS_Enterprise_AV.Views
 
         private void InitializeBrushes()
         {
-            var converter = new System.Windows.Media.BrushConverter();
+            var converter = new BrushConverter();
 
-            _brushNoOdd = (System.Windows.Media.Brush)converter.ConvertFromString("#FFFFFFFF");
-            _brushOdd = (System.Windows.Media.Brush)converter.ConvertFromString("#FFe8f4fa");
-            _brushWeekend = (System.Windows.Media.Brush)converter.ConvertFromString("#FF9bbf9b");
-            _brushLessThanEight = (System.Windows.Media.Brush)converter.ConvertFromString("#FFeebebe");
-            _brushVocation = (System.Windows.Media.Brush)converter.ConvertFromString("#FFc4e5c1");
-            _brushMissDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFff8282");
-            _brushSickDay = (System.Windows.Media.Brush)converter.ConvertFromString("#FFffcc33");
+            _brushNoOdd = (Brush)converter.ConvertFromString("#FFFFFFFF");
+            _brushOdd = (Brush)converter.ConvertFromString("#FFe8f4fa");
+            _brushWeekend = (Brush)converter.ConvertFromString("#FF9bbf9b");
+            _brushLessThanEight = (Brush)converter.ConvertFromString("#FFeebebe");
+            _brushVocation = (Brush)converter.ConvertFromString("#FFc4e5c1");
+            _brushMissDay = (Brush)converter.ConvertFromString("#FFff8282");
+            _brushSickDay = (Brush)converter.ConvertFromString("#FFffcc33");
         }
 
         private void MenuCompanies_Click(object sender, RoutedEventArgs e)

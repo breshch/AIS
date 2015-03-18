@@ -1,11 +1,5 @@
-﻿using AIS_Enterprise_Data;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using AIS_Enterprise_Data;
 
 namespace AIS_Enterprise_Global.Helpers
 {

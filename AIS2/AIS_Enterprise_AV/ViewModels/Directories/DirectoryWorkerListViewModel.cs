@@ -1,13 +1,11 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Global.Views.Directories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
+using System.Windows.Forms;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Views.Directories;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories
 {
@@ -17,7 +15,7 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         public DirectoryWorkerListViewModel() : base()
         {
-            var firstWorkingArea = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+            var firstWorkingArea = Screen.AllScreens[0].WorkingArea;
             MaxHeightForm = firstWorkingArea.Height - 100;
             var directoryWorkers = new List<DirectoryWorker>();
             

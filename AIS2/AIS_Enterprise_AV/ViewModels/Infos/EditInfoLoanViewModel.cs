@@ -1,12 +1,8 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Data.Infos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using AIS_Enterprise_AV.ViewModels.Infos.Base;
+using AIS_Enterprise_Data.Infos;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
@@ -40,7 +36,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             if (infoLoan.CountPayments != 1)
             {
                 IsMultiplyPayments = true;
-                VisibilityMultiplyPayments = System.Windows.Visibility.Visible;
+                VisibilityMultiplyPayments = Visibility.Visible;
             }
 
             CountPayments = infoLoan.CountPayments;

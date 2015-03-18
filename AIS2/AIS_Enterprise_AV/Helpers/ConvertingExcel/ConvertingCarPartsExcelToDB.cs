@@ -1,27 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data.SqlClient;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.Office.Interop.Excel;
-using OfficeOpenXml;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using EntityFramework.BulkInsert.Extensions;
+using OfficeOpenXml;
 
 namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {

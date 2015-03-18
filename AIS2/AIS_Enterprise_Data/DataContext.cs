@@ -1,15 +1,11 @@
-﻿using AIS_Enterprise_Data.Currents;
+﻿using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Helpers;
 using AIS_Enterprise_Data.Infos;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Data.Properties;
 
 namespace AIS_Enterprise_Data
 {
@@ -23,8 +19,8 @@ namespace AIS_Enterprise_Data
 
         static DataContext()
         {
-            _ip = Properties.Settings.Default.IP;
-            _databaseName = Properties.Settings.Default.DatabaseName;
+            _ip = Settings.Default.IP;
+            _databaseName = Settings.Default.DatabaseName;
 
             _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
         }
@@ -45,9 +41,9 @@ namespace AIS_Enterprise_Data
             _ip = ip;
             _databaseName = companyName.Replace("-", "_");
 
-            Properties.Settings.Default.IP = _ip;
-            Properties.Settings.Default.DatabaseName = _databaseName;
-            Properties.Settings.Default.Save();
+            Settings.Default.IP = _ip;
+            Settings.Default.DatabaseName = _databaseName;
+            Settings.Default.Save();
 
             _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
         }
@@ -59,19 +55,19 @@ namespace AIS_Enterprise_Data
 
         public static void ChangeUserButler()
         {
-            string nameButler = Properties.Settings.Default.NameButler;
-            string passwordButler = Properties.Settings.Default.PasswordButler;
+            string nameButler = Settings.Default.NameButler;
+            string passwordButler = Settings.Default.PasswordButler;
 
             _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "huy", "huy");
         }
 
         public static void ChangeUserButler(string serverName)
         {
-            string nameButler = Properties.Settings.Default.NameButler;
-            string passwordButler = Properties.Settings.Default.PasswordButler;
+            string nameButler = Settings.Default.NameButler;
+            string passwordButler = Settings.Default.PasswordButler;
 
-            Properties.Settings.Default.IP = serverName;
-            Properties.Settings.Default.Save();
+            Settings.Default.IP = serverName;
+            Settings.Default.Save();
 
             _ip = serverName;
 
@@ -80,23 +76,23 @@ namespace AIS_Enterprise_Data
 
         public static void ChangeServerAndDataBase(string serverName, string dataBaseName)
         {
-            Properties.Settings.Default.IP = serverName;
-            Properties.Settings.Default.DatabaseName = dataBaseName;
-            Properties.Settings.Default.Save();
+            Settings.Default.IP = serverName;
+            Settings.Default.DatabaseName = dataBaseName;
+            Settings.Default.Save();
 
             _ip = serverName;
             _databaseName = dataBaseName;
 
-            string nameButler = Properties.Settings.Default.NameButler;
-            string passwordButler = Properties.Settings.Default.PasswordButler;
+            string nameButler = Settings.Default.NameButler;
+            string passwordButler = Settings.Default.PasswordButler;
 
             _connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "huy", "huy");
         }
 
         public static void ChangeServer(string serverName)
         {
-            Properties.Settings.Default.IP = serverName;
-            Properties.Settings.Default.Save();
+            Settings.Default.IP = serverName;
+            Settings.Default.Save();
 
             _ip = serverName;
 

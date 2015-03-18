@@ -1,13 +1,9 @@
-﻿using AIS_Enterprise_Data.Currents;
-using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Data.Temps;
-using AIS_Enterprise_Global.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Temps;
 
 namespace AIS_Enterprise_Data.Infos
 {

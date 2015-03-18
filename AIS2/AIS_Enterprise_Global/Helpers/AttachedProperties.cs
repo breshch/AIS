@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace AIS_Enterprise_Global.Helpers
 {
@@ -16,23 +12,23 @@ namespace AIS_Enterprise_Global.Helpers
         //
         // Usage: <DatePicker hacks:AttachedProperties.RegisterBlackoutDates="{Binding BlackoutDates}" >
 
-        public static DependencyProperty RegisterBlackoutDatesProperty = DependencyProperty.RegisterAttached("RegisterBlackoutDates", typeof(System.Windows.Controls.CalendarBlackoutDatesCollection), typeof(AttachedProperties), new PropertyMetadata(null, OnRegisterCommandBindingChanged));
+        public static DependencyProperty RegisterBlackoutDatesProperty = DependencyProperty.RegisterAttached("RegisterBlackoutDates", typeof(CalendarBlackoutDatesCollection), typeof(AttachedProperties), new PropertyMetadata(null, OnRegisterCommandBindingChanged));
 
-        public static void SetRegisterBlackoutDates(UIElement element, System.Windows.Controls.CalendarBlackoutDatesCollection value)
+        public static void SetRegisterBlackoutDates(UIElement element, CalendarBlackoutDatesCollection value)
         {
             if (element != null)
                 element.SetValue(RegisterBlackoutDatesProperty, value);
         }
-        public static System.Windows.Controls.CalendarBlackoutDatesCollection GetRegisterBlackoutDates(UIElement element)
+        public static CalendarBlackoutDatesCollection GetRegisterBlackoutDates(UIElement element)
         {
-            return (element != null ? (System.Windows.Controls.CalendarBlackoutDatesCollection)element.GetValue(RegisterBlackoutDatesProperty) : null);
+            return (element != null ? (CalendarBlackoutDatesCollection)element.GetValue(RegisterBlackoutDatesProperty) : null);
         }
         private static void OnRegisterCommandBindingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            System.Windows.Controls.DatePicker element = sender as System.Windows.Controls.DatePicker;
+            DatePicker element = sender as DatePicker;
             if (element != null)
             {
-                System.Windows.Controls.CalendarBlackoutDatesCollection bindings = e.NewValue as System.Windows.Controls.CalendarBlackoutDatesCollection;
+                CalendarBlackoutDatesCollection bindings = e.NewValue as CalendarBlackoutDatesCollection;
                 if (bindings != null)
                 {
                     element.BlackoutDates.Clear();

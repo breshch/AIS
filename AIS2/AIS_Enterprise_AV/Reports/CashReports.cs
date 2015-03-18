@@ -1,15 +1,13 @@
-﻿using AIS_Enterprise_Data;
-using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Data.Helpers;
-using AIS_Enterprise_Global.Helpers;
-using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Global.Helpers;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace AIS_Enterprise_AV.Reports
 {
@@ -99,18 +97,18 @@ namespace AIS_Enterprise_AV.Reports
             int indexRow = 1;
             CreationHeader(sheet, ref indexRow, MEMORANDUM_INCOMING_RC_CONTEXT, 2);
 
-            Helpers.CreateCell(sheet, indexRow, 1, rcAdvancedName, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, rcAdvancedName, Color.Transparent, 12, true, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
             indexRow++;
 
-            Helpers.CreateCell(sheet, indexRow, 1, TABLE_HEADER_NAME, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
-            Helpers.CreateCell(sheet, indexRow, 2, TABLE_HEADER_SUMM, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
+            Helpers.CreateCell(sheet, indexRow, 1, TABLE_HEADER_NAME, Color.Transparent, 12, true, ExcelHorizontalAlignment.Center);
+            Helpers.CreateCell(sheet, indexRow, 2, TABLE_HEADER_SUMM, Color.Transparent, 12, true, ExcelHorizontalAlignment.Center);
             indexRow++;
 
             var infoCosts = bc.GetInfoCostsRCIncoming(year, month, rc.Name).ToList();
             foreach (var infoCost in infoCosts)
             {
-                Helpers.CreateCell(sheet, indexRow, 1, infoCost.ConcatNotes.ToString(), Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 2, Converting.DoubleToCurrency(infoCost.Summ, infoCost.Currency), Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 1, infoCost.ConcatNotes.ToString(), Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 2, Converting.DoubleToCurrency(infoCost.Summ, infoCost.Currency), Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
                 indexRow++;
             }
 
@@ -130,8 +128,8 @@ namespace AIS_Enterprise_AV.Reports
                 }
             }
 
-            Helpers.CreateCell(sheet, indexRow, 1, TABLE_FOOTER_NAME, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left);
-            Helpers.CreateCell(sheet, indexRow, 2, totalSumm, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right);
+            Helpers.CreateCell(sheet, indexRow, 1, TABLE_FOOTER_NAME, Color.Transparent, 12, true, ExcelHorizontalAlignment.Left);
+            Helpers.CreateCell(sheet, indexRow, 2, totalSumm, Color.Transparent, 12, true, ExcelHorizontalAlignment.Right);
             indexRow += 2;
 
             foreach (var totalSummCurrency in totalSummsCurrency)
@@ -139,7 +137,7 @@ namespace AIS_Enterprise_AV.Reports
                 if (totalSummCurrency != null)
                 {
                     Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, FOOTER_MEMORANDUM_FIRTST_PART + totalSummCurrency + FOOTER_MEMORANDUM_SECOND_PART,
-                        Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                        Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
                     indexRow++;
                 }
@@ -148,15 +146,15 @@ namespace AIS_Enterprise_AV.Reports
             
             indexRow += 2;
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL + rcAdvancedName, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL + rcAdvancedName, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
             if (rc.Name != "КО-2")
             {
-                Helpers.CreateCell(sheet, indexRow, 2, FOOTER_RC_ALL_APEL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);    
+                Helpers.CreateCell(sheet, indexRow, 2, FOOTER_RC_ALL_APEL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);    
             }
             else
             {
-                Helpers.CreateCell(sheet, indexRow, 2, FOOTER_RC_KO2_APEL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);    
+                Helpers.CreateCell(sheet, indexRow, 2, FOOTER_RC_KO2_APEL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);    
             }
         }
 
@@ -166,7 +164,7 @@ namespace AIS_Enterprise_AV.Reports
             var sheet = Helpers.GetSheet(ep, name);
 
             int indexRow = 1;
-            Helpers.CreateCell(sheet, indexRow, 2, OFFICE_HEADER_INCOMING_FULL_NAME, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, OFFICE_HEADER_INCOMING_FULL_NAME, Color.Transparent, 14, true, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow++;
 
             sheet.View.ShowGridLines = false;
@@ -174,13 +172,13 @@ namespace AIS_Enterprise_AV.Reports
             sheet.Column(1).Width = Helpers.PixelsToInches(330);
             sheet.Column(2).Width = Helpers.PixelsToInches(450);
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow++;
 
-            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 7;
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
             indexRow += 2;
 
 
@@ -191,7 +189,7 @@ namespace AIS_Enterprise_AV.Reports
                 if (totalSummCurrency != null)
                 {
                     Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM_INCOMING_26_CONTEXT_FIRST_PART + totalSummCurrency + MEMORANDUM_INCOMING_26_CONTEXT_SECOND_PART, 
-                        Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                        Color.Transparent, 14, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
                     indexRow++;
                 }
@@ -199,8 +197,8 @@ namespace AIS_Enterprise_AV.Reports
 
             indexRow += 10;
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-            Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
         }
 
         private static void Expense26Report(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -215,13 +213,13 @@ namespace AIS_Enterprise_AV.Reports
             sheet.Column(1).Width = Helpers.PixelsToInches(330);
             sheet.Column(2).Width = Helpers.PixelsToInches(450);
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow++;
 
-            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 7;
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
             indexRow += 2;
 
             var infoCosts = bc.GetInfoCosts26Expense(year, month).ToList();
@@ -237,12 +235,12 @@ namespace AIS_Enterprise_AV.Reports
             }
 
             Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, context,
-                        Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                        Color.Transparent, 14, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
             indexRow += 6;
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-            Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 14, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 14, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
         }
 
         private static void ExpensePAM16Report(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -257,13 +255,13 @@ namespace AIS_Enterprise_AV.Reports
             sheet.Column(1).Width = Helpers.PixelsToInches(330);
             sheet.Column(2).Width = Helpers.PixelsToInches(450);
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow++;
 
-            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 7;
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
             indexRow += 2;
 
             var sumAll = bc.GetInfoCosts(year, month)
@@ -277,7 +275,7 @@ namespace AIS_Enterprise_AV.Reports
                 " р. – и поставить в затрату проекту ПАМ-16 (Кедр).";
 
             Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, context,
-                        Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                        Color.Transparent, 14, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
             indexRow += 2;
 
@@ -288,13 +286,13 @@ namespace AIS_Enterprise_AV.Reports
             {
                 string costItemName = infoCostsCostItem.First().DirectoryCostItem.Name;
 
-                Helpers.CreateCell(sheet, indexRow, 1, costItemName, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 1, costItemName, Color.Transparent, 10, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.Thin);
 
                 double costItemExpenseSummAll = Math.Round(infoCostsCostItem.Where(c => c.DirectoryRC.Name == "ВСЕ")
                     .Sum(c => c.Summ) * pam16Percentage / 100, 2);
 
                 Helpers.CreateCell(sheet, indexRow, 2, costItemExpenseSummAll, Color.Transparent, 10, false, 
-                    OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
 
                 commonAllSumm += costItemExpenseSummAll;
 
@@ -302,15 +300,15 @@ namespace AIS_Enterprise_AV.Reports
             }
             string commonAllSummString = commonAllSumm != 0 ? Converting.DoubleToCurrency(commonAllSumm, Currency.RUR) : "";
 
-            Helpers.CreateCell(sheet, indexRow, 1, "Итого", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, 
-                OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            Helpers.CreateCell(sheet, indexRow, 1, "Итого", Color.LightGray, 11, true, ExcelHorizontalAlignment.Left, 
+                ExcelBorderStyle.Thin);
             Helpers.CreateCell(sheet, indexRow, 2, commonAllSummString, Color.LightGray, 11, true, 
-                OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
 
             indexRow += 4;
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-            Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_26_APEL, Color.Transparent, 14, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, FOOTER_26_APEL_NAME, Color.Transparent, 14, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
         }
 
         private static void ExpenseRCsReport(ExcelPackage ep, BusinessContext bc, int year, int month)
@@ -328,13 +326,13 @@ namespace AIS_Enterprise_AV.Reports
 
             int indexRow = 1;
 
-            Helpers.CreateCell(sheet, indexRow, 2, indexRow, 4, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, indexRow, 4, APPEAL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow++;
 
-            Helpers.CreateCell(sheet, indexRow, 2,  indexRow, 4, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2,  indexRow, 4, APPEAL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 2;
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 4, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 4, MEMORANDUM, Color.Transparent, 14, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
             indexRow += 2;
 
             int indexContextRow = indexRow;
@@ -353,13 +351,13 @@ namespace AIS_Enterprise_AV.Reports
 
             foreach (var rc in rcs)
             {
-                Helpers.CreateCell(sheet, indexRow, 1,rc.ReportName, Color.Transparent, 12, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+                Helpers.CreateCell(sheet, indexRow, 1,rc.ReportName, Color.Transparent, 12, true, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
                 indexRow++;
 
-                Helpers.CreateCell(sheet, indexRow, 1, "Статья затрат", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 2, rc.ReportName, Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 3, "ВСЕ", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 4, "Сумма,", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 1, "Статья затрат", Color.LightGray, 11, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 2, rc.ReportName, Color.LightGray, 11, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 3, "ВСЕ", Color.LightGray, 11, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 4, "Сумма,", Color.LightGray, 11, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thin);
                 
                 indexRow++;
 
@@ -374,7 +372,7 @@ namespace AIS_Enterprise_AV.Reports
                 {
                     string costItemName = infoCostsCostItem.First().DirectoryCostItem.Name;
 
-                    Helpers.CreateCell(sheet, indexRow, 1, costItemName, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    Helpers.CreateCell(sheet, indexRow, 1, costItemName, Color.Transparent, 10, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.Thin);
 
                  
                     double costItemExpenseSumm = infoCostsCostItem.Where(c => c.DirectoryRC.Name != "ВСЕ").Sum(c => c.Summ);
@@ -382,7 +380,7 @@ namespace AIS_Enterprise_AV.Reports
                     double costItemRCSumm = costItemExpenseSumm - costItemIncomingSumm;
                     string costItemRCSummString = costItemRCSumm != 0 ? Converting.DoubleToCurrency(costItemRCSumm, Currency.RUR) : "";
 
-                    Helpers.CreateCell(sheet, indexRow, 2, costItemRCSummString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    Helpers.CreateCell(sheet, indexRow, 2, costItemRCSummString, Color.Transparent, 10, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
 
 
                     double costItemExpenseSummAll = Math.Round(infoCostsCostItem.Where(c => c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * rc.Percentes / 100, 0);
@@ -390,13 +388,13 @@ namespace AIS_Enterprise_AV.Reports
                     double costItemRCSummAll = (costItemExpenseSummAll - costItemIncomingSummAll) * (100 - _pam16Percentage) / 100;
                     string costItemRCSummAllString = costItemRCSummAll != 0 ? Converting.DoubleToCurrency(costItemRCSummAll, Currency.RUR) : "";
 
-                    Helpers.CreateCell(sheet, indexRow, 3, costItemRCSummAllString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    Helpers.CreateCell(sheet, indexRow, 3, costItemRCSummAllString, Color.Transparent, 10, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
 
 
                     double commonCostItemSumm = costItemRCSumm + costItemRCSummAll;
                     string commonCostItemSummString = commonCostItemSumm != 0 ? Converting.DoubleToCurrency(commonCostItemSumm, Currency.RUR) : "";
 
-                    Helpers.CreateCell(sheet, indexRow, 4, commonCostItemSummString, Color.Transparent, 10, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    Helpers.CreateCell(sheet, indexRow, 4, commonCostItemSummString, Color.Transparent, 10, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
 
                     commonRCSumm += costItemRCSumm;
                     commonAllSumm += costItemRCSummAll;
@@ -408,10 +406,10 @@ namespace AIS_Enterprise_AV.Reports
                 string commonAllSummString = commonAllSumm != 0 ? Converting.DoubleToCurrency(commonAllSumm, Currency.RUR) : "";
                 string commonRCAndAllSummString = commonRCAndAllSumm != 0 ? Converting.DoubleToCurrency(commonRCAndAllSumm, Currency.RUR) : "";
 
-                Helpers.CreateCell(sheet, indexRow, 1, "Итого", Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 2, commonRCSummString, Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 3, commonAllSummString, Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                Helpers.CreateCell(sheet, indexRow, 4, commonRCAndAllSummString, Color.LightGray, 11, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 1, "Итого", Color.LightGray, 11, true, ExcelHorizontalAlignment.Left, ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 2, commonRCSummString, Color.LightGray, 11, true, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 3, commonAllSummString, Color.LightGray, 11, true, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
+                Helpers.CreateCell(sheet, indexRow, 4, commonRCAndAllSummString, Color.LightGray, 11, true, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
 
                 commonSumm += commonRCAndAllSumm;
 
@@ -419,37 +417,37 @@ namespace AIS_Enterprise_AV.Reports
             }
 
             string context = "Просим Вас снять с кассы «АВ» сумму в размере " + commonSumm + ", и отнести на затраты по следующим центрам ответственности и статьям затрат:";
-            Helpers.CreateCell(sheet, indexContextRow, 1, indexContextRow, 4, context, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexContextRow, 1, indexContextRow, 4, context, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
             indexRow++;
             string rcPAM1 = bc.GetDirectoryRC("ПАМ-1").ReportName;
-            Helpers.CreateCell(sheet, indexRow, 1, rcPAM1, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_26_APEL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, rcPAM1, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_26_APEL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 2;
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_SU_APEL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_SU_APEL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
             indexRow++;
             string rcKO1 = bc.GetDirectoryRC("КО-1").ReportName;
             string rcKO2 = bc.GetDirectoryRC("КО-2").ReportName;
-            Helpers.CreateCell(sheet, indexRow, 1, rcKO1 + " / " + rcKO2, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_RC_KO2_APEL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, rcKO1 + " / " + rcKO2, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_RC_KO2_APEL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 2;
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
             indexRow++;
             string rcMO2 = bc.GetDirectoryRC("МО-2").ReportName;
             string rcMO5 = bc.GetDirectoryRC("МО-5").ReportName;
             string rcKO5 = bc.GetDirectoryRC("КО-5").ReportName;
-            Helpers.CreateCell(sheet, indexRow, 1, rcMO2 + " / " + rcMO5 + " / " + rcKO5, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_RC_ALL_APEL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, rcMO2 + " / " + rcMO5 + " / " + rcKO5, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_RC_ALL_APEL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 2;
 
-            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, FOOTER_RC_APEL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
             indexRow++;
             string rcPAM16 = bc.GetDirectoryRC("ПАМ-16").ReportName;
-            Helpers.CreateCell(sheet, indexRow, 1, rcPAM16, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
-            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_RC_PAM16_APEL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, rcPAM16, Color.Transparent, 12, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 4, FOOTER_RC_PAM16_APEL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 2;
         }
 
@@ -460,16 +458,16 @@ namespace AIS_Enterprise_AV.Reports
             sheet.Column(1).Width = Helpers.PixelsToInches(330);
             sheet.Column(2).Width = Helpers.PixelsToInches(450);
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, APPEAL, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow++;
 
-            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Right, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 2, APPEAL_NAME, Color.Transparent, 12, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.None);
             indexRow += 7;
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, MEMORANDUM, Color.Transparent, 14, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
             indexRow += 2;
 
-            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, context, Color.Transparent, 14, false, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelBorderStyle.None);
+            Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, context, Color.Transparent, 14, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
             sheet.Row(indexRow).Height = (countRows + 2) * 20;
             indexRow += 2;
         }

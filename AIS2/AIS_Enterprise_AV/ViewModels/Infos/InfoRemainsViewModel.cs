@@ -1,15 +1,11 @@
-﻿using AIS_Enterprise_AV.Helpers.Temps;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Infos.ViewModels;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {

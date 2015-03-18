@@ -1,21 +1,12 @@
-﻿using AIS_Enterprise_AV.Helpers.ExcelToDB;
-using AIS_Enterprise_AV.Infos.ViewModels;
+﻿using System.Windows;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.Views.Infos;
-using AIS_Enterprise_Data.Currents;
+using AIS_Enterprise_AV.WareHouse;
 using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Global.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
@@ -29,6 +20,7 @@ namespace AIS_Enterprise_AV.ViewModels
             RemainsCommand = new RelayCommand(Remains);
             ProcessingBookKeepingCommand = new RelayCommand(ProcessingBookKeeping);
             RemainsLoanCommand = new RelayCommand(RemainsLoan);
+			WarehouseCommand = new RelayCommand(Warehouse);
             
             if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_MonthTimeSheetEnable.ToString()))
             {
@@ -64,6 +56,7 @@ namespace AIS_Enterprise_AV.ViewModels
         public RelayCommand RemainsCommand { get; set; }
         public RelayCommand ProcessingBookKeepingCommand { get; set; }
         public RelayCommand RemainsLoanCommand { get; set; }
+	    public RelayCommand WarehouseCommand { get; set; }
 
 
         private void MonthTimeSheet(object parameter)
@@ -106,6 +99,17 @@ namespace AIS_Enterprise_AV.ViewModels
 
             HelperMethods.CloseWindow(parameter);
         }
+
+		private void Warehouse(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Hidden;
+
+			var scheme = new Scheme();
+			scheme.ShowDialog();
+			
+			HelperMethods.CloseWindow(parameter);
+		}
 
         #endregion
     }

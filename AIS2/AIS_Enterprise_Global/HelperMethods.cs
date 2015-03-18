@@ -1,17 +1,12 @@
-﻿using System.Net;
-using AIS_Enterprise_Data;
-using AIS_Enterprise_Data.Directories;
-using AIS_Enterprise_Data.Infos;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Windows;
 using System.Windows.Media;
-using AIS_Enterprise_Global.Properties;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
 
 namespace AIS_Enterprise_Global.Helpers
 {

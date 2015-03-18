@@ -1,12 +1,8 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Attributes;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
 
 namespace AIS_Enterprise_Global.ViewModels.Infos
 {

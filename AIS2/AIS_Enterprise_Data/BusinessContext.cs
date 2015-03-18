@@ -1,22 +1,16 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Windows.Media.Imaging;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Helpers;
 using AIS_Enterprise_Data.Infos;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
-using UnidecodeSharpFork;
 using AIS_Enterprise_Data.Temps;
+using AIS_Enterprise_Global.Helpers;
+using UnidecodeSharpFork;
 
 namespace AIS_Enterprise_Data
 {

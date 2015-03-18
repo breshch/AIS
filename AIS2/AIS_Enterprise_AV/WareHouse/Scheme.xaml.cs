@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Globalization;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TextBox = System.Web.UI.WebControls.TextBox;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.WareHouse
 {
@@ -24,27 +12,42 @@ namespace AIS_Enterprise_AV.WareHouse
 	/// </summary>
 	public partial class Scheme : Window
 	{
-		private readonly SchemeDrawing _schemeDrawing;
+		private readonly SchemeDrawingWarehouse _schemeDrawingWarehouse;
+		private readonly SchemeDrawingBlock _schemeDrawingBlock;
 		private SchemeData _schemeData;
+		private readonly BusinessContext _bc;
+		private const string _fontFamilyDefault = "Segoe UI Light";
+		private readonly Size _warehouseSizeCell = new Size(40, 20);
+		private readonly Size _warehouseSizeRoad = new Size(10, 10);
+		private readonly Size _blockSizeCell = new Size(240, 60);
+		private const double _warehouseFontSize = 12;
+		private const double _blockFontSize = 14;
 
 		public Scheme()
 		{
 			InitializeComponent();
 
+			_bc = new BusinessContext();
+
 			InitializeWarehouse();
-			_schemeDrawing = new SchemeDrawing(Surface, _schemeData);
-			_schemeDrawing.DrawWarehouse(new Point(0, 0), new Size(40, 20), new Size(10, 10), 12);
+			_schemeDrawingWarehouse = new SchemeDrawingWarehouse(SurfaceWarehouse, _schemeData);
+			_schemeDrawingWarehouse.SetFontFamilyDefault(_fontFamilyDefault);
+			_schemeDrawingBlock = new SchemeDrawingBlock(SurfaceBlock);
+			_schemeDrawingBlock.SetFontFamilyDefault(_fontFamilyDefault);
+			_schemeDrawingWarehouse.DrawWarehouse(_warehouseSizeCell, _warehouseSizeRoad, _warehouseFontSize);
 		}
 
 		private void InitializeWarehouse()
 		{
 			_schemeData = new SchemeData(23, 7);
 
+			var carParts = _bc.GetDirectoryCarParts().ToArray();
+
 			for (int row = 1; row <= _schemeData.CountRows; row++)
 			{
 				for (int place = 1; place <= _schemeData.CountPlaces; place++)
 				{
-					int countCells = 3;
+					const int countCells = 3;
 					var countFloors = row == 23 ? 5 : 4;
 					for (int floor = 1; floor <= countFloors; floor++)
 					{
@@ -52,9 +55,19 @@ namespace AIS_Enterprise_AV.WareHouse
 						{
 							if (!((place == 1 && (row == 1 || row == 2)) ||
 								((place == 1 || place == 7) && row == 23) ||
-								(place == 4 && (row >= 3 && row <= 22) && floor >= 3)))
+								(place == 4 && (row >= 3 && row <= 22) && floor <= 2)))
 							{
-								_schemeData.AddCell(row, place, floor, cell);
+								var carPartData = HelperMethods.GetRandomNumber(0, 2) == 0
+									? Enumerable.Range(1, HelperMethods.GetRandomNumber(1, 4))
+										.Select(x => new CarPartData
+										{
+											CarPart = carParts[HelperMethods.GetRandomNumber(0, carParts.Length)],
+											CountCarPart = HelperMethods.GetRandomNumber(1, 100000)
+										})
+										.ToArray()
+									: new CarPartData[0];
+
+								_schemeData.AddCell(row, place, floor, cell, carPartData);
 							}
 						}
 					}
@@ -72,75 +85,32 @@ namespace AIS_Enterprise_AV.WareHouse
 					FinishPlace = _schemeData.CountPlaces
 				});
 			}
-
-			//_schemeData.SetRoad(new SchemeRoad
-			//{
-			//	Type = RoadType.Place,
-			//	StartPlace = 3,
-			//	FinishPlace = 4,
-			//	StartRow = 3,
-			//	FinishRow = _schemeData.CountRows
-			//});
-
-			//_schemeData.SetRoad(new SchemeRoad
-			//{
-			//	Type = RoadType.Place,
-			//	StartPlace = 4,
-			//	FinishPlace = 5,
-			//	StartRow = 3,
-			//	FinishRow = _schemeData.CountRows
-			//});
 		}
 
 		private void Surface_OnMouseMove(object sender, MouseEventArgs e)
 		{
-			var mousePoint = e.GetPosition(Surface);
-			var block = _schemeData.GetBlock(mousePoint);
+			var mousePoint = e.GetPosition(SurfaceWarehouse);
+			var block = _schemeDrawingWarehouse.GetBlock(mousePoint);
 			if (block != null)
 			{
 				Mouse.OverrideCursor = Cursors.Hand;
 
-				TableCells.Columns.Clear();
-				TableCells.Items.Clear();
-
-
-				var cells = _schemeData.GetCells(block.Row, block.Place);
-				int countFloors = cells.Max(c => c.Address.Floor) - cells.Min(c => c.Address.Floor) + 1;
-				int countCellsInFloor = cells.Length / countFloors;
-
-				for (int i = 0; i < countCellsInFloor; i++)
+				if (_schemeDrawingWarehouse.SelectedBlock == null)
 				{
-					var textColumn = new DataGridTextColumn
-					{
-						Width = 60
-					};
-					TableCells.Columns.Add(textColumn);
+					SurfaceBlock.Children.Clear();
+
+					var cells = _schemeData.GetCells(block.Row, block.Place);
+					_schemeDrawingBlock.DrawBlock(_blockSizeCell, cells, _blockFontSize);
 				}
-
-				for (int floor = 1; floor <= countFloors; floor++)
-				{
-					dynamic item = new ExpandoObject();
-					for (int cell = 1; cell <= 1; cell++)
-					{
-						var cellInFloor = cells.First(c => c.Address.Floor == floor && c.Address.Cell == cell);
-
-						var dataGridCell = new DataGridCell();
-						((StackPanel) dataGridCell.Content).Children.Add(new TextBlock
-						{
-							Text = cellInFloor.CarParts.Length + " carparts"
-						});
-						item.Column1 = dataGridCell;
-					}
-
-					TableCells.Items.Add(item);
-				}
-
-				TableCells.Visibility = Visibility.Visible;
 			}
 			else
 			{
 				Mouse.OverrideCursor = Cursors.Arrow;
-				TableCells.Visibility = Visibility.Collapsed;
+				if (_schemeDrawingWarehouse.SelectedBlock == null)
+				{
+					SurfaceBlock.Children.Clear();
+				}
+
 			}
 		}
 
@@ -149,7 +119,86 @@ namespace AIS_Enterprise_AV.WareHouse
 			if (Mouse.OverrideCursor != Cursors.Arrow)
 			{
 				Mouse.OverrideCursor = Cursors.Arrow;
-				TableCells.Visibility = Visibility.Collapsed;
+				if (_schemeDrawingWarehouse.SelectedBlock == null)
+				{
+					SurfaceBlock.Children.Clear();
+				}
+			}
+		}
+
+		private void SurfaceWarehouse_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var mousePoint = e.GetPosition(SurfaceWarehouse);
+			var block = _schemeDrawingWarehouse.GetBlock(mousePoint);
+			if (block != null)
+			{
+				SurfaceWarehouse.Children.Clear();
+				_schemeDrawingWarehouse.DrawWarehouse(_warehouseSizeCell, _warehouseSizeRoad, _warehouseFontSize, block);
+
+				SurfaceBlock.Children.Clear();
+				var cells = _schemeData.GetCells(block.Row, block.Place);
+				_schemeDrawingBlock.DrawBlock(_blockSizeCell, cells, _blockFontSize);
+
+				_schemeDrawingWarehouse.SelectedBlock = block;
+			}
+		}
+
+		private void Scheme_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var mousePoint = e.GetPosition(WindowWarehouse);
+
+			SurfaceWarehouse.UpdateLayout();
+			SurfaceBlock.UpdateLayout();
+
+			var surfaseWarehousePoint = SurfaceWarehouse.TranslatePoint(new Point(0, 0), WindowWarehouse);
+			var surfaseBlockPoint = SurfaceBlock.TranslatePoint(new Point(0, 0), WindowWarehouse);
+
+			if (!(surfaseWarehousePoint.X <= mousePoint.X && (surfaseWarehousePoint.X + _schemeDrawingWarehouse.Size.Width) >= mousePoint.X &&
+				surfaseWarehousePoint.Y <= mousePoint.Y && (surfaseWarehousePoint.Y + _schemeDrawingWarehouse.Size.Height) >= mousePoint.Y) &&
+				!(surfaseBlockPoint.X <= mousePoint.X && (surfaseBlockPoint.X + _schemeDrawingBlock.Size.Width) >= mousePoint.X &&
+				surfaseBlockPoint.Y <= mousePoint.Y && (surfaseBlockPoint.Y + _schemeDrawingBlock.Size.Height) >= mousePoint.Y))
+			{
+				SurfaceWarehouse.Children.Clear();
+				_schemeDrawingWarehouse.DrawWarehouse(_warehouseSizeCell, _warehouseSizeRoad, _warehouseFontSize);
+
+				_schemeDrawingWarehouse.SelectedBlock = null;
+
+				SurfaceBlock.Children.Clear();
+			}
+		}
+
+		private void Scheme_OnClosing(object sender, CancelEventArgs e)
+		{
+			if (_bc != null)
+			{
+				_bc.Dispose();
+			}
+		}
+
+		private void SurfaceBlock_OnMouseMove(object sender, MouseEventArgs e)
+		{
+			var mousePoint = e.GetPosition(SurfaceBlock);
+			var pallet = _schemeDrawingBlock.GetPallet(mousePoint);
+			Mouse.OverrideCursor = pallet != null ? Cursors.Hand : Cursors.Arrow;
+		}
+
+		private void SurfaceBlock_OnMouseLeave(object sender, MouseEventArgs e)
+		{
+			Mouse.OverrideCursor = Cursors.Arrow;
+		}
+
+		private void SurfaceBlock_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var mousePoint = e.GetPosition(SurfaceBlock);
+			var pallet = _schemeDrawingBlock.GetPallet(mousePoint);
+			if (pallet != null)
+			{
+				SurfaceBlock.Children.Clear();
+				var block = _schemeDrawingWarehouse.SelectedBlock;
+				var cells = _schemeData.GetCells(block.Row, block.Place);
+				_schemeDrawingBlock.DrawBlock(_blockSizeCell, cells, _blockFontSize, pallet);
+
+				_schemeDrawingBlock.SelectedPallet = pallet;
 			}
 		}
 	}

@@ -1,15 +1,10 @@
-﻿using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Helpers.Attributes;
-using AIS_Enterprise_Data.Directories;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AIS_Enterprise_AV.ViewModels.Directories;
 using AIS_Enterprise_AV.Views.Directories;
+using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Helpers.Attributes;
 
 namespace AIS_Enterprise_Global.ViewModels.Directories.Base
 {

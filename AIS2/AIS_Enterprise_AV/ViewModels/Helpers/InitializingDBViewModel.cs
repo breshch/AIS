@@ -1,16 +1,11 @@
-﻿using AIS_Enterprise_AV.Views;
-using AIS_Enterprise_Global.Helpers;
-using AIS_Enterprise_Global.Migrations;
-using AIS_Enterprise_Data;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using System.Windows;
 using System.Windows.Controls;
+using AIS_Enterprise_AV.Properties;
+using AIS_Enterprise_AV.Views;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Migrations;
 
 namespace AIS_Enterprise_AV.ViewModels.Helpers
 {
@@ -67,10 +62,10 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
             window.Visibility = Visibility.Collapsed;
 
-            Properties.Settings.Default.DefaultServer = null;
-            Properties.Settings.Default.DefaultDataBase = null;
-            Properties.Settings.Default.DefaultUser = null;
-            Properties.Settings.Default.Save();
+            Settings.Default.DefaultServer = null;
+            Settings.Default.DefaultDataBase = null;
+            Settings.Default.DefaultUser = null;
+            Settings.Default.Save();
 
             HelperMethods.ShowView(new MainViewModel(), new MainView());
 
@@ -99,10 +94,10 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
             window.Visibility = Visibility.Collapsed;
 
-            Properties.Settings.Default.DefaultServer = null;
-            Properties.Settings.Default.DefaultDataBase = null;
-            Properties.Settings.Default.DefaultUser = null;
-            Properties.Settings.Default.Save();
+            Settings.Default.DefaultServer = null;
+            Settings.Default.DefaultDataBase = null;
+            Settings.Default.DefaultUser = null;
+            Settings.Default.Save();
 
             HelperMethods.ShowView(new MainViewModel(), new MainView());
 

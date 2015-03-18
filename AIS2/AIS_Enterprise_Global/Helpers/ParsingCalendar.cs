@@ -1,12 +1,10 @@
-﻿using AIS_Enterprise_Data;
-using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using AIS_Enterprise_Data;
+using HtmlAgilityPack;
 
 namespace AIS_Enterprise_Global.Helpers
 {

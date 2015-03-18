@@ -1,11 +1,7 @@
-﻿using AIS_Enterprise_AV.ViewModels.Infos.Base;
-using AIS_Enterprise_Global.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
+using AIS_Enterprise_AV.ViewModels.Infos.Base;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.ViewModels.Infos
 {
