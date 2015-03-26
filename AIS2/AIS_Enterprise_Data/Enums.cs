@@ -131,6 +131,7 @@
         LastDate,
         DefaultCostsDate,
         Pam16Percentage,
-        Version
+        Version,
+		IsProcessingLastDateInMonthRemains
     }
 }

@@ -1,5 +1,11 @@
 ﻿using System.Windows;
+using AIS_Enterprise_AV.ViewModels;
+using AIS_Enterprise_AV.ViewModels.Helpers;
+using AIS_Enterprise_AV.Views;
+using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.WareHouse;
+using AIS_Enterprise_Data;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV
 {
@@ -17,8 +23,8 @@ namespace AIS_Enterprise_AV
 		{
 			base.OnStartup(e);
 
-			var scheme = new Scheme();
-			scheme.ShowDialog();
+			//var scheme = new Scheme();
+			//scheme.ShowDialog();
 
 
 			//string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
@@ -29,14 +35,14 @@ namespace AIS_Enterprise_AV
 			//	Process.Start(pathUpdater);
 			//}
 
-			//if (DataContext.TryConnection())
-			//{
-			//	HelperMethods.ShowView(new MainViewModel(), new MainView());
-			//}
-			//else
-			//{
-			//	HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
-			//}
+			if (DataContext.TryConnection())
+			{
+				HelperMethods.ShowView(new MainViewModel(), new MainView());
+			}
+			else
+			{
+				HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
+			}
 		}
 	}
 }

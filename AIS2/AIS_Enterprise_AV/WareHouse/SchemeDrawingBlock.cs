@@ -42,7 +42,7 @@ namespace AIS_Enterprise_AV.WareHouse
 			double opacity = 1;
 			if (addressPallet != null)
 			{
-				opacity = 0.3;
+				opacity = 0.5;
 			}
 
 			int countFloors = cells.Max(c => c.Address.Floor) - cells.Min(c => c.Address.Floor) + 1;
@@ -105,7 +105,7 @@ namespace AIS_Enterprise_AV.WareHouse
 						foreach (var carPart in cellInFloor.CarParts)
 						{
 							string article = carPart.CarPart.FullCarPartName;
-							string countArticle = carPart.CountCarPart + " шт.";
+							string countArticle = carPart.CountCarParts + " шт.";
 							offsetY += distance;
 							_schemeDrawing.DrawString(new Point(newX + 10, newY + offsetY), article, brushArticle,  12, opacityPallet);
 							_schemeDrawing.DrawString(new Point(newX + sizeCell.Width / 3 * 2, newY + offsetY), countArticle, brushArticleCount,

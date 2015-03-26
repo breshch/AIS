@@ -76,5 +76,11 @@ namespace AIS_Enterprise_AV.WareHouse
 		{
 			return _schemeCells.Where(c => c.Address.Row == row && c.Address.Place == place).ToArray();
 		}
+
+		public SchemeCell GetCell(int row, int place, int floor, int cell)
+		{
+			return _schemeCells.FirstOrDefault(c => c.Address.Row == row && c.Address.Place == place &&
+													c.Address.Floor == floor && c.Address.Cell == cell);
+		}
 	}
 }

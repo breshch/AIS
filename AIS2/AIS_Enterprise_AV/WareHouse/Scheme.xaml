@@ -10,11 +10,11 @@
 			<ColumnDefinition Width="400"/>
 			<ColumnDefinition Width="400"/>
 		</Grid.ColumnDefinitions>
-		
+
 		<Canvas Grid.Column="0" x:Name="SurfaceWarehouse" MouseMove="Surface_OnMouseMove" 
 				MouseLeave="Surface_OnMouseLeave" MouseLeftButtonDown="SurfaceWarehouse_OnMouseLeftButtonDown" >
 		</Canvas>
-		
+
 		<Canvas Grid.Column="1" x:Name="SurfaceBlock" MouseMove="SurfaceBlock_OnMouseMove" MouseLeave="SurfaceBlock_OnMouseLeave"
 				MouseLeftButtonDown="SurfaceBlock_OnMouseLeftButtonDown">
 		</Canvas>

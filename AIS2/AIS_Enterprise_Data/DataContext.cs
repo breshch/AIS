@@ -11,7 +11,6 @@ namespace AIS_Enterprise_Data
 {
     public class DataContext : DbContext
     {
-
         #region Base
         private static string _connectionString;
         private static string _ip;
@@ -30,6 +29,13 @@ namespace AIS_Enterprise_Data
         {
             Debug.WriteLine(this.Database.Connection.ConnectionString);
         }
+
+	    public DataContext(string connectionString)
+			: base(connectionString)
+	    {
+		    _connectionString = connectionString;
+			Debug.WriteLine(this.Database.Connection.ConnectionString);
+	    }
 
         public static void ChangeConnectionStringWithDefaultCredentials()
         {

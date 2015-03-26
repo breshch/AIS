@@ -405,6 +405,7 @@
     <Compile Include="WareHouse\AddressBlock.cs" />
     <Compile Include="WareHouse\AddressPallet.cs" />
     <Compile Include="WareHouse\CarPartData.cs" />
+    <Compile Include="WareHouse\CarPartPallet.cs" />
     <Compile Include="WareHouse\RoadType.cs" />
     <Compile Include="WareHouse\SchemeCell.cs" />
     <Compile Include="WareHouse\Scheme.xaml.cs">

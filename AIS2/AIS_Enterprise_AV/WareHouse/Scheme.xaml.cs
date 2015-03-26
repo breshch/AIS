@@ -1,9 +1,22 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Web.UI.WebControls;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
+using Button = System.Windows.Controls.Button;
+using DataGrid = System.Windows.Controls.DataGrid;
+using Orientation = System.Windows.Controls.Orientation;
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
 
 namespace AIS_Enterprise_AV.WareHouse
 {
@@ -23,11 +36,17 @@ namespace AIS_Enterprise_AV.WareHouse
 		private const double _warehouseFontSize = 12;
 		private const double _blockFontSize = 14;
 
+		private bool _isPalletSelected = false;
+
+		private readonly DirectoryCarPart[] _carParts;
+
 		public Scheme()
 		{
 			InitializeComponent();
 
-			_bc = new BusinessContext();
+			_bc = new BusinessContext("Data Source=95.31.130.52; Initial Catalog=AV_New_Dev; User ID=huy; Password=huy;");
+
+			_carParts = _bc.GetDirectoryCarParts().ToArray();
 
 			InitializeWarehouse();
 			_schemeDrawingWarehouse = new SchemeDrawingWarehouse(SurfaceWarehouse, _schemeData);
@@ -40,8 +59,6 @@ namespace AIS_Enterprise_AV.WareHouse
 		private void InitializeWarehouse()
 		{
 			_schemeData = new SchemeData(23, 7);
-
-			var carParts = _bc.GetDirectoryCarParts().ToArray();
 
 			for (int row = 1; row <= _schemeData.CountRows; row++)
 			{
@@ -61,8 +78,8 @@ namespace AIS_Enterprise_AV.WareHouse
 									? Enumerable.Range(1, HelperMethods.GetRandomNumber(1, 4))
 										.Select(x => new CarPartData
 										{
-											CarPart = carParts[HelperMethods.GetRandomNumber(0, carParts.Length)],
-											CountCarPart = HelperMethods.GetRandomNumber(1, 100000)
+											CarPart = _carParts[HelperMethods.GetRandomNumber(0, _carParts.Length)],
+											CountCarParts = HelperMethods.GetRandomNumber(1, 100000)
 										})
 										.ToArray()
 									: new CarPartData[0];
@@ -89,6 +106,8 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		private void Surface_OnMouseMove(object sender, MouseEventArgs e)
 		{
+			if (_isPalletSelected) return;
+
 			var mousePoint = e.GetPosition(SurfaceWarehouse);
 			var block = _schemeDrawingWarehouse.GetBlock(mousePoint);
 			if (block != null)
@@ -116,6 +135,8 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		private void Surface_OnMouseLeave(object sender, MouseEventArgs e)
 		{
+			if (_isPalletSelected) return;
+
 			if (Mouse.OverrideCursor != Cursors.Arrow)
 			{
 				Mouse.OverrideCursor = Cursors.Arrow;
@@ -128,6 +149,8 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		private void SurfaceWarehouse_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			if (_isPalletSelected) return;
+
 			var mousePoint = e.GetPosition(SurfaceWarehouse);
 			var block = _schemeDrawingWarehouse.GetBlock(mousePoint);
 			if (block != null)
@@ -145,6 +168,8 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		private void Scheme_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			if (_isPalletSelected) return;
+
 			var mousePoint = e.GetPosition(WindowWarehouse);
 
 			SurfaceWarehouse.UpdateLayout();
@@ -177,6 +202,8 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		private void SurfaceBlock_OnMouseMove(object sender, MouseEventArgs e)
 		{
+			if (_isPalletSelected) return;
+
 			var mousePoint = e.GetPosition(SurfaceBlock);
 			var pallet = _schemeDrawingBlock.GetPallet(mousePoint);
 			Mouse.OverrideCursor = pallet != null ? Cursors.Hand : Cursors.Arrow;
@@ -184,22 +211,220 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		private void SurfaceBlock_OnMouseLeave(object sender, MouseEventArgs e)
 		{
+			if (_isPalletSelected) return;
+
 			Mouse.OverrideCursor = Cursors.Arrow;
 		}
 
 		private void SurfaceBlock_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			if (_isPalletSelected) return;
+
 			var mousePoint = e.GetPosition(SurfaceBlock);
 			var pallet = _schemeDrawingBlock.GetPallet(mousePoint);
 			if (pallet != null)
 			{
+				_isPalletSelected = true;
+				Mouse.OverrideCursor = Cursors.Arrow;
+
 				SurfaceBlock.Children.Clear();
 				var block = _schemeDrawingWarehouse.SelectedBlock;
 				var cells = _schemeData.GetCells(block.Row, block.Place);
 				_schemeDrawingBlock.DrawBlock(_blockSizeCell, cells, _blockFontSize, pallet);
 
+				var cell = _schemeData.GetCell(block.Row, block.Place, pallet.Floor, pallet.Cell);
+
 				_schemeDrawingBlock.SelectedPallet = pallet;
+
+				DrawTableArticlesInPallet(cell);
 			}
+		}
+
+		private void DrawTableArticlesInPallet(SchemeCell cell)
+		{
+			var grid = new Grid
+			{
+				RowDefinitions =
+				{
+					new RowDefinition {Height = new GridLength(1, GridUnitType.Auto)},
+					new RowDefinition {Height = new GridLength(1, GridUnitType.Auto)},
+					new RowDefinition {Height = new GridLength(1, GridUnitType.Auto)}
+				}
+			};
+
+			Canvas.SetLeft(grid, 20);
+			Canvas.SetTop(grid, _schemeDrawingBlock.Size.Height + 20);
+
+			var tableArtictesInPallet = new DataGrid
+			{
+				CanUserAddRows = true,
+				CanUserDeleteRows = true,
+				HeadersVisibility = DataGridHeadersVisibility.Column,
+				AutoGenerateColumns = false,
+				Width = _schemeDrawingBlock.Size.Width - 20,
+				MaxHeight = 120
+			};
+
+			Grid.SetRow(tableArtictesInPallet, 0);
+
+			var columnArticle = new DataGridTextColumn
+			{
+				Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+				Header = "Артикул",
+				Binding = new Binding("Article"),
+			};
+
+			tableArtictesInPallet.Columns.Add(columnArticle);
+
+			var columnCountArticle = new DataGridTextColumn
+			{
+				Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+				Header = "Количество",
+				Binding = new Binding("CountCarParts")
+			};
+			tableArtictesInPallet.Columns.Add(columnCountArticle);
+
+			var carPartsInPallet = new ObservableCollection<CarPartPallet>(cell.CarParts.Select(carPart => new CarPartPallet
+			{
+				Article = carPart.CarPart.FullCarPartName,
+				CountCarParts = carPart.CountCarParts
+			}));
+
+			tableArtictesInPallet.ItemsSource = carPartsInPallet;
+
+			grid.Children.Add(tableArtictesInPallet);
+
+			var textBlock = new TextBlock
+			{
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Visibility = Visibility.Collapsed,
+				Foreground = System.Windows.Media.Brushes.Brown,
+				FontWeight = FontWeight.FromOpenTypeWeight(999),
+				Margin = new Thickness(0, 4, 0, 0)
+			};
+
+			Grid.SetRow(textBlock, 1);
+			grid.Children.Add(textBlock);
+
+			var stackPanel = new StackPanel
+			{
+				Orientation = Orientation.Horizontal,
+				HorizontalAlignment = HorizontalAlignment.Right,
+				Margin = new Thickness(0, 15, 0, 0)
+			};
+			Grid.SetRow(stackPanel, 2);
+
+			double buttonWidth = (tableArtictesInPallet.Width / 2 - 30) / 2;
+
+			var buttonSave = new Button
+			{
+				Content = "Сохранить",
+				Width = buttonWidth,
+				Height = 24,
+				Margin = new Thickness(0, 0, 15, 0),
+				IsEnabled = false
+			};
+
+			buttonSave.Click += (sender, e) =>
+			{
+				var errorMessage = IsValidateTableArticles(tableArtictesInPallet);
+				if (errorMessage != null)
+				{
+					textBlock.Text = errorMessage;
+					textBlock.Visibility = Visibility.Visible;
+					buttonSave.IsEnabled = false;
+				}
+				else
+				{
+					textBlock.Text = null;
+					textBlock.Visibility = Visibility.Collapsed;
+					buttonSave.IsEnabled = true;
+				}
+
+				if (!buttonSave.IsEnabled) return;
+
+				_isPalletSelected = false;
+
+				SurfaceBlock.Children.Clear();
+
+				var block = _schemeDrawingWarehouse.SelectedBlock;
+				var cells = _schemeData.GetCells(block.Row, block.Place);
+				_schemeDrawingBlock.DrawBlock(_blockSizeCell, cells, _blockFontSize);
+			};
+
+			var buttonCancel = new Button
+			{
+				Content = "Отменить",
+				Width = buttonWidth,
+				Height = 24,
+				Margin = new Thickness(15, 0, 0, 0)
+			};
+			buttonCancel.Click += (sender, e) =>
+			{
+				_isPalletSelected = false;
+
+				SurfaceBlock.Children.Clear();
+
+				var block = _schemeDrawingWarehouse.SelectedBlock;
+				var cells = _schemeData.GetCells(block.Row, block.Place);
+				_schemeDrawingBlock.DrawBlock(_blockSizeCell, cells, _blockFontSize);
+			};
+
+			stackPanel.Children.Add(buttonSave);
+			stackPanel.Children.Add(buttonCancel);
+
+			grid.Children.Add(stackPanel);
+			SurfaceBlock.Children.Add(grid);
+
+			tableArtictesInPallet.CurrentCellChanged += (sender, e) =>
+			{
+				var errorMessage = IsValidateTableArticles(tableArtictesInPallet);
+				if (errorMessage != null)
+				{
+					textBlock.Text = errorMessage;
+					textBlock.Visibility = Visibility.Visible;
+					buttonSave.IsEnabled = false;
+				}
+				else
+				{
+					textBlock.Text = null;
+					textBlock.Visibility = Visibility.Collapsed;
+					buttonSave.IsEnabled = true;
+				}
+			};
+		}
+
+		private string IsValidateTableArticles(DataGrid tableArtictesInPallet)
+		{
+			for (int i = 0; i < tableArtictesInPallet.Items.Count; i++)
+			{
+				var row = (DataGridRow)tableArtictesInPallet.ItemContainerGenerator.ContainerFromIndex(i);
+				if (row == null)
+				{
+					tableArtictesInPallet.UpdateLayout();
+					tableArtictesInPallet.ScrollIntoView(tableArtictesInPallet.Items[i]);
+					row = (DataGridRow)tableArtictesInPallet.ItemContainerGenerator.ContainerFromIndex(i);
+				}
+
+				if (row != null && Validation.GetHasError(row))
+				{
+					return "Введите только цифры.";
+				}
+			}
+
+			foreach (var item in tableArtictesInPallet.Items)
+			{
+				var carPartPallet = item as CarPartPallet;
+				if (carPartPallet != null)
+				{
+					if (_carParts.All(p => p.FullCarPartName != carPartPallet.Article))
+					{
+						return "Артикул " + carPartPallet.Article + " не найден в базе.";
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

@@ -22,6 +22,11 @@ namespace AIS_Enterprise_Data
 
 		private DataContext _dc;
 
+		public BusinessContext(string connectionString)
+		{
+			_dc = new DataContext(connectionString);
+		}
+
 		public BusinessContext()
 		{
 			_dc = new DataContext();
@@ -1550,9 +1555,9 @@ namespace AIS_Enterprise_Data
 		//    _dc.SaveChanges();
 		//}
 
-		public void EditParameter(ParameterType parameterType, string value)
+		public void EditParameter<T>(ParameterType parameterType, T value)
 		{
-			_dc.Parameters.First(p => p.Name == parameterType.ToString()).Value = value;
+			_dc.Parameters.First(p => p.Name == parameterType.ToString()).Value = value.ToString();
 			_dc.SaveChanges();
 		}
 
@@ -3165,7 +3170,8 @@ namespace AIS_Enterprise_Data
 
 		public InfoLastMonthDayRemain GetInfoLastMonthDayRemain(DateTime date, int carPartId)
 		{
-			return _dc.InfoLastMonthDayRemains.FirstOrDefault(p => p.DirectoryCarPartId == carPartId && (p.Date.Year == date.Year && p.Date.Month == date.Month));
+			return _dc.InfoLastMonthDayRemains.FirstOrDefault(p => p.DirectoryCarPartId == carPartId &&
+				(p.Date.Year == date.Year && p.Date.Month == date.Month));
 		}
 
 		public int GetInfoCarPartIncomingCountTillDate(DateTime date, int carPartId, bool isIncoming)
@@ -3282,6 +3288,30 @@ namespace AIS_Enterprise_Data
 
 		#region CurrentCarPartsRemainsToDate
 
+		public void SetRemainsToFirstDateInMonth()
+		{
+			var isProcessing = GetParameterValue<bool>(ParameterType.IsProcessingLastDateInMonthRemains);
+
+			var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+			if (!isProcessing)
+			{
+				EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, true);
+				if (!_dc.InfoLastMonthDayRemains.Any(d => DbFunctions.DiffDays(d.Date, firstDateIneMonth) == 0))
+				{
+					var lastDateInMonth = firstDateIneMonth.AddDays(-1);
+					var carPartRemains = GetRemainsToDate(lastDateInMonth);
+
+					_dc.InfoLastMonthDayRemains.AddRange(carPartRemains.Select(c => new InfoLastMonthDayRemain
+					{
+						Count = c.Remain,
+						Date = firstDateIneMonth,
+						DirectoryCarPartId = c.Id
+					}));
+					_dc.SaveChanges();
+				}
+				EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false); 
+			}
+		}
 
 		public IEnumerable<CarPartRemain> GetRemainsToDate(DateTime date)
 		{
@@ -3314,6 +3344,8 @@ namespace AIS_Enterprise_Data
 					carPartsRUR.Add(articlePrice);
 				}
 			}
+
+
 
 			//var carPartsRUR = (from directoryCarPart in _dc.DirectoryCarParts
 			//				   let currentCarPartRUR =
@@ -3355,7 +3387,8 @@ namespace AIS_Enterprise_Data
 					foreach (var mark in marks)
 					{
 						var tmpMark = mark != null ? mark.ToLower() : null;
-						carPart = carPartsRUR.FirstOrDefault(c => c.Article.ToLower() == baseArticle && c.Mark.ToLower() == tmpMark);
+						carPart = carPartsRUR.FirstOrDefault(c => c.Article.ToLower() == baseArticle &&
+							(c.Mark == null && tmpMark == null || c.Mark != null && c.Mark.ToLower() == tmpMark));
 						if (carPart != null)
 						{
 							isFound = true;
@@ -3380,7 +3413,8 @@ namespace AIS_Enterprise_Data
 					foreach (var mark in marks)
 					{
 						var tmpMark = mark != null ? mark.ToLower() : null;
-						var directoryCarPart = carParts.FirstOrDefault(c => c.Article.ToLower() == baseArticle && c.Mark.ToLower() == tmpMark);
+						var directoryCarPart = carParts.FirstOrDefault(c => c.Article.ToLower() == baseArticle &&
+							(c.Mark == null && tmpMark == null || c.Mark != null && c.Mark.ToLower() == tmpMark));
 						if (directoryCarPart != null)
 						{
 							lastMonthDayRemain = lastMonthDayRemains.FirstOrDefault(r => r.DirectoryCarPartId == directoryCarPart.Id);
@@ -3412,6 +3446,7 @@ namespace AIS_Enterprise_Data
 
 				var carPartRemain = new CarPartRemain
 				{
+					Id = carPartId,
 					Article = carPart.Article + carPart.Mark,
 					Description = carPart.Description,
 					PriceRUR = carPart.PriceRUR,

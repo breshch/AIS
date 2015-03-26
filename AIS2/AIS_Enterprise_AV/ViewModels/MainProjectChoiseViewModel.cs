@@ -36,6 +36,8 @@ namespace AIS_Enterprise_AV.ViewModels
             {
                 IsEnabledDbFenox = true;
             }
+
+			BC.SetRemainsToFirstDateInMonth();
         }
 
         #endregion

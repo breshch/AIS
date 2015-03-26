@@ -5,6 +5,6 @@ namespace AIS_Enterprise_AV.WareHouse
 	public class CarPartData
 	{
 		public DirectoryCarPart CarPart { get; set; }
-		public int CountCarPart { get; set; }
+		public int CountCarParts { get; set; }
 	}
 }
