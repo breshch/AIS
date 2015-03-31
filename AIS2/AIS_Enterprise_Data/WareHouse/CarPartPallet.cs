@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS_Enterprise_AV.WareHouse
+namespace AIS_Enterprise_Data.WareHouse
 {
 	public class CarPartPallet
 	{

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using AIS_Enterprise_Data.WareHouse;
 
 namespace AIS_Enterprise_AV.WareHouse
 {

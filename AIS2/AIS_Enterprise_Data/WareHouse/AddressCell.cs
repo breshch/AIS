@@ -1,4 +1,4 @@
-﻿namespace AIS_Enterprise_AV.WareHouse
+﻿namespace AIS_Enterprise_Data.WareHouse
 {
 	public class AddressCell
 	{

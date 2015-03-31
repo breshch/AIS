@@ -1,35 +1,44 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using AIS_Enterprise_Data.WareHouse;
 
 namespace AIS_Enterprise_AV.WareHouse
 {
 	public class SchemeData
 	{
+		public string WarehouseName { get; private set; }
+
 		private readonly List<SchemeCell> _schemeCells = new List<SchemeCell>();
 		private readonly List<SchemeRoad> _schemeRoads = new List<SchemeRoad>();
 
 		public int CountRows { get; private set; }
 		public int CountPlaces { get; private set; }
 
-		public SchemeData(int countRows, int countPlaces)
+		public SchemeData(string warehouseName, int countRows, int countPlaces)
 		{
+			WarehouseName = warehouseName;
 			CountRows = countRows;
 			CountPlaces = countPlaces;
 		}
 
-		public void AddCell(int row, int place, int floor, int cell, CarPartData[] carPartData)
+		public void AddCell(AddressCell address, CarPartData[] carPartData)
 		{
-			_schemeCells.Add(new SchemeCell(carPartData)
+			var pallet = GetCell(address);
+
+			var schemeCell = new SchemeCell(carPartData)
 			{
-				Address = new AddressCell
-				{
-					Row = row,
-					Place = place,
-					Floor = floor,
-					Cell = cell
-				},
-			});
+				Address = address
+			};
+
+			if (pallet == null)
+			{
+				_schemeCells.Add(schemeCell);
+			}
+			else
+			{
+				_schemeCells[_schemeCells.IndexOf(pallet)] = schemeCell;
+			}
 		}
 
 		public void SetRoad(SchemeRoad schemeRoad)
@@ -77,10 +86,10 @@ namespace AIS_Enterprise_AV.WareHouse
 			return _schemeCells.Where(c => c.Address.Row == row && c.Address.Place == place).ToArray();
 		}
 
-		public SchemeCell GetCell(int row, int place, int floor, int cell)
+		public SchemeCell GetCell(AddressCell address)
 		{
-			return _schemeCells.FirstOrDefault(c => c.Address.Row == row && c.Address.Place == place &&
-													c.Address.Floor == floor && c.Address.Cell == cell);
+			return _schemeCells.FirstOrDefault(c => c.Address.Row == address.Row && c.Address.Place == address.Place &&
+													c.Address.Floor == address.Floor && c.Address.Cell == address.Cell);
 		}
 	}
 }

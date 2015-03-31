@@ -9,8 +9,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Temps;
+using AIS_Enterprise_Data.WareHouse;
 using AIS_Enterprise_Global.Helpers;
 using Button = System.Windows.Controls.Button;
 using DataGrid = System.Windows.Controls.DataGrid;
@@ -44,8 +47,7 @@ namespace AIS_Enterprise_AV.WareHouse
 		{
 			InitializeComponent();
 
-			_bc = new BusinessContext("Data Source=95.31.130.52; Initial Catalog=AV_New_Dev; User ID=huy; Password=huy;");
-
+			_bc = new BusinessContext();
 			_carParts = _bc.GetDirectoryCarParts().ToArray();
 
 			InitializeWarehouse();
@@ -58,7 +60,8 @@ namespace AIS_Enterprise_AV.WareHouse
 
 		private void InitializeWarehouse()
 		{
-			_schemeData = new SchemeData(23, 7);
+			_schemeData = new SchemeData("Main1", 23, 7);
+			var palletContents = _bc.GetAllPallets(_schemeData.WarehouseName);
 
 			for (int row = 1; row <= _schemeData.CountRows; row++)
 			{
@@ -68,23 +71,29 @@ namespace AIS_Enterprise_AV.WareHouse
 					var countFloors = row == 23 ? 5 : 4;
 					for (int floor = 1; floor <= countFloors; floor++)
 					{
-						for (int cell = 1; cell <= countCells; cell++)
+						for (int pallet = 1; pallet <= countCells; pallet++)
 						{
 							if (!((place == 1 && (row == 1 || row == 2)) ||
 								((place == 1 || place == 7) && row == 23) ||
 								(place == 4 && (row >= 3 && row <= 22) && floor <= 2)))
 							{
-								var carPartData = HelperMethods.GetRandomNumber(0, 2) == 0
-									? Enumerable.Range(1, HelperMethods.GetRandomNumber(1, 4))
-										.Select(x => new CarPartData
-										{
-											CarPart = _carParts[HelperMethods.GetRandomNumber(0, _carParts.Length)],
-											CountCarParts = HelperMethods.GetRandomNumber(1, 100000)
-										})
-										.ToArray()
-									: new CarPartData[0];
+								var carPartsData = palletContents.Where(c => c.Location.Row == row && c.Location.Place == place &&
+									c.Location.Floor == floor && c.Location.Pallet == pallet)
+									.Select(p => new CarPartData
+									{
+										CarPart = p.CarPart,
+										CountCarParts = p.CountCarPart
+									})
+									.ToArray();
 
-								_schemeData.AddCell(row, place, floor, cell, carPartData);
+								var address = new AddressCell
+								{
+									Row = row,
+									Place = place,
+									Floor = floor,
+									Cell = pallet
+								};
+								_schemeData.AddCell(address, carPartsData);
 							}
 						}
 					}
@@ -232,7 +241,14 @@ namespace AIS_Enterprise_AV.WareHouse
 				var cells = _schemeData.GetCells(block.Row, block.Place);
 				_schemeDrawingBlock.DrawBlock(_blockSizeCell, cells, _blockFontSize, pallet);
 
-				var cell = _schemeData.GetCell(block.Row, block.Place, pallet.Floor, pallet.Cell);
+				var address = new AddressCell
+				{
+					Row = block.Row,
+					Place = block.Place,
+					Floor = pallet.Floor,
+					Cell = pallet.Cell
+				};
+				var cell = _schemeData.GetCell(address);
 
 				_schemeDrawingBlock.SelectedPallet = pallet;
 
@@ -343,7 +359,38 @@ namespace AIS_Enterprise_AV.WareHouse
 
 				if (!buttonSave.IsEnabled) return;
 
+				var address = new AddressCell
+				{
+					Row = _schemeDrawingWarehouse.SelectedBlock.Row,
+					Place = _schemeDrawingWarehouse.SelectedBlock.Place,
+					Floor = _schemeDrawingBlock.SelectedPallet.Floor,
+					Cell = _schemeDrawingBlock.SelectedPallet.Cell
+				};
+
+				var carPartPallets = new List<CarPartPallet>();
+				foreach (var item in tableArtictesInPallet.Items)
+				{
+					var carPartPallet = item as CarPartPallet;
+					if (carPartPallet != null)
+					{
+						carPartPallets.Add(carPartPallet);
+					}
+				}
+
+				var palletContents =_bc.SavePalletContents(_schemeData.WarehouseName, address, carPartPallets.ToArray());
+				var carPartsData = palletContents.Select(c => new CarPartData
+				{
+					CarPart = c.CarPart,
+					CountCarParts = c.CountCarPart
+				}).ToArray();
+
+				_schemeData.AddCell(address, carPartsData);
+
 				_isPalletSelected = false;
+
+				SurfaceWarehouse.Children.Clear();
+				_schemeDrawingWarehouse.DrawWarehouse(_warehouseSizeCell, _warehouseSizeRoad, _warehouseFontSize, 
+					_schemeDrawingWarehouse.SelectedBlock);
 
 				SurfaceBlock.Children.Clear();
 

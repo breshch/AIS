@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Helpers;
 using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Data.Temps;
+using AIS_Enterprise_Data.WareHouse;
 using AIS_Enterprise_Global.Helpers;
 using UnidecodeSharpFork;
 
@@ -3309,7 +3311,7 @@ namespace AIS_Enterprise_Data
 					}));
 					_dc.SaveChanges();
 				}
-				EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false); 
+				EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false);
 			}
 		}
 
@@ -3460,6 +3462,74 @@ namespace AIS_Enterprise_Data
 			return carPartRemains;
 		}
 
+		#endregion
+
+		
+		#region Warehouse
+
+		public PalletContent[] GetPalletContents(string warehouseName, AddressCell address)
+		{
+			int warehouseId = _dc.Warehouses.First(w => w.Name == warehouseName).Id;
+			var location = _dc.PalletLocations.FirstOrDefault(l => l.WarehouseId == warehouseId && l.Row == address.Row &&
+				l.Place == address.Place && l.Floor == address.Floor && l.Pallet == address.Cell);
+
+			if (location != null)
+			{
+				return _dc.PalletContents.Where(p => p.PalletLocationId == location.Id).ToArray();
+			}
+			else
+			{
+				return new PalletContent[0];
+			}
+		}
+
+		public PalletContent[] GetAllPallets(string warehouseName)
+		{
+			int warehouseId = _dc.Warehouses.First(w => w.Name == warehouseName).Id;
+			return _dc.PalletContents.Include(c => c.Location).Where(c => c.Location.WarehouseId == warehouseId).ToArray();
+		}
+
+		public PalletContent[] SavePalletContents(string warehouseName, AddressCell address, CarPartPallet[] carPartPallets)
+		{
+			int warehouseId = _dc.Warehouses.First(w => w.Name == warehouseName).Id;
+			var removableContents = _dc.PalletContents.Include(c => c.Location).Where(c => c.Location.WarehouseId == warehouseId &&
+			                                                       c.Location.Row == address.Row &&
+			                                                       c.Location.Place == address.Place &&
+			                                                       c.Location.Floor == address.Floor &&
+			                                                       c.Location.Pallet == address.Cell);
+
+			_dc.PalletContents.RemoveRange(removableContents);
+
+
+			var articles = carPartPallets.Select(p => p.Article);
+			var directoryCarParts = _dc.DirectoryCarParts.Where(c => articles.Contains(c.Article + c.Mark)).ToArray();
+
+			var location = _dc.PalletLocations.FirstOrDefault(l => l.WarehouseId == warehouseId && l.Row == address.Row &&
+				l.Place == address.Place && l.Floor == address.Floor && l.Pallet == address.Cell);
+			if (location == null)
+			{
+				location = new PalletLocation
+				{
+					WarehouseId = warehouseId,
+					Row = address.Row,
+					Place = address.Place,
+					Floor = address.Floor,
+					Pallet = address.Cell
+				};
+			}
+
+			var palletContents = carPartPallets.Select(p => new PalletContent
+			{
+				Location = location,
+				CountCarPart = p.CountCarParts,
+				DirectoryCarPartId = directoryCarParts.First(c => c.FullCarPartName == p.Article).Id
+			}).ToArray();
+
+			_dc.PalletContents.AddRange(palletContents);
+			_dc.SaveChanges();
+
+			return palletContents;
+		}
 		#endregion
 	}
 }
