@@ -303,6 +303,9 @@
     <Compile Include="Views\Infos\AddEditContainerCarPartView.xaml.cs">
       <DependentUpon>AddEditContainerCarPartView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Infos\AddEditDayCost.xaml.cs">
+      <DependentUpon>AddEditDayCost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Infos\AddEditOutcomingsView.xaml.cs">
       <DependentUpon>AddEditOutcomingsView.xaml</DependentUpon>
     </Compile>
@@ -555,6 +558,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\AddEditContainerCarPartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\AddEditDayCost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

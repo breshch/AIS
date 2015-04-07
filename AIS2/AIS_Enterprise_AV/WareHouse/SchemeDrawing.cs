@@ -22,7 +22,7 @@ namespace AIS_Enterprise_AV.WareHouse
 			_fontFamilyDefault = fontFamily;
 		}
 
-		public void DrawRectangle(Point point, Size size, Brush strokeBrush, Brush fillBrush, double opacity = 1)
+		public void DrawRectangle(Point point, Size size, Brush strokeBrush, Brush fillBrush, double opacity = 1, double strokeThickness = 1)
 		{
 			var rectangle = new Rectangle()
 			{
@@ -30,7 +30,7 @@ namespace AIS_Enterprise_AV.WareHouse
 				Height = size.Height,
 				Fill = fillBrush,
 				Stroke = strokeBrush,
-				StrokeThickness = 1,
+				StrokeThickness = strokeThickness,
 				Opacity = opacity
 			};
 			Canvas.SetLeft(rectangle, point.X);
@@ -39,7 +39,8 @@ namespace AIS_Enterprise_AV.WareHouse
 			_surface.Children.Add(rectangle);
 		}
 
-		public void DrawString(Point point, string value, Brush foregroundBrush, double fontSize, double opacity = 1, double angle = 0)
+		public void DrawString(Point point, string value, Brush foregroundBrush, double fontSize, double opacity = 1, 
+			double angle = 0, bool isBold = false)
 		{
 			var textBlock = new TextBlock
 			{
@@ -48,7 +49,8 @@ namespace AIS_Enterprise_AV.WareHouse
 				FontFamily = new FontFamily(_fontFamilyDefault),
 				FontSize = fontSize,
 				Opacity = opacity,
-				LayoutTransform = new RotateTransform(angle)
+				LayoutTransform = new RotateTransform(angle),
+				FontWeight = isBold ? FontWeights.Bold : FontWeights.Regular
 			};
 
 			Canvas.SetLeft(textBlock, point.X);

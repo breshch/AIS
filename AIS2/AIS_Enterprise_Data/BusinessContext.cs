@@ -114,22 +114,17 @@ namespace AIS_Enterprise_Data
 
 		public void InitializeEmptyDB()
 		{
-			for (int year = 2011; year <= 2014; year++)
-			{
-				InputDateToDataBase(year);
-			}
-
 			var parameterLastDate = new Parameter { Name = "LastDate", Value = DateTime.Now.ToString() };
 			_dc.Parameters.Add(parameterLastDate);
 
-			var parameterDefaultCostsDate = new Parameter { Name = "DefaultCostsDate", Value = DateTime.MinValue.ToString() };
-			_dc.Parameters.Add(parameterDefaultCostsDate);
+			//var parameterDefaultCostsDate = new Parameter { Name = "DefaultCostsDate", Value = DateTime.MinValue.ToString() };
+			//_dc.Parameters.Add(parameterDefaultCostsDate);
 
-			var parameterPercentageRusBookKeeping = new Parameter { Name = "PercentageRusBookKeeping", Value = "22" };
-			_dc.Parameters.Add(parameterPercentageRusBookKeeping);
+			//var parameterPercentageRusBookKeeping = new Parameter { Name = "PercentageRusBookKeeping", Value = "22" };
+			//_dc.Parameters.Add(parameterPercentageRusBookKeeping);
 
-			var parameterPercentageImportBookKeeping = new Parameter { Name = "PercentageImportBookKeeping", Value = "22" };
-			_dc.Parameters.Add(parameterPercentageImportBookKeeping);
+			//var parameterPercentageImportBookKeeping = new Parameter { Name = "PercentageImportBookKeeping", Value = "22" };
+			//_dc.Parameters.Add(parameterPercentageImportBookKeeping);
 
 			_dc.SaveChanges();
 
@@ -1472,32 +1467,6 @@ namespace AIS_Enterprise_Data
 
 		#region Calendar
 
-		public void InputDateToDataBase(int year)
-		{
-			string path = Path.Combine(Environment.CurrentDirectory, "Calendar", year.ToString() + ".txt");
-
-			using (var sr = new StreamReader(path))
-			{
-				while (!sr.EndOfStream)
-				{
-					string line = sr.ReadLine();
-
-					if (line[11] == 'в')
-					{
-						var date = DateTime.Parse(line.Substring(0, 10));
-
-
-						if (!_dc.DirectoryHolidays.Select(h => h.Date).Contains(date))
-						{
-							var directoryHoliday = new DirectoryHoliday { Date = date };
-							_dc.DirectoryHolidays.Add(directoryHoliday);
-						}
-					}
-				}
-			}
-			_dc.SaveChanges();
-		}
-
 		public int GetCountWorkDaysInMonth(int year, int month)
 		{
 
@@ -2008,7 +1977,8 @@ namespace AIS_Enterprise_Data
 
 		#region InfoCost
 
-		public InfoCost EditInfoCost(DateTime date, DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note, bool isIncomming, double summ, Currency currency, double weight)
+		public InfoCost EditInfoCost(DateTime date, DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note, bool isIncomming, 
+			double summ, Currency currency, double weight)
 		{
 			var infoCosts = GetInfoCosts(date).ToList();
 			var infoCost = infoCosts.FirstOrDefault(c => c.DirectoryCostItem.Id == costItem.Id && c.DirectoryRCId == rc.Id && c.CurrentNotes.First().DirectoryNoteId == note.Id);
@@ -2052,6 +2022,11 @@ namespace AIS_Enterprise_Data
 		public IQueryable<InfoCost> GetInfoCosts(DateTime date)
 		{
 			return _dc.InfoCosts.Where(c => DbFunctions.DiffDays(date, c.Date) == 0);
+		}
+
+		public InfoCost GetInfoCost(int infoCostId)
+		{
+			return _dc.InfoCosts.Find(infoCostId);
 		}
 
 		public IQueryable<InfoCost> GetInfoCosts(int year, int month)
@@ -2106,7 +2081,8 @@ namespace AIS_Enterprise_Data
 			return GetInfoCosts(date).Where(c => !c.IsIncoming && c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "ВСЕ");
 		}
 
-		public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, DirectoryTransportCompany transportCompany, double summ, Currency currency, List<Transport> transports)
+		public void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming, 
+			DirectoryTransportCompany transportCompany, double summ, Currency currency, List<Transport> transports)
 		{
 			var groupId = Guid.NewGuid();
 			if (directoryCostItem.Name == "Транспорт (5031)" && (transports[0].DirectoryRC.Name != "26А" || !isIncoming))
@@ -3485,8 +3461,10 @@ namespace AIS_Enterprise_Data
 
 		public PalletContent[] GetAllPallets(string warehouseName)
 		{
-			int warehouseId = _dc.Warehouses.First(w => w.Name == warehouseName).Id;
-			return _dc.PalletContents.Include(c => c.Location).Where(c => c.Location.WarehouseId == warehouseId).ToArray();
+			var warehouse = _dc.Warehouses.FirstOrDefault(w => w.Name == warehouseName);
+			return warehouse != null 
+				? _dc.PalletContents.Include(c => c.Location).Where(c => c.Location.WarehouseId == warehouse.Id).ToArray() 
+				: new PalletContent[0];
 		}
 
 		public PalletContent[] SavePalletContents(string warehouseName, AddressCell address, CarPartPallet[] carPartPallets)
@@ -3531,5 +3509,7 @@ namespace AIS_Enterprise_Data
 			return palletContents;
 		}
 		#endregion
+
+		
 	}
 }

@@ -35,7 +35,7 @@ namespace AIS_Enterprise_AV.WareHouse
 
 			Brush brushArticle = Brushes.Azure;
 			Brush brushArticleCount = Brushes.Azure;
-			Brush brushCell = Brushes.Brown;
+			Brush brushCell = Brushes.CornflowerBlue;
 			Brush brushCellBorder = Brushes.Azure;
 			Brush brushHeader = Brushes.Black;
 
@@ -45,22 +45,24 @@ namespace AIS_Enterprise_AV.WareHouse
 				opacity = 0.5;
 			}
 
+			var offsetTotalBorder = 5;
+
 			int countFloors = cells.Max(c => c.Address.Floor) - cells.Min(c => c.Address.Floor) + 1;
 			int countCellsInFloor = cells.Length / countFloors;
 
 			double newHeaderY = 0;
-			double newHeaderX = 20;
+			double newHeaderX = 20 + offsetTotalBorder;
 
 			for (int i = 0; i < countCellsInFloor; i++)
 			{
 				var headerValue = (i + 1) + " паллет";
 				var offsetHeaderX = (sizeCell.Width / 2) - (_schemeDrawing.GetSizeString(headerValue,  13).Width / 2);
 				newHeaderX += offsetHeaderX;
-				_schemeDrawing.DrawString(new Point(newHeaderX, newHeaderY), headerValue, brushHeader,  13);
+				_schemeDrawing.DrawString(new Point(newHeaderX, newHeaderY), headerValue, brushHeader, 13, 1, 0, true);
 				newHeaderX += sizeCell.Width - offsetHeaderX;
 			}
 
-			newHeaderY = 7;
+			newHeaderY = 11;
 
 			var maxFloor = cells.Max(cell => cell.Address.Floor);
 
@@ -69,12 +71,12 @@ namespace AIS_Enterprise_AV.WareHouse
 				var headerValue = floor + " этаж";
 				var offsetHeaderY = (sizeCell.Height / 2) - (_schemeDrawing.GetSizeString(headerValue,  13).Height / 2);
 				newHeaderY += offsetHeaderY;
-				_schemeDrawing.DrawString(new Point(0, newHeaderY), headerValue, brushHeader,  13, 1, -90);
+				_schemeDrawing.DrawString(new Point(0, newHeaderY + offsetTotalBorder), headerValue, brushHeader, 13, 1, -90, true);
 				newHeaderY += sizeCell.Height - offsetHeaderY;
 			}
 
-			newHeaderY = 20;
-			newHeaderX = 20;
+			newHeaderY = 20 + offsetTotalBorder;
+			newHeaderX = 20 + offsetTotalBorder;
 
 			for (int floor = maxFloor; floor >= maxFloor - countFloors + 1; floor--)
 			{
@@ -119,6 +121,12 @@ namespace AIS_Enterprise_AV.WareHouse
 			double x = sizeCell.Width * countCellsInFloor + newHeaderX;
 			double y = sizeCell.Height * countFloors + newHeaderY;
 			Size = new Size(x, y);
+
+			_schemeDrawing.DrawRectangle(new Point(20, 20), new Size(x + offsetTotalBorder - 20, y + offsetTotalBorder - 20),
+				Brushes.Black, Brushes.Transparent, 1, 2);
+
+			_schemeDrawing.DrawRectangle(new Point(0, 0), new Size(x + offsetTotalBorder, y + offsetTotalBorder),
+				Brushes.Black, Brushes.Transparent, 1, 2);
 		}
 
 		public AddressPallet GetPallet(Point mousePoint)

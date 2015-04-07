@@ -32,7 +32,7 @@ namespace AIS_Enterprise_AV.WareHouse
 		private readonly SchemeDrawingBlock _schemeDrawingBlock;
 		private SchemeData _schemeData;
 		private readonly BusinessContext _bc;
-		private const string _fontFamilyDefault = "Segoe UI Light";
+		private const string _fontFamilyDefault = "Segoe UI";
 		private readonly Size _warehouseSizeCell = new Size(40, 20);
 		private readonly Size _warehouseSizeRoad = new Size(10, 10);
 		private readonly Size _blockSizeCell = new Size(240, 60);
@@ -56,6 +56,7 @@ namespace AIS_Enterprise_AV.WareHouse
 			_schemeDrawingBlock = new SchemeDrawingBlock(SurfaceBlock);
 			_schemeDrawingBlock.SetFontFamilyDefault(_fontFamilyDefault);
 			_schemeDrawingWarehouse.DrawWarehouse(_warehouseSizeCell, _warehouseSizeRoad, _warehouseFontSize);
+			WarehouseList.Width = _schemeDrawingWarehouse.Size.Width + 5;
 		}
 
 		private void InitializeWarehouse()

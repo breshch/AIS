@@ -31,9 +31,10 @@ namespace AIS_Enterprise_AV.WareHouse
 		{
 			_schemeAddressBlocks.Clear();
 
-			Brush brushRoad = Brushes.DarkSlateBlue;
-			Brush brushHeader = Brushes.Brown;
-			Brush brushHeaderBorder = Brushes.Brown;
+			var converter = new BrushConverter();
+			Brush brushRoad = (Brush)converter.ConvertFromString("#FFFFFFFF");
+			Brush brushHeader = Brushes.RoyalBlue;
+			Brush brushHeaderBorder = Brushes.RoyalBlue;
 			Brush brushHeaderText = Brushes.Azure;
 			Brush brushHeaderTitle = Brushes.Black;
 
@@ -43,21 +44,24 @@ namespace AIS_Enterprise_AV.WareHouse
 				opacity = 0.3;
 			}
 
+			const double offsetTotalBorder = 5;
+
 			double totalHeightRoads = 0;
 			double totalWidthRoads = 0;
 
 			var widthWarehouse = sizeCell.Width * _schemeData.CountPlaces;
 			var titleHeaderValue = "Места";
-			var titleHeaderX = (widthWarehouse + sizeCell.Height + 20) / 2 - _schemeDrawing.GetSizeString(titleHeaderValue, 13).Width / 2;
-			_schemeDrawing.DrawString(new Point(titleHeaderX, 0), titleHeaderValue, brushHeaderTitle, 13);
+			var titleHeaderX = (widthWarehouse + sizeCell.Height + 20 + offsetTotalBorder * 2) / 2 - _schemeDrawing.GetSizeString(titleHeaderValue, 13).Width / 2;
+			_schemeDrawing.DrawString(new Point(titleHeaderX, 0), titleHeaderValue, brushHeaderTitle, 13, 1, 0, true);
 
-			double titleHeaderY = 20;
-			titleHeaderX = 20;
+			double titleHeaderY = 20 + offsetTotalBorder;
+			titleHeaderX = 20 + offsetTotalBorder;
 			for (int place = 1; place <= _schemeData.CountPlaces; place++)
 			{
 				double headerX = sizeCell.Width * (place - 1) + totalWidthRoads + sizeCell.Height + titleHeaderX;
 
-				_schemeDrawing.DrawRectangle(new Point(headerX, titleHeaderY), new Size(sizeCell.Width, sizeCell.Width), brushHeaderBorder, brushHeader);
+				_schemeDrawing.DrawRectangle(new Point(headerX, titleHeaderY), new Size(sizeCell.Width, sizeCell.Width),
+					brushHeaderBorder, brushHeader);
 
 				if (_schemeData.IsRoad(RoadType.Place, place, place + 1, _schemeData.CountRows))
 				{
@@ -73,7 +77,7 @@ namespace AIS_Enterprise_AV.WareHouse
 			}
 
 			double heightWarehouse = 0;
-			titleHeaderX = 20;
+			titleHeaderX = 20 + offsetTotalBorder;
 			for (int row = _schemeData.CountRows; row >= 1; row--)
 			{
 				double headerY = sizeCell.Height * (_schemeData.CountRows - row) + totalHeightRoads + sizeCell.Width + titleHeaderY;
@@ -95,9 +99,9 @@ namespace AIS_Enterprise_AV.WareHouse
 
 			titleHeaderValue = "Ряды";
 			titleHeaderY = (heightWarehouse / 2) - (_schemeDrawing.GetSizeString(titleHeaderValue, 13).Height / 2);
-			_schemeDrawing.DrawString(new Point(0, titleHeaderY), titleHeaderValue, brushHeaderTitle, 13, 1, -90);
+			_schemeDrawing.DrawString(new Point(0, titleHeaderY), titleHeaderValue, brushHeaderTitle, 13, 1, -90, true);
 
-			titleHeaderY = 20;
+			titleHeaderY = 20 + offsetTotalBorder;
 
 			_schemeDrawing.DrawRectangle(new Point(titleHeaderX, titleHeaderY), new Size(sizeCell.Height, sizeCell.Width), brushHeaderBorder, brushHeader);
 
@@ -120,18 +124,26 @@ namespace AIS_Enterprise_AV.WareHouse
 						int countFullCells = _schemeData.GetCountFullCells(row, place);
 
 						double percentage = countFullCells / maxCells;
+						
 						Brush brushCell;
-						if (percentage < 0.334)
+						Brush brushText = Brushes.Black;
+						if (percentage < 0.00001)
 						{
-							brushCell = Brushes.Yellow;
+							brushCell = Brushes.CornflowerBlue;
+							brushText = Brushes.Azure;
 						}
-						else if (percentage < 0.667)
+						else if (percentage < 0.16)
 						{
-							brushCell = Brushes.Orange;
+							brushCell = Brushes.BurlyWood;
+						}
+						else if (percentage < 0.24)
+						{
+							brushCell = Brushes.DarkOrange;
 						}
 						else
 						{
 							brushCell = Brushes.OrangeRed;
+							
 						}
 
 						double opacityBlock = opacity;
@@ -139,14 +151,15 @@ namespace AIS_Enterprise_AV.WareHouse
 						{
 							opacityBlock = 1;
 						}
-						_schemeDrawing.DrawRectangle(new Point(newX, newY), new Size(sizeCell.Width, sizeCell.Height), Brushes.AliceBlue, brushCell, opacityBlock);
+						_schemeDrawing.DrawRectangle(new Point(newX, newY), new Size(sizeCell.Width, sizeCell.Height), 
+							Brushes.Azure, brushCell, opacityBlock);
 						FillCoordinates(row, place, new Point(newX, newY), sizeCell);
 
 						var sizeString = _schemeDrawing.GetSizeString(countFullCells.ToString(), fontSizeString);
 
 						_schemeDrawing.DrawString(new Point(newX + sizeCell.Width / 2 - sizeString.Width / 2,
 							newY + sizeCell.Height / 2 - sizeString.Height / 2),
-							countFullCells.ToString(), Brushes.Black, fontSizeString, opacityBlock);
+							countFullCells.ToString(), brushText, fontSizeString, opacityBlock);
 					}
 					else
 					{
@@ -180,7 +193,14 @@ namespace AIS_Enterprise_AV.WareHouse
 
 			double x = sizeCell.Width * (_schemeData.CountPlaces - 1) + totalWidthRoads + sizeCell.Height + sizeCell.Width + titleHeaderX;
 			double y = sizeCell.Height * (_schemeData.CountRows - 1) + totalHeightRoads + sizeCell.Width + sizeCell.Height + titleHeaderY;
+
 			Size = new Size(x, y);
+
+			_schemeDrawing.DrawRectangle(new Point(20, 20), new Size(x + offsetTotalBorder - 20, y + offsetTotalBorder - 20),
+				Brushes.Black, Brushes.Transparent, 1, 2);
+
+			_schemeDrawing.DrawRectangle(new Point(0, 0), new Size(x + offsetTotalBorder, y + offsetTotalBorder),
+				Brushes.Black, Brushes.Transparent, 1, 2);
 		}
 
 		public AddressBlock GetBlock(Point mousePoint)
