@@ -35,11 +35,13 @@ namespace AIS_Enterprise_AV.Views.Infos
 
 		public DateTime? Date;
 
-		public AddEditDayCost(int? infoCostId = null)
+		public AddEditDayCost(DateTime date, int? infoCostId = null)
 		{
 			InitializeComponent();
 
 			_isNotTransportOnly = HelperMethods.IsPrivilege(_bc, UserPrivileges.CostsVisibility_IsNotTransportOnly);
+
+			DatePickerDate.SelectedDate = date;
 
 			_isEdit = infoCostId != null;
 			if (_isEdit)
@@ -47,12 +49,13 @@ namespace AIS_Enterprise_AV.Views.Infos
 				_infoCost = _bc.GetInfoCost(infoCostId.Value);
 
 				ButtonAdd.Content = "Редактировать";
-
+				WindowCosts.Title = "Редактирование";
 				InitializeEditableData();
 			}
 			else
 			{
 				ButtonAdd.Content = "Добавить";
+				WindowCosts.Title = "Добавление";
 
 				InitializeData();
 
@@ -96,7 +99,6 @@ namespace AIS_Enterprise_AV.Views.Infos
 
 		private void InitializeData()
 		{
-			DatePickerDate.SelectedDate = DateTime.Now;
 			ComboBoxCurrencies.ItemsSource = Enum.GetNames(typeof(Currency));
 			ComboBoxCurrencies.SelectedIndex = 0;
 
@@ -120,7 +122,6 @@ namespace AIS_Enterprise_AV.Views.Infos
 
 		private void InitializeEditableData()
 		{
-			DatePickerDate.SelectedDate = _infoCost.Date;
 			ComboBoxCurrencies.ItemsSource = Enum.GetNames(typeof(Currency));
 			ComboBoxCurrencies.SelectedItem = _infoCost.Currency.ToString();
 
@@ -652,10 +653,9 @@ namespace AIS_Enterprise_AV.Views.Infos
 					RadioButtonIncoming.IsChecked.Value,
 					ComboBoxTransportCompanies.SelectedItem as DirectoryTransportCompany, double.Parse(TextBoxSumm.Text), currency,
 					transports);
-
-
-				this.Close();
 			}
+
+			this.Close();
 		}
 
 		private void ClearForm()

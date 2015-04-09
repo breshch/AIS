@@ -26,8 +26,6 @@ namespace AIS_Enterprise_AV.Views.Infos
 			_isNotTransportOnly = HelperMethods.IsPrivilege(_bc, UserPrivileges.CostsVisibility_IsNotTransportOnly);
 
 			FillDataGrid(date);
-
-
         }
        
 
@@ -43,6 +41,7 @@ namespace AIS_Enterprise_AV.Views.Infos
                 DataGridCurrentDateCosts.ItemsSource = _bc.GetInfoCostsTransportAndNoAllAndExpenseOnly(date).ToList();
             }
 
+	        DatePickerDate.SelectedDate = date;
 	        TextBlockDate.Text = date.ToShortDateString();
         }
 
@@ -53,7 +52,7 @@ namespace AIS_Enterprise_AV.Views.Infos
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-	        var form = new AddEditDayCost();
+	        var form = new AddEditDayCost(DatePickerDate.SelectedDate.Value);
 	        form.ShowDialog();
 
 	        if (form.Date != null)
@@ -90,13 +89,18 @@ namespace AIS_Enterprise_AV.Views.Infos
 	    {
 			var infoCost = DataGridCurrentDateCosts.SelectedItem as InfoCost;
 
-			var form = new AddEditDayCost(infoCost.Id);
+			var form = new AddEditDayCost(infoCost.Date, infoCost.Id);
 			form.ShowDialog();
 
 		    if (form.Date != null)
 		    {
 			    FillDataGrid(form.Date.Value);
 		    }
+	    }
+
+	    private void DatePickerDate_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e)
+	    {
+		    FillDataGrid(DatePickerDate.SelectedDate.Value);
 	    }
     }
 }
