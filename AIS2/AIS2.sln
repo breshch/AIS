@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FTP", "FTPConnector\FTP.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Installer", "AIS_Enterprise_Installer\AIS_Enterprise_Installer.csproj", "{B11C6536-D98A-4325-8420-1905CCD3255B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Web", "AIS_Enterprise_Web\AIS_Enterprise_Web.csproj", "{B7780A09-3934-4D92-99D6-515644946BB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -138,6 +140,16 @@ Global
 		{B11C6536-D98A-4325-8420-1905CCD3255B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B11C6536-D98A-4325-8420-1905CCD3255B}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{B11C6536-D98A-4325-8420-1905CCD3255B}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{B7780A09-3934-4D92-99D6-515644946BB2}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

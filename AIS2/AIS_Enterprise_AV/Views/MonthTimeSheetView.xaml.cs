@@ -1634,5 +1634,18 @@ namespace AIS_Enterprise_AV.Views
         {
             HelperMethods.ShowView(new Pam16PercentageViewModel(), new Pam16PercentageView());
         }
+
+	    private void MenuReportProfit_OnClick(object sender, RoutedEventArgs e)
+	    {
+			HelperMethods.ShowView(new MonthReportViewModel(
+				"Профит",
+				(BC, SelectedYear, SelectedMonth) =>
+				{
+					HelperMethods.ShowView(new ProfitViewModel(SelectedYear, SelectedMonth), new ProfitView());
+				},
+				(BC) => BC.GetYears().OrderBy(y => y).ToList(),
+				(BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
+				), new MonthReportView());
+	    }
     }
 }

@@ -3186,6 +3186,7 @@ namespace AIS_Enterprise_Data
 		}
 		#endregion
 
+
 		#region CurrentCarParts
 
 		public CurrentCarPart AddCurrentCarPart(DirectoryCarPart directoryCarPart, DateTime priceDate, double priceBase, double? priceBigWholesale, double? priceSmallWholesale)

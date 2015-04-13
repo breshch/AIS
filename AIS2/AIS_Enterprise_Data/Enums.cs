@@ -34,6 +34,7 @@
         MenuVisibility_Reports_ReportCosts,
         MenuVisibility_Reports_ReportCash,
         MenuVisibility_Reports_ReportCars,
+		MenuVisibility_Reports_ReportProfit,
         MenuVisibility_AdminPanel_UserStatuses,
         MenuVisibility_AdminPanel_Users,
         MenuVisibility_AdminPanel_Logs,
