@@ -17,22 +17,33 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 	{
 		public ProfitViewModel(int year, int month)
 		{
-			MinskSalary = GetMinskSalary(year, month);
-			RealSalary = GetRealSalary(year, month);
+			var minskAndOvertimeSalary = GetMinskAndOvertimeSalary(year, month);
+			var realAndOvertime = GetRealAndOvertimeSalary(year, month);
+			
+			RealSalary = realAndOvertime.Item1;
+			RealOvertime = realAndOvertime.Item2;
+			MinskSalary = minskAndOvertimeSalary.Item1;
+			MinskOvertime = minskAndOvertimeSalary.Item2;
 			DifferenceSalary = MinskSalary - RealSalary;
+			DifferenceOvertime = MinskOvertime - RealOvertime;
 		}
 
+		
 		public double MinskSalary { get; set; }
+		public double MinskOvertime { get; set; }
 		public double RealSalary { get; set; }
 		public double DifferenceSalary { get; set; }
+		public double DifferenceOvertime { get; set; }
+		public double RealOvertime { get; set; }
 
-		private double GetRealSalary(int year, int month)
+		private Tuple<double, double> GetRealAndOvertimeSalary(int year, int month)
 		{
 			using (var bc = new BusinessContext())
 			{
 				int countWorkDays = bc.GetCountWorkDaysInMonth(year, month);
 				var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
 				double allSumms = 0;
+				double allOverTimes = 0;
 
 				var workers = bc.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month, false).ToList();
 
@@ -125,26 +136,23 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 					double allOverTimeSalary = 0;
 					foreach (var workerPostReportSalary in workerPostReportSalaries)
 					{
-						allSalary +=
-							Math.Round(
-								((double)workerPostReportSalary.AdminWorkerSalary / countWorkDays / 8) * workerPostReportSalary.CountWorkHours, 2);
-						allOverTimeSalary +=
-							Math.Round(
-								(((double)workerPostReportSalary.AdminWorkerSalary / countWorkDays / 8) *
-								 workerPostReportSalary.CountWorkOverTimeHours) * 2, 2);
+						allSalary += (workerPostReportSalary.AdminWorkerSalary / countWorkDays / 8) * workerPostReportSalary.CountWorkHours;
+						allOverTimeSalary += ((workerPostReportSalary.AdminWorkerSalary / countWorkDays / 8) *
+											  workerPostReportSalary.CountWorkOverTimeHours) * 2;
 					}
 
 					double summOfPayments = allSalary + allOverTimeSalary + infoMonth.Bonus + totalVocations + totalSickDays;
-					double summOfHoldings = workerPanalty + infoMonth.BirthDays + infoMonth.PrepaymentCash;
+					double summOfHoldings = workerPanalty + infoMonth.BirthDays + infoMonth.Inventory;
 
 					allSumms += (summOfPayments - summOfHoldings);
+					allOverTimes += allOverTimeSalary;
 
 				}
-				return Math.Round(allSumms,2);
+				return new Tuple<double, double>(Math.Round(allSumms, 2), Math.Round(allOverTimes, 2));
 			}
 		}
 
-		private double GetMinskSalary(int year, int month)
+		private Tuple<double,double> GetMinskAndOvertimeSalary(int year, int month)
 		{
 			using (var bc = new BusinessContext())
 			{
@@ -201,7 +209,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 				double totalTotalSalary = 0;
 
 				var currentMainWorkerPosts = bc.GetCurrentMainPosts(lastDateInMonth).ToList();
-
+				double allOvertimes = 0;
 				foreach (var worker in warehouseWorkers)
 				{
 					var currentWorkerPost = currentMainWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
@@ -297,9 +305,11 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 					totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
 						infoMonth.VocationPayment + totalOverTimeAV + cashAV +
 						infoMonth.CardFenox + totalOverTimeFenox + cashFenox;
+
+					allOvertimes += totalOverTimeAV + totalOverTimeFenox;
 				}
 
-				return Math.Round(totalTotalSalary,2);
+				return new Tuple<double, double>(Math.Round(totalTotalSalary, 2),Math.Round(allOvertimes,2));
 			}
 		}
 	}
