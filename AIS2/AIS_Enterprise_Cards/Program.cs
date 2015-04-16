@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
-using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AIS_Enterprise_CardService.Cards;
+using AIS_Enterprise_Cards.Cards;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Global.Helpers;
 using MailKit;
@@ -15,17 +14,12 @@ using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
 
-namespace AIS_Enterprise_CardService
+namespace AIS_Enterprise_Cards
 {
-    public partial class CardService : ServiceBase
-    {
-        public CardService()
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnStart(string[] args)
-        {
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
 			DataContext.ChangeServerAndDataBase("95.31.130.52", "AV_New_Dev");
 			DataContext.ChangeUser("Breshchenko", "3179");
 
@@ -33,8 +27,7 @@ namespace AIS_Enterprise_CardService
 
 			Observable.Interval(new TimeSpan(0, 3, 0, 0))
 				.Subscribe(x => Initialize());
-        }
-
+		}
 
 		private static void Initialize()
 		{
@@ -71,7 +64,7 @@ namespace AIS_Enterprise_CardService
 					var subject = message.Subject;
 
 					string bankName = subject.Substring(subject.LastIndexOf(" ")).Trim();
-
+					
 					CardBase card = null;
 
 					switch (bankName)
@@ -94,7 +87,7 @@ namespace AIS_Enterprise_CardService
 						}
 					}
 
-					using (var sw = new StreamWriter(@"C:\CardService\mails.txt", true))
+					using (var sw = new StreamWriter("mails.txt", true))
 					{
 						sw.WriteLine(DateTime.Now + "\t" + date + "\t" + sum + "\t" + body);
 					}
@@ -103,5 +96,5 @@ namespace AIS_Enterprise_CardService
 				client.Disconnect(true);
 			}
 		}
-    }
+	}
 }

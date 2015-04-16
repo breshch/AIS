@@ -179,6 +179,7 @@ namespace AIS_Enterprise_Data
 		public DbSet<InfoPrivatePayment> InfoPrivatePayments { get; set; }
 		public DbSet<InfoSafe> InfoSafes { get; set; }
 		public DbSet<InfoLastMonthDayRemain> InfoLastMonthDayRemains { get; set; }
+		public DbSet<InfoCard> InfoCards { get; set; }
 
 
 		public DbSet<DefaultCost> DefaultCosts { get; set; }

@@ -2731,6 +2731,21 @@ namespace AIS_Enterprise_Data
 
 		#endregion
 
+		#region InfoCard
+
+		public void SetCardAvaliableSumm(string cardName, double avaliableSumm)
+		{
+			_dc.InfoCards.First(c => c.CardName == cardName).AvaliableSumm = avaliableSumm;
+			_dc.SaveChanges();
+		}
+
+		public double GetCardAvaliableSumm(string cardName)
+		{
+			return _dc.InfoCards.First(c => c.CardName == cardName).AvaliableSumm;
+		}
+
+		#endregion
+
 
 		#region Random
 		private const string _serversPath = "Settings\\Servers.txt";
@@ -2749,7 +2764,8 @@ namespace AIS_Enterprise_Data
 
 		#region InfoSafe
 
-		public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, Currency currency, CashType cashType, string description)
+		public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, Currency currency, CashType cashType,
+			string description, string bankName = null)
 		{
 			var infoSafe = new InfoSafe
 			{
@@ -2758,7 +2774,8 @@ namespace AIS_Enterprise_Data
 				Summ = summCash,
 				Currency = currency,
 				CashType = cashType,
-				Description = description
+				Description = description,
+				Bank = bankName
 			};
 
 			_dc.InfoSafes.Add(infoSafe);
@@ -2805,21 +2822,28 @@ namespace AIS_Enterprise_Data
 			EditCurrencyValueSumm(totalSummName, currency, summ);
 		}
 
-		public InfoSafe AddInfoSafeCard(DateTime date, double availableSumm, Currency currency, string description)
+		public InfoSafe AddInfoSafeCard(DateTime date, double availableSumm, Currency currency, string description, string bankName)
 		{
 			double prevAvailableSumm = GetCurrencyValue("TotalCard").RUR;
 
 			double summ = Math.Round(availableSumm - prevAvailableSumm, 2);
-			bool isIncoming = summ >= 0 ? true : false;
+			bool isIncoming = summ >= 0;
 
 			if (!_dc.InfoSafes.Any(s => DbFunctions.DiffSeconds(s.Date, date) == 0 && s.CashType == CashType.Карточка && s.Description == description))
 			{
 				EditCurrencyValueSumm("TotalCard", Currency.RUR, availableSumm);
 
-				return AddInfoSafe(date, isIncoming, Math.Abs(summ), currency, CashType.Карточка, description);
+				return AddInfoSafe(date, isIncoming, Math.Abs(summ), currency, CashType.Карточка, description, bankName);
 			}
 
 			return null;
+		}
+
+		public bool IsNewMessage(DateTime date, string description)
+		{
+			return !_dc.InfoSafes.Any(s => DbFunctions.DiffSeconds(s.Date, date) == 0 && 
+						s.CashType == CashType.Карточка &&
+						s.Description == description);
 		}
 
 		public IQueryable<InfoSafe> GetInfoSafes()

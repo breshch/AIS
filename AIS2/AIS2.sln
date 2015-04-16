@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Installer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Web", "AIS_Enterprise_Web\AIS_Enterprise_Web.csproj", "{B7780A09-3934-4D92-99D6-515644946BB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Cards", "AIS_Enterprise_Cards\AIS_Enterprise_Cards.csproj", "{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -150,6 +152,16 @@ Global
 		{B7780A09-3934-4D92-99D6-515644946BB2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7780A09-3934-4D92-99D6-515644946BB2}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{B7780A09-3934-4D92-99D6-515644946BB2}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

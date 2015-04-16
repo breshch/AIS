@@ -8,11 +8,8 @@ namespace AIS_Enterprise_Data.Infos
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-       
         public CashType CashType { get; set; }
-
-        //Дублирование данных
+	    public string Bank { get; set; }
         public string Description { get; set; }
-
     }
 }
