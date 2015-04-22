@@ -1647,5 +1647,10 @@ namespace AIS_Enterprise_AV.Views
 				(BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
 				), new MonthReportView());
 	    }
+
+	    private void MenuMinskCash_OnClick(object sender, RoutedEventArgs e)
+	    {
+		    HelperMethods.ShowView(new InfoAddMinskCashViewModel(), new InfoAddMinskCashView());
+	    }
     }
 }

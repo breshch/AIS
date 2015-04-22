@@ -77,6 +77,7 @@
                 <MenuItem x:Name="MenuUsers" Header="Пользователи" Click="MenuUsers_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuLogs" Header="Логи" Click="MenuLogs_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="MenuCalendar" Header="Календарь" Click="MenuCalendar_Click"  Visibility="Collapsed"/>
+				<MenuItem x:Name="MenuMinskCash" Header="Минская сумма" Click="MenuMinskCash_OnClick"  Visibility="Collapsed"/>
             </MenuItem>
         </Menu>
 

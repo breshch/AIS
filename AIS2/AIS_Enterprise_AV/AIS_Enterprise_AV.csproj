@@ -226,6 +226,7 @@
     <Compile Include="ViewModels\Infos\EditDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\Base\BaseDefaultCostViewModel.cs" />
     <Compile Include="ViewModels\Infos\DefaultCostsViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoAddMinskCashViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoCarPartMovementViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
@@ -321,6 +322,9 @@
     </Compile>
     <Compile Include="Views\Infos\DefaultCostsView.xaml.cs">
       <DependentUpon>DefaultCostsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoAddMinskCashView.xaml.cs">
+      <DependentUpon>InfoAddMinskCashView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Infos\InfoCarPartMovementView.xaml.cs">
       <DependentUpon>InfoCarPartMovementView.xaml</DependentUpon>
@@ -586,6 +590,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Infos\DefaultCostsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Infos\InfoAddMinskCashView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
