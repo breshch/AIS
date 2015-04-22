@@ -1,5 +1,6 @@
 ﻿using System;
 using AIS_Enterprise_AV.Reports;
+using AIS_Enterprise_Data;
 using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.ViewModels.Helpers
@@ -8,8 +9,12 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
     {
         #region Base
 
-        public FromToDatesReportViewModel()
-        {
+	    private Action<DateTime, DateTime> _formReportAction;
+
+		public FromToDatesReportViewModel(Action<DateTime, DateTime> formReportAction)
+		{
+			_formReportAction = formReportAction;
+
             SelectedFromDate = DateTime.Now;
             SelectedToDate = DateTime.Now;
             FormingReportCommand = new RelayCommand(FormingReport);
@@ -34,7 +39,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         private void FormingReport(object parameter)
         {
-            CarsReports.Cars(BC, SelectedFromDate, SelectedToDate);
+			_formReportAction.Invoke(SelectedFromDate, SelectedToDate);
         }
         #endregion
     }

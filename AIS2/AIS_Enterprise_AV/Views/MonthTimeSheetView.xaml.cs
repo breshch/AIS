@@ -1591,16 +1591,16 @@ namespace AIS_Enterprise_AV.Views
 
         private void MenuReportCash_Click(object sender, RoutedEventArgs e)
         {
-            HelperMethods.ShowView(new MonthReportViewModel(
-               "Касса",
-               (BC, SelectedYear, SelectedMonth) =>
-               {
-                   WorkerSalaryReports.ComplitedMonthCashReportMinsk(SelectedYear, SelectedMonth);
-               },
-               (BC) => BC.GetYears().OrderBy(y => y).ToList(),
-               (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
-               ), new MonthReportView());
-
+			//HelperMethods.ShowView(new MonthReportViewModel(
+			//   "Касса",
+			//   (BC, SelectedYear, SelectedMonth) =>
+			//   {
+			//	   WorkerSalaryReports.ComplitedMonthCashReportMinsk(SelectedYear, SelectedMonth);
+			//   },
+			//   (BC) => BC.GetYears().OrderBy(y => y).ToList(),
+			//   (BC, year) => BC.GetMonthes(year).OrderBy(m => m).ToList()
+			//   ), new MonthReportView());
+			HelperMethods.ShowView(new FromToDatesReportViewModel(WorkerSalaryReports.ComplitedMonthCashReportMinsk), new FromToDatesReportView());
         }
 
         private void MenuSafe_Click(object sender, RoutedEventArgs e)
@@ -1627,7 +1627,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void MenuReportCars_Click(object sender, RoutedEventArgs e)
         {
-            HelperMethods.ShowView(new FromToDatesReportViewModel(), new FromToDatesReportView());
+            HelperMethods.ShowView(new FromToDatesReportViewModel(CarsReports.Cars), new FromToDatesReportView());
         }
 
         private void MenuReportPAM16Percentage_OnClick(object sender, RoutedEventArgs e)
