@@ -12,5 +12,6 @@ namespace AIS_Enterprise_Data.Infos
 		public DateTime Date { get; set; }
 		public double SafeCash { get; set; }
 		public double? MinskCash { get; set; }
+		public DateTime LastUpdated { get; set; }
 	}
 }

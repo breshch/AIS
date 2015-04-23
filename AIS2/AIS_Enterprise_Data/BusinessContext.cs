@@ -111,7 +111,7 @@ namespace AIS_Enterprise_Data
 
 		public void InitializeEmptyDB()
 		{
-			var parameterLastDate = new Parameter {Name = "LastDate", Value = DateTime.Now.ToString()};
+			var parameterLastDate = new Parameter { Name = "LastDate", Value = DateTime.Now.ToString() };
 			_dc.Parameters.Add(parameterLastDate);
 
 			//var parameterDefaultCostsDate = new Parameter { Name = "DefaultCostsDate", Value = DateTime.MinValue.ToString() };
@@ -126,11 +126,11 @@ namespace AIS_Enterprise_Data
 			_dc.SaveChanges();
 
 
-			var userStatus = new DirectoryUserStatus {Name = "Администратор"};
+			var userStatus = new DirectoryUserStatus { Name = "Администратор" };
 
-			foreach (var privilege in Enum.GetNames(typeof (UserPrivileges)))
+			foreach (var privilege in Enum.GetNames(typeof(UserPrivileges)))
 			{
-				var directoryUserStatusPrivilege = new DirectoryUserStatusPrivilege {Name = privilege};
+				var directoryUserStatusPrivilege = new DirectoryUserStatusPrivilege { Name = privilege };
 				_dc.DirectoryUserStatusPrivileges.Add(directoryUserStatusPrivilege);
 
 				var currentUserStatusPrivilege = new CurrentUserStatusPrivilege
@@ -150,39 +150,39 @@ namespace AIS_Enterprise_Data
 		{
 			InitializeEmptyDB();
 
-			var parameterBirthday = new Parameter {Name = "Birthday", Value = "500"};
+			var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
 			_dc.Parameters.Add(parameterBirthday);
 
-			var currencyValue = new CurrencyValue {Name = "TotalCard"};
+			var currencyValue = new CurrencyValue { Name = "TotalCard" };
 			_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue {Name = "TotalCash"};
+			currencyValue = new CurrencyValue { Name = "TotalCash" };
 			_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue {Name = "TotalSafe"};
+			currencyValue = new CurrencyValue { Name = "TotalSafe" };
 			_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue {Name = "TotalLoan"};
+			currencyValue = new CurrencyValue { Name = "TotalLoan" };
 			_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue {Name = "TotalPrivateLoan"};
+			currencyValue = new CurrencyValue { Name = "TotalPrivateLoan" };
 			_dc.CurrencyValues.Add(currencyValue);
 
-			var companyAV = new DirectoryCompany {Name = "АВ"};
+			var companyAV = new DirectoryCompany { Name = "АВ" };
 			_dc.DirectoryCompanies.Add(companyAV);
 
-			var companyFenox = new DirectoryCompany {Name = "Фенокс"};
+			var companyFenox = new DirectoryCompany { Name = "Фенокс" };
 			_dc.DirectoryCompanies.Add(companyFenox);
 
 			_dc.SaveChanges();
 
-			var rC = new DirectoryRC {Name = "МО-5", DescriptionName = "Фенокс", ReportName = "ОТ.AM5 / M05", Percentes = 50};
+			var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", ReportName = "ОТ.AM5 / M05", Percentes = 50 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "КО-5", DescriptionName = "АВ-Автотехник", ReportName = "ОТ.КО5/К05", Percentes = 20};
+			rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", ReportName = "ОТ.КО5/К05", Percentes = 20 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "ПАМ-16", DescriptionName = "Кедр", ReportName = "П.АМ16/М01.016", Percentes = 20};
+			rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", ReportName = "П.АМ16/М01.016", Percentes = 20 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "МО-2", DescriptionName = "Фенокс иномарки", ReportName = "ОТ.AM2/M02", Percentes = 5};
+			rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", ReportName = "ОТ.AM2/M02", Percentes = 5 };
 			_dc.DirectoryRCs.Add(rC);
 			rC = new DirectoryRC
 			{
@@ -192,137 +192,137 @@ namespace AIS_Enterprise_Data
 				Percentes = 5
 			};
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "КО-2", DescriptionName = "Масло Антонар", ReportName = "ОТ.КО2/К02", Percentes = 0};
+			rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", ReportName = "ОТ.КО2/К02", Percentes = 0 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "КО-1", DescriptionName = "Антонар", ReportName = "ОТ.КО1/К01", Percentes = 0};
+			rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", ReportName = "ОТ.КО1/К01", Percentes = 0 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "МД-2", DescriptionName = "Медицина", ReportName = "ОТ.МД2", Percentes = 0};
+			rC = new DirectoryRC { Name = "МД-2", DescriptionName = "Медицина", ReportName = "ОТ.МД2", Percentes = 0 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "ПАМ-24", DescriptionName = "Запчасти", ReportName = "П.АМ24", Percentes = 0};
+			rC = new DirectoryRC { Name = "ПАМ-24", DescriptionName = "Запчасти", ReportName = "П.АМ24", Percentes = 0 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "26А", DescriptionName = "26А", ReportName = "26А", Percentes = 0};
+			rC = new DirectoryRC { Name = "26А", DescriptionName = "26А", ReportName = "26А", Percentes = 0 };
 			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC {Name = "ВСЕ", DescriptionName = "ВСЕ", ReportName = "ВСЕ", Percentes = 0};
+			rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", ReportName = "ВСЕ", Percentes = 0 };
 			_dc.DirectoryRCs.Add(rC);
 
 			_dc.SaveChanges();
 
-			var costItem = new DirectoryCostItem {Name = "Аренда (3001)"};
+			var costItem = new DirectoryCostItem { Name = "Аренда (3001)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "З/п (701)"};
+			costItem = new DirectoryCostItem { Name = "З/п (701)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Закупка товара (1090)"};
+			costItem = new DirectoryCostItem { Name = "Закупка товара (1090)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Инвестиции"};
+			costItem = new DirectoryCostItem { Name = "Инвестиции" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Канцтовары (1207)"};
+			costItem = new DirectoryCostItem { Name = "Канцтовары (1207)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "МБП (1209)"};
+			costItem = new DirectoryCostItem { Name = "МБП (1209)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Представительские (9025)"};
+			costItem = new DirectoryCostItem { Name = "Представительские (9025)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Приход"};
+			costItem = new DirectoryCostItem { Name = "Приход" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Прочие (9025)"};
+			costItem = new DirectoryCostItem { Name = "Прочие (9025)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Реклама (5061)"};
+			costItem = new DirectoryCostItem { Name = "Реклама (5061)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Связь (502)"};
+			costItem = new DirectoryCostItem { Name = "Связь (502)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Сертификация (5052)"};
+			costItem = new DirectoryCostItem { Name = "Сертификация (5052)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Таможня (6811)"};
+			costItem = new DirectoryCostItem { Name = "Таможня (6811)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Таможня (6813)"};
+			costItem = new DirectoryCostItem { Name = "Таможня (6813)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Топливо (103)"};
+			costItem = new DirectoryCostItem { Name = "Топливо (103)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Транспорт (5031)"};
+			costItem = new DirectoryCostItem { Name = "Транспорт (5031)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "Упаковка (1023)"};
+			costItem = new DirectoryCostItem { Name = "Упаковка (1023)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "УСО (509)"};
+			costItem = new DirectoryCostItem { Name = "УСО (509)" };
 			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem {Name = "26А"};
+			costItem = new DirectoryCostItem { Name = "26А" };
 			_dc.DirectoryCostItems.Add(costItem);
 
 			_dc.SaveChanges();
 
 
-			var note = new DirectoryNote {Description = "Склад"};
+			var note = new DirectoryNote { Description = "Склад" };
 			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote {Description = "Пежо"};
+			note = new DirectoryNote { Description = "Пежо" };
 			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote {Description = "Зарплата"};
+			note = new DirectoryNote { Description = "Зарплата" };
 			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote {Description = "Переработка"};
+			note = new DirectoryNote { Description = "Переработка" };
 			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote {Description = "Дождь"};
+			note = new DirectoryNote { Description = "Дождь" };
 			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote {Description = "АПЦ"};
+			note = new DirectoryNote { Description = "АПЦ" };
 			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote {Description = "РосАвтоПром"};
+			note = new DirectoryNote { Description = "РосАвтоПром" };
 			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote {Description = "Паллеты"};
+			note = new DirectoryNote { Description = "Паллеты" };
 			_dc.DirectoryNotes.Add(note);
 
 			_dc.SaveChanges();
 
 
-			var transportCompany = new DirectoryTransportCompany {Name = "Кузин", IsCash = false};
+			var transportCompany = new DirectoryTransportCompany { Name = "Кузин", IsCash = false };
 			_dc.DirectoryTransportCompanies.Add(transportCompany);
-			transportCompany = new DirectoryTransportCompany {Name = "Логистикон", IsCash = false};
+			transportCompany = new DirectoryTransportCompany { Name = "Логистикон", IsCash = false };
 			_dc.DirectoryTransportCompanies.Add(transportCompany);
-			transportCompany = new DirectoryTransportCompany {Name = "Павловский Посад", IsCash = true};
+			transportCompany = new DirectoryTransportCompany { Name = "Павловский Посад", IsCash = true };
 			_dc.DirectoryTransportCompanies.Add(transportCompany);
 
 			_dc.SaveChanges();
 
 
-			var keepingName = new DirectoryKeepingName {Name = "Сейф"};
+			var keepingName = new DirectoryKeepingName { Name = "Сейф" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName {Name = "Карточка"};
+			keepingName = new DirectoryKeepingName { Name = "Карточка" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName {Name = "Чернецкая"};
+			keepingName = new DirectoryKeepingName { Name = "Чернецкая" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName {Name = "Наличные"};
+			keepingName = new DirectoryKeepingName { Name = "Наличные" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName {Name = "Резерв"};
+			keepingName = new DirectoryKeepingName { Name = "Резерв" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName {Name = "Аванс"};
+			keepingName = new DirectoryKeepingName { Name = "Аванс" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName {Name = "Бобров"};
+			keepingName = new DirectoryKeepingName { Name = "Бобров" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName {Name = "Пежо"};
+			keepingName = new DirectoryKeepingName { Name = "Пежо" };
 			_dc.DirectoryKeepingNames.Add(keepingName);
 
 			_dc.SaveChanges();
 
 
-			var keepingDescription = new DirectoryKeepingDescription {Name = "ФАР"};
+			var keepingDescription = new DirectoryKeepingDescription { Name = "ФАР" };
 			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
-			keepingDescription = new DirectoryKeepingDescription {Name = "Зарплата"};
+			keepingDescription = new DirectoryKeepingDescription { Name = "Зарплата" };
 			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
-			keepingDescription = new DirectoryKeepingDescription {Name = "За Боброва"};
+			keepingDescription = new DirectoryKeepingDescription { Name = "За Боброва" };
 			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
-			keepingDescription = new DirectoryKeepingDescription {Name = "За USA"};
+			keepingDescription = new DirectoryKeepingDescription { Name = "За USA" };
 			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
 
 			_dc.SaveChanges();
 
 
-			var typeOfPost = new DirectoryTypeOfPost {Name = "Склад"};
+			var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
 
 			_dc.DirectoryTypeOfPosts.Add(typeOfPost);
 
-			typeOfPost = new DirectoryTypeOfPost {Name = "Офис"};
+			typeOfPost = new DirectoryTypeOfPost { Name = "Офис" };
 
 			_dc.DirectoryTypeOfPosts.Add(typeOfPost);
 			_dc.SaveChanges();
 
 			foreach (var company in _dc.DirectoryCompanies.ToList())
 			{
-				foreach (var postName in Enum.GetNames(typeof (PostName)))
+				foreach (var postName in Enum.GetNames(typeof(PostName)))
 				{
 					var post = new DirectoryPost
 					{
@@ -331,7 +331,7 @@ namespace AIS_Enterprise_Data
 						DirectoryCompany = company
 					};
 
-					var postNameEnum = (PostName) Enum.Parse(typeof (PostName), postName);
+					var postNameEnum = (PostName)Enum.Parse(typeof(PostName), postName);
 
 					var postSalary = new DirectoryPostSalary
 					{
@@ -437,7 +437,7 @@ namespace AIS_Enterprise_Data
 
 				if (!holidays.Any(h => h.Date.Date == date.Date))
 				{
-					infoDate.DescriptionDay = (DescriptionDay) GetRandomNumber(0, 6);
+					infoDate.DescriptionDay = (DescriptionDay)GetRandomNumber(0, 6);
 
 					if (infoDate.DescriptionDay == DescriptionDay.Был)
 					{
@@ -522,7 +522,7 @@ namespace AIS_Enterprise_Data
 
 				if (!holidays.Any(h => h.Date.Date == date.Date))
 				{
-					infoDate.DescriptionDay = (DescriptionDay) GetRandomNumber(0, 6);
+					infoDate.DescriptionDay = (DescriptionDay)GetRandomNumber(0, 6);
 
 					if (infoDate.DescriptionDay == DescriptionDay.Был)
 					{
@@ -943,9 +943,9 @@ namespace AIS_Enterprise_Data
 		public IQueryable<DirectoryWorker> GetDeadSpiritDirectoryWorkers(DateTime date)
 		{
 			return _dc.DirectoryWorkers.Where(w => w.IsDeadSpirit && (DbFunctions.DiffDays(w.StartDate, date) >= 0 &&
-			                                                          (w.FireDate == null ||
-			                                                           (w.FireDate != null &&
-			                                                            DbFunctions.DiffDays(w.FireDate.Value, date) <= 0))));
+																	  (w.FireDate == null ||
+																	   (w.FireDate != null &&
+																		DbFunctions.DiffDays(w.FireDate.Value, date) <= 0))));
 		}
 
 
@@ -976,7 +976,7 @@ namespace AIS_Enterprise_Data
 				HomePhone = homePhone,
 				CellPhone = cellPhone,
 				StartDate = startDate,
-				DirectoryPhoto = new DirectoryPhoto {Photo = dataPhoto},
+				DirectoryPhoto = new DirectoryPhoto { Photo = dataPhoto },
 				FireDate = fireDate,
 				CurrentCompaniesAndPosts = new List<CurrentPost>(currentCompaniesAndPosts
 					.Select(c => new CurrentPost
@@ -1045,7 +1045,7 @@ namespace AIS_Enterprise_Data
 				CellPhone = cellPhone,
 				StartDate = startDate,
 				FireDate = fireDate,
-				CurrentCompaniesAndPosts = new List<CurrentPost> {currentPost}
+				CurrentCompaniesAndPosts = new List<CurrentPost> { currentPost }
 			};
 
 			_dc.DirectoryWorkers.Add(worker);
@@ -1065,9 +1065,9 @@ namespace AIS_Enterprise_Data
 			var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
 			return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
-			                                       (w.FireDate == null ||
-			                                        (w.FireDate != null &&
-			                                         DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0)));
+												   (w.FireDate == null ||
+													(w.FireDate != null &&
+													 DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0)));
 		}
 
 		public IQueryable<DirectoryWorker> GetDirectoryWorkersMonthTimeSheet(int year, int month)
@@ -1076,9 +1076,9 @@ namespace AIS_Enterprise_Data
 			var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
 			return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
-			                                       (w.FireDate == null ||
-			                                        (w.FireDate != null &&
-			                                         DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0))).
+												   (w.FireDate == null ||
+													(w.FireDate != null &&
+													 DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0))).
 				Include(w => w.CurrentCompaniesAndPosts.Select(c => c.DirectoryPost.DirectoryTypeOfPost));
 		}
 
@@ -1096,8 +1096,8 @@ namespace AIS_Enterprise_Data
 				if (isOffice)
 				{
 					if (post.DirectoryPost.DirectoryTypeOfPost.Name == TYPE_OF_POST_OFFICE &&
-					    worker.StartDate.Date <= lastDateInMonth.Date &&
-					    (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+						worker.StartDate.Date <= lastDateInMonth.Date &&
+						(worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
 					{
 						yield return worker;
 					}
@@ -1105,8 +1105,8 @@ namespace AIS_Enterprise_Data
 				else
 				{
 					if (post.DirectoryPost.DirectoryTypeOfPost.Name != TYPE_OF_POST_OFFICE &&
-					    worker.StartDate.Date <= lastDateInMonth.Date &&
-					    (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+						worker.StartDate.Date <= lastDateInMonth.Date &&
+						(worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
 					{
 						yield return worker;
 					}
@@ -1137,8 +1137,8 @@ namespace AIS_Enterprise_Data
 				if (isOffice)
 				{
 					if (post.DirectoryPost.DirectoryTypeOfPost.Name == TYPE_OF_POST_OFFICE &&
-					    worker.StartDate.Date <= lastDateInMonth.Date &&
-					    (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+						worker.StartDate.Date <= lastDateInMonth.Date &&
+						(worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
 					{
 						yield return worker;
 					}
@@ -1146,8 +1146,8 @@ namespace AIS_Enterprise_Data
 				else
 				{
 					if (post.DirectoryPost.DirectoryTypeOfPost.Name != TYPE_OF_POST_OFFICE &&
-					    worker.StartDate.Date <= lastDateInMonth.Date &&
-					    (worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
+						worker.StartDate.Date <= lastDateInMonth.Date &&
+						(worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
 					{
 						yield return worker;
 					}
@@ -1252,10 +1252,10 @@ namespace AIS_Enterprise_Data
 
 			if (hour != "В")
 			{
-				if (Enum.IsDefined(typeof (DescriptionDay), hour))
+				if (Enum.IsDefined(typeof(DescriptionDay), hour))
 				{
 					infoDate.CountHours = null;
-					infoDate.DescriptionDay = (DescriptionDay) Enum.Parse(typeof (DescriptionDay), hour);
+					infoDate.DescriptionDay = (DescriptionDay)Enum.Parse(typeof(DescriptionDay), hour);
 				}
 				else
 				{
@@ -1432,8 +1432,8 @@ namespace AIS_Enterprise_Data
 			{
 				ChangeDate = currentCompanyAndPost.PostChangeDate,
 				DirectoryPost = _dc.DirectoryPosts.First(p => p.Name == currentCompanyAndPost.DirectoryPost.Name &&
-				                                              p.DirectoryCompany.Name ==
-				                                              currentCompanyAndPost.DirectoryPost.DirectoryCompany.Name),
+															  p.DirectoryCompany.Name ==
+															  currentCompanyAndPost.DirectoryPost.DirectoryCompany.Name),
 				IsTwoCompanies = currentCompanyAndPost.IsTwoCompanies,
 				IsTemporaryPost = currentCompanyAndPost.IsTemporaryPost
 			};
@@ -1447,8 +1447,8 @@ namespace AIS_Enterprise_Data
 			var firstDateInMonth = new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1);
 
 			return _dc.CurrentPosts.Where(p => DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0 && p.FireDate == null ||
-			                                   p.FireDate != null && DbFunctions.DiffDays(p.FireDate.Value, firstDateInMonth) < 0 &&
-			                                   DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0);
+											   p.FireDate != null && DbFunctions.DiffDays(p.FireDate.Value, firstDateInMonth) < 0 &&
+											   DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0);
 		}
 
 		public IEnumerable<CurrentPost> GetCurrentPosts(int workerId, int year, int month, int lastDayInMonth)
@@ -1459,9 +1459,9 @@ namespace AIS_Enterprise_Data
 			var worker = GetDirectoryWorker(workerId);
 
 			return worker.CurrentCompaniesAndPosts.Where(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null ||
-			                                                  p.FireDate != null &&
-			                                                  p.FireDate.Value.Date >= firstDateInMonth.Date &&
-			                                                  p.ChangeDate.Date <= lastDateInMonth.Date);
+															  p.FireDate != null &&
+															  p.FireDate.Value.Date >= firstDateInMonth.Date &&
+															  p.ChangeDate.Date <= lastDateInMonth.Date);
 		}
 
 		public CurrentPost GetCurrentPost(int workerId, DateTime date)
@@ -1469,8 +1469,8 @@ namespace AIS_Enterprise_Data
 			var worker = GetDirectoryWorker(workerId);
 
 			return worker.CurrentCompaniesAndPosts.First(p => p.ChangeDate.Date <= date.Date && p.FireDate == null ||
-			                                                  p.FireDate != null && p.FireDate.Value.Date >= date.Date &&
-			                                                  p.ChangeDate.Date <= date.Date);
+															  p.FireDate != null && p.FireDate.Value.Date >= date.Date &&
+															  p.ChangeDate.Date <= date.Date);
 		}
 
 		public CurrentPost GetMainPost(int workerId, DateTime date)
@@ -1537,7 +1537,7 @@ namespace AIS_Enterprise_Data
 			{
 				if (!holidaysInDB.Any(h => h.Date == holiday.Date))
 				{
-					_dc.DirectoryHolidays.Add(new DirectoryHoliday {Date = holiday});
+					_dc.DirectoryHolidays.Add(new DirectoryHoliday { Date = holiday });
 				}
 			}
 
@@ -1583,7 +1583,7 @@ namespace AIS_Enterprise_Data
 
 			string value = parameter.Value;
 
-			return (T) Convert.ChangeType(value, typeof (T));
+			return (T)Convert.ChangeType(value, typeof(T));
 		}
 
 		#endregion
@@ -1622,7 +1622,7 @@ namespace AIS_Enterprise_Data
 						}
 
 						if (worker.StartDate.Date <= date.Date &&
-						    (worker.FireDate == null || worker.FireDate != null && worker.FireDate.Value.Date >= date.Date))
+							(worker.FireDate == null || worker.FireDate != null && worker.FireDate.Value.Date >= date.Date))
 						{
 							if (!worker.InfoDates.Any(d => d.Date.Date == date.Date))
 							{
@@ -1679,9 +1679,9 @@ namespace AIS_Enterprise_Data
 		private void InitializeWorkerLoanPayments(DirectoryWorker worker, InfoMonth infoMonth, DateTime salaryDate)
 		{
 			var infoLoans = _dc.InfoLoans.Where(s => s.DirectoryWorkerId == worker.Id && (s.DateLoanPayment == null ||
-			                                                                              (s.DateLoanPayment != null &&
-			                                                                               DbFunctions.DiffDays(
-				                                                                               s.DateLoanPayment, salaryDate) <= 0)))
+																						  (s.DateLoanPayment != null &&
+																						   DbFunctions.DiffDays(
+																							   s.DateLoanPayment, salaryDate) <= 0)))
 				.ToList();
 
 			if (infoLoans.Any())
@@ -1719,7 +1719,7 @@ namespace AIS_Enterprise_Data
 
 		public DirectoryUserStatus AddDirectoryUserStatus(string name, List<CurrentUserStatusPrivilege> privileges)
 		{
-			var directoryUserStatus = new DirectoryUserStatus {Name = name, Privileges = privileges};
+			var directoryUserStatus = new DirectoryUserStatus { Name = name, Privileges = privileges };
 			_dc.DirectoryUserStatuses.Add(directoryUserStatus);
 
 			_dc.SaveChanges();
@@ -1769,7 +1769,7 @@ namespace AIS_Enterprise_Data
 			{
 				UserName = userName,
 				TranscriptionName = transcriptionName,
-				CurrentUserStatus = new CurrentUserStatus {DirectoryUserStatus = userStatus}
+				CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus }
 			};
 
 			_dc.DirectoryUsers.Add(user);
@@ -1792,7 +1792,7 @@ namespace AIS_Enterprise_Data
 			{
 				UserName = userName,
 				TranscriptionName = transcriptionName,
-				CurrentUserStatus = new CurrentUserStatus {DirectoryUserStatus = userStatus}
+				CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus }
 			};
 
 			_dc.DirectoryUsers.Add(user);
@@ -1822,7 +1822,7 @@ namespace AIS_Enterprise_Data
 
 			var prevCurrentUserStatus = user.CurrentUserStatus;
 
-			user.CurrentUserStatus = new CurrentUserStatus {DirectoryUserStatus = userStatus};
+			user.CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus };
 
 			_dc.SaveChanges();
 
@@ -2051,7 +2051,7 @@ namespace AIS_Enterprise_Data
 					Date = date,
 					DirectoryCostItemId = costItem.Id,
 					DirectoryRC = rc,
-					CurrentNotes = new List<CurrentNote> {new CurrentNote {DirectoryNote = note}},
+					CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNote = note } },
 					Summ = summ,
 					Currency = currency,
 					IsIncoming = isIncomming,
@@ -2173,14 +2173,14 @@ namespace AIS_Enterprise_Data
 
 					foreach (var transport in transports.Where(t => t.DirectoryRC.Name == rc))
 					{
-						currentNotes.Add(new CurrentNote {DirectoryNote = _dc.DirectoryNotes.Find(transport.DirectoryNote.Id)});
+						currentNotes.Add(new CurrentNote { DirectoryNote = _dc.DirectoryNotes.Find(transport.DirectoryNote.Id) });
 						weightRC += transport.Weight;
 					}
 
 					double summTransport = 0;
 					if (indexCargo < cargos.Count())
 					{
-						summTransport = weightRC != 0 ? Math.Round(summ/commonWeight*weightRC, 0) : summ;
+						summTransport = weightRC != 0 ? Math.Round(summ / commonWeight * weightRC, 0) : summ;
 						totalSummTransport += summTransport;
 					}
 					else
@@ -2273,11 +2273,11 @@ namespace AIS_Enterprise_Data
 		public string[] GetInfoCostsIncomingTotalSummsCurrency(int year, int month, string rcName, bool? isIncoming = null,
 			string costItem = null)
 		{
-			string[] totalSumms = new string[Enum.GetNames(typeof (Currency)).Count()];
+			string[] totalSumms = new string[Enum.GetNames(typeof(Currency)).Count()];
 
 			for (int i = 0; i < totalSumms.Count(); i++)
 			{
-				var currency = (Currency) Enum.Parse(typeof (Currency), Enum.GetName(typeof (Currency), i));
+				var currency = (Currency)Enum.Parse(typeof(Currency), Enum.GetName(typeof(Currency), i));
 				var infoCosts =
 					_dc.InfoCosts.Where(
 						c => c.Date.Year == year && c.Date.Month == month && c.Currency == currency && c.DirectoryRC.Name == rcName);
@@ -2350,7 +2350,7 @@ namespace AIS_Enterprise_Data
 
 			if (loanTakerName == null)
 			{
-				double onePaySumm = Math.Round(summ/countPayments, 0);
+				double onePaySumm = Math.Round(summ / countPayments, 0);
 
 				for (int i = 0; i < countPayments; i++)
 				{
@@ -2419,8 +2419,8 @@ namespace AIS_Enterprise_Data
 		{
 			return _dc.InfoLoans.Where(
 				s => DbFunctions.DiffDays(from, s.DateLoan) >= 0 && DbFunctions.DiffDays(to, s.DateLoan) <= 0 &&
-				     (s.DateLoanPayment == null ||
-				      s.DateLoanPayment != null && DbFunctions.DiffDays(DateTime.Now, s.DateLoanPayment) >= 0)).
+					 (s.DateLoanPayment == null ||
+					  s.DateLoanPayment != null && DbFunctions.DiffDays(DateTime.Now, s.DateLoanPayment) >= 0)).
 				OrderByDescending(s => s.DateLoan);
 		}
 
@@ -2470,7 +2470,7 @@ namespace AIS_Enterprise_Data
 
 			if (loanTakerName == null)
 			{
-				double onePaySumm = Math.Round(summ/countPayments, 0);
+				double onePaySumm = Math.Round(summ / countPayments, 0);
 
 				for (int i = 0; i < countPayments; i++)
 				{
@@ -2540,8 +2540,8 @@ namespace AIS_Enterprise_Data
 		{
 			return _dc.InfoPrivateLoans.Where(
 				s => DbFunctions.DiffDays(from, s.DateLoan) >= 0 && DbFunctions.DiffDays(to, s.DateLoan) <= 0 &&
-				     (s.DateLoanPayment == null ||
-				      s.DateLoanPayment != null && DbFunctions.DiffDays(DateTime.Now, s.DateLoanPayment) >= 0)).
+					 (s.DateLoanPayment == null ||
+					  s.DateLoanPayment != null && DbFunctions.DiffDays(DateTime.Now, s.DateLoanPayment) >= 0)).
 				OrderByDescending(s => s.DateLoan);
 		}
 
@@ -2594,7 +2594,7 @@ namespace AIS_Enterprise_Data
 				return directoryNote;
 			}
 
-			directoryNote = new DirectoryNote {Description = note};
+			directoryNote = new DirectoryNote { Description = note };
 
 			_dc.DirectoryNotes.Add(directoryNote);
 
@@ -2632,7 +2632,7 @@ namespace AIS_Enterprise_Data
 				Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, day),
 				DirectoryCostItemId = defaultCost.DirectoryCostItemId,
 				DirectoryRCId = defaultCost.DirectoryRCId,
-				CurrentNotes = new List<CurrentNote> {new CurrentNote {DirectoryNoteId = defaultCost.DirectoryNoteId}},
+				CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = defaultCost.DirectoryNoteId } },
 				Summ = defaultCost.SummOfPayment,
 				IsIncoming = false,
 				Weight = 0,
@@ -2670,7 +2670,7 @@ namespace AIS_Enterprise_Data
 			var currentDate = DateTime.Now;
 
 			if (defaultCostsDate.Year < currentDate.Year ||
-			    (defaultCostsDate.Year == currentDate.Year && defaultCostsDate.Month < currentDate.Month))
+				(defaultCostsDate.Year == currentDate.Year && defaultCostsDate.Month < currentDate.Month))
 			{
 				var defaultCosts = GetDefaultCosts().ToList();
 
@@ -2681,14 +2681,14 @@ namespace AIS_Enterprise_Data
 					if (
 						!infoCosts.Any(
 							c => c.DirectoryCostItem.Id == defaultCost.DirectoryCostItemId && c.DirectoryRCId == defaultCost.DirectoryRCId &&
-							     c.CurrentNotes.First().DirectoryNoteId == defaultCost.DirectoryNoteId && c.Summ == defaultCost.SummOfPayment))
+								 c.CurrentNotes.First().DirectoryNoteId == defaultCost.DirectoryNoteId && c.Summ == defaultCost.SummOfPayment))
 					{
 						var infoCost = new InfoCost
 						{
 							Date = infoCostDate,
 							DirectoryCostItemId = defaultCost.DirectoryCostItemId,
 							DirectoryRCId = defaultCost.DirectoryRCId,
-							CurrentNotes = new List<CurrentNote> {new CurrentNote {DirectoryNoteId = defaultCost.DirectoryNoteId}},
+							CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = defaultCost.DirectoryNoteId } },
 							Summ = defaultCost.SummOfPayment,
 							IsIncoming = false,
 							Weight = 0,
@@ -2816,9 +2816,9 @@ namespace AIS_Enterprise_Data
 			var infoLoan = _dc.InfoLoans.Find(infoLoanId);
 			EditCurrencyValueSummChange("TotalLoan", infoLoan.Currency, -summ);
 			AddInfoSafe(date, true, summ, infoLoan.Currency, CashType.Наличка, "Возврат долга: " +
-			                                                                   (infoLoan.DirectoryLoanTakerId == null
-				                                                                   ? infoLoan.DirectoryWorker.FullName
-				                                                                   : infoLoan.DirectoryLoanTaker.Name));
+																			   (infoLoan.DirectoryLoanTakerId == null
+																				   ? infoLoan.DirectoryWorker.FullName
+																				   : infoLoan.DirectoryLoanTaker.Name));
 
 			return infoPayment;
 		}
@@ -2952,8 +2952,8 @@ namespace AIS_Enterprise_Data
 		public bool IsNewMessage(DateTime date, string description)
 		{
 			return !_dc.InfoSafes.Any(s => DbFunctions.DiffSeconds(s.Date, date) == 0 &&
-			                               s.CashType == CashType.Карточка &&
-			                               s.Description == description);
+										   s.CashType == CashType.Карточка &&
+										   s.Description == description);
 		}
 
 		public IQueryable<InfoSafe> GetInfoSafes()
@@ -3204,7 +3204,7 @@ namespace AIS_Enterprise_Data
 		{
 			return _dc.InfoContainers.ToList()
 				.Where(c => containers.Any(c2 => c.Name == c2.Name && c.DatePhysical.Date == c2.DatePhysical.Date
-				                                 && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming))
+												 && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming))
 				.Select(c => new InfoContainer
 				{
 					Id = c.Id,
@@ -3213,7 +3213,7 @@ namespace AIS_Enterprise_Data
 					Description = c.Description,
 					IsIncoming = c.IsIncoming,
 					CarParts = containers.First(c2 => c.Name == c2.Name && c.DatePhysical.Date == c2.DatePhysical.Date
-					                                  && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming).CarParts
+													  && c.Description == c2.Description && c.IsIncoming == c2.IsIncoming).CarParts
 				});
 		}
 
@@ -3273,19 +3273,19 @@ namespace AIS_Enterprise_Data
 			DateTime selectedDateFrom, DateTime selectedDateTo)
 		{
 			return from container in _dc.InfoContainers
-				where
-					DbFunctions.DiffDays(selectedDateFrom, container.DatePhysical) >= 0 &&
-					DbFunctions.DiffDays(container.DatePhysical, selectedDateTo) >= 0
-				join carPart in _dc.CurrentContainerCarParts on container.Id equals carPart.InfoContainerId
-				where carPart.DirectoryCarPartId == selectedDirectoryCarPart.Id
-				orderby container.DatePhysical descending
-				select new InfoCarPartMovement
-				{
-					Date = container.DatePhysical,
-					FullDescription = container.Name + " " + container.Description,
-					Incoming = container.IsIncoming ? carPart.CountCarParts : default(int?),
-					Outcoming = !container.IsIncoming ? carPart.CountCarParts : default(int?)
-				};
+				   where
+					   DbFunctions.DiffDays(selectedDateFrom, container.DatePhysical) >= 0 &&
+					   DbFunctions.DiffDays(container.DatePhysical, selectedDateTo) >= 0
+				   join carPart in _dc.CurrentContainerCarParts on container.Id equals carPart.InfoContainerId
+				   where carPart.DirectoryCarPartId == selectedDirectoryCarPart.Id
+				   orderby container.DatePhysical descending
+				   select new InfoCarPartMovement
+				   {
+					   Date = container.DatePhysical,
+					   FullDescription = container.Name + " " + container.Description,
+					   Incoming = container.IsIncoming ? carPart.CountCarParts : default(int?),
+					   Outcoming = !container.IsIncoming ? carPart.CountCarParts : default(int?)
+				   };
 		}
 
 		public void RemoveContainers(int year, int month)
@@ -3305,17 +3305,17 @@ namespace AIS_Enterprise_Data
 		public InfoLastMonthDayRemain GetInfoLastMonthDayRemain(DateTime date, int carPartId)
 		{
 			return _dc.InfoLastMonthDayRemains.FirstOrDefault(p => p.DirectoryCarPartId == carPartId &&
-			                                                       (p.Date.Year == date.Year && p.Date.Month == date.Month));
+																   (p.Date.Year == date.Year && p.Date.Month == date.Month));
 		}
 
 		public int GetInfoCarPartIncomingCountTillDate(DateTime date, int carPartId, bool isIncoming)
 		{
 			DateTime firstDateInMonth = new DateTime(date.Year, date.Month, 1);
 			var containers = _dc.InfoContainers.Include(c => c.CarParts).Where(c => c.IsIncoming == isIncoming &&
-			                                                                        (DbFunctions.DiffDays(firstDateInMonth,
-				                                                                        c.DatePhysical) >= 0 &&
-			                                                                         DbFunctions.DiffDays(c.DatePhysical, date) >=
-			                                                                         0)).ToList();
+																					(DbFunctions.DiffDays(firstDateInMonth,
+																						c.DatePhysical) >= 0 &&
+																					 DbFunctions.DiffDays(c.DatePhysical, date) >=
+																					 0)).ToList();
 
 			return containers.Sum(c => c.CarParts.Where(p => p.DirectoryCarPartId == carPartId).Sum(c2 => c2.CountCarParts));
 		}
@@ -3530,8 +3530,8 @@ namespace AIS_Enterprise_Data
 					{
 						var tmpMark = mark != null ? mark.ToLower() : null;
 						carPart = carPartsRUR.FirstOrDefault(c => c.Article.ToLower() == baseArticle &&
-						                                          (c.Mark == null && tmpMark == null ||
-						                                           c.Mark != null && c.Mark.ToLower() == tmpMark));
+																  (c.Mark == null && tmpMark == null ||
+																   c.Mark != null && c.Mark.ToLower() == tmpMark));
 						if (carPart != null)
 						{
 							isFound = true;
@@ -3557,8 +3557,8 @@ namespace AIS_Enterprise_Data
 					{
 						var tmpMark = mark != null ? mark.ToLower() : null;
 						var directoryCarPart = carParts.FirstOrDefault(c => c.Article.ToLower() == baseArticle &&
-						                                                    (c.Mark == null && tmpMark == null ||
-						                                                     c.Mark != null && c.Mark.ToLower() == tmpMark));
+																			(c.Mark == null && tmpMark == null ||
+																			 c.Mark != null && c.Mark.ToLower() == tmpMark));
 						if (directoryCarPart != null)
 						{
 							lastMonthDayRemain = lastMonthDayRemains.FirstOrDefault(r => r.DirectoryCarPartId == directoryCarPart.Id);
@@ -3613,8 +3613,8 @@ namespace AIS_Enterprise_Data
 		{
 			int warehouseId = _dc.Warehouses.First(w => w.Name == warehouseName).Id;
 			var location = _dc.PalletLocations.FirstOrDefault(l => l.WarehouseId == warehouseId && l.Row == address.Row &&
-			                                                       l.Place == address.Place && l.Floor == address.Floor &&
-			                                                       l.Pallet == address.Cell);
+																   l.Place == address.Place && l.Floor == address.Floor &&
+																   l.Pallet == address.Cell);
 
 			if (location != null)
 			{
@@ -3639,10 +3639,10 @@ namespace AIS_Enterprise_Data
 			int warehouseId = _dc.Warehouses.First(w => w.Name == warehouseName).Id;
 			var removableContents =
 				_dc.PalletContents.Include(c => c.Location).Where(c => c.Location.WarehouseId == warehouseId &&
-				                                                       c.Location.Row == address.Row &&
-				                                                       c.Location.Place == address.Place &&
-				                                                       c.Location.Floor == address.Floor &&
-				                                                       c.Location.Pallet == address.Cell);
+																	   c.Location.Row == address.Row &&
+																	   c.Location.Place == address.Place &&
+																	   c.Location.Floor == address.Floor &&
+																	   c.Location.Pallet == address.Cell);
 
 			_dc.PalletContents.RemoveRange(removableContents);
 
@@ -3651,8 +3651,8 @@ namespace AIS_Enterprise_Data
 			var directoryCarParts = _dc.DirectoryCarParts.Where(c => articles.Contains(c.Article + c.Mark)).ToArray();
 
 			var location = _dc.PalletLocations.FirstOrDefault(l => l.WarehouseId == warehouseId && l.Row == address.Row &&
-			                                                       l.Place == address.Place && l.Floor == address.Floor &&
-			                                                       l.Pallet == address.Cell);
+																   l.Place == address.Place && l.Floor == address.Floor &&
+																   l.Pallet == address.Cell);
 			if (location == null)
 			{
 				location = new PalletLocation
@@ -3685,17 +3685,22 @@ namespace AIS_Enterprise_Data
 
 		public void SaveTotalSafeAndMinskCashes(DateTime date, double minskSumm)
 		{
-			var totalCash =
-				_dc.InfoTotalEqualCashSafeToMinsks.FirstOrDefault(d => d.Date.Year == date.Year && d.Date.Month == date.Month);
-			if (totalCash == null)
-			{
-				totalCash = new InfoTotalEqualCashSafeToMinsk();
-				_dc.InfoTotalEqualCashSafeToMinsks.Add(totalCash);
-			}
+			var totalCash = new InfoTotalEqualCashSafeToMinsk();
 
-			totalCash.Date = date;
+			totalCash.Date = new DateTime(date.Year, date.Month, 1);
 			totalCash.MinskCash = minskSumm;
-			totalCash.SafeCash = 0;
+			totalCash.LastUpdated = DateTime.Now;
+
+			var prevDate = date.AddMonths(-1);
+			var prevTotalCash =
+				_dc.InfoTotalEqualCashSafeToMinsks.First(c => c.Date.Year == prevDate.Year && c.Date.Month == prevDate.Month);
+
+			var costs = GetInfoCosts(prevDate.Year, prevDate.Month).ToList();
+			double totalSumm = costs.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
+
+			totalCash.SafeCash = prevTotalCash.SafeCash + totalSumm;
+
+			_dc.InfoTotalEqualCashSafeToMinsks.Add(totalCash);
 			_dc.SaveChanges();
 		}
 

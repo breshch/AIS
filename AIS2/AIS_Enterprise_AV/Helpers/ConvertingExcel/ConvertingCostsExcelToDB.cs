@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using AIS_Enterprise_Data;
@@ -11,7 +13,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 {
     public static class ConvertingCostsExcelToDB
     {
-        private const string PATH_COSTS = "Files/Costs.xlsx";
+		private const string PATH_COSTS = @"C:\Users\Alexey\Desktop\затраты Храпуново OLD.xlsx";
 
         public static void ConvertExcelToDB(BusinessContext bc)
         {
@@ -29,16 +31,26 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                         var costItems = bc.GetDirectoryCostItems().ToList();
                         var rcs = bc.GetDirectoryRCs().ToList();
 
-                        int indexRow = 25;
+                        int indexRow = 915;
                         while (sheet.Cells[indexRow, 1].Value != null)
                         {
-                            long serialDate = long.Parse(sheet.Cells[indexRow, 1].Value.ToString());
-                            DateTime date = DateTime.FromOADate(serialDate);
-                            
-                            string costItemName = sheet.Cells[indexRow, 4].Value.ToString();
+                            //long serialDate = long.Parse(sheet.Cells[indexRow, 1].Value.ToString());
+							//var date = DateTime.ParseExact(sheet.Cells[indexRow, 1].Value.ToString(),
+							//	"dd.MM.yyyy hh.mm.ss", new CultureInfo("ru-Ru")); 
+							// DateTime.FromOADate(serialDate);
+
+	                        DateTime date;
+	                        if (!DateTime.TryParseExact(sheet.Cells[indexRow, 1].Value.ToString(), "dd.MM.yyyy H:mm:ss",
+		                        CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+	                        {
+								date = DateTime.ParseExact(sheet.Cells[indexRow, 1].Value.ToString(), "dd.MM.yy H:mm:ss",
+			                        CultureInfo.InvariantCulture, DateTimeStyles.None);
+	                        }
+							
+                            string costItemName = sheet.Cells[indexRow, 4].Value.ToString().Trim();
                             var costItem = costItems.First(i => i.Name == costItemName);
-                            
-                            string rcName = sheet.Cells[indexRow, 5].Value.ToString().Split(' ').Last();
+
+	                        string rcName = sheet.Cells[indexRow, 5].Value.ToString().Trim();
                             var rc = rcs.First(r => r.Name == rcName);
 
                             double summ = 0;
@@ -46,16 +58,16 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             if (sheet.Cells[indexRow, 6].Value != null)
 	                        {
                                 isIncoming = true;
-                                summ = double.Parse(sheet.Cells[indexRow, 6].Value.ToString());
+                                summ = double.Parse(sheet.Cells[indexRow, 6].Value.ToString().Trim());
 	                        }
                             else
                             {
                                 isIncoming = false;
-                                summ = double.Parse(sheet.Cells[indexRow, 7].Value.ToString());
+                                summ = double.Parse(sheet.Cells[indexRow, 7].Value.ToString().Trim());
                             }
 
-                            string noteDescription = sheet.Cells[indexRow, 8].Value.ToString();
-                            var note = bc.AddDirectoryNote(noteDescription);
+	                        var noteDescription = sheet.Cells[indexRow, 8].Value;
+                            var note = bc.AddDirectoryNote(noteDescription != null ? noteDescription.ToString().Trim() : null);
 
                             var transports = new List<Transport>
                             {
@@ -69,6 +81,10 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             bc.AddInfoCosts(date, costItem, isIncoming, null, summ, Currency.RUR, transports);
 
                             indexRow++;
+							Debug.WriteLine(indexRow);
+
+	                        if (indexRow == 1545)
+		                        break;
                         }
                     }
                 }
