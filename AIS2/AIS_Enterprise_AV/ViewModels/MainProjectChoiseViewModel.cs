@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views;
@@ -38,6 +40,19 @@ namespace AIS_Enterprise_AV.ViewModels
             }
 
 			BC.SetRemainsToFirstDateInMonth();
+			
+			//initialize dbminskcash
+			
+			//using (var sr = new StreamReader(@"C:\Users\Alexey\Desktop\1.csv"))
+			//{
+			//	while (!sr.EndOfStream)
+			//	{
+			//		var line = sr.ReadLine();
+			//		var date = DateTime.Parse("01." + line.Substring(0, 7).Replace(",","."));
+			//		var summ = double.Parse(line.Substring(8).Replace(" ","").Replace(".",","));
+			//		BC.SaveTotalSafeAndMinskCashes(date,summ);
+			//	}
+			//}		
         }
 
         #endregion

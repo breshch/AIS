@@ -3224,6 +3224,9 @@ namespace AIS_Enterprise_Data
 
 		public void RemoveInfoContainer(InfoContainer container)
 		{
+			var carParts = _dc.InfoContainers.Find(container.Id).CarParts.ToArray();
+			_dc.CurrentContainerCarParts.RemoveRange(carParts);
+
 			_dc.InfoContainers.Remove(container);
 			_dc.SaveChanges();
 		}
@@ -3683,6 +3686,15 @@ namespace AIS_Enterprise_Data
 
 		#region InfoTotalEqualCashSafeToMinsk
 
+		public IEnumerable<InfoTotalEqualCashSafeToMinsk> GetTotalEqualCashSafeToMinsks(DateTime from, DateTime to)
+		{
+			return _dc.InfoTotalEqualCashSafeToMinsks
+				.Where(c => DbFunctions.DiffDays(c.Date, from) <= 0 && DbFunctions.DiffDays(c.Date, to) >= 0)
+				.ToArray()
+				.GroupBy(c => c.Date)
+				.Select(g => g.OrderByDescending(c => c.LastUpdated).First());
+		}
+
 		public void SaveTotalSafeAndMinskCashes(DateTime date, double minskSumm)
 		{
 			var totalCash = new InfoTotalEqualCashSafeToMinsk();
@@ -3702,6 +3714,33 @@ namespace AIS_Enterprise_Data
 
 			_dc.InfoTotalEqualCashSafeToMinsks.Add(totalCash);
 			_dc.SaveChanges();
+
+			var monthes = _dc.InfoTotalEqualCashSafeToMinsks.Where(c => DbFunctions.DiffDays(c.Date, date) < 0).ToArray();
+			if (monthes.Any())
+			{
+				foreach (var month in monthes)
+				{
+					var totalCashMonth = new InfoTotalEqualCashSafeToMinsk
+					{
+						Date = month.Date,
+						MinskCash = month.MinskCash,
+						LastUpdated = DateTime.Now
+					};
+
+					var prevDateMonth = month.Date.AddMonths(-1);
+					var prevTotalCashMonth =
+						_dc.InfoTotalEqualCashSafeToMinsks.First(c => c.Date.Year == prevDateMonth.Year && 
+							c.Date.Month == prevDateMonth.Month);
+
+					var costsMonth = GetInfoCosts(prevDateMonth.Year, prevDateMonth.Month).ToList();
+					double totalSummMonth = costsMonth.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
+
+					totalCashMonth.SafeCash = prevTotalCashMonth.SafeCash + totalSummMonth;
+					_dc.InfoTotalEqualCashSafeToMinsks.Add(totalCashMonth);
+				}
+
+				_dc.SaveChanges();
+			}
 		}
 
 		#endregion

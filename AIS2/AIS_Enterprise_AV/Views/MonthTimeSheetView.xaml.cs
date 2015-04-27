@@ -1652,5 +1652,10 @@ namespace AIS_Enterprise_AV.Views
 	    {
 		    HelperMethods.ShowView(new InfoAddMinskCashViewModel(), new InfoAddMinskCashView());
 	    }
+
+	    private void MenuReportDiffSumToMinsk_OnClick(object sender, RoutedEventArgs e)
+	    {
+			HelperMethods.ShowView(new FromToDatesReportViewModel(SafeReports.SafeToMinsk), new FromToDatesReportView());
+	    }
     }
 }

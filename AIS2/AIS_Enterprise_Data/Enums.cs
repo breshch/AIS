@@ -35,11 +35,13 @@
         MenuVisibility_Reports_ReportCash,
         MenuVisibility_Reports_ReportCars,
 		MenuVisibility_Reports_ReportProfit,
+		MenuVisibility_Reports_ReportDiffSumToMinsk,
         MenuVisibility_AdminPanel_UserStatuses,
         MenuVisibility_AdminPanel_Users,
         MenuVisibility_AdminPanel_Logs,
         MenuVisibility_AdminPanel_Calendar,
 		MenuVisibility_AdminPanel_MinskCash,
+		
 
         MonthTimeSheetColumnsVisibility_FullName,
         MonthTimeSheetColumnsVisibility_PostName,

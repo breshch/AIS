@@ -33,7 +33,7 @@
     <SuiteName>AIS_Enterprise</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>69</ApplicationRevision>
+    <ApplicationRevision>73</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -183,6 +183,7 @@
     <Compile Include="Helpers\Temps\Invoice.cs" />
     <Compile Include="Reports\CarPartReports.cs" />
     <Compile Include="Reports\CarsReports.cs" />
+    <Compile Include="Reports\SafeReports.cs" />
     <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
     <Compile Include="ViewModels\Directories\AddDirectoryCarPartViewModel.cs" />
     <Compile Include="ViewModels\Directories\CurrentTemporaryPostViewModel.cs" />

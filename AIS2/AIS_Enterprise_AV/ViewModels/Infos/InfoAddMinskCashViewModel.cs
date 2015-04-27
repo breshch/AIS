@@ -22,7 +22,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 		#region Properties
 
 		public DateTime Date { get; set; }
-		public double MinskSumm { get; set; }
+		public string MinskSumm { get; set; }
 
 		#endregion
 
@@ -32,7 +32,10 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
 		private void Save(object parameter)
 		{
-			BC.SaveTotalSafeAndMinskCashes(Date, MinskSumm);
+			MinskSumm = MinskSumm.Replace(".", ",").Replace(" ","");
+			double summ = double.Parse(MinskSumm);
+
+			BC.SaveTotalSafeAndMinskCashes(Date, summ);
 
 			HelperMethods.CloseWindow(parameter);
 		}
