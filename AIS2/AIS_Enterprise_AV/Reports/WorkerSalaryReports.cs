@@ -188,7 +188,7 @@ namespace AIS_Enterprise_AV.Reports
 
 				var sheet = ep.Workbook.Worksheets.First(ws => ws.Name == name);
 				var colorTransparent = Color.Transparent;
-				if (sheet.Cells[1,1].Value == null)
+				if (sheet.Cells[1, 1].Value == null)
 				{
 					Helpers.CreateCell(sheet, 1, 1, "ЦО", colorTransparent, 12, true, ExcelHorizontalAlignment.Center,
 						ExcelBorderStyle.Thick);
@@ -247,8 +247,8 @@ namespace AIS_Enterprise_AV.Reports
 				sheet.Column(3).Width = Helpers.PixelsToInches(200);
 
 
-		        name = "Касса " + month + "'" + year;
-			    sheet = Helpers.GetSheet(ep, name);
+				name = "Касса " + month + "'" + year;
+				sheet = Helpers.GetSheet(ep, name);
 
 				Helpers.CreateCell(sheet, 1, 1, "Дата", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
 				Helpers.CreateCell(sheet, 1, 2, "Статья затрат", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
@@ -260,7 +260,7 @@ namespace AIS_Enterprise_AV.Reports
 				indexRow = 2;
 
 				double maxLengthNote = 0;
-				
+
 				foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
 				{
 					double summIncoming = 0;
@@ -403,7 +403,14 @@ namespace AIS_Enterprise_AV.Reports
 								var overTimeHours = bc.IsOverTime(infoDate, weekEndsInMonth);
 								if (overTimeHours != null)
 								{
-									valueRC = overTimeHours.Value * 1.3 * currentRCs[i].DirectoryRC.Percentes / currentPercentage;
+									if (currentPercentage != 0)
+									{
+										valueRC = overTimeHours.Value * 1.3 * currentRCs[i].DirectoryRC.Percentes / currentPercentage;
+									}
+									else
+									{
+										valueRC = overTimeHours.Value * 1.3 / currentRCs.Count;
+									}
 
 									var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == currentRCs[i].DirectoryRC.Name);
 									if (workerRCSummForReport == null)
@@ -553,7 +560,15 @@ namespace AIS_Enterprise_AV.Reports
 								var overTimeHours = bc.IsOverTime(infoDate, weekEndsInMonth);
 								if (overTimeHours != null)
 								{
-									double percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentes / currentPercentage;
+									double percentage;
+									if (currentPercentage != 0)
+									{
+										percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentes / currentPercentage;
+									}
+									else
+									{
+										percentage = overTimeHours.Value * 1.3 / overTimeRCs.Count;
+									}
 
 									var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == overTimeRCs[i].DirectoryRC.Name);
 									if (workerRCSummForReport == null)

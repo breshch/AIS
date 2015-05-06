@@ -77,6 +77,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             {
                 string path = dialog.FileName;
                 var priceDate = ConvertingCarPartsExcelToDB.ConvertPriceImport(BC, path, SelectedCurrency);
+			    priceDate = ConvertingCarPartsExcelToDB.ConvertPriceLiquides(BC, path, SelectedCurrency);
                 BC.EditParameter(ParameterType.LastImportDate, priceDate.ToShortDateString());
                 LastImportDate = priceDate.ToShortDateString();
             }

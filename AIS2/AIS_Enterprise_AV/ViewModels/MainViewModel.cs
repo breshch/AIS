@@ -382,7 +382,7 @@ namespace AIS_Enterprise_AV.ViewModels
                 Settings.Default.DefaultDataBase != SelectedDataBase ||
                 DirectoryUser.CurrentUserId != SelectedUser.Id)
             {
-                DataContext.ChangeUser(SelectedUser.TranscriptionName, password);
+                DataContext.ChangeUser(SelectedUser.UserName, password);
 
                 if (!DataContext.TryConnection())
                 {

@@ -956,8 +956,11 @@ namespace AIS_Enterprise_AV.Views
                                     double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Inventory) - monthTimeSheetWorkerFinalSalaryDeadSpirit.BirthDays.Value + double.Parse(monthTimeSheetWorkerFinalSalaryDeadSpirit.Bonus);
 
                                 monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary = salaryDeadSpirit;
-
-                                ChangeCellValue(monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary.Value, indexRowDeadSpirit, columnIndexFinalSalary);
+	                            if (MonthTimeSheetFinalSalary.Visibility == Visibility.Visible)
+	                            {
+		                            ChangeCellValue(monthTimeSheetWorkerFinalSalaryDeadSpirit.FinalSalary.Value,
+			                            indexRowDeadSpirit, columnIndexFinalSalary);
+	                            }
                             }
                         }
                     }
@@ -1104,7 +1107,11 @@ namespace AIS_Enterprise_AV.Views
 
                 monthTimeSheetWorkerFinalSalary.FinalSalary = salary;
 
-                ChangeCellValue(monthTimeSheetWorkerFinalSalary.FinalSalary.Value, rowIndexOfFullRow, columnIndexFinalSalary);
+	            if (MonthTimeSheetFinalSalary.Visibility == Visibility.Visible)
+	            {
+		            ChangeCellValue(monthTimeSheetWorkerFinalSalary.FinalSalary.Value, rowIndexOfFullRow,
+			            columnIndexFinalSalary);
+	            }
             }
             else
             {

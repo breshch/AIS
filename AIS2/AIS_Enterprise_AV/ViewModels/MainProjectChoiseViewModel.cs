@@ -42,15 +42,15 @@ namespace AIS_Enterprise_AV.ViewModels
 			BC.SetRemainsToFirstDateInMonth();
 			
 			//initialize dbminskcash
-			
-			//using (var sr = new StreamReader(@"C:\Users\Alexey\Desktop\1.csv"))
+
+			//using (var sr = new StreamReader(@"C:\Users\Alexey\Desktop\2.csv"))
 			//{
 			//	while (!sr.EndOfStream)
 			//	{
 			//		var line = sr.ReadLine();
-			//		var date = DateTime.Parse("01." + line.Substring(0, 7).Replace(",","."));
-			//		var summ = double.Parse(line.Substring(8).Replace(" ","").Replace(".",","));
-			//		BC.SaveTotalSafeAndMinskCashes(date,summ);
+			//		var date = DateTime.Parse("01." + line.Substring(0, 7).Replace(",", "."));
+			//		var summ = double.Parse(line.Substring(8).Replace(" ", "").Replace(".", ","));
+			//		BC.SaveTotalSafeAndMinskCashes(date, summ);
 			//	}
 			//}		
         }
