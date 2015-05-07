@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Web", "AIS_E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Cards", "AIS_Enterprise_Cards\AIS_Enterprise_Cards.csproj", "{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIS_Enterprise_Gas", "AIS_Enterprise_Gas\AIS_Enterprise_Gas.csproj", "{441FC50A-11CC-432C-B3BA-76CD3354FDB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -162,6 +164,16 @@ Global
 		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{AEA4E07D-FF07-4580-9B1E-65D21E4C5C1B}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{441FC50A-11CC-432C-B3BA-76CD3354FDB1}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

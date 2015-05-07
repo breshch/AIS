@@ -187,7 +187,16 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 								var overTimeHours = bc.IsOverTime(infoDate, weekEndsInMonth);
 								if (overTimeHours != null)
 								{
-									double percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentes / currentPercentage;
+									double percentage;
+									if (currentPercentage != 0)
+									{
+										percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentes / currentPercentage;
+									}
+									else
+									{
+										percentage = overTimeHours.Value * 1.3 / overTimeRCs.Count;
+									}
+									
 
 									var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == overTimeRCs[i].DirectoryRC.Name);
 									if (workerRCSummForReport == null)
