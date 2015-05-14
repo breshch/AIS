@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Currents\CurrentContainerCarPart.cs" />
+    <Compile Include="Directories\DirectoryPAM16Percentage.cs" />
     <Compile Include="Infos\InfoCard.cs" />
     <Compile Include="Infos\InfoContainer.cs" />
     <Compile Include="BusinessContext.cs" />

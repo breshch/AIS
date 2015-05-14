@@ -1,4 +1,5 @@
-﻿using AIS_Enterprise_Global.Helpers;
+﻿using System;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.ViewModels.Helpers
 {
@@ -8,7 +9,8 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         public Pam16PercentageViewModel()
         {
-            Pam16Percentage = BC.GetParameterValue<double>(ParameterType.Pam16Percentage);
+	        Date = DateTime.Now;
+	        Pam16Percentage = BC.GetPam16Percentage(Date);
 
             EditCommand = new RelayCommand(Edit);
         }
@@ -18,6 +20,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
         #region Properties
 
         public double Pam16Percentage { get; set; }
+		public DateTime Date { get; set; }
 
         #endregion
 
@@ -27,7 +30,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
         private void Edit(object parameter)
         {
-            BC.EditParameter(ParameterType.Pam16Percentage, Pam16Percentage.ToString());
+	        BC.SavePam16Percentage(new DateTime(Date.Year,Date.Month,1),Pam16Percentage);
             HelperMethods.CloseWindow(parameter);
         }
 

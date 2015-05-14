@@ -134,7 +134,6 @@
         Birthday,
         LastDate,
         DefaultCostsDate,
-        Pam16Percentage,
         Version,
 		IsProcessingLastDateInMonthRemains
     }

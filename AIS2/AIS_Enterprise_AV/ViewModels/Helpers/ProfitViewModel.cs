@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using AIS_Enterprise_AV.Helpers.Temps;
@@ -19,22 +21,30 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 		{
 			var minskAndOvertimeSalary = GetMinskAndOvertimeSalary(year, month);
 			var realAndOvertime = GetRealAndOvertimeSalary(year, month);
-			
+			var transportProfit = GetTransportProfit(year, month);
+
 			RealSalary = realAndOvertime.Item1;
 			RealOvertime = realAndOvertime.Item2;
 			MinskSalary = minskAndOvertimeSalary.Item1;
 			MinskOvertime = minskAndOvertimeSalary.Item2;
 			DifferenceSalary = MinskSalary - RealSalary;
 			DifferenceOvertime = MinskOvertime - RealOvertime;
+			TransportExpence = transportProfit.Item1;
+			TransportCompensation = transportProfit.Item2;
+			DifferenceTransport = TransportExpence - TransportCompensation;
 		}
 
-		
+
 		public double MinskSalary { get; set; }
 		public double MinskOvertime { get; set; }
+		public double TransportExpence { get; set; }
 		public double RealSalary { get; set; }
+		public double RealOvertime { get; set; }
+		public double TransportCompensation { get; set; }
 		public double DifferenceSalary { get; set; }
 		public double DifferenceOvertime { get; set; }
-		public double RealOvertime { get; set; }
+		public double DifferenceTransport { get; set; }
+
 
 		private Tuple<double, double> GetRealAndOvertimeSalary(int year, int month)
 		{
@@ -45,13 +55,20 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 				double allSumms = 0;
 				double allOverTimes = 0;
 
-				var workers = bc.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month, false).ToList();
+				var lastDate = DateTime.Now;
+				if (!(lastDate.Year == year && lastDate.Month == month))
+				{
+					lastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+				}
 
 				var weekendsInMonth = bc.GetHolidays(year, month).ToList();
+				var workers = bc.GetDirectoryWorkers(year, month, false);
+				var currentPosts = bc.GetCurrentPosts(lastDate);
+				var infoDatesWorkers = bc.GetInfoDates(year, month);
+				var salaries = bc.GetDirectoryPostSalaries(year, month);
 
 				foreach (var worker in workers)
 				{
-
 					int countSickDays = 0;
 					double workerPanalty = 0;
 					double totalVocations = 0;
@@ -59,13 +76,19 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
 					var workerPostReportSalaries = new List<WorkerPostReportSalary>();
 
-					var infoDates = bc.GetInfoDates(worker.Id, year, month).ToList();
+					var infoDates = infoDatesWorkers.Where(d => d.DirectoryWorkerId == worker.Id);
 
 					foreach (var infoDate in infoDates)
 					{
-						var currentWorkerPost = bc.GetCurrentPost(worker.Id, infoDate.Date);
-						var postSalary = bc.GetDirectoryPostSalaryByDate(currentWorkerPost.DirectoryPost.Id,
-							new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+						var currentWorkerPost = currentPosts.First(p => p.DirectoryWorkerId == worker.Id &&
+																		(p.ChangeDate.Date <= infoDate.Date.Date && p.FireDate == null ||
+																		p.FireDate != null && p.FireDate.Value.Date >= infoDate.Date.Date &&
+																		p.ChangeDate.Date <= infoDate.Date.Date));
+
+						var postSalary = salaries.Where(s => s.DirectoryPostId == currentWorkerPost.DirectoryPost.Id)
+							.OrderByDescending(s => s.Date)
+							.First(s => new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1).Date >= s.Date.Date);
+
 						double workerSalaryInHour = (double)((postSalary.AdminWorkerSalary) / countWorkDays / 8);
 
 						var workerPostReportSalary = workerPostReportSalaries.FirstOrDefault(w => w.PostId == currentWorkerPost.Id);
@@ -148,11 +171,12 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 					allOverTimes += allOverTimeSalary;
 
 				}
+
 				return new Tuple<double, double>(Math.Round(allSumms, 2), Math.Round(allOverTimes, 2));
 			}
 		}
 
-		private Tuple<double,double> GetMinskAndOvertimeSalary(int year, int month)
+		private Tuple<double, double> GetMinskAndOvertimeSalary(int year, int month)
 		{
 			using (var bc = new BusinessContext())
 			{
@@ -196,7 +220,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 									{
 										percentage = overTimeHours.Value * 1.3 / overTimeRCs.Count;
 									}
-									
+
 
 									var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == overTimeRCs[i].DirectoryRC.Name);
 									if (workerRCSummForReport == null)
@@ -318,7 +342,31 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 					allOvertimes += totalOverTimeAV + totalOverTimeFenox;
 				}
 
-				return new Tuple<double, double>(Math.Round(totalTotalSalary, 2),Math.Round(allOvertimes,2));
+				return new Tuple<double, double>(Math.Round(totalTotalSalary, 2), Math.Round(allOvertimes, 2));
+			}
+		}
+
+		private Tuple<double, double> GetTransportProfit(int year, int month)
+		{
+			using (var bc = new BusinessContext())
+			{
+				var costs = bc.GetInfoCosts(year, month).ToArray();
+				double sumExpence = costs
+					.Where(c => c.DirectoryCostItem.Name == "Транспорт (5031)" &&
+					            c.DirectoryTransportCompany.Name == "Логистикон" &&
+					            c.DirectoryRC.Name != "ВСЕ" &&
+					            c.DirectoryRC.Name != "КО-5" &&
+					            !c.IsIncoming)
+					.Sum(c => c.Summ);
+
+				double sumIncoming = costs
+					.Where(c => c.DirectoryCostItem.Name == "Транспорт (5031)" &&
+					            c.DirectoryTransportCompany.Name == "Логистикон" &&
+					            c.DirectoryRC.Name == "КО-5" &&
+					            c.IsIncoming)
+					.Sum(c => c.Summ);
+
+				return new Tuple<double, double>(sumExpence, sumIncoming);
 			}
 		}
 	}

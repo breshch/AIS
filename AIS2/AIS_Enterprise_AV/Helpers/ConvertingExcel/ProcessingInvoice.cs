@@ -42,7 +42,8 @@ namespace AIS_Enterprise_AV.Helpers.ConvertingExcel
 
             i--;
             var invoices = new List<Invoice>();
-            while (sheet.Cells[i, 12].Value != null && sheet.Cells[i, 12].Value.ToString() != "0.00")
+            while ((sheet.Cells[i, 12].Value != null && sheet.Cells[i, 12].Value.ToString() != "0.00") ||
+				(sheet.Cells[i, 1].Value != null && sheet.Cells[i, 1].Value.ToString() == "Итого"))
             {
                 if (sheet.Cells[i, 3].Value != null && sheet.Cells[i, 11].Value != null && sheet.Cells[i, 11].Value.ToString() != "0")
                 {

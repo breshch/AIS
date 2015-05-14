@@ -509,7 +509,7 @@ namespace AIS_Enterprise_AV.Views
 
                     var workers = _bc.GetDirectoryWorkersMonthTimeSheet(_currentYear, _currentMonth).ToList();
 
-                    var infoDates = _bc.GetInfoDates(_currentYear, _currentMonth).ToList();
+                    var infoDates = _bc.GetInfoDates(_currentYear, _currentMonth);
 
                     var infoMonthes = _bc.GetInfoMonthes(_currentYear, _currentMonth).ToList();
                     int indexWorker = 0;
@@ -605,7 +605,7 @@ namespace AIS_Enterprise_AV.Views
         }
 
         private void AddingRowWorkers(List<DirectoryWorker> workers, List<MonthTimeSheetWorker> monthTimeSheetWorkers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth,
-            DateTime lastDateInMonth, DateTime firstDateInMonth, List<InfoDate> infoDates, List<InfoMonth> infoMonthes)
+            DateTime lastDateInMonth, DateTime firstDateInMonth, InfoDate[] infoDates, List<InfoMonth> infoMonthes)
         {
             var sw2 = new Stopwatch();
             foreach (var worker in workers)

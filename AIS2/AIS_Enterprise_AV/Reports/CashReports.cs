@@ -268,7 +268,7 @@ namespace AIS_Enterprise_AV.Reports
                 .Where(c => !c.IsIncoming && c.DirectoryRC.Name == "ВСЕ")
                 .Sum(c => c.Summ);
 
-            var pam16Percentage = bc.GetParameterValue<double>(ParameterType.Pam16Percentage);
+            var pam16Percentage = bc.GetPam16Percentage(new DateTime(year, month,1));
 
             string context = "Прошу снять из кассы АВ следующую сумму: " + (sumAll * pam16Percentage / 100).ToString("N2") + 
                 " р., состоящую из " + pam16Percentage + " процентов от всех затрат в размере " + sumAll.ToString("N2") + 
@@ -365,7 +365,7 @@ namespace AIS_Enterprise_AV.Reports
                 double commonAllSumm = 0;
                 double commonRCAndAllSumm = 0;
 
-                var _pam16Percentage = bc.GetParameterValue<double>(ParameterType.Pam16Percentage);
+				var _pam16Percentage = bc.GetPam16Percentage(new DateTime(year, month, 1));
 
                 var infoCosts = bc.GetInfoCostsRCAndAll(year, month, rc.Name).ToList();
                 foreach (var infoCostsCostItem in infoCosts.Where(c => !c.IsIncoming).GroupBy(c => c.DirectoryCostItem.Name))

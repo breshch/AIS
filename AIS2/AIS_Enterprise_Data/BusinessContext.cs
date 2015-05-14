@@ -1072,26 +1072,24 @@ namespace AIS_Enterprise_Data
 
 		public IQueryable<DirectoryWorker> GetDirectoryWorkersMonthTimeSheet(int year, int month)
 		{
-			var firstDateInMonth = new DateTime(year, month, 1);
-			var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
-
-			return _dc.DirectoryWorkers.Where(w => DbFunctions.DiffDays(w.StartDate, lastDateInMonth) >= 0 &&
-												   (w.FireDate == null ||
-													(w.FireDate != null &&
-													 DbFunctions.DiffDays(w.FireDate.Value, firstDateInMonth) <= 0))).
+			return GetDirectoryWorkers(year, month).
 				Include(w => w.CurrentCompaniesAndPosts.Select(c => c.DirectoryPost.DirectoryTypeOfPost));
 		}
 
-		public IEnumerable<DirectoryWorker> GetDirectoryWorkers(int year, int month, bool isOffice)
+		public DirectoryWorker[] GetDirectoryWorkers(int year, int month, bool isOffice)
 		{
 			var firstDateInMonth = new DateTime(year, month, 1);
 			var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-			var workers = GetDirectoryWorkers(year, month).ToList();
+			var workers = GetDirectoryWorkersMonthTimeSheet(year, month).ToList();
 
+			var newWorkers = new List<DirectoryWorker>();
 			foreach (var worker in workers)
 			{
-				var post = GetCurrentPost(worker.Id, lastDateInMonth);
+				var post =
+					worker.CurrentCompaniesAndPosts.First(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null ||
+					                                           p.FireDate != null && p.FireDate.Value.Date >= lastDateInMonth.Date &&
+					                                           p.ChangeDate.Date <= lastDateInMonth.Date);
 
 				if (isOffice)
 				{
@@ -1099,7 +1097,7 @@ namespace AIS_Enterprise_Data
 						worker.StartDate.Date <= lastDateInMonth.Date &&
 						(worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
 					{
-						yield return worker;
+						newWorkers.Add(worker);
 					}
 				}
 				else
@@ -1108,10 +1106,12 @@ namespace AIS_Enterprise_Data
 						worker.StartDate.Date <= lastDateInMonth.Date &&
 						(worker.FireDate == null || (worker.FireDate != null && worker.FireDate.Value.Date >= firstDateInMonth.Date)))
 					{
-						yield return worker;
+						newWorkers.Add(worker);
 					}
 				}
 			}
+
+			return newWorkers.ToArray();
 		}
 
 		public IQueryable<DirectoryWorker> GetDirectoryWorkers(DateTime fromDate, DateTime toDate)
@@ -1284,9 +1284,12 @@ namespace AIS_Enterprise_Data
 				worker.InfoDates.AsQueryable().Include(d => d.InfoPanalty).Where(d => d.Date.Year == year && d.Date.Month == month);
 		}
 
-		public IQueryable<InfoDate> GetInfoDates(int year, int month)
+		public InfoDate[] GetInfoDates(int year, int month)
 		{
-			return _dc.InfoDates.Where(d => d.Date.Year == year && d.Date.Month == month).Include(d => d.InfoPanalty);
+			return _dc.InfoDates
+				.Where(d => d.Date.Year == year && d.Date.Month == month)
+				.Include(d => d.InfoPanalty)
+				.ToArray();
 		}
 
 		public double? IsOverTime(InfoDate infoDate, List<DateTime> weekEnds)
@@ -1442,13 +1445,13 @@ namespace AIS_Enterprise_Data
 			_dc.SaveChanges();
 		}
 
-		public IEnumerable<CurrentPost> GetCurrentPosts(DateTime lastDateInMonth)
+		public CurrentPost[] GetCurrentPosts(DateTime lastDateInMonth)
 		{
 			var firstDateInMonth = new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1);
 
 			return _dc.CurrentPosts.Where(p => DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0 && p.FireDate == null ||
-											   p.FireDate != null && DbFunctions.DiffDays(p.FireDate.Value, firstDateInMonth) < 0 &&
-											   DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0);
+			                                   p.FireDate != null && DbFunctions.DiffDays(p.FireDate.Value, firstDateInMonth) < 0 &&
+			                                   DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0).ToArray();
 		}
 
 		public IEnumerable<CurrentPost> GetCurrentPosts(int workerId, int year, int month, int lastDayInMonth)
@@ -1487,7 +1490,7 @@ namespace AIS_Enterprise_Data
 			var workers = GetDirectoryWorkers(lastDateInMonth.Year, lastDateInMonth.Month).ToList();
 
 			var allMainPosts =
-				_dc.CurrentPosts.Where(
+				_dc.CurrentPosts.Include(p => p.DirectoryPost.DirectoryCompany).Where(
 					p =>
 						p.IsTemporaryPost != true &&
 						DbFunctions.DiffDays(lastDateInMonth, p.ChangeDate) <= 0).OrderByDescending(p => p.ChangeDate).ToList();
@@ -2834,6 +2837,7 @@ namespace AIS_Enterprise_Data
 
 		#endregion
 
+
 		#region InfoCard
 
 		public void SetCardAvaliableSumm(string cardName, double avaliableSumm)
@@ -2951,7 +2955,7 @@ namespace AIS_Enterprise_Data
 
 		public bool IsNewMessage(DateTime date, string description)
 		{
-			return !_dc.InfoSafes.Any(s => DbFunctions.DiffSeconds(s.Date, date) == 0 &&
+			return !_dc.InfoSafes.Any(s => DbFunctions.DiffDays(s.Date, date) == 0 &&
 										   s.CashType == CashType.Карточка &&
 										   s.Description == description);
 		}
@@ -3123,6 +3127,18 @@ namespace AIS_Enterprise_Data
 				_dc.DirectoryPostSalaries.Where(s => s.DirectoryPostId == postId)
 					.OrderByDescending(s => s.Date)
 					.First(s => DbFunctions.DiffDays(date, s.Date) <= 0);
+		}
+
+		public DirectoryPostSalary[] GetDirectoryPostSalaries(int year, int month)
+		{
+			var lastDateInMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+			return
+				_dc.DirectoryPostSalaries
+					.GroupBy(s => s.DirectoryPostId)
+					.Select(g => g.OrderByDescending(s => s.Date)
+						.FirstOrDefault(s => DbFunctions.DiffDays(lastDateInMonth, s.Date) <= 0))
+					.ToArray();
 		}
 
 		//date = 20/1/14
@@ -3744,5 +3760,41 @@ namespace AIS_Enterprise_Data
 		}
 
 		#endregion
+
+		
+		#region PAM16Percentage
+
+		public double GetPam16Percentage(DateTime date)
+		{
+			return _dc.DirectoryPam16Percentages
+				.Where(d => DbFunctions.DiffDays(date, d.Date) <= 0)
+				.OrderByDescending(d => d.Date).First().Percentage;
+		}
+
+		public void SavePam16Percentage(DateTime date, double pam16Percentage)
+		{
+			var pam16 = _dc.DirectoryPam16Percentages.FirstOrDefault(p => p.Date.Year == date.Year && p.Date.Month == date.Month);
+			if (pam16 == null)
+			{
+				pam16 = new DirectoryPAM16Percentage
+				{
+					Date = date,
+					Percentage = pam16Percentage
+				};
+
+				_dc.DirectoryPam16Percentages.Add(pam16);
+			}
+			else
+			{
+				pam16.Percentage = pam16Percentage;
+			}
+			_dc.SaveChanges();
+
+		}
+
+		#endregion
+
+
+		
 	}
 }
