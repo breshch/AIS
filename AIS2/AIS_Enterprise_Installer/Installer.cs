@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.SqlServer.Management.Smo;
 
+//using Microsoft.SqlServer.Management.Smo;
+
 namespace AIS_Enterprise_Installer
 {
 	public class Installer
