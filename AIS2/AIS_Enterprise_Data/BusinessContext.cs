@@ -1778,7 +1778,7 @@ namespace AIS_Enterprise_Data
 			_dc.DirectoryUsers.Add(user);
 			_dc.SaveChanges();
 
-			DBCustomQueries.AddUser(_dc, transcriptionName, password);
+			//DBCustomQueries.AddUser(_dc, transcriptionName, password);
 
 			_dc.Database.Connection.ConnectionString = "";
 
@@ -1801,7 +1801,7 @@ namespace AIS_Enterprise_Data
 			_dc.DirectoryUsers.Add(user);
 			_dc.SaveChanges();
 
-			DBCustomQueries.AddUser(_dc, transcriptionName, password);
+			//DBCustomQueries.AddUser(_dc, transcriptionName, password);
 
 			return user;
 		}
@@ -1832,7 +1832,7 @@ namespace AIS_Enterprise_Data
 			_dc.CurrentUserStatuses.Remove(prevCurrentUserStatus);
 			_dc.SaveChanges();
 
-			DBCustomQueries.EditUser(_dc, prevName, userName, password);
+			//DBCustomQueries.EditUser(_dc, prevName, userName, password);
 		}
 
 

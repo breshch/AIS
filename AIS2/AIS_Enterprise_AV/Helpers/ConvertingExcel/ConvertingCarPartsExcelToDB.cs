@@ -470,8 +470,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
             return priceDate;
 		}
 
-
-
 		public static DateTime ConvertPriceLiquides(BusinessContext bc, string path, Currency currency)
 		{
 			path = Reports.Helpers.ConvertXlsToXlsx(path);
@@ -674,8 +672,6 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 			}
 			return priceDate;
 		}
-
-
 
         public static void ConvertingCarPartRemainsToDb(BusinessContext bc, string path)
         {

@@ -22,7 +22,7 @@ namespace AIS_Enterprise_Data
 			_ip = Settings.Default.IP;
 			_databaseName = Settings.Default.DatabaseName;
 
-			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
+			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=ais_admin; Password=Mp7200aA;", _ip, _databaseName);
 		}
 
 		public DataContext()
@@ -40,7 +40,7 @@ namespace AIS_Enterprise_Data
 
 		public static void ChangeConnectionStringWithDefaultCredentials()
 		{
-			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
+			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=ais_admin; Password=Mp7200aA;", _ip, _databaseName);
 		}
 
 		public static void ChangeConnectionStringWithDefaultCredentials(string ip, string companyName)
@@ -52,7 +52,7 @@ namespace AIS_Enterprise_Data
 			Settings.Default.DatabaseName = _databaseName;
 			Settings.Default.Save();
 
-			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=huy; Password=huy;", _ip, _databaseName);
+			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID=ais_admin; Password=Mp7200aA;", _ip, _databaseName);
 		}
 
 		public static void ChangeUser(string userName, string password)
@@ -65,7 +65,7 @@ namespace AIS_Enterprise_Data
 			string nameButler = Settings.Default.NameButler;
 			string passwordButler = Settings.Default.PasswordButler;
 
-			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "huy", "huy");
+			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "ais_admin", "Mp7200aA");
 		}
 
 		public static void ChangeUserButler(string serverName)
@@ -78,7 +78,7 @@ namespace AIS_Enterprise_Data
 
 			_ip = serverName;
 
-			_connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, "huy", "huy");
+			_connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, "ais_admin", "Mp7200aA");
 		}
 
 		public static void ChangeServerAndDataBase(string serverName, string dataBaseName)
@@ -93,7 +93,7 @@ namespace AIS_Enterprise_Data
 			string nameButler = Settings.Default.NameButler;
 			string passwordButler = Settings.Default.PasswordButler;
 
-			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "huy", "huy");
+			_connectionString = string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", _ip, _databaseName, "ais_admin", "Mp7200aA");
 		}
 
 		public static void ChangeServer(string serverName)
@@ -103,7 +103,7 @@ namespace AIS_Enterprise_Data
 
 			_ip = serverName;
 
-			_connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, "huy", "huy");
+			_connectionString = string.Format("Data Source={0}; User ID={1}; Password={2};", _ip, "ais_admin", "Mp7200aA");
 		}
 
 		public static bool TryConnection()
