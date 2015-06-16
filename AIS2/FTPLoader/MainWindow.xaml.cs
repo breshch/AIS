@@ -43,7 +43,7 @@ namespace FTPLoader
 
 	    private void FTPLoading()
 	    {
-			_ftpConnector = new FTPConnector("breshch", "Mp7200aA", DefaultFTPFolder);
+			_ftpConnector = new FTPConnector("breshch", "huy", DefaultFTPFolder);
 			_ftpConnector.LoadDirectory(PathApplication, @"AIS_Enterprise_AV\Application");
 			_ftpConnector.LoadDirectory(PathUpdater, @"AIS_Enterprise_AV\Updater");
 	    }

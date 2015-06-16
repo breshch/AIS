@@ -24,11 +24,6 @@ namespace AIS_Enterprise_Data
 
 		private DataContext _dc;
 
-		public BusinessContext(string connectionString)
-		{
-			_dc = new DataContext(connectionString);
-		}
-
 		public BusinessContext()
 		{
 			_dc = new DataContext();
@@ -3795,6 +3790,23 @@ namespace AIS_Enterprise_Data
 		#endregion
 
 
-		
+		#region Auth
+
+		public bool LoginUser(int userId, string password)
+		{
+			var auth = _dc.Auths.FirstOrDefault(s => s.DirectoryUserId == userId);
+			if (auth == null)
+			{
+				return false;
+			}
+
+			var hash = CryptoHelper.GetHash(password + auth.Salt);
+			
+			return auth.Hash == hash;
+		}
+
+		#endregion
+
+
 	}
 }

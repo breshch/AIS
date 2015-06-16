@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Data.Entity;
+using System.Windows;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
@@ -6,6 +7,7 @@ using AIS_Enterprise_AV.Views.Helpers;
 using AIS_Enterprise_AV.WareHouse;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Global.Helpers;
+using AIS_Enterprise_Global.Migrations;
 
 namespace AIS_Enterprise_AV
 {
@@ -35,14 +37,10 @@ namespace AIS_Enterprise_AV
 			//	Process.Start(pathUpdater);
 			//}
 
-			if (DataContext.TryConnection())
-			{
-				HelperMethods.ShowView(new MainViewModel(), new MainView());
-			}
-			else
-			{
-				HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
-			}
+			Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+
+			HelperMethods.ShowView(new MainViewModel(), new MainView());
+			//HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
 		}
 	}
 }

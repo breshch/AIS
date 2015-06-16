@@ -27,7 +27,7 @@ namespace Updater
 
 	        PathApplication = Directory.GetParent(Environment.CurrentDirectory).FullName;
 
-            _ftpConnector = new FTPConnector("breshch", "Mp7200aA", DefaultFTPFolder);
+            _ftpConnector = new FTPConnector("breshch", "huy", DefaultFTPFolder);
             _ftpConnector.OnGetFileInfo += _ftpConnector_OnGetFileInfo;
             _ftpConnector.OnFileSizeLoaded += _ftpConnector_OnFileSizeLoaded;
 

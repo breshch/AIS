@@ -1617,7 +1617,7 @@ namespace AIS_Enterprise_AV.Views
 
         private void MenuLogs_Click(object sender, RoutedEventArgs e)
         {
-            _bc.Log(LoggingOptions.Info, "ais_admin");
+            _bc.Log(LoggingOptions.Info, "huy");
 
             HelperMethods.ShowView(new LogViewModel(), new LogView());
         }

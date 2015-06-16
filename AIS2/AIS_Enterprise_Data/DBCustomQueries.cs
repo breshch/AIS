@@ -62,7 +62,7 @@ namespace AIS_Enterprise_Data
 
         public static IEnumerable<string> GetDataBases(string serverName)
         {
-			var conn = new SqlConnection(string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", "dg6at85bri.database.windows.net", "AV_New_Dev", "ais_admin", "Mp7200aA"));
+			var conn = new SqlConnection(string.Format("Data Source={0}; Initial Catalog={1}; User ID={2}; Password={3};", serverName, "master", "huy", "huy"));
 
             conn.Open();
             SqlDataReader myReader = null;

@@ -85,40 +85,6 @@ namespace AIS_Enterprise_Global.Helpers
             return privileges.Contains(userPrivilege.ToString());
         }
 
-        public static List<string> GetServers()
-        {
-            if (File.Exists(_serversPath))
-            {
-                return File.ReadAllLines(_serversPath).ToList();
-            }
-            else
-            {
-                return new List<string>();
-            }
-        }
-
-        public static void AddServer(string serverName)
-        {
-            if (!File.Exists(_serversPath))
-            {
-                Directory.CreateDirectory("Settings");
-                var fileStream = File.Create(_serversPath);
-                fileStream.Close();
-            }
-
-            using (var sr = new StreamReader(_serversPath))
-            {
-
-            }
-
-            var servers = File.ReadAllLines(_serversPath).ToList();
-            
-            if (!servers.Contains(serverName))
-            {
-                File.AppendAllLines(_serversPath, new List<string> { serverName });
-            }
-        }
-
         public static void CloseWindow(object parameter)
         {
             var window = (Window)parameter;
@@ -134,7 +100,7 @@ namespace AIS_Enterprise_Global.Helpers
         {
             var ftpRequest = (FtpWebRequest)WebRequest.Create("ftp://logistikon.ru/domains/logistikon.ru/AIS_Enterprise_AV/Application%20Files/");
 
-            ftpRequest.Credentials = new NetworkCredential("breshch", "Mp7200aA");
+            ftpRequest.Credentials = new NetworkCredential("breshch", "huy");
             ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
             var response = (FtpWebResponse)ftpRequest.GetResponse();
             using (var streamReader = new StreamReader(response.GetResponseStream()))

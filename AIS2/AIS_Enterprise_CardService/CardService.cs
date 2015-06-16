@@ -26,9 +26,6 @@ namespace AIS_Enterprise_CardService
 
         protected override void OnStart(string[] args)
         {
-			DataContext.ChangeServerAndDataBase("95.31.130.52", "AV_New_Dev");
-			DataContext.ChangeUser("Breshchenko", "3179");
-
 			Initialize();
 
 			Observable.Interval(new TimeSpan(0, 3, 0, 0))
