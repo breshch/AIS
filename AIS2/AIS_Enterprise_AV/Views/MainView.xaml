@@ -21,27 +21,6 @@
 
     <Grid Margin="30, 20">
         <StackPanel>
-            <!--<ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0, 3" IsEnabled="{Binding IsNotInitializedDB}"/>-->
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Сервер"/>
-
-                <Grid Margin="0, 5, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.5*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <ComboBox Grid.Column="0" ItemsSource="{Binding Servers}" IsEditable="True" Text="{Binding SelectedServer, UpdateSourceTrigger=LostFocus}"  />
-                    <Button Grid.Column="1" Content="Обновить" Command="{Binding RefreshDataBasesCommand}" CommandParameter="{Binding ElementName=PasswordBoxPass}" Margin="10, 0, 0, 0"/>
-                </Grid>
-                
-            </StackPanel>
-
-            <StackPanel Orientation="Vertical" Margin="0, 10, 0, 0">
-                <TextBlock Text="База данных"/>
-                <ComboBox ItemsSource="{Binding DataBases}" SelectedItem="{Binding SelectedDataBase}" SelectionChanged="ComboBox_SelectionChanged" Margin="0, 5, 0, 0"/>
-            </StackPanel>
-
             <StackPanel Orientation="Vertical" Margin=" 0, 10, 0, 0">
                 <TextBlock Text="Пользователь"/>
                 <ComboBox ItemsSource="{Binding Users}" DisplayMemberPath="UserName" SelectedItem="{Binding SelectedUser}" SelectionChanged="ComboBox_SelectionChanged" Margin="0, 5, 0, 0"/>

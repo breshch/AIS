@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_Data.Infos

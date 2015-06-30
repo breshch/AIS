@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AIS_Enterprise_AV.Helpers.ConvertingExcel;
 using AIS_Enterprise_AV.Helpers.ExcelToDB;
@@ -94,20 +95,23 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
                     path = Reports.Helpers.ConvertXlsToXlsx(path);
 
-                    var invoices = ProcessingInvoice.Procesing(BC, path, PercentageRus, PercentageImport);
-                    ProcessingInvoice.ComplitedCompliteInvoice(path, PercentageRus, PercentageImport, invoices);
+	                Task.Factory.StartNew(() =>
+	                {
+						var invoices = ProcessingInvoice.Procesing(BC, path, PercentageRus, PercentageImport);
+						ProcessingInvoice.ComplitedCompliteInvoice(path, PercentageRus, PercentageImport, invoices);
 
-                    if (_prevPercentageRus != PercentageRus)
-                    {
-                        BC.EditParameter(ParameterType.PercentageRusBookKeeping, PercentageRus.ToString());
-                        _prevPercentageRus = PercentageRus;
-                    }
+						if (_prevPercentageRus != PercentageRus)
+						{
+							BC.EditParameter(ParameterType.PercentageRusBookKeeping, PercentageRus.ToString());
+							_prevPercentageRus = PercentageRus;
+						}
 
-                    if (_prevPercentageImport != PercentageImport)
-                    {
-                        BC.EditParameter(ParameterType.PercentageImportBookKeeping, PercentageImport.ToString());
-                        _prevPercentageImport = PercentageImport;
-                    }
+						if (_prevPercentageImport != PercentageImport)
+						{
+							BC.EditParameter(ParameterType.PercentageImportBookKeeping, PercentageImport.ToString());
+							_prevPercentageImport = PercentageImport;
+						}
+	                });
                 }
             }
         }

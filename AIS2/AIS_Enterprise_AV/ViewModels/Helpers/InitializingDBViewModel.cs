@@ -49,16 +49,12 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
 
-            DataContext.ChangeConnectionStringWithDefaultCredentials(IP, CompanyName);
-
             using (var bc = new BusinessContext())
             {
                 bc.CreateDatabase();
                 bc.InitializeEmptyDB();
                 bc.AddDirectoryUserAdmin(AdminName, password);
             }
-
-            HelperMethods.AddServer(IP);
 
             window.Visibility = Visibility.Collapsed;
 
@@ -81,16 +77,12 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
 
-            DataContext.ChangeConnectionStringWithDefaultCredentials(IP, CompanyName);
-
             using (var bc = new BusinessContext())
             {
                 bc.CreateDatabase();
                 bc.InitializeDefaultDataBaseWithoutWorkers();
                 bc.AddDirectoryUserAdmin(AdminName, password);
             }
-
-            HelperMethods.AddServer(IP);
 
             window.Visibility = Visibility.Collapsed;
 

@@ -7,12 +7,11 @@ namespace AIS_Enterprise_Data.Directories
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        public string TranscriptionName { get; set; }
 
         public int CurrentUserStatusId { get; set; }
         public virtual CurrentUserStatus CurrentUserStatus { get; set; }
 
-        private static List<string> _privileges = new List<string>();
+	    private static List<string> _privileges = new List<string>();
 
         public static List<string> Privileges
         {

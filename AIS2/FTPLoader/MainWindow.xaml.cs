@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using FTP;
 
@@ -11,9 +12,9 @@ namespace FTPLoader
     public partial class MainWindow : Window
     {
         private FTPConnector _ftpConnector;
-	    private const string DefaultFTPFolder = "ftp://95.31.130.52/";
-	    private const string PathApplication = @"E:\Dev\AIS\AIS2\AIS_Enterprise_AV\bin\Release";
-		private const string PathUpdater = @"E:\Dev\AIS\AIS2\Updater\bin\Release";
+		private const string DefaultFTPFolder = "ftp://52.26.144.188/";
+	    private const string PathApplication = @"c:\Dev\AIS\AIS2\AIS_Enterprise_AV\bin\Release";
+		private const string PathUpdater = @"c:\Dev\AIS\AIS2\Updater\bin\Release";
 
         public MainWindow()
         {
@@ -25,7 +26,7 @@ namespace FTPLoader
 
 	    private void IncrementVersion()
 	    {
-		    string pathVersion = Path.Combine(PathApplication, "Version.txt");
+		    string pathVersion = Path.Combine(PathApplication, "Version.version");
 		    if(File.Exists(pathVersion))
 		    {
 			    Version version;
@@ -43,9 +44,16 @@ namespace FTPLoader
 
 	    private void FTPLoading()
 	    {
-			_ftpConnector = new FTPConnector("breshch", "Mp7200aA", DefaultFTPFolder);
+			_ftpConnector = new FTPConnector("FTPAdmin", "Mp~7200~aA", DefaultFTPFolder);
+
+		    string[] filterExtensions = { ".pdb", ".xml", ".manifest", ".config", ".application", ".txt" };
+			_ftpConnector.AddFiltersExtensions(filterExtensions);
+
+			string[] filterFolders = { "app.publish", "de", "es", "fr", "hu", "it", "pt-BR", "ro", "ru", "sv", "zh-Hans"};
+		    filterFolders = filterFolders.Select(folder => Path.Combine(@"AIS_Enterprise_AV\Application", folder)).ToArray();
+			_ftpConnector.AddFiltersFolders(filterFolders);
+			
 			_ftpConnector.LoadDirectory(PathApplication, @"AIS_Enterprise_AV\Application");
-			_ftpConnector.LoadDirectory(PathUpdater, @"AIS_Enterprise_AV\Updater");
 	    }
     }
 }
