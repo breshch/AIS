@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,6 +18,7 @@ using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Migrations;
 using Application = System.Windows.Forms.Application;
+using Auth = AIS_Enterprise_Data.Directories.Auth;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace AIS_Enterprise_AV.ViewModels
@@ -46,12 +48,33 @@ namespace AIS_Enterprise_AV.ViewModels
 
 			RefreshUsers();
 
-			//var users = BC.DataContext.DirectoryUsers.ToArray();
-			//foreach (var user in users)
+			//var passwords = new[]
 			//{
-			//	user.PasswordHash = CryptoHelper.GetHash("1");
+			//	new {Id = 5, Password = "196309"},
+			//	new {Id = 6, Password = "196309"},
+			//	new {Id = 8, Password = "196309"},
+			//	new {Id = 10, Password = "196309"},
+			//	new {Id = 11, Password = "196309"},
+			//	new {Id = 12, Password = "2802"},
+			//	new {Id = 13, Password = "196309aA"},
+			//};
+
+			//foreach (var password in passwords)
+			//{
+			//	var salt = Path.GetRandomFileName() + Path.GetRandomFileName();
+
+			//	var hash = CryptoHelper.GetHash(password.Password + salt);
+			//	BC.DataContext.Auths.Add(new Auth
+			//	{
+			//		DirectoryUserId = password.Id,
+			//		Hash = hash,
+			//		Salt = salt
+			//	});
 			//}
+
 			//BC.DataContext.SaveChanges();
+
+
 		}
 
 		private void RefreshUsers()
@@ -173,8 +196,6 @@ namespace AIS_Enterprise_AV.ViewModels
 			var passwordBox = window.FindName("PasswordBoxPass") as PasswordBox;
 
 			string password = passwordBox.Password;
-
-			var hash = CryptoHelper.GetHash("1huy");
 
 			if (!BC.LoginUser(SelectedUser.Id, password))
 			{

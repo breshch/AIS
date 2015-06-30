@@ -7,7 +7,6 @@ namespace AIS_Enterprise_Data.Directories
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        public string TranscriptionName { get; set; }
 
         public int CurrentUserStatusId { get; set; }
         public virtual CurrentUserStatus CurrentUserStatus { get; set; }

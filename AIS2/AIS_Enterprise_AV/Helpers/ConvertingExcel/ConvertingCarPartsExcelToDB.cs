@@ -222,24 +222,24 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             }
 
                             double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 10].Value));
-                            double? priceBigWholesale = GetValue(sheet.Cells[indexRow, 16].Value) != null
-                                ? double.Parse(GetValue(sheet.Cells[indexRow, 16].Value))
-                                : default(double?);
-                            double? priceSmallWholesale = GetValue(sheet.Cells[indexRow, 17].Value) != null
-                                ? double.Parse(GetValue(sheet.Cells[indexRow, 17].Value))
-                                : default(double?);
+							//double? priceBigWholesale = GetValue(sheet.Cells[indexRow, 16].Value) != null
+							//	? double.Parse(GetValue(sheet.Cells[indexRow, 16].Value))
+							//	: default(double?);
+							//double? priceSmallWholesale = GetValue(sheet.Cells[indexRow, 17].Value) != null
+							//	? double.Parse(GetValue(sheet.Cells[indexRow, 17].Value))
+							//	: default(double?);
 
                             var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
                                 .OrderByDescending(c => c.Date)
                                 .FirstOrDefault(c => priceDate.Date >= c.Date);
 
                             if (lastCurrentCarPart == null ||
-                                (lastCurrentCarPart.PriceBase != priceBase ||
-                                 lastCurrentCarPart.PriceBigWholesale != priceBigWholesale ||
-                                 lastCurrentCarPart.PriceSmallWholesale != priceSmallWholesale))
+                                (lastCurrentCarPart.PriceBase != priceBase ))
+								// lastCurrentCarPart.PriceBigWholesale != priceBigWholesale ||
+								// lastCurrentCarPart.PriceSmallWholesale != priceSmallWholesale))
                             {
-                                var currentCarPart = bc.AddCurrentCarPartNoSave(priceDate, priceBase, priceBigWholesale,
-                                    priceSmallWholesale, currency, fullName);
+                                var currentCarPart = bc.AddCurrentCarPartNoSave(priceDate, priceBase, null,
+                                    null, currency, fullName);
 
                                 currentCarPartsMemory.Add(currentCarPart);
                             }
@@ -686,7 +686,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        for (var date = new DateTime(2015, 2, 1); date <= new DateTime(2015, 3, 1); date = date.AddMonths(1))
+                        for (var date = new DateTime(2015, 3, 1); date <= new DateTime(2015, 6, 1); date = date.AddMonths(1))
                         {
                             var sheet = workBook.Worksheets.First(s => s.Name == date.ToString("MMMM yyyy"));
 

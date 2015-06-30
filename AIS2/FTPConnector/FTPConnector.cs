@@ -17,9 +17,11 @@ namespace FTP
         private readonly string _password;
         private readonly string _defaultFTPFolder;
 
-	    private string[] _extentionsFolder = {".publish"};
+	    private readonly string[] _extentionsFolder = {".publish"};
+	    private string[] _filterExtensions = {};
+	    private string[] _filterFolders ={};
 
-        public FTPConnector(string login, string password, string defaultFtpFolder)
+	    public FTPConnector(string login, string password, string defaultFtpFolder)
         {
             _login = login;
             _password = password;
@@ -53,6 +55,11 @@ namespace FTP
 
         public void LoadFile(string localPath, string nameFile)
         {
+	        string extension = Path.GetExtension(localPath);
+	        if (_filterExtensions.Contains(extension))
+	        {
+		        return;
+	        }
             DateTime? dateFtp = null;
             try
             {
@@ -72,13 +79,14 @@ namespace FTP
 
             var ftpRequest = (FtpWebRequest)WebRequest.Create(Path.Combine(_defaultFTPFolder, nameFile));
 
+	        ftpRequest.UsePassive = false;
             ftpRequest.Credentials = new NetworkCredential(_login, _password);
             ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
             ftpRequest.UseBinary = true;
             ftpRequest.KeepAlive = true;
             ftpRequest.ContentLength = fi.Length;
 
-            var buffer = new byte[4096];
+            var buffer = new byte[1024 * 64];
             int bytes = 0;
             int totalBytes = (int)fi.Length;
 
@@ -94,6 +102,8 @@ namespace FTP
                     }
                 }
             }
+
+			Debug.WriteLine(nameFile);
         }
 
         public long GetFileSize(string nameFile)
@@ -118,10 +128,10 @@ namespace FTP
             {
                 var fi = new FileInfo(localPath);
 
-                //if (dateFtp != null && dateFtp.Value <= fi.LastWriteTime.AddMilliseconds(-fi.LastWriteTime.Millisecond))
-                //{
-                //    return;
-                //}
+				if (dateFtp != null && dateFtp.Value <= fi.LastWriteTime.AddMilliseconds(-fi.LastWriteTime.Millisecond))
+				{
+					return;
+				}
             }
 
             long fileSize = GetFileSize(nameFile);
@@ -132,19 +142,20 @@ namespace FTP
             OnGetFileInfo(Path.GetFileName(nameFile), fileSize);
 
             int countRetries = 1;
-            while (countRetries <= 5)
+            while (countRetries <= 20)
             {
                 try
                 {
                     var ftpRequest = (FtpWebRequest)WebRequest.Create(Path.Combine(_defaultFTPFolder, nameFile));
 
+					ftpRequest.UsePassive = false;
                     ftpRequest.Credentials = new NetworkCredential(_login, _password);
                     ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
                     ftpRequest.UseBinary = true;
                     ftpRequest.KeepAlive = true;
                     ftpRequest.Timeout = Timeout.Infinite;
 
-                    const int countBytes = 1024 * 32;
+                    const int countBytes = 1024 * 64;
                     var buffer = new byte[countBytes];
 
                     using (var writer = new FileStream(localPath, FileMode.Create))
@@ -161,33 +172,33 @@ namespace FTP
 
                                 OnFileSizeLoaded(loadedBytes, fileSize);
 
-                                Thread.Sleep(50 + (countRetries - 1) * 25);
-                            } while (bytes == countBytes);
+                                //Thread.Sleep(50 + (countRetries - 1) * 25);
+							} while (loadedBytes != fileSize);
                             writer.Flush();
                         }
                     }
                 }
                 catch
                 {
-                    Debug.WriteLine("1) " + nameFile);
+                    Debug.WriteLine("exception " + nameFile);
                     countRetries++;
-                    Thread.Sleep(100);
+                    //Thread.Sleep(100);
                     continue;
                 }
 
                 var fi = new FileInfo(localPath);
+				Debug.WriteLine(nameFile);
                 if (fileSize != fi.Length)
                 {
-                    Debug.WriteLine("2) " + nameFile);
                     countRetries++;
-                    Thread.Sleep(100);
+                    //Thread.Sleep(100);
                     continue;
                 }
 
                 break;
             }
 
-            if (countRetries == 6)
+            if (countRetries == 21)
             {
                 throw new Exception();
             }
@@ -201,6 +212,11 @@ namespace FTP
 
         private void LoadDirectoryRecurcive(string fullPathDirectory, string nameDirectory, string nameBaseDirectory, int lengthPathBase)
         {
+	        if (_filterFolders.Contains(nameDirectory))
+	        {
+		        return;
+	        }
+
             MakeDirectory(nameDirectory);
 
             var files = Directory.GetFiles(fullPathDirectory);
@@ -322,7 +338,7 @@ namespace FTP
         private FtpWebResponse GetResponse(string path, string methodFtp)
         {
             var ftpRequest = (FtpWebRequest)WebRequest.Create(Path.Combine(_defaultFTPFolder, path));
-
+	        ftpRequest.UsePassive = false;
             ftpRequest.Credentials = new NetworkCredential(_login, _password);
             ftpRequest.Method = methodFtp;
             return (FtpWebResponse)ftpRequest.GetResponse();
@@ -375,5 +391,15 @@ namespace FTP
 
             return directories;
         }
+
+	    public void AddFiltersExtensions(string[] filterExtensions)
+	    {
+		     _filterExtensions = filterExtensions;
+	    }
+
+	    public void AddFiltersFolders(string[] filterFolders)
+	    {
+			_filterFolders = filterFolders;
+	    }
     }
 }

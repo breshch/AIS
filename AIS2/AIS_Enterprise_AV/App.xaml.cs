@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
@@ -29,15 +32,16 @@ namespace AIS_Enterprise_AV
 			//scheme.ShowDialog();
 
 
-			//string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
-			//	"Updater/AIS_Enterprise_Updater.exe");
+			string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
+				"Updater/AIS_Enterprise_Updater.exe");
 
-			//if (File.Exists(pathUpdater))
-			//{
-			//	Process.Start(pathUpdater);
-			//}
+			if (File.Exists(pathUpdater))
+			{
+				Process.Start(pathUpdater);
+			}
 
 			Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+
 
 			HelperMethods.ShowView(new MainViewModel(), new MainView());
 			//HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());

@@ -1201,9 +1201,12 @@ namespace AIS_Enterprise_AV.Views
         private void ChangeFinalSalary(double change, int rowIndexOfFullRow)
         {
             var cell = DataGridMonthTimeSheet.GetCell(rowIndexOfFullRow, COUNT_COLUMNS_BEFORE_DAYS + _countLastDaysInMonth + COLUMN_FINAL_SALARY_AFTER_DAYS);
-            var t = cell.Content as TextBlock;
-            t.Text = (double.Parse(t.Text.Replace(".", ",")) + change).ToString().Replace(",", ".");
-            _monthTimeSheetWorkers[rowIndexOfFullRow].FinalSalary = double.Parse(t.Text.Replace(".", ","));
+	        if (cell != null)
+	        {
+		        var t = cell.Content as TextBlock;
+		        t.Text = (double.Parse(t.Text.Replace(".", ",")) + change).ToString().Replace(",", ".");
+		        _monthTimeSheetWorkers[rowIndexOfFullRow].FinalSalary = double.Parse(t.Text.Replace(".", ","));
+	        }
         }
 
         private void ChangeCellValue(double value, int rowIndex, int columnIndex)

@@ -2,116 +2,149 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using FTP;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Updater
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        private FTPConnector _ftpConnector;
-        private DateTime _dateBackup;
-        private const string DefaultFTPFolder = @"ftp://95.31.130.52/";
-        private readonly string PathApplication;
+	/// <summary>
+	/// Логика взаимодействия для MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : Window
+	{
+		private FTPConnector _ftpConnector;
+		private DateTime _dateBackup;
+		private const string DefaultFTPFolder = "ftp://52.26.144.188/";
+		private readonly string PathApplication;
+		private bool isUpdating = false;
 
-        public MainWindow()
-        {
-            InitializeComponent();
+		public MainWindow()
+		{
+			InitializeComponent();
 
-            this.Visibility = Visibility.Hidden;
-            this.ShowInTaskbar = false;
+			this.Visibility = Visibility.Hidden;
+			this.ShowInTaskbar = false;
 
-	        PathApplication = Directory.GetParent(Environment.CurrentDirectory).FullName;
+			PathApplication = Directory.GetParent(Environment.CurrentDirectory).FullName;
 
-            _ftpConnector = new FTPConnector("breshch", "huy", DefaultFTPFolder);
-            _ftpConnector.OnGetFileInfo += _ftpConnector_OnGetFileInfo;
-            _ftpConnector.OnFileSizeLoaded += _ftpConnector_OnFileSizeLoaded;
+			_ftpConnector = new FTPConnector("FTPAdmin", "Mp~7200~aA", DefaultFTPFolder);
+			_ftpConnector.OnGetFileInfo += _ftpConnector_OnGetFileInfo;
+			_ftpConnector.OnFileSizeLoaded += _ftpConnector_OnFileSizeLoaded;
 
-            Observable.Start(Updating);
-            Observable.Interval(new TimeSpan(0, 30, 0))
-                .Subscribe((x) => Updating());
-        }
+			Observable.Start(Updating);
+			Observable.Interval(new TimeSpan(0, 30, 0))
+				.Subscribe((x) => Updating());
 
-        private void _ftpConnector_OnFileSizeLoaded(long loadedFileSize, long fileSize)
-        {
-            SyncContext(() => TextBlockLoaded.Text = loadedFileSize.ToString("N0"));
+			Observable.Interval(new TimeSpan(0, 1, 0))
+				.Subscribe((x) => ProcessChecking());
+		}
 
-            double percentage = (double) loadedFileSize / fileSize * 100;
-            SyncContext(() => ProgressBarPercentage.Value = percentage);
+		private void ProcessChecking()
+		{
+			if (isUpdating)
+			{
+				return;
+			}
 
-        }
+			var processes = Process.GetProcessesByName("AIS_Enterprise");
+			if (!processes.Any())
+			{
+				Environment.Exit(0);
+			}
+		}
 
-        private void _ftpConnector_OnGetFileInfo(string fileName, long fileSize)
-        {
-            SyncContext(() => TextBlockFileName.Text = fileName);
-            SyncContext(() => TextBlockFileSize.Text = fileSize.ToString("N0"));
-        }
+		private void _ftpConnector_OnFileSizeLoaded(long loadedFileSize, long fileSize)
+		{
+			SyncContext(() => TextBlockLoaded.Text = loadedFileSize.ToString("N0"));
 
-        private void Updating()
-        {
-            if (IsNewVersion())
-            {
-                foreach (var process in Process.GetProcessesByName("AIS_Enterprise_AV"))
-                {
-                    process.Kill();
-                }
+			double percentage = (double)loadedFileSize / fileSize * 100;
+			SyncContext(() => ProgressBarPercentage.Value = percentage);
+		}
 
-                SyncContext(() => TextBlockFileName.Text = null);
-                SyncContext(() => TextBlockFileSize.Text = null);
-                SyncContext(() => TextBlockLoaded.Text = null);
-                SyncContext(() => ProgressBarPercentage.Value = 0);
-                SyncContext(() => this.Visibility = Visibility.Visible);
-                SyncContext(() => this.ShowInTaskbar = true);
+		private void _ftpConnector_OnGetFileInfo(string fileName, long fileSize)
+		{
+			SyncContext(() => TextBlockFileName.Text = fileName);
+			SyncContext(() => TextBlockFileSize.Text = fileSize.ToString("N0"));
+		}
 
-                Backup();
-                try
-                {
-                    _ftpConnector.DownloadDirectory(@"AIS_Enterprise_AV/Application", Path.Combine(PathApplication, "Application"));
-                }
-                catch
-                {
-                    Directory.Delete(Path.Combine(PathApplication, "Application"), true);
-                    Restore();
-                }
+		private void Updating()
+		{
+			if (isUpdating)
+			{
+				return;
+			}
 
-                File.Delete(Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"));
+			if (IsNewVersion())
+			{
+				isUpdating = true;
 
-                Process.Start(Path.Combine(PathApplication, "Application/AIS_Enterprise.exe"));
+				foreach (var process in Process.GetProcessesByName("AIS_Enterprise"))
+				{
+					process.Kill();
+				}
 
-                SyncContext(() => this.ShowInTaskbar = false);
-                SyncContext(() => this.Visibility = Visibility.Hidden);
-            }
-        }
+				SyncContext(() => TextBlockFileName.Text = null);
+				SyncContext(() => TextBlockFileSize.Text = null);
+				SyncContext(() => TextBlockLoaded.Text = null);
+				SyncContext(() => ProgressBarPercentage.Value = 0);
+				SyncContext(() => this.Visibility = Visibility.Visible);
+				SyncContext(() => this.ShowInTaskbar = true);
 
-        private bool IsNewVersion()
-        {
-            var currentVersion = Version.Parse(File.ReadAllText(Path.Combine(PathApplication, "Application/Version.txt")));
-            var ftpVersion = Version.Parse(_ftpConnector.GetFile("AIS_Enterprise_AV/Application/Version.txt"));
+				Backup();
+				try
+				{
+					_ftpConnector.DownloadDirectory(@"AIS_Enterprise_AV/Application", Path.Combine(PathApplication, "Application"));
+				}
+				catch
+				{
+					Directory.Delete(Path.Combine(PathApplication, "Application"), true);
+					Restore();
+				}
 
-            return ftpVersion > currentVersion;
-        }
+				File.Delete(Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"));
 
-        private void Backup()
-        {
-            _dateBackup = DateTime.Now;
+				Process.Start(Path.Combine(PathApplication, "Application/AIS_Enterprise.exe"));
 
-            ZipFile.CreateFromDirectory(Path.Combine(PathApplication, "Application"),
-                Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"));
-        }
+				SyncContext(() => this.ShowInTaskbar = false);
+				SyncContext(() => this.Visibility = Visibility.Hidden);
 
-        private void Restore()
-        {
-            ZipFile.ExtractToDirectory(Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"),
-                Path.Combine(PathApplication, "Application"));
-        }
+				isUpdating = false;
+			}
+		}
 
-        private void SyncContext(Action action)
-        {
-            Application.Current.Dispatcher.BeginInvoke(new Action(action));
-        }
-    }
+		private bool IsNewVersion()
+		{
+			var pathCurrentVersion = Path.Combine(PathApplication, "Application/Version.version");
+			if (File.Exists(pathCurrentVersion))
+			{
+				var currentVersion = Version.Parse(File.ReadAllText(Path.Combine(PathApplication, "Application/Version.version")));
+				var ftpVersion = Version.Parse(_ftpConnector.GetFile("AIS_Enterprise_AV/Application/Version.version"));
+
+				return ftpVersion > currentVersion;
+			}
+			return true;
+		}
+
+		private void Backup()
+		{
+			_dateBackup = DateTime.Now;
+
+			ZipFile.CreateFromDirectory(Path.Combine(PathApplication, "Application"),
+				Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"));
+		}
+
+		private void Restore()
+		{
+			ZipFile.ExtractToDirectory(Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"),
+				Path.Combine(PathApplication, "Application"));
+		}
+
+		private void SyncContext(Action action)
+		{
+			Application.Current.Dispatcher.BeginInvoke(new Action(action));
+		}
+	}
 }

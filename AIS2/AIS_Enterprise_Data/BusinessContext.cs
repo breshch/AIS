@@ -1083,8 +1083,8 @@ namespace AIS_Enterprise_Data
 			{
 				var post =
 					worker.CurrentCompaniesAndPosts.First(p => p.ChangeDate.Date <= lastDateInMonth.Date && p.FireDate == null ||
-					                                           p.FireDate != null && p.FireDate.Value.Date >= lastDateInMonth.Date &&
-					                                           p.ChangeDate.Date <= lastDateInMonth.Date);
+															   p.FireDate != null && p.FireDate.Value.Date >= lastDateInMonth.Date &&
+															   p.ChangeDate.Date <= lastDateInMonth.Date);
 
 				if (isOffice)
 				{
@@ -1445,8 +1445,8 @@ namespace AIS_Enterprise_Data
 			var firstDateInMonth = new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1);
 
 			return _dc.CurrentPosts.Where(p => DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0 && p.FireDate == null ||
-			                                   p.FireDate != null && DbFunctions.DiffDays(p.FireDate.Value, firstDateInMonth) < 0 &&
-			                                   DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0).ToArray();
+											   p.FireDate != null && DbFunctions.DiffDays(p.FireDate.Value, firstDateInMonth) < 0 &&
+											   DbFunctions.DiffDays(p.ChangeDate, lastDateInMonth) > 0).ToArray();
 		}
 
 		public IEnumerable<CurrentPost> GetCurrentPosts(int workerId, int year, int month, int lastDayInMonth)
@@ -1766,7 +1766,6 @@ namespace AIS_Enterprise_Data
 			var user = new DirectoryUser
 			{
 				UserName = userName,
-				TranscriptionName = transcriptionName,
 				CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus }
 			};
 
@@ -1789,7 +1788,6 @@ namespace AIS_Enterprise_Data
 			var user = new DirectoryUser
 			{
 				UserName = userName,
-				TranscriptionName = transcriptionName,
 				CurrentUserStatus = new CurrentUserStatus { DirectoryUserStatus = userStatus }
 			};
 
@@ -1813,10 +1811,7 @@ namespace AIS_Enterprise_Data
 
 			var user = _dc.DirectoryUsers.Find(userId);
 
-			string prevName = user.TranscriptionName;
-
 			user.UserName = userName;
-			user.TranscriptionName = transcriptionName;
 
 			var prevCurrentUserStatus = user.CurrentUserStatus;
 
@@ -3304,11 +3299,14 @@ namespace AIS_Enterprise_Data
 
 		public void RemoveContainers(int year, int month)
 		{
-			_dc.InfoContainers.RemoveRange(
-				_dc.InfoContainers
-					.Where(c => c.DatePhysical.Year == year && c.DatePhysical.Month == month));
+			var removingContainers = _dc.InfoContainers
+				.Where(c => c.DatePhysical.Year == year && c.DatePhysical.Month == month).ToArray();
 
-			_dc.SaveChanges();
+			if (removingContainers.Any())
+			{
+				_dc.InfoContainers.RemoveRange(removingContainers);
+				_dc.SaveChanges();
+			}
 		}
 
 		#endregion
@@ -3740,7 +3738,7 @@ namespace AIS_Enterprise_Data
 
 					var prevDateMonth = month.Date.AddMonths(-1);
 					var prevTotalCashMonth =
-						_dc.InfoTotalEqualCashSafeToMinsks.First(c => c.Date.Year == prevDateMonth.Year && 
+						_dc.InfoTotalEqualCashSafeToMinsks.First(c => c.Date.Year == prevDateMonth.Year &&
 							c.Date.Month == prevDateMonth.Month);
 
 					var costsMonth = GetInfoCosts(prevDateMonth.Year, prevDateMonth.Month).ToList();
@@ -3756,7 +3754,7 @@ namespace AIS_Enterprise_Data
 
 		#endregion
 
-		
+
 		#region PAM16Percentage
 
 		public double GetPam16Percentage(DateTime date)
@@ -3801,7 +3799,7 @@ namespace AIS_Enterprise_Data
 			}
 
 			var hash = CryptoHelper.GetHash(password + auth.Salt);
-			
+
 			return auth.Hash == hash;
 		}
 

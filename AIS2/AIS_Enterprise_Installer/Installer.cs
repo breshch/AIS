@@ -2,37 +2,73 @@
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.SqlServer.Management.Smo;
+using System.Windows.Forms;
 
 namespace AIS_Enterprise_Installer
 {
 	public class Installer
 	{
-		public bool SQLServerCheck()
-		{
-			DataTable dataTable = SmoApplication.EnumAvailableSqlServers(true);
-			return dataTable.Rows.Count > 0;
-		}
+		private readonly string _pathApplication;
+		private readonly string _pathUpdater;
+		private readonly string _shortcutName;
 
-		public void InstallSQLServerSilent()
+		public Installer()
 		{
-			var path = Environment.CurrentDirectory;
-			var process = new Process();
+			_pathApplication = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+				"AIS_Enterprise_AV", "Application");
 
-			process.StartInfo.FileName = Path.Combine(path, "SQLEXPR_x86_ENU\\SETUP.exe");
-			process.StartInfo.Arguments = string.Format(@"/ENU=True /IACCEPTSQLSERVERLICENSETERMS=True /ACTION=Install /QUIETSIMPLE=True /SECURITYMODE=SQL /UPDATEENABLED=False /FEATURES=SQLENGINE /HELP=False /INDICATEPROGRESS=False /X86=False /INSTALLSHAREDDIR=""{0}\Microsoft SQL Server""  /INSTANCENAME=AIS /INSTANCEID=AIS /SQMREPORTING=False /ERRORREPORTING=False /INSTANCEDIR=""{0}\Microsoft SQL Server"" /AGTSVCACCOUNT=""NT AUTHORITY\SYSTEM"" /SQLCOLLATION=SQL_Latin1_General_CP1_CI_AS /SQLSVCACCOUNT=""NT AUTHORITY\SYSTEM"" /SQLSYSADMINACCOUNTS={1} /SAPWD={2} /ADDCURRENTUSERASSQLADMIN=True /TCPENABLED=1", 
-				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), Environment.MachineName + "\\" + Environment.UserName, "Hrt12FG144");
-			process.Start();
+			_pathUpdater = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+				"AIS_Enterprise_AV", "Updater");
+
+			_shortcutName = "AIS_Enterprise";
 		}
 
 		public void InstallApplication()
 		{
 			var path = Environment.CurrentDirectory;
-			CopyDirectory(Path.Combine(path,"Application"), 
-				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AIS_Enterprise_AV", "Application"));
+			if (!File.Exists(Path.Combine(path, "AIS_Enterprise_Installer.exe")))
+			{
+				var directories = Directory.GetDirectories(path);
+				foreach (var directory in directories)
+				{
+					if (File.Exists(Path.Combine(directory, "AIS_Enterprise_Installer.exe")))
+					{
+						path = directory;
+						break;
+					}
+				}
+			}
 
-			CopyDirectory(Path.Combine(path, "Updater"),
-				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AIS_Enterprise_AV", "Updater"));
+			CopyDirectory(Path.Combine(path, "Application"), _pathApplication);
+			CopyDirectory(Path.Combine(path, "Updater"), _pathUpdater);
+
+			AppShortcutToDesktop(_shortcutName);
+
+			if (MessageBox.Show(@"Install complete") == DialogResult.OK)
+			{
+				Environment.Exit(0);
+			}
+		}
+
+		private void AppShortcutToDesktop(string linkName)
+		{
+			string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+			string desktopShortcut = Path.Combine(desktopDirectory, linkName + ".url");
+			if (File.Exists(desktopShortcut))
+			{
+				File.Delete(desktopShortcut);
+			}
+
+			using (StreamWriter writer = new StreamWriter(desktopDirectory + "\\" + linkName + ".url"))
+			{
+				string app = Path.Combine(_pathApplication, "AIS_Enterprise.exe");
+				writer.WriteLine("[InternetShortcut]");
+				writer.WriteLine("URL=file:///" + app);
+				writer.WriteLine("IconIndex=0");
+				string icon = app.Replace('\\', '/');
+				writer.WriteLine("IconFile=" + icon);
+				writer.Flush();
+			}
 		}
 
 		private void CopyDirectory(string strSource, string strDestination)
@@ -54,7 +90,6 @@ namespace AIS_Enterprise_Installer
 			{
 				CopyDirectory(Path.Combine(strSource, tempdir.Name), Path.Combine(strDestination, tempdir.Name));
 			}
-
 		}
 	}
 }

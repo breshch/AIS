@@ -100,6 +100,10 @@
     <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
+    <Compile Include="Migrations\201506162057584_Auth.cs" />
+    <Compile Include="Migrations\201506162057584_Auth.Designer.cs">
+      <DependentUpon>201506162057584_Auth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ViewModelGlobal.cs" />
@@ -118,6 +122,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201506162057584_Auth.resx">
+      <DependentUpon>201506162057584_Auth.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
