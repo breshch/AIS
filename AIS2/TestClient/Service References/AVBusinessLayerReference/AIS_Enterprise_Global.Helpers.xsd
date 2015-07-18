@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="Currency">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RUR" />
+      <xs:enumeration value="USD" />
+      <xs:enumeration value="EUR" />
+      <xs:enumeration value="BYR" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Currency" nillable="true" type="tns:Currency" />
+  <xs:simpleType name="Gender">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Male" />
+      <xs:enumeration value="Female" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Gender" nillable="true" type="tns:Gender" />
+  <xs:simpleType name="DescriptionDay">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Был" />
+      <xs:enumeration value="Б" />
+      <xs:enumeration value="О" />
+      <xs:enumeration value="ДО" />
+      <xs:enumeration value="П" />
+      <xs:enumeration value="С" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="DescriptionDay" nillable="true" type="tns:DescriptionDay" />
+  <xs:simpleType name="CashType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Наличка" />
+      <xs:enumeration value="Карточка" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="CashType" nillable="true" type="tns:CashType" />
+  <xs:simpleType name="ParameterType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PercentageRusBookKeeping" />
+      <xs:enumeration value="PercentageImportBookKeeping" />
+      <xs:enumeration value="LastRusDate" />
+      <xs:enumeration value="LastImportDate" />
+      <xs:enumeration value="Birthday" />
+      <xs:enumeration value="LastDate" />
+      <xs:enumeration value="DefaultCostsDate" />
+      <xs:enumeration value="Version" />
+      <xs:enumeration value="IsProcessingLastDateInMonthRemains" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ParameterType" nillable="true" type="tns:ParameterType" />
+</xs:schema>

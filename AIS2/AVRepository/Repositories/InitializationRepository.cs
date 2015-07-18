@@ -10,21 +10,31 @@ using AIS_Enterprise_Global.Helpers;
 
 namespace AVRepository.Repositories
 {
-	public class InitializeRepository : BaseRepository
+	public class InitializationRepository : BaseRepository
 	{
+		private readonly UtilRepository utilRepository;
+		private readonly TimeManagementRepository timeManagementRepository;
+		private readonly CostRepository costRepository;
+
+		public InitializationRepository(UtilRepository utilRepository, TimeManagementRepository timeManagementRepository, CostRepository costRepository)
+		{
+			this.utilRepository = utilRepository;
+			this.timeManagementRepository = timeManagementRepository;
+			this.costRepository = costRepository;
+		}
 
 		public void InitializeAbsentDates()
 		{
-			var lastDate = GetParameterValue<DateTime>(ParameterType.LastDate);
+			var lastDate = utilRepository.GetParameterValue<DateTime>(ParameterType.LastDate);
 
-			double birthday = GetParameterValue<double>(ParameterType.Birthday);
+			double birthday = utilRepository.GetParameterValue<double>(ParameterType.Birthday);
 
 			using (var db = GetContext())
 			{
 				if (DateTime.Now.Date > lastDate.Date)
 				{
-					var workers = GetDirectoryWorkers(lastDate, DateTime.Now).ToList();
-					var holidays = GetHolidays(lastDate.AddDays(-14), DateTime.Now).ToList();
+					var workers = timeManagementRepository.GetDirectoryWorkers(lastDate, DateTime.Now).ToList();
+					var holidays = utilRepository.GetHolidays(lastDate.AddDays(-14), DateTime.Now).ToList();
 
 					for (var date = lastDate.AddDays(1); date.Date <= DateTime.Now.Date; date = date.AddDays(1))
 					{
@@ -94,7 +104,7 @@ namespace AVRepository.Repositories
 
 						db.SaveChanges();
 
-						EditParameter(ParameterType.LastDate, date.ToString());
+						utilRepository.EditParameter(ParameterType.LastDate, date);
 						lastDate = date;
 					}
 				}
@@ -122,9 +132,9 @@ namespace AVRepository.Repositories
 							if (payment != null)
 							{
 								infoMonth.PrepaymentCash = payment.Summ;
-								EditCurrencyValueSummChange("TotalLoan", loan.Currency, payment.Summ);
+								costRepository.EditCurrencyValueSummChange("TotalLoan", loan.Currency, payment.Summ);
 
-								AddInfoSafe(payment.Date, true, payment.Summ, loan.Currency, CashType.Наличка,
+								costRepository.AddInfoSafe(payment.Date, true, payment.Summ, loan.Currency, CashType.Наличка,
 									"Возврат долга: " + worker.FullName);
 
 								break;

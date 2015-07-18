@@ -15,7 +15,7 @@ namespace TestClient
 		{
 			businessLayer = new AVBusinessLayerClient();
 
-			Console.WriteLine(businessLayer.DoWork());
+			Console.WriteLine(businessLayer.GetData1());
 
 
 			Console.ReadLine();

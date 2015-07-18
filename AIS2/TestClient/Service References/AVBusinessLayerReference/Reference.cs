@@ -9,17 +9,7278 @@
 //------------------------------------------------------------------------------
 
 namespace TestClient.AVBusinessLayerReference {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryCarPart", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryCarPart : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ArticleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AttachmentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CountInBoxField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CrossNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FactoryNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsImportField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MarkField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MaterialField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string OriginalNumberField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Article {
+            get {
+                return this.ArticleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ArticleField, value) != true)) {
+                    this.ArticleField = value;
+                    this.RaisePropertyChanged("Article");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Attachment {
+            get {
+                return this.AttachmentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AttachmentField, value) != true)) {
+                    this.AttachmentField = value;
+                    this.RaisePropertyChanged("Attachment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CountInBox {
+            get {
+                return this.CountInBoxField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CountInBoxField, value) != true)) {
+                    this.CountInBoxField = value;
+                    this.RaisePropertyChanged("CountInBox");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CrossNumber {
+            get {
+                return this.CrossNumberField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CrossNumberField, value) != true)) {
+                    this.CrossNumberField = value;
+                    this.RaisePropertyChanged("CrossNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FactoryNumber {
+            get {
+                return this.FactoryNumberField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FactoryNumberField, value) != true)) {
+                    this.FactoryNumberField = value;
+                    this.RaisePropertyChanged("FactoryNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsImport {
+            get {
+                return this.IsImportField;
+            }
+            set {
+                if ((this.IsImportField.Equals(value) != true)) {
+                    this.IsImportField = value;
+                    this.RaisePropertyChanged("IsImport");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Mark {
+            get {
+                return this.MarkField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MarkField, value) != true)) {
+                    this.MarkField = value;
+                    this.RaisePropertyChanged("Mark");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Material {
+            get {
+                return this.MaterialField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MaterialField, value) != true)) {
+                    this.MaterialField = value;
+                    this.RaisePropertyChanged("Material");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string OriginalNumber {
+            get {
+                return this.OriginalNumberField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OriginalNumberField, value) != true)) {
+                    this.OriginalNumberField = value;
+                    this.RaisePropertyChanged("OriginalNumber");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentCarPart", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents")]
+    [System.SerializableAttribute()]
+    public partial class CurrentCarPart : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.Currency CurrencyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryCarPart DirectoryCarPartField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryCarPartIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FullNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double PriceBaseField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PriceBigWholesaleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PriceSmallWholesaleField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.Currency Currency {
+            get {
+                return this.CurrencyField;
+            }
+            set {
+                if ((this.CurrencyField.Equals(value) != true)) {
+                    this.CurrencyField = value;
+                    this.RaisePropertyChanged("Currency");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryCarPart DirectoryCarPart {
+            get {
+                return this.DirectoryCarPartField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryCarPartField, value) != true)) {
+                    this.DirectoryCarPartField = value;
+                    this.RaisePropertyChanged("DirectoryCarPart");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryCarPartId {
+            get {
+                return this.DirectoryCarPartIdField;
+            }
+            set {
+                if ((this.DirectoryCarPartIdField.Equals(value) != true)) {
+                    this.DirectoryCarPartIdField = value;
+                    this.RaisePropertyChanged("DirectoryCarPartId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FullName {
+            get {
+                return this.FullNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FullNameField, value) != true)) {
+                    this.FullNameField = value;
+                    this.RaisePropertyChanged("FullName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double PriceBase {
+            get {
+                return this.PriceBaseField;
+            }
+            set {
+                if ((this.PriceBaseField.Equals(value) != true)) {
+                    this.PriceBaseField = value;
+                    this.RaisePropertyChanged("PriceBase");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PriceBigWholesale {
+            get {
+                return this.PriceBigWholesaleField;
+            }
+            set {
+                if ((this.PriceBigWholesaleField.Equals(value) != true)) {
+                    this.PriceBigWholesaleField = value;
+                    this.RaisePropertyChanged("PriceBigWholesale");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PriceSmallWholesale {
+            get {
+                return this.PriceSmallWholesaleField;
+            }
+            set {
+                if ((this.PriceSmallWholesaleField.Equals(value) != true)) {
+                    this.PriceSmallWholesaleField = value;
+                    this.RaisePropertyChanged("PriceSmallWholesale");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Currency", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers")]
+    public enum Currency : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        RUR = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        USD = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        EUR = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        BYR = 3,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ArticlePrice", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps")]
+    [System.SerializableAttribute()]
+    public partial class ArticlePrice : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ArticleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CarPartIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MarkField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double PriceRURField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PriceUSDField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Article {
+            get {
+                return this.ArticleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ArticleField, value) != true)) {
+                    this.ArticleField = value;
+                    this.RaisePropertyChanged("Article");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CarPartId {
+            get {
+                return this.CarPartIdField;
+            }
+            set {
+                if ((this.CarPartIdField.Equals(value) != true)) {
+                    this.CarPartIdField = value;
+                    this.RaisePropertyChanged("CarPartId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Mark {
+            get {
+                return this.MarkField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MarkField, value) != true)) {
+                    this.MarkField = value;
+                    this.RaisePropertyChanged("Mark");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double PriceRUR {
+            get {
+                return this.PriceRURField;
+            }
+            set {
+                if ((this.PriceRURField.Equals(value) != true)) {
+                    this.PriceRURField = value;
+                    this.RaisePropertyChanged("PriceRUR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PriceUSD {
+            get {
+                return this.PriceUSDField;
+            }
+            set {
+                if ((this.PriceUSDField.Equals(value) != true)) {
+                    this.PriceUSDField = value;
+                    this.RaisePropertyChanged("PriceUSD");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CarPartRemain", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps")]
+    [System.SerializableAttribute()]
+    public partial class CarPartRemain : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ArticleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double PriceRURField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PriceUSDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RemainField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Article {
+            get {
+                return this.ArticleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ArticleField, value) != true)) {
+                    this.ArticleField = value;
+                    this.RaisePropertyChanged("Article");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double PriceRUR {
+            get {
+                return this.PriceRURField;
+            }
+            set {
+                if ((this.PriceRURField.Equals(value) != true)) {
+                    this.PriceRURField = value;
+                    this.RaisePropertyChanged("PriceRUR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PriceUSD {
+            get {
+                return this.PriceUSDField;
+            }
+            set {
+                if ((this.PriceUSDField.Equals(value) != true)) {
+                    this.PriceUSDField = value;
+                    this.RaisePropertyChanged("PriceUSD");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Remain {
+            get {
+                return this.RemainField;
+            }
+            set {
+                if ((this.RemainField.Equals(value) != true)) {
+                    this.RemainField = value;
+                    this.RaisePropertyChanged("Remain");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AddressCell", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.WareHouse")]
+    [System.SerializableAttribute()]
+    public partial class AddressCell : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CellField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int FloorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PlaceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RowField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Cell {
+            get {
+                return this.CellField;
+            }
+            set {
+                if ((this.CellField.Equals(value) != true)) {
+                    this.CellField = value;
+                    this.RaisePropertyChanged("Cell");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Floor {
+            get {
+                return this.FloorField;
+            }
+            set {
+                if ((this.FloorField.Equals(value) != true)) {
+                    this.FloorField = value;
+                    this.RaisePropertyChanged("Floor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Place {
+            get {
+                return this.PlaceField;
+            }
+            set {
+                if ((this.PlaceField.Equals(value) != true)) {
+                    this.PlaceField = value;
+                    this.RaisePropertyChanged("Place");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Row {
+            get {
+                return this.RowField;
+            }
+            set {
+                if ((this.RowField.Equals(value) != true)) {
+                    this.RowField = value;
+                    this.RaisePropertyChanged("Row");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PalletContent", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.WareHouse")]
+    [System.SerializableAttribute()]
+    public partial class PalletContent : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryCarPart CarPartField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountCarPartField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryCarPartIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.PalletLocation LocationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PalletLocationIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryCarPart CarPart {
+            get {
+                return this.CarPartField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CarPartField, value) != true)) {
+                    this.CarPartField = value;
+                    this.RaisePropertyChanged("CarPart");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountCarPart {
+            get {
+                return this.CountCarPartField;
+            }
+            set {
+                if ((this.CountCarPartField.Equals(value) != true)) {
+                    this.CountCarPartField = value;
+                    this.RaisePropertyChanged("CountCarPart");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryCarPartId {
+            get {
+                return this.DirectoryCarPartIdField;
+            }
+            set {
+                if ((this.DirectoryCarPartIdField.Equals(value) != true)) {
+                    this.DirectoryCarPartIdField = value;
+                    this.RaisePropertyChanged("DirectoryCarPartId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.PalletLocation Location {
+            get {
+                return this.LocationField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LocationField, value) != true)) {
+                    this.LocationField = value;
+                    this.RaisePropertyChanged("Location");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PalletLocationId {
+            get {
+                return this.PalletLocationIdField;
+            }
+            set {
+                if ((this.PalletLocationIdField.Equals(value) != true)) {
+                    this.PalletLocationIdField = value;
+                    this.RaisePropertyChanged("PalletLocationId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PalletLocation", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.WareHouse")]
+    [System.SerializableAttribute()]
+    public partial class PalletLocation : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int FloorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PalletField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PlaceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RowField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.Warehouse WarehouseField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int WarehouseIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Floor {
+            get {
+                return this.FloorField;
+            }
+            set {
+                if ((this.FloorField.Equals(value) != true)) {
+                    this.FloorField = value;
+                    this.RaisePropertyChanged("Floor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Pallet {
+            get {
+                return this.PalletField;
+            }
+            set {
+                if ((this.PalletField.Equals(value) != true)) {
+                    this.PalletField = value;
+                    this.RaisePropertyChanged("Pallet");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Place {
+            get {
+                return this.PlaceField;
+            }
+            set {
+                if ((this.PlaceField.Equals(value) != true)) {
+                    this.PlaceField = value;
+                    this.RaisePropertyChanged("Place");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Row {
+            get {
+                return this.RowField;
+            }
+            set {
+                if ((this.RowField.Equals(value) != true)) {
+                    this.RowField = value;
+                    this.RaisePropertyChanged("Row");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.Warehouse Warehouse {
+            get {
+                return this.WarehouseField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WarehouseField, value) != true)) {
+                    this.WarehouseField = value;
+                    this.RaisePropertyChanged("Warehouse");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int WarehouseId {
+            get {
+                return this.WarehouseIdField;
+            }
+            set {
+                if ((this.WarehouseIdField.Equals(value) != true)) {
+                    this.WarehouseIdField = value;
+                    this.RaisePropertyChanged("WarehouseId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Warehouse", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.WareHouse")]
+    [System.SerializableAttribute()]
+    public partial class Warehouse : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CarPartPallet", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.WareHouse")]
+    [System.SerializableAttribute()]
+    public partial class CarPartPallet : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ArticleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountCarPartsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Article {
+            get {
+                return this.ArticleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ArticleField, value) != true)) {
+                    this.ArticleField = value;
+                    this.RaisePropertyChanged("Article");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountCarParts {
+            get {
+                return this.CountCarPartsField;
+            }
+            set {
+                if ((this.CountCarPartsField.Equals(value) != true)) {
+                    this.CountCarPartsField = value;
+                    this.RaisePropertyChanged("CountCarParts");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoTotalEqualCashSafeToMinsk", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoTotalEqualCashSafeToMinsk : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime LastUpdatedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> MinskCashField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double SafeCashField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime LastUpdated {
+            get {
+                return this.LastUpdatedField;
+            }
+            set {
+                if ((this.LastUpdatedField.Equals(value) != true)) {
+                    this.LastUpdatedField = value;
+                    this.RaisePropertyChanged("LastUpdated");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> MinskCash {
+            get {
+                return this.MinskCashField;
+            }
+            set {
+                if ((this.MinskCashField.Equals(value) != true)) {
+                    this.MinskCashField = value;
+                    this.RaisePropertyChanged("MinskCash");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double SafeCash {
+            get {
+                return this.SafeCashField;
+            }
+            set {
+                if ((this.SafeCashField.Equals(value) != true)) {
+                    this.SafeCashField = value;
+                    this.RaisePropertyChanged("SafeCash");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoOverTime", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoOverTime : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.CurrentRC[] CurrentRCsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime EndDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime StartDateField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.CurrentRC[] CurrentRCs {
+            get {
+                return this.CurrentRCsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CurrentRCsField, value) != true)) {
+                    this.CurrentRCsField = value;
+                    this.RaisePropertyChanged("CurrentRCs");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime EndDate {
+            get {
+                return this.EndDateField;
+            }
+            set {
+                if ((this.EndDateField.Equals(value) != true)) {
+                    this.EndDateField = value;
+                    this.RaisePropertyChanged("EndDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime StartDate {
+            get {
+                return this.StartDateField;
+            }
+            set {
+                if ((this.StartDateField.Equals(value) != true)) {
+                    this.StartDateField = value;
+                    this.RaisePropertyChanged("StartDate");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentRC", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents")]
+    [System.SerializableAttribute()]
+    public partial class CurrentRC : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRCField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryRCIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int InfoOverTimeIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRC {
+            get {
+                return this.DirectoryRCField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryRCField, value) != true)) {
+                    this.DirectoryRCField = value;
+                    this.RaisePropertyChanged("DirectoryRC");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryRCId {
+            get {
+                return this.DirectoryRCIdField;
+            }
+            set {
+                if ((this.DirectoryRCIdField.Equals(value) != true)) {
+                    this.DirectoryRCIdField = value;
+                    this.RaisePropertyChanged("DirectoryRCId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int InfoOverTimeId {
+            get {
+                return this.InfoOverTimeIdField;
+            }
+            set {
+                if ((this.InfoOverTimeIdField.Equals(value) != true)) {
+                    this.InfoOverTimeIdField = value;
+                    this.RaisePropertyChanged("InfoOverTimeId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryRC", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryRC : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsCheckedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PercentesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ReportNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DescriptionName {
+            get {
+                return this.DescriptionNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionNameField, value) != true)) {
+                    this.DescriptionNameField = value;
+                    this.RaisePropertyChanged("DescriptionName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsChecked {
+            get {
+                return this.IsCheckedField;
+            }
+            set {
+                if ((this.IsCheckedField.Equals(value) != true)) {
+                    this.IsCheckedField = value;
+                    this.RaisePropertyChanged("IsChecked");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Percentes {
+            get {
+                return this.PercentesField;
+            }
+            set {
+                if ((this.PercentesField.Equals(value) != true)) {
+                    this.PercentesField = value;
+                    this.RaisePropertyChanged("Percentes");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ReportName {
+            get {
+                return this.ReportNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReportNameField, value) != true)) {
+                    this.ReportNameField = value;
+                    this.RaisePropertyChanged("ReportName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryCostItem", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryCostItem : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryNote", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryNote : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="IncomingAndExpenseAndSumm", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoLoan))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPrivateLoan))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoSafe))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoCost))]
+    public partial class IncomingAndExpenseAndSumm : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.Currency CurrencyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsIncomingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double SummField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.Currency Currency {
+            get {
+                return this.CurrencyField;
+            }
+            set {
+                if ((this.CurrencyField.Equals(value) != true)) {
+                    this.CurrencyField = value;
+                    this.RaisePropertyChanged("Currency");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsIncoming {
+            get {
+                return this.IsIncomingField;
+            }
+            set {
+                if ((this.IsIncomingField.Equals(value) != true)) {
+                    this.IsIncomingField = value;
+                    this.RaisePropertyChanged("IsIncoming");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Summ {
+            get {
+                return this.SummField;
+            }
+            set {
+                if ((this.SummField.Equals(value) != true)) {
+                    this.SummField = value;
+                    this.RaisePropertyChanged("Summ");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoLoan", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoLoan : TestClient.AVBusinessLayerReference.IncomingAndExpenseAndSumm {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountPaymentsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateLoanField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> DateLoanPaymentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryLoanTaker DirectoryLoanTakerField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DirectoryLoanTakerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryWorker DirectoryWorkerField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DirectoryWorkerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.InfoPayment[] InfoPaymentsField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountPayments {
+            get {
+                return this.CountPaymentsField;
+            }
+            set {
+                if ((this.CountPaymentsField.Equals(value) != true)) {
+                    this.CountPaymentsField = value;
+                    this.RaisePropertyChanged("CountPayments");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime DateLoan {
+            get {
+                return this.DateLoanField;
+            }
+            set {
+                if ((this.DateLoanField.Equals(value) != true)) {
+                    this.DateLoanField = value;
+                    this.RaisePropertyChanged("DateLoan");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> DateLoanPayment {
+            get {
+                return this.DateLoanPaymentField;
+            }
+            set {
+                if ((this.DateLoanPaymentField.Equals(value) != true)) {
+                    this.DateLoanPaymentField = value;
+                    this.RaisePropertyChanged("DateLoanPayment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryLoanTaker DirectoryLoanTaker {
+            get {
+                return this.DirectoryLoanTakerField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryLoanTakerField, value) != true)) {
+                    this.DirectoryLoanTakerField = value;
+                    this.RaisePropertyChanged("DirectoryLoanTaker");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DirectoryLoanTakerId {
+            get {
+                return this.DirectoryLoanTakerIdField;
+            }
+            set {
+                if ((this.DirectoryLoanTakerIdField.Equals(value) != true)) {
+                    this.DirectoryLoanTakerIdField = value;
+                    this.RaisePropertyChanged("DirectoryLoanTakerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryWorker DirectoryWorker {
+            get {
+                return this.DirectoryWorkerField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryWorkerField, value) != true)) {
+                    this.DirectoryWorkerField = value;
+                    this.RaisePropertyChanged("DirectoryWorker");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DirectoryWorkerId {
+            get {
+                return this.DirectoryWorkerIdField;
+            }
+            set {
+                if ((this.DirectoryWorkerIdField.Equals(value) != true)) {
+                    this.DirectoryWorkerIdField = value;
+                    this.RaisePropertyChanged("DirectoryWorkerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.InfoPayment[] InfoPayments {
+            get {
+                return this.InfoPaymentsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InfoPaymentsField, value) != true)) {
+                    this.InfoPaymentsField = value;
+                    this.RaisePropertyChanged("InfoPayments");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoPrivateLoan", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoPrivateLoan : TestClient.AVBusinessLayerReference.IncomingAndExpenseAndSumm {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountPaymentsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateLoanField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> DateLoanPaymentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryLoanTaker DirectoryLoanTakerField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DirectoryLoanTakerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryWorker DirectoryWorkerField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DirectoryWorkerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.InfoPrivatePayment[] InfoPaymentsField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountPayments {
+            get {
+                return this.CountPaymentsField;
+            }
+            set {
+                if ((this.CountPaymentsField.Equals(value) != true)) {
+                    this.CountPaymentsField = value;
+                    this.RaisePropertyChanged("CountPayments");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime DateLoan {
+            get {
+                return this.DateLoanField;
+            }
+            set {
+                if ((this.DateLoanField.Equals(value) != true)) {
+                    this.DateLoanField = value;
+                    this.RaisePropertyChanged("DateLoan");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> DateLoanPayment {
+            get {
+                return this.DateLoanPaymentField;
+            }
+            set {
+                if ((this.DateLoanPaymentField.Equals(value) != true)) {
+                    this.DateLoanPaymentField = value;
+                    this.RaisePropertyChanged("DateLoanPayment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryLoanTaker DirectoryLoanTaker {
+            get {
+                return this.DirectoryLoanTakerField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryLoanTakerField, value) != true)) {
+                    this.DirectoryLoanTakerField = value;
+                    this.RaisePropertyChanged("DirectoryLoanTaker");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DirectoryLoanTakerId {
+            get {
+                return this.DirectoryLoanTakerIdField;
+            }
+            set {
+                if ((this.DirectoryLoanTakerIdField.Equals(value) != true)) {
+                    this.DirectoryLoanTakerIdField = value;
+                    this.RaisePropertyChanged("DirectoryLoanTakerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryWorker DirectoryWorker {
+            get {
+                return this.DirectoryWorkerField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryWorkerField, value) != true)) {
+                    this.DirectoryWorkerField = value;
+                    this.RaisePropertyChanged("DirectoryWorker");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DirectoryWorkerId {
+            get {
+                return this.DirectoryWorkerIdField;
+            }
+            set {
+                if ((this.DirectoryWorkerIdField.Equals(value) != true)) {
+                    this.DirectoryWorkerIdField = value;
+                    this.RaisePropertyChanged("DirectoryWorkerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.InfoPrivatePayment[] InfoPayments {
+            get {
+                return this.InfoPaymentsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InfoPaymentsField, value) != true)) {
+                    this.InfoPaymentsField = value;
+                    this.RaisePropertyChanged("InfoPayments");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoSafe", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoSafe : TestClient.AVBusinessLayerReference.IncomingAndExpenseAndSumm {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BankField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.CashType CashTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Bank {
+            get {
+                return this.BankField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BankField, value) != true)) {
+                    this.BankField = value;
+                    this.RaisePropertyChanged("Bank");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.CashType CashType {
+            get {
+                return this.CashTypeField;
+            }
+            set {
+                if ((this.CashTypeField.Equals(value) != true)) {
+                    this.CashTypeField = value;
+                    this.RaisePropertyChanged("CashType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoCost", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoCost : TestClient.AVBusinessLayerReference.IncomingAndExpenseAndSumm {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.CurrentNote[] CurrentNotesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryCostItem DirectoryCostItemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryCostItemIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRCField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryRCIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryTransportCompany DirectoryTransportCompanyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DirectoryTransportCompanyIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid GroupIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsReturnField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double WeightField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.CurrentNote[] CurrentNotes {
+            get {
+                return this.CurrentNotesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CurrentNotesField, value) != true)) {
+                    this.CurrentNotesField = value;
+                    this.RaisePropertyChanged("CurrentNotes");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryCostItem DirectoryCostItem {
+            get {
+                return this.DirectoryCostItemField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryCostItemField, value) != true)) {
+                    this.DirectoryCostItemField = value;
+                    this.RaisePropertyChanged("DirectoryCostItem");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryCostItemId {
+            get {
+                return this.DirectoryCostItemIdField;
+            }
+            set {
+                if ((this.DirectoryCostItemIdField.Equals(value) != true)) {
+                    this.DirectoryCostItemIdField = value;
+                    this.RaisePropertyChanged("DirectoryCostItemId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRC {
+            get {
+                return this.DirectoryRCField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryRCField, value) != true)) {
+                    this.DirectoryRCField = value;
+                    this.RaisePropertyChanged("DirectoryRC");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryRCId {
+            get {
+                return this.DirectoryRCIdField;
+            }
+            set {
+                if ((this.DirectoryRCIdField.Equals(value) != true)) {
+                    this.DirectoryRCIdField = value;
+                    this.RaisePropertyChanged("DirectoryRCId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryTransportCompany DirectoryTransportCompany {
+            get {
+                return this.DirectoryTransportCompanyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryTransportCompanyField, value) != true)) {
+                    this.DirectoryTransportCompanyField = value;
+                    this.RaisePropertyChanged("DirectoryTransportCompany");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DirectoryTransportCompanyId {
+            get {
+                return this.DirectoryTransportCompanyIdField;
+            }
+            set {
+                if ((this.DirectoryTransportCompanyIdField.Equals(value) != true)) {
+                    this.DirectoryTransportCompanyIdField = value;
+                    this.RaisePropertyChanged("DirectoryTransportCompanyId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid GroupId {
+            get {
+                return this.GroupIdField;
+            }
+            set {
+                if ((this.GroupIdField.Equals(value) != true)) {
+                    this.GroupIdField = value;
+                    this.RaisePropertyChanged("GroupId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsReturn {
+            get {
+                return this.IsReturnField;
+            }
+            set {
+                if ((this.IsReturnField.Equals(value) != true)) {
+                    this.IsReturnField = value;
+                    this.RaisePropertyChanged("IsReturn");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Weight {
+            get {
+                return this.WeightField;
+            }
+            set {
+                if ((this.WeightField.Equals(value) != true)) {
+                    this.WeightField = value;
+                    this.RaisePropertyChanged("Weight");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryTransportCompany", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryTransportCompany : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsCashField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsCash {
+            get {
+                return this.IsCashField;
+            }
+            set {
+                if ((this.IsCashField.Equals(value) != true)) {
+                    this.IsCashField = value;
+                    this.RaisePropertyChanged("IsCash");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentNote", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents")]
+    [System.SerializableAttribute()]
+    public partial class CurrentNote : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryNote DirectoryNoteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryNoteIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int InfoCostIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryNote DirectoryNote {
+            get {
+                return this.DirectoryNoteField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryNoteField, value) != true)) {
+                    this.DirectoryNoteField = value;
+                    this.RaisePropertyChanged("DirectoryNote");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryNoteId {
+            get {
+                return this.DirectoryNoteIdField;
+            }
+            set {
+                if ((this.DirectoryNoteIdField.Equals(value) != true)) {
+                    this.DirectoryNoteIdField = value;
+                    this.RaisePropertyChanged("DirectoryNoteId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int InfoCostId {
+            get {
+                return this.InfoCostIdField;
+            }
+            set {
+                if ((this.InfoCostIdField.Equals(value) != true)) {
+                    this.InfoCostIdField = value;
+                    this.RaisePropertyChanged("InfoCostId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryLoanTaker", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryLoanTaker : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryWorker", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryWorker : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AddressField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime BirthDayField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CellPhoneField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.CurrentPost[] CurrentCompaniesAndPostsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryPhoto DirectoryPhotoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DirectoryPhotoIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> FireDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FirstNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.Gender GenderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string HomePhoneField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.InfoDate[] InfoDatesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.InfoMonth[] InfoMonthesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsDeadSpiritField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LastNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MidNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime StartDateField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Address {
+            get {
+                return this.AddressField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AddressField, value) != true)) {
+                    this.AddressField = value;
+                    this.RaisePropertyChanged("Address");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime BirthDay {
+            get {
+                return this.BirthDayField;
+            }
+            set {
+                if ((this.BirthDayField.Equals(value) != true)) {
+                    this.BirthDayField = value;
+                    this.RaisePropertyChanged("BirthDay");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CellPhone {
+            get {
+                return this.CellPhoneField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CellPhoneField, value) != true)) {
+                    this.CellPhoneField = value;
+                    this.RaisePropertyChanged("CellPhone");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.CurrentPost[] CurrentCompaniesAndPosts {
+            get {
+                return this.CurrentCompaniesAndPostsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CurrentCompaniesAndPostsField, value) != true)) {
+                    this.CurrentCompaniesAndPostsField = value;
+                    this.RaisePropertyChanged("CurrentCompaniesAndPosts");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryPhoto DirectoryPhoto {
+            get {
+                return this.DirectoryPhotoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryPhotoField, value) != true)) {
+                    this.DirectoryPhotoField = value;
+                    this.RaisePropertyChanged("DirectoryPhoto");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DirectoryPhotoId {
+            get {
+                return this.DirectoryPhotoIdField;
+            }
+            set {
+                if ((this.DirectoryPhotoIdField.Equals(value) != true)) {
+                    this.DirectoryPhotoIdField = value;
+                    this.RaisePropertyChanged("DirectoryPhotoId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> FireDate {
+            get {
+                return this.FireDateField;
+            }
+            set {
+                if ((this.FireDateField.Equals(value) != true)) {
+                    this.FireDateField = value;
+                    this.RaisePropertyChanged("FireDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FirstName {
+            get {
+                return this.FirstNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FirstNameField, value) != true)) {
+                    this.FirstNameField = value;
+                    this.RaisePropertyChanged("FirstName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.Gender Gender {
+            get {
+                return this.GenderField;
+            }
+            set {
+                if ((this.GenderField.Equals(value) != true)) {
+                    this.GenderField = value;
+                    this.RaisePropertyChanged("Gender");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string HomePhone {
+            get {
+                return this.HomePhoneField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.HomePhoneField, value) != true)) {
+                    this.HomePhoneField = value;
+                    this.RaisePropertyChanged("HomePhone");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.InfoDate[] InfoDates {
+            get {
+                return this.InfoDatesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InfoDatesField, value) != true)) {
+                    this.InfoDatesField = value;
+                    this.RaisePropertyChanged("InfoDates");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.InfoMonth[] InfoMonthes {
+            get {
+                return this.InfoMonthesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InfoMonthesField, value) != true)) {
+                    this.InfoMonthesField = value;
+                    this.RaisePropertyChanged("InfoMonthes");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsDeadSpirit {
+            get {
+                return this.IsDeadSpiritField;
+            }
+            set {
+                if ((this.IsDeadSpiritField.Equals(value) != true)) {
+                    this.IsDeadSpiritField = value;
+                    this.RaisePropertyChanged("IsDeadSpirit");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string LastName {
+            get {
+                return this.LastNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LastNameField, value) != true)) {
+                    this.LastNameField = value;
+                    this.RaisePropertyChanged("LastName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string MidName {
+            get {
+                return this.MidNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MidNameField, value) != true)) {
+                    this.MidNameField = value;
+                    this.RaisePropertyChanged("MidName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime StartDate {
+            get {
+                return this.StartDateField;
+            }
+            set {
+                if ((this.StartDateField.Equals(value) != true)) {
+                    this.StartDateField = value;
+                    this.RaisePropertyChanged("StartDate");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoPayment", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoPayment : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int InfoLoanIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double SummField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int InfoLoanId {
+            get {
+                return this.InfoLoanIdField;
+            }
+            set {
+                if ((this.InfoLoanIdField.Equals(value) != true)) {
+                    this.InfoLoanIdField = value;
+                    this.RaisePropertyChanged("InfoLoanId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Summ {
+            get {
+                return this.SummField;
+            }
+            set {
+                if ((this.SummField.Equals(value) != true)) {
+                    this.SummField = value;
+                    this.RaisePropertyChanged("Summ");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryPhoto", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryPhoto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] PhotoField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] Photo {
+            get {
+                return this.PhotoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PhotoField, value) != true)) {
+                    this.PhotoField = value;
+                    this.RaisePropertyChanged("Photo");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentPost", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents")]
+    [System.SerializableAttribute()]
+    public partial class CurrentPost : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime ChangeDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryPost DirectoryPostField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryPostIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryWorkerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> FireDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsTemporaryPostField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsTwoCompaniesField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime ChangeDate {
+            get {
+                return this.ChangeDateField;
+            }
+            set {
+                if ((this.ChangeDateField.Equals(value) != true)) {
+                    this.ChangeDateField = value;
+                    this.RaisePropertyChanged("ChangeDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryPost DirectoryPost {
+            get {
+                return this.DirectoryPostField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryPostField, value) != true)) {
+                    this.DirectoryPostField = value;
+                    this.RaisePropertyChanged("DirectoryPost");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryPostId {
+            get {
+                return this.DirectoryPostIdField;
+            }
+            set {
+                if ((this.DirectoryPostIdField.Equals(value) != true)) {
+                    this.DirectoryPostIdField = value;
+                    this.RaisePropertyChanged("DirectoryPostId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryWorkerId {
+            get {
+                return this.DirectoryWorkerIdField;
+            }
+            set {
+                if ((this.DirectoryWorkerIdField.Equals(value) != true)) {
+                    this.DirectoryWorkerIdField = value;
+                    this.RaisePropertyChanged("DirectoryWorkerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> FireDate {
+            get {
+                return this.FireDateField;
+            }
+            set {
+                if ((this.FireDateField.Equals(value) != true)) {
+                    this.FireDateField = value;
+                    this.RaisePropertyChanged("FireDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsTemporaryPost {
+            get {
+                return this.IsTemporaryPostField;
+            }
+            set {
+                if ((this.IsTemporaryPostField.Equals(value) != true)) {
+                    this.IsTemporaryPostField = value;
+                    this.RaisePropertyChanged("IsTemporaryPost");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsTwoCompanies {
+            get {
+                return this.IsTwoCompaniesField;
+            }
+            set {
+                if ((this.IsTwoCompaniesField.Equals(value) != true)) {
+                    this.IsTwoCompaniesField = value;
+                    this.RaisePropertyChanged("IsTwoCompanies");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Gender", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers")]
+    public enum Gender : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Male = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Female = 1,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoDate", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoDate : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> CountHoursField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DescriptionDay DescriptionDayField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryWorkerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.InfoPanalty InfoPanaltyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> InfoPanaltyIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> CountHours {
+            get {
+                return this.CountHoursField;
+            }
+            set {
+                if ((this.CountHoursField.Equals(value) != true)) {
+                    this.CountHoursField = value;
+                    this.RaisePropertyChanged("CountHours");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DescriptionDay DescriptionDay {
+            get {
+                return this.DescriptionDayField;
+            }
+            set {
+                if ((this.DescriptionDayField.Equals(value) != true)) {
+                    this.DescriptionDayField = value;
+                    this.RaisePropertyChanged("DescriptionDay");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryWorkerId {
+            get {
+                return this.DirectoryWorkerIdField;
+            }
+            set {
+                if ((this.DirectoryWorkerIdField.Equals(value) != true)) {
+                    this.DirectoryWorkerIdField = value;
+                    this.RaisePropertyChanged("DirectoryWorkerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.InfoPanalty InfoPanalty {
+            get {
+                return this.InfoPanaltyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InfoPanaltyField, value) != true)) {
+                    this.InfoPanaltyField = value;
+                    this.RaisePropertyChanged("InfoPanalty");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> InfoPanaltyId {
+            get {
+                return this.InfoPanaltyIdField;
+            }
+            set {
+                if ((this.InfoPanaltyIdField.Equals(value) != true)) {
+                    this.InfoPanaltyIdField = value;
+                    this.RaisePropertyChanged("InfoPanaltyId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoMonth", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoMonth : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double BirthDaysField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double BonusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double CardAVField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double CardFenoxField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double CompensationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountMissDaysField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountSickDaysField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountVacationDaysField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryWorkerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double InventoryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double PanaltyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double PrepaymentBankTransactionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double PrepaymentCashField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double VocationPaymentField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double BirthDays {
+            get {
+                return this.BirthDaysField;
+            }
+            set {
+                if ((this.BirthDaysField.Equals(value) != true)) {
+                    this.BirthDaysField = value;
+                    this.RaisePropertyChanged("BirthDays");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Bonus {
+            get {
+                return this.BonusField;
+            }
+            set {
+                if ((this.BonusField.Equals(value) != true)) {
+                    this.BonusField = value;
+                    this.RaisePropertyChanged("Bonus");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double CardAV {
+            get {
+                return this.CardAVField;
+            }
+            set {
+                if ((this.CardAVField.Equals(value) != true)) {
+                    this.CardAVField = value;
+                    this.RaisePropertyChanged("CardAV");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double CardFenox {
+            get {
+                return this.CardFenoxField;
+            }
+            set {
+                if ((this.CardFenoxField.Equals(value) != true)) {
+                    this.CardFenoxField = value;
+                    this.RaisePropertyChanged("CardFenox");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Compensation {
+            get {
+                return this.CompensationField;
+            }
+            set {
+                if ((this.CompensationField.Equals(value) != true)) {
+                    this.CompensationField = value;
+                    this.RaisePropertyChanged("Compensation");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountMissDays {
+            get {
+                return this.CountMissDaysField;
+            }
+            set {
+                if ((this.CountMissDaysField.Equals(value) != true)) {
+                    this.CountMissDaysField = value;
+                    this.RaisePropertyChanged("CountMissDays");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountSickDays {
+            get {
+                return this.CountSickDaysField;
+            }
+            set {
+                if ((this.CountSickDaysField.Equals(value) != true)) {
+                    this.CountSickDaysField = value;
+                    this.RaisePropertyChanged("CountSickDays");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountVacationDays {
+            get {
+                return this.CountVacationDaysField;
+            }
+            set {
+                if ((this.CountVacationDaysField.Equals(value) != true)) {
+                    this.CountVacationDaysField = value;
+                    this.RaisePropertyChanged("CountVacationDays");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryWorkerId {
+            get {
+                return this.DirectoryWorkerIdField;
+            }
+            set {
+                if ((this.DirectoryWorkerIdField.Equals(value) != true)) {
+                    this.DirectoryWorkerIdField = value;
+                    this.RaisePropertyChanged("DirectoryWorkerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Inventory {
+            get {
+                return this.InventoryField;
+            }
+            set {
+                if ((this.InventoryField.Equals(value) != true)) {
+                    this.InventoryField = value;
+                    this.RaisePropertyChanged("Inventory");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Panalty {
+            get {
+                return this.PanaltyField;
+            }
+            set {
+                if ((this.PanaltyField.Equals(value) != true)) {
+                    this.PanaltyField = value;
+                    this.RaisePropertyChanged("Panalty");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double PrepaymentBankTransaction {
+            get {
+                return this.PrepaymentBankTransactionField;
+            }
+            set {
+                if ((this.PrepaymentBankTransactionField.Equals(value) != true)) {
+                    this.PrepaymentBankTransactionField = value;
+                    this.RaisePropertyChanged("PrepaymentBankTransaction");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double PrepaymentCash {
+            get {
+                return this.PrepaymentCashField;
+            }
+            set {
+                if ((this.PrepaymentCashField.Equals(value) != true)) {
+                    this.PrepaymentCashField = value;
+                    this.RaisePropertyChanged("PrepaymentCash");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double VocationPayment {
+            get {
+                return this.VocationPaymentField;
+            }
+            set {
+                if ((this.VocationPaymentField.Equals(value) != true)) {
+                    this.VocationPaymentField = value;
+                    this.RaisePropertyChanged("VocationPayment");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryPost", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryPost : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryCompany DirectoryCompanyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryCompanyIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryPostSalary[] DirectoryPostSalariesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryTypeOfPost DirectoryTypeOfPostField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryTypeOfPostIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryCompany DirectoryCompany {
+            get {
+                return this.DirectoryCompanyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryCompanyField, value) != true)) {
+                    this.DirectoryCompanyField = value;
+                    this.RaisePropertyChanged("DirectoryCompany");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryCompanyId {
+            get {
+                return this.DirectoryCompanyIdField;
+            }
+            set {
+                if ((this.DirectoryCompanyIdField.Equals(value) != true)) {
+                    this.DirectoryCompanyIdField = value;
+                    this.RaisePropertyChanged("DirectoryCompanyId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryPostSalary[] DirectoryPostSalaries {
+            get {
+                return this.DirectoryPostSalariesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryPostSalariesField, value) != true)) {
+                    this.DirectoryPostSalariesField = value;
+                    this.RaisePropertyChanged("DirectoryPostSalaries");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryTypeOfPost DirectoryTypeOfPost {
+            get {
+                return this.DirectoryTypeOfPostField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryTypeOfPostField, value) != true)) {
+                    this.DirectoryTypeOfPostField = value;
+                    this.RaisePropertyChanged("DirectoryTypeOfPost");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryTypeOfPostId {
+            get {
+                return this.DirectoryTypeOfPostIdField;
+            }
+            set {
+                if ((this.DirectoryTypeOfPostIdField.Equals(value) != true)) {
+                    this.DirectoryTypeOfPostIdField = value;
+                    this.RaisePropertyChanged("DirectoryTypeOfPostId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryCompany", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryCompany : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryTypeOfPost", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryTypeOfPost : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryPostSalary", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryPostSalary : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> AdminWorkerSalaryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryPostIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> UserWorkerHalfSalaryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double UserWorkerSalaryField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> AdminWorkerSalary {
+            get {
+                return this.AdminWorkerSalaryField;
+            }
+            set {
+                if ((this.AdminWorkerSalaryField.Equals(value) != true)) {
+                    this.AdminWorkerSalaryField = value;
+                    this.RaisePropertyChanged("AdminWorkerSalary");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryPostId {
+            get {
+                return this.DirectoryPostIdField;
+            }
+            set {
+                if ((this.DirectoryPostIdField.Equals(value) != true)) {
+                    this.DirectoryPostIdField = value;
+                    this.RaisePropertyChanged("DirectoryPostId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> UserWorkerHalfSalary {
+            get {
+                return this.UserWorkerHalfSalaryField;
+            }
+            set {
+                if ((this.UserWorkerHalfSalaryField.Equals(value) != true)) {
+                    this.UserWorkerHalfSalaryField = value;
+                    this.RaisePropertyChanged("UserWorkerHalfSalary");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double UserWorkerSalary {
+            get {
+                return this.UserWorkerSalaryField;
+            }
+            set {
+                if ((this.UserWorkerSalaryField.Equals(value) != true)) {
+                    this.UserWorkerSalaryField = value;
+                    this.RaisePropertyChanged("UserWorkerSalary");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoPanalty", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoPanalty : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double SummField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Summ {
+            get {
+                return this.SummField;
+            }
+            set {
+                if ((this.SummField.Equals(value) != true)) {
+                    this.SummField = value;
+                    this.RaisePropertyChanged("Summ");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DescriptionDay", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers")]
+    public enum DescriptionDay : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Был = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Б = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        О = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ДО = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        П = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        С = 5,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoPrivatePayment", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoPrivatePayment : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int InfoPrivateLoanIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double SummField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int InfoPrivateLoanId {
+            get {
+                return this.InfoPrivateLoanIdField;
+            }
+            set {
+                if ((this.InfoPrivateLoanIdField.Equals(value) != true)) {
+                    this.InfoPrivateLoanIdField = value;
+                    this.RaisePropertyChanged("InfoPrivateLoanId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Summ {
+            get {
+                return this.SummField;
+            }
+            set {
+                if ((this.SummField.Equals(value) != true)) {
+                    this.SummField = value;
+                    this.RaisePropertyChanged("Summ");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CashType", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers")]
+    public enum CashType : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Наличка = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Карточка = 1,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Transport", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps")]
+    [System.SerializableAttribute()]
+    public partial class Transport : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryNote DirectoryNoteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRCField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double WeightField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryNote DirectoryNote {
+            get {
+                return this.DirectoryNoteField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryNoteField, value) != true)) {
+                    this.DirectoryNoteField = value;
+                    this.RaisePropertyChanged("DirectoryNote");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRC {
+            get {
+                return this.DirectoryRCField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryRCField, value) != true)) {
+                    this.DirectoryRCField = value;
+                    this.RaisePropertyChanged("DirectoryRC");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Weight {
+            get {
+                return this.WeightField;
+            }
+            set {
+                if ((this.WeightField.Equals(value) != true)) {
+                    this.WeightField = value;
+                    this.RaisePropertyChanged("Weight");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DefaultCost", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Helpers")]
+    [System.SerializableAttribute()]
+    public partial class DefaultCost : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DayOfPaymentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryCostItem DirectoryCostItemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryCostItemIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryNote DirectoryNoteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryNoteIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRCField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryRCIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double SummOfPaymentField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DayOfPayment {
+            get {
+                return this.DayOfPaymentField;
+            }
+            set {
+                if ((this.DayOfPaymentField.Equals(value) != true)) {
+                    this.DayOfPaymentField = value;
+                    this.RaisePropertyChanged("DayOfPayment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryCostItem DirectoryCostItem {
+            get {
+                return this.DirectoryCostItemField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryCostItemField, value) != true)) {
+                    this.DirectoryCostItemField = value;
+                    this.RaisePropertyChanged("DirectoryCostItem");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryCostItemId {
+            get {
+                return this.DirectoryCostItemIdField;
+            }
+            set {
+                if ((this.DirectoryCostItemIdField.Equals(value) != true)) {
+                    this.DirectoryCostItemIdField = value;
+                    this.RaisePropertyChanged("DirectoryCostItemId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryNote DirectoryNote {
+            get {
+                return this.DirectoryNoteField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryNoteField, value) != true)) {
+                    this.DirectoryNoteField = value;
+                    this.RaisePropertyChanged("DirectoryNote");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryNoteId {
+            get {
+                return this.DirectoryNoteIdField;
+            }
+            set {
+                if ((this.DirectoryNoteIdField.Equals(value) != true)) {
+                    this.DirectoryNoteIdField = value;
+                    this.RaisePropertyChanged("DirectoryNoteId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryRC DirectoryRC {
+            get {
+                return this.DirectoryRCField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryRCField, value) != true)) {
+                    this.DirectoryRCField = value;
+                    this.RaisePropertyChanged("DirectoryRC");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryRCId {
+            get {
+                return this.DirectoryRCIdField;
+            }
+            set {
+                if ((this.DirectoryRCIdField.Equals(value) != true)) {
+                    this.DirectoryRCIdField = value;
+                    this.RaisePropertyChanged("DirectoryRCId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double SummOfPayment {
+            get {
+                return this.SummOfPaymentField;
+            }
+            set {
+                if ((this.SummOfPaymentField.Equals(value) != true)) {
+                    this.SummOfPaymentField = value;
+                    this.RaisePropertyChanged("SummOfPayment");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrencyValue", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Helpers")]
+    [System.SerializableAttribute()]
+    public partial class CurrencyValue : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double BYRField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double EURField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double RURField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double USDField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double BYR {
+            get {
+                return this.BYRField;
+            }
+            set {
+                if ((this.BYRField.Equals(value) != true)) {
+                    this.BYRField = value;
+                    this.RaisePropertyChanged("BYR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double EUR {
+            get {
+                return this.EURField;
+            }
+            set {
+                if ((this.EURField.Equals(value) != true)) {
+                    this.EURField = value;
+                    this.RaisePropertyChanged("EUR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double RUR {
+            get {
+                return this.RURField;
+            }
+            set {
+                if ((this.RURField.Equals(value) != true)) {
+                    this.RURField = value;
+                    this.RaisePropertyChanged("RUR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double USD {
+            get {
+                return this.USDField;
+            }
+            set {
+                if ((this.USDField.Equals(value) != true)) {
+                    this.USDField = value;
+                    this.RaisePropertyChanged("USD");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoContainer", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoContainer : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] CarPartsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> DateOrderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DatePhysicalField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsIncomingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] CarParts {
+            get {
+                return this.CarPartsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CarPartsField, value) != true)) {
+                    this.CarPartsField = value;
+                    this.RaisePropertyChanged("CarParts");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> DateOrder {
+            get {
+                return this.DateOrderField;
+            }
+            set {
+                if ((this.DateOrderField.Equals(value) != true)) {
+                    this.DateOrderField = value;
+                    this.RaisePropertyChanged("DateOrder");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime DatePhysical {
+            get {
+                return this.DatePhysicalField;
+            }
+            set {
+                if ((this.DatePhysicalField.Equals(value) != true)) {
+                    this.DatePhysicalField = value;
+                    this.RaisePropertyChanged("DatePhysical");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsIncoming {
+            get {
+                return this.IsIncomingField;
+            }
+            set {
+                if ((this.IsIncomingField.Equals(value) != true)) {
+                    this.IsIncomingField = value;
+                    this.RaisePropertyChanged("IsIncoming");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentContainerCarPart", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents")]
+    [System.SerializableAttribute()]
+    public partial class CurrentContainerCarPart : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountCarPartsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryCarPart DirectoryCarPartField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryCarPartIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> InfoContainerIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountCarParts {
+            get {
+                return this.CountCarPartsField;
+            }
+            set {
+                if ((this.CountCarPartsField.Equals(value) != true)) {
+                    this.CountCarPartsField = value;
+                    this.RaisePropertyChanged("CountCarParts");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryCarPart DirectoryCarPart {
+            get {
+                return this.DirectoryCarPartField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryCarPartField, value) != true)) {
+                    this.DirectoryCarPartField = value;
+                    this.RaisePropertyChanged("DirectoryCarPart");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryCarPartId {
+            get {
+                return this.DirectoryCarPartIdField;
+            }
+            set {
+                if ((this.DirectoryCarPartIdField.Equals(value) != true)) {
+                    this.DirectoryCarPartIdField = value;
+                    this.RaisePropertyChanged("DirectoryCarPartId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> InfoContainerId {
+            get {
+                return this.InfoContainerIdField;
+            }
+            set {
+                if ((this.InfoContainerIdField.Equals(value) != true)) {
+                    this.InfoContainerIdField = value;
+                    this.RaisePropertyChanged("InfoContainerId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoCarPartMovement", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps")]
+    [System.SerializableAttribute()]
+    public partial class InfoCarPartMovement : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FullDescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> IncomingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> OutcomingField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FullDescription {
+            get {
+                return this.FullDescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FullDescriptionField, value) != true)) {
+                    this.FullDescriptionField = value;
+                    this.RaisePropertyChanged("FullDescription");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Incoming {
+            get {
+                return this.IncomingField;
+            }
+            set {
+                if ((this.IncomingField.Equals(value) != true)) {
+                    this.IncomingField = value;
+                    this.RaisePropertyChanged("Incoming");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Outcoming {
+            get {
+                return this.OutcomingField;
+            }
+            set {
+                if ((this.OutcomingField.Equals(value) != true)) {
+                    this.OutcomingField = value;
+                    this.RaisePropertyChanged("Outcoming");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InfoLastMonthDayRemain", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos")]
+    [System.SerializableAttribute()]
+    public partial class InfoLastMonthDayRemain : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryCarPart DirectoryCarPartField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryCarPartIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Count {
+            get {
+                return this.CountField;
+            }
+            set {
+                if ((this.CountField.Equals(value) != true)) {
+                    this.CountField = value;
+                    this.RaisePropertyChanged("Count");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryCarPart DirectoryCarPart {
+            get {
+                return this.DirectoryCarPartField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryCarPartField, value) != true)) {
+                    this.DirectoryCarPartField = value;
+                    this.RaisePropertyChanged("DirectoryCarPart");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryCarPartId {
+            get {
+                return this.DirectoryCarPartIdField;
+            }
+            set {
+                if ((this.DirectoryCarPartIdField.Equals(value) != true)) {
+                    this.DirectoryCarPartIdField = value;
+                    this.RaisePropertyChanged("DirectoryCarPartId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DispatcherObject", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Threading")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DependencyObject))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Freezable))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Animatable))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ImageSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapImage))]
+    public partial class DispatcherObject : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DependencyObject", Namespace="http://schemas.datacontract.org/2004/07/System.Windows")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Freezable))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Animatable))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ImageSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapImage))]
+    public partial class DependencyObject : TestClient.AVBusinessLayerReference.DispatcherObject {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Freezable", Namespace="http://schemas.datacontract.org/2004/07/System.Windows")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Animatable))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ImageSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapImage))]
+    public partial class Freezable : TestClient.AVBusinessLayerReference.DependencyObject {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Animatable", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media.Animation")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ImageSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapImage))]
+    public partial class Animatable : TestClient.AVBusinessLayerReference.Freezable {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ImageSource", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapSource))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapImage))]
+    public partial class ImageSource : TestClient.AVBusinessLayerReference.Animatable {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BitmapSource", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapImage))]
+    public partial class BitmapSource : TestClient.AVBusinessLayerReference.ImageSource {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BitmapImage", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging")]
+    [System.SerializableAttribute()]
+    public partial class BitmapImage : TestClient.AVBusinessLayerReference.BitmapSource {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Uri BaseUriField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.BitmapCacheOption CacheOptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.BitmapCreateOptions CreateOptionsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DecodePixelHeightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DecodePixelWidthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.Rotation RotationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.Int32Rect SourceRectField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.IO.Stream StreamSourceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Net.Cache.RequestCachePolicy UriCachePolicyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Uri UriSourceField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Uri BaseUri {
+            get {
+                return this.BaseUriField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BaseUriField, value) != true)) {
+                    this.BaseUriField = value;
+                    this.RaisePropertyChanged("BaseUri");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.BitmapCacheOption CacheOption {
+            get {
+                return this.CacheOptionField;
+            }
+            set {
+                if ((this.CacheOptionField.Equals(value) != true)) {
+                    this.CacheOptionField = value;
+                    this.RaisePropertyChanged("CacheOption");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.BitmapCreateOptions CreateOptions {
+            get {
+                return this.CreateOptionsField;
+            }
+            set {
+                if ((this.CreateOptionsField.Equals(value) != true)) {
+                    this.CreateOptionsField = value;
+                    this.RaisePropertyChanged("CreateOptions");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DecodePixelHeight {
+            get {
+                return this.DecodePixelHeightField;
+            }
+            set {
+                if ((this.DecodePixelHeightField.Equals(value) != true)) {
+                    this.DecodePixelHeightField = value;
+                    this.RaisePropertyChanged("DecodePixelHeight");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DecodePixelWidth {
+            get {
+                return this.DecodePixelWidthField;
+            }
+            set {
+                if ((this.DecodePixelWidthField.Equals(value) != true)) {
+                    this.DecodePixelWidthField = value;
+                    this.RaisePropertyChanged("DecodePixelWidth");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.Rotation Rotation {
+            get {
+                return this.RotationField;
+            }
+            set {
+                if ((this.RotationField.Equals(value) != true)) {
+                    this.RotationField = value;
+                    this.RaisePropertyChanged("Rotation");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.Int32Rect SourceRect {
+            get {
+                return this.SourceRectField;
+            }
+            set {
+                if ((this.SourceRectField.Equals(value) != true)) {
+                    this.SourceRectField = value;
+                    this.RaisePropertyChanged("SourceRect");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.IO.Stream StreamSource {
+            get {
+                return this.StreamSourceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.StreamSourceField, value) != true)) {
+                    this.StreamSourceField = value;
+                    this.RaisePropertyChanged("StreamSource");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Net.Cache.RequestCachePolicy UriCachePolicy {
+            get {
+                return this.UriCachePolicyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UriCachePolicyField, value) != true)) {
+                    this.UriCachePolicyField = value;
+                    this.RaisePropertyChanged("UriCachePolicy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Uri UriSource {
+            get {
+                return this.UriSourceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UriSourceField, value) != true)) {
+                    this.UriSourceField = value;
+                    this.RaisePropertyChanged("UriSource");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Int32Rect", Namespace="http://schemas.datacontract.org/2004/07/System.Windows")]
+    [System.SerializableAttribute()]
+    public partial struct Int32Rect : System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int _heightField;
+        
+        private int _widthField;
+        
+        private int _xField;
+        
+        private int _yField;
+        
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int _height {
+            get {
+                return this._heightField;
+            }
+            set {
+                if ((this._heightField.Equals(value) != true)) {
+                    this._heightField = value;
+                    this.RaisePropertyChanged("_height");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int _width {
+            get {
+                return this._widthField;
+            }
+            set {
+                if ((this._widthField.Equals(value) != true)) {
+                    this._widthField = value;
+                    this.RaisePropertyChanged("_width");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int _x {
+            get {
+                return this._xField;
+            }
+            set {
+                if ((this._xField.Equals(value) != true)) {
+                    this._xField = value;
+                    this.RaisePropertyChanged("_x");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int _y {
+            get {
+                return this._yField;
+            }
+            set {
+                if ((this._yField.Equals(value) != true)) {
+                    this._yField = value;
+                    this.RaisePropertyChanged("_y");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BitmapCacheOption", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging")]
+    public enum BitmapCacheOption : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Default = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        OnDemand = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        OnLoad = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        None = 2,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.FlagsAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BitmapCreateOptions", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging")]
+    public enum BitmapCreateOptions : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        None = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PreservePixelFormat = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DelayCreation = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        IgnoreColorProfile = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        IgnoreImageCache = 8,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Rotation", Namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging")]
+    public enum Rotation : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Rotate0 = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Rotate90 = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Rotate180 = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Rotate270 = 3,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryUserStatus", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryUserStatus : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] PrivilegesField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] Privileges {
+            get {
+                return this.PrivilegesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PrivilegesField, value) != true)) {
+                    this.PrivilegesField = value;
+                    this.RaisePropertyChanged("Privileges");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentUserStatusPrivilege", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents")]
+    [System.SerializableAttribute()]
+    public partial class CurrentUserStatusPrivilege : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryUserStatusIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege DirectoryUserStatusPrivilegeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryUserStatusPrivilegeIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryUserStatusId {
+            get {
+                return this.DirectoryUserStatusIdField;
+            }
+            set {
+                if ((this.DirectoryUserStatusIdField.Equals(value) != true)) {
+                    this.DirectoryUserStatusIdField = value;
+                    this.RaisePropertyChanged("DirectoryUserStatusId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege DirectoryUserStatusPrivilege {
+            get {
+                return this.DirectoryUserStatusPrivilegeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryUserStatusPrivilegeField, value) != true)) {
+                    this.DirectoryUserStatusPrivilegeField = value;
+                    this.RaisePropertyChanged("DirectoryUserStatusPrivilege");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryUserStatusPrivilegeId {
+            get {
+                return this.DirectoryUserStatusPrivilegeIdField;
+            }
+            set {
+                if ((this.DirectoryUserStatusPrivilegeIdField.Equals(value) != true)) {
+                    this.DirectoryUserStatusPrivilegeIdField = value;
+                    this.RaisePropertyChanged("DirectoryUserStatusPrivilegeId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryUserStatusPrivilege", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryUserStatusPrivilege : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DirectoryUser", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories")]
+    [System.SerializableAttribute()]
+    public partial class DirectoryUser : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.CurrentUserStatus CurrentUserStatusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CurrentUserStatusIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.CurrentUserStatus CurrentUserStatus {
+            get {
+                return this.CurrentUserStatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CurrentUserStatusField, value) != true)) {
+                    this.CurrentUserStatusField = value;
+                    this.RaisePropertyChanged("CurrentUserStatus");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CurrentUserStatusId {
+            get {
+                return this.CurrentUserStatusIdField;
+            }
+            set {
+                if ((this.CurrentUserStatusIdField.Equals(value) != true)) {
+                    this.CurrentUserStatusIdField = value;
+                    this.RaisePropertyChanged("CurrentUserStatusId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserName {
+            get {
+                return this.UserNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
+                    this.UserNameField = value;
+                    this.RaisePropertyChanged("UserName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentUserStatus", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents")]
+    [System.SerializableAttribute()]
+    public partial class CurrentUserStatus : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryUserStatus DirectoryUserStatusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DirectoryUserStatusIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryUserStatus DirectoryUserStatus {
+            get {
+                return this.DirectoryUserStatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryUserStatusField, value) != true)) {
+                    this.DirectoryUserStatusField = value;
+                    this.RaisePropertyChanged("DirectoryUserStatus");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DirectoryUserStatusId {
+            get {
+                return this.DirectoryUserStatusIdField;
+            }
+            set {
+                if ((this.DirectoryUserStatusIdField.Equals(value) != true)) {
+                    this.DirectoryUserStatusIdField = value;
+                    this.RaisePropertyChanged("DirectoryUserStatusId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ParameterType", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers")]
+    public enum ParameterType : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PercentageRusBookKeeping = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PercentageImportBookKeeping = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        LastRusDate = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        LastImportDate = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Birthday = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        LastDate = 5,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DefaultCostsDate = 6,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Version = 7,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        IsProcessingLastDateInMonthRemains = 8,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CurrentCompanyAndPost", Namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps")]
+    [System.SerializableAttribute()]
+    public partial class CurrentCompanyAndPost : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TestClient.AVBusinessLayerReference.DirectoryPost DirectoryPostField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsTemporaryPostField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsTwoCompaniesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime PostChangeDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> PostFireDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double SalaryField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TestClient.AVBusinessLayerReference.DirectoryPost DirectoryPost {
+            get {
+                return this.DirectoryPostField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DirectoryPostField, value) != true)) {
+                    this.DirectoryPostField = value;
+                    this.RaisePropertyChanged("DirectoryPost");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsTemporaryPost {
+            get {
+                return this.IsTemporaryPostField;
+            }
+            set {
+                if ((this.IsTemporaryPostField.Equals(value) != true)) {
+                    this.IsTemporaryPostField = value;
+                    this.RaisePropertyChanged("IsTemporaryPost");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsTwoCompanies {
+            get {
+                return this.IsTwoCompaniesField;
+            }
+            set {
+                if ((this.IsTwoCompaniesField.Equals(value) != true)) {
+                    this.IsTwoCompaniesField = value;
+                    this.RaisePropertyChanged("IsTwoCompanies");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime PostChangeDate {
+            get {
+                return this.PostChangeDateField;
+            }
+            set {
+                if ((this.PostChangeDateField.Equals(value) != true)) {
+                    this.PostChangeDateField = value;
+                    this.RaisePropertyChanged("PostChangeDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> PostFireDate {
+            get {
+                return this.PostFireDateField;
+            }
+            set {
+                if ((this.PostFireDateField.Equals(value) != true)) {
+                    this.PostFireDateField = value;
+                    this.RaisePropertyChanged("PostFireDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Salary {
+            get {
+                return this.SalaryField;
+            }
+            set {
+                if ((this.SalaryField.Equals(value) != true)) {
+                    this.SalaryField = value;
+                    this.RaisePropertyChanged("Salary");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="AVBusinessLayerReference.IAVBusinessLayer")]
     public interface IAVBusinessLayer {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/DoWork", ReplyAction="http://tempuri.org/IAVBusinessLayer/DoWorkResponse")]
-        string DoWork();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPartResponse")]
+        TestClient.AVBusinessLayerReference.CurrentCarPart AddCurrentCarPart(TestClient.AVBusinessLayerReference.DirectoryCarPart directoryCarPart, System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/DoWork", ReplyAction="http://tempuri.org/IAVBusinessLayer/DoWorkResponse")]
-        System.Threading.Tasks.Task<string> DoWorkAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPartResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart> AddCurrentCarPartAsync(TestClient.AVBusinessLayerReference.DirectoryCarPart directoryCarPart, System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPartNoSave", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPartNoSaveResponse")]
+        TestClient.AVBusinessLayerReference.CurrentCarPart AddCurrentCarPartNoSave(System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale, TestClient.AVBusinessLayerReference.Currency currency, string fullName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPartNoSave", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddCurrentCarPartNoSaveResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart> AddCurrentCarPartNoSaveAsync(System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale, TestClient.AVBusinessLayerReference.Currency currency, string fullName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentCarParts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentCarPartsResponse")]
+        TestClient.AVBusinessLayerReference.CurrentCarPart[] GetCurrentCarParts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentCarParts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentCarPartsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart[]> GetCurrentCarPartsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentCarPartResponse")]
+        TestClient.AVBusinessLayerReference.CurrentCarPart GetCurrentCarPart(int directoryCarPartId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentCarPartResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart> GetCurrentCarPartAsync(int directoryCarPartId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetArticlePrices", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetArticlePricesResponse")]
+        TestClient.AVBusinessLayerReference.ArticlePrice[] GetArticlePrices(System.DateTime date, TestClient.AVBusinessLayerReference.Currency currency);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetArticlePrices", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetArticlePricesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.ArticlePrice[]> GetArticlePricesAsync(System.DateTime date, TestClient.AVBusinessLayerReference.Currency currency);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SetRemainsToFirstDateInMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/SetRemainsToFirstDateInMonthResponse")]
+        void SetRemainsToFirstDateInMonth();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SetRemainsToFirstDateInMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/SetRemainsToFirstDateInMonthResponse")]
+        System.Threading.Tasks.Task SetRemainsToFirstDateInMonthAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetRemainsToDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetRemainsToDateResponse")]
+        TestClient.AVBusinessLayerReference.CarPartRemain[] GetRemainsToDate(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetRemainsToDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetRemainsToDateResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CarPartRemain[]> GetRemainsToDateAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPalletContents", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPalletContentsResponse")]
+        TestClient.AVBusinessLayerReference.PalletContent[] GetPalletContents(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPalletContents", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPalletContentsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.PalletContent[]> GetPalletContentsAsync(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetAllPallets", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetAllPalletsResponse")]
+        TestClient.AVBusinessLayerReference.PalletContent[] GetAllPallets(string warehouseName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetAllPallets", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetAllPalletsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.PalletContent[]> GetAllPalletsAsync(string warehouseName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SavePalletContents", ReplyAction="http://tempuri.org/IAVBusinessLayer/SavePalletContentsResponse")]
+        TestClient.AVBusinessLayerReference.PalletContent[] SavePalletContents(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address, TestClient.AVBusinessLayerReference.CarPartPallet[] carPartPallets);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SavePalletContents", ReplyAction="http://tempuri.org/IAVBusinessLayer/SavePalletContentsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.PalletContent[]> SavePalletContentsAsync(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address, TestClient.AVBusinessLayerReference.CarPartPallet[] carPartPallets);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetTotalEqualCashSafeToMinsks", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetTotalEqualCashSafeToMinsksResponse")]
+        TestClient.AVBusinessLayerReference.InfoTotalEqualCashSafeToMinsk[] GetTotalEqualCashSafeToMinsks(System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetTotalEqualCashSafeToMinsks", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetTotalEqualCashSafeToMinsksResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoTotalEqualCashSafeToMinsk[]> GetTotalEqualCashSafeToMinsksAsync(System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SaveTotalSafeAndMinskCashes", ReplyAction="http://tempuri.org/IAVBusinessLayer/SaveTotalSafeAndMinskCashesResponse")]
+        void SaveTotalSafeAndMinskCashes(System.DateTime date, double minskSumm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SaveTotalSafeAndMinskCashes", ReplyAction="http://tempuri.org/IAVBusinessLayer/SaveTotalSafeAndMinskCashesResponse")]
+        System.Threading.Tasks.Task SaveTotalSafeAndMinskCashesAsync(System.DateTime date, double minskSumm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPam16Percentage", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPam16PercentageResponse")]
+        double GetPam16Percentage(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPam16Percentage", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPam16PercentageResponse")]
+        System.Threading.Tasks.Task<double> GetPam16PercentageAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SavePam16Percentage", ReplyAction="http://tempuri.org/IAVBusinessLayer/SavePam16PercentageResponse")]
+        void SavePam16Percentage(System.DateTime date, double pam16Percentage);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SavePam16Percentage", ReplyAction="http://tempuri.org/IAVBusinessLayer/SavePam16PercentageResponse")]
+        System.Threading.Tasks.Task SavePam16PercentageAsync(System.DateTime date, double pam16Percentage);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/LoginUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/LoginUserResponse")]
+        bool LoginUser(int userId, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/LoginUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/LoginUserResponse")]
+        System.Threading.Tasks.Task<bool> LoginUserAsync(int userId, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoOverTimeByDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoOverTimeByDateResponse")]
+        void EditInfoOverTimeByDate(System.DateTime date, double hoursOverTime);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoOverTimeByDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoOverTimeByDateResponse")]
+        System.Threading.Tasks.Task EditInfoOverTimeByDateAsync(System.DateTime date, double hoursOverTime);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimeResponse")]
+        TestClient.AVBusinessLayerReference.InfoOverTime GetInfoOverTime(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimeResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoOverTime> GetInfoOverTimeAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimesResponse")]
+        TestClient.AVBusinessLayerReference.InfoOverTime[] GetInfoOverTimes(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoOverTime[]> GetInfoOverTimesAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimeDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimeDatesResponse")]
+        System.DateTime[] GetInfoOverTimeDates(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimeDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoOverTimeDatesResponse")]
+        System.Threading.Tasks.Task<System.DateTime[]> GetInfoOverTimeDatesAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsInfoOverTimeDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsInfoOverTimeDateResponse")]
+        bool IsInfoOverTimeDate(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsInfoOverTimeDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsInfoOverTimeDateResponse")]
+        System.Threading.Tasks.Task<bool> IsInfoOverTimeDateAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoOverTimeResponse")]
+        void RemoveInfoOverTime(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoOverTimeResponse")]
+        System.Threading.Tasks.Task RemoveInfoOverTimeAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoCostResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost EditInfoCost(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, bool isIncomming, double summ, TestClient.AVBusinessLayerReference.Currency currency, double weight);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoCostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost> EditInfoCostAsync(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, bool isIncomming, double summ, TestClient.AVBusinessLayerReference.Currency currency, double weight);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsByDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsByDateResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsByDate(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsByDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsByDateResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsByDateAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost GetInfoCost(int infoCostId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost> GetInfoCostAsync(int infoCostId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCosts(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCIncoming", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCIncomingResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsRCIncoming(int year, int month, string rcName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCIncoming", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCIncomingResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsRCIncomingAsync(int year, int month, string rcName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCosts26Expense", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCosts26ExpenseResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCosts26Expense(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCosts26Expense", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCosts26ExpenseResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCosts26ExpenseAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCAndAll", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCAndAllResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsRCAndAll(int year, int month, string rcName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCAndAll", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsRCAndAllResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsRCAndAllAsync(int year, int month, string rcName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsPAM16", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsPAM16Response")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsPAM16(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsPAM16", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsPAM16Response")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsPAM16Async(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnly", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnlyRe" +
+            "sponse")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnly(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnly", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnlyRe" +
+            "sponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsTransportAndNoAllAndExpenseOnlyAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnlyBy" +
+            "Date", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnlyBy" +
+            "DateResponse")]
+        TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnlyByDate(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnlyBy" +
+            "Date", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsTransportAndNoAllAndExpenseOnlyBy" +
+            "DateResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsTransportAndNoAllAndExpenseOnlyByDateAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoCostsResponse")]
+        void AddInfoCosts(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem directoryCostItem, bool isIncoming, TestClient.AVBusinessLayerReference.DirectoryTransportCompany transportCompany, double summ, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.Transport[] transports);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoCostsResponse")]
+        System.Threading.Tasks.Task AddInfoCostsAsync(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem directoryCostItem, bool isIncoming, TestClient.AVBusinessLayerReference.DirectoryTransportCompany transportCompany, double summ, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.Transport[] transports);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoCostResponse")]
+        void RemoveInfoCost(TestClient.AVBusinessLayerReference.InfoCost infoCost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoCostResponse")]
+        System.Threading.Tasks.Task RemoveInfoCostAsync(TestClient.AVBusinessLayerReference.InfoCost infoCost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostYears", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostYearsResponse")]
+        int[] GetInfoCostYears();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostYears", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostYearsResponse")]
+        System.Threading.Tasks.Task<int[]> GetInfoCostYearsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostMonthesResponse")]
+        int[] GetInfoCostMonthes(int year);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostMonthesResponse")]
+        System.Threading.Tasks.Task<int[]> GetInfoCostMonthesAsync(int year);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCost26Summ", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCost26SummResponse")]
+        double GetInfoCost26Summ(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCost26Summ", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCost26SummResponse")]
+        System.Threading.Tasks.Task<double> GetInfoCost26SummAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsIncomingTotalSummsCurrency", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsIncomingTotalSummsCurrencyRespons" +
+            "e")]
+        string[] GetInfoCostsIncomingTotalSummsCurrency(int year, int month, string rcName, System.Nullable<bool> isIncoming, string costItem);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCostsIncomingTotalSummsCurrency", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCostsIncomingTotalSummsCurrencyRespons" +
+            "e")]
+        System.Threading.Tasks.Task<string[]> GetInfoCostsIncomingTotalSummsCurrencyAsync(int year, int month, string rcName, System.Nullable<bool> isIncoming, string costItem);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoLoanResponse")]
+        TestClient.AVBusinessLayerReference.InfoLoan AddInfoLoan(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoLoanResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLoan> AddInfoLoanAsync(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoLoanResponse")]
+        TestClient.AVBusinessLayerReference.InfoLoan EditInfoLoan(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoLoanResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLoan> EditInfoLoanAsync(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoLoanResponse")]
+        void RemoveInfoLoan(TestClient.AVBusinessLayerReference.InfoLoan selectedInfoLoan);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoLoanResponse")]
+        System.Threading.Tasks.Task RemoveInfoLoanAsync(TestClient.AVBusinessLayerReference.InfoLoan selectedInfoLoan);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoLoansResponse")]
+        TestClient.AVBusinessLayerReference.InfoLoan[] GetInfoLoans(System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoLoansResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLoan[]> GetInfoLoansAsync(System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetLoansResponse")]
+        double GetLoans();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetLoansResponse")]
+        System.Threading.Tasks.Task<double> GetLoansAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPrivateLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPrivateLoanResponse")]
+        TestClient.AVBusinessLayerReference.InfoPrivateLoan AddInfoPrivateLoan(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPrivateLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPrivateLoanResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivateLoan> AddInfoPrivateLoanAsync(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoPrivateLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoPrivateLoanResponse")]
+        TestClient.AVBusinessLayerReference.InfoPrivateLoan EditInfoPrivateLoan(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoPrivateLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoPrivateLoanResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivateLoan> EditInfoPrivateLoanAsync(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivateLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivateLoanResponse")]
+        void RemoveInfoPrivateLoan(TestClient.AVBusinessLayerReference.InfoPrivateLoan selectedInfoPrivateLoan);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivateLoan", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivateLoanResponse")]
+        System.Threading.Tasks.Task RemoveInfoPrivateLoanAsync(TestClient.AVBusinessLayerReference.InfoPrivateLoan selectedInfoPrivateLoan);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPrivateLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPrivateLoansResponse")]
+        TestClient.AVBusinessLayerReference.InfoPrivateLoan[] GetInfoPrivateLoans(System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPrivateLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPrivateLoansResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivateLoan[]> GetInfoPrivateLoansAsync(System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPrivateLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPrivateLoansResponse")]
+        double GetPrivateLoans();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPrivateLoans", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPrivateLoansResponse")]
+        System.Threading.Tasks.Task<double> GetPrivateLoansAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItems", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItemsResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryCostItem[] GetDirectoryCostItems();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItems", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItemsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCostItem[]> GetDirectoryCostItemsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItem", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItemResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryCostItem GetDirectoryCostItem(string costItemName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItem", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCostItemResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCostItem> GetDirectoryCostItemAsync(string costItemName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryNotes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryNotesResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryNote[] GetDirectoryNotes();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryNotes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryNotesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryNote[]> GetDirectoryNotesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryNote", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryNoteResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryNote GetDirectoryNote(string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryNote", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryNoteResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryNote> GetDirectoryNoteAsync(string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsDirectoryNote", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsDirectoryNoteResponse")]
+        bool IsDirectoryNote(string note);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsDirectoryNote", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsDirectoryNoteResponse")]
+        System.Threading.Tasks.Task<bool> IsDirectoryNoteAsync(string note);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDefaultCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDefaultCostsResponse")]
+        TestClient.AVBusinessLayerReference.DefaultCost[] GetDefaultCosts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDefaultCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDefaultCostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DefaultCost[]> GetDefaultCostsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDefaultCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDefaultCostResponse")]
+        TestClient.AVBusinessLayerReference.DefaultCost AddDefaultCost(TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDefaultCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDefaultCostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DefaultCost> AddDefaultCostAsync(TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDefaultCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDefaultCostResponse")]
+        void EditDefaultCost(int id, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDefaultCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDefaultCostResponse")]
+        System.Threading.Tasks.Task EditDefaultCostAsync(int id, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDefaultCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDefaultCostResponse")]
+        void RemoveDefaultCost(TestClient.AVBusinessLayerReference.DefaultCost defaultCost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDefaultCost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDefaultCostResponse")]
+        System.Threading.Tasks.Task RemoveDefaultCostAsync(TestClient.AVBusinessLayerReference.DefaultCost defaultCost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/InitializeDefaultCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/InitializeDefaultCostsResponse")]
+        void InitializeDefaultCosts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/InitializeDefaultCosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/InitializeDefaultCostsResponse")]
+        System.Threading.Tasks.Task InitializeDefaultCostsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryTransportCompanies", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryTransportCompaniesResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryTransportCompany[] GetDirectoryTransportCompanies();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryTransportCompanies", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryTransportCompaniesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTransportCompany[]> GetDirectoryTransportCompaniesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentRCs", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentRCsResponse")]
+        TestClient.AVBusinessLayerReference.CurrentRC[] GetCurrentRCs(int[] ids);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentRCs", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentRCsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentRC[]> GetCurrentRCsAsync(int[] ids);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryLoanTakers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryLoanTakersResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryLoanTaker[] GetDirectoryLoanTakers();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryLoanTakers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryLoanTakersResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryLoanTaker[]> GetDirectoryLoanTakersAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryLoanTaker", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryLoanTakerResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryLoanTaker AddDirectoryLoanTaker(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryLoanTaker", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryLoanTakerResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryLoanTaker> AddDirectoryLoanTakerAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPayments", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPaymentsResponse")]
+        TestClient.AVBusinessLayerReference.InfoPayment[] GetInfoPayments(int infoLoanId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPayments", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPaymentsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPayment[]> GetInfoPaymentsAsync(int infoLoanId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPaymentResponse")]
+        TestClient.AVBusinessLayerReference.InfoPayment AddInfoPayment(int infoLoanId, System.DateTime date, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPaymentResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPayment> AddInfoPaymentAsync(int infoLoanId, System.DateTime date, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPaymentResponse")]
+        void RemoveInfoPayment(TestClient.AVBusinessLayerReference.InfoPayment selectedInfoPayment);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPaymentResponse")]
+        System.Threading.Tasks.Task RemoveInfoPaymentAsync(TestClient.AVBusinessLayerReference.InfoPayment selectedInfoPayment);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SetCardAvaliableSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/SetCardAvaliableSummResponse")]
+        void SetCardAvaliableSumm(string cardName, double avaliableSumm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SetCardAvaliableSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/SetCardAvaliableSummResponse")]
+        System.Threading.Tasks.Task SetCardAvaliableSummAsync(string cardName, double avaliableSumm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCardAvaliableSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCardAvaliableSummResponse")]
+        double GetCardAvaliableSumm(string cardName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCardAvaliableSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCardAvaliableSummResponse")]
+        System.Threading.Tasks.Task<double> GetCardAvaliableSummAsync(string cardName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoSafe", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoSafeResponse")]
+        TestClient.AVBusinessLayerReference.InfoSafe AddInfoSafe(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description, string bankName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoSafe", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoSafeResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe> AddInfoSafeAsync(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description, string bankName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoSafeHand", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoSafeHandResponse")]
+        TestClient.AVBusinessLayerReference.InfoSafe AddInfoSafeHand(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoSafeHand", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoSafeHandResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe> AddInfoSafeHandAsync(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoSafeCard", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoSafeCardResponse")]
+        TestClient.AVBusinessLayerReference.InfoSafe AddInfoSafeCard(System.DateTime date, double availableSumm, TestClient.AVBusinessLayerReference.Currency currency, string description, string bankName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoSafeCard", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoSafeCardResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe> AddInfoSafeCardAsync(System.DateTime date, double availableSumm, TestClient.AVBusinessLayerReference.Currency currency, string description, string bankName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsNewMessage", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsNewMessageResponse")]
+        bool IsNewMessage(System.DateTime date, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsNewMessage", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsNewMessageResponse")]
+        System.Threading.Tasks.Task<bool> IsNewMessageAsync(System.DateTime date, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoSafes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoSafesResponse")]
+        TestClient.AVBusinessLayerReference.InfoSafe[] GetInfoSafes();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoSafes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoSafesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe[]> GetInfoSafesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoSafesByCashType", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoSafesByCashTypeResponse")]
+        TestClient.AVBusinessLayerReference.InfoSafe[] GetInfoSafesByCashType(TestClient.AVBusinessLayerReference.CashType cashType, System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoSafesByCashType", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoSafesByCashTypeResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe[]> GetInfoSafesByCashTypeAsync(TestClient.AVBusinessLayerReference.CashType cashType, System.DateTime from, System.DateTime to);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoSafe", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoSafeResponse")]
+        void RemoveInfoSafe(TestClient.AVBusinessLayerReference.InfoSafe infoSafe);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoSafe", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoSafeResponse")]
+        System.Threading.Tasks.Task RemoveInfoSafeAsync(TestClient.AVBusinessLayerReference.InfoSafe infoSafe);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPrivatePayments", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPrivatePaymentsResponse")]
+        TestClient.AVBusinessLayerReference.InfoPrivatePayment[] GetInfoPrivatePayments(int infoSafeId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPrivatePayments", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPrivatePaymentsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivatePayment[]> GetInfoPrivatePaymentsAsync(int infoSafeId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPrivatePayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPrivatePaymentResponse")]
+        TestClient.AVBusinessLayerReference.InfoPrivatePayment AddInfoPrivatePayment(int infoPrivateLoanId, System.DateTime date, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPrivatePayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPrivatePaymentResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivatePayment> AddInfoPrivatePaymentAsync(int infoPrivateLoanId, System.DateTime date, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivatePayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivatePaymentResponse")]
+        void RemoveInfoPrivatePayment(TestClient.AVBusinessLayerReference.InfoPrivatePayment selectedInfoPrivatePayment);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivatePayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPrivatePaymentResponse")]
+        System.Threading.Tasks.Task RemoveInfoPrivatePaymentAsync(TestClient.AVBusinessLayerReference.InfoPrivatePayment selectedInfoPrivatePayment);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrencyValue", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrencyValueResponse")]
+        TestClient.AVBusinessLayerReference.CurrencyValue GetCurrencyValue(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrencyValue", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrencyValueResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrencyValue> GetCurrencyValueAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrencyValueSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrencyValueSummResponse")]
+        double GetCurrencyValueSumm(string name, TestClient.AVBusinessLayerReference.Currency currency);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrencyValueSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrencyValueSummResponse")]
+        System.Threading.Tasks.Task<double> GetCurrencyValueSummAsync(string name, TestClient.AVBusinessLayerReference.Currency currency);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSummResponse")]
+        void EditCurrencyValueSumm(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSumm", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSummResponse")]
+        System.Threading.Tasks.Task EditCurrencyValueSummAsync(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSummChange", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSummChangeResponse")]
+        void EditCurrencyValueSummChange(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSummChange", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditCurrencyValueSummChangeResponse")]
+        System.Threading.Tasks.Task EditCurrencyValueSummChangeAsync(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalaries", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalariesResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPostSalary[] GetDirectoryPostSalaries(int postId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalaries", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalariesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPostSalary[]> GetDirectoryPostSalariesAsync(int postId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalaryByDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalaryByDateResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPostSalary GetDirectoryPostSalaryByDate(int postId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalaryByDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalaryByDateResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPostSalary> GetDirectoryPostSalaryByDateAsync(int postId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalariesByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalariesByMonthResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPostSalary[] GetDirectoryPostSalariesByMonth(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalariesByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostSalariesByMonthResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPostSalary[]> GetDirectoryPostSalariesByMonthAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryCarPartResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryCarPart AddDirectoryCarPart(string article, string mark, string description, string originalNumber, string factoryNumber, string crossNumber, string material, string attachment, string countInBox, bool isImport);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryCarPartResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCarPart> AddDirectoryCarPartAsync(string article, string mark, string description, string originalNumber, string factoryNumber, string crossNumber, string material, string attachment, string countInBox, bool isImport);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarParts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarPartsResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryCarPart[] GetDirectoryCarParts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarParts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarPartsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCarPart[]> GetDirectoryCarPartsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarPartResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryCarPart GetDirectoryCarPart(string article, string mark);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarPart", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCarPartResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCarPart> GetDirectoryCarPartAsync(string article, string mark);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetContainerYears", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetContainerYearsResponse")]
+        int[] GetContainerYears(bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetContainerYears", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetContainerYearsResponse")]
+        System.Threading.Tasks.Task<int[]> GetContainerYearsAsync(bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetContainerMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetContainerMonthesResponse")]
+        int[] GetContainerMonthes(int selectedYear, bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetContainerMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetContainerMonthesResponse")]
+        System.Threading.Tasks.Task<int[]> GetContainerMonthesAsync(int selectedYear, bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetContainers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetContainersResponse")]
+        TestClient.AVBusinessLayerReference.InfoContainer[] GetContainers(int year, int month, bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetContainers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetContainersResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer[]> GetContainersAsync(int year, int month, bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoContainers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoContainersResponse")]
+        TestClient.AVBusinessLayerReference.InfoContainer[] GetInfoContainers(TestClient.AVBusinessLayerReference.InfoContainer[] containers);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoContainers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoContainersResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer[]> GetInfoContainersAsync(TestClient.AVBusinessLayerReference.InfoContainer[] containers);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoContainerResponse")]
+        TestClient.AVBusinessLayerReference.InfoContainer GetInfoContainer(int containerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoContainerResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer> GetInfoContainerAsync(int containerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoContainerResponse")]
+        void RemoveInfoContainer(TestClient.AVBusinessLayerReference.InfoContainer container);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoContainerResponse")]
+        System.Threading.Tasks.Task RemoveInfoContainerAsync(TestClient.AVBusinessLayerReference.InfoContainer container);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoContainerResponse")]
+        TestClient.AVBusinessLayerReference.InfoContainer AddInfoContainer(string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoContainerResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer> AddInfoContainerAsync(string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoContainerResponse")]
+        void EditInfoContainer(int containerId, string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoContainer", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoContainerResponse")]
+        System.Threading.Tasks.Task EditInfoContainerAsync(int containerId, string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetMovementsByDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetMovementsByDatesResponse")]
+        TestClient.AVBusinessLayerReference.InfoCarPartMovement[] GetMovementsByDates(TestClient.AVBusinessLayerReference.DirectoryCarPart selectedDirectoryCarPart, System.DateTime selectedDateFrom, System.DateTime selectedDateTo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetMovementsByDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetMovementsByDatesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCarPartMovement[]> GetMovementsByDatesAsync(TestClient.AVBusinessLayerReference.DirectoryCarPart selectedDirectoryCarPart, System.DateTime selectedDateFrom, System.DateTime selectedDateTo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveContainers", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveContainersResponse")]
+        void RemoveContainers(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveContainers", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveContainersResponse")]
+        System.Threading.Tasks.Task RemoveContainersAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoLastMonthDayRemain", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoLastMonthDayRemainResponse")]
+        TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain GetInfoLastMonthDayRemain(System.DateTime date, int carPartId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoLastMonthDayRemain", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoLastMonthDayRemainResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain> GetInfoLastMonthDayRemainAsync(System.DateTime date, int carPartId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCarPartIncomingCountTillDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCarPartIncomingCountTillDateResponse")]
+        int GetInfoCarPartIncomingCountTillDate(System.DateTime date, int carPartId, bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoCarPartIncomingCountTillDate", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoCarPartIncomingCountTillDateResponse")]
+        System.Threading.Tasks.Task<int> GetInfoCarPartIncomingCountTillDateAsync(System.DateTime date, int carPartId, bool isIncoming);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoLastMonthDayRemain", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoLastMonthDayRemainResponse")]
+        TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain AddInfoLastMonthDayRemain(TestClient.AVBusinessLayerReference.DirectoryCarPart carPart, System.DateTime date, int count);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoLastMonthDayRemain", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoLastMonthDayRemainResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain> AddInfoLastMonthDayRemainAsync(TestClient.AVBusinessLayerReference.DirectoryCarPart carPart, System.DateTime date, int count);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoLastMonthDayRemains", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoLastMonthDayRemainsResponse")]
+        void RemoveInfoLastMonthDayRemains(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoLastMonthDayRemains", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoLastMonthDayRemainsResponse")]
+        System.Threading.Tasks.Task RemoveInfoLastMonthDayRemainsAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompaniesByWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompaniesByWorkerResponse")]
+        string[] GetDirectoryCompaniesByWorker(int workerId, int year, int month, int lastDayInMonth);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompaniesByWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompaniesByWorkerResponse")]
+        System.Threading.Tasks.Task<string[]> GetDirectoryCompaniesByWorkerAsync(int workerId, int year, int month, int lastDayInMonth);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompanies", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompaniesResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryCompany[] GetDirectoryCompanies();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompanies", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryCompaniesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCompany[]> GetDirectoryCompaniesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryCompany", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryCompanyResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryCompany AddDirectoryCompany(string directoryCompanyName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryCompany", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryCompanyResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCompany> AddDirectoryCompanyAsync(string directoryCompanyName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryCompany", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryCompanyResponse")]
+        void RemoveDirectoryCompany(int directoryCompanyId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryCompany", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryCompanyResponse")]
+        System.Threading.Tasks.Task RemoveDirectoryCompanyAsync(int directoryCompanyId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPostsResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryTypeOfPost[] GetDirectoryTypeOfPosts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTypeOfPost[]> GetDirectoryTypeOfPostsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryTypeOfPostResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryTypeOfPost AddDirectoryTypeOfPost(string directoryTypeOfPostName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryTypeOfPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTypeOfPost> AddDirectoryTypeOfPostAsync(string directoryTypeOfPostName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryTypeOfPostResponse")]
+        void RemoveDirectoryTypeOfPost(int directoryTypeOfPostId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryTypeOfPostResponse")]
+        System.Threading.Tasks.Task RemoveDirectoryTypeOfPostAsync(int directoryTypeOfPostId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPostResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryTypeOfPost GetDirectoryTypeOfPost(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryTypeOfPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTypeOfPost> GetDirectoryTypeOfPostAsync(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostsResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPost[] GetDirectoryPosts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost[]> GetDirectoryPostsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostsByCompany", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostsByCompanyResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPost[] GetDirectoryPostsByCompany(TestClient.AVBusinessLayerReference.DirectoryCompany company);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostsByCompany", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostsByCompanyResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost[]> GetDirectoryPostsByCompanyAsync(TestClient.AVBusinessLayerReference.DirectoryCompany company);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPost GetDirectoryPost(string postName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost> GetDirectoryPostAsync(string postName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryPostResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPost AddDirectoryPost(string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost> AddDirectoryPostAsync(string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryPostResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryPost EditDirectoryPost(int postId, string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost> EditDirectoryPostAsync(int postId, string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryPostResponse")]
+        void RemoveDirectoryPost(TestClient.AVBusinessLayerReference.DirectoryPost post);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryPostResponse")]
+        System.Threading.Tasks.Task RemoveDirectoryPostAsync(TestClient.AVBusinessLayerReference.DirectoryPost post);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/ExistsDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/ExistsDirectoryPostResponse")]
+        bool ExistsDirectoryPost(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/ExistsDirectoryPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/ExistsDirectoryPostResponse")]
+        System.Threading.Tasks.Task<bool> ExistsDirectoryPostAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDeadSpiritDirectoryWorkers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDeadSpiritDirectoryWorkersResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDeadSpiritDirectoryWorkers(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDeadSpiritDirectoryWorkers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDeadSpiritDirectoryWorkersResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDeadSpiritDirectoryWorkersAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorkerWithMultiplyPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorkerWithMultiplyPostsResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker AddDirectoryWorkerWithMultiplyPosts(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorkerWithMultiplyPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorkerWithMultiplyPostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> AddDirectoryWorkerWithMultiplyPostsAsync(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorkerResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentPost currentPost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryWorkerResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> AddDirectoryWorkerAsync(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentPost currentPost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkers();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByMonthResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersByMonth(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByMonthResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersByMonthAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersMonthTimeSheet", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersMonthTimeSheetResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersMonthTimeSheet(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersMonthTimeSheet", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersMonthTimeSheetResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersMonthTimeSheetAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByTypeOfPostResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersByTypeOfPost(int year, int month, bool isOffice);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByTypeOfPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersByTypeOfPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersByTypeOfPostAsync(int year, int month, bool isOffice);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersBetweenDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersBetweenDatesResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersBetweenDates(System.DateTime fromDate, System.DateTime toDate);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersBetweenDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersBetweenDatesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersBetweenDatesAsync(System.DateTime fromDate, System.DateTime toDate);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersWithInfoDatesAndPanalties", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersWithInfoDatesAndPanaltiesR" +
+            "esponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersWithInfoDatesAndPanalties(int year, int month, bool isOffice);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersWithInfoDatesAndPanalties", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkersWithInfoDatesAndPanaltiesR" +
+            "esponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersWithInfoDatesAndPanaltiesAsync(int year, int month, bool isOffice);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerById", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerByIdResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker GetDirectoryWorkerById(int workerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerById", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerByIdResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> GetDirectoryWorkerByIdAsync(int workerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerWithPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerWithPostsResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker GetDirectoryWorkerWithPosts(int workerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerWithPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerWithPostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> GetDirectoryWorkerWithPostsAsync(int workerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker GetDirectoryWorker(string lastName, string firstName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryWorkerResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> GetDirectoryWorkerAsync(string lastName, string firstName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryWorkerResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryWorkerResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> EditDirectoryWorkerAsync(int id, string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanalties", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanaltiesResponse")]
+        TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatePanalties(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanalties", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanaltiesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatePanaltiesAsync(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanaltiesWithoutCash", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanaltiesWithoutCashResponse")]
+        TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatePanaltiesWithoutCash(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanaltiesWithoutCash", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatePanaltiesWithoutCashResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatePanaltiesWithoutCashAsync(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoDateHour", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoDateHourResponse")]
+        void EditInfoDateHour(int workerId, System.DateTime date, string hour);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoDateHour", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoDateHourResponse")]
+        System.Threading.Tasks.Task EditInfoDateHourAsync(int workerId, System.DateTime date, string hour);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatesResponse")]
+        TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDates(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatesAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByWorkerResponse")]
+        TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatesByWorker(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByWorker", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByWorkerResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatesByWorkerAsync(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByMonthResponse")]
+        TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatesByMonth(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoDatesByMonthResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatesByMonthAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsOverTimeResponse")]
+        System.Nullable<double> IsOverTime(TestClient.AVBusinessLayerReference.InfoDate infoDate, System.DateTime[] weekEnds);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsOverTimeResponse")]
+        System.Threading.Tasks.Task<System.Nullable<double>> IsOverTimeAsync(TestClient.AVBusinessLayerReference.InfoDate infoDate, System.DateTime[] weekEnds);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDeadSpiritHours", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDeadSpiritHoursResponse")]
+        void EditDeadSpiritHours(int deadSpiritWorkerId, System.DateTime date, double hoursSpiritWorker);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDeadSpiritHours", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDeadSpiritHoursResponse")]
+        System.Threading.Tasks.Task EditDeadSpiritHoursAsync(int deadSpiritWorkerId, System.DateTime date, double hoursSpiritWorker);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetLastWorkDay", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetLastWorkDayResponse")]
+        System.DateTime GetLastWorkDay(int workerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetLastWorkDay", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetLastWorkDayResponse")]
+        System.Threading.Tasks.Task<System.DateTime> GetLastWorkDayAsync(int workerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoMonthPayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoMonthPaymentResponse")]
+        void EditInfoMonthPayment(int workerId, System.DateTime date, string propertyName, double propertyValue);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoMonthPayment", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoMonthPaymentResponse")]
+        System.Threading.Tasks.Task EditInfoMonthPaymentAsync(int workerId, System.DateTime date, string propertyName, double propertyValue);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetYears", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetYearsResponse")]
+        int[] GetYears();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetYears", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetYearsResponse")]
+        System.Threading.Tasks.Task<int[]> GetYearsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetMonthesResponse")]
+        int[] GetMonthes(int year);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetMonthesResponse")]
+        System.Threading.Tasks.Task<int[]> GetMonthesAsync(int year);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoMonthResponse")]
+        TestClient.AVBusinessLayerReference.InfoMonth GetInfoMonth(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoMonthResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoMonth> GetInfoMonthAsync(int workerId, int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoMonthesResponse")]
+        TestClient.AVBusinessLayerReference.InfoMonth[] GetInfoMonthes(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoMonthes", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoMonthesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoMonth[]> GetInfoMonthesAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPanaltyResponse")]
+        TestClient.AVBusinessLayerReference.InfoPanalty GetInfoPanalty(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetInfoPanaltyResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPanalty> GetInfoPanaltyAsync(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsInfoPanaltyResponse")]
+        bool IsInfoPanalty(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsInfoPanaltyResponse")]
+        System.Threading.Tasks.Task<bool> IsInfoPanaltyAsync(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPanaltyResponse")]
+        TestClient.AVBusinessLayerReference.InfoPanalty AddInfoPanalty(int workerId, System.DateTime date, double summ, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoPanaltyResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPanalty> AddInfoPanaltyAsync(int workerId, System.DateTime date, double summ, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoPanaltyResponse")]
+        TestClient.AVBusinessLayerReference.InfoPanalty EditInfoPanalty(int workerId, System.DateTime date, double summ, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoPanaltyResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPanalty> EditInfoPanaltyAsync(int workerId, System.DateTime date, double summ, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPanaltyResponse")]
+        void RemoveInfoPanalty(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveInfoPanalty", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveInfoPanaltyResponse")]
+        System.Threading.Tasks.Task RemoveInfoPanaltyAsync(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddCurrentPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddCurrentPostResponse")]
+        void AddCurrentPost(int workerId, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost currentCompanyAndPost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddCurrentPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddCurrentPostResponse")]
+        System.Threading.Tasks.Task AddCurrentPostAsync(int workerId, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost currentCompanyAndPost);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentPostsResponse")]
+        TestClient.AVBusinessLayerReference.CurrentPost[] GetCurrentPosts(System.DateTime lastDateInMonth);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentPostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost[]> GetCurrentPostsAsync(System.DateTime lastDateInMonth);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentPostResponse")]
+        TestClient.AVBusinessLayerReference.CurrentPost GetCurrentPost(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost> GetCurrentPostAsync(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetMainPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetMainPostResponse")]
+        TestClient.AVBusinessLayerReference.CurrentPost GetMainPost(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetMainPost", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetMainPostResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost> GetMainPostAsync(int workerId, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentMainPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentMainPostsResponse")]
+        TestClient.AVBusinessLayerReference.CurrentPost[] GetCurrentMainPosts(System.DateTime lastDateInMonth);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCurrentMainPosts", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCurrentMainPostsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost[]> GetCurrentMainPostsAsync(System.DateTime lastDateInMonth);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCountWorkDaysInMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCountWorkDaysInMonthResponse")]
+        int GetCountWorkDaysInMonth(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetCountWorkDaysInMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetCountWorkDaysInMonthResponse")]
+        System.Threading.Tasks.Task<int> GetCountWorkDaysInMonthAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetHolidaysByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetHolidaysByMonthResponse")]
+        System.DateTime[] GetHolidaysByMonth(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetHolidaysByMonth", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetHolidaysByMonthResponse")]
+        System.Threading.Tasks.Task<System.DateTime[]> GetHolidaysByMonthAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetHolidaysByYear", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetHolidaysByYearResponse")]
+        System.DateTime[] GetHolidaysByYear(int year);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetHolidaysByYear", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetHolidaysByYearResponse")]
+        System.Threading.Tasks.Task<System.DateTime[]> GetHolidaysByYearAsync(int year);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetHolidays", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetHolidaysResponse")]
+        System.DateTime[] GetHolidays(System.DateTime fromDate, System.DateTime toDate);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetHolidays", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetHolidaysResponse")]
+        System.Threading.Tasks.Task<System.DateTime[]> GetHolidaysAsync(System.DateTime fromDate, System.DateTime toDate);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsWeekend", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsWeekendResponse")]
+        bool IsWeekend(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/IsWeekend", ReplyAction="http://tempuri.org/IAVBusinessLayer/IsWeekendResponse")]
+        System.Threading.Tasks.Task<bool> IsWeekendAsync(System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SetHolidays", ReplyAction="http://tempuri.org/IAVBusinessLayer/SetHolidaysResponse")]
+        void SetHolidays(int year, System.DateTime[] holidays);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/SetHolidays", ReplyAction="http://tempuri.org/IAVBusinessLayer/SetHolidaysResponse")]
+        System.Threading.Tasks.Task SetHolidaysAsync(int year, System.DateTime[] holidays);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditParameter", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditParameterResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryCarPart))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryRC))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryCostItem))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryNote))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryTransportCompany))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryWorker))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryPost))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryCompany))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryPostSalary[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryPostSalary))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryTypeOfPost))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryPhoto))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryLoanTaker))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryCostItem[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryNote[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryTransportCompany[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryLoanTaker[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryCarPart[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryCompany[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryTypeOfPost[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryPost[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryWorker[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryUserStatus[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryUserStatus))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryUser[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryUser))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DirectoryRC[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentCarPart))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentCarPart[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentRC[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentRC))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentNote[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentNote))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentPost[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentPost))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentContainerCarPart[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentContainerCarPart))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentUserStatus))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Currency))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Gender))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DescriptionDay))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CashType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ParameterType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ArticlePrice[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ArticlePrice))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CarPartRemain[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CarPartRemain))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.IncomingAndExpenseAndSumm))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Transport[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Transport))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoCarPartMovement[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoCarPartMovement))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrentCompanyAndPost))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.AddressCell))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.PalletContent[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.PalletContent))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.PalletLocation))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Warehouse))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CarPartPallet[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CarPartPallet))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoTotalEqualCashSafeToMinsk[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoTotalEqualCashSafeToMinsk))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoOverTime))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoOverTime[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoCost))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoCost[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoDate[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoDate))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPanalty))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoMonth[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoMonth))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoLoan))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPayment[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPayment))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoLoan[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPrivateLoan))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPrivatePayment[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPrivatePayment))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoPrivateLoan[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoSafe))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoSafe[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoContainer[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoContainer))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.DateTime[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(int[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(string[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DefaultCost[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DefaultCost))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.CurrencyValue))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapImage))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapSource))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapCacheOption))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.BitmapCreateOptions))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Rotation))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.ImageSource))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Animatable))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Freezable))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DependencyObject))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.Int32Rect))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TestClient.AVBusinessLayerReference.DispatcherObject))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.IO.Stream))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.MarshalByRefObject))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Net.Cache.RequestCachePolicy))]
+        void EditParameter(TestClient.AVBusinessLayerReference.ParameterType parameterType, object value);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditParameter", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditParameterResponse")]
+        System.Threading.Tasks.Task EditParameterAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType, object value);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByInt", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByIntResponse")]
+        int GetParameterValueByInt(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByInt", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByIntResponse")]
+        System.Threading.Tasks.Task<int> GetParameterValueByIntAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDouble", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDoubleResponse")]
+        double GetParameterValueByDouble(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDouble", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDoubleResponse")]
+        System.Threading.Tasks.Task<double> GetParameterValueByDoubleAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByBool", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByBoolResponse")]
+        bool GetParameterValueByBool(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByBool", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByBoolResponse")]
+        System.Threading.Tasks.Task<bool> GetParameterValueByBoolAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDateTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDateTimeResponse")]
+        System.DateTime GetParameterValueByDateTime(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDateTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetParameterValueByDateTimeResponse")]
+        System.Threading.Tasks.Task<System.DateTime> GetParameterValueByDateTimeAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/InitializeAbsentDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/InitializeAbsentDatesResponse")]
+        void InitializeAbsentDates();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/InitializeAbsentDates", ReplyAction="http://tempuri.org/IAVBusinessLayer/InitializeAbsentDatesResponse")]
+        System.Threading.Tasks.Task InitializeAbsentDatesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatuses", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatusesResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryUserStatus[] GetDirectoryUserStatuses();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatuses", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatusesResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUserStatus[]> GetDirectoryUserStatusesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserStatus", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserStatusResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryUserStatus AddDirectoryUserStatus(string name, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserStatus", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserStatusResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUserStatus> AddDirectoryUserStatusAsync(string name, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryUserStatus", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryUserStatusResponse")]
+        void EditDirectoryUserStatus(int userStatusId, string userStatusName, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryUserStatus", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryUserStatusResponse")]
+        System.Threading.Tasks.Task EditDirectoryUserStatusAsync(int userStatusId, string userStatusName, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUserStatus", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUserStatusResponse")]
+        void RemoveDirectoryUserStatus(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUserStatus", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUserStatusResponse")]
+        System.Threading.Tasks.Task RemoveDirectoryUserStatusAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUsers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUsersResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryUser[] GetDirectoryUsers();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUsers", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUsersResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser[]> GetDirectoryUsersAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryUser GetDirectoryUser(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser> GetDirectoryUserAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryUser AddDirectoryUser(string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser> AddDirectoryUserAsync(string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserAdmin", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserAdminResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryUser AddDirectoryUserAdmin(string userName, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserAdmin", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryUserAdminResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser> AddDirectoryUserAdminAsync(string userName, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryUserResponse")]
+        void EditDirectoryUser(int userId, string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditDirectoryUserResponse")]
+        System.Threading.Tasks.Task EditDirectoryUserAsync(int userId, string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUserResponse")]
+        void RemoveDirectoryUser(TestClient.AVBusinessLayerReference.DirectoryUser user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUser", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryUserResponse")]
+        System.Threading.Tasks.Task RemoveDirectoryUserAsync(TestClient.AVBusinessLayerReference.DirectoryUser user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatusPrivilege", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatusPrivilegeResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege GetDirectoryUserStatusPrivilege(string privilegeName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatusPrivilege", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryUserStatusPrivilegeResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege> GetDirectoryUserStatusPrivilegeAsync(string privilegeName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPrivileges", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPrivilegesResponse")]
+        string[] GetPrivileges(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetPrivileges", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetPrivilegesResponse")]
+        System.Threading.Tasks.Task<string[]> GetPrivilegesAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCs", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCs();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCs", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsByPercentage", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsByPercentageResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCsByPercentage();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsByPercentage", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsByPercentageResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsByPercentageAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRC", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryRC GetDirectoryRC(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRC", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC> GetDirectoryRCAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryRC", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryRCResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryRC AddDirectoryRC(string directoryRCName, string descriptionName, int percentes);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddDirectoryRC", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddDirectoryRCResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC> AddDirectoryRCAsync(string directoryRCName, string descriptionName, int percentes);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryRC", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryRCResponse")]
+        void RemoveDirectoryRC(int directoryRCId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryRC", ReplyAction="http://tempuri.org/IAVBusinessLayer/RemoveDirectoryRCResponse")]
+        System.Threading.Tasks.Task RemoveDirectoryRCAsync(int directoryRCId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthIncoming", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthIncomingResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCsMonthIncoming(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthIncoming", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthIncomingResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsMonthIncomingAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthExpense", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthExpenseResponse")]
+        TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCsMonthExpense(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthExpense", ReplyAction="http://tempuri.org/IAVBusinessLayer/GetDirectoryRCsMonthExpenseResponse")]
+        System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsMonthExpenseAsync(int year, int month);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoOverTimeResponse")]
+        void AddInfoOverTime(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/AddInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/AddInfoOverTimeResponse")]
+        System.Threading.Tasks.Task AddInfoOverTimeAsync(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoOverTimeResponse")]
+        void EditInfoOverTime(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAVBusinessLayer/EditInfoOverTime", ReplyAction="http://tempuri.org/IAVBusinessLayer/EditInfoOverTimeResponse")]
+        System.Threading.Tasks.Task EditInfoOverTimeAsync(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -49,12 +7310,1484 @@ namespace TestClient.AVBusinessLayerReference {
                 base(binding, remoteAddress) {
         }
         
-        public string DoWork() {
-            return base.Channel.DoWork();
+        public TestClient.AVBusinessLayerReference.CurrentCarPart AddCurrentCarPart(TestClient.AVBusinessLayerReference.DirectoryCarPart directoryCarPart, System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale) {
+            return base.Channel.AddCurrentCarPart(directoryCarPart, priceDate, priceBase, priceBigWholesale, priceSmallWholesale);
         }
         
-        public System.Threading.Tasks.Task<string> DoWorkAsync() {
-            return base.Channel.DoWorkAsync();
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart> AddCurrentCarPartAsync(TestClient.AVBusinessLayerReference.DirectoryCarPart directoryCarPart, System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale) {
+            return base.Channel.AddCurrentCarPartAsync(directoryCarPart, priceDate, priceBase, priceBigWholesale, priceSmallWholesale);
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentCarPart AddCurrentCarPartNoSave(System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale, TestClient.AVBusinessLayerReference.Currency currency, string fullName) {
+            return base.Channel.AddCurrentCarPartNoSave(priceDate, priceBase, priceBigWholesale, priceSmallWholesale, currency, fullName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart> AddCurrentCarPartNoSaveAsync(System.DateTime priceDate, double priceBase, System.Nullable<double> priceBigWholesale, System.Nullable<double> priceSmallWholesale, TestClient.AVBusinessLayerReference.Currency currency, string fullName) {
+            return base.Channel.AddCurrentCarPartNoSaveAsync(priceDate, priceBase, priceBigWholesale, priceSmallWholesale, currency, fullName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentCarPart[] GetCurrentCarParts() {
+            return base.Channel.GetCurrentCarParts();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart[]> GetCurrentCarPartsAsync() {
+            return base.Channel.GetCurrentCarPartsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentCarPart GetCurrentCarPart(int directoryCarPartId, System.DateTime date) {
+            return base.Channel.GetCurrentCarPart(directoryCarPartId, date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentCarPart> GetCurrentCarPartAsync(int directoryCarPartId, System.DateTime date) {
+            return base.Channel.GetCurrentCarPartAsync(directoryCarPartId, date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.ArticlePrice[] GetArticlePrices(System.DateTime date, TestClient.AVBusinessLayerReference.Currency currency) {
+            return base.Channel.GetArticlePrices(date, currency);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.ArticlePrice[]> GetArticlePricesAsync(System.DateTime date, TestClient.AVBusinessLayerReference.Currency currency) {
+            return base.Channel.GetArticlePricesAsync(date, currency);
+        }
+        
+        public void SetRemainsToFirstDateInMonth() {
+            base.Channel.SetRemainsToFirstDateInMonth();
+        }
+        
+        public System.Threading.Tasks.Task SetRemainsToFirstDateInMonthAsync() {
+            return base.Channel.SetRemainsToFirstDateInMonthAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.CarPartRemain[] GetRemainsToDate(System.DateTime date) {
+            return base.Channel.GetRemainsToDate(date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CarPartRemain[]> GetRemainsToDateAsync(System.DateTime date) {
+            return base.Channel.GetRemainsToDateAsync(date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.PalletContent[] GetPalletContents(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address) {
+            return base.Channel.GetPalletContents(warehouseName, address);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.PalletContent[]> GetPalletContentsAsync(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address) {
+            return base.Channel.GetPalletContentsAsync(warehouseName, address);
+        }
+        
+        public TestClient.AVBusinessLayerReference.PalletContent[] GetAllPallets(string warehouseName) {
+            return base.Channel.GetAllPallets(warehouseName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.PalletContent[]> GetAllPalletsAsync(string warehouseName) {
+            return base.Channel.GetAllPalletsAsync(warehouseName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.PalletContent[] SavePalletContents(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address, TestClient.AVBusinessLayerReference.CarPartPallet[] carPartPallets) {
+            return base.Channel.SavePalletContents(warehouseName, address, carPartPallets);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.PalletContent[]> SavePalletContentsAsync(string warehouseName, TestClient.AVBusinessLayerReference.AddressCell address, TestClient.AVBusinessLayerReference.CarPartPallet[] carPartPallets) {
+            return base.Channel.SavePalletContentsAsync(warehouseName, address, carPartPallets);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoTotalEqualCashSafeToMinsk[] GetTotalEqualCashSafeToMinsks(System.DateTime from, System.DateTime to) {
+            return base.Channel.GetTotalEqualCashSafeToMinsks(from, to);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoTotalEqualCashSafeToMinsk[]> GetTotalEqualCashSafeToMinsksAsync(System.DateTime from, System.DateTime to) {
+            return base.Channel.GetTotalEqualCashSafeToMinsksAsync(from, to);
+        }
+        
+        public void SaveTotalSafeAndMinskCashes(System.DateTime date, double minskSumm) {
+            base.Channel.SaveTotalSafeAndMinskCashes(date, minskSumm);
+        }
+        
+        public System.Threading.Tasks.Task SaveTotalSafeAndMinskCashesAsync(System.DateTime date, double minskSumm) {
+            return base.Channel.SaveTotalSafeAndMinskCashesAsync(date, minskSumm);
+        }
+        
+        public double GetPam16Percentage(System.DateTime date) {
+            return base.Channel.GetPam16Percentage(date);
+        }
+        
+        public System.Threading.Tasks.Task<double> GetPam16PercentageAsync(System.DateTime date) {
+            return base.Channel.GetPam16PercentageAsync(date);
+        }
+        
+        public void SavePam16Percentage(System.DateTime date, double pam16Percentage) {
+            base.Channel.SavePam16Percentage(date, pam16Percentage);
+        }
+        
+        public System.Threading.Tasks.Task SavePam16PercentageAsync(System.DateTime date, double pam16Percentage) {
+            return base.Channel.SavePam16PercentageAsync(date, pam16Percentage);
+        }
+        
+        public bool LoginUser(int userId, string password) {
+            return base.Channel.LoginUser(userId, password);
+        }
+        
+        public System.Threading.Tasks.Task<bool> LoginUserAsync(int userId, string password) {
+            return base.Channel.LoginUserAsync(userId, password);
+        }
+        
+        public void EditInfoOverTimeByDate(System.DateTime date, double hoursOverTime) {
+            base.Channel.EditInfoOverTimeByDate(date, hoursOverTime);
+        }
+        
+        public System.Threading.Tasks.Task EditInfoOverTimeByDateAsync(System.DateTime date, double hoursOverTime) {
+            return base.Channel.EditInfoOverTimeByDateAsync(date, hoursOverTime);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoOverTime GetInfoOverTime(System.DateTime date) {
+            return base.Channel.GetInfoOverTime(date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoOverTime> GetInfoOverTimeAsync(System.DateTime date) {
+            return base.Channel.GetInfoOverTimeAsync(date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoOverTime[] GetInfoOverTimes(int year, int month) {
+            return base.Channel.GetInfoOverTimes(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoOverTime[]> GetInfoOverTimesAsync(int year, int month) {
+            return base.Channel.GetInfoOverTimesAsync(year, month);
+        }
+        
+        public System.DateTime[] GetInfoOverTimeDates(int year, int month) {
+            return base.Channel.GetInfoOverTimeDates(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<System.DateTime[]> GetInfoOverTimeDatesAsync(int year, int month) {
+            return base.Channel.GetInfoOverTimeDatesAsync(year, month);
+        }
+        
+        public bool IsInfoOverTimeDate(System.DateTime date) {
+            return base.Channel.IsInfoOverTimeDate(date);
+        }
+        
+        public System.Threading.Tasks.Task<bool> IsInfoOverTimeDateAsync(System.DateTime date) {
+            return base.Channel.IsInfoOverTimeDateAsync(date);
+        }
+        
+        public void RemoveInfoOverTime(System.DateTime date) {
+            base.Channel.RemoveInfoOverTime(date);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoOverTimeAsync(System.DateTime date) {
+            return base.Channel.RemoveInfoOverTimeAsync(date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost EditInfoCost(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, bool isIncomming, double summ, TestClient.AVBusinessLayerReference.Currency currency, double weight) {
+            return base.Channel.EditInfoCost(date, costItem, rc, note, isIncomming, summ, currency, weight);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost> EditInfoCostAsync(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, bool isIncomming, double summ, TestClient.AVBusinessLayerReference.Currency currency, double weight) {
+            return base.Channel.EditInfoCostAsync(date, costItem, rc, note, isIncomming, summ, currency, weight);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsByDate(System.DateTime date) {
+            return base.Channel.GetInfoCostsByDate(date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsByDateAsync(System.DateTime date) {
+            return base.Channel.GetInfoCostsByDateAsync(date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost GetInfoCost(int infoCostId) {
+            return base.Channel.GetInfoCost(infoCostId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost> GetInfoCostAsync(int infoCostId) {
+            return base.Channel.GetInfoCostAsync(infoCostId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCosts(int year, int month) {
+            return base.Channel.GetInfoCosts(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsAsync(int year, int month) {
+            return base.Channel.GetInfoCostsAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsRCIncoming(int year, int month, string rcName) {
+            return base.Channel.GetInfoCostsRCIncoming(year, month, rcName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsRCIncomingAsync(int year, int month, string rcName) {
+            return base.Channel.GetInfoCostsRCIncomingAsync(year, month, rcName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCosts26Expense(int year, int month) {
+            return base.Channel.GetInfoCosts26Expense(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCosts26ExpenseAsync(int year, int month) {
+            return base.Channel.GetInfoCosts26ExpenseAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsRCAndAll(int year, int month, string rcName) {
+            return base.Channel.GetInfoCostsRCAndAll(year, month, rcName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsRCAndAllAsync(int year, int month, string rcName) {
+            return base.Channel.GetInfoCostsRCAndAllAsync(year, month, rcName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsPAM16(int year, int month) {
+            return base.Channel.GetInfoCostsPAM16(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsPAM16Async(int year, int month) {
+            return base.Channel.GetInfoCostsPAM16Async(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnly(int year, int month) {
+            return base.Channel.GetInfoCostsTransportAndNoAllAndExpenseOnly(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsTransportAndNoAllAndExpenseOnlyAsync(int year, int month) {
+            return base.Channel.GetInfoCostsTransportAndNoAllAndExpenseOnlyAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnlyByDate(System.DateTime date) {
+            return base.Channel.GetInfoCostsTransportAndNoAllAndExpenseOnlyByDate(date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCost[]> GetInfoCostsTransportAndNoAllAndExpenseOnlyByDateAsync(System.DateTime date) {
+            return base.Channel.GetInfoCostsTransportAndNoAllAndExpenseOnlyByDateAsync(date);
+        }
+        
+        public void AddInfoCosts(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem directoryCostItem, bool isIncoming, TestClient.AVBusinessLayerReference.DirectoryTransportCompany transportCompany, double summ, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.Transport[] transports) {
+            base.Channel.AddInfoCosts(date, directoryCostItem, isIncoming, transportCompany, summ, currency, transports);
+        }
+        
+        public System.Threading.Tasks.Task AddInfoCostsAsync(System.DateTime date, TestClient.AVBusinessLayerReference.DirectoryCostItem directoryCostItem, bool isIncoming, TestClient.AVBusinessLayerReference.DirectoryTransportCompany transportCompany, double summ, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.Transport[] transports) {
+            return base.Channel.AddInfoCostsAsync(date, directoryCostItem, isIncoming, transportCompany, summ, currency, transports);
+        }
+        
+        public void RemoveInfoCost(TestClient.AVBusinessLayerReference.InfoCost infoCost) {
+            base.Channel.RemoveInfoCost(infoCost);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoCostAsync(TestClient.AVBusinessLayerReference.InfoCost infoCost) {
+            return base.Channel.RemoveInfoCostAsync(infoCost);
+        }
+        
+        public int[] GetInfoCostYears() {
+            return base.Channel.GetInfoCostYears();
+        }
+        
+        public System.Threading.Tasks.Task<int[]> GetInfoCostYearsAsync() {
+            return base.Channel.GetInfoCostYearsAsync();
+        }
+        
+        public int[] GetInfoCostMonthes(int year) {
+            return base.Channel.GetInfoCostMonthes(year);
+        }
+        
+        public System.Threading.Tasks.Task<int[]> GetInfoCostMonthesAsync(int year) {
+            return base.Channel.GetInfoCostMonthesAsync(year);
+        }
+        
+        public double GetInfoCost26Summ(int year, int month) {
+            return base.Channel.GetInfoCost26Summ(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<double> GetInfoCost26SummAsync(int year, int month) {
+            return base.Channel.GetInfoCost26SummAsync(year, month);
+        }
+        
+        public string[] GetInfoCostsIncomingTotalSummsCurrency(int year, int month, string rcName, System.Nullable<bool> isIncoming, string costItem) {
+            return base.Channel.GetInfoCostsIncomingTotalSummsCurrency(year, month, rcName, isIncoming, costItem);
+        }
+        
+        public System.Threading.Tasks.Task<string[]> GetInfoCostsIncomingTotalSummsCurrencyAsync(int year, int month, string rcName, System.Nullable<bool> isIncoming, string costItem) {
+            return base.Channel.GetInfoCostsIncomingTotalSummsCurrencyAsync(year, month, rcName, isIncoming, costItem);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoLoan AddInfoLoan(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.AddInfoLoan(date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLoan> AddInfoLoanAsync(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.AddInfoLoanAsync(date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoLoan EditInfoLoan(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.EditInfoLoan(id, date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLoan> EditInfoLoanAsync(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.EditInfoLoanAsync(id, date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public void RemoveInfoLoan(TestClient.AVBusinessLayerReference.InfoLoan selectedInfoLoan) {
+            base.Channel.RemoveInfoLoan(selectedInfoLoan);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoLoanAsync(TestClient.AVBusinessLayerReference.InfoLoan selectedInfoLoan) {
+            return base.Channel.RemoveInfoLoanAsync(selectedInfoLoan);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoLoan[] GetInfoLoans(System.DateTime from, System.DateTime to) {
+            return base.Channel.GetInfoLoans(from, to);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLoan[]> GetInfoLoansAsync(System.DateTime from, System.DateTime to) {
+            return base.Channel.GetInfoLoansAsync(from, to);
+        }
+        
+        public double GetLoans() {
+            return base.Channel.GetLoans();
+        }
+        
+        public System.Threading.Tasks.Task<double> GetLoansAsync() {
+            return base.Channel.GetLoansAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPrivateLoan AddInfoPrivateLoan(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.AddInfoPrivateLoan(date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivateLoan> AddInfoPrivateLoanAsync(System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.AddInfoPrivateLoanAsync(date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPrivateLoan EditInfoPrivateLoan(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.EditInfoPrivateLoan(id, date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivateLoan> EditInfoPrivateLoanAsync(int id, System.DateTime date, string loanTakerName, TestClient.AVBusinessLayerReference.DirectoryWorker directoryWorker, double summ, TestClient.AVBusinessLayerReference.Currency currency, int countPayments, string description) {
+            return base.Channel.EditInfoPrivateLoanAsync(id, date, loanTakerName, directoryWorker, summ, currency, countPayments, description);
+        }
+        
+        public void RemoveInfoPrivateLoan(TestClient.AVBusinessLayerReference.InfoPrivateLoan selectedInfoPrivateLoan) {
+            base.Channel.RemoveInfoPrivateLoan(selectedInfoPrivateLoan);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoPrivateLoanAsync(TestClient.AVBusinessLayerReference.InfoPrivateLoan selectedInfoPrivateLoan) {
+            return base.Channel.RemoveInfoPrivateLoanAsync(selectedInfoPrivateLoan);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPrivateLoan[] GetInfoPrivateLoans(System.DateTime from, System.DateTime to) {
+            return base.Channel.GetInfoPrivateLoans(from, to);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivateLoan[]> GetInfoPrivateLoansAsync(System.DateTime from, System.DateTime to) {
+            return base.Channel.GetInfoPrivateLoansAsync(from, to);
+        }
+        
+        public double GetPrivateLoans() {
+            return base.Channel.GetPrivateLoans();
+        }
+        
+        public System.Threading.Tasks.Task<double> GetPrivateLoansAsync() {
+            return base.Channel.GetPrivateLoansAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryCostItem[] GetDirectoryCostItems() {
+            return base.Channel.GetDirectoryCostItems();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCostItem[]> GetDirectoryCostItemsAsync() {
+            return base.Channel.GetDirectoryCostItemsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryCostItem GetDirectoryCostItem(string costItemName) {
+            return base.Channel.GetDirectoryCostItem(costItemName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCostItem> GetDirectoryCostItemAsync(string costItemName) {
+            return base.Channel.GetDirectoryCostItemAsync(costItemName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryNote[] GetDirectoryNotes() {
+            return base.Channel.GetDirectoryNotes();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryNote[]> GetDirectoryNotesAsync() {
+            return base.Channel.GetDirectoryNotesAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryNote GetDirectoryNote(string description) {
+            return base.Channel.GetDirectoryNote(description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryNote> GetDirectoryNoteAsync(string description) {
+            return base.Channel.GetDirectoryNoteAsync(description);
+        }
+        
+        public bool IsDirectoryNote(string note) {
+            return base.Channel.IsDirectoryNote(note);
+        }
+        
+        public System.Threading.Tasks.Task<bool> IsDirectoryNoteAsync(string note) {
+            return base.Channel.IsDirectoryNoteAsync(note);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DefaultCost[] GetDefaultCosts() {
+            return base.Channel.GetDefaultCosts();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DefaultCost[]> GetDefaultCostsAsync() {
+            return base.Channel.GetDefaultCostsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DefaultCost AddDefaultCost(TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day) {
+            return base.Channel.AddDefaultCost(costItem, rc, note, summ, day);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DefaultCost> AddDefaultCostAsync(TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day) {
+            return base.Channel.AddDefaultCostAsync(costItem, rc, note, summ, day);
+        }
+        
+        public void EditDefaultCost(int id, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day) {
+            base.Channel.EditDefaultCost(id, costItem, rc, note, summ, day);
+        }
+        
+        public System.Threading.Tasks.Task EditDefaultCostAsync(int id, TestClient.AVBusinessLayerReference.DirectoryCostItem costItem, TestClient.AVBusinessLayerReference.DirectoryRC rc, TestClient.AVBusinessLayerReference.DirectoryNote note, double summ, int day) {
+            return base.Channel.EditDefaultCostAsync(id, costItem, rc, note, summ, day);
+        }
+        
+        public void RemoveDefaultCost(TestClient.AVBusinessLayerReference.DefaultCost defaultCost) {
+            base.Channel.RemoveDefaultCost(defaultCost);
+        }
+        
+        public System.Threading.Tasks.Task RemoveDefaultCostAsync(TestClient.AVBusinessLayerReference.DefaultCost defaultCost) {
+            return base.Channel.RemoveDefaultCostAsync(defaultCost);
+        }
+        
+        public void InitializeDefaultCosts() {
+            base.Channel.InitializeDefaultCosts();
+        }
+        
+        public System.Threading.Tasks.Task InitializeDefaultCostsAsync() {
+            return base.Channel.InitializeDefaultCostsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryTransportCompany[] GetDirectoryTransportCompanies() {
+            return base.Channel.GetDirectoryTransportCompanies();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTransportCompany[]> GetDirectoryTransportCompaniesAsync() {
+            return base.Channel.GetDirectoryTransportCompaniesAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentRC[] GetCurrentRCs(int[] ids) {
+            return base.Channel.GetCurrentRCs(ids);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentRC[]> GetCurrentRCsAsync(int[] ids) {
+            return base.Channel.GetCurrentRCsAsync(ids);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryLoanTaker[] GetDirectoryLoanTakers() {
+            return base.Channel.GetDirectoryLoanTakers();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryLoanTaker[]> GetDirectoryLoanTakersAsync() {
+            return base.Channel.GetDirectoryLoanTakersAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryLoanTaker AddDirectoryLoanTaker(string name) {
+            return base.Channel.AddDirectoryLoanTaker(name);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryLoanTaker> AddDirectoryLoanTakerAsync(string name) {
+            return base.Channel.AddDirectoryLoanTakerAsync(name);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPayment[] GetInfoPayments(int infoLoanId) {
+            return base.Channel.GetInfoPayments(infoLoanId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPayment[]> GetInfoPaymentsAsync(int infoLoanId) {
+            return base.Channel.GetInfoPaymentsAsync(infoLoanId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPayment AddInfoPayment(int infoLoanId, System.DateTime date, double summ) {
+            return base.Channel.AddInfoPayment(infoLoanId, date, summ);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPayment> AddInfoPaymentAsync(int infoLoanId, System.DateTime date, double summ) {
+            return base.Channel.AddInfoPaymentAsync(infoLoanId, date, summ);
+        }
+        
+        public void RemoveInfoPayment(TestClient.AVBusinessLayerReference.InfoPayment selectedInfoPayment) {
+            base.Channel.RemoveInfoPayment(selectedInfoPayment);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoPaymentAsync(TestClient.AVBusinessLayerReference.InfoPayment selectedInfoPayment) {
+            return base.Channel.RemoveInfoPaymentAsync(selectedInfoPayment);
+        }
+        
+        public void SetCardAvaliableSumm(string cardName, double avaliableSumm) {
+            base.Channel.SetCardAvaliableSumm(cardName, avaliableSumm);
+        }
+        
+        public System.Threading.Tasks.Task SetCardAvaliableSummAsync(string cardName, double avaliableSumm) {
+            return base.Channel.SetCardAvaliableSummAsync(cardName, avaliableSumm);
+        }
+        
+        public double GetCardAvaliableSumm(string cardName) {
+            return base.Channel.GetCardAvaliableSumm(cardName);
+        }
+        
+        public System.Threading.Tasks.Task<double> GetCardAvaliableSummAsync(string cardName) {
+            return base.Channel.GetCardAvaliableSummAsync(cardName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoSafe AddInfoSafe(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description, string bankName) {
+            return base.Channel.AddInfoSafe(date, isIncoming, summCash, currency, cashType, description, bankName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe> AddInfoSafeAsync(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description, string bankName) {
+            return base.Channel.AddInfoSafeAsync(date, isIncoming, summCash, currency, cashType, description, bankName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoSafe AddInfoSafeHand(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description) {
+            return base.Channel.AddInfoSafeHand(date, isIncoming, summCash, currency, cashType, description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe> AddInfoSafeHandAsync(System.DateTime date, bool isIncoming, double summCash, TestClient.AVBusinessLayerReference.Currency currency, TestClient.AVBusinessLayerReference.CashType cashType, string description) {
+            return base.Channel.AddInfoSafeHandAsync(date, isIncoming, summCash, currency, cashType, description);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoSafe AddInfoSafeCard(System.DateTime date, double availableSumm, TestClient.AVBusinessLayerReference.Currency currency, string description, string bankName) {
+            return base.Channel.AddInfoSafeCard(date, availableSumm, currency, description, bankName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe> AddInfoSafeCardAsync(System.DateTime date, double availableSumm, TestClient.AVBusinessLayerReference.Currency currency, string description, string bankName) {
+            return base.Channel.AddInfoSafeCardAsync(date, availableSumm, currency, description, bankName);
+        }
+        
+        public bool IsNewMessage(System.DateTime date, string description) {
+            return base.Channel.IsNewMessage(date, description);
+        }
+        
+        public System.Threading.Tasks.Task<bool> IsNewMessageAsync(System.DateTime date, string description) {
+            return base.Channel.IsNewMessageAsync(date, description);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoSafe[] GetInfoSafes() {
+            return base.Channel.GetInfoSafes();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe[]> GetInfoSafesAsync() {
+            return base.Channel.GetInfoSafesAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoSafe[] GetInfoSafesByCashType(TestClient.AVBusinessLayerReference.CashType cashType, System.DateTime from, System.DateTime to) {
+            return base.Channel.GetInfoSafesByCashType(cashType, from, to);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoSafe[]> GetInfoSafesByCashTypeAsync(TestClient.AVBusinessLayerReference.CashType cashType, System.DateTime from, System.DateTime to) {
+            return base.Channel.GetInfoSafesByCashTypeAsync(cashType, from, to);
+        }
+        
+        public void RemoveInfoSafe(TestClient.AVBusinessLayerReference.InfoSafe infoSafe) {
+            base.Channel.RemoveInfoSafe(infoSafe);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoSafeAsync(TestClient.AVBusinessLayerReference.InfoSafe infoSafe) {
+            return base.Channel.RemoveInfoSafeAsync(infoSafe);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPrivatePayment[] GetInfoPrivatePayments(int infoSafeId) {
+            return base.Channel.GetInfoPrivatePayments(infoSafeId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivatePayment[]> GetInfoPrivatePaymentsAsync(int infoSafeId) {
+            return base.Channel.GetInfoPrivatePaymentsAsync(infoSafeId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPrivatePayment AddInfoPrivatePayment(int infoPrivateLoanId, System.DateTime date, double summ) {
+            return base.Channel.AddInfoPrivatePayment(infoPrivateLoanId, date, summ);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPrivatePayment> AddInfoPrivatePaymentAsync(int infoPrivateLoanId, System.DateTime date, double summ) {
+            return base.Channel.AddInfoPrivatePaymentAsync(infoPrivateLoanId, date, summ);
+        }
+        
+        public void RemoveInfoPrivatePayment(TestClient.AVBusinessLayerReference.InfoPrivatePayment selectedInfoPrivatePayment) {
+            base.Channel.RemoveInfoPrivatePayment(selectedInfoPrivatePayment);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoPrivatePaymentAsync(TestClient.AVBusinessLayerReference.InfoPrivatePayment selectedInfoPrivatePayment) {
+            return base.Channel.RemoveInfoPrivatePaymentAsync(selectedInfoPrivatePayment);
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrencyValue GetCurrencyValue(string name) {
+            return base.Channel.GetCurrencyValue(name);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrencyValue> GetCurrencyValueAsync(string name) {
+            return base.Channel.GetCurrencyValueAsync(name);
+        }
+        
+        public double GetCurrencyValueSumm(string name, TestClient.AVBusinessLayerReference.Currency currency) {
+            return base.Channel.GetCurrencyValueSumm(name, currency);
+        }
+        
+        public System.Threading.Tasks.Task<double> GetCurrencyValueSummAsync(string name, TestClient.AVBusinessLayerReference.Currency currency) {
+            return base.Channel.GetCurrencyValueSummAsync(name, currency);
+        }
+        
+        public void EditCurrencyValueSumm(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ) {
+            base.Channel.EditCurrencyValueSumm(name, currency, summ);
+        }
+        
+        public System.Threading.Tasks.Task EditCurrencyValueSummAsync(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ) {
+            return base.Channel.EditCurrencyValueSummAsync(name, currency, summ);
+        }
+        
+        public void EditCurrencyValueSummChange(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ) {
+            base.Channel.EditCurrencyValueSummChange(name, currency, summ);
+        }
+        
+        public System.Threading.Tasks.Task EditCurrencyValueSummChangeAsync(string name, TestClient.AVBusinessLayerReference.Currency currency, double summ) {
+            return base.Channel.EditCurrencyValueSummChangeAsync(name, currency, summ);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPostSalary[] GetDirectoryPostSalaries(int postId) {
+            return base.Channel.GetDirectoryPostSalaries(postId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPostSalary[]> GetDirectoryPostSalariesAsync(int postId) {
+            return base.Channel.GetDirectoryPostSalariesAsync(postId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPostSalary GetDirectoryPostSalaryByDate(int postId, System.DateTime date) {
+            return base.Channel.GetDirectoryPostSalaryByDate(postId, date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPostSalary> GetDirectoryPostSalaryByDateAsync(int postId, System.DateTime date) {
+            return base.Channel.GetDirectoryPostSalaryByDateAsync(postId, date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPostSalary[] GetDirectoryPostSalariesByMonth(int year, int month) {
+            return base.Channel.GetDirectoryPostSalariesByMonth(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPostSalary[]> GetDirectoryPostSalariesByMonthAsync(int year, int month) {
+            return base.Channel.GetDirectoryPostSalariesByMonthAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryCarPart AddDirectoryCarPart(string article, string mark, string description, string originalNumber, string factoryNumber, string crossNumber, string material, string attachment, string countInBox, bool isImport) {
+            return base.Channel.AddDirectoryCarPart(article, mark, description, originalNumber, factoryNumber, crossNumber, material, attachment, countInBox, isImport);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCarPart> AddDirectoryCarPartAsync(string article, string mark, string description, string originalNumber, string factoryNumber, string crossNumber, string material, string attachment, string countInBox, bool isImport) {
+            return base.Channel.AddDirectoryCarPartAsync(article, mark, description, originalNumber, factoryNumber, crossNumber, material, attachment, countInBox, isImport);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryCarPart[] GetDirectoryCarParts() {
+            return base.Channel.GetDirectoryCarParts();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCarPart[]> GetDirectoryCarPartsAsync() {
+            return base.Channel.GetDirectoryCarPartsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryCarPart GetDirectoryCarPart(string article, string mark) {
+            return base.Channel.GetDirectoryCarPart(article, mark);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCarPart> GetDirectoryCarPartAsync(string article, string mark) {
+            return base.Channel.GetDirectoryCarPartAsync(article, mark);
+        }
+        
+        public int[] GetContainerYears(bool isIncoming) {
+            return base.Channel.GetContainerYears(isIncoming);
+        }
+        
+        public System.Threading.Tasks.Task<int[]> GetContainerYearsAsync(bool isIncoming) {
+            return base.Channel.GetContainerYearsAsync(isIncoming);
+        }
+        
+        public int[] GetContainerMonthes(int selectedYear, bool isIncoming) {
+            return base.Channel.GetContainerMonthes(selectedYear, isIncoming);
+        }
+        
+        public System.Threading.Tasks.Task<int[]> GetContainerMonthesAsync(int selectedYear, bool isIncoming) {
+            return base.Channel.GetContainerMonthesAsync(selectedYear, isIncoming);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoContainer[] GetContainers(int year, int month, bool isIncoming) {
+            return base.Channel.GetContainers(year, month, isIncoming);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer[]> GetContainersAsync(int year, int month, bool isIncoming) {
+            return base.Channel.GetContainersAsync(year, month, isIncoming);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoContainer[] GetInfoContainers(TestClient.AVBusinessLayerReference.InfoContainer[] containers) {
+            return base.Channel.GetInfoContainers(containers);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer[]> GetInfoContainersAsync(TestClient.AVBusinessLayerReference.InfoContainer[] containers) {
+            return base.Channel.GetInfoContainersAsync(containers);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoContainer GetInfoContainer(int containerId) {
+            return base.Channel.GetInfoContainer(containerId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer> GetInfoContainerAsync(int containerId) {
+            return base.Channel.GetInfoContainerAsync(containerId);
+        }
+        
+        public void RemoveInfoContainer(TestClient.AVBusinessLayerReference.InfoContainer container) {
+            base.Channel.RemoveInfoContainer(container);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoContainerAsync(TestClient.AVBusinessLayerReference.InfoContainer container) {
+            return base.Channel.RemoveInfoContainerAsync(container);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoContainer AddInfoContainer(string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts) {
+            return base.Channel.AddInfoContainer(name, description, datePhysical, dateOrder, isIncoming, carParts);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoContainer> AddInfoContainerAsync(string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts) {
+            return base.Channel.AddInfoContainerAsync(name, description, datePhysical, dateOrder, isIncoming, carParts);
+        }
+        
+        public void EditInfoContainer(int containerId, string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts) {
+            base.Channel.EditInfoContainer(containerId, name, description, datePhysical, dateOrder, isIncoming, carParts);
+        }
+        
+        public System.Threading.Tasks.Task EditInfoContainerAsync(int containerId, string name, string description, System.DateTime datePhysical, System.Nullable<System.DateTime> dateOrder, bool isIncoming, TestClient.AVBusinessLayerReference.CurrentContainerCarPart[] carParts) {
+            return base.Channel.EditInfoContainerAsync(containerId, name, description, datePhysical, dateOrder, isIncoming, carParts);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoCarPartMovement[] GetMovementsByDates(TestClient.AVBusinessLayerReference.DirectoryCarPart selectedDirectoryCarPart, System.DateTime selectedDateFrom, System.DateTime selectedDateTo) {
+            return base.Channel.GetMovementsByDates(selectedDirectoryCarPart, selectedDateFrom, selectedDateTo);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoCarPartMovement[]> GetMovementsByDatesAsync(TestClient.AVBusinessLayerReference.DirectoryCarPart selectedDirectoryCarPart, System.DateTime selectedDateFrom, System.DateTime selectedDateTo) {
+            return base.Channel.GetMovementsByDatesAsync(selectedDirectoryCarPart, selectedDateFrom, selectedDateTo);
+        }
+        
+        public void RemoveContainers(int year, int month) {
+            base.Channel.RemoveContainers(year, month);
+        }
+        
+        public System.Threading.Tasks.Task RemoveContainersAsync(int year, int month) {
+            return base.Channel.RemoveContainersAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain GetInfoLastMonthDayRemain(System.DateTime date, int carPartId) {
+            return base.Channel.GetInfoLastMonthDayRemain(date, carPartId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain> GetInfoLastMonthDayRemainAsync(System.DateTime date, int carPartId) {
+            return base.Channel.GetInfoLastMonthDayRemainAsync(date, carPartId);
+        }
+        
+        public int GetInfoCarPartIncomingCountTillDate(System.DateTime date, int carPartId, bool isIncoming) {
+            return base.Channel.GetInfoCarPartIncomingCountTillDate(date, carPartId, isIncoming);
+        }
+        
+        public System.Threading.Tasks.Task<int> GetInfoCarPartIncomingCountTillDateAsync(System.DateTime date, int carPartId, bool isIncoming) {
+            return base.Channel.GetInfoCarPartIncomingCountTillDateAsync(date, carPartId, isIncoming);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain AddInfoLastMonthDayRemain(TestClient.AVBusinessLayerReference.DirectoryCarPart carPart, System.DateTime date, int count) {
+            return base.Channel.AddInfoLastMonthDayRemain(carPart, date, count);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain> AddInfoLastMonthDayRemainAsync(TestClient.AVBusinessLayerReference.DirectoryCarPart carPart, System.DateTime date, int count) {
+            return base.Channel.AddInfoLastMonthDayRemainAsync(carPart, date, count);
+        }
+        
+        public void RemoveInfoLastMonthDayRemains(int year, int month) {
+            base.Channel.RemoveInfoLastMonthDayRemains(year, month);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoLastMonthDayRemainsAsync(int year, int month) {
+            return base.Channel.RemoveInfoLastMonthDayRemainsAsync(year, month);
+        }
+        
+        public string[] GetDirectoryCompaniesByWorker(int workerId, int year, int month, int lastDayInMonth) {
+            return base.Channel.GetDirectoryCompaniesByWorker(workerId, year, month, lastDayInMonth);
+        }
+        
+        public System.Threading.Tasks.Task<string[]> GetDirectoryCompaniesByWorkerAsync(int workerId, int year, int month, int lastDayInMonth) {
+            return base.Channel.GetDirectoryCompaniesByWorkerAsync(workerId, year, month, lastDayInMonth);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryCompany[] GetDirectoryCompanies() {
+            return base.Channel.GetDirectoryCompanies();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCompany[]> GetDirectoryCompaniesAsync() {
+            return base.Channel.GetDirectoryCompaniesAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryCompany AddDirectoryCompany(string directoryCompanyName) {
+            return base.Channel.AddDirectoryCompany(directoryCompanyName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryCompany> AddDirectoryCompanyAsync(string directoryCompanyName) {
+            return base.Channel.AddDirectoryCompanyAsync(directoryCompanyName);
+        }
+        
+        public void RemoveDirectoryCompany(int directoryCompanyId) {
+            base.Channel.RemoveDirectoryCompany(directoryCompanyId);
+        }
+        
+        public System.Threading.Tasks.Task RemoveDirectoryCompanyAsync(int directoryCompanyId) {
+            return base.Channel.RemoveDirectoryCompanyAsync(directoryCompanyId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryTypeOfPost[] GetDirectoryTypeOfPosts() {
+            return base.Channel.GetDirectoryTypeOfPosts();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTypeOfPost[]> GetDirectoryTypeOfPostsAsync() {
+            return base.Channel.GetDirectoryTypeOfPostsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryTypeOfPost AddDirectoryTypeOfPost(string directoryTypeOfPostName) {
+            return base.Channel.AddDirectoryTypeOfPost(directoryTypeOfPostName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTypeOfPost> AddDirectoryTypeOfPostAsync(string directoryTypeOfPostName) {
+            return base.Channel.AddDirectoryTypeOfPostAsync(directoryTypeOfPostName);
+        }
+        
+        public void RemoveDirectoryTypeOfPost(int directoryTypeOfPostId) {
+            base.Channel.RemoveDirectoryTypeOfPost(directoryTypeOfPostId);
+        }
+        
+        public System.Threading.Tasks.Task RemoveDirectoryTypeOfPostAsync(int directoryTypeOfPostId) {
+            return base.Channel.RemoveDirectoryTypeOfPostAsync(directoryTypeOfPostId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryTypeOfPost GetDirectoryTypeOfPost(int workerId, System.DateTime date) {
+            return base.Channel.GetDirectoryTypeOfPost(workerId, date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryTypeOfPost> GetDirectoryTypeOfPostAsync(int workerId, System.DateTime date) {
+            return base.Channel.GetDirectoryTypeOfPostAsync(workerId, date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPost[] GetDirectoryPosts() {
+            return base.Channel.GetDirectoryPosts();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost[]> GetDirectoryPostsAsync() {
+            return base.Channel.GetDirectoryPostsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPost[] GetDirectoryPostsByCompany(TestClient.AVBusinessLayerReference.DirectoryCompany company) {
+            return base.Channel.GetDirectoryPostsByCompany(company);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost[]> GetDirectoryPostsByCompanyAsync(TestClient.AVBusinessLayerReference.DirectoryCompany company) {
+            return base.Channel.GetDirectoryPostsByCompanyAsync(company);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPost GetDirectoryPost(string postName) {
+            return base.Channel.GetDirectoryPost(postName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost> GetDirectoryPostAsync(string postName) {
+            return base.Channel.GetDirectoryPostAsync(postName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPost AddDirectoryPost(string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries) {
+            return base.Channel.AddDirectoryPost(name, typeOfPost, company, postSalaries);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost> AddDirectoryPostAsync(string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries) {
+            return base.Channel.AddDirectoryPostAsync(name, typeOfPost, company, postSalaries);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryPost EditDirectoryPost(int postId, string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries) {
+            return base.Channel.EditDirectoryPost(postId, name, typeOfPost, company, postSalaries);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryPost> EditDirectoryPostAsync(int postId, string name, TestClient.AVBusinessLayerReference.DirectoryTypeOfPost typeOfPost, TestClient.AVBusinessLayerReference.DirectoryCompany company, TestClient.AVBusinessLayerReference.DirectoryPostSalary[] postSalaries) {
+            return base.Channel.EditDirectoryPostAsync(postId, name, typeOfPost, company, postSalaries);
+        }
+        
+        public void RemoveDirectoryPost(TestClient.AVBusinessLayerReference.DirectoryPost post) {
+            base.Channel.RemoveDirectoryPost(post);
+        }
+        
+        public System.Threading.Tasks.Task RemoveDirectoryPostAsync(TestClient.AVBusinessLayerReference.DirectoryPost post) {
+            return base.Channel.RemoveDirectoryPostAsync(post);
+        }
+        
+        public bool ExistsDirectoryPost(string name) {
+            return base.Channel.ExistsDirectoryPost(name);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ExistsDirectoryPostAsync(string name) {
+            return base.Channel.ExistsDirectoryPostAsync(name);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDeadSpiritDirectoryWorkers(System.DateTime date) {
+            return base.Channel.GetDeadSpiritDirectoryWorkers(date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDeadSpiritDirectoryWorkersAsync(System.DateTime date) {
+            return base.Channel.GetDeadSpiritDirectoryWorkersAsync(date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker AddDirectoryWorkerWithMultiplyPosts(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit) {
+            return base.Channel.AddDirectoryWorkerWithMultiplyPosts(lastName, firstName, midName, gender, birthDay, address, homePhone, cellPhone, startDate, photo, fireDate, currentCompaniesAndPosts, isDeadSpirit);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> AddDirectoryWorkerWithMultiplyPostsAsync(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit) {
+            return base.Channel.AddDirectoryWorkerWithMultiplyPostsAsync(lastName, firstName, midName, gender, birthDay, address, homePhone, cellPhone, startDate, photo, fireDate, currentCompaniesAndPosts, isDeadSpirit);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentPost currentPost) {
+            return base.Channel.AddDirectoryWorker(lastName, firstName, midName, gender, birthDay, address, homePhone, cellPhone, startDate, fireDate, currentPost);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> AddDirectoryWorkerAsync(string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentPost currentPost) {
+            return base.Channel.AddDirectoryWorkerAsync(lastName, firstName, midName, gender, birthDay, address, homePhone, cellPhone, startDate, fireDate, currentPost);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkers() {
+            return base.Channel.GetDirectoryWorkers();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersAsync() {
+            return base.Channel.GetDirectoryWorkersAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersByMonth(int year, int month) {
+            return base.Channel.GetDirectoryWorkersByMonth(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersByMonthAsync(int year, int month) {
+            return base.Channel.GetDirectoryWorkersByMonthAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersMonthTimeSheet(int year, int month) {
+            return base.Channel.GetDirectoryWorkersMonthTimeSheet(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersMonthTimeSheetAsync(int year, int month) {
+            return base.Channel.GetDirectoryWorkersMonthTimeSheetAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersByTypeOfPost(int year, int month, bool isOffice) {
+            return base.Channel.GetDirectoryWorkersByTypeOfPost(year, month, isOffice);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersByTypeOfPostAsync(int year, int month, bool isOffice) {
+            return base.Channel.GetDirectoryWorkersByTypeOfPostAsync(year, month, isOffice);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersBetweenDates(System.DateTime fromDate, System.DateTime toDate) {
+            return base.Channel.GetDirectoryWorkersBetweenDates(fromDate, toDate);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersBetweenDatesAsync(System.DateTime fromDate, System.DateTime toDate) {
+            return base.Channel.GetDirectoryWorkersBetweenDatesAsync(fromDate, toDate);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker[] GetDirectoryWorkersWithInfoDatesAndPanalties(int year, int month, bool isOffice) {
+            return base.Channel.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month, isOffice);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker[]> GetDirectoryWorkersWithInfoDatesAndPanaltiesAsync(int year, int month, bool isOffice) {
+            return base.Channel.GetDirectoryWorkersWithInfoDatesAndPanaltiesAsync(year, month, isOffice);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker GetDirectoryWorkerById(int workerId) {
+            return base.Channel.GetDirectoryWorkerById(workerId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> GetDirectoryWorkerByIdAsync(int workerId) {
+            return base.Channel.GetDirectoryWorkerByIdAsync(workerId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker GetDirectoryWorkerWithPosts(int workerId) {
+            return base.Channel.GetDirectoryWorkerWithPosts(workerId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> GetDirectoryWorkerWithPostsAsync(int workerId) {
+            return base.Channel.GetDirectoryWorkerWithPostsAsync(workerId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker GetDirectoryWorker(string lastName, string firstName) {
+            return base.Channel.GetDirectoryWorker(lastName, firstName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> GetDirectoryWorkerAsync(string lastName, string firstName) {
+            return base.Channel.GetDirectoryWorkerAsync(lastName, firstName);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit) {
+            return base.Channel.EditDirectoryWorker(id, lastName, firstName, midName, gender, birthDay, address, homePhone, cellPhone, startDate, photo, fireDate, currentCompaniesAndPosts, isDeadSpirit);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryWorker> EditDirectoryWorkerAsync(int id, string lastName, string firstName, string midName, TestClient.AVBusinessLayerReference.Gender gender, System.DateTime birthDay, string address, string homePhone, string cellPhone, System.DateTime startDate, TestClient.AVBusinessLayerReference.BitmapImage photo, System.Nullable<System.DateTime> fireDate, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost[] currentCompaniesAndPosts, bool isDeadSpirit) {
+            return base.Channel.EditDirectoryWorkerAsync(id, lastName, firstName, midName, gender, birthDay, address, homePhone, cellPhone, startDate, photo, fireDate, currentCompaniesAndPosts, isDeadSpirit);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatePanalties(int workerId, int year, int month) {
+            return base.Channel.GetInfoDatePanalties(workerId, year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatePanaltiesAsync(int workerId, int year, int month) {
+            return base.Channel.GetInfoDatePanaltiesAsync(workerId, year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatePanaltiesWithoutCash(int workerId, int year, int month) {
+            return base.Channel.GetInfoDatePanaltiesWithoutCash(workerId, year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatePanaltiesWithoutCashAsync(int workerId, int year, int month) {
+            return base.Channel.GetInfoDatePanaltiesWithoutCashAsync(workerId, year, month);
+        }
+        
+        public void EditInfoDateHour(int workerId, System.DateTime date, string hour) {
+            base.Channel.EditInfoDateHour(workerId, date, hour);
+        }
+        
+        public System.Threading.Tasks.Task EditInfoDateHourAsync(int workerId, System.DateTime date, string hour) {
+            return base.Channel.EditInfoDateHourAsync(workerId, date, hour);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDates(System.DateTime date) {
+            return base.Channel.GetInfoDates(date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatesAsync(System.DateTime date) {
+            return base.Channel.GetInfoDatesAsync(date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatesByWorker(int workerId, int year, int month) {
+            return base.Channel.GetInfoDatesByWorker(workerId, year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatesByWorkerAsync(int workerId, int year, int month) {
+            return base.Channel.GetInfoDatesByWorkerAsync(workerId, year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoDate[] GetInfoDatesByMonth(int year, int month) {
+            return base.Channel.GetInfoDatesByMonth(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoDate[]> GetInfoDatesByMonthAsync(int year, int month) {
+            return base.Channel.GetInfoDatesByMonthAsync(year, month);
+        }
+        
+        public System.Nullable<double> IsOverTime(TestClient.AVBusinessLayerReference.InfoDate infoDate, System.DateTime[] weekEnds) {
+            return base.Channel.IsOverTime(infoDate, weekEnds);
+        }
+        
+        public System.Threading.Tasks.Task<System.Nullable<double>> IsOverTimeAsync(TestClient.AVBusinessLayerReference.InfoDate infoDate, System.DateTime[] weekEnds) {
+            return base.Channel.IsOverTimeAsync(infoDate, weekEnds);
+        }
+        
+        public void EditDeadSpiritHours(int deadSpiritWorkerId, System.DateTime date, double hoursSpiritWorker) {
+            base.Channel.EditDeadSpiritHours(deadSpiritWorkerId, date, hoursSpiritWorker);
+        }
+        
+        public System.Threading.Tasks.Task EditDeadSpiritHoursAsync(int deadSpiritWorkerId, System.DateTime date, double hoursSpiritWorker) {
+            return base.Channel.EditDeadSpiritHoursAsync(deadSpiritWorkerId, date, hoursSpiritWorker);
+        }
+        
+        public System.DateTime GetLastWorkDay(int workerId) {
+            return base.Channel.GetLastWorkDay(workerId);
+        }
+        
+        public System.Threading.Tasks.Task<System.DateTime> GetLastWorkDayAsync(int workerId) {
+            return base.Channel.GetLastWorkDayAsync(workerId);
+        }
+        
+        public void EditInfoMonthPayment(int workerId, System.DateTime date, string propertyName, double propertyValue) {
+            base.Channel.EditInfoMonthPayment(workerId, date, propertyName, propertyValue);
+        }
+        
+        public System.Threading.Tasks.Task EditInfoMonthPaymentAsync(int workerId, System.DateTime date, string propertyName, double propertyValue) {
+            return base.Channel.EditInfoMonthPaymentAsync(workerId, date, propertyName, propertyValue);
+        }
+        
+        public int[] GetYears() {
+            return base.Channel.GetYears();
+        }
+        
+        public System.Threading.Tasks.Task<int[]> GetYearsAsync() {
+            return base.Channel.GetYearsAsync();
+        }
+        
+        public int[] GetMonthes(int year) {
+            return base.Channel.GetMonthes(year);
+        }
+        
+        public System.Threading.Tasks.Task<int[]> GetMonthesAsync(int year) {
+            return base.Channel.GetMonthesAsync(year);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoMonth GetInfoMonth(int workerId, int year, int month) {
+            return base.Channel.GetInfoMonth(workerId, year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoMonth> GetInfoMonthAsync(int workerId, int year, int month) {
+            return base.Channel.GetInfoMonthAsync(workerId, year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoMonth[] GetInfoMonthes(int year, int month) {
+            return base.Channel.GetInfoMonthes(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoMonth[]> GetInfoMonthesAsync(int year, int month) {
+            return base.Channel.GetInfoMonthesAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPanalty GetInfoPanalty(int workerId, System.DateTime date) {
+            return base.Channel.GetInfoPanalty(workerId, date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPanalty> GetInfoPanaltyAsync(int workerId, System.DateTime date) {
+            return base.Channel.GetInfoPanaltyAsync(workerId, date);
+        }
+        
+        public bool IsInfoPanalty(int workerId, System.DateTime date) {
+            return base.Channel.IsInfoPanalty(workerId, date);
+        }
+        
+        public System.Threading.Tasks.Task<bool> IsInfoPanaltyAsync(int workerId, System.DateTime date) {
+            return base.Channel.IsInfoPanaltyAsync(workerId, date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPanalty AddInfoPanalty(int workerId, System.DateTime date, double summ, string description) {
+            return base.Channel.AddInfoPanalty(workerId, date, summ, description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPanalty> AddInfoPanaltyAsync(int workerId, System.DateTime date, double summ, string description) {
+            return base.Channel.AddInfoPanaltyAsync(workerId, date, summ, description);
+        }
+        
+        public TestClient.AVBusinessLayerReference.InfoPanalty EditInfoPanalty(int workerId, System.DateTime date, double summ, string description) {
+            return base.Channel.EditInfoPanalty(workerId, date, summ, description);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.InfoPanalty> EditInfoPanaltyAsync(int workerId, System.DateTime date, double summ, string description) {
+            return base.Channel.EditInfoPanaltyAsync(workerId, date, summ, description);
+        }
+        
+        public void RemoveInfoPanalty(int workerId, System.DateTime date) {
+            base.Channel.RemoveInfoPanalty(workerId, date);
+        }
+        
+        public System.Threading.Tasks.Task RemoveInfoPanaltyAsync(int workerId, System.DateTime date) {
+            return base.Channel.RemoveInfoPanaltyAsync(workerId, date);
+        }
+        
+        public void AddCurrentPost(int workerId, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost currentCompanyAndPost) {
+            base.Channel.AddCurrentPost(workerId, currentCompanyAndPost);
+        }
+        
+        public System.Threading.Tasks.Task AddCurrentPostAsync(int workerId, TestClient.AVBusinessLayerReference.CurrentCompanyAndPost currentCompanyAndPost) {
+            return base.Channel.AddCurrentPostAsync(workerId, currentCompanyAndPost);
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentPost[] GetCurrentPosts(System.DateTime lastDateInMonth) {
+            return base.Channel.GetCurrentPosts(lastDateInMonth);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost[]> GetCurrentPostsAsync(System.DateTime lastDateInMonth) {
+            return base.Channel.GetCurrentPostsAsync(lastDateInMonth);
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentPost GetCurrentPost(int workerId, System.DateTime date) {
+            return base.Channel.GetCurrentPost(workerId, date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost> GetCurrentPostAsync(int workerId, System.DateTime date) {
+            return base.Channel.GetCurrentPostAsync(workerId, date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentPost GetMainPost(int workerId, System.DateTime date) {
+            return base.Channel.GetMainPost(workerId, date);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost> GetMainPostAsync(int workerId, System.DateTime date) {
+            return base.Channel.GetMainPostAsync(workerId, date);
+        }
+        
+        public TestClient.AVBusinessLayerReference.CurrentPost[] GetCurrentMainPosts(System.DateTime lastDateInMonth) {
+            return base.Channel.GetCurrentMainPosts(lastDateInMonth);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.CurrentPost[]> GetCurrentMainPostsAsync(System.DateTime lastDateInMonth) {
+            return base.Channel.GetCurrentMainPostsAsync(lastDateInMonth);
+        }
+        
+        public int GetCountWorkDaysInMonth(int year, int month) {
+            return base.Channel.GetCountWorkDaysInMonth(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<int> GetCountWorkDaysInMonthAsync(int year, int month) {
+            return base.Channel.GetCountWorkDaysInMonthAsync(year, month);
+        }
+        
+        public System.DateTime[] GetHolidaysByMonth(int year, int month) {
+            return base.Channel.GetHolidaysByMonth(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<System.DateTime[]> GetHolidaysByMonthAsync(int year, int month) {
+            return base.Channel.GetHolidaysByMonthAsync(year, month);
+        }
+        
+        public System.DateTime[] GetHolidaysByYear(int year) {
+            return base.Channel.GetHolidaysByYear(year);
+        }
+        
+        public System.Threading.Tasks.Task<System.DateTime[]> GetHolidaysByYearAsync(int year) {
+            return base.Channel.GetHolidaysByYearAsync(year);
+        }
+        
+        public System.DateTime[] GetHolidays(System.DateTime fromDate, System.DateTime toDate) {
+            return base.Channel.GetHolidays(fromDate, toDate);
+        }
+        
+        public System.Threading.Tasks.Task<System.DateTime[]> GetHolidaysAsync(System.DateTime fromDate, System.DateTime toDate) {
+            return base.Channel.GetHolidaysAsync(fromDate, toDate);
+        }
+        
+        public bool IsWeekend(System.DateTime date) {
+            return base.Channel.IsWeekend(date);
+        }
+        
+        public System.Threading.Tasks.Task<bool> IsWeekendAsync(System.DateTime date) {
+            return base.Channel.IsWeekendAsync(date);
+        }
+        
+        public void SetHolidays(int year, System.DateTime[] holidays) {
+            base.Channel.SetHolidays(year, holidays);
+        }
+        
+        public System.Threading.Tasks.Task SetHolidaysAsync(int year, System.DateTime[] holidays) {
+            return base.Channel.SetHolidaysAsync(year, holidays);
+        }
+        
+        public void EditParameter(TestClient.AVBusinessLayerReference.ParameterType parameterType, object value) {
+            base.Channel.EditParameter(parameterType, value);
+        }
+        
+        public System.Threading.Tasks.Task EditParameterAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType, object value) {
+            return base.Channel.EditParameterAsync(parameterType, value);
+        }
+        
+        public int GetParameterValueByInt(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByInt(parameterType);
+        }
+        
+        public System.Threading.Tasks.Task<int> GetParameterValueByIntAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByIntAsync(parameterType);
+        }
+        
+        public double GetParameterValueByDouble(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByDouble(parameterType);
+        }
+        
+        public System.Threading.Tasks.Task<double> GetParameterValueByDoubleAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByDoubleAsync(parameterType);
+        }
+        
+        public bool GetParameterValueByBool(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByBool(parameterType);
+        }
+        
+        public System.Threading.Tasks.Task<bool> GetParameterValueByBoolAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByBoolAsync(parameterType);
+        }
+        
+        public System.DateTime GetParameterValueByDateTime(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByDateTime(parameterType);
+        }
+        
+        public System.Threading.Tasks.Task<System.DateTime> GetParameterValueByDateTimeAsync(TestClient.AVBusinessLayerReference.ParameterType parameterType) {
+            return base.Channel.GetParameterValueByDateTimeAsync(parameterType);
+        }
+        
+        public void InitializeAbsentDates() {
+            base.Channel.InitializeAbsentDates();
+        }
+        
+        public System.Threading.Tasks.Task InitializeAbsentDatesAsync() {
+            return base.Channel.InitializeAbsentDatesAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryUserStatus[] GetDirectoryUserStatuses() {
+            return base.Channel.GetDirectoryUserStatuses();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUserStatus[]> GetDirectoryUserStatusesAsync() {
+            return base.Channel.GetDirectoryUserStatusesAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryUserStatus AddDirectoryUserStatus(string name, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges) {
+            return base.Channel.AddDirectoryUserStatus(name, privileges);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUserStatus> AddDirectoryUserStatusAsync(string name, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges) {
+            return base.Channel.AddDirectoryUserStatusAsync(name, privileges);
+        }
+        
+        public void EditDirectoryUserStatus(int userStatusId, string userStatusName, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges) {
+            base.Channel.EditDirectoryUserStatus(userStatusId, userStatusName, privileges);
+        }
+        
+        public System.Threading.Tasks.Task EditDirectoryUserStatusAsync(int userStatusId, string userStatusName, TestClient.AVBusinessLayerReference.CurrentUserStatusPrivilege[] privileges) {
+            return base.Channel.EditDirectoryUserStatusAsync(userStatusId, userStatusName, privileges);
+        }
+        
+        public void RemoveDirectoryUserStatus(int id) {
+            base.Channel.RemoveDirectoryUserStatus(id);
+        }
+        
+        public System.Threading.Tasks.Task RemoveDirectoryUserStatusAsync(int id) {
+            return base.Channel.RemoveDirectoryUserStatusAsync(id);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryUser[] GetDirectoryUsers() {
+            return base.Channel.GetDirectoryUsers();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser[]> GetDirectoryUsersAsync() {
+            return base.Channel.GetDirectoryUsersAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryUser GetDirectoryUser(int userId) {
+            return base.Channel.GetDirectoryUser(userId);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser> GetDirectoryUserAsync(int userId) {
+            return base.Channel.GetDirectoryUserAsync(userId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryUser AddDirectoryUser(string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus) {
+            return base.Channel.AddDirectoryUser(userName, password, userStatus);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser> AddDirectoryUserAsync(string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus) {
+            return base.Channel.AddDirectoryUserAsync(userName, password, userStatus);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryUser AddDirectoryUserAdmin(string userName, string password) {
+            return base.Channel.AddDirectoryUserAdmin(userName, password);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUser> AddDirectoryUserAdminAsync(string userName, string password) {
+            return base.Channel.AddDirectoryUserAdminAsync(userName, password);
+        }
+        
+        public void EditDirectoryUser(int userId, string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus) {
+            base.Channel.EditDirectoryUser(userId, userName, password, userStatus);
+        }
+        
+        public System.Threading.Tasks.Task EditDirectoryUserAsync(int userId, string userName, string password, TestClient.AVBusinessLayerReference.DirectoryUserStatus userStatus) {
+            return base.Channel.EditDirectoryUserAsync(userId, userName, password, userStatus);
+        }
+        
+        public void RemoveDirectoryUser(TestClient.AVBusinessLayerReference.DirectoryUser user) {
+            base.Channel.RemoveDirectoryUser(user);
+        }
+        
+        public System.Threading.Tasks.Task RemoveDirectoryUserAsync(TestClient.AVBusinessLayerReference.DirectoryUser user) {
+            return base.Channel.RemoveDirectoryUserAsync(user);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege GetDirectoryUserStatusPrivilege(string privilegeName) {
+            return base.Channel.GetDirectoryUserStatusPrivilege(privilegeName);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege> GetDirectoryUserStatusPrivilegeAsync(string privilegeName) {
+            return base.Channel.GetDirectoryUserStatusPrivilegeAsync(privilegeName);
+        }
+        
+        public string[] GetPrivileges(int userId) {
+            return base.Channel.GetPrivileges(userId);
+        }
+        
+        public System.Threading.Tasks.Task<string[]> GetPrivilegesAsync(int userId) {
+            return base.Channel.GetPrivilegesAsync(userId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCs() {
+            return base.Channel.GetDirectoryRCs();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsAsync() {
+            return base.Channel.GetDirectoryRCsAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCsByPercentage() {
+            return base.Channel.GetDirectoryRCsByPercentage();
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsByPercentageAsync() {
+            return base.Channel.GetDirectoryRCsByPercentageAsync();
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryRC GetDirectoryRC(string name) {
+            return base.Channel.GetDirectoryRC(name);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC> GetDirectoryRCAsync(string name) {
+            return base.Channel.GetDirectoryRCAsync(name);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryRC AddDirectoryRC(string directoryRCName, string descriptionName, int percentes) {
+            return base.Channel.AddDirectoryRC(directoryRCName, descriptionName, percentes);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC> AddDirectoryRCAsync(string directoryRCName, string descriptionName, int percentes) {
+            return base.Channel.AddDirectoryRCAsync(directoryRCName, descriptionName, percentes);
+        }
+        
+        public void RemoveDirectoryRC(int directoryRCId) {
+            base.Channel.RemoveDirectoryRC(directoryRCId);
+        }
+        
+        public System.Threading.Tasks.Task RemoveDirectoryRCAsync(int directoryRCId) {
+            return base.Channel.RemoveDirectoryRCAsync(directoryRCId);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCsMonthIncoming(int year, int month) {
+            return base.Channel.GetDirectoryRCsMonthIncoming(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsMonthIncomingAsync(int year, int month) {
+            return base.Channel.GetDirectoryRCsMonthIncomingAsync(year, month);
+        }
+        
+        public TestClient.AVBusinessLayerReference.DirectoryRC[] GetDirectoryRCsMonthExpense(int year, int month) {
+            return base.Channel.GetDirectoryRCsMonthExpense(year, month);
+        }
+        
+        public System.Threading.Tasks.Task<TestClient.AVBusinessLayerReference.DirectoryRC[]> GetDirectoryRCsMonthExpenseAsync(int year, int month) {
+            return base.Channel.GetDirectoryRCsMonthExpenseAsync(year, month);
+        }
+        
+        public void AddInfoOverTime(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description) {
+            base.Channel.AddInfoOverTime(startDate, endDate, directoryRCs, description);
+        }
+        
+        public System.Threading.Tasks.Task AddInfoOverTimeAsync(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description) {
+            return base.Channel.AddInfoOverTimeAsync(startDate, endDate, directoryRCs, description);
+        }
+        
+        public void EditInfoOverTime(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description) {
+            base.Channel.EditInfoOverTime(startDate, endDate, directoryRCs, description);
+        }
+        
+        public System.Threading.Tasks.Task EditInfoOverTimeAsync(System.DateTime startDate, System.DateTime endDate, TestClient.AVBusinessLayerReference.DirectoryRC[] directoryRCs, string description) {
+            return base.Channel.EditInfoOverTimeAsync(startDate, endDate, directoryRCs, description);
         }
     }
 }

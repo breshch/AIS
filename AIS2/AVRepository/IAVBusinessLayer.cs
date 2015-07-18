@@ -16,10 +16,11 @@ using AIS_Enterprise_Global.Helpers;
 namespace AVRepository
 {
 	[ServiceContract]
+	[ServiceKnownType(typeof(int))]
 	public interface IAVBusinessLayer
 	{
 		[OperationContract]
-		string[] GetDirectoryCompanies(int workerId, int year, int month, int lastDayInMonth);
+		string[] GetDirectoryCompaniesByWorker(int workerId, int year, int month, int lastDayInMonth);
 
 		[OperationContract]
 		DirectoryCompany[] GetDirectoryCompanies();
@@ -46,7 +47,7 @@ namespace AVRepository
 		DirectoryPost[] GetDirectoryPosts();
 
 		[OperationContract]
-		DirectoryPost[] GetDirectoryPosts(DirectoryCompany company);
+		DirectoryPost[] GetDirectoryPostsByCompany(DirectoryCompany company);
 
 		[OperationContract]
 		DirectoryPost GetDirectoryPost(string postName);
@@ -69,7 +70,7 @@ namespace AVRepository
 		DirectoryWorker[] GetDeadSpiritDirectoryWorkers(DateTime date);
 
 		[OperationContract]
-		DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender,
+		DirectoryWorker AddDirectoryWorkerWithMultiplyPosts(string lastName, string firstName, string midName, Gender gender,
 			DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate, BitmapImage photo,
 			DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit);
 
@@ -82,22 +83,22 @@ namespace AVRepository
 		DirectoryWorker[] GetDirectoryWorkers();
 
 		[OperationContract]
-		DirectoryWorker[] GetDirectoryWorkers(int year, int month);
+		DirectoryWorker[] GetDirectoryWorkersByMonth(int year, int month);
 
 		[OperationContract]
 		DirectoryWorker[] GetDirectoryWorkersMonthTimeSheet(int year, int month);
 
 		[OperationContract]
-		DirectoryWorker[] GetDirectoryWorkers(int year, int month, bool isOffice);
+		DirectoryWorker[] GetDirectoryWorkersByTypeOfPost(int year, int month, bool isOffice);
 
 		[OperationContract]
-		DirectoryWorker[] GetDirectoryWorkers(DateTime fromDate, DateTime toDate);
+		DirectoryWorker[] GetDirectoryWorkersBetweenDates(DateTime fromDate, DateTime toDate);
 
 		[OperationContract]
 		DirectoryWorker[] GetDirectoryWorkersWithInfoDatesAndPanalties(int year, int month, bool isOffice);
 
 		[OperationContract]
-		DirectoryWorker GetDirectoryWorker(int workerId);
+		DirectoryWorker GetDirectoryWorkerById(int workerId);
 
 		[OperationContract]
 		DirectoryWorker GetDirectoryWorkerWithPosts(int workerId);
@@ -124,10 +125,10 @@ namespace AVRepository
 		InfoDate[] GetInfoDates(DateTime date);
 
 		[OperationContract]
-		InfoDate[] GetInfoDates(int workerId, int year, int month);
+		InfoDate[] GetInfoDatesByWorker(int workerId, int year, int month);
 
 		[OperationContract]
-		InfoDate[] GetInfoDates(int year, int month);
+		InfoDate[] GetInfoDatesByMonth(int year, int month);
 
 		[OperationContract]
 		double? IsOverTime(InfoDate infoDate, List<DateTime> weekEnds);
@@ -187,10 +188,10 @@ namespace AVRepository
 		int GetCountWorkDaysInMonth(int year, int month);
 
 		[OperationContract]
-		DateTime[] GetHolidays(int year, int month);
+		DateTime[] GetHolidaysByMonth(int year, int month);
 
 		[OperationContract]
-		DateTime[] GetHolidays(int year);
+		DateTime[] GetHolidaysByYear(int year);
 
 		[OperationContract]
 		DateTime[] GetHolidays(DateTime fromDate, DateTime toDate);
@@ -202,10 +203,19 @@ namespace AVRepository
 		void SetHolidays(int year, List<DateTime> holidays);
 
 		[OperationContract]
-		void EditParameter<T>(ParameterType parameterType, T value);
+		void EditParameter(ParameterType parameterType, object value);
 
 		[OperationContract]
-		T GetParameterValue<T>(ParameterType parameterType);
+		int GetParameterValueByInt(ParameterType parameterType);
+
+		[OperationContract]
+		double GetParameterValueByDouble(ParameterType parameterType);
+
+		[OperationContract]
+		bool GetParameterValueByBool(ParameterType parameterType);
+
+		[OperationContract]
+		DateTime GetParameterValueByDateTime(ParameterType parameterType);
 
 		[OperationContract]
 		void InitializeAbsentDates();
@@ -279,7 +289,7 @@ namespace AVRepository
 		void EditInfoOverTime(DateTime startDate, DateTime endDate, List<DirectoryRC> directoryRCs, string description);
 
 		[OperationContract]
-		void EditInfoOverTime(DateTime date, double hoursOverTime);
+		void EditInfoOverTimeByDate(DateTime date, double hoursOverTime);
 
 		[OperationContract]
 		InfoOverTime GetInfoOverTime(DateTime date);
@@ -301,7 +311,7 @@ namespace AVRepository
 			bool isIncomming, double summ, Currency currency, double weight);
 
 		[OperationContract]
-		InfoCost[] GetInfoCosts(DateTime date);
+		InfoCost[] GetInfoCostsByDate(DateTime date);
 
 		[OperationContract]
 		InfoCost GetInfoCost(int infoCostId);
@@ -327,7 +337,7 @@ namespace AVRepository
 		InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnly(int year, int month);
 
 		[OperationContract]
-		InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnly(DateTime date);
+		InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnlyByDate(DateTime date);
 
 		[OperationContract]
 		void AddInfoCosts(DateTime date, DirectoryCostItem directoryCostItem, bool isIncoming,
@@ -463,7 +473,7 @@ namespace AVRepository
 		InfoSafe[] GetInfoSafes();
 
 		[OperationContract]
-		InfoSafe[] GetInfoSafes(CashType cashType, DateTime from, DateTime to);
+		InfoSafe[] GetInfoSafesByCashType(CashType cashType, DateTime from, DateTime to);
 
 		[OperationContract]
 		void RemoveInfoSafe(InfoSafe infoSafe);
@@ -497,7 +507,7 @@ namespace AVRepository
 		DirectoryPostSalary GetDirectoryPostSalaryByDate(int postId, DateTime date);
 
 		[OperationContract]
-		DirectoryPostSalary[] GetDirectoryPostSalaries(int year, int month);
+		DirectoryPostSalary[] GetDirectoryPostSalariesByMonth(int year, int month);
 
 		[OperationContract]
 		DirectoryCarPart AddDirectoryCarPart(string article, string mark, string description, string originalNumber,

@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -123,18 +124,18 @@
     <Compile Include="Models\WareHouse\PalletContent.cs" />
     <Compile Include="Models\WareHouse\PalletLocation.cs" />
     <Compile Include="Models\WareHouse\Warehouse.cs" />
-    <Compile Include="Repositories\BaseRepository.cs" />
-    <Compile Include="Repositories\CalendarRepository.cs" />
-    <Compile Include="Repositories\CompanyRepository.cs" />
-    <Compile Include="Repositories\DateRepository.cs" />
-    <Compile Include="Repositories\InitializeRepository.cs" />
-    <Compile Include="Repositories\MonthRepository.cs" />
-    <Compile Include="Repositories\PanaltyRepository.cs" />
-    <Compile Include="Repositories\ParameterRepository.cs" />
-    <Compile Include="Repositories\PostRepository.cs" />
-    <Compile Include="Repositories\RCRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Repositories\WorkerRepository.cs" />
+    <Compile Include="Repositories\AdministrationRepository.cs" />
+    <Compile Include="Repositories\BaseRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\CostRepository.cs" />
+    <Compile Include="Repositories\InitializationRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\RemainRepository.cs" />
+    <Compile Include="Repositories\TimeManagementRepository.cs" />
+    <Compile Include="Repositories\UtilRepository.cs" />
+    <Compile Include="Repositories\WarehouseRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

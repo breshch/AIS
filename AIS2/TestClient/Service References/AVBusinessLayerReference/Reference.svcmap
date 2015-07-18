@@ -23,8 +23,24 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="9cdba134-3fdc-41d3-81dd-9e1edf7468fd" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="a4f0bc63-cd1a-439c-8486-6c7f33dbe46c" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="db2c4008-3639-4ad4-82d7-34cd8c450b3e" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="fa0c540b-92cb-43bf-a65c-aa53a0847087" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AIS_Enterprise_Data.Directories.xsd" MetadataType="Schema" ID="239fc112-71b1-4737-9a0c-d16b87a22779" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AIS_Enterprise_Data.Currents.xsd" MetadataType="Schema" ID="74ae3346-4882-4c03-a056-c20b21d7ecb8" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AIS_Enterprise_Global.Helpers.xsd" MetadataType="Schema" ID="e45749d0-96b4-4100-b6d8-8c50369d050e" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AIS_Enterprise_Data.Temps.xsd" MetadataType="Schema" ID="e831799f-791f-42e2-8342-afb5f1098756" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AIS_Enterprise_Data.WareHouse.xsd" MetadataType="Schema" ID="eab3f881-088b-4b15-81f8-1c4d67f578a3" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AIS_Enterprise_Data.Infos.xsd" MetadataType="Schema" ID="989061a9-fa36-4f83-b69d-04e25ddc8704" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="ef6eae37-40e9-470f-b69d-7a70d9e08663" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AIS_Enterprise_Data.Helpers.xsd" MetadataType="Schema" ID="233cb757-dac1-432d-8296-6f412c9ef24a" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Media.Imaging.xsd" MetadataType="Schema" ID="62c249d5-f1f3-4e79-a6e1-6d2a768836b5" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Media.xsd" MetadataType="Schema" ID="10c82bec-83bb-4ecb-9f8d-8bc22030426a" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Media.Animation.xsd" MetadataType="Schema" ID="0e32bffa-6a84-43e5-abbb-f4661fb41adb" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.xsd" MetadataType="Schema" ID="8ca33e97-33e6-4ba7-9047-ed314c9164ea" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Threading.xsd" MetadataType="Schema" ID="048949a3-7e10-4486-a9ab-9ca41f952f31" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.IO.xsd" MetadataType="Schema" ID="c95ef709-ef2b-4904-82f1-bbdfe9453f46" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.xsd" MetadataType="Schema" ID="50ffc069-3a67-48fe-8873-5dcebc7311bd" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Net.Cache.xsd" MetadataType="Schema" ID="2527c6c4-e853-4daf-a08f-9a27f4dfcc30" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

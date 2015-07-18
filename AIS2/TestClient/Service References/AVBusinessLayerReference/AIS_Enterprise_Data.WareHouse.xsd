@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.WareHouse" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.WareHouse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" />
+  <xs:complexType name="AddressCell">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Cell" type="xs:int" />
+      <xs:element minOccurs="0" name="Floor" type="xs:int" />
+      <xs:element minOccurs="0" name="Place" type="xs:int" />
+      <xs:element minOccurs="0" name="Row" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddressCell" nillable="true" type="tns:AddressCell" />
+  <xs:complexType name="ArrayOfPalletContent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PalletContent" nillable="true" type="tns:PalletContent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPalletContent" nillable="true" type="tns:ArrayOfPalletContent" />
+  <xs:complexType name="PalletContent">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" minOccurs="0" name="CarPart" nillable="true" type="q1:DirectoryCarPart" />
+      <xs:element minOccurs="0" name="CountCarPart" type="xs:int" />
+      <xs:element minOccurs="0" name="DirectoryCarPartId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Location" nillable="true" type="tns:PalletLocation" />
+      <xs:element minOccurs="0" name="PalletLocationId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PalletContent" nillable="true" type="tns:PalletContent" />
+  <xs:complexType name="PalletLocation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Floor" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Pallet" type="xs:int" />
+      <xs:element minOccurs="0" name="Place" type="xs:int" />
+      <xs:element minOccurs="0" name="Row" type="xs:int" />
+      <xs:element minOccurs="0" name="Warehouse" nillable="true" type="tns:Warehouse" />
+      <xs:element minOccurs="0" name="WarehouseId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PalletLocation" nillable="true" type="tns:PalletLocation" />
+  <xs:complexType name="Warehouse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Warehouse" nillable="true" type="tns:Warehouse" />
+  <xs:complexType name="ArrayOfCarPartPallet">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CarPartPallet" nillable="true" type="tns:CarPartPallet" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCarPartPallet" nillable="true" type="tns:ArrayOfCarPartPallet" />
+  <xs:complexType name="CarPartPallet">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Article" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CountCarParts" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CarPartPallet" nillable="true" type="tns:CarPartPallet" />
+</xs:schema>

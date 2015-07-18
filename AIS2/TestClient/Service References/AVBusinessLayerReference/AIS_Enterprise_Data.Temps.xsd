@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Temps" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" />
+  <xs:complexType name="ArrayOfArticlePrice">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ArticlePrice" nillable="true" type="tns:ArticlePrice" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfArticlePrice" nillable="true" type="tns:ArrayOfArticlePrice" />
+  <xs:complexType name="ArticlePrice">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Article" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CarPartId" type="xs:int" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Mark" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PriceRUR" type="xs:double" />
+      <xs:element minOccurs="0" name="PriceUSD" nillable="true" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArticlePrice" nillable="true" type="tns:ArticlePrice" />
+  <xs:complexType name="ArrayOfCarPartRemain">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CarPartRemain" nillable="true" type="tns:CarPartRemain" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCarPartRemain" nillable="true" type="tns:ArrayOfCarPartRemain" />
+  <xs:complexType name="CarPartRemain">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Article" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="PriceRUR" type="xs:double" />
+      <xs:element minOccurs="0" name="PriceUSD" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Remain" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CarPartRemain" nillable="true" type="tns:CarPartRemain" />
+  <xs:complexType name="IncomingAndExpenseAndSumm">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers" minOccurs="0" name="Currency" type="q1:Currency" />
+      <xs:element minOccurs="0" name="IsIncoming" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Summ" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IncomingAndExpenseAndSumm" nillable="true" type="tns:IncomingAndExpenseAndSumm" />
+  <xs:complexType name="ArrayOfTransport">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Transport" nillable="true" type="tns:Transport" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTransport" nillable="true" type="tns:ArrayOfTransport" />
+  <xs:complexType name="Transport">
+    <xs:sequence>
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" minOccurs="0" name="DirectoryNote" nillable="true" type="q2:DirectoryNote" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" minOccurs="0" name="DirectoryRC" nillable="true" type="q3:DirectoryRC" />
+      <xs:element minOccurs="0" name="Weight" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Transport" nillable="true" type="tns:Transport" />
+  <xs:complexType name="ArrayOfInfoCarPartMovement">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoCarPartMovement" nillable="true" type="tns:InfoCarPartMovement" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoCarPartMovement" nillable="true" type="tns:ArrayOfInfoCarPartMovement" />
+  <xs:complexType name="InfoCarPartMovement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FullDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Incoming" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Outcoming" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoCarPartMovement" nillable="true" type="tns:InfoCarPartMovement" />
+  <xs:complexType name="ArrayOfCurrentCompanyAndPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrentCompanyAndPost" nillable="true" type="tns:CurrentCompanyAndPost" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrentCompanyAndPost" nillable="true" type="tns:ArrayOfCurrentCompanyAndPost" />
+  <xs:complexType name="CurrentCompanyAndPost">
+    <xs:sequence>
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" minOccurs="0" name="DirectoryPost" nillable="true" type="q4:DirectoryPost" />
+      <xs:element minOccurs="0" name="IsTemporaryPost" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsTwoCompanies" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PostChangeDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PostFireDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Salary" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentCompanyAndPost" nillable="true" type="tns:CurrentCompanyAndPost" />
+</xs:schema>

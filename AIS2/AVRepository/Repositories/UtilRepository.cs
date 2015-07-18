@@ -5,11 +5,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AIS_Enterprise_Data.Directories;
+using AIS_Enterprise_Data.Helpers;
+using AIS_Enterprise_Global.Helpers;
 
 namespace AVRepository.Repositories
 {
-	public class CalendarRepository :BaseRepository
+	public class UtilRepository : BaseRepository
 	{
+		public void EditParameter(ParameterType parameterType, object value)
+		{
+			using (var db = GetContext())
+			{
+				db.Parameters.First(p => p.Name == parameterType.ToString()).Value = value.ToString();
+				db.SaveChanges();
+			}
+		}
+
+		public T GetParameterValue<T>(ParameterType parameterType)
+		{
+			using (var db = GetContext())
+			{
+				var parameter = db.Parameters.FirstOrDefault(p => p.Name == parameterType.ToString());
+				if (parameter == null)
+				{
+					parameter = db.Parameters.Add(new Parameter
+					{
+						Name = parameterType.ToString(),
+						Value = default(T).ToString()
+					});
+					db.SaveChanges();
+				}
+				db.Entry(parameter).Reload();
+
+				string value = parameter.Value;
+
+				return (T)Convert.ChangeType(value, typeof(T));
+			}
+		}
+
 		public int GetCountWorkDaysInMonth(int year, int month)
 		{
 			using (var db = GetContext())
@@ -79,6 +112,5 @@ namespace AVRepository.Repositories
 				db.SaveChanges();
 			}
 		}
-
 	}
 }

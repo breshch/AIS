@@ -53,12 +53,168 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Service References\AVBusinessLayerReference\AIS_Enterprise_Data.Currents.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\AIS_Enterprise_Data.Directories.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\AIS_Enterprise_Data.Helpers.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\AIS_Enterprise_Data.Infos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\AIS_Enterprise_Data.Temps.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\AIS_Enterprise_Data.WareHouse.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\AIS_Enterprise_Global.Helpers.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\AVBusinessLayerReference\service.wsdl" />
     <None Include="Service References\AVBusinessLayerReference\service.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\AVBusinessLayerReference\service1.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.IO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.Net.Cache.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.Windows.Media.Animation.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.Windows.Media.Imaging.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.Windows.Media.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.Windows.Threading.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.Windows.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\System.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.ArticlePrice.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.CarPartRemain.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.CurrencyValue.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.CurrentCarPart.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.CurrentPost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.CurrentRC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DefaultCost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryCarPart.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryCompany.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryCostItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryLoanTaker.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryNote.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryPost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryPostSalary.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryRC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryTransportCompany.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryTypeOfPost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryUser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryUserStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryUserStatusPrivilege.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.DirectoryWorker.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoCarPartMovement.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoContainer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoCost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoDate.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoLastMonthDayRemain.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoLoan.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoMonth.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoOverTime.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoPanalty.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoPayment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoPrivateLoan.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoPrivatePayment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoSafe.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.InfoTotalEqualCashSafeToMinsk.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVBusinessLayerReference\TestClient.AVBusinessLayerReference.PalletContent.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

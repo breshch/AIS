@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Directories" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos" />
+  <xs:complexType name="DirectoryCarPart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Article" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Attachment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CountInBox" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CrossNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FactoryNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsImport" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Mark" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Material" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OriginalNumber" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryCarPart" nillable="true" type="tns:DirectoryCarPart" />
+  <xs:complexType name="DirectoryRC">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DescriptionName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsChecked" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Percentes" type="xs:int" />
+      <xs:element minOccurs="0" name="ReportName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryRC" nillable="true" type="tns:DirectoryRC" />
+  <xs:complexType name="DirectoryCostItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryCostItem" nillable="true" type="tns:DirectoryCostItem" />
+  <xs:complexType name="DirectoryNote">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryNote" nillable="true" type="tns:DirectoryNote" />
+  <xs:complexType name="DirectoryTransportCompany">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsCash" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryTransportCompany" nillable="true" type="tns:DirectoryTransportCompany" />
+  <xs:complexType name="DirectoryWorker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BirthDay" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CellPhone" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents" minOccurs="0" name="CurrentCompaniesAndPosts" nillable="true" type="q1:ArrayOfCurrentPost" />
+      <xs:element minOccurs="0" name="DirectoryPhoto" nillable="true" type="tns:DirectoryPhoto" />
+      <xs:element minOccurs="0" name="DirectoryPhotoId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="FireDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Global.Helpers" minOccurs="0" name="Gender" type="q2:Gender" />
+      <xs:element minOccurs="0" name="HomePhone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos" minOccurs="0" name="InfoDates" nillable="true" type="q3:ArrayOfInfoDate" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Infos" minOccurs="0" name="InfoMonthes" nillable="true" type="q4:ArrayOfInfoMonth" />
+      <xs:element minOccurs="0" name="IsDeadSpirit" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MidName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryWorker" nillable="true" type="tns:DirectoryWorker" />
+  <xs:complexType name="DirectoryPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DirectoryCompany" nillable="true" type="tns:DirectoryCompany" />
+      <xs:element minOccurs="0" name="DirectoryCompanyId" type="xs:int" />
+      <xs:element minOccurs="0" name="DirectoryPostSalaries" nillable="true" type="tns:ArrayOfDirectoryPostSalary" />
+      <xs:element minOccurs="0" name="DirectoryTypeOfPost" nillable="true" type="tns:DirectoryTypeOfPost" />
+      <xs:element minOccurs="0" name="DirectoryTypeOfPostId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryPost" nillable="true" type="tns:DirectoryPost" />
+  <xs:complexType name="DirectoryCompany">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryCompany" nillable="true" type="tns:DirectoryCompany" />
+  <xs:complexType name="ArrayOfDirectoryPostSalary">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryPostSalary" nillable="true" type="tns:DirectoryPostSalary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryPostSalary" nillable="true" type="tns:ArrayOfDirectoryPostSalary" />
+  <xs:complexType name="DirectoryPostSalary">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdminWorkerSalary" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DirectoryPostId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="UserWorkerHalfSalary" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="UserWorkerSalary" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryPostSalary" nillable="true" type="tns:DirectoryPostSalary" />
+  <xs:complexType name="DirectoryTypeOfPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryTypeOfPost" nillable="true" type="tns:DirectoryTypeOfPost" />
+  <xs:complexType name="DirectoryPhoto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Photo" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryPhoto" nillable="true" type="tns:DirectoryPhoto" />
+  <xs:complexType name="DirectoryLoanTaker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryLoanTaker" nillable="true" type="tns:DirectoryLoanTaker" />
+  <xs:complexType name="ArrayOfDirectoryCostItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryCostItem" nillable="true" type="tns:DirectoryCostItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryCostItem" nillable="true" type="tns:ArrayOfDirectoryCostItem" />
+  <xs:complexType name="ArrayOfDirectoryNote">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryNote" nillable="true" type="tns:DirectoryNote" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryNote" nillable="true" type="tns:ArrayOfDirectoryNote" />
+  <xs:complexType name="ArrayOfDirectoryTransportCompany">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryTransportCompany" nillable="true" type="tns:DirectoryTransportCompany" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryTransportCompany" nillable="true" type="tns:ArrayOfDirectoryTransportCompany" />
+  <xs:complexType name="ArrayOfDirectoryLoanTaker">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryLoanTaker" nillable="true" type="tns:DirectoryLoanTaker" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryLoanTaker" nillable="true" type="tns:ArrayOfDirectoryLoanTaker" />
+  <xs:complexType name="ArrayOfDirectoryCarPart">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryCarPart" nillable="true" type="tns:DirectoryCarPart" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryCarPart" nillable="true" type="tns:ArrayOfDirectoryCarPart" />
+  <xs:complexType name="ArrayOfDirectoryCompany">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryCompany" nillable="true" type="tns:DirectoryCompany" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryCompany" nillable="true" type="tns:ArrayOfDirectoryCompany" />
+  <xs:complexType name="ArrayOfDirectoryTypeOfPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryTypeOfPost" nillable="true" type="tns:DirectoryTypeOfPost" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryTypeOfPost" nillable="true" type="tns:ArrayOfDirectoryTypeOfPost" />
+  <xs:complexType name="ArrayOfDirectoryPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryPost" nillable="true" type="tns:DirectoryPost" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryPost" nillable="true" type="tns:ArrayOfDirectoryPost" />
+  <xs:complexType name="ArrayOfDirectoryWorker">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryWorker" nillable="true" type="tns:DirectoryWorker" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryWorker" nillable="true" type="tns:ArrayOfDirectoryWorker" />
+  <xs:complexType name="ArrayOfDirectoryUserStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryUserStatus" nillable="true" type="tns:DirectoryUserStatus" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryUserStatus" nillable="true" type="tns:ArrayOfDirectoryUserStatus" />
+  <xs:complexType name="DirectoryUserStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents" minOccurs="0" name="Privileges" nillable="true" type="q5:ArrayOfCurrentUserStatusPrivilege" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryUserStatus" nillable="true" type="tns:DirectoryUserStatus" />
+  <xs:complexType name="DirectoryUserStatusPrivilege">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryUserStatusPrivilege" nillable="true" type="tns:DirectoryUserStatusPrivilege" />
+  <xs:complexType name="ArrayOfDirectoryUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryUser" nillable="true" type="tns:DirectoryUser" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryUser" nillable="true" type="tns:ArrayOfDirectoryUser" />
+  <xs:complexType name="DirectoryUser">
+    <xs:sequence>
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/AIS_Enterprise_Data.Currents" minOccurs="0" name="CurrentUserStatus" nillable="true" type="q6:CurrentUserStatus" />
+      <xs:element minOccurs="0" name="CurrentUserStatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryUser" nillable="true" type="tns:DirectoryUser" />
+  <xs:complexType name="ArrayOfDirectoryRC">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryRC" nillable="true" type="tns:DirectoryRC" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryRC" nillable="true" type="tns:ArrayOfDirectoryRC" />
+</xs:schema>

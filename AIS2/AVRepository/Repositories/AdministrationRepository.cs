@@ -4,14 +4,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Currents;
 using AIS_Enterprise_Data.Directories;
 
 namespace AVRepository.Repositories
 {
-	public class UserRepository : BaseRepository
+	public class AdministrationRepository : BaseRepository
 	{
-
 		public DirectoryUserStatus[] GetDirectoryUserStatuses()
 		{
 			using (var db = GetContext())
@@ -168,5 +168,24 @@ namespace AVRepository.Repositories
 			}
 		}
 
+		#region Auth
+
+		public bool LoginUser(int userId, string password)
+		{
+			using (var db = GetContext())
+			{
+				var auth = db.Auths.FirstOrDefault(s => s.DirectoryUserId == userId);
+				if (auth == null)
+				{
+					return false;
+				}
+
+				var hash = CryptoHelper.GetHash(password + auth.Salt);
+
+				return auth.Hash == hash;
+			}
+		}
+
+		#endregion
 	}
 }

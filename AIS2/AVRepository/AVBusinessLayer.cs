@@ -21,58 +21,46 @@ namespace AVRepository
 {
 	public class AVBusinessLayer : IAVBusinessLayer
 	{
-		private readonly WorkerRepository workerRepository;
-		private readonly CompanyRepository companyRepository;
-		private readonly PostRepository postRepository;
-		private readonly DateRepository dateRepository;
-		private readonly MonthRepository monthRepository;
-		private readonly PanaltyRepository panaltyRepository;
-		private readonly CalendarRepository calendarRepository;
-		private readonly ParameterRepository parameterRepository;
-		private readonly InitializeRepository initializeRepository;
-		private readonly UserRepository userRepository;
-		private readonly RCRepository rcRepository;
-
+		private readonly UtilRepository utilRepository;
+		private readonly RemainRepository remainRepository;
+		private readonly AdministrationRepository administrationRepository;
+		private readonly WarehouseRepository warehouseRepository;
+		private readonly InitializationRepository initializationRepository;
+		private readonly CostRepository costRepository;
+		private readonly TimeManagementRepository timeManagementRepository;
 
 		public AVBusinessLayer()
 		{
-			workerRepository = new WorkerRepository();
-			companyRepository = new CompanyRepository();
-			postRepository = new PostRepository();
-			dateRepository = new DateRepository();
-			monthRepository = new MonthRepository();
-			panaltyRepository = new PanaltyRepository();
-			calendarRepository = new CalendarRepository();
-			initializeRepository = new InitializeRepository();
-			userRepository = new UserRepository();
-			rcRepository = new RCRepository();
-
-
+			utilRepository = new UtilRepository();
+			remainRepository = new RemainRepository(utilRepository);
+			administrationRepository = new AdministrationRepository();
+			warehouseRepository = new WarehouseRepository();
+			costRepository = new CostRepository(utilRepository);
+			timeManagementRepository = new TimeManagementRepository(utilRepository);
+			initializationRepository = new InitializationRepository(utilRepository, timeManagementRepository, costRepository);
 		}
-
-		private const string TYPE_OF_POST_OFFICE = "Офис"; //TODO Refactoring Офис
 
 		//done
 		#region DirectoryCompany
 
-		public string[] GetDirectoryCompanies(int workerId, int year, int month, int lastDayInMonth)
+		public string[] GetDirectoryCompaniesByWorker(int workerId, int year, int month, int lastDayInMonth)
 		{
-			return companyRepository.GetDirectoryCompanies(workerId, year, month, lastDayInMonth);
+			return timeManagementRepository.GetDirectoryCompanies(workerId, year, month, lastDayInMonth);
 		}
 
 		public DirectoryCompany[] GetDirectoryCompanies()
 		{
-			return companyRepository.GetDirectoryCompanies();
+			return timeManagementRepository.GetDirectoryCompanies();
 		}
 
 		public DirectoryCompany AddDirectoryCompany(string directoryCompanyName)
 		{
-			return companyRepository.AddDirectoryCompany(directoryCompanyName);
+			return timeManagementRepository.AddDirectoryCompany(directoryCompanyName);
 		}
 
 		public void RemoveDirectoryCompany(int directoryCompanyId)
 		{
-			companyRepository.RemoveDirectoryCompany(directoryCompanyId);
+			timeManagementRepository.RemoveDirectoryCompany(directoryCompanyId);
 		}
 
 		#endregion
@@ -82,22 +70,22 @@ namespace AVRepository
 
 		public DirectoryTypeOfPost[] GetDirectoryTypeOfPosts()
 		{
-			return postRepository.GetDirectoryTypeOfPosts();
+			return timeManagementRepository.GetDirectoryTypeOfPosts();
 		}
 
 		public DirectoryTypeOfPost AddDirectoryTypeOfPost(string directoryTypeOfPostName)
 		{
-			return postRepository.AddDirectoryTypeOfPost(directoryTypeOfPostName);
+			return timeManagementRepository.AddDirectoryTypeOfPost(directoryTypeOfPostName);
 		}
 
 		public void RemoveDirectoryTypeOfPost(int directoryTypeOfPostId)
 		{
-			postRepository.RemoveDirectoryTypeOfPost(directoryTypeOfPostId);
+			timeManagementRepository.RemoveDirectoryTypeOfPost(directoryTypeOfPostId);
 		}
 
 		public DirectoryTypeOfPost GetDirectoryTypeOfPost(int workerId, DateTime date)
 		{
-			return postRepository.GetDirectoryTypeOfPost(workerId, date);
+			return timeManagementRepository.GetDirectoryTypeOfPost(workerId, date);
 		}
 
 		#endregion
@@ -107,39 +95,39 @@ namespace AVRepository
 
 		public DirectoryPost[] GetDirectoryPosts()
 		{
-			return postRepository.GetDirectoryPosts();
+			return timeManagementRepository.GetDirectoryPosts();
 		}
 
-		public DirectoryPost[] GetDirectoryPosts(DirectoryCompany company)
+		public DirectoryPost[] GetDirectoryPostsByCompany(DirectoryCompany company)
 		{
-			return postRepository.GetDirectoryPosts(company);
+			return timeManagementRepository.GetDirectoryPosts(company);
 		}
 
 		public DirectoryPost GetDirectoryPost(string postName)
 		{
-			return postRepository.GetDirectoryPost(postName);
+			return timeManagementRepository.GetDirectoryPost(postName);
 		}
 
 		public DirectoryPost AddDirectoryPost(string name, DirectoryTypeOfPost typeOfPost, DirectoryCompany company,
 			List<DirectoryPostSalary> postSalaries)
 		{
-			return postRepository.AddDirectoryPost(name, typeOfPost, company, postSalaries);
+			return timeManagementRepository.AddDirectoryPost(name, typeOfPost, company, postSalaries);
 		}
 
 		public DirectoryPost EditDirectoryPost(int postId, string name, DirectoryTypeOfPost typeOfPost,
 			DirectoryCompany company, List<DirectoryPostSalary> postSalaries)
 		{
-			return postRepository.EditDirectoryPost(postId, name, typeOfPost, company, postSalaries);
+			return timeManagementRepository.EditDirectoryPost(postId, name, typeOfPost, company, postSalaries);
 		}
 
 		public void RemoveDirectoryPost(DirectoryPost post)
 		{
-			postRepository.RemoveDirectoryPost(post);
+			timeManagementRepository.RemoveDirectoryPost(post);
 		}
 
 		public bool ExistsDirectoryPost(string name)
 		{
-			return postRepository.ExistsDirectoryPost(name);
+			return timeManagementRepository.ExistsDirectoryPost(name);
 		}
 
 		#endregion
@@ -150,14 +138,14 @@ namespace AVRepository
 
 		public DirectoryWorker[] GetDeadSpiritDirectoryWorkers(DateTime date)
 		{
-			return workerRepository.GetDeadSpiritDirectoryWorkers(date);
+			return timeManagementRepository.GetDeadSpiritDirectoryWorkers(date);
 		}
 
-		public DirectoryWorker AddDirectoryWorker(string lastName, string firstName, string midName, Gender gender,
+		public DirectoryWorker AddDirectoryWorkerWithMultiplyPosts(string lastName, string firstName, string midName, Gender gender,
 			DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate, BitmapImage photo,
 			DateTime? fireDate, ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
 		{
-			return workerRepository.AddDirectoryWorker(lastName, firstName, midName, gender, birthDay, address, cellPhone,
+			return timeManagementRepository.AddDirectoryWorker(lastName, firstName, midName, gender, birthDay, address, cellPhone,
 				homePhone, startDate, photo, fireDate, currentCompaniesAndPosts, isDeadSpirit);
 		}
 
@@ -165,54 +153,54 @@ namespace AVRepository
 			DateTime birthDay, string address, string homePhone, string cellPhone, DateTime startDate,
 			DateTime? fireDate, CurrentPost currentPost)
 		{
-			return workerRepository.AddDirectoryWorker(lastName, midName, firstName, gender, birthDay, address
+			return timeManagementRepository.AddDirectoryWorker(lastName, midName, firstName, gender, birthDay, address
 				, homePhone, cellPhone, startDate, fireDate, currentPost);
 		}
 
 		public DirectoryWorker[] GetDirectoryWorkers()
 		{
-			return workerRepository.GetDirectoryWorkers();
+			return timeManagementRepository.GetDirectoryWorkers();
 		}
 
-		public DirectoryWorker[] GetDirectoryWorkers(int year, int month)
+		public DirectoryWorker[] GetDirectoryWorkersByMonth(int year, int month)
 		{
-			return workerRepository.GetDirectoryWorkers(year, month);
+			return timeManagementRepository.GetDirectoryWorkers(year, month);
 		}
 
 		//TODO Refactoring DRY
 		public DirectoryWorker[] GetDirectoryWorkersMonthTimeSheet(int year, int month)
 		{
-			return workerRepository.GetDirectoryWorkersMonthTimeSheet(year, month);
+			return timeManagementRepository.GetDirectoryWorkersMonthTimeSheet(year, month);
 		}
 
-		public DirectoryWorker[] GetDirectoryWorkers(int year, int month, bool isOffice)
+		public DirectoryWorker[] GetDirectoryWorkersByTypeOfPost(int year, int month, bool isOffice)
 		{
-			return workerRepository.GetDirectoryWorkers(year, month, isOffice);
+			return timeManagementRepository.GetDirectoryWorkers(year, month, isOffice);
 		}
 
-		public DirectoryWorker[] GetDirectoryWorkers(DateTime fromDate, DateTime toDate)
+		public DirectoryWorker[] GetDirectoryWorkersBetweenDates(DateTime fromDate, DateTime toDate)
 		{
-			return workerRepository.GetDirectoryWorkers(fromDate, toDate);
+			return timeManagementRepository.GetDirectoryWorkers(fromDate, toDate);
 		}
 
 		public DirectoryWorker[] GetDirectoryWorkersWithInfoDatesAndPanalties(int year, int month, bool isOffice)
 		{
-			return workerRepository.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month, isOffice);
+			return timeManagementRepository.GetDirectoryWorkersWithInfoDatesAndPanalties(year, month, isOffice);
 		}
 
-		public DirectoryWorker GetDirectoryWorker(int workerId)
+		public DirectoryWorker GetDirectoryWorkerById(int workerId)
 		{
-			return workerRepository.GetDirectoryWorker(workerId);
+			return timeManagementRepository.GetDirectoryWorker(workerId);
 		}
 
 		public DirectoryWorker GetDirectoryWorkerWithPosts(int workerId)
 		{
-			return workerRepository.GetDirectoryWorkerWithPosts(workerId);
+			return timeManagementRepository.GetDirectoryWorkerWithPosts(workerId);
 		}
 
 		public DirectoryWorker GetDirectoryWorker(string lastName, string firstName)
 		{
-			return workerRepository.GetDirectoryWorker(lastName, firstName);
+			return timeManagementRepository.GetDirectoryWorker(lastName, firstName);
 		}
 
 		public DirectoryWorker EditDirectoryWorker(int id, string lastName, string firstName, string midName, Gender gender,
@@ -220,7 +208,7 @@ namespace AVRepository
 			string cellPhone, DateTime startDate, BitmapImage photo, DateTime? fireDate,
 			ICollection<CurrentCompanyAndPost> currentCompaniesAndPosts, bool isDeadSpirit)
 		{
-			return workerRepository.EditDirectoryWorker(id, lastName, firstName, midName, gender, birthDay, address, homePhone,
+			return timeManagementRepository.EditDirectoryWorker(id, lastName, firstName, midName, gender, birthDay, address, homePhone,
 				cellPhone, startDate, photo, fireDate, currentCompaniesAndPosts, isDeadSpirit);
 		}
 
@@ -231,47 +219,47 @@ namespace AVRepository
 
 		public InfoDate[] GetInfoDatePanalties(int workerId, int year, int month)
 		{
-			return dateRepository.GetInfoDatePanalties(workerId, year, month);
+			return timeManagementRepository.GetInfoDatePanalties(workerId, year, month);
 		}
 
 		public InfoDate[] GetInfoDatePanaltiesWithoutCash(int workerId, int year, int month)
 		{
-			return dateRepository.GetInfoDatePanaltiesWithoutCash(workerId, year, month);
+			return timeManagementRepository.GetInfoDatePanaltiesWithoutCash(workerId, year, month);
 		}
 
 		public void EditInfoDateHour(int workerId, DateTime date, string hour)
 		{
-			dateRepository.EditInfoDateHour(workerId, date, hour);
+			timeManagementRepository.EditInfoDateHour(workerId, date, hour);
 		}
 
 		public InfoDate[] GetInfoDates(DateTime date)
 		{
-			return dateRepository.GetInfoDates(date);
+			return timeManagementRepository.GetInfoDates(date);
 		}
 
-		public InfoDate[] GetInfoDates(int workerId, int year, int month)
+		public InfoDate[] GetInfoDatesByWorker(int workerId, int year, int month)
 		{
-			return dateRepository.GetInfoDates(workerId, year, month);
+			return timeManagementRepository.GetInfoDates(workerId, year, month);
 		}
 
-		public InfoDate[] GetInfoDates(int year, int month)
+		public InfoDate[] GetInfoDatesByMonth(int year, int month)
 		{
-			return dateRepository.GetInfoDates(year, month);
+			return timeManagementRepository.GetInfoDates(year, month);
 		}
 
 		public double? IsOverTime(InfoDate infoDate, List<DateTime> weekEnds)
 		{
-			return dateRepository.IsOverTime(infoDate, weekEnds);
+			return timeManagementRepository.IsOverTime(infoDate, weekEnds);
 		}
 
 		public void EditDeadSpiritHours(int deadSpiritWorkerId, DateTime date, double hoursSpiritWorker)
 		{
-			dateRepository.EditDeadSpiritHours(deadSpiritWorkerId, date, hoursSpiritWorker);
+			timeManagementRepository.EditDeadSpiritHours(deadSpiritWorkerId, date, hoursSpiritWorker);
 		}
 
 		public DateTime GetLastWorkDay(int workerId)
 		{
-			return dateRepository.GetLastWorkDay(workerId);
+			return timeManagementRepository.GetLastWorkDay(workerId);
 		}
 
 		#endregion
@@ -281,27 +269,27 @@ namespace AVRepository
 
 		public void EditInfoMonthPayment(int workerId, DateTime date, string propertyName, double propertyValue)
 		{
-			monthRepository.EditInfoMonthPayment(workerId, date, propertyName, propertyValue);
+			timeManagementRepository.EditInfoMonthPayment(workerId, date, propertyName, propertyValue);
 		}
 
 		public int[] GetYears()
 		{
-			return monthRepository.GetYears();
+			return timeManagementRepository.GetYears();
 		}
 
 		public int[] GetMonthes(int year)
 		{
-			return monthRepository.GetMonthes(year);
+			return timeManagementRepository.GetMonthes(year);
 		}
 
 		public InfoMonth GetInfoMonth(int workerId, int year, int month)
 		{
-			return monthRepository.GetInfoMonth(workerId, year, month);
+			return timeManagementRepository.GetInfoMonth(workerId, year, month);
 		}
 
 		public InfoMonth[] GetInfoMonthes(int year, int month)
 		{
-			return monthRepository.GetInfoMonthes(year, month);
+			return timeManagementRepository.GetInfoMonthes(year, month);
 		}
 
 		#endregion
@@ -311,28 +299,28 @@ namespace AVRepository
 
 		public InfoPanalty GetInfoPanalty(int workerId, DateTime date)
 		{
-			return panaltyRepository.GetInfoPanalty(workerId, date);
+			return timeManagementRepository.GetInfoPanalty(workerId, date);
 		}
 
 		public bool IsInfoPanalty(int workerId, DateTime date)
 		{
-			return panaltyRepository.IsInfoPanalty(workerId, date);
+			return timeManagementRepository.IsInfoPanalty(workerId, date);
 		}
 
 		public InfoPanalty AddInfoPanalty(int workerId, DateTime date, double summ, string description)
 		{
-			return panaltyRepository.AddInfoPanalty(workerId, date, summ, description);
+			return timeManagementRepository.AddInfoPanalty(workerId, date, summ, description);
 		}
 
 
 		public InfoPanalty EditInfoPanalty(int workerId, DateTime date, double summ, string description)
 		{
-			return panaltyRepository.EditInfoPanalty(workerId, date, summ, description);
+			return timeManagementRepository.EditInfoPanalty(workerId, date, summ, description);
 		}
 
 		public void RemoveInfoPanalty(int workerId, DateTime date)
 		{
-			panaltyRepository.RemoveInfoPanalty(workerId, date);
+			timeManagementRepository.RemoveInfoPanalty(workerId, date);
 		}
 
 		#endregion
@@ -342,32 +330,32 @@ namespace AVRepository
 
 		public void AddCurrentPost(int workerId, CurrentCompanyAndPost currentCompanyAndPost)
 		{
-			postRepository.AddCurrentPost(workerId, currentCompanyAndPost);
+			timeManagementRepository.AddCurrentPost(workerId, currentCompanyAndPost);
 		}
 
 		public CurrentPost[] GetCurrentPosts(DateTime lastDateInMonth)
 		{
-			return postRepository.GetCurrentPosts(lastDateInMonth);
+			return timeManagementRepository.GetCurrentPosts(lastDateInMonth);
 		}
 
 		public CurrentPost[] GetCurrentPosts(int workerId, int year, int month, int lastDayInMonth)
 		{
-			return postRepository.GetCurrentPosts(workerId, year, month, lastDayInMonth);
+			return timeManagementRepository.GetCurrentPosts(workerId, year, month, lastDayInMonth);
 		}
 
 		public CurrentPost GetCurrentPost(int workerId, DateTime date)
 		{
-			return postRepository.GetCurrentPost(workerId, date);
+			return timeManagementRepository.GetCurrentPost(workerId, date);
 		}
 
 		public CurrentPost GetMainPost(int workerId, DateTime date)
 		{
-			return postRepository.GetMainPost(workerId, date);
+			return timeManagementRepository.GetMainPost(workerId, date);
 		}
 
 		public CurrentPost[] GetCurrentMainPosts(DateTime lastDateInMonth)
 		{
-			return postRepository.GetCurrentMainPosts(lastDateInMonth);
+			return timeManagementRepository.GetCurrentMainPosts(lastDateInMonth);
 		}
 
 		#endregion
@@ -377,47 +365,57 @@ namespace AVRepository
 
 		public int GetCountWorkDaysInMonth(int year, int month)
 		{
-			return calendarRepository.GetCountWorkDaysInMonth(year, month);
+			return utilRepository.GetCountWorkDaysInMonth(year, month);
 		}
 
-		public DateTime[] GetHolidays(int year, int month)
+		public DateTime[] GetHolidaysByMonth(int year, int month)
 		{
-			return calendarRepository.GetHolidays(year, month);
+			return utilRepository.GetHolidays(year, month);
 		}
 
-		public DateTime[] GetHolidays(int year)
+		public DateTime[] GetHolidaysByYear(int year)
 		{
-			return calendarRepository.GetHolidays(year);
+			return utilRepository.GetHolidays(year);
 		}
 
 		public DateTime[] GetHolidays(DateTime fromDate, DateTime toDate)
 		{
-			return calendarRepository.GetHolidays(fromDate, toDate);
+			return utilRepository.GetHolidays(fromDate, toDate);
 		}
 
 		public bool IsWeekend(DateTime date)
 		{
-			return calendarRepository.IsWeekend(date);
+			return utilRepository.IsWeekend(date);
 		}
 
 		public void SetHolidays(int year, List<DateTime> holidays)
 		{
-			calendarRepository.SetHolidays(year, holidays);
+			utilRepository.SetHolidays(year, holidays);
 		}
 
-		#endregion
-		//**
-		//done
-		#region Parameter
-
-		public void EditParameter<T>(ParameterType parameterType, T value)
+		public void EditParameter(ParameterType parameterType, object value)
 		{
-			parameterRepository.EditParameter<T>(parameterType, value);
+			utilRepository.EditParameter(parameterType, value);
 		}
 
-		public T GetParameterValue<T>(ParameterType parameterType)
+		public int GetParameterValueByInt(ParameterType parameterType)
 		{
-			return parameterRepository.GetParameterValue<T>(parameterType);
+			return utilRepository.GetParameterValue<int>(parameterType);
+		}
+
+		public double GetParameterValueByDouble(ParameterType parameterType)
+		{
+			return utilRepository.GetParameterValue<double>(parameterType);
+		}
+
+		public bool GetParameterValueByBool(ParameterType parameterType)
+		{
+			return utilRepository.GetParameterValue<bool>(parameterType);
+		}
+
+		public DateTime GetParameterValueByDateTime(ParameterType parameterType)
+		{
+			return utilRepository.GetParameterValue<DateTime>(parameterType);
 		}
 
 		#endregion
@@ -427,12 +425,12 @@ namespace AVRepository
 
 		public void InitializeAbsentDates()
 		{
-			initializeRepository.InitializeAbsentDates();
+			initializationRepository.InitializeAbsentDates();
 		}
 
 		//private void InitializeWorkerLoanPayments(DirectoryWorker worker, InfoMonth infoMonth, DateTime salaryDate)
 		//{
-		//	initializeRepository.InitializeWorkerLoanPayments(worker, infoMonth, salaryDate);
+		//	initializationRepository.InitializeWorkerLoanPayments(worker, infoMonth, salaryDate);
 			
 		//}
 
@@ -443,23 +441,23 @@ namespace AVRepository
 
 		public DirectoryUserStatus[] GetDirectoryUserStatuses()
 		{
-			return userRepository.GetDirectoryUserStatuses();
+			return administrationRepository.GetDirectoryUserStatuses();
 		}
 
 		public DirectoryUserStatus AddDirectoryUserStatus(string name, List<CurrentUserStatusPrivilege> privileges)
 		{
-			return userRepository.AddDirectoryUserStatus(name, privileges);
+			return administrationRepository.AddDirectoryUserStatus(name, privileges);
 		}
 
 		public void EditDirectoryUserStatus(int userStatusId, string userStatusName,
 			List<CurrentUserStatusPrivilege> privileges)
 		{
-			userRepository.EditDirectoryUserStatus(userStatusId, userStatusName, privileges);
+			administrationRepository.EditDirectoryUserStatus(userStatusId, userStatusName, privileges);
 		}
 
 		public void RemoveDirectoryUserStatus(int id)
 		{
-			userRepository.RemoveDirectoryUserStatus(id);
+			administrationRepository.RemoveDirectoryUserStatus(id);
 		}
 
 		#endregion
@@ -469,32 +467,32 @@ namespace AVRepository
 
 		public DirectoryUser[] GetDirectoryUsers()
 		{
-			return userRepository.GetDirectoryUsers();
+			return administrationRepository.GetDirectoryUsers();
 		}
 
 		public DirectoryUser GetDirectoryUser(int userId)
 		{
-			return userRepository.GetDirectoryUser(userId);
+			return administrationRepository.GetDirectoryUser(userId);
 		}
 
 		public DirectoryUser AddDirectoryUser(string userName, string password, DirectoryUserStatus userStatus)
 		{
-			return userRepository.AddDirectoryUser(userName, password, userStatus);
+			return administrationRepository.AddDirectoryUser(userName, password, userStatus);
 		}
 
 		public DirectoryUser AddDirectoryUserAdmin(string userName, string password)
 		{
-			return userRepository.AddDirectoryUserAdmin(userName, password);
+			return administrationRepository.AddDirectoryUserAdmin(userName, password);
 		}
 
 		public void EditDirectoryUser(int userId, string userName, string password, DirectoryUserStatus userStatus)
 		{
-			userRepository.EditDirectoryUser(userId, userName, password, userStatus);
+			administrationRepository.EditDirectoryUser(userId, userName, password, userStatus);
 		}
 
 		public void RemoveDirectoryUser(DirectoryUser user)
 		{
-			userRepository.RemoveDirectoryUser(user);
+			administrationRepository.RemoveDirectoryUser(user);
 		}
 
 
@@ -505,12 +503,12 @@ namespace AVRepository
 
 		public DirectoryUserStatusPrivilege GetDirectoryUserStatusPrivilege(string privilegeName)
 		{
-			return userRepository.GetDirectoryUserStatusPrivilege(privilegeName);
+			return administrationRepository.GetDirectoryUserStatusPrivilege(privilegeName);
 		}
 
 		public string[] GetPrivileges(int userId)
 		{
-			return userRepository.GetPrivileges(userId);
+			return administrationRepository.GetPrivileges(userId);
 		}
 
 		#endregion
@@ -520,37 +518,37 @@ namespace AVRepository
 
 		public DirectoryRC[] GetDirectoryRCs()
 		{
-			return rcRepository.GetDirectoryRCs();
+			return timeManagementRepository.GetDirectoryRCs();
 		}
 
 		public DirectoryRC[] GetDirectoryRCsByPercentage()
 		{
-			return rcRepository.GetDirectoryRCsByPercentage();
+			return timeManagementRepository.GetDirectoryRCsByPercentage();
 		}
 
 		public DirectoryRC GetDirectoryRC(string name)
 		{
-			return rcRepository.GetDirectoryRC(name);
+			return timeManagementRepository.GetDirectoryRC(name);
 		}
 
 		public DirectoryRC AddDirectoryRC(string directoryRCName, string descriptionName, int percentes)
 		{
-			return rcRepository.AddDirectoryRC(directoryRCName, descriptionName, percentes);
+			return timeManagementRepository.AddDirectoryRC(directoryRCName, descriptionName, percentes);
 		}
 
 		public void RemoveDirectoryRC(int directoryRCId)
 		{
-			rcRepository.RemoveDirectoryRC(directoryRCId);
+			timeManagementRepository.RemoveDirectoryRC(directoryRCId);
 		}
 
 		public DirectoryRC[] GetDirectoryRCsMonthIncoming(int year, int month)
 		{
-			return rcRepository.GetDirectoryRCsMonthIncoming(year, month);
+			return timeManagementRepository.GetDirectoryRCsMonthIncoming(year, month);
 		}
 
 		public DirectoryRC[] GetDirectoryRCsMonthExpense(int year, int month)
 		{
-			return rcRepository.GetDirectoryRCsMonthExpense(year, month);
+			return timeManagementRepository.GetDirectoryRCsMonthExpense(year, month);
 		}
 
 		#endregion
@@ -623,7 +621,7 @@ namespace AVRepository
 			}
 		}
 
-		public void EditInfoOverTime(DateTime date, double hoursOverTime)
+		public void EditInfoOverTimeByDate(DateTime date, double hoursOverTime)
 		{
 			using (var db = GetContext())
 			{
@@ -689,7 +687,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoCost
 
 		public InfoCost EditInfoCost(DateTime date, DirectoryCostItem costItem, DirectoryRC rc, DirectoryNote note,
@@ -697,7 +695,7 @@ namespace AVRepository
 		{
 			using (var db = GetContext())
 			{
-				var infoCosts = GetInfoCosts(date);
+				var infoCosts = GetInfoCostsByDate(date);
 				var infoCost =
 					infoCosts.FirstOrDefault(
 						c =>
@@ -744,7 +742,7 @@ namespace AVRepository
 			}
 		}
 
-		public InfoCost[] GetInfoCosts(DateTime date)
+		public InfoCost[] GetInfoCostsByDate(DateTime date)
 		{
 			using (var db = GetContext())
 			{
@@ -845,9 +843,9 @@ namespace AVRepository
 			}
 		}
 
-		public InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnly(DateTime date)
+		public InfoCost[] GetInfoCostsTransportAndNoAllAndExpenseOnlyByDate(DateTime date)
 		{
-			return GetInfoCosts(date)
+			return GetInfoCostsByDate(date)
 				.Where(c => !c.IsIncoming &&
 					c.DirectoryCostItem.Name == "Транспорт (5031)" &&
 					c.DirectoryRC.Name != "ВСЕ")
@@ -948,7 +946,7 @@ namespace AVRepository
 		{
 			using (var db = GetContext())
 			{
-				var infoCosts = GetInfoCosts(infoCost.Date).Where(c => c.GroupId == infoCost.GroupId).ToList();
+				var infoCosts = GetInfoCostsByDate(infoCost.Date).Where(c => c.GroupId == infoCost.GroupId).ToList();
 
 				foreach (var cost in infoCosts)
 				{
@@ -1029,7 +1027,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoLoan
 
 		public InfoLoan AddInfoLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker, double summ,
@@ -1174,7 +1172,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoPrivateLoan
 
 		public InfoPrivateLoan AddInfoPrivateLoan(DateTime date, string loanTakerName, DirectoryWorker directoryWorker,
@@ -1311,7 +1309,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region DirectoryCostItem
 
 		public DirectoryCostItem[] GetDirectoryCostItems()
@@ -1329,7 +1327,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region DirectoryNote
 
 		public DirectoryNote[] GetDirectoryNotes()
@@ -1379,7 +1377,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region DefaultCosts
 
 		public DefaultCost[] GetDefaultCosts()
@@ -1450,50 +1448,50 @@ namespace AVRepository
 
 		public void InitializeDefaultCosts()
 		{
-			using (var db = GetContext())
-			{
-				var defaultCostsDate = GetParameterValue<DateTime>(ParameterType.DefaultCostsDate);
-				var currentDate = DateTime.Now;
+			//using (var db = GetContext())
+			//{
+			//	var defaultCostsDate = GetParameterValue<DateTime>(ParameterType.DefaultCostsDate);
+			//	var currentDate = DateTime.Now;
 
-				if (defaultCostsDate.Year < currentDate.Year ||
-					(defaultCostsDate.Year == currentDate.Year && defaultCostsDate.Month < currentDate.Month))
-				{
-					var defaultCosts = GetDefaultCosts().ToList();
+			//	if (defaultCostsDate.Year < currentDate.Year ||
+			//		(defaultCostsDate.Year == currentDate.Year && defaultCostsDate.Month < currentDate.Month))
+			//	{
+			//		var defaultCosts = GetDefaultCosts().ToList();
 
-					foreach (var defaultCost in defaultCosts)
-					{
-						var infoCostDate = new DateTime(currentDate.Year, currentDate.Month, defaultCost.DayOfPayment);
-						var infoCosts = GetInfoCosts(infoCostDate).ToList();
-						if (
-							!infoCosts.Any(
-								c =>
-									c.DirectoryCostItem.Id == defaultCost.DirectoryCostItemId && c.DirectoryRCId == defaultCost.DirectoryRCId &&
-									c.CurrentNotes.First().DirectoryNoteId == defaultCost.DirectoryNoteId && c.Summ == defaultCost.SummOfPayment))
-						{
-							var infoCost = new InfoCost
-							{
-								Date = infoCostDate,
-								DirectoryCostItemId = defaultCost.DirectoryCostItemId,
-								DirectoryRCId = defaultCost.DirectoryRCId,
-								CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = defaultCost.DirectoryNoteId } },
-								Summ = defaultCost.SummOfPayment,
-								IsIncoming = false,
-								Weight = 0,
-							};
+			//		foreach (var defaultCost in defaultCosts)
+			//		{
+			//			var infoCostDate = new DateTime(currentDate.Year, currentDate.Month, defaultCost.DayOfPayment);
+			//			var infoCosts = GetInfoCostsByDate(infoCostDate).ToList();
+			//			if (
+			//				!infoCosts.Any(
+			//					c =>
+			//						c.DirectoryCostItem.Id == defaultCost.DirectoryCostItemId && c.DirectoryRCId == defaultCost.DirectoryRCId &&
+			//						c.CurrentNotes.First().DirectoryNoteId == defaultCost.DirectoryNoteId && c.Summ == defaultCost.SummOfPayment))
+			//			{
+			//				var infoCost = new InfoCost
+			//				{
+			//					Date = infoCostDate,
+			//					DirectoryCostItemId = defaultCost.DirectoryCostItemId,
+			//					DirectoryRCId = defaultCost.DirectoryRCId,
+			//					CurrentNotes = new List<CurrentNote> { new CurrentNote { DirectoryNoteId = defaultCost.DirectoryNoteId } },
+			//					Summ = defaultCost.SummOfPayment,
+			//					IsIncoming = false,
+			//					Weight = 0,
+			//				};
 
-							db.InfoCosts.Add(infoCost);
-						}
-					}
+			//				db.InfoCosts.Add(infoCost);
+			//			}
+			//		}
 
-					db.SaveChanges();
-					EditParameter(ParameterType.DefaultCostsDate, DateTime.Now.ToString());
-				}
-			}
+			//		db.SaveChanges();
+			//		EditParameter(ParameterType.DefaultCostsDate, DateTime.Now);
+			//	}
+			//}
 		}
 
 		#endregion
 
-
+		//done
 		#region DirectoryTransportCompanies
 
 		public DirectoryTransportCompany[] GetDirectoryTransportCompanies()
@@ -1512,12 +1510,12 @@ namespace AVRepository
 
 		public CurrentRC[] GetCurrentRCs(IEnumerable<int> ids)
 		{
-			return rcRepository.GetCurrentRCs(ids);
+			return timeManagementRepository.GetCurrentRCs(ids);
 		}
 
 		#endregion
 		//**
-
+		//done
 		#region DirectoryLoanTaker
 
 		public DirectoryLoanTaker[] GetDirectoryLoanTakers()
@@ -1546,7 +1544,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoPayments
 
 		public InfoPayment[] GetInfoPayments(int infoLoanId)
@@ -1596,7 +1594,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoCard
 
 		public void SetCardAvaliableSumm(string cardName, double avaliableSumm)
@@ -1618,7 +1616,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoSafe
 
 		public InfoSafe AddInfoSafe(DateTime date, bool isIncoming, double summCash, Currency currency, CashType cashType,
@@ -1726,7 +1724,7 @@ namespace AVRepository
 			}
 		}
 
-		public InfoSafe[] GetInfoSafes(CashType cashType, DateTime from, DateTime to)
+		public InfoSafe[] GetInfoSafesByCashType(CashType cashType, DateTime from, DateTime to)
 		{
 			using (var db = GetContext())
 			{
@@ -1755,7 +1753,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoPrivatePayments
 
 		public InfoPrivatePayment[] GetInfoPrivatePayments(int infoSafeId)
@@ -1801,7 +1799,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region CurrencyValue
 
 		public CurrencyValue GetCurrencyValue(string name)
@@ -1809,7 +1807,7 @@ namespace AVRepository
 			using (var db = GetContext())
 			{
 				var currencyValue = db.CurrencyValues.First(c => c.Name == name);
-				db.Entry<CurrencyValue>(currencyValue).Reload();
+				db.Entry(currencyValue).Reload();
 
 				return currencyValue;
 			}
@@ -1920,7 +1918,7 @@ namespace AVRepository
 			}
 		}
 
-		public DirectoryPostSalary[] GetDirectoryPostSalaries(int year, int month)
+		public DirectoryPostSalary[] GetDirectoryPostSalariesByMonth(int year, int month)
 		{
 			using (var db = GetContext())
 			{
@@ -1936,7 +1934,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region DirectoryCarPart
 
 		public DirectoryCarPart AddDirectoryCarPart(string article, string mark, string description, string originalNumber,
@@ -1983,7 +1981,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoContainer
 
 		public int[] GetContainerYears(bool isIncoming)
@@ -2149,7 +2147,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoLastMonthDayRemain
 
 		public InfoLastMonthDayRemain GetInfoLastMonthDayRemain(DateTime date, int carPartId)
@@ -2207,7 +2205,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region CurrentCarParts
 
 		public CurrentCarPart AddCurrentCarPart(DirectoryCarPart directoryCarPart, DateTime priceDate, double priceBase,
@@ -2301,35 +2299,35 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region CurrentCarPartsRemainsToDate
 
 		public void SetRemainsToFirstDateInMonth()
 		{
-			using (var db = GetContext())
-			{
-				var isProcessing = GetParameterValue<bool>(ParameterType.IsProcessingLastDateInMonthRemains);
+			//using (var db = GetContext())
+			//{
+			//	var isProcessing = GetParameterValue<bool>(ParameterType.IsProcessingLastDateInMonthRemains);
 
-				var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-				if (!isProcessing)
-				{
-					EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, true);
-					if (!db.InfoLastMonthDayRemains.Any(d => DbFunctions.DiffDays(d.Date, firstDateIneMonth) == 0))
-					{
-						var lastDateInMonth = firstDateIneMonth.AddDays(-1);
-						var carPartRemains = GetRemainsToDate(lastDateInMonth);
+			//	var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+			//	if (!isProcessing)
+			//	{
+			//		EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, true);
+			//		if (!db.InfoLastMonthDayRemains.Any(d => DbFunctions.DiffDays(d.Date, firstDateIneMonth) == 0))
+			//		{
+			//			var lastDateInMonth = firstDateIneMonth.AddDays(-1);
+			//			var carPartRemains = GetRemainsToDate(lastDateInMonth);
 
-						db.InfoLastMonthDayRemains.AddRange(carPartRemains.Select(c => new InfoLastMonthDayRemain
-						{
-							Count = c.Remain,
-							Date = firstDateIneMonth,
-							DirectoryCarPartId = c.Id
-						}));
-						db.SaveChanges();
-					}
-					EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false);
-				}
-			}
+			//			db.InfoLastMonthDayRemains.AddRange(carPartRemains.Select(c => new InfoLastMonthDayRemain
+			//			{
+			//				Count = c.Remain,
+			//				Date = firstDateIneMonth,
+			//				DirectoryCarPartId = c.Id
+			//			}));
+			//			db.SaveChanges();
+			//		}
+			//		EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false);
+			//	}
+			//}
 		}
 
 		public CarPartRemain[] GetRemainsToDate(DateTime date)
@@ -2464,7 +2462,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region Warehouse
 
 		public PalletContent[] GetPalletContents(string warehouseName, AddressCell address)
@@ -2547,7 +2545,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region InfoTotalEqualCashSafeToMinsk
 
 		public InfoTotalEqualCashSafeToMinsk[] GetTotalEqualCashSafeToMinsks(DateTime from, DateTime to)
@@ -2654,7 +2652,7 @@ namespace AVRepository
 
 		#endregion
 
-
+		//done
 		#region Auth
 
 		public bool LoginUser(int userId, string password)

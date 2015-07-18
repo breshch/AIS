@@ -11,7 +11,7 @@ namespace AIS_Enterprise_AV.Reports
     {
         public static void ComplitedLoanRemainsToDate(BusinessContext bc, DateTime date)
         {
-            string path = Path.Combine(Environment.SpecialFolder.Desktop.ToString(), "Залог остатки" + date.ToShortDateString() +".xlsx");
+            string path = Path.Combine(Environment.SpecialFolder.DesktopDirectory.ToString(), "Залог остатки" + date.ToShortDateString() +".xlsx");
             Helpers.CompletedReport(path, new List<Action<ExcelPackage>>
                 {
                     (ep) => LoanRemainsToDate(ep, bc, date)
