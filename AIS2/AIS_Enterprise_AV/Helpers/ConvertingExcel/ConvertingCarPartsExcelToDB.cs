@@ -22,7 +22,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 
             using (var package = new ExcelPackage(existingFile))
             {
-                var workBook = package.Workbook;
+                var workBook = package.Workbook; 
                 if (workBook != null)
                 {
                     if (workBook.Worksheets.Count > 0)
