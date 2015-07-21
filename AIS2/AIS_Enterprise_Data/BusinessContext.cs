@@ -3448,20 +3448,26 @@ namespace AIS_Enterprise_Data
 			if (!isProcessing)
 			{
 				EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, true);
-				if (!_dc.InfoLastMonthDayRemains.Any(d => DbFunctions.DiffDays(d.Date, firstDateIneMonth) == 0))
+				try
 				{
-					var lastDateInMonth = firstDateIneMonth.AddDays(-1);
-					var carPartRemains = GetRemainsToDate(lastDateInMonth);
-
-					_dc.InfoLastMonthDayRemains.AddRange(carPartRemains.Select(c => new InfoLastMonthDayRemain
+					if (!_dc.InfoLastMonthDayRemains.Any(d => DbFunctions.DiffDays(d.Date, firstDateIneMonth) == 0))
 					{
-						Count = c.Remain,
-						Date = firstDateIneMonth,
-						DirectoryCarPartId = c.Id
-					}));
-					_dc.SaveChanges();
+						var lastDateInMonth = firstDateIneMonth.AddDays(-1);
+						var carPartRemains = GetRemainsToDate(lastDateInMonth);
+
+						_dc.InfoLastMonthDayRemains.AddRange(carPartRemains.Select(c => new InfoLastMonthDayRemain
+						{
+							Count = c.Remain,
+							Date = firstDateIneMonth,
+							DirectoryCarPartId = c.Id
+						}));
+						_dc.SaveChanges();
+					}
 				}
-				EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false);
+				finally 
+				{
+					EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false);
+				}
 			}
 		}
 
