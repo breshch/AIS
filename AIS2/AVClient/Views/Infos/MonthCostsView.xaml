@@ -1,0 +1,155 @@
+﻿<Window x:Class="AVClient.Views.Infos.MonthCostsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:helpers="clr-namespace:AVClient.Helpers"
+        Title="Месячные затраты" Height="Auto" SizeToContent="Height" Width="1100"
+        WindowStartupLocation="CenterScreen" MaxHeight="{Binding MaxHeightForm}">
+
+    <Window.Resources>
+        
+
+       
+
+        <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
+    </Window.Resources>
+
+    <Grid Margin="20, 30">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0, 0, 10, 0" >
+                <TextBlock Text="Год"/>
+                <ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10, 0, 0, 0">
+                <TextBlock Text="Месяц"/>
+                <ComboBox ItemsSource="{Binding Monthes}" SelectedItem="{Binding SelectedMonth}"/>
+            </StackPanel>
+
+            <Button Grid.Column="2" Content="Фильтр" Command="{Binding FilterCommand}" CommandParameter="{Binding ElementName=FilterGrid}" Margin="30, 16, 0, 2"/>
+
+            <Button Grid.Column="3" Content="{Binding ReturnName}" Command="{Binding ReturnCommand}" Margin="30, 16, 0, 2" Visibility="{Binding ReturnButtonVisibility}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="FilterGrid" Visibility="Collapsed" Margin="0, 10, 0, 0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0, 0, 20, 0" >
+                <TextBlock Text="Статья затрат"/>
+                <ComboBox ItemsSource="{Binding CostItems}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedCostItem}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20, 0, 20, 0">
+                <TextBlock Text="ЦО"/>
+                <ComboBox ItemsSource="{Binding RCs}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedRC, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Vertical" Margin="20, 0, 20, 0">
+                <TextBlock Text="Приход / Расход"/>
+                <ComboBox ItemsSource="{Binding InOuts}" SelectedItem="{Binding SelectedInOut}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="3" Orientation="Vertical" Margin="20, 0, 20, 0">
+                <TextBlock Text="Перевозчик"/>
+                <ComboBox ItemsSource="{Binding TransportCompanies}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedTransportCompany}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="4" Orientation="Vertical" Margin="20, 0, 0, 0">
+                <TextBlock Text="Примечание"/>
+                <ComboBox ItemsSource="{Binding Notes}" DisplayMemberPath="Description" SelectedItem="{Binding SelectedNote}"/>
+            </StackPanel>
+
+        </Grid>
+
+        <ContentControl Visibility="Collapsed" Content="{StaticResource ProxyElement}"/>
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding IncomingsAndExpenses}" AutoGenerateColumns="False" HeadersVisibility="None" SelectionMode="Single" SelectionUnit="FullRow"
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True" Margin="0, 20, 0, 0"
+                   ScrollViewer.VerticalScrollBarVisibility="Visible" RowHeight="36">
+           
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="0.7*"/>
+                <DataGridTextColumn Width="0.7*"/>
+                <DataGridTextColumn Width="0.7*"/>
+                
+                <DataGridTextColumn Binding="{Binding Incoming}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
+                                     Width="0.8*"/>
+                <DataGridTextColumn Binding="{Binding Expense}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
+                                     Width="0.8*"/>
+
+                <DataGridTextColumn Width="0.5*" Visibility="{Binding DataContext.ReturnVisibility, Source={StaticResource ProxyElement}}"/>
+                <DataGridTextColumn Width="0.8*"/>
+                <DataGridTextColumn Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid  Grid.Row="3" ItemsSource="{Binding Costs}" SelectedItem="{Binding SelectedCost}" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
+                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="False" Margin="0, 0, 0, 0"
+                   helpers:DataGridHelper.IsSingleClickInCell="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ShowDayCostsCommand}" />
+            </DataGrid.InputBindings>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" CellStyle="{StaticResource CenterTextAlignmentCell}" IsReadOnly="True" Width="0.7*"/>
+                <DataGridTextColumn Header="Статья затрат" Binding="{Binding DirectoryCostItem.Name}" IsReadOnly="True"  Width="0.7*"/>
+                <DataGridTextColumn Header="ЦО" Binding="{Binding DirectoryRC.Name}"  IsReadOnly="True" Width="0.7*"/>
+                <DataGridTextColumn Header="Приход" Binding="{Binding Incoming}" CellStyle="{StaticResource CenterTextAlignmentCell}"
+                                     IsReadOnly="True" Width="0.8*"/>
+                <DataGridTextColumn Header="Расход" Binding="{Binding Expense}" CellStyle="{StaticResource CenterTextAlignmentCell}"
+                                     IsReadOnly="True" Width="0.8*"/>
+
+
+
+                <DataGridCheckBoxColumn Header="Возврат" Binding="{Binding IsReturn, Mode=TwoWay}" Width="0.5*" Visibility="{Binding DataContext.ReturnVisibility,
+                                        Source={StaticResource ProxyElement}}"/>
+
+                <DataGridTextColumn Header="Перевозчик" Binding="{Binding DirectoryTransportCompany.Name}" IsReadOnly="True" Width="0.8*"/>
+                <DataGridTextColumn Header="Примечание" Binding="{Binding ConcatNotes}" IsReadOnly="True" Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <!--<Grid Grid.Row="3" Margin="0, 15, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label Grid.Column="3" Content="{Binding SummIncommingByFilter}" HorizontalContentAlignment="Center" />
+            <Label Grid.Column="4" Content="{Binding SummExpenseByFilter}" HorizontalContentAlignment="Center"  />
+            
+       
+        </Grid>-->
+
+    </Grid>
+</Window>

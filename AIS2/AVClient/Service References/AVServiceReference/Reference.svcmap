@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f77ba8d8-b9af-4982-8cc5-a255e6e9bf1e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:60000/AVBusinessLayer/MEX" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="f2a94c07-7d61-46fa-92f8-261b903e3529" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="d5692e10-6ccd-4ca0-a454-f2c081fa1bd6" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="59dc1686-ae94-47f5-80ac-e4cfac64aeac" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="c1e2d6b9-f66e-476b-91b5-d52fa83296ef" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.Entities.Currents.xsd" MetadataType="Schema" ID="2016628e-5daf-46da-b110-307841afd3a6" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.Entities.Directories.xsd" MetadataType="Schema" ID="74e56fe6-f3b8-46f0-a1b4-bd07d49f9d12" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.Entities.Infos.xsd" MetadataType="Schema" ID="17b66f06-6f59-458a-9010-0d556d6f4853" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="Shared.Enums.xsd" MetadataType="Schema" ID="8f51a1aa-372e-4f2d-891e-12b0336ce57c" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.Entities.Temps.xsd" MetadataType="Schema" ID="0d4bedfc-c4cb-4088-85c8-c371f009e348" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.Entities.Helpers.xsd" MetadataType="Schema" ID="43d44261-15b5-4df7-915a-4e67ccd69df7" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.Entities.WareHouse.xsd" MetadataType="Schema" ID="6bddb450-b453-4e25-8b61-04aa5d8f4c5b" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.Enums.xsd" MetadataType="Schema" ID="35212ca6-b6ec-40a9-8972-0b90c5686502" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="AVService.Models.DTO.Administration.xsd" MetadataType="Schema" ID="9c768d7c-9602-4f97-8071-99cd40351b24" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Media.Imaging.xsd" MetadataType="Schema" ID="0258841e-8336-4253-97ac-63a632150450" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Media.xsd" MetadataType="Schema" ID="0d8ad794-d243-4073-9807-b3fe3340d23f" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Media.Animation.xsd" MetadataType="Schema" ID="ac6fa968-ec8e-47be-982a-ea4939e32f39" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.xsd" MetadataType="Schema" ID="fdcb213a-eec7-4815-9fbe-dc163b868cee" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Windows.Threading.xsd" MetadataType="Schema" ID="20e51b3c-40c5-46ff-a38f-5c5c455881d7" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.IO.xsd" MetadataType="Schema" ID="b85d2639-5a42-42ba-88ed-c1d42a917333" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.xsd" MetadataType="Schema" ID="0a032a32-6a5d-4821-9f09-3d8758e2659c" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+    <MetadataFile FileName="System.Net.Cache.xsd" MetadataType="Schema" ID="3d134cf9-3838-48aa-88e6-2ac4f342c418" SourceId="1" SourceUrl="http://localhost:60000/AVBusinessLayer/MEX" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

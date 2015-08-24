@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{593E04BF-B31E-47B3-A9B5-38797CBF1340}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AVClient</RootNamespace>
+    <AssemblyName>AVClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.3.1.3.3\lib\net35\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Numerizr">
+      <HintPath>..\Common\Numerizr.dll</HintPath>
+    </Reference>
+    <Reference Include="Shared">
+      <HintPath>..\..\Shared\Shared\Shared\bin\Release\Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.13\lib\net\WpfAnimatedGif.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Configuration\AutoMapperAdministrationConfiguration.cs" />
+    <Compile Include="Configuration\AutoMapperConfiguration.cs" />
+    <Compile Include="HelperMethods.cs" />
+    <Compile Include="Helpers\AttachedProperties.cs" />
+    <Compile Include="Helpers\Attributes\DoubleValueAttribute.cs" />
+    <Compile Include="Helpers\Attributes\RequireSelectedAttribute.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ConvertingCarPartsExcelToDB.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ConvertingCostsExcelToDB.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ConvertingWorkersExcelToDB.cs" />
+    <Compile Include="Helpers\ConvertingExcel\ProcessingInvoice.cs" />
+    <Compile Include="Helpers\DataGridHelper.cs" />
+    <Compile Include="Helpers\Global.cs" />
+    <Compile Include="Helpers\ParsingCalendar.cs" />
+    <Compile Include="Helpers\PropertyChangedBase.cs" />
+    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\Temps\ContainerCountCarParts.cs" />
+    <Compile Include="Helpers\Temps\HeaderDayMonthTimeSheet.cs" />
+    <Compile Include="Helpers\Temps\HourWorker.cs" />
+    <Compile Include="Helpers\Temps\IncomingAndExpense.cs" />
+    <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
+    <Compile Include="Helpers\Temps\Invoice.cs" />
+    <Compile Include="Helpers\Temps\MonthTimeSheetWorker.cs" />
+    <Compile Include="Helpers\Temps\PrivilegeTempViewModel.cs" />
+    <Compile Include="Helpers\Temps\SafeData.cs" />
+    <Compile Include="Helpers\Temps\WorkerPostReportSalary.cs" />
+    <Compile Include="Helpers\Temps\WorkerRCSummForReport.cs" />
+    <Compile Include="Helpers\Temps\WorkerSummForReport.cs" />
+    <Compile Include="Helpers\ValueConverters\BooleanToStringValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\BooleanToVisibilityValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\DoubleToCurrencyValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\PostToShortPostValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\ValueToBooleanValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\ValueToVisibilityValueConverter.cs" />
+    <Compile Include="Helpers\ViewModelGlobal.cs" />
+    <Compile Include="Models\Administration\User.cs" />
+    <Compile Include="Privileges.cs" />
+    <Compile Include="Reports\CarPartReports.cs" />
+    <Compile Include="Reports\CarsReports.cs" />
+    <Compile Include="Reports\CashReports.cs" />
+    <Compile Include="Reports\Helpers.cs" />
+    <Compile Include="Reports\SafeReports.cs" />
+    <Compile Include="Reports\WorkerSalaryReports.cs" />
+    <Compile Include="ServerConnector.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Service References\AVServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Currents\Base\CurrentBaseContainerViewModel.cs" />
+    <Compile Include="ViewModels\Currents\CurrentAddContainerViewModel.cs" />
+    <Compile Include="ViewModels\Currents\CurrentEditContainerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\AddDirectoryCarPartViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryPostBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryPostSalaryBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryUserBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryUserStatusBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\Base\DirectoryWorkerBaseViewModel.cs" />
+    <Compile Include="ViewModels\Directories\CurrentCompanyAndPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\CurrentTemporaryPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddPostSalaryViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddUserStatusViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddUserViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryAddWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryCompanyViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditPostSalaryViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditUserStatusViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditUserViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryEditWorkerViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryPostViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryRCViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryUserStatusesViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryUsersViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerFireDateViewModel.cs" />
+    <Compile Include="ViewModels\Directories\DirectoryWorkerListViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\FromToDatesReportViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\InitializingDBViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\MonthReportViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\Pam16PercentageViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\PercentageProcessingBookKeepingViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\PickDateReportViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\ProfitViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddContainerCarPartViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddDefaultCostViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddEditContainersViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoLoanViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoPaymentViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoPrivateLoanViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoPrivatePaymentViewModel.cs" />
+    <Compile Include="ViewModels\Infos\AddInfoSafeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseContainerCarPartViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseContainerViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseDefaultCostViewModel.cs" />
+    <Compile Include="ViewModels\Infos\Base\BaseInfoSafeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\DefaultCostsViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditContainerCarPartViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditDefaultCostViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditInfoLoanViewModel.cs" />
+    <Compile Include="ViewModels\Infos\EditInfoPrivateLoanViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoAddMinskCashViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoBudgetViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoCarPartMovementViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoOverTimeViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPanaltiesViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPaymentsViewModel.cs" />
+    <Compile Include="ViewModels\Infos\InfoPrivatePaymentsViewMode.cs" />
+    <Compile Include="ViewModels\Infos\InfoRemainsViewModel.cs" />
+    <Compile Include="ViewModels\Infos\MonthCostsViewModel.cs" />
+    <Compile Include="ViewModels\MainProjectChoiseViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\Currents\AddEditCurrentContainerCarPartsView.xaml.cs">
+      <DependentUpon>AddEditCurrentContainerCarPartsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Currents\CurrentCompanyAndPostView.xaml.cs">
+      <DependentUpon>CurrentCompanyAndPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Currents\CurrentTemporaryPostView.xaml.cs">
+      <DependentUpon>CurrentTemporaryPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\AddDirectoryCarPartVew.xaml.cs">
+      <DependentUpon>AddDirectoryCarPartVew.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\AddEditDirectoryPostView.xaml.cs">
+      <DependentUpon>AddEditDirectoryPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\AddEditPostSalaryView.xaml.cs">
+      <DependentUpon>AddEditPostSalaryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddUserStatusView.xaml.cs">
+      <DependentUpon>DirectoryAddUserStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddUserView.xaml.cs">
+      <DependentUpon>DirectoryAddUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryAddWorkerView.xaml.cs">
+      <DependentUpon>DirectoryAddWorkerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryCompanyView.xaml.cs">
+      <DependentUpon>DirectoryCompanyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditUserStatusView.xaml.cs">
+      <DependentUpon>DirectoryEditUserStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditUserView.xaml.cs">
+      <DependentUpon>DirectoryEditUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryEditWorkerView.xaml.cs">
+      <DependentUpon>DirectoryEditWorkerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryPostView.xaml.cs">
+      <DependentUpon>DirectoryPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryRCView.xaml.cs">
+      <DependentUpon>DirectoryRCView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryUserStatusesView.xaml.cs">
+      <DependentUpon>DirectoryUserStatusesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryUsersView.xaml.cs">
+      <DependentUpon>DirectoryUsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryWorkerFireDateView.xaml.cs">
+      <DependentUpon>DirectoryWorkerFireDateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directories\DirectoryWorkerListView.xaml.cs">
+      <DependentUpon>DirectoryWorkerListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\FromToDatesReportView.xaml.cs">
+      <DependentUpon>FromToDatesReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\InitializingDBView.xaml.cs">
+      <DependentUpon>InitializingDBView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\MonthReportView.xaml.cs">
+      <DependentUpon>MonthReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\Pam16PercentageView.xaml.cs">
+      <DependentUpon>Pam16PercentageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\PercentageProcessingBookKeepingView.xaml.cs">
+      <DependentUpon>PercentageProcessingBookKeepingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\PickDateReportView.xaml.cs">
+      <DependentUpon>PickDateReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Helpers\ProfitView.xaml.cs">
+      <DependentUpon>ProfitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditContainerCarPartView.xaml.cs">
+      <DependentUpon>AddEditContainerCarPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditContainersView.xaml.cs">
+      <DependentUpon>AddEditContainersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditDayCost.xaml.cs">
+      <DependentUpon>AddEditDayCost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditDefaultCostView.xaml.cs">
+      <DependentUpon>AddEditDefaultCostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditInfoLoanView.xaml.cs">
+      <DependentUpon>AddEditInfoLoanView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddEditOutcomingsView.xaml.cs">
+      <DependentUpon>AddEditOutcomingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddInfoPaymentView.xaml.cs">
+      <DependentUpon>AddInfoPaymentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\AddInfoSafeView.xaml.cs">
+      <DependentUpon>AddInfoSafeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\DayCostsView.xaml.cs">
+      <DependentUpon>DayCostsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\DefaultCostsView.xaml.cs">
+      <DependentUpon>DefaultCostsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoAddMinskCashView.xaml.cs">
+      <DependentUpon>InfoAddMinskCashView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoBudgetView.xaml.cs">
+      <DependentUpon>InfoBudgetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoCarPartMovementView.xaml.cs">
+      <DependentUpon>InfoCarPartMovementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoOverTimeView.xaml.cs">
+      <DependentUpon>InfoOverTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoPanaltiesView.xaml.cs">
+      <DependentUpon>InfoPanaltiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoPanaltyView.xaml.cs">
+      <DependentUpon>InfoPanaltyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoPaymentsView.xaml.cs">
+      <DependentUpon>InfoPaymentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\InfoRemainsView.xaml.cs">
+      <DependentUpon>InfoRemainsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Infos\MonthCostsView.xaml.cs">
+      <DependentUpon>MonthCostsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainProjectChoiseView.xaml.cs">
+      <DependentUpon>MainProjectChoiseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MonthTimeSheetView.xaml.cs">
+      <DependentUpon>MonthTimeSheetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WareHouse\AddressBlock.cs" />
+    <Compile Include="WareHouse\AddressPallet.cs" />
+    <Compile Include="WareHouse\CarPartData.cs" />
+    <Compile Include="WareHouse\RoadType.cs" />
+    <Compile Include="WareHouse\Scheme.xaml.cs">
+      <DependentUpon>Scheme.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WareHouse\SchemeCell.cs" />
+    <Compile Include="WareHouse\SchemeData.cs" />
+    <Compile Include="WareHouse\SchemeDrawing.cs" />
+    <Compile Include="WareHouse\SchemeDrawingBlock.cs" />
+    <Compile Include="WareHouse\SchemeDrawingWarehouse.cs" />
+    <Compile Include="WareHouse\SchemeRoad.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\Costs.xlsx" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Currents.CurrentCarPart.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Currents.CurrentPost.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Currents.CurrentRC.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryCarPart.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryCompany.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryCostItem.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryLoanTaker.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryNote.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryPost.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryPostSalary.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryRC.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryTransportCompany.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryTypeOfPost.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryUser.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryUserStatus.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryUserStatusPrivilege.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Directories.DirectoryWorker.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Helpers.CurrencyValue.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Helpers.DefaultCost.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoContainer.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoCost.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoDate.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoLastMonthDayRemain.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoLoan.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoMonth.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoOverTime.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoPanalty.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoPayment.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoPrivateLoan.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoPrivatePayment.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoSafe.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Infos.InfoTotalEqualCashSafeToMinsk.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Temps.ArticlePrice.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Temps.CarPartRemain.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.Temps.InfoCarPartMovement.datasource" />
+    <None Include="Properties\DataSources\AIS_Enterprise_Data.WareHouse.PalletContent.datasource" />
+    <None Include="Properties\DataSources\AVServer.DTO.Users.DTOUser.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Currents.CurrentCarPart.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Currents.CurrentPost.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Currents.CurrentRC.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryCarPart.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryCompany.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryCostItem.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryLoanTaker.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryNote.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryPost.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryPostSalary.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryRC.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryTransportCompany.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryTypeOfPost.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryUser.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryUserStatus.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryUserStatusPrivilege.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.DirectoryWorker.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Directories.User.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Helpers.CurrencyValue.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Helpers.DefaultCost.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoContainer.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoCost.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoDate.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoLastMonthDayRemain.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoLoan.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoMonth.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoOverTime.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoPanalty.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoPayment.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoPrivateLoan.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoPrivatePayment.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoSafe.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Infos.InfoTotalEqualCashSafeToMinsk.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Temps.ArticlePrice.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Temps.CarPartRemain.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.Temps.InfoCarPartMovement.datasource" />
+    <None Include="Properties\DataSources\AVServer.Models.WareHouse.PalletContent.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Service References\AVServiceReference\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.ArticlePrice.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.CarPartRemain.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.CurrencyValue.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.CurrentCarPart.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.CurrentPost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.CurrentRC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DefaultCost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryCarPart.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryCompany.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryCostItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryLoanTaker.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryNote.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryPost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryPostSalary.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryRC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryTransportCompany.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryUser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryUserStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryUserStatusPrivilege.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DirectoryWorker.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.DTOUser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoCarPartMovement.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoContainer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoCost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoDate.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoLastMonthDayRemain.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoLoan.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoMonth.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoOverTime.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoPanalty.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoPayment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoPrivateLoan.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoPrivatePayment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoSafe.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.InfoTotalEqualCashSafeToMinsk.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.PalletContent.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVClient.AVServiceReference.TypeOfPost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.DTO.Administration.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.Entities.Currents.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.Entities.Directories.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.Entities.Helpers.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.Entities.Infos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.Entities.Temps.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.Entities.WareHouse.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\AVService.Models.Enums.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\service.wsdl" />
+    <None Include="Service References\AVServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\Shared.Enums.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.IO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.Net.Cache.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.Windows.Media.Animation.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.Windows.Media.Imaging.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.Windows.Media.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.Windows.Threading.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.Windows.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AVServiceReference\System.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Files\fireHuy.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Files\huy.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gifs\31.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\Currents\AddEditCurrentContainerCarPartsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Currents\CurrentCompanyAndPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Currents\CurrentTemporaryPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\AddDirectoryCarPartVew.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\AddEditDirectoryPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\AddEditPostSalaryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddUserStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddUserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryAddWorkerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryCompanyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditUserStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditUserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryEditWorkerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryPostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryRCView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryUserStatusesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryUsersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryWorkerFireDateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Directories\DirectoryWorkerListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\FromToDatesReportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\InitializingDBView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\MonthReportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\Pam16PercentageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\PercentageProcessingBookKeepingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\PickDateReportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Helpers\ProfitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditContainerCarPartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditContainersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditDayCost.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditDefaultCostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditInfoLoanView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddEditOutcomingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddInfoPaymentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\AddInfoSafeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\DayCostsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\DefaultCostsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoAddMinskCashView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoBudgetView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoCarPartMovementView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoOverTimeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoPanaltiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoPanaltyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoPaymentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\InfoRemainsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Infos\MonthCostsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainProjectChoiseView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MonthTimeSheetView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WareHouse\Scheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AVServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AVServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AVServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AVServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

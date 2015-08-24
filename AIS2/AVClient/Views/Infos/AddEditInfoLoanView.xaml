@@ -1,0 +1,60 @@
+﻿<Window x:Class="AVClient.Views.Infos.AddEditInfoLoanView"
+        x:Name="AddEditInfoSafeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Title}" Height="480" Width="300">
+    
+    <Grid Margin="20, 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Margin="0, 5, 0, 0">
+            <TextBlock Text="Дата"/>
+            <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <CheckBox Grid.Row="1" Margin="0, 5, 0, 0" Content="Работник" IsChecked="{Binding IsWorker, Mode=TwoWay}"/>
+
+        <StackPanel Grid.Row="2" Margin="0, 5, 0, 0">
+            <TextBlock Text="Кредитуемый" />
+            <ComboBox ItemsSource="{Binding LoanTakers}"  Visibility="{Binding VisibilityLoanTaker}" DisplayMemberPath="Name" IsEditable="True" Text="{Binding SelectedLoanTaker}"/>
+            <ComboBox ItemsSource="{Binding DirectoryWorkers}" Visibility="{Binding VisibilityWorker}" DisplayMemberPath="FullName" SelectedItem="{Binding SelectedWorker}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Margin="0, 5, 0, 0">
+            <TextBlock Text="Сумма кредита" />
+            <TextBox Text="{Binding SummLoan}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="4" Margin="0, 5, 0, 0">
+            <TextBlock Text="Валюта" />
+            <ComboBox ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedCurrency}"/>
+        </StackPanel>
+        
+        <CheckBox Grid.Row="5" Content="Разбивка на платежи" IsChecked="{Binding IsMultiplyPayments}" Visibility="{Binding VisibilityIsMultiplyPayments}" Margin="0, 5, 0, 0"/>
+
+        <StackPanel Grid.Row="6" Margin="0, 5, 0, 0" Visibility="{Binding VisibilityMultiplyPayments}">
+            <TextBlock Text="Количество платежей" />
+            <toolkit:IntegerUpDown Text="{Binding CountPayments}"/>
+        </StackPanel>
+
+        <DockPanel Grid.Row="7" Margin="0, 5, 0, 0">
+            <TextBlock DockPanel.Dock="Top" Text="Примечание" />
+            <TextBox DockPanel.Dock="Bottom" Text="{Binding Description}" TextWrapping="Wrap"/>
+        </DockPanel>
+        
+        <Button Grid.Row="8" Command="{Binding AddEditCommand}" CommandParameter="{Binding ElementName=AddEditInfoSafeWindow}" Content="{Binding AddEditName}" Margin="0, 15, 0, 0" />
+
+    </Grid>
+</Window>

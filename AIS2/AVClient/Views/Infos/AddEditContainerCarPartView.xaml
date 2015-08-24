@@ -1,0 +1,31 @@
+﻿<Window x:Class="AVClient.Views.Infos.AddEditContainerCarPartView"
+        x:Name="AddEditCarPartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding AddEditCarPartTitle}" Height="Auto" SizeToContent="Height" Width="300">
+    
+    <Grid Margin="20, 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Артукул"/>
+            <ComboBox ItemsSource="{Binding CarParts}" DisplayMemberPath="FullCarPartName"
+                      SelectedItem="{Binding SelectedCarPart}" IsEditable="True" Text="{Binding SelectedCarPartText, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        
+        <TextBlock Grid.Row="1" Text="{Binding SelectedDescription}" Margin="0, 10, 0, 0"/>
+        
+        <StackPanel Grid.Row="2" Margin="0, 10, 0, 0">
+            <TextBlock Text="Количество"/>
+            <TextBox Text="{Binding CountCarParts, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <Button Grid.Row="3" Content="{Binding AddEditCarPartName}" Command="{Binding AddEditCarPartCommand}" CommandParameter="{Binding ElementName=AddEditCarPartWindow}" Margin="0, 15, 0, 0"/>
+    </Grid>
+</Window>

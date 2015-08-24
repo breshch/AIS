@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Shared.Enums" />
+  <xs:complexType name="ArrayOfCurrentRC">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrentRC" nillable="true" type="tns:CurrentRC" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrentRC" nillable="true" type="tns:ArrayOfCurrentRC" />
+  <xs:complexType name="CurrentRC">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryRC" nillable="true" type="q1:DirectoryRC" />
+      <xs:element minOccurs="0" name="DirectoryRCId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InfoOverTimeId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentRC" nillable="true" type="tns:CurrentRC" />
+  <xs:complexType name="ArrayOfCurrentContainerCarPart">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrentContainerCarPart" nillable="true" type="tns:CurrentContainerCarPart" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrentContainerCarPart" nillable="true" type="tns:ArrayOfCurrentContainerCarPart" />
+  <xs:complexType name="CurrentContainerCarPart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CountCarParts" type="xs:int" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryCarPart" nillable="true" type="q2:DirectoryCarPart" />
+      <xs:element minOccurs="0" name="DirectoryCarPartId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InfoContainerId" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentContainerCarPart" nillable="true" type="tns:CurrentContainerCarPart" />
+  <xs:complexType name="CurrentCarPart">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="Currency" type="q3:Currency" />
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryCarPart" nillable="true" type="q4:DirectoryCarPart" />
+      <xs:element minOccurs="0" name="DirectoryCarPartId" type="xs:int" />
+      <xs:element minOccurs="0" name="FullName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="PriceBase" type="xs:double" />
+      <xs:element minOccurs="0" name="PriceBigWholesale" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="PriceSmallWholesale" nillable="true" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentCarPart" nillable="true" type="tns:CurrentCarPart" />
+  <xs:complexType name="ArrayOfCurrentCarPart">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrentCarPart" nillable="true" type="tns:CurrentCarPart" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrentCarPart" nillable="true" type="tns:ArrayOfCurrentCarPart" />
+  <xs:complexType name="ArrayOfCurrentPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrentPost" nillable="true" type="tns:CurrentPost" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrentPost" nillable="true" type="tns:ArrayOfCurrentPost" />
+  <xs:complexType name="CurrentPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ChangeDate" type="xs:dateTime" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryPost" nillable="true" type="q5:DirectoryPost" />
+      <xs:element minOccurs="0" name="DirectoryPostId" type="xs:int" />
+      <xs:element minOccurs="0" name="DirectoryWorkerId" type="xs:int" />
+      <xs:element minOccurs="0" name="FireDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsTemporaryPost" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsTwoCompanies" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentPost" nillable="true" type="tns:CurrentPost" />
+  <xs:complexType name="ArrayOfCurrentUserStatusPrivilege">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrentUserStatusPrivilege" nillable="true" type="tns:CurrentUserStatusPrivilege" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrentUserStatusPrivilege" nillable="true" type="tns:ArrayOfCurrentUserStatusPrivilege" />
+  <xs:complexType name="CurrentUserStatusPrivilege">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DirectoryUserStatusId" type="xs:int" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryUserStatusPrivilege" nillable="true" type="q6:DirectoryUserStatusPrivilege" />
+      <xs:element minOccurs="0" name="DirectoryUserStatusPrivilegeId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentUserStatusPrivilege" nillable="true" type="tns:CurrentUserStatusPrivilege" />
+  <xs:complexType name="CurrentUserStatus">
+    <xs:sequence>
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryUserStatus" nillable="true" type="q7:DirectoryUserStatus" />
+      <xs:element minOccurs="0" name="DirectoryUserStatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentUserStatus" nillable="true" type="tns:CurrentUserStatus" />
+  <xs:complexType name="ArrayOfCurrentNote">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrentNote" nillable="true" type="tns:CurrentNote" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrentNote" nillable="true" type="tns:ArrayOfCurrentNote" />
+  <xs:complexType name="CurrentNote">
+    <xs:sequence>
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryNote" nillable="true" type="q8:DirectoryNote" />
+      <xs:element minOccurs="0" name="DirectoryNoteId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InfoCostId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrentNote" nillable="true" type="tns:CurrentNote" />
+</xs:schema>

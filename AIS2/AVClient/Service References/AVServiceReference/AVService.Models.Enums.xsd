@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AVService.Models.Enums" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AVService.Models.Enums" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="TypeOfPost">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Warehouse" />
+      <xs:enumeration value="Office" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TypeOfPost" nillable="true" type="tns:TypeOfPost" />
+  <xs:complexType name="ArrayOfTypeOfPost">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeOfPost" type="tns:TypeOfPost" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTypeOfPost" nillable="true" type="tns:ArrayOfTypeOfPost" />
+</xs:schema>

@@ -1,0 +1,55 @@
+﻿<Window x:Class="AVClient.Views.Infos.InfoCarPartMovementView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        Title="Движение товара" Height="400" Width="600">
+    <Grid Margin="20, 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Артикул"/>
+                <ComboBox ItemsSource="{Binding DirectoryCarParts}" DisplayMemberPath="FullCarPartName" SelectedItem="{Binding SelectedDirectoryCarPart}"
+                      IsEditable="True" Width="150" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
+                <TextBlock Text="Описание"/>
+                <TextBlock Text="{Binding SelectedDescription}" Margin="0, 5, 0, 0"/>
+            </StackPanel>
+            
+           
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 10, 0, 0">
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Дата от"/>
+                <DatePicker SelectedDate="{Binding SelectedDateFrom, Mode=TwoWay}"  Width="150" Margin="0, 5, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
+                <TextBlock Text="Дата до"/>
+                <DatePicker SelectedDate="{Binding SelectedDateTo, Mode=TwoWay}"  Width="150" Margin="0, 5, 0, 0"/>
+            </StackPanel>
+
+        </StackPanel>
+
+        <DataGrid Grid.Row="2" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" ItemsSource="{Binding InfoCarPartMovements}"
+                      SelectedItem="{Binding SelectedInfoCarPartMovement}" Margin="0, 10, 0, 0">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.5*"/>
+                <DataGridTextColumn Header="Приход" Binding="{Binding Incoming}" Width="0.5*"/>
+                <DataGridTextColumn Header="Расход" Binding="{Binding Outcoming}" Width="0.5*"/>
+                <DataGridTextColumn Header="Основание" Binding="{Binding FullDescription}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

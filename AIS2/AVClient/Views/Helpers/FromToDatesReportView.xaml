@@ -1,0 +1,32 @@
+﻿<Window x:Class="AVClient.Views.Helpers.FromToDatesReportView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        WindowStartupLocation="CenterScreen"
+        Icon="/AVClient;component/Images/Icons/icon.ico"
+        Title="{Binding TitleName}" Height="180" Width="400">
+
+    <Grid Margin="20, 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0, 0, 20, 0">
+                <TextBlock Text="От"/>
+                <DatePicker SelectedDate="{Binding SelectedFromDate}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20, 0, 0, 0">
+                <TextBlock Text="До"/>
+                <DatePicker SelectedDate="{Binding SelectedToDate}" />
+            </StackPanel>
+        </Grid>
+        <Button Grid.Row="1" Content="Сформировать" Command="{Binding FormingReportCommand}" Margin="0, 15, 0, 0"/>
+    </Grid>
+</Window>

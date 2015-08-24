@@ -1,0 +1,2812 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Shared.Enums" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Helpers" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.WareHouse" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.DTO.Administration" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Enums" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging" />
+  <xs:element name="GetCurrentRCs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ids" nillable="true" type="q1:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentRCsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetCurrentRCsResult" nillable="true" type="q2:ArrayOfCurrentRC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryLoanTakers">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryLoanTakersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryLoanTakersResult" nillable="true" type="q3:ArrayOfDirectoryLoanTaker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryLoanTaker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryLoanTakerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryLoanTakerResult" nillable="true" type="q4:DirectoryLoanTaker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPayments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="infoLoanId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPaymentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoPaymentsResult" nillable="true" type="q5:ArrayOfInfoPayment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPayment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="infoLoanId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPaymentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoPaymentResult" nillable="true" type="q6:InfoPayment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPayment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="selectedInfoPayment" nillable="true" type="q7:InfoPayment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPaymentResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetCardAvaliableSumm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cardName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="avaliableSumm" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetCardAvaliableSummResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardAvaliableSumm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cardName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardAvaliableSummResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetCardAvaliableSummResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoSafe">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+        <xs:element minOccurs="0" name="summCash" type="xs:double" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q8:Currency" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="cashType" type="q9:CashType" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="bankName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoSafeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoSafeResult" nillable="true" type="q10:InfoSafe" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoSafeHand">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+        <xs:element minOccurs="0" name="summCash" type="xs:double" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q11:Currency" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="cashType" type="q12:CashType" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoSafeHandResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoSafeHandResult" nillable="true" type="q13:InfoSafe" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoSafeCard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="availableSumm" type="xs:double" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q14:Currency" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="bankName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoSafeCardResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoSafeCardResult" nillable="true" type="q15:InfoSafe" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsNewMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsNewMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsNewMessageResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoSafes">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoSafesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoSafesResult" nillable="true" type="q16:ArrayOfInfoSafe" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoSafesByCashType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="cashType" type="q17:CashType" />
+        <xs:element minOccurs="0" name="from" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="to" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoSafesByCashTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoSafesByCashTypeResult" nillable="true" type="q18:ArrayOfInfoSafe" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoSafe">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="infoSafe" nillable="true" type="q19:InfoSafe" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoSafeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPrivatePayments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="infoSafeId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPrivatePaymentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoPrivatePaymentsResult" nillable="true" type="q20:ArrayOfInfoPrivatePayment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPrivatePayment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="infoPrivateLoanId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPrivatePaymentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoPrivatePaymentResult" nillable="true" type="q21:InfoPrivatePayment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPrivatePayment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="selectedInfoPrivatePayment" nillable="true" type="q22:InfoPrivatePayment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPrivatePaymentResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrencyValue">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrencyValueResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Helpers" minOccurs="0" name="GetCurrencyValueResult" nillable="true" type="q23:CurrencyValue" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrencyValueSumm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q24:Currency" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrencyValueSummResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetCurrencyValueSummResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditCurrencyValueSumm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q25:Currency" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditCurrencyValueSummResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditCurrencyValueSummChange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q26:Currency" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditCurrencyValueSummChangeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostSalaries">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="postId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostSalariesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryPostSalariesResult" nillable="true" type="q27:ArrayOfDirectoryPostSalary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostSalaryByDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="postId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostSalaryByDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryPostSalaryByDateResult" nillable="true" type="q28:DirectoryPostSalary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostSalariesByMonth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostSalariesByMonthResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryPostSalariesByMonthResult" nillable="true" type="q29:ArrayOfDirectoryPostSalary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryCarPart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="article" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="mark" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="originalNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="factoryNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="crossNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="material" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="attachment" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="countInBox" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isImport" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryCarPartResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryCarPartResult" nillable="true" type="q30:DirectoryCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCarParts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCarPartsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryCarPartsResult" nillable="true" type="q31:ArrayOfDirectoryCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCarPart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="article" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="mark" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCarPartResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryCarPartResult" nillable="true" type="q32:DirectoryCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetContainerYears">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetContainerYearsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetContainerYearsResult" nillable="true" type="q33:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetContainerMonthes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="selectedYear" type="xs:int" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetContainerMonthesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q34="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetContainerMonthesResult" nillable="true" type="q34:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetContainers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetContainersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetContainersResult" nillable="true" type="q35:ArrayOfInfoContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoContainers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="containers" nillable="true" type="q36:ArrayOfInfoContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoContainersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoContainersResult" nillable="true" type="q37:ArrayOfInfoContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="containerId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoContainerResult" nillable="true" type="q38:InfoContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="container" nillable="true" type="q39:InfoContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoContainerResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="datePhysical" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="dateOrder" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="carParts" nillable="true" type="q40:ArrayOfCurrentContainerCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoContainerResult" nillable="true" type="q41:InfoContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="containerId" type="xs:int" />
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="datePhysical" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="dateOrder" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="carParts" nillable="true" type="q42:ArrayOfCurrentContainerCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoContainerResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMovementsByDates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="selectedDirectoryCarPart" nillable="true" type="q43:DirectoryCarPart" />
+        <xs:element minOccurs="0" name="selectedDateFrom" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="selectedDateTo" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMovementsByDatesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" minOccurs="0" name="GetMovementsByDatesResult" nillable="true" type="q44:ArrayOfInfoCarPartMovement" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveContainers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveContainersResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoLastMonthDayRemain">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="carPartId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoLastMonthDayRemainResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoLastMonthDayRemainResult" nillable="true" type="q45:InfoLastMonthDayRemain" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCarPartIncomingCountTillDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="carPartId" type="xs:int" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCarPartIncomingCountTillDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetInfoCarPartIncomingCountTillDateResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoLastMonthDayRemain">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="carPart" nillable="true" type="q46:DirectoryCarPart" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="count" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoLastMonthDayRemainResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoLastMonthDayRemainResult" nillable="true" type="q47:InfoLastMonthDayRemain" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoLastMonthDayRemains">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoLastMonthDayRemainsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentCarPart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryCarPart" nillable="true" type="q48:DirectoryCarPart" />
+        <xs:element minOccurs="0" name="priceDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="priceBase" type="xs:double" />
+        <xs:element minOccurs="0" name="priceBigWholesale" nillable="true" type="xs:double" />
+        <xs:element minOccurs="0" name="priceSmallWholesale" nillable="true" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentCarPartResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="AddCurrentCarPartResult" nillable="true" type="q49:CurrentCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentCarPartNoSave">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="priceDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="priceBase" type="xs:double" />
+        <xs:element minOccurs="0" name="priceBigWholesale" nillable="true" type="xs:double" />
+        <xs:element minOccurs="0" name="priceSmallWholesale" nillable="true" type="xs:double" />
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q50:Currency" />
+        <xs:element minOccurs="0" name="fullName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentCarPartNoSaveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="AddCurrentCarPartNoSaveResult" nillable="true" type="q51:CurrentCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentCarParts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentCarPartsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetCurrentCarPartsResult" nillable="true" type="q52:ArrayOfCurrentCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentCarPart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="directoryCarPartId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentCarPartResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetCurrentCarPartResult" nillable="true" type="q53:CurrentCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetArticlePrices">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q54:Currency" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetArticlePricesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" minOccurs="0" name="GetArticlePricesResult" nillable="true" type="q55:ArrayOfArticlePrice" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetRemainsToFirstDateInMonth">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetRemainsToFirstDateInMonthResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRemainsToDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRemainsToDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" minOccurs="0" name="GetRemainsToDateResult" nillable="true" type="q56:ArrayOfCarPartRemain" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPalletContents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="warehouseName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.WareHouse" minOccurs="0" name="address" nillable="true" type="q57:AddressCell" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPalletContentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.WareHouse" minOccurs="0" name="GetPalletContentsResult" nillable="true" type="q58:ArrayOfPalletContent" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllPallets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="warehouseName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllPalletsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.WareHouse" minOccurs="0" name="GetAllPalletsResult" nillable="true" type="q59:ArrayOfPalletContent" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePalletContents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="warehouseName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.WareHouse" minOccurs="0" name="address" nillable="true" type="q60:AddressCell" />
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.WareHouse" minOccurs="0" name="carPartPallets" nillable="true" type="q61:ArrayOfCarPartPallet" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePalletContentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.WareHouse" minOccurs="0" name="SavePalletContentsResult" nillable="true" type="q62:ArrayOfPalletContent" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTotalEqualCashSafeToMinsks">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="to" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTotalEqualCashSafeToMinsksResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetTotalEqualCashSafeToMinsksResult" nillable="true" type="q63:ArrayOfInfoTotalEqualCashSafeToMinsk" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTotalSafeAndMinskCashes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="minskSumm" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTotalSafeAndMinskCashesResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPam16Percentage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPam16PercentageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetPam16PercentageResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePam16Percentage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="pam16Percentage" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePam16PercentageResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LoginUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LoginUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="LoginUserResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentPostsByWorker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="lastDayInMonth" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentPostsByWorkerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetCurrentPostsByWorkerResult" nillable="true" type="q64:ArrayOfCurrentPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentCarParts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="carParts" nillable="true" type="q65:ArrayOfCurrentCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentCarPartsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryCarParts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="carParts" nillable="true" type="q66:ArrayOfDirectoryCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryCarPartsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoLastMonthDayRemains">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="remains" nillable="true" type="q67:ArrayOfInfoLastMonthDayRemain" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoLastMonthDayRemainsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoContainers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="containers" nillable="true" type="q68:ArrayOfInfoContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoContainersResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentContainerCarParts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="carParts" nillable="true" type="q69:ArrayOfCurrentContainerCarPart" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentContainerCarPartsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryUserStatuses">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryUserStatusesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryUserStatusesResult" nillable="true" type="q70:ArrayOfDirectoryUserStatus" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryUserStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="privileges" nillable="true" type="q71:ArrayOfCurrentUserStatusPrivilege" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryUserStatusResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryUserStatusResult" nillable="true" type="q72:DirectoryUserStatus" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryUserStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userStatusId" type="xs:int" />
+        <xs:element minOccurs="0" name="userStatusName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="privileges" nillable="true" type="q73:ArrayOfCurrentUserStatusPrivilege" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryUserStatusResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryUserStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryUserStatusResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUsers">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUsersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/AVService.Models.DTO.Administration" minOccurs="0" name="GetUsersResult" nillable="true" type="q74:ArrayOfDTOUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q75="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryUserResult" nillable="true" type="q75:DirectoryUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="userStatus" nillable="true" type="q76:DirectoryUserStatus" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q77="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryUserResult" nillable="true" type="q77:DirectoryUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryUserAdmin">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryUserAdminResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q78="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryUserAdminResult" nillable="true" type="q78:DirectoryUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element xmlns:q79="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="userStatus" nillable="true" type="q79:DirectoryUserStatus" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryUserResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q80="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="user" nillable="true" type="q80:DirectoryUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryUserResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryUserStatusPrivilege">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="privilegeName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryUserStatusPrivilegeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q81="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryUserStatusPrivilegeResult" nillable="true" type="q81:DirectoryUserStatusPrivilege" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPrivileges">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPrivilegesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q82="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetPrivilegesResult" nillable="true" type="q82:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCs">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q83="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryRCsResult" nillable="true" type="q83:ArrayOfDirectoryRC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCsByPercentage">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCsByPercentageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q84="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryRCsByPercentageResult" nillable="true" type="q84:ArrayOfDirectoryRC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q85="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryRCResult" nillable="true" type="q85:DirectoryRC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryRC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="directoryRCName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="descriptionName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="percentes" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryRCResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q86="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryRCResult" nillable="true" type="q86:DirectoryRC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryRC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="directoryRCId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryRCResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCsMonthIncoming">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCsMonthIncomingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q87="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryRCsMonthIncomingResult" nillable="true" type="q87:ArrayOfDirectoryRC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCsMonthExpense">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryRCsMonthExpenseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q88="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryRCsMonthExpenseResult" nillable="true" type="q88:ArrayOfDirectoryRC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoOverTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime" />
+        <xs:element xmlns:q89="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryRCs" nillable="true" type="q89:ArrayOfDirectoryRC" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoOverTimeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoOverTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime" />
+        <xs:element xmlns:q90="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryRCs" nillable="true" type="q90:ArrayOfDirectoryRC" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoOverTimeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoOverTimeByDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="hoursOverTime" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoOverTimeByDateResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoOverTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoOverTimeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q91="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoOverTimeResult" nillable="true" type="q91:InfoOverTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoOverTimes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoOverTimesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q92="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoOverTimesResult" nillable="true" type="q92:ArrayOfInfoOverTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoOverTimeDates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoOverTimeDatesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q93="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetInfoOverTimeDatesResult" nillable="true" type="q93:ArrayOfdateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsInfoOverTimeDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsInfoOverTimeDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsInfoOverTimeDateResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoOverTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoOverTimeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoCost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element xmlns:q94="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="costItem" nillable="true" type="q94:DirectoryCostItem" />
+        <xs:element xmlns:q95="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="rc" nillable="true" type="q95:DirectoryRC" />
+        <xs:element xmlns:q96="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="note" nillable="true" type="q96:DirectoryNote" />
+        <xs:element minOccurs="0" name="isIncomming" type="xs:boolean" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element xmlns:q97="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q97:Currency" />
+        <xs:element minOccurs="0" name="weight" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoCostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q98="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="EditInfoCostResult" nillable="true" type="q98:InfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsByDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsByDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q99="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostsByDateResult" nillable="true" type="q99:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="infoCostId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q100="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostResult" nillable="true" type="q100:InfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCosts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q101="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostsResult" nillable="true" type="q101:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsRCIncoming">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="rcName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsRCIncomingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q102="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostsRCIncomingResult" nillable="true" type="q102:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCosts26Expense">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCosts26ExpenseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q103="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCosts26ExpenseResult" nillable="true" type="q103:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsRCAndAll">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="rcName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsRCAndAllResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q104="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostsRCAndAllResult" nillable="true" type="q104:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsPAM16">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsPAM16Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q105="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostsPAM16Result" nillable="true" type="q105:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsTransportAndNoAllAndExpenseOnly">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsTransportAndNoAllAndExpenseOnlyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q106="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostsTransportAndNoAllAndExpenseOnlyResult" nillable="true" type="q106:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsTransportAndNoAllAndExpenseOnlyByDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsTransportAndNoAllAndExpenseOnlyByDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q107="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoCostsTransportAndNoAllAndExpenseOnlyByDateResult" nillable="true" type="q107:ArrayOfInfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoCosts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element xmlns:q108="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryCostItem" nillable="true" type="q108:DirectoryCostItem" />
+        <xs:element minOccurs="0" name="isIncoming" type="xs:boolean" />
+        <xs:element xmlns:q109="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="transportCompany" nillable="true" type="q109:DirectoryTransportCompany" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element xmlns:q110="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q110:Currency" />
+        <xs:element xmlns:q111="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" minOccurs="0" name="transports" nillable="true" type="q111:ArrayOfTransport" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoCostsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoCost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q112="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="infoCost" nillable="true" type="q112:InfoCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoCostResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostYears">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostYearsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q113="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetInfoCostYearsResult" nillable="true" type="q113:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostMonthes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostMonthesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q114="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetInfoCostMonthesResult" nillable="true" type="q114:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCost26Summ">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCost26SummResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetInfoCost26SummResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsIncomingTotalSummsCurrency">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="rcName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isIncoming" nillable="true" type="xs:boolean" />
+        <xs:element minOccurs="0" name="costItem" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoCostsIncomingTotalSummsCurrencyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q115="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetInfoCostsIncomingTotalSummsCurrencyResult" nillable="true" type="q115:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoLoan">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="loanTakerName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q116="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryWorker" nillable="true" type="q116:DirectoryWorker" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element xmlns:q117="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q117:Currency" />
+        <xs:element minOccurs="0" name="countPayments" type="xs:int" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoLoanResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q118="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoLoanResult" nillable="true" type="q118:InfoLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoLoan">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="loanTakerName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q119="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryWorker" nillable="true" type="q119:DirectoryWorker" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element xmlns:q120="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q120:Currency" />
+        <xs:element minOccurs="0" name="countPayments" type="xs:int" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoLoanResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q121="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="EditInfoLoanResult" nillable="true" type="q121:InfoLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoLoan">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q122="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="selectedInfoLoan" nillable="true" type="q122:InfoLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoLoanResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoLoans">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="to" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoLoansResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q123="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoLoansResult" nillable="true" type="q123:ArrayOfInfoLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLoans">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLoansResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetLoansResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPrivateLoan">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="loanTakerName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q124="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryWorker" nillable="true" type="q124:DirectoryWorker" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element xmlns:q125="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q125:Currency" />
+        <xs:element minOccurs="0" name="countPayments" type="xs:int" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPrivateLoanResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q126="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoPrivateLoanResult" nillable="true" type="q126:InfoPrivateLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoPrivateLoan">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="loanTakerName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q127="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="directoryWorker" nillable="true" type="q127:DirectoryWorker" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element xmlns:q128="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="currency" type="q128:Currency" />
+        <xs:element minOccurs="0" name="countPayments" type="xs:int" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoPrivateLoanResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q129="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="EditInfoPrivateLoanResult" nillable="true" type="q129:InfoPrivateLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPrivateLoan">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q130="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="selectedInfoPrivateLoan" nillable="true" type="q130:InfoPrivateLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPrivateLoanResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPrivateLoans">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="to" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPrivateLoansResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q131="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoPrivateLoansResult" nillable="true" type="q131:ArrayOfInfoPrivateLoan" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPrivateLoans">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPrivateLoansResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetPrivateLoansResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCostItems">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCostItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q132="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryCostItemsResult" nillable="true" type="q132:ArrayOfDirectoryCostItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCostItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="costItemName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCostItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q133="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryCostItemResult" nillable="true" type="q133:DirectoryCostItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryNotes">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryNotesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q134="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryNotesResult" nillable="true" type="q134:ArrayOfDirectoryNote" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryNote">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryNoteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q135="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryNoteResult" nillable="true" type="q135:DirectoryNote" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsDirectoryNote">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="note" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsDirectoryNoteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsDirectoryNoteResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDefaultCosts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDefaultCostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q136="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Helpers" minOccurs="0" name="GetDefaultCostsResult" nillable="true" type="q136:ArrayOfDefaultCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDefaultCost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q137="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="costItem" nillable="true" type="q137:DirectoryCostItem" />
+        <xs:element xmlns:q138="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="rc" nillable="true" type="q138:DirectoryRC" />
+        <xs:element xmlns:q139="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="note" nillable="true" type="q139:DirectoryNote" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element minOccurs="0" name="day" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDefaultCostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q140="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Helpers" minOccurs="0" name="AddDefaultCostResult" nillable="true" type="q140:DefaultCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDefaultCost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q141="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="costItem" nillable="true" type="q141:DirectoryCostItem" />
+        <xs:element xmlns:q142="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="rc" nillable="true" type="q142:DirectoryRC" />
+        <xs:element xmlns:q143="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="note" nillable="true" type="q143:DirectoryNote" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element minOccurs="0" name="day" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDefaultCostResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDefaultCost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q144="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Helpers" minOccurs="0" name="defaultCost" nillable="true" type="q144:DefaultCost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDefaultCostResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InitializeDefaultCosts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InitializeDefaultCostsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryTransportCompanies">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryTransportCompaniesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q145="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryTransportCompaniesResult" nillable="true" type="q145:ArrayOfDirectoryTransportCompany" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCompaniesByWorker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="lastDayInMonth" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCompaniesByWorkerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q146="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetDirectoryCompaniesByWorkerResult" nillable="true" type="q146:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCompanies">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryCompaniesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q147="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryCompaniesResult" nillable="true" type="q147:ArrayOfDirectoryCompany" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryCompany">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="directoryCompanyName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryCompanyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q148="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryCompanyResult" nillable="true" type="q148:DirectoryCompany" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryCompany">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="directoryCompanyId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryCompanyResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryTypeOfPosts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryTypeOfPostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q149="http://schemas.datacontract.org/2004/07/AVService.Models.Enums" minOccurs="0" name="GetDirectoryTypeOfPostsResult" nillable="true" type="q149:ArrayOfTypeOfPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryTypeOfPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryTypeOfPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q150="http://schemas.datacontract.org/2004/07/AVService.Models.Enums" minOccurs="0" name="GetDirectoryTypeOfPostResult" type="q150:TypeOfPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPosts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q151="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryPostsResult" nillable="true" type="q151:ArrayOfDirectoryPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostsByCompany">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q152="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="company" nillable="true" type="q152:DirectoryCompany" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostsByCompanyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q153="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryPostsByCompanyResult" nillable="true" type="q153:ArrayOfDirectoryPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="postName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q154="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryPostResult" nillable="true" type="q154:DirectoryPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryNote">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="note" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryNoteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q155="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryNoteResult" nillable="true" type="q155:DirectoryNote" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element xmlns:q156="http://schemas.datacontract.org/2004/07/AVService.Models.Enums" minOccurs="0" name="typeOfPost" type="q156:TypeOfPost" />
+        <xs:element xmlns:q157="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="company" nillable="true" type="q157:DirectoryCompany" />
+        <xs:element xmlns:q158="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="postSalaries" nillable="true" type="q158:ArrayOfDirectoryPostSalary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q159="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryPostResult" nillable="true" type="q159:DirectoryPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="postId" type="xs:int" />
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element xmlns:q160="http://schemas.datacontract.org/2004/07/AVService.Models.Enums" minOccurs="0" name="typeOfPost" type="q160:TypeOfPost" />
+        <xs:element xmlns:q161="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="company" nillable="true" type="q161:DirectoryCompany" />
+        <xs:element xmlns:q162="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="postSalaries" nillable="true" type="q162:ArrayOfDirectoryPostSalary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q163="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="EditDirectoryPostResult" nillable="true" type="q163:DirectoryPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q164="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="post" nillable="true" type="q164:DirectoryPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveDirectoryPostResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExistsDirectoryPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExistsDirectoryPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ExistsDirectoryPostResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDeadSpiritDirectoryWorkers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDeadSpiritDirectoryWorkersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q165="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDeadSpiritDirectoryWorkersResult" nillable="true" type="q165:ArrayOfDirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryWorkerWithMultiplyPosts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="lastName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="firstName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="midName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q166="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="gender" type="q166:Gender" />
+        <xs:element minOccurs="0" name="birthDay" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="address" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="homePhone" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cellPhone" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+        <xs:element xmlns:q167="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging" minOccurs="0" name="photo" nillable="true" type="q167:BitmapImage" />
+        <xs:element minOccurs="0" name="fireDate" nillable="true" type="xs:dateTime" />
+        <xs:element xmlns:q168="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" minOccurs="0" name="currentCompaniesAndPosts" nillable="true" type="q168:ArrayOfCurrentCompanyAndPost" />
+        <xs:element minOccurs="0" name="isDeadSpirit" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryWorkerWithMultiplyPostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q169="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryWorkerWithMultiplyPostsResult" nillable="true" type="q169:DirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryWorker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="lastName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="firstName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="midName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q170="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="gender" type="q170:Gender" />
+        <xs:element minOccurs="0" name="birthDay" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="address" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="homePhone" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cellPhone" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="fireDate" nillable="true" type="xs:dateTime" />
+        <xs:element xmlns:q171="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="currentPost" nillable="true" type="q171:CurrentPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDirectoryWorkerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q172="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="AddDirectoryWorkerResult" nillable="true" type="q172:DirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkers">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q173="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkersResult" nillable="true" type="q173:ArrayOfDirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersByMonth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersByMonthResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q174="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkersByMonthResult" nillable="true" type="q174:ArrayOfDirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersMonthTimeSheet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersMonthTimeSheetResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q175="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkersMonthTimeSheetResult" nillable="true" type="q175:ArrayOfDirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersByTypeOfPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="isOffice" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersByTypeOfPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q176="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkersByTypeOfPostResult" nillable="true" type="q176:ArrayOfDirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersBetweenDates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fromDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="toDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersBetweenDatesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q177="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkersBetweenDatesResult" nillable="true" type="q177:ArrayOfDirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersWithInfoDatesAndPanalties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+        <xs:element minOccurs="0" name="isOffice" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkersWithInfoDatesAndPanaltiesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q178="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkersWithInfoDatesAndPanaltiesResult" nillable="true" type="q178:ArrayOfDirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkerById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkerByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q179="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkerByIdResult" nillable="true" type="q179:DirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkerWithPosts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkerWithPostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q180="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkerWithPostsResult" nillable="true" type="q180:DirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="lastName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="firstName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWorkerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q181="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="GetDirectoryWorkerResult" nillable="true" type="q181:DirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryWorker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element minOccurs="0" name="lastName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="firstName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="midName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q182="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="gender" type="q182:Gender" />
+        <xs:element minOccurs="0" name="birthDay" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="address" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="homePhone" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cellPhone" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+        <xs:element xmlns:q183="http://schemas.datacontract.org/2004/07/System.Windows.Media.Imaging" minOccurs="0" name="photo" nillable="true" type="q183:BitmapImage" />
+        <xs:element minOccurs="0" name="fireDate" nillable="true" type="xs:dateTime" />
+        <xs:element xmlns:q184="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" minOccurs="0" name="currentCompaniesAndPosts" nillable="true" type="q184:ArrayOfCurrentCompanyAndPost" />
+        <xs:element minOccurs="0" name="isDeadSpirit" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDirectoryWorkerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q185="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="EditDirectoryWorkerResult" nillable="true" type="q185:DirectoryWorker" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatePanalties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatePanaltiesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q186="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoDatePanaltiesResult" nillable="true" type="q186:ArrayOfInfoDate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatePanaltiesWithoutCash">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatePanaltiesWithoutCashResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q187="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoDatePanaltiesWithoutCashResult" nillable="true" type="q187:ArrayOfInfoDate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoDateHour">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="hour" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoDateHourResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q188="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoDatesResult" nillable="true" type="q188:ArrayOfInfoDate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatesByWorker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatesByWorkerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q189="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoDatesByWorkerResult" nillable="true" type="q189:ArrayOfInfoDate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatesByMonth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoDatesByMonthResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q190="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoDatesByMonthResult" nillable="true" type="q190:ArrayOfInfoDate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsOverTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q191="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="infoDate" nillable="true" type="q191:InfoDate" />
+        <xs:element xmlns:q192="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="weekEnds" nillable="true" type="q192:ArrayOfdateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsOverTimeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsOverTimeResult" nillable="true" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDeadSpiritHours">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="deadSpiritWorkerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="hoursSpiritWorker" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditDeadSpiritHoursResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLastWorkDay">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLastWorkDayResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetLastWorkDayResult" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoMonthPayment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="propertyName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="propertyValue" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoMonthPaymentResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetYears">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetYearsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q193="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetYearsResult" nillable="true" type="q193:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMonthes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMonthesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q194="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetMonthesResult" nillable="true" type="q194:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoMonth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoMonthResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q195="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoMonthResult" nillable="true" type="q195:InfoMonth" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoMonthes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoMonthesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q196="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoMonthesResult" nillable="true" type="q196:ArrayOfInfoMonth" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPanalty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInfoPanaltyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q197="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="GetInfoPanaltyResult" nillable="true" type="q197:InfoPanalty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsInfoPanalty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsInfoPanaltyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsInfoPanaltyResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPanalty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInfoPanaltyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q198="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="AddInfoPanaltyResult" nillable="true" type="q198:InfoPanalty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoPanalty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="summ" type="xs:double" />
+        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditInfoPanaltyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q199="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" minOccurs="0" name="EditInfoPanaltyResult" nillable="true" type="q199:InfoPanalty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPanalty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveInfoPanaltyResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element xmlns:q200="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" minOccurs="0" name="currentCompanyAndPost" nillable="true" type="q200:CurrentCompanyAndPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddCurrentPostResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentPosts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="lastDateInMonth" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentPostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q201="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetCurrentPostsResult" nillable="true" type="q201:ArrayOfCurrentPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q202="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetCurrentPostResult" nillable="true" type="q202:CurrentPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMainPost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="workerId" type="xs:int" />
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMainPostResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q203="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetMainPostResult" nillable="true" type="q203:CurrentPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentMainPosts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="lastDateInMonth" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentMainPostsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q204="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="GetCurrentMainPostsResult" nillable="true" type="q204:ArrayOfCurrentPost" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCountWorkDaysInMonth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCountWorkDaysInMonthResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetCountWorkDaysInMonthResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHolidaysByMonth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element minOccurs="0" name="month" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHolidaysByMonthResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q205="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetHolidaysByMonthResult" nillable="true" type="q205:ArrayOfdateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHolidaysByYear">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHolidaysByYearResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q206="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetHolidaysByYearResult" nillable="true" type="q206:ArrayOfdateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHolidays">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fromDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="toDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHolidaysResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q207="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetHolidaysResult" nillable="true" type="q207:ArrayOfdateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsWeekend">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsWeekendResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsWeekendResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetHolidays">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element xmlns:q208="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="holidays" nillable="true" type="q208:ArrayOfdateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetHolidaysResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditParameter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q209="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="parameterType" type="q209:ParameterType" />
+        <xs:element minOccurs="0" name="value" nillable="true" type="xs:anyType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditParameterResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByInt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q210="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="parameterType" type="q210:ParameterType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByIntResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetParameterValueByIntResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByDouble">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q211="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="parameterType" type="q211:ParameterType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByDoubleResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetParameterValueByDoubleResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByBool">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q212="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="parameterType" type="q212:ParameterType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByBoolResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetParameterValueByBoolResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByString">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q213="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="parameterType" type="q213:ParameterType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByStringResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetParameterValueByStringResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByDateTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q214="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="parameterType" type="q214:ParameterType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetParameterValueByDateTimeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetParameterValueByDateTimeResult" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InitializeAbsentDates">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InitializeAbsentDatesResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

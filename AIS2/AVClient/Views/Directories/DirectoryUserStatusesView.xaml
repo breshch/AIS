@@ -1,0 +1,31 @@
+﻿<Window x:Class="AVClient.Views.Directories.DirectoryUserStatusesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        WindowStartupLocation="CenterScreen"
+        Icon="/AVClient;component/Images/Icons/icon.ico"
+        Title="Добавление статуса пользователя" Height="250" Width="450">
+
+    <Grid Margin="30, 20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Row="0" ItemsSource="{Binding DirectoryUserStatuses, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDirectoryUserStatus, Mode=TwoWay}"/>
+
+        <Grid Grid.Row="2" Margin="0, 15, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Добавить" Command="{Binding AddCommand}" Margin="0, 0, 20, 0"/>
+            <Button Grid.Column="1" Content="Редактировать" Command="{Binding EditCommand}" Margin="10, 0, 10, 0"/>
+            <Button Grid.Column="2" Content="Удалить" Command="{Binding RemoveCommand}" Margin="20, 0, 0, 0"/>
+        </Grid>
+
+    </Grid>
+</Window>

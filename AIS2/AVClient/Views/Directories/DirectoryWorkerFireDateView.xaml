@@ -1,0 +1,21 @@
+﻿<Window x:Class="AVClient.Views.Directories.DirectoryWorkerFireDateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        x:Name="DirectoryWorkerSetFireDateWindow"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        WindowStartupLocation="CenterScreen"
+        Icon="/AVClient;component/Images/Icons/icon.ico"
+        Title="DirectoryWorkerSetFireDateView" Height="138" Width="300">
+
+    <Grid Margin="30, 20">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DatePicker Grid.Row="0" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{Binding SelectedDirectoryWorkerFireDate, Mode=TwoWay}"/>
+        <Button Grid.Row="1" Content="Уволить" Command="{Binding FireDirectoryWorkerCommand}" CommandParameter="{Binding ElementName=DirectoryWorkerSetFireDateWindow}" Margin="0, 15, 0, 0"/>
+        
+    </Grid>
+</Window>

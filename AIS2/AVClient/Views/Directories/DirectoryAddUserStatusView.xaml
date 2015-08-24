@@ -1,0 +1,39 @@
+﻿<Window x:Class="AVClient.Views.Directories.DirectoryAddUserStatusView"
+        x:Name="DirectoryAddUserStatusWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        Icon="/AVClient;component/Images/Icons/icon.ico"
+        Title="DirectoryAddUserStatusView" Height="400" Width="300">
+    
+    <Grid Margin="20,30">
+       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <TextBlock Text="Название статуса пользователя"/>
+            <TextBox Text="{Binding UserStatusName}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0, 10, 0, 0">
+            <TextBlock Text="Список привилегий"/>
+            
+            <TreeView ItemsSource="{Binding GroupPrivileges, Mode=TwoWay}" >
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children, Mode=OneTime}">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Focusable="False" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                            <ContentPresenter Content="{Binding Name, Mode=OneTime}" Margin="2,0" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </StackPanel>
+
+        <Button Grid.Row="2" Content="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=DirectoryAddUserStatusWindow}"/>
+    </Grid>
+</Window>

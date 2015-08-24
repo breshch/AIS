@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Infos" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Shared.Enums" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfInfoPayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoPayment" nillable="true" type="tns:InfoPayment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoPayment" nillable="true" type="tns:ArrayOfInfoPayment" />
+  <xs:complexType name="InfoPayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InfoLoanId" type="xs:int" />
+      <xs:element minOccurs="0" name="Summ" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoPayment" nillable="true" type="tns:InfoPayment" />
+  <xs:complexType name="InfoSafe">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" base="q1:IncomingAndExpenseAndSumm">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Bank" nillable="true" type="xs:string" />
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="CashType" type="q2:CashType" />
+          <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="InfoSafe" nillable="true" type="tns:InfoSafe" />
+  <xs:complexType name="ArrayOfInfoSafe">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoSafe" nillable="true" type="tns:InfoSafe" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoSafe" nillable="true" type="tns:ArrayOfInfoSafe" />
+  <xs:complexType name="ArrayOfInfoPrivatePayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoPrivatePayment" nillable="true" type="tns:InfoPrivatePayment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoPrivatePayment" nillable="true" type="tns:ArrayOfInfoPrivatePayment" />
+  <xs:complexType name="InfoPrivatePayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InfoPrivateLoanId" type="xs:int" />
+      <xs:element minOccurs="0" name="Summ" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoPrivatePayment" nillable="true" type="tns:InfoPrivatePayment" />
+  <xs:complexType name="ArrayOfInfoContainer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoContainer" nillable="true" type="tns:InfoContainer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoContainer" nillable="true" type="tns:ArrayOfInfoContainer" />
+  <xs:complexType name="InfoContainer">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="CarParts" nillable="true" type="q3:ArrayOfCurrentContainerCarPart" />
+      <xs:element minOccurs="0" name="DateOrder" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DatePhysical" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsIncoming" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoContainer" nillable="true" type="tns:InfoContainer" />
+  <xs:complexType name="InfoLastMonthDayRemain">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Count" type="xs:int" />
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryCarPart" nillable="true" type="q4:DirectoryCarPart" />
+      <xs:element minOccurs="0" name="DirectoryCarPartId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoLastMonthDayRemain" nillable="true" type="tns:InfoLastMonthDayRemain" />
+  <xs:complexType name="ArrayOfInfoTotalEqualCashSafeToMinsk">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoTotalEqualCashSafeToMinsk" nillable="true" type="tns:InfoTotalEqualCashSafeToMinsk" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoTotalEqualCashSafeToMinsk" nillable="true" type="tns:ArrayOfInfoTotalEqualCashSafeToMinsk" />
+  <xs:complexType name="InfoTotalEqualCashSafeToMinsk">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="LastUpdated" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MinskCash" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="SafeCash" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoTotalEqualCashSafeToMinsk" nillable="true" type="tns:InfoTotalEqualCashSafeToMinsk" />
+  <xs:complexType name="ArrayOfInfoLastMonthDayRemain">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoLastMonthDayRemain" nillable="true" type="tns:InfoLastMonthDayRemain" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoLastMonthDayRemain" nillable="true" type="tns:ArrayOfInfoLastMonthDayRemain" />
+  <xs:complexType name="InfoOverTime">
+    <xs:sequence>
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="CurrentRCs" nillable="true" type="q5:ArrayOfCurrentRC" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EndDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoOverTime" nillable="true" type="tns:InfoOverTime" />
+  <xs:complexType name="ArrayOfInfoOverTime">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoOverTime" nillable="true" type="tns:InfoOverTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoOverTime" nillable="true" type="tns:ArrayOfInfoOverTime" />
+  <xs:complexType name="InfoCost">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" base="q6:IncomingAndExpenseAndSumm">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ConcatNotes" nillable="true" type="xs:string" />
+          <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Currents" minOccurs="0" name="CurrentNotes" nillable="true" type="q7:ArrayOfCurrentNote" />
+          <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+          <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryCostItem" nillable="true" type="q8:DirectoryCostItem" />
+          <xs:element minOccurs="0" name="DirectoryCostItemId" type="xs:int" />
+          <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryRC" nillable="true" type="q9:DirectoryRC" />
+          <xs:element minOccurs="0" name="DirectoryRCId" type="xs:int" />
+          <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryTransportCompany" nillable="true" type="q10:DirectoryTransportCompany" />
+          <xs:element minOccurs="0" name="DirectoryTransportCompanyId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="GroupId" type="ser:guid" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="IsReturn" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Weight" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="InfoCost" nillable="true" type="tns:InfoCost" />
+  <xs:complexType name="ArrayOfInfoCost">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoCost" nillable="true" type="tns:InfoCost" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoCost" nillable="true" type="tns:ArrayOfInfoCost" />
+  <xs:complexType name="ArrayOfInfoDate">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoDate" nillable="true" type="tns:InfoDate" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoDate" nillable="true" type="tns:ArrayOfInfoDate" />
+  <xs:complexType name="InfoDate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CountHours" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Shared.Enums" minOccurs="0" name="DescriptionDay" type="q11:DescriptionDay" />
+      <xs:element minOccurs="0" name="DirectoryWorkerId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InfoPanalty" nillable="true" type="tns:InfoPanalty" />
+      <xs:element minOccurs="0" name="InfoPanaltyId" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoDate" nillable="true" type="tns:InfoDate" />
+  <xs:complexType name="InfoPanalty">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Summ" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoPanalty" nillable="true" type="tns:InfoPanalty" />
+  <xs:complexType name="ArrayOfInfoMonth">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoMonth" nillable="true" type="tns:InfoMonth" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoMonth" nillable="true" type="tns:ArrayOfInfoMonth" />
+  <xs:complexType name="InfoMonth">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BirthDays" type="xs:double" />
+      <xs:element minOccurs="0" name="Bonus" type="xs:double" />
+      <xs:element minOccurs="0" name="CardAV" type="xs:double" />
+      <xs:element minOccurs="0" name="CardFenox" type="xs:double" />
+      <xs:element minOccurs="0" name="Compensation" type="xs:double" />
+      <xs:element minOccurs="0" name="CountMissDays" type="xs:int" />
+      <xs:element minOccurs="0" name="CountSickDays" type="xs:int" />
+      <xs:element minOccurs="0" name="CountVacationDays" type="xs:int" />
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DirectoryWorkerId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Inventory" type="xs:double" />
+      <xs:element minOccurs="0" name="Panalty" type="xs:double" />
+      <xs:element minOccurs="0" name="PrepaymentBankTransaction" type="xs:double" />
+      <xs:element minOccurs="0" name="PrepaymentCash" type="xs:double" />
+      <xs:element minOccurs="0" name="VocationPayment" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoMonth" nillable="true" type="tns:InfoMonth" />
+  <xs:complexType name="InfoLoan">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q12="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" base="q12:IncomingAndExpenseAndSumm">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CountPayments" type="xs:int" />
+          <xs:element minOccurs="0" name="DateLoan" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="DateLoanPayment" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryLoanTaker" nillable="true" type="q13:DirectoryLoanTaker" />
+          <xs:element minOccurs="0" name="DirectoryLoanTakerId" nillable="true" type="xs:int" />
+          <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryWorker" nillable="true" type="q14:DirectoryWorker" />
+          <xs:element minOccurs="0" name="DirectoryWorkerId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="InfoPayments" nillable="true" type="tns:ArrayOfInfoPayment" />
+          <xs:element minOccurs="0" name="LoanTakerName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RemainingSumm" type="xs:double" />
+          <xs:element minOccurs="0" name="RemainingSummCurrency" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SummCurrency" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="InfoLoan" nillable="true" type="tns:InfoLoan" />
+  <xs:complexType name="ArrayOfInfoLoan">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoLoan" nillable="true" type="tns:InfoLoan" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoLoan" nillable="true" type="tns:ArrayOfInfoLoan" />
+  <xs:complexType name="InfoPrivateLoan">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q15="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Temps" base="q15:IncomingAndExpenseAndSumm">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CountPayments" type="xs:int" />
+          <xs:element minOccurs="0" name="DateLoan" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="DateLoanPayment" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryLoanTaker" nillable="true" type="q16:DirectoryLoanTaker" />
+          <xs:element minOccurs="0" name="DirectoryLoanTakerId" nillable="true" type="xs:int" />
+          <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/AVService.Models.Entities.Directories" minOccurs="0" name="DirectoryWorker" nillable="true" type="q17:DirectoryWorker" />
+          <xs:element minOccurs="0" name="DirectoryWorkerId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="InfoPayments" nillable="true" type="tns:ArrayOfInfoPrivatePayment" />
+          <xs:element minOccurs="0" name="LoanTakerName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RemainingSumm" type="xs:double" />
+          <xs:element minOccurs="0" name="RemainingSummCurrency" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SummCurrency" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="InfoPrivateLoan" nillable="true" type="tns:InfoPrivateLoan" />
+  <xs:complexType name="ArrayOfInfoPrivateLoan">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InfoPrivateLoan" nillable="true" type="tns:InfoPrivateLoan" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInfoPrivateLoan" nillable="true" type="tns:ArrayOfInfoPrivateLoan" />
+</xs:schema>
