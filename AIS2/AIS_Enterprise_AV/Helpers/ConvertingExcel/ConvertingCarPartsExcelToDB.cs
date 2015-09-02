@@ -219,6 +219,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 equalCarPart.Material = material;
                                 equalCarPart.Attachment = attachment;
                                 equalCarPart.CountInBox = countInBox;
+								bc.SaveChanges();
                             }
 
                             double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 10].Value));
@@ -686,7 +687,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        for (var date = new DateTime(2015, 3, 1); date <= new DateTime(2015, 6, 1); date = date.AddMonths(1))
+                        for (var date = new DateTime(2015, 1, 1); date <= new DateTime(2015, 8, 1); date = date.AddMonths(1))
                         {
                             var sheet = workBook.Worksheets.First(s => s.Name == date.ToString("MMMM yyyy"));
 
@@ -769,23 +770,45 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                         continue;
                                     }
                                     string name = containerName.Substring(0, containerName.IndexOf("от")).Trim();
-                                    DateTime dateContainer = DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3,
-                                        containerName.IndexOf(" ", containerName.IndexOf("от") + 3) - (containerName.IndexOf("от") + 3))
-                                        .Replace(",", ".").Trim(new[] { ' ', '.' }));
-                                    string description = containerName.Substring(containerName.IndexOf("от") + 11).Replace(",", " ").Trim();
+
+                                    DateTime dateContainer;
+									
+	                                if (containerName.IndexOf(" ", containerName.IndexOf("от") + 3) != -1)
+	                                {
+		                                dateContainer = DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3,
+				                                containerName.IndexOf(" ", containerName.IndexOf("от") + 3) -
+				                                (containerName.IndexOf("от") + 3))
+				                                .Replace(",", ".").Trim(new[] {' ', '.'}));
+	                                }
+	                                else
+	                                {
+		                                dateContainer = DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3));
+	                                }
+
+	                                string description;
+									if (dateContainer.Date < date)
+	                                {
+										dateContainer = date;
+										description = containerName.Substring(containerName.IndexOf("от") + 3).Replace(",", " ").Trim();
+		                            }
+									else
+									{
+										description = containerName.Substring(containerName.IndexOf("от") + 11).Replace(",", " ").Trim();
+									}
 
                                     var containerCarParts = new List<CurrentContainerCarPart>();
                                     for (int row = 3; row < 1227; row++)
                                     {
                                         var countCarPart = GetValue(sheet.Cells[row, indexColumn].Value);
-                                        if (countCarPart != null)
-                                        {
-                                            containerCarParts.Add(new CurrentContainerCarPart
-                                            {
-                                                CountCarParts = int.Parse(countCarPart),
-                                                DirectoryCarPartId = excelCarParts[row - 3].Id
-                                            });
-                                        }
+										int result;
+										if (int.TryParse(countCarPart, out result))
+										{
+											containerCarParts.Add(new CurrentContainerCarPart
+											{
+												CountCarParts = result,
+												DirectoryCarPartId = excelCarParts[row - 3].Id,
+											});
+										}
                                     }
 
                                     var container = new InfoContainer
@@ -815,15 +838,30 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                         continue;
                                     }
                                     string name = containerName.Substring(0, containerName.IndexOf("от")).Trim();
-                                    DateTime dateContainer =
-                                        DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3,
-                                            containerName.IndexOf(" ", containerName.IndexOf("от") + 3) -
-                                            (containerName.IndexOf("от") + 3))
-                                            .Replace(",", ".").Trim(new[] { ' ', '.' }));
-                                    string description =
-                                        containerName.Substring(containerName.IndexOf("от") + 11)
-                                            .Replace(",", " ")
-                                            .Trim();
+									DateTime dateContainer;
+
+									if (containerName.IndexOf(" ", containerName.IndexOf("от") + 3) != -1)
+									{
+										dateContainer = DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3,
+												containerName.IndexOf(" ", containerName.IndexOf("от") + 3) -
+												(containerName.IndexOf("от") + 3))
+												.Replace(",", ".").Trim(new[] { ' ', '.' }));
+									}
+									else
+									{
+										dateContainer = DateTime.Parse(containerName.Substring(containerName.IndexOf("от") + 3));
+									}
+
+									string description;
+									if (dateContainer.Date < date)
+									{
+										dateContainer = date;
+										description = containerName.Substring(containerName.IndexOf("от") + 3).Replace(",", " ").Trim();
+									}
+									else
+									{
+										description = containerName.Substring(containerName.IndexOf("от") + 11).Replace(",", " ").Trim();
+									}
 
                                     var containerCarParts = new List<CurrentContainerCarPart>();
                                     for (int row = 3; row < 1227; row++)
@@ -831,11 +869,15 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                         var countCarPart = GetValue(sheet.Cells[row, indexColumn].Value);
                                         if (countCarPart != null)
                                         {
-                                            containerCarParts.Add(new CurrentContainerCarPart
-                                            {
-                                                CountCarParts = int.Parse(countCarPart),
-                                                DirectoryCarPartId = excelCarParts[row - 3].Id,
-                                            });
+	                                        int result;
+	                                        if (int.TryParse(countCarPart, out result))
+	                                        {
+												containerCarParts.Add(new CurrentContainerCarPart
+												{
+													CountCarParts = result,
+													DirectoryCarPartId = excelCarParts[row - 3].Id,
+												});
+	                                        }
                                         }
                                     }
 

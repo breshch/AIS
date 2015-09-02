@@ -99,7 +99,8 @@
                 <DataGridTextColumn Binding="{Binding Expense}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
                                      Width="0.8*"/>
 
-                <DataGridTextColumn Width="0.5*" Visibility="{Binding DataContext.ReturnVisibility, Source={StaticResource ProxyElement}}"/>
+				<DataGridTextColumn Width="0.5*" Binding="{Binding ExpenseCompensation}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
+									Visibility="{Binding DataContext.ReturnVisibility, Source={StaticResource ProxyElement}}"/>
                 <DataGridTextColumn Width="0.8*"/>
                 <DataGridTextColumn Width="2*"/>
             </DataGrid.Columns>
@@ -124,7 +125,7 @@
 
 
 
-                <DataGridCheckBoxColumn Header="Возврат" Binding="{Binding IsReturn, Mode=TwoWay}" Width="0.5*" Visibility="{Binding DataContext.ReturnVisibility,
+                <DataGridCheckBoxColumn Header="Возврат" Binding="{Binding IsReturn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="0.5*" Visibility="{Binding DataContext.ReturnVisibility,
                                         Source={StaticResource ProxyElement}}"/>
 
                 <DataGridTextColumn Header="Перевозчик" Binding="{Binding DirectoryTransportCompany.Name}" IsReadOnly="True" Width="0.8*"/>

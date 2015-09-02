@@ -461,16 +461,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIS_Enterprise_Data\AIS_Enterprise_Data.csproj">
-      <Project>{3eea2c83-692b-4667-ac2b-fffd38710687}</Project>
-      <Name>AIS_Enterprise_Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AIS_Enterprise_Global\AIS_Enterprise_Global.csproj">
-      <Project>{462b227c-3bd2-42c2-af7f-7a6d3a1f6f27}</Project>
-      <Name>AIS_Enterprise_Global</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Files\fireHuy.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -757,6 +747,16 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIS_Enterprise_Data\AIS_Enterprise_Data.csproj">
+      <Project>{3eea2c83-692b-4667-ac2b-fffd38710687}</Project>
+      <Name>AIS_Enterprise_Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AIS_Enterprise_Global\AIS_Enterprise_Global.csproj">
+      <Project>{462b227c-3bd2-42c2-af7f-7a6d3a1f6f27}</Project>
+      <Name>AIS_Enterprise_Global</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

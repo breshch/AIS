@@ -135,6 +135,8 @@
         LastDate,
         DefaultCostsDate,
         Version,
-		IsProcessingLastDateInMonthRemains
+		IsProcessingLastDateInMonthRemains,
+		MinDateCostChange,
+		MaxDateCostChange
     }
 }

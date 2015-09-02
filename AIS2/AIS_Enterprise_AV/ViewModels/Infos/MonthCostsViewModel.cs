@@ -83,7 +83,14 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             SelectedCostItem = CostItems.First();
 
             BC.DataContext.Configuration.AutoDetectChangesEnabled = true;
+
+			InfoCost.OnChangeIsReturn += InfoCost_OnChangeIsReturn;
         }
+
+		private void InfoCost_OnChangeIsReturn()
+		{
+			IncomingsAndExpenses.First().ExpenseCompensation = Costs.Where(x => x.IsReturn).Sum(c => !c.IsIncoming ? c.Summ : 0);
+		}
 
         private void Filter()
         {

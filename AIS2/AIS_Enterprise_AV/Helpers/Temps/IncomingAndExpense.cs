@@ -6,5 +6,6 @@ namespace AIS_Enterprise_AV.Helpers.Temps
     {
         public double Incoming { get; set; }
         public double Expense { get; set; }
+		public double ExpenseCompensation { get; set; }
     }
 }

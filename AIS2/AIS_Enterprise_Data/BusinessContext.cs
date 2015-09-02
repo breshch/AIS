@@ -1547,17 +1547,6 @@ namespace AIS_Enterprise_Data
 
 		#region Parameter
 
-		//public void AddParameter(string name, string value)
-		//{
-		//    var parameter = new Parameter
-		//    {
-		//        Name = name,
-		//        Value = value
-		//    };
-
-		//    _dc.Parameters.Add(parameter);
-		//    _dc.SaveChanges();
-		//}
 
 		public void EditParameter<T>(ParameterType parameterType, T value)
 		{
@@ -1581,8 +1570,32 @@ namespace AIS_Enterprise_Data
 
 			string value = parameter.Value;
 
-			return (T)Convert.ChangeType(value, typeof(T));
+			Type t = typeof(T);
+			t = Nullable.GetUnderlyingType(t) ?? t;
+
+			return (string.IsNullOrWhiteSpace(value) || DBNull.Value.Equals(value)) 
+				? default(T) 
+				: (T)Convert.ChangeType(value, t);
 		}
+
+		public void ChangeMinAndMAxDateCost(DateTime date)
+		{
+			var minDate = GetParameterValue<DateTime?>(ParameterType.MinDateCostChange);
+			var maxDate = GetParameterValue<DateTime?>(ParameterType.MaxDateCostChange);
+
+			if (!minDate.HasValue || (date.Date < minDate.Value.Date))
+			{
+				EditParameter<DateTime?>(ParameterType.MinDateCostChange, date.Date);
+			}
+
+			if (!maxDate.HasValue || (date.Date > maxDate.Value.Date))
+			{
+				EditParameter<DateTime?>(ParameterType.MaxDateCostChange, date.Date);
+			}
+		}
+
+
+
 
 		#endregion
 
@@ -2073,12 +2086,20 @@ namespace AIS_Enterprise_Data
 			}
 
 			_dc.SaveChanges();
+
+			ChangeMinAndMAxDateCost(date);
+
 			return infoCost;
 		}
 
 		public IQueryable<InfoCost> GetInfoCosts(DateTime date)
 		{
 			return _dc.InfoCosts.Where(c => DbFunctions.DiffDays(date, c.Date) == 0);
+		}
+
+		public IQueryable<InfoCost> GetInfoCosts(DateTime dateFrom, DateTime dateTo)
+		{
+			return _dc.InfoCosts.Where(c => DbFunctions.DiffDays(dateFrom, c.Date) >= 0 && DbFunctions.DiffDays(dateTo, c.Date) <= 0);
 		}
 
 		public InfoCost GetInfoCost(int infoCostId)
@@ -2231,6 +2252,8 @@ namespace AIS_Enterprise_Data
 			}
 
 			_dc.SaveChanges();
+
+			ChangeMinAndMAxDateCost(date);
 		}
 
 		public void RemoveInfoCost(InfoCost infoCost)
@@ -2245,6 +2268,8 @@ namespace AIS_Enterprise_Data
 
 			_dc.InfoCosts.RemoveRange(infoCosts);
 			_dc.SaveChanges();
+
+			ChangeMinAndMAxDateCost(infoCost.Date);
 		}
 
 		public IEnumerable<int> GetInfoCostYears()
@@ -3708,6 +3733,21 @@ namespace AIS_Enterprise_Data
 				.ToArray()
 				.GroupBy(c => c.Date)
 				.Select(g => g.OrderByDescending(c => c.LastUpdated).First());
+		}
+
+		public double? GetTotalEqualCashSafeToMinsks(DateTime date)
+		{
+			var minskTotal = _dc.InfoTotalEqualCashSafeToMinsks
+				.FirstOrDefault(c => c.Date.Year == date.Year && c.Date.Month == date.Month && c.MinskCash != null && c.MinskCash.Value > 0);
+
+			if (minskTotal != null)
+			{
+				return minskTotal.MinskCash;
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		public void SaveTotalSafeAndMinskCashes(DateTime date, double minskSumm)
