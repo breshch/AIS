@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace AIS_Enterprise_Global.Helpers.ValueConverters
+namespace AIS_Enterprise_AV.Helpers.ValueConverters
 {
     public class BooleanToStringValueConverter : IValueConverter
     {

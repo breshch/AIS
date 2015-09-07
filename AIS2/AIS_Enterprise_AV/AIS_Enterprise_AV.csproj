@@ -181,6 +181,14 @@
     <Compile Include="Helpers\Temps\ContainerCountCarParts.cs" />
     <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
     <Compile Include="Helpers\Temps\Invoice.cs" />
+    <Compile Include="Helpers\ValueConverters\BooleanToStringValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\BooleanToVisibilityValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\DoubleToCurrencyValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\GenderToFemaleBoolValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\GenderToMaleBoolValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\PostToShortPostValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\ValueToBooleanValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\ValueToVisibilityValueConverter.cs" />
     <Compile Include="Reports\CarPartReports.cs" />
     <Compile Include="Reports\CarsReports.cs" />
     <Compile Include="Reports\SafeReports.cs" />

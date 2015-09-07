@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace AIS_Enterprise_Global.Helpers.ValueConverters
+namespace AIS_Enterprise_AV.Helpers.ValueConverters
 {
     public class ValueToVisibilityValueConverter : IValueConverter
     {
