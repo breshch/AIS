@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace AIS_Enterprise_Global.Helpers
+namespace AIS_Enterprise_AV.Helpers
 {
     public class AttachedProperties : DependencyObject
     {

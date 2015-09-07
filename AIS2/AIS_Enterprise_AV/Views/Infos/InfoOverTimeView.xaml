@@ -6,6 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:helper="clr-namespace:AIS_Enterprise_Global.Helpers;assembly=AIS_Enterprise_Global"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:helpers="clr-namespace:AIS_Enterprise_AV.Helpers"
         WindowStartupLocation="CenterScreen"
         Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
         Title="Переработка" Height="430" Width="300">
@@ -27,7 +28,7 @@
 
         <StackPanel Grid.Row="0" Orientation="Vertical" >
             <TextBlock Text="Дата переработки"/>
-            <DatePicker SelectedDate="{Binding SelectedOverTimeDate, Mode=TwoWay}" helper:AttachedProperties.RegisterBlackoutDates="{Binding BlackoutDates}" DisplayDateStart="{Binding StartDate}" DisplayDateEnd="{Binding EndDate}" Focusable="False"/>
+            <DatePicker SelectedDate="{Binding SelectedOverTimeDate, Mode=TwoWay}" helpers:AttachedProperties.RegisterBlackoutDates="{Binding BlackoutDates}" DisplayDateStart="{Binding StartDate}" DisplayDateEnd="{Binding EndDate}" Focusable="False"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0, 10, 0, 0">

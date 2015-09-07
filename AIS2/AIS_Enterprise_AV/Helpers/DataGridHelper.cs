@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace AIS_Enterprise_Global.Helpers
+namespace AIS_Enterprise_AV.Helpers
 {
     public static class DataGridHelper
     {

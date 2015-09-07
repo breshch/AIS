@@ -176,8 +176,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\AttachedProperties.cs" />
     <Compile Include="Helpers\ConvertingExcel\ConvertingCarPartsExcelToDB.cs" />
     <Compile Include="Helpers\ConvertingExcel\ProcessingInvoice.cs" />
+    <Compile Include="Helpers\DataGridHelper.cs" />
     <Compile Include="Helpers\Temps\ContainerCountCarParts.cs" />
     <Compile Include="Helpers\Temps\InfoCarPartRemain.cs" />
     <Compile Include="Helpers\Temps\Invoice.cs" />

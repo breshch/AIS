@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using AIS_Enterprise_AV.Helpers;
 using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_AV.ViewModels;
