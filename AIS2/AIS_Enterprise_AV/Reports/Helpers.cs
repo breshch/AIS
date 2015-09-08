@@ -106,7 +106,7 @@ namespace AIS_Enterprise_AV.Reports
             return (pixels - 7) / 7d + 1;
         }
 
-        public static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, string value, Color color,
+        public static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, string value, Color? color,
             float size = 11, bool isFontBold = false,
             ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
             ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
@@ -119,13 +119,18 @@ namespace AIS_Enterprise_AV.Reports
             cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             cell.Style.Border.BorderAround(borderStyle);
             cell.Style.WrapText = true;
-            cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-            cell.Style.Fill.BackgroundColor.SetColor(color);
+            
+	        if (color != null)
+	        {
+				cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+				cell.Style.Fill.BackgroundColor.SetColor(color.Value);    
+	        }
+            
             cell.Style.Font.Name = "Courier New";
             cell.Value = value;
         }
 
-        public static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, double value, Color color,
+        public static void CreateCell(ExcelWorksheet sheet, int fromRow, int fromColumn, int toRow, int toColumn, double value, Color? color,
             float size = 11, bool isFontBold = false,
             ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
             ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
@@ -139,20 +144,23 @@ namespace AIS_Enterprise_AV.Reports
             cell.Style.Border.BorderAround(borderStyle);
             cell.Style.WrapText = true;
             cell.Style.Numberformat.Format = value % 1 == 0 ? "#,##0" : "#,##0.0";
-            cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-            cell.Style.Fill.BackgroundColor.SetColor(color);
+			if (color != null)
+			{
+				cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+				cell.Style.Fill.BackgroundColor.SetColor(color.Value);
+			}
             cell.Style.Font.Name = "Courier New";
             cell.Value = value;
         }
 
-        public static void CreateCell(ExcelWorksheet sheet, int row, int column, string value, Color color, float size = 11, bool isFontBold = false,
+        public static void CreateCell(ExcelWorksheet sheet, int row, int column, string value, Color? color, float size = 11, bool isFontBold = false,
             ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
             ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
         {
             CreateCell(sheet, row, column, row, column, value, color, size, isFontBold, alignment, borderStyle);
         }
 
-        public static void CreateCell(ExcelWorksheet sheet, int row, int column, double value, Color color, float size = 11, bool isFontBold = false,
+        public static void CreateCell(ExcelWorksheet sheet, int row, int column, double value, Color? color, float size = 11, bool isFontBold = false,
             ExcelHorizontalAlignment alignment = ExcelHorizontalAlignment.Center,
             ExcelBorderStyle borderStyle = ExcelBorderStyle.Medium)
         {

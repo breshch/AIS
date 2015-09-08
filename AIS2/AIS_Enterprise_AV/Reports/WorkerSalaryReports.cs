@@ -190,12 +190,10 @@ namespace AIS_Enterprise_AV.Reports
 				var colorTransparent = Color.Transparent;
 				if (sheet.Cells[1, 1].Value == null)
 				{
-					Helpers.CreateCell(sheet, 1, 1, "ЦО", colorTransparent, 12, true, ExcelHorizontalAlignment.Center,
-						ExcelBorderStyle.Thick);
-					Helpers.CreateCell(sheet, 1, 2, "Приход", colorTransparent, 12, true, ExcelHorizontalAlignment.Center,
-						ExcelBorderStyle.Thick);
-					Helpers.CreateCell(sheet, 1, 3, "Расход", colorTransparent, 12, true, ExcelHorizontalAlignment.Center,
-						ExcelBorderStyle.Thick);
+					Helpers.CreateCell(sheet, 1, 1, "ЦО", null, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+					Helpers.CreateCell(sheet, 1, 2, "Валюта", null, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+					Helpers.CreateCell(sheet, 1, 3, "Приход", null, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+					Helpers.CreateCell(sheet, 1, 4, "Расход", null, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
 				}
 
 				int indexRow = 2;
@@ -209,43 +207,137 @@ namespace AIS_Enterprise_AV.Reports
 				indexRow++;
 
 				var costs = bc.GetInfoCosts(year, month).ToList();
-				double totalSummIncoming = 0;
-				double totalSummExpence = 0;
+
+				var totalSums = new Dictionary<Currency, Balance>();
+				var currencies = Enum.GetNames(typeof(Currency)).Select(x => (Currency)Enum.Parse(typeof(Currency), x)).ToArray();
+				foreach (var currency in currencies)
+				{
+					totalSums[currency] = new Balance();
+				}
 
 				foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
 				{
-					double summIncoming = 0;
-					double summExpence = 0;
+					var costsRcCurrencies = costs.Where(c => c.DirectoryRC.Id == rc.Id).GroupBy(x => x.Currency);
 
-					foreach (var cost in costs.Where(c => c.DirectoryRC.Id == rc.Id).OrderBy(c => c.Date))
+					bool isFirst = false;
+					int countCurrenciesPerRC = 0;
+					foreach (var costsCurrency in costsRcCurrencies)
 					{
-						summIncoming += cost.IsIncoming ? cost.Summ : 0;
-						summExpence += !cost.IsIncoming ? cost.Summ : 0;
+						countCurrenciesPerRC++;
+
+						double summIncoming = 0;
+						double summExpence = 0;
+
+						foreach (var cost in costsCurrency)
+						{
+							summIncoming += cost.IsIncoming ? cost.Summ : 0;
+							summExpence += !cost.IsIncoming ? cost.Summ : 0;
+						}
+
+						totalSums[costsCurrency.Key].Expence += summExpence;
+						totalSums[costsCurrency.Key].Incoming += summIncoming;
+
+						if (!isFirst)
+						{
+							isFirst = true;
+							Helpers.CreateCell(sheet, indexRow, 1, rc.Name, null, 12, true, ExcelHorizontalAlignment.Center,
+								ExcelBorderStyle.None);
+						}
+
+						Helpers.CreateCell(sheet, indexRow, 2, costsCurrency.Key.ToString(), null, 12, true,
+							ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+						Helpers.CreateCell(sheet, indexRow, 3, summIncoming.ToString("N2"), null, 12, true,
+							ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+						Helpers.CreateCell(sheet, indexRow, 4, summExpence.ToString("N2"), null, 12, true,
+							ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+
+						indexRow++;
 					}
 
-					totalSummIncoming += summIncoming;
-					totalSummExpence += summExpence;
-
-					var colorGray = Color.LightGray;
-					Helpers.CreateCell(sheet, indexRow, 1, rc.Name, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-					Helpers.CreateCell(sheet, indexRow, 2, summIncoming.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-					Helpers.CreateCell(sheet, indexRow, 3, summExpence.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-
-					sheet.Cells[indexRow, 1, indexRow, 1].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-					sheet.Cells[indexRow, 2, indexRow, 2].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-					sheet.Cells[indexRow, 3, indexRow, 3].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+					sheet.Cells[indexRow - countCurrenciesPerRC, 1, indexRow - 1, 4].Style.Border.BorderAround(ExcelBorderStyle.Thin);
 
 					indexRow++;
 				}
 
-				Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
-				Helpers.CreateCell(sheet, indexRow, 2, totalSummIncoming.ToString("c"), colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
-				Helpers.CreateCell(sheet, indexRow, 3, totalSummExpence.ToString("c"), colorTransparent, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.Thick);
+				bool isFirstTotal = false;
+				int countTotals = 0;
+				foreach (var totals in totalSums.Where(x => x.Value.Expence > 0 || x.Value.Incoming > 0))
+				{
+					countTotals++;
+
+					if (!isFirstTotal)
+					{
+						isFirstTotal = true;
+						Helpers.CreateCell(sheet, indexRow, 1, "Итого", null, 12, true, ExcelHorizontalAlignment.Center,
+							ExcelBorderStyle.None);
+					}
+
+					Helpers.CreateCell(sheet, indexRow, 2, totals.Key.ToString(), null, 12, true, ExcelHorizontalAlignment.Center,
+						ExcelBorderStyle.None);
+					Helpers.CreateCell(sheet, indexRow, 3, totals.Value.Incoming.ToString("N2"), null, 12, true,
+						ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+					Helpers.CreateCell(sheet, indexRow, 4, totals.Value.Expence.ToString("N2"), null, 12, true,
+						ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+
+					indexRow++;
+				}
+
+				sheet.Cells[indexRow - countTotals, 1, indexRow - 1, 4].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+
+				indexRow += 2;
+
+				DateTime startDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+				int counter = 0;
+				double? minskSum = null;
+				while (!minskSum.HasValue)
+				{
+					counter++;
+					minskSum = bc.GetTotalEqualCashSafeToMinsks(startDate);
+					if (!minskSum.HasValue)
+					{
+						startDate = startDate.AddMonths(-1);
+					}
+
+					if (counter > 12)
+					{
+						break;
+					}
+				}
+
+				if (minskSum.HasValue)
+				{
+					var costsToPeriod = bc.GetInfoCosts(new DateTime(startDate.Year, startDate.Month, 1), startDate).ToArray();
+					var costsSum = costsToPeriod
+						.Where(x => x.Currency == Currency.RUR)
+						.Sum(x => x.IsIncoming ? x.Summ : -x.Summ);
+
+					Helpers.CreateCell(sheet, indexRow, 1, indexRow, 2, "Итого касса на " + month + "." + year, null, 12, true,
+						ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
+					Helpers.CreateCell(sheet, indexRow, 3, (minskSum + costsSum) + " RUR", null, 12, true,
+						ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+
+					indexRow++;
+					foreach (
+						var totals in totalSums.Where(x => x.Key != Currency.RUR && (x.Value.Expence > 0 || x.Value.Incoming > 0)))
+					{
+						double sum = costsToPeriod.Where(x => x.Currency == totals.Key)
+							.Sum(x => x.IsIncoming ? x.Summ : -x.Summ);
+						if (sum == 0)
+						{
+							continue;
+						}
+
+						Helpers.CreateCell(sheet, indexRow, 3, sum + " " + totals.Key, null, 12, true, ExcelHorizontalAlignment.Center,
+							ExcelBorderStyle.None);
+						indexRow++;
+					}
+				}
 
 				sheet.Column(1).Width = Helpers.PixelsToInches(200);
 				sheet.Column(2).Width = Helpers.PixelsToInches(200);
 				sheet.Column(3).Width = Helpers.PixelsToInches(200);
-
+				sheet.Column(4).Width = Helpers.PixelsToInches(200);
 
 				name = "Касса " + month + "'" + year;
 				sheet = Helpers.GetSheet(ep, name);
@@ -263,11 +355,10 @@ namespace AIS_Enterprise_AV.Reports
 
 				foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
 				{
-					double summIncoming = 0;
-					double summExpence = 0;
+					var costsByRc = costs.Where(c => c.DirectoryRC.Id == rc.Id).ToArray();
 
 					int firstIndexRow = indexRow;
-					foreach (var cost in costs.Where(c => c.DirectoryRC.Id == rc.Id).OrderBy(c => c.Date))
+					foreach (var cost in costsByRc.OrderBy(c => c.Date))
 					{
 						Helpers.CreateCell(sheet, indexRow, 1, cost.Date.ToShortDateString(), colorTransparent, 11, false, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
 						Helpers.CreateCell(sheet, indexRow, 2, cost.DirectoryCostItem.Name, colorTransparent, 11, false, ExcelHorizontalAlignment.Left, ExcelBorderStyle.None);
@@ -284,19 +375,24 @@ namespace AIS_Enterprise_AV.Reports
 							maxLengthNote = formattedText.Width;
 						}
 
-						summIncoming += cost.IsIncoming ? cost.Summ : 0;
-						summExpence += !cost.IsIncoming ? cost.Summ : 0;
-
 						indexRow++;
 					}
 
-					var colorGray = Color.LightGray;
-					Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-					Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-					Helpers.CreateCell(sheet, indexRow, 3, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-					Helpers.CreateCell(sheet, indexRow, 4, summIncoming.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-					Helpers.CreateCell(sheet, indexRow, 5, summExpence.ToString("c"), colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
-					Helpers.CreateCell(sheet, indexRow, 6, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+					foreach (var costsByCurrency in costsByRc.GroupBy(x => x.Currency))
+					{
+						double summIncoming = costsByCurrency.Sum(x=> x.IsIncoming ? x.Summ : 0);
+						double summExpence = costsByCurrency.Sum(x => !x.IsIncoming ? x.Summ : 0);
+
+						var colorGray = Color.LightGray;
+						Helpers.CreateCell(sheet, indexRow, 1, "Итого", colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+						Helpers.CreateCell(sheet, indexRow, 2, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+						Helpers.CreateCell(sheet, indexRow, 3, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+						Helpers.CreateCell(sheet, indexRow, 4, summIncoming + " " + costsByCurrency.Key, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+						Helpers.CreateCell(sheet, indexRow, 5, summExpence + " " + costsByCurrency.Key, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+						Helpers.CreateCell(sheet, indexRow, 6, null, colorGray, 12, true, ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
+
+						indexRow++;
+					}
 
 					sheet.Cells[firstIndexRow, 1, indexRow - 1, 1].Style.Border.BorderAround(ExcelBorderStyle.Thick);
 					sheet.Cells[firstIndexRow, 2, indexRow - 1, 2].Style.Border.BorderAround(ExcelBorderStyle.Thick);
@@ -311,8 +407,8 @@ namespace AIS_Enterprise_AV.Reports
 
 				sheet.Column(1).Width = Helpers.PixelsToInches(100);
 				sheet.Column(2).Width = Helpers.PixelsToInches(150);
-				sheet.Column(3).Width = Helpers.PixelsToInches(100);
-				sheet.Column(4).Width = Helpers.PixelsToInches(100);
+				sheet.Column(3).Width = Helpers.PixelsToInches(150);
+				sheet.Column(4).Width = Helpers.PixelsToInches(150);
 				sheet.Column(5).Width = Helpers.PixelsToInches(150);
 				sheet.Column(6).Width = Helpers.PixelsToInches(maxLengthNote * 1.5);
 			}
