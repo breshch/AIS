@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using AIS_Enterprise_Data.Currents;
@@ -12,6 +13,7 @@ using AIS_Enterprise_Data.Infos;
 using AIS_Enterprise_Data.Temps;
 using AIS_Enterprise_Data.WareHouse;
 using AIS_Enterprise_Global.Helpers;
+using EntityFramework.BulkInsert.Extensions;
 using UnidecodeSharpFork;
 
 namespace AIS_Enterprise_Data
@@ -1573,8 +1575,8 @@ namespace AIS_Enterprise_Data
 			Type t = typeof(T);
 			t = Nullable.GetUnderlyingType(t) ?? t;
 
-			return (string.IsNullOrWhiteSpace(value) || DBNull.Value.Equals(value)) 
-				? default(T) 
+			return (string.IsNullOrWhiteSpace(value) || DBNull.Value.Equals(value))
+				? default(T)
 				: (T)Convert.ChangeType(value, t);
 		}
 
@@ -3255,11 +3257,18 @@ namespace AIS_Enterprise_Data
 
 		public void RemoveInfoContainer(InfoContainer container)
 		{
+			var dateContainer = container.DatePhysical;
 			var carParts = _dc.InfoContainers.Find(container.Id).CarParts.ToArray();
 			_dc.CurrentContainerCarParts.RemoveRange(carParts);
 
 			_dc.InfoContainers.Remove(container);
 			_dc.SaveChanges();
+
+			var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+			if (dateContainer.Date < firstDateIneMonth.Date)
+			{
+				RewriteLastMonthDayRemains(firstDateIneMonth);
+			}
 		}
 
 		public InfoContainer AddInfoContainer(string name, string description, DateTime datePhysical, DateTime? dateOrder,
@@ -3282,12 +3291,20 @@ namespace AIS_Enterprise_Data
 			_dc.InfoContainers.Add(container);
 			_dc.SaveChanges();
 
+			var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+			if (datePhysical.Date < firstDateIneMonth.Date)
+			{
+				RewriteLastMonthDayRemains(firstDateIneMonth);
+			}
+
 			return container;
 		}
 
 		public void EditInfoContainer(int containerId, string name, string description, DateTime datePhysical,
 			DateTime? dateOrder, bool isIncoming, List<CurrentContainerCarPart> carParts)
 		{
+			RefreshContext();
+
 			var container = _dc.InfoContainers.Find(containerId);
 			container.Name = name;
 			container.Description = description;
@@ -3295,10 +3312,25 @@ namespace AIS_Enterprise_Data
 			container.DateOrder = dateOrder;
 			container.IsIncoming = isIncoming;
 
-			_dc.SaveChanges();
+			_dc.Database.ExecuteSqlCommand(string.Format("DELETE FROM CurrentContainerCarParts WHERE InfoContainerId = {0}",
+				containerId));
 
-			container.CarParts.Clear();
-			container.CarParts = carParts;
+			carParts = carParts
+				.Select(x => new CurrentContainerCarPart
+				{
+					CountCarParts = x.CountCarParts,
+					DirectoryCarPartId = x.DirectoryCarPartId,
+					InfoContainerId = containerId
+				})
+				.ToList();
+
+			_dc.BulkInsert(carParts);
+
+			var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+			if (datePhysical.Date < firstDateIneMonth.Date)
+			{
+				RewriteLastMonthDayRemains(firstDateIneMonth);
+			}
 
 			_dc.SaveChanges();
 		}
@@ -3469,31 +3501,42 @@ namespace AIS_Enterprise_Data
 		{
 			var isProcessing = GetParameterValue<bool>(ParameterType.IsProcessingLastDateInMonthRemains);
 
-			var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 			if (!isProcessing)
 			{
 				EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, true);
 				try
 				{
+					var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 					if (!_dc.InfoLastMonthDayRemains.Any(d => DbFunctions.DiffDays(d.Date, firstDateIneMonth) == 0))
 					{
-						var lastDateInMonth = firstDateIneMonth.AddDays(-1);
-						var carPartRemains = GetRemainsToDate(lastDateInMonth);
-
-						_dc.InfoLastMonthDayRemains.AddRange(carPartRemains.Select(c => new InfoLastMonthDayRemain
-						{
-							Count = c.Remain,
-							Date = firstDateIneMonth,
-							DirectoryCarPartId = c.Id
-						}));
-						_dc.SaveChanges();
+						RewriteLastMonthDayRemains(firstDateIneMonth);
 					}
 				}
-				finally 
+				finally
 				{
 					EditParameter(ParameterType.IsProcessingLastDateInMonthRemains, false);
 				}
 			}
+		}
+
+		private void RewriteLastMonthDayRemains(DateTime firstDateIneMonth)
+		{
+			var lastDateInMonth = firstDateIneMonth.AddDays(-1);
+			var carPartRemains = GetRemainsToDate(lastDateInMonth);
+
+			var lastMonthDayRemains = carPartRemains
+				.Select(c => new InfoLastMonthDayRemain
+				{
+					Count = c.Remain,
+					Date = firstDateIneMonth,
+					DirectoryCarPartId = c.Id
+				})
+				.ToArray();
+
+			_dc.Database.ExecuteSqlCommand(string.Format("DELETE FROM InfoLastMonthDayRemains WHERE Date = '{0}'",
+				firstDateIneMonth.ToString("yyyy-MM-dd 00:00:00.000")));
+
+			_dc.BulkInsert(lastMonthDayRemains);
 		}
 
 		public IEnumerable<CarPartRemain> GetRemainsToDate(DateTime date)
@@ -3530,30 +3573,6 @@ namespace AIS_Enterprise_Data
 				}
 			}
 
-
-
-			//var carPartsRUR = (from directoryCarPart in _dc.DirectoryCarParts
-			//				   let currentCarPartRUR =
-			//					   _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
-			//						   .OrderByDescending(c => c.Date)
-			//						   .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0 && c.Currency == Currency.RUR)
-			//				   let currentCarPartUSD =
-			//					  _dc.CurrentCarParts.Where(c => c.DirectoryCarPartId == directoryCarPart.Id)
-			//						  .OrderByDescending(c => c.Date)
-			//						  .FirstOrDefault(c => DbFunctions.DiffDays(date, c.Date) <= 0 && c.Currency == Currency.USD)
-			//				   where currentCarPartRUR != null
-			//				   select new ArticlePrice
-			//				   {
-			//					   CarPartId = directoryCarPart.Id,
-			//					   Article = directoryCarPart.Article,
-			//					   Mark = directoryCarPart.Mark,
-			//					   Description = directoryCarPart.Description,
-			//					   PriceRUR = currentCarPartRUR.PriceBase,
-			//					   PriceUSD = currentCarPartUSD != null
-			//						   ? currentCarPartUSD.PriceBase
-			//						   : default(double?),
-			//				   }).ToList();
-
 			var carPartsId = lastMonthDayRemains.Select(r => r.DirectoryCarPartId).
 				Union(containers.SelectMany(c => c.CarParts.Select(p => p.DirectoryCarPartId))).Distinct().ToList();
 
@@ -3564,8 +3583,10 @@ namespace AIS_Enterprise_Data
 			foreach (var carPartId in carPartsId)
 			{
 				var carPart = carPartsRUR.FirstOrDefault(c => c.CarPartId == carPartId);
-				var baseArticle = carParts.First(c => c.Id == carPartId).Article.ToLower();
+				var baseCarPart = carParts.First(c => c.Id == carPartId);
+				var baseArticle = baseCarPart.Article.ToLower();
 
+				string carPartMark = baseCarPart.Mark ?? "";
 				if (carPart == null)
 				{
 					bool isFound = false;
@@ -3634,7 +3655,7 @@ namespace AIS_Enterprise_Data
 				var carPartRemain = new CarPartRemain
 				{
 					Id = carPartId,
-					Article = carPart.Article + carPart.Mark,
+					Article = carPart.Article + carPartMark,
 					Description = carPart.Description,
 					PriceRUR = carPart.PriceRUR,
 					PriceUSD = carPart.PriceUSD,
