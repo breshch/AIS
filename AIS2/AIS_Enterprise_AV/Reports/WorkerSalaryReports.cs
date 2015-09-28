@@ -179,7 +179,7 @@ namespace AIS_Enterprise_AV.Reports
 		{
 			using (var bc = new BusinessContext())
 			{
-				var name = "Итого";
+				var name = "Итого " + month + "'" + year;
 
 				if (!ep.Workbook.Worksheets.Select(ws => ws.Name).Contains(name))
 				{

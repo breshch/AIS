@@ -19,9 +19,9 @@ namespace AIS_Enterprise_Gas
 			{
 				while (true)
 				{
-					var req = WebRequest.Create("http://95.171.14.129:8097/");
+					var req = WebRequest.Create("http://afs.ngk-interoil.ru:8097/");
 
-					req = WebRequest.Create("http://95.171.14.129:8097/");
+					req = WebRequest.Create("http://afs.ngk-interoil.ru:8097/");
 					req.Credentials = new NetworkCredential("logistikon", "logist179");
 
 					var resp = req.GetResponse();
