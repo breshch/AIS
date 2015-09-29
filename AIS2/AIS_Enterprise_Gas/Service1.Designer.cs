@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GasStatusService
+namespace AIS_Enterprise_Gas
 {
     partial class Service1
     {
@@ -33,7 +33,7 @@ namespace GasStatusService
             // 
             // Service1
             // 
-            this.ServiceName = "GasStatusService";
+            this.ServiceName = "AIS_Enterprise_Gas";
 
         }
 

@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace GasStatusService
+namespace AIS_Enterprise_Gas
 {
     static class Program
     {

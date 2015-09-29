@@ -2,7 +2,7 @@
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace GasStatusService
+namespace AIS_Enterprise_Gas
 {
     partial class ProjectInstaller
     {
@@ -43,7 +43,7 @@ namespace GasStatusService
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.ServiceName = "GasStatusService";
+            this.serviceInstaller1.ServiceName = "AIS_Enterprise_Gas";
             this.serviceInstaller1.StartType = ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

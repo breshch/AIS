@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using AIS_Enterprise_Gas;
 using HtmlAgilityPack;
 
-namespace GasStatusService
+namespace AIS_Enterprise_Gas
 {
     public partial class Service1 : ServiceBase
     {
