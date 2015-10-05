@@ -90,7 +90,7 @@ namespace AIS_Enterprise_Gas
 		{
 			var sc = new ServiceController(serviceName);
 			sc.Stop();
-			sc.WaitForStatus(ServiceControllerStatus.Running);
+			sc.WaitForStatus(ServiceControllerStatus.Stopped);
 			//KillProcess();
 		}
 

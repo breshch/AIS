@@ -30,11 +30,8 @@ namespace AIS_Enterprise_AV.ViewModels.Directories
 
         private void Add(object parameter)
         {
-            NewDirectoryCarPart = new DirectoryCarPart
-            {
-                Article = Article,
-                Mark = Mark,
-            };
+	        bool isImport = Mark == null;
+	        NewDirectoryCarPart = BC.AddDirectoryCarPart(Article, Mark, null, null, null, null, null, null, null, isImport);
            
             HelperMethods.CloseWindow(parameter);
             

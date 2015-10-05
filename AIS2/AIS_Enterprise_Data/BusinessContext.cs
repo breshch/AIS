@@ -3326,13 +3326,13 @@ namespace AIS_Enterprise_Data
 
 			_dc.BulkInsert(carParts);
 
+			_dc.SaveChanges();
+
 			var firstDateIneMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 			if (datePhysical.Date < firstDateIneMonth.Date)
 			{
 				RewriteLastMonthDayRemains(firstDateIneMonth);
 			}
-
-			_dc.SaveChanges();
 		}
 
 		public IEnumerable<InfoCarPartMovement> GetMovementsByDates(DirectoryCarPart selectedDirectoryCarPart,

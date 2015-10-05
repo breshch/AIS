@@ -356,20 +356,16 @@ namespace AIS_Enterprise_AV.Views
 
         private void SetScreenSize()
         {
-            if (Screen.AllScreens.Count() > 1)
-            {
-                WindowMonthTimeSheet.SizeToContent = SizeToContent.Height;
+			double screenWidth = SystemParameters.PrimaryScreenWidth;
+			double screenHeight = SystemParameters.PrimaryScreenHeight;
 
-                if (this.Width > Screen.PrimaryScreen.WorkingArea.Width)
-                {
-                    this.Width = Screen.PrimaryScreen.WorkingArea.Width;
-                }
-            }
+			this.Left = screenWidth / 2 - this.Width / 2;
+	        this.Top = screenHeight / 2 - this.Height / 2;
 
-            var firstWorkingArea = Screen.AllScreens[0].WorkingArea;
-
-            this.Left = firstWorkingArea.Width / 2 - (this.Width / 2);
-            this.MaxHeight = firstWorkingArea.Height - 100;
+	        if (this.Height > screenHeight - 100)
+	        {
+		        this.Height = screenHeight - 100;
+	        }
         }
 
         private void SettingMenuVisibility(string privilege, List<MenuItem> menuItems, int indexUnderLine)
@@ -1401,7 +1397,7 @@ namespace AIS_Enterprise_AV.Views
                 ColorizeCell(value, indexRow, COUNT_COLUMNS_BEFORE_DAYS + indexHour + 1, monthTimeSheetWorker.IsOdd);
             }
 
-            this.Top = Screen.PrimaryScreen.WorkingArea.Height / 2 - (this.Height / 2);
+            SetScreenSize();
         }
 
         private void ColorizeCell(string value, int indexRow, int indexColumn, bool isOdd)
@@ -1667,6 +1663,11 @@ namespace AIS_Enterprise_AV.Views
 	    private void MenuReportDiffSumToMinsk_OnClick(object sender, RoutedEventArgs e)
 	    {
 			HelperMethods.ShowView(new FromToDatesReportViewModel(SafeReports.SafeToMinsk), new FromToDatesReportView());
+	    }
+
+	    private void MonthTimeSheetView_OnSizeChanged(object sender, SizeChangedEventArgs e)
+	    {
+		    
 	    }
     }
 }

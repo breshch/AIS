@@ -23,6 +23,7 @@ namespace AIS_Enterprise_AV.ViewModels
             ProcessingBookKeepingCommand = new RelayCommand(ProcessingBookKeeping);
             RemainsLoanCommand = new RelayCommand(RemainsLoan);
 			WarehouseCommand = new RelayCommand(Warehouse);
+			CostsCommand = new RelayCommand(Costs);
             
             if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_MonthTimeSheetEnable.ToString()))
             {
@@ -71,6 +72,7 @@ namespace AIS_Enterprise_AV.ViewModels
 
         public RelayCommand MonthTimeSheetCommand { get; set; }
         public RelayCommand RemainsCommand { get; set; }
+		public RelayCommand CostsCommand { get; set; }
         public RelayCommand ProcessingBookKeepingCommand { get; set; }
         public RelayCommand RemainsLoanCommand { get; set; }
 	    public RelayCommand WarehouseCommand { get; set; }
@@ -125,6 +127,16 @@ namespace AIS_Enterprise_AV.ViewModels
 			var scheme = new Scheme();
 			scheme.ShowDialog();
 			
+			HelperMethods.CloseWindow(parameter);
+		}
+		private void Costs(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Hidden;
+
+			var costsView = new ProjectCostsView();
+			costsView.ShowDialog();
+
 			HelperMethods.CloseWindow(parameter);
 		}
 
