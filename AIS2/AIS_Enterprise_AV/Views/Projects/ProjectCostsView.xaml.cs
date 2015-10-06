@@ -2,7 +2,6 @@
 using System.Windows;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views.Infos;
-using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.Views

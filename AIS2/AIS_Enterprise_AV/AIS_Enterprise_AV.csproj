@@ -424,6 +424,12 @@
     <Compile Include="Views\Infos\DayCostsView.xaml.cs">
       <DependentUpon>DayCostsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Projects\ProjectAdminView.xaml.cs">
+      <DependentUpon>ProjectAdminView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Projects\ProjectReportsView.xaml.cs">
+      <DependentUpon>ProjectReportsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Projects\ProjectCostsView.xaml.cs">
       <DependentUpon>ProjectCostsView.xaml</DependentUpon>
     </Compile>
@@ -677,6 +683,14 @@
     <Page Include="Views\Infos\DayCostsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Projects\ProjectAdminView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Projects\ProjectReportsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Projects\ProjectCostsView.xaml">
       <Generator>MSBuild:Compile</Generator>

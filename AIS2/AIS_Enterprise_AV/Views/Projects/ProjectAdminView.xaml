@@ -1,0 +1,24 @@
+﻿<Window x:Class="AIS_Enterprise_AV.Views.ProjectAdminView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Проекты" SizeToContent="Height" Width="300"
+        WindowStartupLocation="CenterScreen"
+        x:Name="MainProjectAdminWindow">
+	
+	<Grid Margin=" 20, 30">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<Button Grid.Row="0" x:Name="UserStatuses" Content="Статусы пользователей" Click="UserStatuses_OnClick" Margin="0, 20, 0, 0"/>
+		<Button Grid.Row="1" x:Name="Users" Content="Пользователи" Click="Users_OnClick" Margin="0, 20, 0, 0"/>
+		<Button Grid.Row="2" x:Name="Logs" Content="Логи" Click="Logs_OnClick" Margin="0, 20, 0, 0"/>
+		<!--<Button Grid.Row="3" x:Name="Calendar" Content="Календарь" Click="Calendar_OnClick" Margin="0, 20, 0, 0"/>-->
+		<Button Grid.Row="4" x:Name="MinskCash" Content="Минская сумма" Click="MinskCash_OnClick" Margin="0, 20, 0, 0"/>
+    </Grid>
+</Window>

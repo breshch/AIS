@@ -1665,9 +1665,5 @@ namespace AIS_Enterprise_AV.Views
 			HelperMethods.ShowView(new FromToDatesReportViewModel(SafeReports.SafeToMinsk), new FromToDatesReportView());
 	    }
 
-	    private void MonthTimeSheetView_OnSizeChanged(object sender, SizeChangedEventArgs e)
-	    {
-		    
-	    }
     }
 }
