@@ -69,20 +69,11 @@ namespace AIS_Enterprise_Global.Helpers
                 new DateTime(year, month, DateTime.DaysInMonth(year, month));
         }
 
-        public static void ShowView(ViewModelBase viewModel, Window window)
+        public static void ShowView(ViewModelBase viewModel, Window window, Window owner = null)
         {
             window.DataContext = viewModel;
+			window.Owner = owner;
             window.ShowDialog();
-        }
-
-        public static bool IsPrivilege(BusinessContext bc, UserPrivileges userPrivilege)
-        {
-            return DirectoryUser.Privileges.Contains(userPrivilege.ToString());
-        }
-
-        public static bool IsPrivilege(List<string> privileges, UserPrivileges userPrivilege)
-        {
-            return privileges.Contains(userPrivilege.ToString());
         }
 
         public static void CloseWindow(object parameter)

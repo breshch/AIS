@@ -176,6 +176,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Auth\Privileges.cs" />
     <Compile Include="Helpers\AttachedProperties.cs" />
     <Compile Include="Helpers\ConvertingExcel\ConvertingCarPartsExcelToDB.cs" />
     <Compile Include="Helpers\ConvertingExcel\ProcessingInvoice.cs" />

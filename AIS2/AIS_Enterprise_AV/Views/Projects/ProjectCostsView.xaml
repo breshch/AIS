@@ -4,12 +4,6 @@
         Title="Проекты" SizeToContent="Height" Width="300"
         WindowStartupLocation="CenterScreen"
         x:Name="MainProjectChoiseWindow">
-	<!--<MenuItem x:Name="MenuCosts" Header="Затраты" Visibility="Collapsed">
-		<MenuItem  Header="Дневные затраты" Click="MenuDayCosts_Click" Visibility="Collapsed"/>
-		<MenuItem  Header="Месячные затраты" Click="MenuMonthCosts_Click" Visibility="Collapsed"/>
-		<MenuItem  Header="Автоматические затраты" Click="MenuDefaultCosts_Click" Visibility="Collapsed"/>
-		<MenuItem  Header="Сейф" Click="MenuSafe_Click" Visibility="Collapsed"/>
-	</MenuItem>-->
 	<Grid Margin=" 20, 30">
 
         <Grid.RowDefinitions>

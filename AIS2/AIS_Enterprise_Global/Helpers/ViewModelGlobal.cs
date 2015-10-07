@@ -6,16 +6,16 @@ namespace AIS_Enterprise_Global.Helpers
     {
         protected BusinessContext BC = new BusinessContext();
 
-        public ViewModelGlobal()
-        {
-            ViewCloseCommand = new RelayCommand(ViewClose);
-        }
+		public ViewModelGlobal()
+		{
+			ViewCloseCommand = new RelayCommand(ViewClose);
+		}
 
-        public RelayCommand ViewCloseCommand { get; set; }
+		public RelayCommand ViewCloseCommand { get; set; }
 
-        public virtual void ViewClose(object parameter)
-        {
-            BC.Dispose();
-        }
+		public virtual void ViewClose(object parameter)
+		{
+			BC.Dispose();
+		}
     }
 }

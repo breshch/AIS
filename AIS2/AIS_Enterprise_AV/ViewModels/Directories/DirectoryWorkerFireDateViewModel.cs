@@ -49,8 +49,6 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
             {
                 SelectedDirectoryWorkerFireDate = null;
             }
-
-            base.ViewClose(parameter);
         }
         #endregion
     }

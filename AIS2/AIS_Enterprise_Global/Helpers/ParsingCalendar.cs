@@ -10,43 +10,47 @@ namespace AIS_Enterprise_Global.Helpers
 {
     public static class ParsingCalendar
     {
-        public async static Task GetCalendar(BusinessContext bc, int year)
+        public async static Task GetCalendar(int year)
         {
-            string page = "http://www.superjob.ru/proizvodstvennyj_kalendar/" + year;
+	        using (var bc = new BusinessContext())
+	        {
+		        string page = "http://www.superjob.ru/proizvodstvennyj_kalendar/" + year;
 
-            using (var client = new HttpClient())
-            {
-                using (HttpResponseMessage response = await client.GetAsync(page))
-                {
-                    using (HttpContent content = response.Content)
-                    {
-                        string html = await content.ReadAsStringAsync();
+		        using (var client = new HttpClient())
+		        {
+			        using (HttpResponseMessage response = await client.GetAsync(page))
+			        {
+				        using (HttpContent content = response.Content)
+				        {
+					        string html = await content.ReadAsStringAsync();
 
-                        HtmlDocument doc = new HtmlDocument();
-                        doc.LoadHtml(html);
+					        HtmlDocument doc = new HtmlDocument();
+					        doc.LoadHtml(html);
 
-                        var cells = doc.DocumentNode.SelectNodes(@"//div[@class='pk_cells']");
+					        var cells = doc.DocumentNode.SelectNodes(@"//div[@class='pk_cells']");
 
-                        var holidays = new List<DateTime>();
+					        var holidays = new List<DateTime>();
 
-                        int currentMonth = 1;
-                        foreach (var monthCells in cells)
-                        {
-                            foreach (var nodeTd in monthCells.ChildNodes.Where(n => n.Attributes.Any(a => a.Value == "pk_holiday pie")))
-                            {
-                                int day = int.Parse(nodeTd.InnerText);
-                                var holiday = new DateTime(year, currentMonth, day);
+					        int currentMonth = 1;
+					        foreach (var monthCells in cells)
+					        {
+						        foreach (
+							        var nodeTd in monthCells.ChildNodes.Where(n => n.Attributes.Any(a => a.Value == "pk_holiday pie")))
+						        {
+							        int day = int.Parse(nodeTd.InnerText);
+							        var holiday = new DateTime(year, currentMonth, day);
 
-                                holidays.Add(holiday);
-                            }
+							        holidays.Add(holiday);
+						        }
 
-                            currentMonth++;
-                        }
+						        currentMonth++;
+					        }
 
-                        bc.SetHolidays(year, holidays);
-                    }
-                }
-            }
+					        bc.SetHolidays(year, holidays);
+				        }
+			        }
+		        }
+	        }
         }
     }
 }

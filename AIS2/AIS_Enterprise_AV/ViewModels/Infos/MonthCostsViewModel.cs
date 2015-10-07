@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data.Directories;
@@ -25,7 +26,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             var firstWorkingArea = Screen.AllScreens[0].WorkingArea;
             MaxHeightForm = firstWorkingArea.Height - 100;
 
-            _isNotTransportOnly = HelperMethods.IsPrivilege(BC, UserPrivileges.CostsVisibility_IsNotTransportOnly);
+            _isNotTransportOnly = Privileges.HasAccess(UserPrivileges.CostsVisibility_IsNotTransportOnly);
 
             Costs = new ObservableCollection<InfoCost>();
 

@@ -41,15 +41,15 @@ namespace AIS_Enterprise_AV.Views
 			HelperMethods.ShowView(new LogViewModel(), new LogView());
 		}
 
-		//private void Calendar_OnClick(object sender, RoutedEventArgs e)
-		//{
-		//	GetCalendar();
-		//}
+		private void Calendar_OnClick(object sender, RoutedEventArgs e)
+		{
+			GetCalendar();
+		}
 
-		//private async void GetCalendar()
-		//{
-		//	await ParsingCalendar.GetCalendar(BC, DateTime.Now.AddYears(1).Year);
-		//}
+		private async void GetCalendar()
+		{
+			await ParsingCalendar.GetCalendar(DateTime.Now.AddYears(1).Year);
+		}
 
 		private void MinskCash_OnClick(object sender, RoutedEventArgs e)
 		{

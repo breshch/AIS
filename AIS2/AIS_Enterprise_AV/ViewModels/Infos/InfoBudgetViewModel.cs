@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_AV.Helpers.Temps;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data;
@@ -15,8 +16,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
     public class InfoBudgetViewModel : ViewModelGlobal
     {
         #region Base
-
-        private List<string> _privileges;
 
         public InfoBudgetViewModel()
         {
@@ -60,25 +59,11 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void InitializePrivileges()
         {
-            BudgetTabVisibilityAll = Visibility.Collapsed;
-            BudgetTabVisibilityLoans = Visibility.Collapsed;
+	        bool isVisibilityAll = Privileges.HasAccess(UserPrivileges.BudgetTabVisibility_All);
+			bool isVisibilityLoans = Privileges.HasAccess(UserPrivileges.BudgetTabVisibility_Loans);
 
-            _privileges = DirectoryUser.Privileges;
-
-            foreach (var privilege in _privileges)
-            {
-                var privilegeEnum = (UserPrivileges)Enum.Parse(typeof(UserPrivileges), privilege);
-
-                switch (privilegeEnum)
-                {
-                    case UserPrivileges.BudgetTabVisibility_All:
-                        BudgetTabVisibilityAll = Visibility.Visible;
-                        break;
-                    case UserPrivileges.BudgetTabVisibility_Loans:
-                        BudgetTabVisibilityLoans = Visibility.Visible;
-                        break;
-                }
-            }
+	        BudgetTabVisibilityAll = isVisibilityAll ? Visibility.Visible : Visibility.Collapsed;
+			BudgetTabVisibilityLoans = isVisibilityLoans ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void RefreshAllSafeData()

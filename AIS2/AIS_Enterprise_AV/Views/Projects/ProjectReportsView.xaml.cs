@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
@@ -19,7 +20,21 @@ namespace AIS_Enterprise_AV.Views
         public ProjectReportsView()
         {
             InitializeComponent();
+
+			InitializePrivileges();
         }
+
+		private void InitializePrivileges()
+		{
+			ReportSalaryPrint.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportSalaryPrint) ? Visibility.Visible : Visibility.Collapsed;
+			ReportSalaryMinsk.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportSalaryMinsk) ? Visibility.Visible : Visibility.Collapsed;
+			ReportPam16Percentage.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportPam16Percentage) ? Visibility.Visible : Visibility.Collapsed;
+			ReportCosts.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportCosts) ? Visibility.Visible : Visibility.Collapsed;
+			ReportCash.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportCash) ? Visibility.Visible : Visibility.Collapsed;
+			ReportCars.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportCars) ? Visibility.Visible : Visibility.Collapsed;
+			ReportProfit.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportProfit) ? Visibility.Visible : Visibility.Collapsed;
+			ReportDiffSumToMinsk.Visibility = Privileges.HasAccess(UserPrivileges.MenuVisibility_Reports_ReportDiffSumToMinsk) ? Visibility.Visible : Visibility.Collapsed;
+		}
 
 	    private void ReportSalaryPrint_OnClick(object sender, RoutedEventArgs e)
 	    {

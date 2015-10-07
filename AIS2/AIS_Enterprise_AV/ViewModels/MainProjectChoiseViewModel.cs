@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views;
@@ -27,35 +28,15 @@ namespace AIS_Enterprise_AV.ViewModels
 			ReportsCommand = new RelayCommand(Reports);
 			AdminCommand = new RelayCommand(Admin);
 
-            if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_MonthTimeSheetEnable.ToString()))
-            {
-                IsEnabledMonthTimeSheet = true;
-            }
-
-            if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_DbFenoxEnable.ToString()))
-            {
-                IsEnabledDbFenox = true;
-            }
-
-            if (DirectoryUser.Privileges.Contains(UserPrivileges.MultyProject_DbFenoxEnable.ToString()))
-            {
-                IsEnabledDbFenox = true;
-            }
+			MonthTimeSheetVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_MonthTimeSheetVisibility)? Visibility.Visible : Visibility.Collapsed;
+			DbFenoxVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_DbFenoxVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			CostsVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_CostsVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			ProcessingBookKeepingVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_ProcessingBookKeepingVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			RemainsLoanVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_RemainsLoanVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			ReportsVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_ReportsVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			AdminVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_AdminVisibility) ? Visibility.Visible : Visibility.Collapsed;
 
 			BC.SetRemainsToFirstDateInMonth();
-			
-			//initialize dbminskcash
-
-			//using (var sr = new StreamReader(@"C:\Users\Alexey\Desktop\2.csv"))
-			//{
-			//	while (!sr.EndOfStream)
-			//	{
-			//		var line = sr.ReadLine();
-			//		var date = DateTime.Parse("01." + line.Substring(0, 7).Replace(",", "."));
-			//		var summ = double.Parse(line.Substring(8).Replace(" ", "").Replace(".", ","));
-			//		BC.SaveTotalSafeAndMinskCashes(date, summ);
-			//	}
-			//}		
         }
 
         #endregion
@@ -63,10 +44,14 @@ namespace AIS_Enterprise_AV.ViewModels
 
         #region Properties
 
-        public bool IsEnabledMonthTimeSheet { get; set; }
+		public Visibility MonthTimeSheetVisibility { get; set; }
+		public Visibility DbFenoxVisibility { get; set; }
+		public Visibility CostsVisibility { get; set; }
+		public Visibility ProcessingBookKeepingVisibility { get; set; }
+		public Visibility RemainsLoanVisibility { get; set; }
+		public Visibility ReportsVisibility { get; set; }
+		public Visibility AdminVisibility { get; set; }
 
-        public bool IsEnabledDbFenox { get; set; }
-        public bool IsEnabledProcessingBookKeeping { get; set; }
         #endregion
 
 
@@ -88,60 +73,61 @@ namespace AIS_Enterprise_AV.ViewModels
             window.Visibility = Visibility.Hidden;
 
             var monthTimeSheetView = new MonthTimeSheetView();
+	        monthTimeSheetView.Owner = window;
             monthTimeSheetView.ShowDialog();
 
-            HelperMethods.CloseWindow(parameter);
+			window.Visibility = Visibility.Visible;
         }
 
         private void Remains(object parameter)
         {
             var window = parameter as Window;
-            window.Visibility = Visibility.Hidden;
+			window.Visibility = Visibility.Collapsed;
 
             HelperMethods.ShowView(new InfoRemainsViewModel(), new InfoRemainsView());
 
-            HelperMethods.CloseWindow(parameter);
+			window.Visibility = Visibility.Visible;
         }
 
         private void ProcessingBookKeeping(object parameter)
         {
             var window = parameter as Window;
-            window.Visibility = Visibility.Hidden;
+			window.Visibility = Visibility.Collapsed;
 
             HelperMethods.ShowView(new PercentageProcessingBookKeepingViewModel(), new PercentageProcessingBookKeepingView());
 
-            HelperMethods.CloseWindow(parameter);
+			window.Visibility = Visibility.Visible;
         }
 
         private void RemainsLoan(object parameter)
         {
             var window = parameter as Window;
-            window.Visibility = Visibility.Hidden;
+			window.Visibility = Visibility.Collapsed;
 
             HelperMethods.ShowView(new PickDateReportViewModel(), new PickDateReportView());
 
-            HelperMethods.CloseWindow(parameter);
+			window.Visibility = Visibility.Visible;
         }
 
 		private void Warehouse(object parameter)
 		{
 			var window = parameter as Window;
-			window.Visibility = Visibility.Hidden;
+			window.Visibility = Visibility.Collapsed;
 
 			var scheme = new Scheme();
 			scheme.ShowDialog();
-			
-			HelperMethods.CloseWindow(parameter);
+
+			window.Visibility = Visibility.Visible;
 		}
 		private void Costs(object parameter)
 		{
 			var window = parameter as Window;
-			window.Visibility = Visibility.Hidden;
+			window.Visibility = Visibility.Collapsed;
 
 			var costsView = new ProjectCostsView();
 			costsView.ShowDialog();
 
-			HelperMethods.CloseWindow(parameter);
+			window.Visibility = Visibility.Visible;
 		}
 
 		private void Reports(object parameter)
@@ -150,20 +136,21 @@ namespace AIS_Enterprise_AV.ViewModels
 			window.Visibility = Visibility.Hidden;
 
 			var reports = new ProjectReportsView();
+			reports.Owner = window;
 			reports.ShowDialog();
 
-			HelperMethods.CloseWindow(parameter);
+			window.Visibility = Visibility.Visible;
 		}
 
 		private void Admin(object parameter)
 		{
 			var window = parameter as Window;
-			window.Visibility = Visibility.Hidden;
+			window.Visibility = Visibility.Collapsed;
 
 			var admin = new ProjectAdminView();
 			admin.ShowDialog();
 
-			HelperMethods.CloseWindow(parameter);
+			window.Visibility = Visibility.Visible;
 		}
         #endregion
     }

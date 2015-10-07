@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Temps;
 using AIS_Enterprise_Global.Helpers;
@@ -23,7 +24,7 @@ namespace AIS_Enterprise_Global.ViewModels
         {
             _selectedDirectoryWorker = BC.GetDirectoryWorker(workerId);
 
-            IsFireWorkerEnable = HelperMethods.IsPrivilege(BC, UserPrivileges.Workers_FireWorkers);
+            IsFireWorkerEnable = Privileges.HasAccess(UserPrivileges.Workers_FireWorkers);
 
             if (!IsNotFireDate)
             {

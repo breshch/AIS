@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_AV.Helpers.ExcelToDB;
 using AIS_Enterprise_AV.Properties;
 using AIS_Enterprise_AV.ViewModels.Helpers;
@@ -203,15 +204,15 @@ namespace AIS_Enterprise_AV.ViewModels
 				return;
 			}
 
-			DirectoryUser.ChangeUserId(BC, SelectedUser.Id, SelectedUser.UserName);
+			Privileges.LoadUserPrivileges(SelectedUser.Id);
 
-			window.Visibility = Visibility.Hidden;
+			window.Visibility = Visibility.Collapsed;
 
-			HelperMethods.ShowView(new MainProjectChoiseViewModel(), new MainProjectChoiseView());
+			HelperMethods.ShowView(new MainProjectChoiseViewModel(), new MainProjectChoiseView(), window);
 			passwordBox.Password = null;
 
 			window.Visibility = Visibility.Visible;
-			IsAdminButtonsVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.ButtonsVisibility_AdminButtons);
+			IsAdminButtonsVisibility = Privileges.HasAccess(UserPrivileges.ButtonsVisibility_AdminButtons);
 		}
 
 		private Timer _timer;

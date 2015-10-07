@@ -18,7 +18,7 @@
 		<Button Grid.Row="0" x:Name="UserStatuses" Content="Статусы пользователей" Click="UserStatuses_OnClick" Margin="0, 20, 0, 0"/>
 		<Button Grid.Row="1" x:Name="Users" Content="Пользователи" Click="Users_OnClick" Margin="0, 20, 0, 0"/>
 		<Button Grid.Row="2" x:Name="Logs" Content="Логи" Click="Logs_OnClick" Margin="0, 20, 0, 0"/>
-		<!--<Button Grid.Row="3" x:Name="Calendar" Content="Календарь" Click="Calendar_OnClick" Margin="0, 20, 0, 0"/>-->
+		<Button Grid.Row="3" x:Name="Calendar" Content="Календарь" Click="Calendar_OnClick" Margin="0, 20, 0, 0"/>
 		<Button Grid.Row="4" x:Name="MinskCash" Content="Минская сумма" Click="MinskCash_OnClick" Margin="0, 20, 0, 0"/>
     </Grid>
 </Window>

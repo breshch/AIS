@@ -1859,18 +1859,17 @@ namespace AIS_Enterprise_Data
 			return _dc.DirectoryUserStatusPrivileges.First(p => p.Name == privilegeName);
 		}
 
-		public List<string> GetPrivileges(int userId)
+		public UserPrivileges[] GetPrivileges(int userId)
 		{
 			int currentUserStatusId = _dc.DirectoryUsers.Find(userId).CurrentUserStatusId;
 			int directoryUserStatusId = _dc.CurrentUserStatuses.Find(currentUserStatusId).DirectoryUserStatusId;
 			var directoryUserStatusPrivilegeIds =
 				_dc.CurrentUserStatusPrivileges.Where(p => p.DirectoryUserStatusId == directoryUserStatusId)
 					.Select(p => p.DirectoryUserStatusPrivilegeId);
-			var privileges =
-				_dc.DirectoryUserStatusPrivileges.Where(p => directoryUserStatusPrivilegeIds.Contains(p.Id))
-					.Select(p => p.Name)
-					.ToList();
-			return privileges;
+			return _dc.DirectoryUserStatusPrivileges.Where(p => directoryUserStatusPrivilegeIds.Contains(p.Id))
+				.ToArray()
+				.Select(p => (UserPrivileges) Enum.Parse(typeof (UserPrivileges), p.Name))
+				.ToArray();
 		}
 
 		#endregion
@@ -2774,7 +2773,7 @@ namespace AIS_Enterprise_Data
 			{
 				Date = DateTime.Now,
 				Level = loggingOptions.ToString(),
-				Logger = DirectoryUser.CurrentUserName,
+				//Logger = DirectoryUser.CurrentUserName,
 				Description = description
 			};
 

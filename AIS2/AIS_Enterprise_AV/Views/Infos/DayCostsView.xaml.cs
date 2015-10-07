@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
@@ -23,7 +24,7 @@ namespace AIS_Enterprise_AV.Views.Infos
         {
             InitializeComponent();
 
-			_isNotTransportOnly = HelperMethods.IsPrivilege(_bc, UserPrivileges.CostsVisibility_IsNotTransportOnly);
+			_isNotTransportOnly = Privileges.HasAccess(UserPrivileges.CostsVisibility_IsNotTransportOnly);
 
 			FillDataGrid(date);
         }

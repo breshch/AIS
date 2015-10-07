@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Views.Directories;
@@ -23,16 +24,14 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
             var workerWarehouses = workers.Where(w => !w.IsDeadSpirit && BC.GetDirectoryTypeOfPost(w.Id, DateTime.Now).Name == "Склад").ToList();
             directoryWorkers.AddRange(workerWarehouses);
 
-            var privileges = DirectoryUser.Privileges;
-
-            if (HelperMethods.IsPrivilege(privileges, UserPrivileges.WorkersVisibility_DeadSpirit))
+            if (Privileges.HasAccess(UserPrivileges.WorkersVisibility_DeadSpirit))
             {
                 var workerDeadSpirits = workers.Where(w => w.IsDeadSpirit).ToList();
 
                 directoryWorkers.AddRange(workerDeadSpirits);
             }
 
-            if (HelperMethods.IsPrivilege(privileges, UserPrivileges.WorkersVisibility_Office))
+			if (Privileges.HasAccess(UserPrivileges.WorkersVisibility_Office))
             {
                 var workerOffices = workers.Where(w => !w.IsDeadSpirit && BC.GetDirectoryTypeOfPost(w.Id, DateTime.Now).Name == "Офис").ToList();
 

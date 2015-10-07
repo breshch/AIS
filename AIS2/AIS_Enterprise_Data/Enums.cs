@@ -87,8 +87,13 @@
         BudgetTabVisibility_All,
         BudgetTabVisibility_Loans,
 
-        MultyProject_MonthTimeSheetEnable,
-        MultyProject_DbFenoxEnable,
+        MultyProject_MonthTimeSheetVisibility,
+		MultyProject_DbFenoxVisibility,
+		MultyProject_CostsVisibility,
+		MultyProject_ProcessingBookKeepingVisibility,
+		MultyProject_RemainsLoanVisibility,
+		MultyProject_ReportsVisibility,
+		MultyProject_AdminVisibility
     }
 
     public enum Rules

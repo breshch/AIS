@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_Data.Temps;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Views.Currents;
@@ -17,8 +18,8 @@ namespace AIS_Enterprise_Global.ViewModels
         public DirectoryWorkerBaseViewModel()
             : base()
         {
-            IsAdminSalary = HelperMethods.IsPrivilege(BC, UserPrivileges.Salary_AdminSalary);
-            IsDeadSpiritVisibility = HelperMethods.IsPrivilege(BC, UserPrivileges.WorkersVisibility_DeadSpirit);
+            IsAdminSalary = Privileges.HasAccess(UserPrivileges.Salary_AdminSalary);
+            IsDeadSpiritVisibility = Privileges.HasAccess(UserPrivileges.WorkersVisibility_DeadSpirit);
 
             AddCompanyAndPostCommand = new RelayCommand(AddCompanyAndPost);
             EditCompanyAndPostCommand = new RelayCommand(EditCompanyAndPost, IsSelectedCompanyAndPost);
