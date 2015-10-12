@@ -57,6 +57,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snippets", "Snippets", "{2B
 		Snippets\Dublicates.sql = Snippets\Dublicates.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemainsWeb", "RemainsWeb\RemainsWeb.csproj", "{E546D504-271F-4D23-ADF3-0762A34BAD5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -196,6 +198,16 @@ Global
 		{69E0D406-B11E-4F60-A8D2-C7D6FCA6A219}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69E0D406-B11E-4F60-A8D2-C7D6FCA6A219}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{69E0D406-B11E-4F60-A8D2-C7D6FCA6A219}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

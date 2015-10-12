@@ -1,0 +1,39 @@
+﻿@model Dictionary<AIS_Enterprise_Global.Helpers.Currency, double>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Index</title>
+
+	<link rel="stylesheet" href="~/Content/bootstrap.css"/>
+	<link rel="stylesheet" href="~/Content/main.css" />
+</head>
+<body>
+<div class="container">
+
+	<div class="col-md-4 col-md-offset-4 table-indent">
+		<h3 class="text-center">Актуальные остатки на:</h3>
+		<h4 class="text-center">@DateTime.Now.ToString("dd.MM.yyyy hh:mm")</h4>
+		<table class="table table-bordered table-condensed table-hover table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">Сумма</th>
+					<th class="text-center">Валюта</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var remain in Model)
+				{
+					<tr>
+						<td class="text-center">@remain.Value</td>
+						<td class="text-center">@remain.Key</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>

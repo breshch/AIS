@@ -555,7 +555,7 @@ namespace AIS_Enterprise_AV.Views
 								? Visibility.Visible 
 								: Visibility.Collapsed;
 
-							bool isReadOnly = Privileges.HasAccess(UserPrivileges.MonthTimeSheetColumnsNotReadOnly_Hours);
+							bool isReadOnly = !Privileges.HasAccess(UserPrivileges.MonthTimeSheetColumnsNotReadOnly_Hours);
 
                             for (int i = 0; i < lastDateInMonth.Day; i++)
                             {
