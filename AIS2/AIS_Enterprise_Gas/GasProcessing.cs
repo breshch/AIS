@@ -46,7 +46,7 @@ namespace AIS_Enterprise_Gas
 
 					if (balance < 10000)
 					{
-						string message = "Баланс за ГСМ по Логистикону = " + balance;
+						string message = "Баланс за ГСМ по Логистикону = " + html + " рублей";
 
 						SendEmail(message, "breshch@gmail.com");
 						SendEmail(message, "vaukalak@gmail.com");

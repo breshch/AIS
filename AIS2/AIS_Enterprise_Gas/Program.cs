@@ -46,9 +46,6 @@ namespace AIS_Enterprise_Gas
 
 						StatrtService(serviceName);
 
-						gas = new GasProcessing();
-						gas.GetBalance();
-
 						break;
 					case "-u":
 						DeleteService(serviceName);
