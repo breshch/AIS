@@ -70,7 +70,7 @@ namespace AIS_Enterprise_Gas
 			{
 				var fromAddress = new MailAddress("LogistikonCompany@gmail.com");
 				var toAddress = new MailAddress(email);
-				const string fromPassword = "huy";
+				const string fromPassword = "huyhuyhuy";
 				const string subject = "Закончились средства на ГСМ !!!";
 				string body = info;
 

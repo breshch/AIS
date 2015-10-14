@@ -41,11 +41,14 @@ namespace AIS_Enterprise_Gas
 								DeleteService(serviceName);
 							}
 						}
-						
-							InstallService();
-							
-								StatrtService(serviceName);
-							
+
+						InstallService();
+
+						StatrtService(serviceName);
+
+						gas = new GasProcessing();
+						gas.GetBalance();
+
 						break;
 					case "-u":
 						DeleteService(serviceName);
@@ -106,10 +109,12 @@ namespace AIS_Enterprise_Gas
 				if ((service.ServiceName == serviceName) && (service.Status == ServiceControllerStatus.Running))
 				{
 					status = "started";
+					break;
 				}
 				else if ((service.ServiceName == serviceName) && (service.Status == ServiceControllerStatus.Stopped))
 				{
 					status = "stopped";
+					break;
 				}
 				else
 				{
