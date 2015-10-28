@@ -245,7 +245,6 @@
     <Compile Include="ViewModels\Infos\InfoPanaltyViewModel.cs" />
     <Compile Include="ViewModels\Infos\InfoRemainsViewModel.cs" />
     <Compile Include="ViewModels\Infos\MonthCostsViewModel.cs" />
-    <Compile Include="ViewModels\MainProjectChoiseViewModel.cs" />
     <Compile Include="Views\Currents\CurrentTemporaryPostView.xaml.cs">
       <DependentUpon>CurrentTemporaryPostView.xaml</DependentUpon>
     </Compile>
@@ -412,9 +411,6 @@
     </Compile>
     <Compile Include="Views\Helpers\Pam16PercentageView.xaml.cs">
       <DependentUpon>Pam16PercentageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MainProjectChoiseView.xaml.cs">
-      <DependentUpon>MainProjectChoiseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -666,10 +662,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Helpers\Pam16PercentageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainProjectChoiseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

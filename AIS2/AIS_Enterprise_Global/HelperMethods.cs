@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
@@ -72,7 +73,7 @@ namespace AIS_Enterprise_Global.Helpers
         public static void ShowView(ViewModelBase viewModel, Window window, Window owner = null)
         {
             window.DataContext = viewModel;
-			window.Owner = owner;
+	        window.Owner = owner;
             window.ShowDialog();
         }
 

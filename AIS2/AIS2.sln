@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snippets", "Snippets", "{2B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemainsWeb", "RemainsWeb\RemainsWeb.csproj", "{E546D504-271F-4D23-ADF3-0762A34BAD5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasStatusWeb", "GasStatusWeb\GasStatusWeb.csproj", "{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -208,6 +210,16 @@ Global
 		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{E546D504-271F-4D23-ADF3-0762A34BAD5C}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{538B4E09-56A8-413D-A9F2-CAE1E7DCC4CB}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

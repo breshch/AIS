@@ -12,8 +12,11 @@ using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_AV.Helpers.ExcelToDB;
 using AIS_Enterprise_AV.Properties;
 using AIS_Enterprise_AV.ViewModels.Helpers;
+using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views;
 using AIS_Enterprise_AV.Views.Helpers;
+using AIS_Enterprise_AV.Views.Infos;
+using AIS_Enterprise_AV.WareHouse;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
@@ -32,7 +35,8 @@ namespace AIS_Enterprise_AV.ViewModels
 			: base()
 		{
 			IsAdminButtonsVisibility = false;
-
+			LogingVisibility = Visibility.Visible;
+			ChoiseProjectsVisibility = Visibility.Collapsed;
 			CreateDBCommand = new RelayCommand(CreateDB);
 			KillTheDBCommand = new RelayCommand(KillTheDB);
 			ShowExcelToDBCommand = new RelayCommand(ShowExcelToDB);
@@ -48,35 +52,33 @@ namespace AIS_Enterprise_AV.ViewModels
 			IsNotInitializedDB = true;
 
 			RefreshUsers();
-
-			//var passwords = new[]
-			//{
-			//	new {Id = 5, Password = "196309"},
-			//	new {Id = 6, Password = "196309"},
-			//	new {Id = 8, Password = "196309"},
-			//	new {Id = 10, Password = "196309"},
-			//	new {Id = 11, Password = "196309"},
-			//	new {Id = 12, Password = "2802"},
-			//	new {Id = 13, Password = "196309aA"},
-			//};
-
-			//foreach (var password in passwords)
-			//{
-			//	var salt = Path.GetRandomFileName() + Path.GetRandomFileName();
-
-			//	var hash = CryptoHelper.GetHash(password.Password + salt);
-			//	BC.DataContext.Auths.Add(new Auth
-			//	{
-			//		DirectoryUserId = password.Id,
-			//		Hash = hash,
-			//		Salt = salt
-			//	});
-			//}
-
-			//BC.DataContext.SaveChanges();
-
-
 		}
+
+		private void InitializeChoiseProjects()
+		{
+			MonthTimeSheetCommand = new RelayCommand(MonthTimeSheet);
+			RemainsCommand = new RelayCommand(Remains);
+			ProcessingBookKeepingCommand = new RelayCommand(ProcessingBookKeeping);
+			RemainsLoanCommand = new RelayCommand(RemainsLoan);
+			WarehouseCommand = new RelayCommand(Warehouse);
+			CostsCommand = new RelayCommand(Costs);
+			ReportsCommand = new RelayCommand(Reports);
+			AdminCommand = new RelayCommand(Admin);
+			ChangeUserCommand = new RelayCommand(ChangeUser);
+
+			MonthTimeSheetVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_MonthTimeSheetVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			DbFenoxVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_DbFenoxVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			CostsVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_CostsVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			ProcessingBookKeepingVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_ProcessingBookKeepingVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			RemainsLoanVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_RemainsLoanVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			ReportsVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_ReportsVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			AdminVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_AdminVisibility) ? Visibility.Visible : Visibility.Collapsed;
+
+			BC.SetRemainsToFirstDateInMonth();
+		}
+
+		
+
 
 		private void RefreshUsers()
 		{
@@ -130,6 +132,16 @@ namespace AIS_Enterprise_AV.ViewModels
 			}
 		}
 		public DirectoryUser SelectedUser { get; set; }
+		public Visibility LogingVisibility { get; set; }
+		public Visibility ChoiseProjectsVisibility { get; set; }
+
+		public Visibility MonthTimeSheetVisibility { get; set; }
+		public Visibility DbFenoxVisibility { get; set; }
+		public Visibility CostsVisibility { get; set; }
+		public Visibility ProcessingBookKeepingVisibility { get; set; }
+		public Visibility RemainsLoanVisibility { get; set; }
+		public Visibility ReportsVisibility { get; set; }
+		public Visibility AdminVisibility { get; set; }
 
 		#endregion
 
@@ -146,6 +158,108 @@ namespace AIS_Enterprise_AV.ViewModels
 		public RelayCommand RussiansCommand { get; set; }
 		public RelayCommand ImportsCommand { get; set; }
 		public RelayCommand CarPartRemainsToDbCommand { get; set; }
+
+		public RelayCommand MonthTimeSheetCommand { get; set; }
+		public RelayCommand RemainsCommand { get; set; }
+		public RelayCommand CostsCommand { get; set; }
+		public RelayCommand ProcessingBookKeepingCommand { get; set; }
+		public RelayCommand RemainsLoanCommand { get; set; }
+		public RelayCommand WarehouseCommand { get; set; }
+		public RelayCommand ReportsCommand { get; set; }
+		public RelayCommand AdminCommand { get; set; }
+		public RelayCommand ChangeUserCommand { get; set; }
+
+		private void MonthTimeSheet(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Hidden;
+
+			var monthTimeSheetView = new MonthTimeSheetView();
+			monthTimeSheetView.ShowDialog();
+
+			window.Visibility = Visibility.Visible;
+		}
+
+		private void Remains(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Collapsed;
+
+			HelperMethods.ShowView(new InfoRemainsViewModel(), new InfoRemainsView(), window);
+
+			window.Visibility = Visibility.Visible;
+		}
+
+		private void ProcessingBookKeeping(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Collapsed;
+
+			HelperMethods.ShowView(new PercentageProcessingBookKeepingViewModel(), new PercentageProcessingBookKeepingView());
+
+			window.Visibility = Visibility.Visible;
+		}
+
+		private void RemainsLoan(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Collapsed;
+
+			HelperMethods.ShowView(new PickDateReportViewModel(), new PickDateReportView());
+
+			window.Visibility = Visibility.Visible;
+		}
+
+		private void Warehouse(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Collapsed;
+
+			var scheme = new Scheme();
+			scheme.ShowDialog();
+
+			window.Visibility = Visibility.Visible;
+		}
+		private void Costs(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Collapsed;
+
+			var costsView = new ProjectCostsView();
+			costsView.ShowDialog();
+
+			window.Visibility = Visibility.Visible;
+		}
+
+		private void Reports(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Hidden;
+
+			var reports = new ProjectReportsView();
+			reports.Owner = window;
+			reports.ShowDialog();
+
+			window.Visibility = Visibility.Visible;
+		}
+
+		private void Admin(object parameter)
+		{
+			var window = parameter as Window;
+			window.Visibility = Visibility.Collapsed;
+
+			var admin = new ProjectAdminView();
+			admin.ShowDialog();
+
+			window.Visibility = Visibility.Visible;
+		}
+		private void ChangeUser(object parameter)
+		{
+			LogingVisibility = Visibility.Visible;
+			ChoiseProjectsVisibility = Visibility.Collapsed;
+		}
+
+
 
 		private void CreateDB(object parameter)
 		{
@@ -205,14 +319,16 @@ namespace AIS_Enterprise_AV.ViewModels
 			}
 
 			Privileges.LoadUserPrivileges(SelectedUser.Id);
+			InitializeChoiseProjects();
+			
+			LogingVisibility = Visibility.Collapsed;
+			ChoiseProjectsVisibility = Visibility.Visible;
 
-			window.Visibility = Visibility.Collapsed;
-
-			HelperMethods.ShowView(new MainProjectChoiseViewModel(), new MainProjectChoiseView(), window);
+			//HelperMethods.ShowView(new MainProjectChoiseViewModel(), new MainProjectChoiseView(), window);
 			passwordBox.Password = null;
 
-			window.Visibility = Visibility.Visible;
-			IsAdminButtonsVisibility = Privileges.HasAccess(UserPrivileges.ButtonsVisibility_AdminButtons);
+			//window.Visibility = Visibility.Visible;
+			//IsAdminButtonsVisibility = Privileges.HasAccess(UserPrivileges.ButtonsVisibility_AdminButtons);
 		}
 
 		private Timer _timer;

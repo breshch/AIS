@@ -517,7 +517,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
-                        for (var date = new DateTime(2015, 1, 1); date <= new DateTime(2015, 8, 1); date = date.AddMonths(1))
+                        for (var date = new DateTime(2015, 9, 1); date <= new DateTime(2015, 10, 1); date = date.AddMonths(1))
                         {
                             var sheet = workBook.Worksheets.First(s => s.Name == date.ToString("MMMM yyyy"));
 
