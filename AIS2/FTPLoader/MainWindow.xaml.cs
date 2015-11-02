@@ -12,9 +12,9 @@ namespace FTPLoader
     public partial class MainWindow : Window
     {
         private FTPConnector _ftpConnector;
-		private const string DefaultFTPFolder = "ftp://52.26.144.188/";
-	    private const string PathApplication = @"c:\Dev\AIS\AIS2\AIS_Enterprise_AV\bin\Release";
-		private const string PathUpdater = @"c:\Dev\AIS\AIS2\Updater\bin\Release";
+		private const string DefaultFTPFolder = "ftp://89.20.42.182/";
+		private const string PathApplication = @"F:\Dev\AIS\AIS2\AIS_Enterprise_AV\bin\Release";
+		private const string PathUpdater = @"F:\Dev\AIS\AIS2\Updater\bin\Release";
 
         public MainWindow()
         {
@@ -44,7 +44,7 @@ namespace FTPLoader
 
 	    private void FTPLoading()
 	    {
-			_ftpConnector = new FTPConnector("FTPAdmin", "Mp~7200~aA", DefaultFTPFolder);
+			_ftpConnector = new FTPConnector("FTPUSER", "Mp~7200~aA", DefaultFTPFolder);
 
 		    string[] filterExtensions = { ".pdb", ".xml", ".manifest", ".config", ".application", ".txt" };
 			_ftpConnector.AddFiltersExtensions(filterExtensions);

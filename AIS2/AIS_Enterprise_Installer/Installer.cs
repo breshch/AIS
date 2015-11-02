@@ -3,6 +3,8 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using IWshRuntimeLibrary;
+using File = System.IO.File;
 
 //using Microsoft.SqlServer.Management.Smo;
 
@@ -44,7 +46,7 @@ namespace AIS_Enterprise_Installer
 			CopyDirectory(Path.Combine(path, "Application"), _pathApplication);
 			CopyDirectory(Path.Combine(path, "Updater"), _pathUpdater);
 
-			AppShortcutToDesktop(_shortcutName);
+			CreateShortcut(_shortcutName);
 
 			if (MessageBox.Show(@"Install complete") == DialogResult.OK)
 			{
@@ -73,9 +75,26 @@ namespace AIS_Enterprise_Installer
 			}
 		}
 
+		private void CreateShortcut(string linkName)
+		{
+			string app = Path.Combine(_pathApplication, "AIS_Enterprise.exe");
+
+			object shDesktop = (object)"Desktop";
+			WshShell shell = new WshShell();
+			string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + linkName + ".lnk";
+			IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+			shortcut.TargetPath = app;
+			shortcut.WorkingDirectory = _pathApplication;
+			shortcut.Save();
+		}
+
 		private void CopyDirectory(string strSource, string strDestination)
 		{
-			if (!Directory.Exists(strDestination))
+			if (Directory.Exists(strDestination))
+			{
+				Directory.Delete(strDestination, true);
+			}
+			else
 			{
 				Directory.CreateDirectory(strDestination);
 			}

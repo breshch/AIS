@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
@@ -37,7 +38,10 @@ namespace AIS_Enterprise_AV
 
 			if (File.Exists(pathUpdater))
 			{
-				Process.Start(pathUpdater);
+				if (!Process.GetProcessesByName("AIS_Enterprise_Updater").Any())
+				{
+					Process.Start(pathUpdater);	
+				}
 			}
 
 			Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());

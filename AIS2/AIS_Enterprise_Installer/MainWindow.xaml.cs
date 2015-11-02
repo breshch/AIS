@@ -15,12 +15,6 @@ namespace AIS_Enterprise_Installer
 		private void ButtonInstall_OnClick(object sender, RoutedEventArgs e)
 		{
 			var installer = new Installer();
-
-			//if (installer.SQLServerCheck())
-			//{
-			//	installer.InstallSQLServerSilent();
-			//}
-			
 			installer.InstallApplication();
 			
 		}

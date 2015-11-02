@@ -155,7 +155,7 @@ namespace FTP
                     ftpRequest.KeepAlive = true;
                     ftpRequest.Timeout = Timeout.Infinite;
 
-                    const int countBytes = 1024 * 64;
+                    const int countBytes = 1024 * 512;
                     var buffer = new byte[countBytes];
 
                     using (var writer = new FileStream(localPath, FileMode.Create))

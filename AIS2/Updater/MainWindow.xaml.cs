@@ -17,7 +17,7 @@ namespace Updater
 	{
 		private FTPConnector _ftpConnector;
 		private DateTime _dateBackup;
-		private const string DefaultFTPFolder = "ftp://52.26.144.188/";
+		private const string DefaultFTPFolder = "ftp://89.20.42.182/";
 		private readonly string PathApplication;
 		private bool isUpdating = false;
 
@@ -30,7 +30,7 @@ namespace Updater
 
 			PathApplication = Directory.GetParent(Environment.CurrentDirectory).FullName;
 
-			_ftpConnector = new FTPConnector("FTPAdmin", "Mp~7200~aA", DefaultFTPFolder);
+			_ftpConnector = new FTPConnector("FTPUSER", "Mp~7200~aA", DefaultFTPFolder);
 			_ftpConnector.OnGetFileInfo += _ftpConnector_OnGetFileInfo;
 			_ftpConnector.OnFileSizeLoaded += _ftpConnector_OnFileSizeLoaded;
 
@@ -38,7 +38,7 @@ namespace Updater
 			Observable.Interval(new TimeSpan(0, 30, 0))
 				.Subscribe((x) => Updating());
 
-			Observable.Interval(new TimeSpan(0, 1, 0))
+			Observable.Interval(new TimeSpan(0, 0, 10))
 				.Subscribe((x) => ProcessChecking());
 		}
 
