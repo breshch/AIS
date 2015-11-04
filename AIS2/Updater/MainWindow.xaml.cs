@@ -17,7 +17,7 @@ namespace Updater
 	{
 		private FTPConnector _ftpConnector;
 		private DateTime _dateBackup;
-		private const string DefaultFTPFolder = "ftp://89.20.42.182/";
+		private const string DefaultFTPFolder = "ftp://172.16.0.1/";
 		private readonly string PathApplication;
 		private bool isUpdating = false;
 
@@ -28,7 +28,7 @@ namespace Updater
 			this.Visibility = Visibility.Hidden;
 			this.ShowInTaskbar = false;
 
-			PathApplication = Directory.GetParent(Environment.CurrentDirectory).FullName;
+			PathApplication = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AIS_Enterprise_AV");
 
 			_ftpConnector = new FTPConnector("FTPUSER", "Mp~7200~aA", DefaultFTPFolder);
 			_ftpConnector.OnGetFileInfo += _ftpConnector_OnGetFileInfo;
@@ -132,14 +132,25 @@ namespace Updater
 		{
 			_dateBackup = DateTime.Now;
 
+			if (!Directory.Exists(Path.Combine(PathApplication, "Application")))
+			{
+				return;
+			}
+
 			ZipFile.CreateFromDirectory(Path.Combine(PathApplication, "Application"),
 				Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"));
 		}
 
 		private void Restore()
 		{
-			ZipFile.ExtractToDirectory(Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip"),
-				Path.Combine(PathApplication, "Application"));
+			string pathFile = Path.Combine(PathApplication, "Backup_" + _dateBackup.Ticks + ".zip");
+
+			if (!File.Exists(pathFile))
+			{
+				return;
+			}
+
+			ZipFile.ExtractToDirectory(pathFile, Path.Combine(PathApplication, "Application"));
 		}
 
 		private void SyncContext(Action action)

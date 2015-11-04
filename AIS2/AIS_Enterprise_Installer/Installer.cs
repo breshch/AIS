@@ -43,36 +43,12 @@ namespace AIS_Enterprise_Installer
 				}
 			}
 
-			CopyDirectory(Path.Combine(path, "Application"), _pathApplication);
 			CopyDirectory(Path.Combine(path, "Updater"), _pathUpdater);
 
 			CreateShortcut(_shortcutName);
 
-			if (MessageBox.Show(@"Install complete") == DialogResult.OK)
-			{
-				Environment.Exit(0);
-			}
-		}
-
-		private void AppShortcutToDesktop(string linkName)
-		{
-			string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-			string desktopShortcut = Path.Combine(desktopDirectory, linkName + ".url");
-			if (File.Exists(desktopShortcut))
-			{
-				File.Delete(desktopShortcut);
-			}
-
-			using (StreamWriter writer = new StreamWriter(desktopDirectory + "\\" + linkName + ".url"))
-			{
-				string app = Path.Combine(_pathApplication, "AIS_Enterprise.exe");
-				writer.WriteLine("[InternetShortcut]");
-				writer.WriteLine("URL=file:///" + app);
-				writer.WriteLine("IconIndex=0");
-				string icon = app.Replace('\\', '/');
-				writer.WriteLine("IconFile=" + icon);
-				writer.Flush();
-			}
+			Process.Start(Path.Combine(_pathUpdater, "AIS_Enterprise_Updater.exe"));
+			Environment.Exit(0);
 		}
 
 		private void CreateShortcut(string linkName)
