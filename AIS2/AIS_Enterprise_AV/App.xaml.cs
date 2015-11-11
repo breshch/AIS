@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using AIS_Enterprise_AV.Helpers.LoggerLayoutRenderers;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;
 using AIS_Enterprise_AV.Views;
@@ -12,6 +13,7 @@ using AIS_Enterprise_AV.WareHouse;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Migrations;
+using NLog.Config;
 
 namespace AIS_Enterprise_AV
 {
@@ -29,9 +31,7 @@ namespace AIS_Enterprise_AV
 		{
 			base.OnStartup(e);
 
-			//var scheme = new Scheme();
-			//scheme.ShowDialog();
-
+			LoggerConfiguration.Configurate();
 
 			string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
 				"Updater/AIS_Enterprise_Updater.exe");
@@ -44,11 +44,9 @@ namespace AIS_Enterprise_AV
 				}
 			}
 
-			Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
-
+			//Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
 
 			HelperMethods.ShowView(new MainViewModel(), new MainView());
-			//HelperMethods.ShowView(new InitializingDBViewModel(), new InitializingDBView());
 		}
 	}
 }

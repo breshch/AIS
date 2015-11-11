@@ -1,20 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using AIS_Enterprise_Data.Directories;
 
 namespace AIS_Enterprise_Data.Helpers
 {
     public class Log
     {
         public int Id { get; set; }
+
+		public int UserId { get; set; }
+	    //public virtual DirectoryUser User { get; set; }
+
         public DateTime Date { get; set; }
 
-        [MaxLength(64)]
-        public string Level { get; set; }
+        public string Application { get; set; }
 
-        [MaxLength(256)]
-        public string Logger { get; set; }
-
-        [MaxLength(4096)]
-        public string Description { get; set; }
+        public string Message { get; set; }
     }
 }

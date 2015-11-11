@@ -13,6 +13,9 @@ namespace FTP
         public event Action<string, long> OnGetFileInfo = delegate {  };
         public event Action<long, long> OnFileSizeLoaded = delegate { };
 
+		public event Action<string, long> OnGetUploadFileInfo = delegate { };
+		public event Action<long, long> OnFileSizeUploaded = delegate { };
+
         private readonly string _login;
         private readonly string _password;
         private readonly string _defaultFTPFolder;
@@ -77,6 +80,8 @@ namespace FTP
                 return;
             }
 
+			OnGetUploadFileInfo(Path.GetFileName(nameFile), fi.Length);
+
             var ftpRequest = (FtpWebRequest)WebRequest.Create(Path.Combine(_defaultFTPFolder, nameFile));
 
 	        ftpRequest.UsePassive = false;
@@ -89,6 +94,9 @@ namespace FTP
             var buffer = new byte[1024 * 64];
             int bytes = 0;
             int totalBytes = (int)fi.Length;
+	        int uploadedBytes = 0;
+
+			OnFileSizeUploaded(0, fi.Length);
 
             using (var fs = fi.OpenRead())
             {
@@ -99,6 +107,10 @@ namespace FTP
                         bytes = fs.Read(buffer, 0, buffer.Length);
                         rs.Write(buffer, 0, bytes);
                         totalBytes = totalBytes - bytes;
+
+	                    uploadedBytes += bytes;
+
+						OnFileSizeUploaded(uploadedBytes, fi.Length);
                     }
                 }
             }
@@ -140,6 +152,8 @@ namespace FTP
                 return;
 
             OnGetFileInfo(Path.GetFileName(nameFile), fileSize);
+
+			OnFileSizeLoaded(0, fileSize);
 
             int countRetries = 1;
             while (countRetries <= 20)

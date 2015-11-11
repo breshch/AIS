@@ -14,17 +14,7 @@ namespace AIS_Enterprise_AV.Views
     {
         public MainView()
         {
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Settings.Default.Language);
-
             InitializeComponent();
-
-            var mainViewModel = new MainViewModel();
-            this.DataContext = mainViewModel;
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //PasswordBoxPass.Password = null;
         }
     }
 }

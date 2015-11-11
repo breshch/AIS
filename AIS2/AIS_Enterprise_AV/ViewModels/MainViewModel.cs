@@ -21,6 +21,7 @@ using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
 using AIS_Enterprise_Global.Migrations;
+using NLog;
 using Application = System.Windows.Forms.Application;
 using Auth = AIS_Enterprise_Data.Directories.Auth;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -30,6 +31,8 @@ namespace AIS_Enterprise_AV.ViewModels
 	public class MainViewModel : ViewModelGlobal
 	{
 		#region Base
+
+		private Logger _logger = LogManager.GetCurrentClassLogger();
 
 		public MainViewModel()
 			: base()
@@ -320,6 +323,8 @@ namespace AIS_Enterprise_AV.ViewModels
 
 			Privileges.LoadUserPrivileges(SelectedUser.Id);
 			InitializeChoiseProjects();
+
+			_logger.Info("test huy");
 			
 			LogingVisibility = Visibility.Collapsed;
 			ChoiseProjectsVisibility = Visibility.Visible;

@@ -2339,7 +2339,6 @@ namespace AIS_Enterprise_Data
 				{
 					loanTaker = AddDirectoryLoanTaker(loanTakerName);
 				}
-				;
 
 				AddInfoSafe(date, false, summ, currency, CashType.Наличка, "Выдача долга: " + loanTaker.Name);
 			}
@@ -2384,8 +2383,6 @@ namespace AIS_Enterprise_Data
 
 					_dc.InfoPayments.Add(infoPayment);
 				}
-
-				EditInfoMonthPayment(directoryWorker.Id, date, "PrepaymentCash", onePaySumm);
 
 				infoLoan.DateLoanPayment = dateLoanPayment;
 			}
@@ -2466,7 +2463,6 @@ namespace AIS_Enterprise_Data
 				{
 					loanTaker = AddDirectoryLoanTaker(loanTakerName);
 				}
-				;
 			}
 
 			var infoPrivateLoan = new InfoPrivateLoan
@@ -2750,35 +2746,7 @@ namespace AIS_Enterprise_Data
 
 		public void Log(LoggingOptions loggingOptions, string message, params string[] parameters)
 		{
-			string description = message;
-
-			if (parameters.Any())
-			{
-				description += ": ";
-			}
-
-			for (int i = 0; i < parameters.Count(); i++)
-			{
-				if (i != parameters.Count() - 1)
-				{
-					description += parameters[i] + "; ";
-				}
-				else
-				{
-					description += parameters[i];
-				}
-			}
-
-			var log = new Log
-			{
-				Date = DateTime.Now,
-				Level = loggingOptions.ToString(),
-				//Logger = DirectoryUser.CurrentUserName,
-				Description = description
-			};
-
-			_dc.Logs.Add(log);
-			_dc.SaveChanges();
+			
 		}
 
 		public IQueryable<Log> GetLogs(DateTime date)

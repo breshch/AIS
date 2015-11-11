@@ -20,6 +20,11 @@ namespace GasStatusWeb.Controllers
 			return View(gasBalanceStatus);
 		}
 
+		public double Index2()
+		{
+			return GetGasBalanceStatus();
+		}
+
 		private double GetGasBalanceStatus()
 		{
 			try

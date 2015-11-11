@@ -11,9 +11,21 @@ namespace AIS_Enterprise_AV.Auth
 	public static class Privileges
 	{
 		private static UserPrivileges[] _userPrivileges;
+		private static int _userId;
+
+		public static int UserId
+		{
+			get
+			{
+				return _userId;
+			}
+		}
+
 
 		public static void LoadUserPrivileges(int userId)
 		{
+			_userId = userId;
+
 			using (var bc = new BusinessContext())
 			{
 				_userPrivileges = bc.GetPrivileges(userId);
