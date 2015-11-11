@@ -3751,7 +3751,9 @@ namespace AIS_Enterprise_Data
 				_dc.InfoTotalEqualCashSafeToMinsks.First(c => c.Date.Year == prevDate.Year && c.Date.Month == prevDate.Month);
 
 			var costs = GetInfoCosts(prevDate.Year, prevDate.Month).ToList();
-			double totalSumm = costs.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
+			double totalSumm = costs
+				.Where(x => x.Currency == Currency.RUR)
+				.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
 
 			totalCash.SafeCash = prevTotalCash.SafeCash + totalSumm;
 
@@ -3776,7 +3778,9 @@ namespace AIS_Enterprise_Data
 							c.Date.Month == prevDateMonth.Month);
 
 					var costsMonth = GetInfoCosts(prevDateMonth.Year, prevDateMonth.Month).ToList();
-					double totalSummMonth = costsMonth.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
+					double totalSummMonth = costsMonth
+						.Where(x => x.Currency == Currency.RUR)
+						.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
 
 					totalCashMonth.SafeCash = prevTotalCashMonth.SafeCash + totalSummMonth;
 					_dc.InfoTotalEqualCashSafeToMinsks.Add(totalCashMonth);

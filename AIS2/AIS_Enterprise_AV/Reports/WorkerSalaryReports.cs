@@ -307,7 +307,8 @@ namespace AIS_Enterprise_AV.Reports
 
 				if (minskSum.HasValue)
 				{
-					var costsToPeriod = bc.GetInfoCosts(new DateTime(startDate.Year, startDate.Month, 1), startDate).ToArray();
+					var costsToPeriod = bc.GetInfoCosts(new DateTime(startDate.Year, startDate.Month, 1), 
+						new DateTime(year, month, DateTime.DaysInMonth(year, month))).ToArray();
 					var costsSum = costsToPeriod
 						.Where(x => x.Currency == Currency.RUR)
 						.Sum(x => x.IsIncoming ? x.Summ : -x.Summ);
@@ -318,8 +319,7 @@ namespace AIS_Enterprise_AV.Reports
 						ExcelHorizontalAlignment.Center, ExcelBorderStyle.None);
 
 					indexRow++;
-					foreach (
-						var totals in totalSums.Where(x => x.Key != Currency.RUR && (x.Value.Expence > 0 || x.Value.Incoming > 0)))
+					foreach (var totals in totalSums.Where(x => x.Key != Currency.RUR && (x.Value.Expence > 0 || x.Value.Incoming > 0)))
 					{
 						double sum = costsToPeriod.Where(x => x.Currency == totals.Key)
 							.Sum(x => x.IsIncoming ? x.Summ : -x.Summ);

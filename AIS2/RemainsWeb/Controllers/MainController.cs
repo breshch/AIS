@@ -46,7 +46,7 @@ namespace RemainsWeb.Controllers
 				var sums = new Dictionary<Currency, double>();
 			    if (minskSum.HasValue)
 			    {
-				    var costsToPeriod = bc.GetInfoCosts(new DateTime(startDate.Year, startDate.Month, 1), date).ToArray();
+				    var costsToPeriod = bc.GetInfoCosts(new DateTime(startDate.Year, startDate.Month, 1), date.AddMonths(1)).ToArray();
 				    var costsSum = costsToPeriod
 					    .Where(x => x.Currency == Currency.RUR)
 					    .Sum(x => x.IsIncoming ? x.Summ : -x.Summ);
