@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,15 +28,18 @@ namespace AIS_Enterprise_Global.Helpers
 					        HtmlDocument doc = new HtmlDocument();
 					        doc.LoadHtml(html);
 
-					        var cells = doc.DocumentNode.SelectNodes(@"//div[@class='pk_cells']");
+							var cells = doc.DocumentNode.SelectNodes(@"//div[@class='ProductionCalendar_grid']");
 
 					        var holidays = new List<DateTime>();
 
 					        int currentMonth = 1;
 					        foreach (var monthCells in cells)
 					        {
-						        foreach (
-							        var nodeTd in monthCells.ChildNodes.Where(n => n.Attributes.Any(a => a.Value == "pk_holiday pie")))
+								var days = monthCells.ChildNodes.First(n => n.Attributes.Any(a => a.Value == "ProductionCalendar_cells"))
+							        .ChildNodes.Where(n => n.Attributes.Any(a => a.Value == "ProductionCalendar_holiday"))
+									.ToArray();
+
+								foreach (var nodeTd in days)
 						        {
 							        int day = int.Parse(nodeTd.InnerText);
 							        var holiday = new DateTime(year, currentMonth, day);
