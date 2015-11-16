@@ -68,9 +68,25 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
             view.Show();
         }
 
+	    private void RecalculateTotalCarPart()
+	    {
+			TotalCarPartsCount = new ObservableCollection<ContainerCountCarParts>
+			{
+				new ContainerCountCarParts
+				{
+					Text = "Итого",
+					Count = CurrentContainerCarParts.Sum(p => p.CountCarParts)
+				}
+			};
+	    }
+
+
+
         private void viewModel_AddingCarPart(CurrentContainerCarPart currentContainerCarPart)
         {
-            CurrentContainerCarParts.Add(currentContainerCarPart);     
+            CurrentContainerCarParts.Add(currentContainerCarPart);
+
+			RecalculateTotalCarPart();
         }
 
         private void Edit(object parameter)
@@ -83,10 +99,15 @@ namespace AIS_Enterprise_AV.ViewModels.Currents.Base
             var carPart = viewModel.CurrentNewContainerCarPart;
             CurrentContainerCarParts.RemoveAt(index);
             CurrentContainerCarParts.Insert(index, carPart);
+
+			RecalculateTotalCarPart();
         }
+
         private void Remove(object parameter)
         {
             CurrentContainerCarParts.Remove(SelectedCurrentContainerCarPart);
+
+			RecalculateTotalCarPart();
         }
 
         private bool IsSelectedCarPart(object parameter)

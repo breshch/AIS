@@ -12,8 +12,8 @@ namespace AIS_Enterprise_Data
 {
 	public class DataContext : DbContext
 	{
-		public DataContext()
-			: base("AV_Dev")
+		public DataContext(string connectionName)
+			: base(connectionName)
 		{
 		}
 

@@ -32,7 +32,7 @@ namespace AIS_Enterprise_AV.ViewModels
 	{
 		#region Base
 
-		private Logger _logger = LogManager.GetCurrentClassLogger();
+		//private Logger _logger = LogManager.GetCurrentClassLogger();
 
 		public MainViewModel()
 			: base()
@@ -258,6 +258,7 @@ namespace AIS_Enterprise_AV.ViewModels
 		}
 		private void ChangeUser(object parameter)
 		{
+			RefreshUsers();
 			LogingVisibility = Visibility.Visible;
 			ChoiseProjectsVisibility = Visibility.Collapsed;
 		}
@@ -324,16 +325,12 @@ namespace AIS_Enterprise_AV.ViewModels
 			Privileges.LoadUserPrivileges(SelectedUser.Id);
 			InitializeChoiseProjects();
 
-			_logger.Info("test huy");
+			//_logger.Info("test huy");
 			
 			LogingVisibility = Visibility.Collapsed;
 			ChoiseProjectsVisibility = Visibility.Visible;
 
-			//HelperMethods.ShowView(new MainProjectChoiseViewModel(), new MainProjectChoiseView(), window);
 			passwordBox.Password = null;
-
-			//window.Visibility = Visibility.Visible;
-			//IsAdminButtonsVisibility = Privileges.HasAccess(UserPrivileges.ButtonsVisibility_AdminButtons);
 		}
 
 		private Timer _timer;

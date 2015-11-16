@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
@@ -27,10 +28,14 @@ namespace AIS_Enterprise_Global.ViewModels.Directories
 
         private void Edit(object parameter)
         {
-            var passwordBox = parameter as PasswordBox;
+	        var window = parameter as Window;
+
+			var passwordBox = window.FindName("PasswordBoxPass") as PasswordBox;
             string password = passwordBox.Password;
 
             BC.EditDirectoryUser(_userId, DirectoryUserName, password, SelectedDirectoryUserStatus);
+
+			window.Close();
         }
         
         #endregion

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -28,17 +30,36 @@ namespace AIS_Enterprise_Data
 
 		public BusinessContext()
 		{
-			_dc = new DataContext();
+			string connectionName = AppSettingsHelper.GetConnectionName();
+
+			_dc = new DataContext(connectionName);
+
+			bool exists = _dc.Database.Exists();
+			if (!exists)
+			{
+				connectionName = "AV_Internal";
+
+				AppSettingsHelper.SetConnectionName(connectionName);
+
+				if (_dc != null)
+				{
+					_dc.Dispose();
+				}
+
+				_dc = new DataContext(connectionName);
+			}
 		}
 
 		public virtual void RefreshContext()
 		{
+			string connectionName = AppSettingsHelper.GetConnectionName();
+
 			if (_dc != null)
 			{
 				_dc.Dispose();
 			}
 
-			_dc = new DataContext();
+			_dc = new DataContext(connectionName);
 		}
 
 		public virtual void Dispose()
@@ -1776,8 +1797,6 @@ namespace AIS_Enterprise_Data
 
 		public DirectoryUser AddDirectoryUser(string userName, string password, DirectoryUserStatus userStatus)
 		{
-			string transcriptionName = userName.Unidecode().Replace(" ", "").Replace("'", "");
-
 			var user = new DirectoryUser
 			{
 				UserName = userName,
@@ -1785,11 +1804,20 @@ namespace AIS_Enterprise_Data
 			};
 
 			_dc.DirectoryUsers.Add(user);
+
+			string salt = "HjjfT2434GEFd!!#3435a%^645";
+			var hash = CryptoHelper.GetHash(password + salt);
+
+			var auth = new Auth
+			{
+				DirectoryUser = user,
+				Salt = salt,
+				Hash = hash,
+			};
+
+			_dc.Auths.Add(auth);
+
 			_dc.SaveChanges();
-
-			//DBCustomQueries.AddUser(_dc, transcriptionName, password);
-
-			_dc.Database.Connection.ConnectionString = "";
 
 			return user;
 		}
@@ -1798,8 +1826,6 @@ namespace AIS_Enterprise_Data
 		{
 			var userStatus = _dc.DirectoryUserStatuses.First(s => s.Name == "Администратор");
 
-			string transcriptionName = userName.Unidecode().Replace(" ", "").Replace("'", "");
-
 			var user = new DirectoryUser
 			{
 				UserName = userName,
@@ -1809,23 +1835,12 @@ namespace AIS_Enterprise_Data
 			_dc.DirectoryUsers.Add(user);
 			_dc.SaveChanges();
 
-			//DBCustomQueries.AddUser(_dc, transcriptionName, password);
-
 			return user;
-		}
-
-		public void AddUserButler()
-		{
-			DBCustomQueries.AddUserButler(_dc);
 		}
 
 		public void EditDirectoryUser(int userId, string userName, string password, DirectoryUserStatus userStatus)
 		{
-			string transcriptionName = userName.Unidecode().Replace(" ", "").Replace("'", "");
-
-
 			var user = _dc.DirectoryUsers.Find(userId);
-
 			user.UserName = userName;
 
 			var prevCurrentUserStatus = user.CurrentUserStatus;
@@ -1837,13 +1852,19 @@ namespace AIS_Enterprise_Data
 			_dc.CurrentUserStatuses.Remove(prevCurrentUserStatus);
 			_dc.SaveChanges();
 
-			//DBCustomQueries.EditUser(_dc, prevName, userName, password);
+			var auth = _dc.Auths.First(x => x.DirectoryUserId == userId);
+			var hash = CryptoHelper.GetHash(password + auth.Salt);
+			auth.Hash = hash;
+
+			_dc.SaveChanges();
 		}
 
 
 		public void RemoveDirectoryUser(DirectoryUser user)
 		{
 			_dc.DirectoryUsers.Remove(user);
+			var auth = _dc.Auths.First(x => x.DirectoryUserId == user.Id);
+			_dc.Auths.Remove(auth);
 
 			_dc.SaveChanges();
 		}

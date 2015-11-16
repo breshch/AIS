@@ -16,7 +16,10 @@ namespace AIS_Enterprise_Data
 			var sha1 = new SHA1CryptoServiceProvider();
 			var sha1Data = sha1.ComputeHash(data);
 
-			return Encoding.ASCII.GetString(sha1Data);
+			string delimitedHexHash = BitConverter.ToString(sha1Data);
+			return delimitedHexHash.Replace("-", "");
+
+			//return Encoding.ASCII.GetString(sha1Data).;
 		}
 	}
 }

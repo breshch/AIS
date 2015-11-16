@@ -52,6 +52,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
@@ -74,6 +75,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="CryptoHelper.cs" />
     <Compile Include="Currents\CurrentContainerCarPart.cs" />
     <Compile Include="Directories\Auth.cs" />

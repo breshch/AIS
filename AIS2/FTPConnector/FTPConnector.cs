@@ -349,7 +349,7 @@ namespace FTP
             GetResponse(directory, WebRequestMethods.Ftp.RemoveDirectory);
         }
 
-        private FtpWebResponse GetResponse(string path, string methodFtp)
+        public FtpWebResponse GetResponse(string path, string methodFtp)
         {
             var ftpRequest = (FtpWebRequest)WebRequest.Create(Path.Combine(_defaultFTPFolder, path));
 	        ftpRequest.UsePassive = false;

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Windows;
 using AIS_Enterprise_AV.Helpers.LoggerLayoutRenderers;
 using AIS_Enterprise_AV.ViewModels;

@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 using System.Windows;
 using FTP;
@@ -17,7 +19,6 @@ namespace Updater
 	{
 		private FTPConnector _ftpConnector;
 		private DateTime _dateBackup;
-		private const string DefaultFTPFolder = "ftp://172.16.0.1/";
 		private readonly string PathApplication;
 		private bool isUpdating = false;
 
@@ -30,7 +31,14 @@ namespace Updater
 
 			PathApplication = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AIS_Enterprise_AV");
 
-			_ftpConnector = new FTPConnector("FTPUSER", "Mp~7200~aA", DefaultFTPFolder);
+			string ip = "89.20.42.182";
+			if (!AvailabilityHelper.IsOnline(ip))
+			{
+				ip = "172.16.0.1";
+			}
+
+			_ftpConnector = new FTPConnector("FTPUSER", "Mp~7200~aA", "ftp://" + ip);
+
 			_ftpConnector.OnGetFileInfo += _ftpConnector_OnGetFileInfo;
 			_ftpConnector.OnFileSizeLoaded += _ftpConnector_OnFileSizeLoaded;
 
