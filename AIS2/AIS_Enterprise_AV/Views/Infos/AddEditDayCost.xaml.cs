@@ -112,7 +112,13 @@ namespace AIS_Enterprise_AV.Views.Infos
 				ComboBoxCostItems.ItemsSource = _bc.GetDirectoryCostItems().ToList();
 			}
 
-			ComboBoxRCs_1.ItemsSource = _bc.GetDirectoryRCs().ToList();
+			var rcs = _bc.GetDirectoryRCs().ToList();
+			ComboBoxRCs_1.ItemsSource = rcs;
+			if (rcs.Count == 1)
+			{
+				ComboBoxRCs_1.SelectedItem = rcs[0];
+				ComboBoxRCs_1.IsReadOnly = true;
+			}
 
 			_notes = _bc.GetDirectoryNotes().ToList();
 			OrderNotes();
@@ -137,9 +143,18 @@ namespace AIS_Enterprise_AV.Views.Infos
 			}
 
 			ComboBoxCostItems.SelectedItem = _infoCost.DirectoryCostItem;
-
-			ComboBoxRCs_1.ItemsSource = _bc.GetDirectoryRCs().ToList();
-			ComboBoxRCs_1.SelectedItem = _infoCost.DirectoryRC;
+			var rcs = _bc.GetDirectoryRCs().ToList();
+			ComboBoxRCs_1.ItemsSource = rcs;
+			if (rcs.Count == 1)
+			{
+				ComboBoxRCs_1.SelectedItem = rcs[0];
+				ComboBoxRCs_1.IsReadOnly = true;
+			}
+			else
+			{
+				ComboBoxRCs_1.SelectedItem = _infoCost.DirectoryRC;
+			}
+			
 
 			_notes = _bc.GetDirectoryNotes().ToList();
 			OrderNotes();

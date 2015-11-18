@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingsHelper.cs" />
+    <Compile Include="AvailabilityHelper.cs" />
     <Compile Include="CryptoHelper.cs" />
     <Compile Include="Currents\CurrentContainerCarPart.cs" />
     <Compile Include="Directories\Auth.cs" />

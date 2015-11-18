@@ -7,7 +7,7 @@
         Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
         WindowStartupLocation="CenterScreen"
         
-        Title="Главная форма" Height="Auto" SizeToContent="Height" Width="350" >
+        Title="{Binding Title}" Height="Auto" SizeToContent="Height" Width="350" >
 
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Closing">

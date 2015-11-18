@@ -150,6 +150,7 @@ namespace AIS_Enterprise_Global.ViewModels
                 var postSalary = BC.GetDirectoryPostSalaryByDate(currentCompanyAndPost.DirectoryPost.Id, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
 
                 currentCompanyAndPost.Salary = IsAdminSalary ? postSalary.AdminWorkerSalary.Value : postSalary.UserWorkerSalary;
+				currentCompanyAndPost.HalfSalary = postSalary.UserWorkerHalfSalary ?? 0;
 
                 if (CurrentCompaniesAndPosts.Any())
                 {

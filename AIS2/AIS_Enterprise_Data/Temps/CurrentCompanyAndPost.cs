@@ -11,5 +11,6 @@ namespace AIS_Enterprise_Data.Temps
         public bool IsTwoCompanies { get; set; }
         public bool IsTemporaryPost { get; set; }
         public double Salary { get; set; }
+	    public double HalfSalary { get; set; }
     }
 }

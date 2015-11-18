@@ -25,22 +25,30 @@ namespace AIS_Enterprise_Data
 		#region Base
 
 		private const string TYPE_OF_POST_OFFICE = "Офис";
+		private static bool _isConnected = false;
 
 		private DataContext _dc;
 
 		public BusinessContext()
 		{
 			string connectionName = AppSettingsHelper.GetConnectionName();
+			if (!_isConnected)
+			{
+				string serverIP = AppSettingsHelper.GetConnectionStringIP();
+				if (!AvailabilityHelper.IsOnline(serverIP))
+				{
+					connectionName = "AV_Internal";
+					AppSettingsHelper.SetConnectionName(connectionName);
+				}
+
+				_isConnected = true;
+			}
 
 			_dc = new DataContext(connectionName);
 
 			bool exists = _dc.Database.Exists();
 			if (!exists)
 			{
-				connectionName = "AV_Internal";
-
-				AppSettingsHelper.SetConnectionName(connectionName);
-
 				if (_dc != null)
 				{
 					_dc.Dispose();

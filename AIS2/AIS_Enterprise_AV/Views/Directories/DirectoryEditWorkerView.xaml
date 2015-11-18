@@ -159,9 +159,9 @@
                     <DataGridTextColumn Header="Компания" Binding="{Binding DirectoryPost.DirectoryCompany.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Совм-во" Binding="{Binding IsTwoCompanies, Converter={StaticResource booleanToStringValueConverter}}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                     <DataGridTextColumn Header="Должность" Binding="{Binding DirectoryPost.Name}" Width="0.8*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <!--<DataGridTextColumn Header="Оклад" Binding="{Binding Salary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                    <DataGridTextColumn Header="Доп. оклад" Binding="{Binding DirectoryPost.UserWorkerHalfSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>-->
-                    <DataGridTextColumn Header="Дата" Binding="{Binding PostChangeDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+					<DataGridTextColumn Header="Оклад" Binding="{Binding Salary}" Width="0.6*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+					<DataGridTextColumn Header="Доп. оклад" Binding="{Binding HalfSalary}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+					<DataGridTextColumn Header="Дата" Binding="{Binding PostChangeDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="0.7*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 </DataGrid.Columns>
             </DataGrid>
 

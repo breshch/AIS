@@ -50,6 +50,8 @@ namespace AIS_Enterprise_AV.ViewModels
 			ImportsCommand = new RelayCommand(Imports);
 			CarPartRemainsToDbCommand = new RelayCommand(CarPartRemainsToDb);
 
+			Title = "Главная форма " + AppSettingsHelper.GetApplicationName();
+
 			EnteringCommand = new RelayCommand(Entering);
 
 			IsNotInitializedDB = true;
@@ -92,6 +94,8 @@ namespace AIS_Enterprise_AV.ViewModels
 
 
 		#region Properties
+
+		public string Title { get; set; }
 
 		private bool _isNotInitializeDB;
 		public bool IsNotInitializedDB
