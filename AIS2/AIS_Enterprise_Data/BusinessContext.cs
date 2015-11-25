@@ -34,40 +34,30 @@ namespace AIS_Enterprise_Data
 			string connectionName = AppSettingsHelper.GetConnectionName();
 			if (!_isConnected)
 			{
-				string serverIP = AppSettingsHelper.GetConnectionStringIP();
+				string serverIP = AppSettingsHelper.GetConnectionStringIP(connectionName);
 				if (!AvailabilityHelper.IsOnline(serverIP))
 				{
-					connectionName = "AV_Internal";
-					AppSettingsHelper.SetConnectionName(connectionName);
+					AppSettingsHelper.ChangeConnectionPostfix();
+					connectionName = AppSettingsHelper.GetConnectionName();
 				}
 
 				_isConnected = true;
 			}
 
-			_dc = new DataContext(connectionName);
-
-			bool exists = _dc.Database.Exists();
-			if (!exists)
-			{
-				if (_dc != null)
-				{
-					_dc.Dispose();
-				}
-
-				_dc = new DataContext(connectionName);
-			}
+			string connectionString = AppSettingsHelper.GetConnectionString(connectionName);
+			_dc = new DataContext(connectionString);
 		}
 
 		public virtual void RefreshContext()
 		{
-			string connectionName = AppSettingsHelper.GetConnectionName();
-
 			if (_dc != null)
 			{
 				_dc.Dispose();
 			}
 
-			_dc = new DataContext(connectionName);
+			string connectionName = AppSettingsHelper.GetConnectionName();
+			string connectionString = AppSettingsHelper.GetConnectionString(connectionName);
+			_dc = new DataContext(connectionString);
 		}
 
 		public virtual void Dispose()

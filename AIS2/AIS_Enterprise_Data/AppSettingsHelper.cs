@@ -10,12 +10,19 @@ namespace AIS_Enterprise_Data
 	public static class AppSettingsHelper
 	{
 		private const string ConnectionNameKey = "ConnectionName";
-		private const string ApplicationNameKey = "ApplicationName";
+
+		private static string _connectionString;
+		private static string _connectionPostfix = "_Remote";
 
 		public static string GetConnectionName()
 		{
 			var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-			return configuration.AppSettings.Settings[ConnectionNameKey].Value;
+			return configuration.AppSettings.Settings[ConnectionNameKey].Value + _connectionPostfix;
+		}
+
+		public static void ChangeConnectionPostfix()
+		{
+			_connectionPostfix = "_Local";
 		}
 
 		public static void SetConnectionName(string name)
@@ -26,17 +33,33 @@ namespace AIS_Enterprise_Data
 			ConfigurationManager.RefreshSection("appSettings");
 		}
 
-		public static string GetConnectionStringIP()
+		public static string GetConnectionStringIP(string connectionName)
 		{
-			string connectionName = GetConnectionName();
+			string encryptedConnectionName = CryptoHelper.Encrypt(connectionName);
+
 			var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-			return configuration.ConnectionStrings.ConnectionStrings[connectionName].ConnectionString.Split(';')[0].Substring(7);
+			string encryptedConnectionString = configuration.ConnectionStrings.ConnectionStrings[encryptedConnectionName].ConnectionString;
+			string decryptedConnectionString = CryptoHelper.Decrypt(encryptedConnectionString);
+			return decryptedConnectionString.Split(';')[0].Substring(7);
+		}
+
+		public static string GetConnectionString(string connectionName)
+		{
+			if (!string.IsNullOrEmpty(_connectionString))
+				return _connectionString;
+
+			string encryptedConnectionName = CryptoHelper.Encrypt(connectionName);
+
+			var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+			string encryptedConnectionString = configuration.ConnectionStrings.ConnectionStrings[encryptedConnectionName].ConnectionString;
+			_connectionString = CryptoHelper.Decrypt(encryptedConnectionString);
+			return _connectionString;
 		}
 
 		public static string GetApplicationName()
 		{
 			var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-			return configuration.AppSettings.Settings[ApplicationNameKey].Value;
+			return configuration.AppSettings.Settings[ConnectionNameKey].Value;
 		}
 	}
 }

@@ -408,13 +408,14 @@ namespace AIS_Enterprise_AV.ViewModels
 
 		private void CarPartRemainsToDb(object parameter)
 		{
-			var dialog = new OpenFileDialog();
-			if (dialog.ShowDialog() == DialogResult.OK)
-			{
-				string path = dialog.FileName;
-				IsNotInitializedDB = false;
-				Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertingCarPartRemainsToDb(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
-			}
+			CostsExcelToDB(parameter);
+			//var dialog = new OpenFileDialog();
+			//if (dialog.ShowDialog() == DialogResult.OK)
+			//{
+			//	string path = dialog.FileName;
+			//	IsNotInitializedDB = false;
+			//	Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertingCarPartRemainsToDb(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
+			//}
 		}
 		#endregion
 	}
