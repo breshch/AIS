@@ -143,7 +143,7 @@ namespace AIS_Enterprise_AV.Reports
             cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             cell.Style.Border.BorderAround(borderStyle);
             cell.Style.WrapText = true;
-            cell.Style.Numberformat.Format = value % 1 == 0 ? "#,##0" : "#,##0.0";
+            cell.Style.Numberformat.Format = value % 1 == 0 ? "#,##0" : "#,##0.00";
 			if (color != null)
 			{
 				cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
