@@ -142,6 +142,7 @@
         Version,
 		IsProcessingLastDateInMonthRemains,
 		MinDateCostChange,
-		MaxDateCostChange
+		MaxDateCostChange,
+		Staffing
     }
 }

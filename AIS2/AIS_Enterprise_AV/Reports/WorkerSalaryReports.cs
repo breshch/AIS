@@ -435,6 +435,33 @@ namespace AIS_Enterprise_AV.Reports
 				Helpers.CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_OVERTIME - 1, INDEX_HEADER_COLUMN_POST_NAME_OVERTIME, "Должность", colorTransparent);
 
 				var workers = bc.GetDirectoryWorkers(year, month, false).ToList();
+				var officeWorkers = bc.GetDirectoryWorkers(year, month, true).ToList();
+
+				int staffing = bc.GetParameterValue<int>(ParameterType.Staffing);
+				int countWarehouseWorkers = staffing - officeWorkers.Count;
+
+				if (workers.Count > countWarehouseWorkers)
+				{
+					var firstDateInMonth = new DateTime(year, month, 1);
+					var tmpWorkers = workers
+						.Where(x => x.StartDate.Date <= firstDateInMonth.Date).ToList();
+
+					var tmpWorkersId = tmpWorkers.Select(x => x.Id).ToArray();
+					var reservedWorkers = workers.Where(x => !tmpWorkersId.Any(y => y == x.Id))
+						.OrderBy(x => x.StartDate.Date)
+						.ToList();
+
+					int countNeededWorkers = countWarehouseWorkers - tmpWorkers.Count;
+					for (int i = 0; i < countNeededWorkers; i++)
+					{
+						if (reservedWorkers.Count < (i + 1))
+							break;
+
+						tmpWorkers.Add(reservedWorkers[i]);
+					}
+
+					workers = tmpWorkers;
+				}
 
 				var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
 				int indexRowWorker = INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_OVERTIME;
@@ -622,6 +649,33 @@ namespace AIS_Enterprise_AV.Reports
 				var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
 
 				var warehouseWorkers = bc.GetDirectoryWorkers(year, month, false).ToList();
+				var officeWorkers = bc.GetDirectoryWorkers(year, month, true).ToList();
+
+				int staffing = bc.GetParameterValue<int>(ParameterType.Staffing);
+				int countWarehouseWorkers = staffing - officeWorkers.Count;
+
+				if (warehouseWorkers.Count > countWarehouseWorkers)
+				{
+					var firstDateInMonth = new DateTime(year, month, 1);
+					var tmpWorkers = warehouseWorkers
+						.Where(x => x.StartDate.Date <= firstDateInMonth.Date).ToList();
+
+					var tmpWorkersId = tmpWorkers.Select(x => x.Id).ToArray();
+					var reservedWorkers = warehouseWorkers.Where(x => !tmpWorkersId.Any(y => y == x.Id))
+						.OrderBy(x => x.StartDate.Date)
+						.ToList();
+
+					int countNeededWorkers = countWarehouseWorkers - tmpWorkers.Count;
+					for (int i = 0; i < countNeededWorkers; i++)
+					{
+						if (reservedWorkers.Count < (i + 1))
+							break;
+
+						tmpWorkers.Add(reservedWorkers[i]);
+					}
+
+					warehouseWorkers = tmpWorkers;
+				}
 
 				var overTimes = bc.GetInfoOverTimes(year, month).ToList();
 				var weekEndsInMonth = bc.GetHolidays(year, month).ToList();
@@ -632,7 +686,7 @@ namespace AIS_Enterprise_AV.Reports
 				int countWorkDayInMonth = bc.GetCountWorkDaysInMonth(year, month);
 
 
-				var sw2 = Stopwatch.StartNew();
+				//var sw2 = Stopwatch.StartNew();
 				foreach (var overTime in overTimes)
 				{
 					var overTimeRCs = currentRCs.Where(r => r.InfoOverTimeId == overTime.Id).ToList();
@@ -684,7 +738,7 @@ namespace AIS_Enterprise_AV.Reports
 					}
 				}
 
-				Debug.WriteLine("Before : " + sw2.ElapsedMilliseconds);
+				//Debug.WriteLine("Before : " + sw2.ElapsedMilliseconds);
 
 				double totalCardAV = 0;
 				double totalPrepaymentBankTransactionAV = 0;
@@ -855,9 +909,6 @@ namespace AIS_Enterprise_AV.Reports
 						infoMonth.CardFenox + totalOverTimeFenox + cashFenox;
 					totalCashPlusOverTimes += totalOverTimeAV + cashAV + totalOverTimeFenox + cashFenox;
 				}
-
-
-				var officeWorkers = bc.GetDirectoryWorkers(year, month, true).ToList();
 
 				foreach (var worker in officeWorkers)
 				{
