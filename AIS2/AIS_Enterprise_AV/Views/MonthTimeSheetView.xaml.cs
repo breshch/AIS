@@ -77,224 +77,9 @@ namespace AIS_Enterprise_AV.Views
 
         private readonly Timer _timerAbsentDates = new Timer();
 
-        private enum PostName
-        {
-            ЗавСкладом,
-            Грузчик,
-            Карщик,
-            Кладовщик,
-            ЗамЗавСкладом,
-            Оператор,
-            Оклейщик,
-            КарщикКладовщик,
-            Логист,
-            БригадирОклейщик
-        }
-
         public MonthTimeSheetView()
         {
             InitializeComponent();
-
-            
-
-            
-
-            //ScreenWight();
-            //_bc.EditParameter("TotalCard", "121874,57");
-
-            //_bc.EditParameter("LastDate", DateTime.Now.AddDays(-3).ToString());
-            //Notes to upper 
-            //var notes = _bc.GetDirectoryNotes();
-            //foreach (var note in notes)
-            //{
-            //    note.Description = note.Description.Substring(0, 1).ToUpper() + note.Description.Substring(1);
-            //}
-            //_bc.SaveChanges();
-
-
-            //var infoCash = _bc.DataContext.InfoCashes.First();
-            //infoCash.Cash = 8919411.40;
-            //_bc.SaveChanges();
-
-            //foreach (var cost in _bc.DataContext.InfoCosts.Where(c => c.GroupId == Guid.Empty))
-            //{
-            //    cost.GroupId = Guid.NewGuid();
-            //}
-
-            //_bc.SaveChanges();
-
-            //_bc.DataContext.InfoCosts.RemoveRange(_bc.DataContext.InfoCosts);
-            //_bc.SaveChanges();
-            ////_bc.SaveChanges();
-
-            //var _dc = _bc.DataContext;
-
-            //foreach (var item in _dc.InfoCosts.Include(c => c.CurrentNotes.Select(n => n.DirectoryNote)).ToList().Where(c => c.CurrentNotes.First().DirectoryNote.Description == "Брак"))
-            //{
-            //    item.DirectoryTransportCompanyId = 4;
-
-            //}
-            //_dc.SaveChanges();
-
-            //int id = _dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary").Id;
-            //_dc.CurrentUserStatusPrivileges.RemoveRange(_dc.CurrentUserStatusPrivileges.Where(p => p.DirecoryUserStatusPrivilegeId == id));
-
-            //_dc.SaveChanges();
-            //_dc.DirectoryUserStatusPrivileges.Remove(_dc.DirectoryUserStatusPrivileges.First(p => p.Name == "MenuVisibility_Reports_ReportSalary"));
-
-
-            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_AdminPanel_Logs" });
-            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportSalaryMinsk" });
-            //_dc.DirectoryUserStatusPrivileges.Add(new DirectoryUserStatusPrivilege { Name = "MenuVisibility_Reports_ReportCash" });
-
-            //_dc.DirectoryWorkers.Find(78).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 9).BirthDays = 0;
-            //_dc.DirectoryWorkers.Find(87).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
-            //_dc.DirectoryWorkers.Find(88).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
-            //_dc.DirectoryWorkers.Find(89).InfoMonthes.First(m => m.Date.Year == 2014 && m.Date.Month == 8).BirthDays = 500;
-
-            #region Posts
-            //foreach (var post in _dc.DirectoryPosts.ToList())
-            //{
-            //    PostName postNameEnum;
-            //    if (Enum.TryParse(post.Name, out postNameEnum))
-            //    {
-            //        var postSalary = new DirectoryPostSalary
-            //        {
-            //            Date = new DateTime(2011, 01, 01)
-            //        };
-
-            //        switch (postNameEnum)
-            //        {
-            //            case PostName.ЗавСкладом:
-            //                postSalary.UserWorkerSalary = 30000;
-            //                postSalary.AdminWorkerSalary = 42000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.Грузчик:
-            //                postSalary.UserWorkerSalary = 22000;
-            //                postSalary.AdminWorkerSalary = 22000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.Карщик:
-            //                postSalary.UserWorkerSalary = 25000;
-            //                postSalary.AdminWorkerSalary = 25000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.Кладовщик:
-            //                postSalary.UserWorkerSalary = 25000;
-            //                postSalary.AdminWorkerSalary = 25000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.ЗамЗавСкладом:
-            //                postSalary.UserWorkerSalary = 30000;
-            //                postSalary.AdminWorkerSalary = 30000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.Оператор:
-            //                postSalary.UserWorkerSalary = 25000;
-            //                postSalary.AdminWorkerSalary = 25000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.Оклейщик:
-            //                postSalary.UserWorkerSalary = 17000;
-            //                postSalary.AdminWorkerSalary = 17000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.КарщикКладовщик:
-            //                postSalary.UserWorkerSalary = 27000;
-            //                postSalary.AdminWorkerSalary = 27000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.Логист:
-            //                postSalary.UserWorkerSalary = 25000;
-            //                postSalary.AdminWorkerSalary = 25000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //            case PostName.БригадирОклейщик:
-            //                postSalary.UserWorkerSalary = 18000;
-            //                postSalary.AdminWorkerSalary = 18000;
-            //                postSalary.UserWorkerHalfSalary = 10000;
-            //                break;
-            //        }
-
-            //        post.DirectoryPostSalaries.Add(postSalary);
-            //    }
-            //}
-
-
-            //var officePost = _dc.DirectoryPosts.First(p => p.Name == "ГлавБух_Чернецкая");
-            //var officePostSalary = new DirectoryPostSalary
-            //{
-            //    Date = new DateTime(2011, 01, 01),
-            //    UserWorkerSalary = 45000,
-            //    AdminWorkerSalary = 45000,
-            //    UserWorkerHalfSalary = 45000
-            //};
-            //officePost.DirectoryPostSalaries.Add(officePostSalary);
-
-            //officePost = _dc.DirectoryPosts.First(p => p.Name == "Бухгалтер_Казёнова");
-            //officePostSalary = new DirectoryPostSalary
-            //{
-            //    Date = new DateTime(2011, 01, 01),
-            //    UserWorkerSalary = 40000,
-            //    AdminWorkerSalary = 40000,
-            //    UserWorkerHalfSalary = 0
-            //};
-            //officePost.DirectoryPostSalaries.Add(officePostSalary);
-
-            //officePost = _dc.DirectoryPosts.First(p => p.Name == "Бухгалтер_Дикрет_Губашева");
-            //officePostSalary = new DirectoryPostSalary
-            //{
-            //    Date = new DateTime(2011, 01, 01),
-            //    UserWorkerSalary = 0,
-            //    AdminWorkerSalary = 0,
-            //    UserWorkerHalfSalary = 0
-            //};
-            //officePost.DirectoryPostSalaries.Add(officePostSalary);
-
-            //officePost = _dc.DirectoryPosts.First(p => p.Name == "Бухгалтер_Гаганова");
-            //officePostSalary = new DirectoryPostSalary
-            //{
-            //    Date = new DateTime(2011, 01, 01),
-            //    UserWorkerSalary = 30000,
-            //    AdminWorkerSalary = 30000,
-            //    UserWorkerHalfSalary = 0
-            //};
-            //officePost.DirectoryPostSalaries.Add(officePostSalary);
-
-            //officePost = _dc.DirectoryPosts.First(p => p.Name == "Бухгалтер_Крицкая");
-            //officePostSalary = new DirectoryPostSalary
-            //{
-            //    Date = new DateTime(2011, 01, 01),
-            //    UserWorkerSalary = 30000,
-            //    AdminWorkerSalary = 30000,
-            //    UserWorkerHalfSalary = 0
-            //};
-            //officePost.DirectoryPostSalaries.Add(officePostSalary);
-
-            //officePost = _dc.DirectoryPosts.First(p => p.Name == "Бухгалтер_Рыжова");
-            //officePostSalary = new DirectoryPostSalary
-            //{
-            //    Date = new DateTime(2011, 01, 01),
-            //    UserWorkerSalary = 12000,
-            //    AdminWorkerSalary = 12000,
-            //    UserWorkerHalfSalary = 13000
-            //};
-            //officePost.DirectoryPostSalaries.Add(officePostSalary);
-
-            //officePost = _dc.DirectoryPosts.First(p => p.Name == "Директор");
-            //officePostSalary = new DirectoryPostSalary
-            //{
-            //    Date = new DateTime(2011, 01, 01),
-            //    UserWorkerSalary = 35000,
-            //    AdminWorkerSalary = 35000,
-            //    UserWorkerHalfSalary = 30000
-            //};
-            //officePost.DirectoryPostSalaries.Add(officePostSalary); 
-            #endregion
-
-            //_dc.InfoCosts.RemoveRange(_dc.InfoCosts.Where(c => c.Date.Year == 2014 && c.Date.Month == 10));
-            //_dc.SaveChanges();
 
             InitializeGif();
             InitializePrivileges();
@@ -655,6 +440,8 @@ namespace AIS_Enterprise_AV.Views
                         monthTimeSheetWorker.SalaryInHour = Math.Round((isAdminSalary ? postSalary.AdminWorkerSalary.Value :
                             postSalary.UserWorkerSalary) / countWorkDaysInMonth / 8, 2);
                         monthTimeSheetWorker.IsDeadSpirit = worker.IsDeadSpirit;
+	                    monthTimeSheetWorker.IsFired = worker.FireDate.HasValue && 
+							worker.FireDate.Value.Year == _currentYear && worker.FireDate.Value.Month == _currentMonth;
 
                         monthTimeSheetWorker.Hours = new string[lastDateInMonth.Day];
                     }
@@ -1395,6 +1182,12 @@ namespace AIS_Enterprise_AV.Views
             var monthTimeSheetWorker = _monthTimeSheetWorkers[indexRow];
 
             e.Row.Background = monthTimeSheetWorker.IsOdd ? _brushOdd : _brushNoOdd;
+
+	        if (monthTimeSheetWorker.IsFired)
+	        {
+				var cell = DataGridMonthTimeSheet.GetCell(indexRow, 2);
+		        cell.Background = Brushes.LightSalmon;
+	        }
 
             for (int indexHour = 0; indexHour < _countLastDaysInMonth; indexHour++)
             {

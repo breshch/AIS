@@ -122,13 +122,17 @@
         Карточка
     }
 
-    public enum Currency
+    public enum Currency 
     {
         RUR,
         USD,
         EUR,
-        BYR
+        BYR,
     }
+
+	
+	
+
 
     public enum ParameterType
     {
@@ -145,4 +149,5 @@
 		MaxDateCostChange,
 		Staffing
     }
+	
 }

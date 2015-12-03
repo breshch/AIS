@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:valueConverters="clr-namespace:AIS_Enterprise_AV.Helpers.ValueConverters"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
+        
         Title="Список работников" Height="Auto" SizeToContent="Height" Width="900" MaxHeight="{Binding MaxHeightForm}">
 
     <i:Interaction.Triggers>

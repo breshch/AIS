@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
+        
         Title="Добавление компании и должности" Height="280" Width="400">
 
     <i:Interaction.Triggers>

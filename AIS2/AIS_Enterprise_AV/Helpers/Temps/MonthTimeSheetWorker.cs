@@ -32,5 +32,7 @@ namespace AIS_Enterprise_AV.Helpers.Temps
         public double? FinalSalary { get; set; }
         public bool IsOdd { get; set; }
         public bool IsDeadSpirit { get; set; }
+
+	    public bool IsFired { get; set; }
     }
 }

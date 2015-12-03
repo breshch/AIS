@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:res="clr-namespace:AIS_Enterprise_Global.Properties"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
+        
         Title="Добавление типа должности" Height="350" Width="450">
 
     <i:Interaction.Triggers>

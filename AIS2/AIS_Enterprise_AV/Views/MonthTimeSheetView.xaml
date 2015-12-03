@@ -9,7 +9,7 @@
         xmlns:resx="clr-namespace:AIS_Enterprise_AV.Properties"
         WindowStartupLocation="CenterScreen"
         Title="Месячный табель" 
-        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
+        
         Height="Auto" Width="Auto" SizeToContent="WidthAndHeight" Closing="Window_Closing">
 
     <Window.Resources>

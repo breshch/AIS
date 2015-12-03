@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
+        
         Title="{Binding AddEditPostSalaryTitle}" Height="330" Width="300">
 
     <i:Interaction.Triggers>

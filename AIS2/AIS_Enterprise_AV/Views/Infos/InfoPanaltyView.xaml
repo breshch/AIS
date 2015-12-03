@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen" 
-        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
+        
         Title="Штраф" Height="350" Width="380">
 
     <i:Interaction.Triggers>

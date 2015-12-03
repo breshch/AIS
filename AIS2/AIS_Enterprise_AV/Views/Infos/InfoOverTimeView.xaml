@@ -6,7 +6,7 @@
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:helpers="clr-namespace:AIS_Enterprise_AV.Helpers"
         WindowStartupLocation="CenterScreen"
-        Icon="/AIS_Enterprise;component/Images/Icons/icon.ico"
+        
         Title="Переработка" Height="430" Width="300">
 
     <i:Interaction.Triggers>
