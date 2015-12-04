@@ -97,6 +97,8 @@
                 
                 <DataGridTextColumn Binding="{Binding Incoming}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
                                      Width="0.8*"/>
+				<DataGridTextColumn CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
+                                     Width="0.2*"/>
                 <DataGridTextColumn Binding="{Binding Expense}" CellStyle="{StaticResource CenterTextAlignmentCellTotal}"
                                      Width="0.8*"/>
 
@@ -121,14 +123,10 @@
                 <DataGridTextColumn Header="ЦО" Binding="{Binding DirectoryRC.Name}"  IsReadOnly="True" Width="0.7*"/>
                 <DataGridTextColumn Header="Приход" Binding="{Binding IncomingSumm}" CellStyle="{StaticResource CenterTextAlignmentCell}"
                                      IsReadOnly="True" Width="0.8*"/>
-				<DataGridTextColumn Binding="{Binding IncomingCurrency}" CellStyle="{StaticResource CenterTextAlignmentCell}"
+				<DataGridTextColumn Header="¤" Binding="{Binding Currency}" CellStyle="{StaticResource CenterTextAlignmentCell}"
                                      IsReadOnly="True" Width="0.2*"/>
                 <DataGridTextColumn Header="Расход" Binding="{Binding ExpenseSumm}" CellStyle="{StaticResource CenterTextAlignmentCell}"
                                      IsReadOnly="True" Width="0.8*"/>
-				<DataGridTextColumn Binding="{Binding ExpenseCurrency}" CellStyle="{StaticResource CenterTextAlignmentCell}"
-                                     IsReadOnly="True" Width="0.2*"/>
-
-
 
 				<DataGridCheckBoxColumn Header="Возврат" Binding="{Binding IsReturn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="0.5*" Visibility="{Binding DataContext.ReturnVisibility,
                                         Source={StaticResource ProxyElement}}"/>

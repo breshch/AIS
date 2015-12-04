@@ -70,23 +70,13 @@ namespace AIS_Enterprise_Data.Temps
 		}
 
 	    [NotMapped]
-		public string IncomingCurrency
+		public Currency currency
 		{
 			 
-			get
-			{
-				return IsIncoming ? Currency.ToString() : null;
-			}
+			get { return currency; }
 		}
 
-		[NotMapped]
-		public string ExpenseCurrency
-		{
-			get
-			{
-				return !IsIncoming ? Currency.ToString() : null; ;
-			}
-		}
+		
 
     }
 }
