@@ -243,7 +243,14 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 							carPartName = GetValue(sheet.Cells[indexRow, 1].Value);
                         }
 
-                        bc.DataContext.BulkInsert(carPartsMemory);
+	                    foreach (var directoryCarPart in carPartsMemory)
+	                    {
+		                    bc.DataContext.DirectoryCarParts.Add(directoryCarPart);
+	                    }
+
+						bc.SaveChanges();
+
+                      //  bc.DataContext.BulkInsert(carPartsMemory);
 
                         carParts = bc.GetDirectoryCarParts().ToList();
 
@@ -252,7 +259,10 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                             currentCarPart.DirectoryCarPartId = carParts.First(p => p.FullCarPartName == currentCarPart.FullName).Id;
                         }
 
-                        bc.DataContext.BulkInsert(currentCarPartsMemory);
+	                    bc.DataContext.CurrentCarParts.AddRange(currentCarPartsMemory);
+						bc.SaveChanges();
+
+                        //bc.DataContext.BulkInsert(currentCarPartsMemory);
                     }
                 }
             }
@@ -346,7 +356,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
                                 bc.SaveChanges();
                             }
 
-                            double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 7].Value));
+                            double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 9].Value));
 
                             var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
                                 .OrderByDescending(c => c.Date)
@@ -365,16 +375,26 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 							carPartName = GetValue(sheet.Cells[indexRow, 1].Value);
                         }
 
-                        bc.DataContext.BulkInsert(carPartsMemory);
+						foreach (var directoryCarPart in carPartsMemory)
+						{
+							bc.DataContext.DirectoryCarParts.Add(directoryCarPart);
+						}
 
-                        carParts = bc.GetDirectoryCarParts().ToList();
+						bc.SaveChanges();
 
-                        foreach (var currentCarPart in currentCarPartsMemory)
-                        {
-                            currentCarPart.DirectoryCarPartId = carParts.First(p => p.FullCarPartName == currentCarPart.FullName).Id;
-                        }
+						//  bc.DataContext.BulkInsert(carPartsMemory);
 
-                        bc.DataContext.BulkInsert(currentCarPartsMemory);
+						carParts = bc.GetDirectoryCarParts().ToList();
+
+						foreach (var currentCarPart in currentCarPartsMemory)
+						{
+							currentCarPart.DirectoryCarPartId = carParts.First(p => p.FullCarPartName == currentCarPart.FullName).Id;
+						}
+
+						bc.DataContext.CurrentCarParts.AddRange(currentCarPartsMemory);
+						bc.SaveChanges();
+
+						//bc.DataContext.BulkInsert(currentCarPartsMemory);
                     }
                 }
             }
@@ -469,7 +489,7 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 								bc.SaveChanges();
 							}
 
-							double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 7].Value));
+							double priceBase = double.Parse(GetValue(sheet.Cells[indexRow, 9].Value));
 
 							var lastCurrentCarPart = currentCarParts.Where(c => c.DirectoryCarPartId == equalCarPart.Id)
 								.OrderByDescending(c => c.Date)
@@ -488,7 +508,14 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 							carPartName = GetValue(sheet.Cells[indexRow, 1].Value);
 						}
 
-						bc.DataContext.BulkInsert(carPartsMemory);
+						foreach (var directoryCarPart in carPartsMemory)
+						{
+							bc.DataContext.DirectoryCarParts.Add(directoryCarPart);
+						}
+
+						bc.SaveChanges();
+
+						//  bc.DataContext.BulkInsert(carPartsMemory);
 
 						carParts = bc.GetDirectoryCarParts().ToList();
 
@@ -497,7 +524,10 @@ namespace AIS_Enterprise_AV.Helpers.ExcelToDB
 							currentCarPart.DirectoryCarPartId = carParts.First(p => p.FullCarPartName == currentCarPart.FullName).Id;
 						}
 
-						bc.DataContext.BulkInsert(currentCarPartsMemory);
+						bc.DataContext.CurrentCarParts.AddRange(currentCarPartsMemory);
+						bc.SaveChanges();
+
+						//bc.DataContext.BulkInsert(currentCarPartsMemory);
 					}
 				}
 			}

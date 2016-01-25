@@ -48,6 +48,11 @@ namespace AIS_Enterprise_Data
 			_dc = new DataContext(connectionString);
 		}
 
+		public static void SetWebParameter(bool isWeb)
+		{
+			AppSettingsHelper.SetWebParameter(isWeb);
+		}
+
 		public virtual void RefreshContext()
 		{
 			if (_dc != null)
@@ -3767,17 +3772,20 @@ namespace AIS_Enterprise_Data
 
 			var prevDate = date.AddMonths(-1);
 			var prevTotalCash =
-				_dc.InfoTotalEqualCashSafeToMinsks.First(c => c.Date.Year == prevDate.Year && c.Date.Month == prevDate.Month);
+				_dc.InfoTotalEqualCashSafeToMinsks.FirstOrDefault(c => c.Date.Year == prevDate.Year && c.Date.Month == prevDate.Month);
 
-			var costs = GetInfoCosts(prevDate.Year, prevDate.Month).ToList();
-			double totalSumm = costs
-				.Where(x => x.Currency == Currency.RUR)
-				.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
+			if (prevTotalCash != null)
+			{
+				var costs = GetInfoCosts(prevDate.Year, prevDate.Month).ToList();
+				double totalSumm = costs
+					.Where(x => x.Currency == Currency.RUR)
+					.Sum(c => c.IsIncoming ? c.Summ : -c.Summ);
 
-			totalCash.SafeCash = prevTotalCash.SafeCash + totalSumm;
+				totalCash.SafeCash = prevTotalCash.SafeCash + totalSumm;
 
-			_dc.InfoTotalEqualCashSafeToMinsks.Add(totalCash);
-			_dc.SaveChanges();
+				_dc.InfoTotalEqualCashSafeToMinsks.Add(totalCash);
+				_dc.SaveChanges();
+			}
 
 			var monthes = _dc.InfoTotalEqualCashSafeToMinsks.Where(c => DbFunctions.DiffDays(c.Date, date) < 0).ToArray();
 			if (monthes.Any())

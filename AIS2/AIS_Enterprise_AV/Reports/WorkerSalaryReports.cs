@@ -1030,7 +1030,7 @@ namespace AIS_Enterprise_AV.Reports
 
 				if (DateTime.Now.Year > year || (DateTime.Now.Year == year && DateTime.Now.Month > month))
 				{
-					var date = new DateTime(year, month, 5).AddMonths(1);
+					var date = new DateTime(year, month, 25).AddMonths(1);
 
 					var costItem = bc.GetDirectoryCostItem("З/п (701)");
 					var rcs = bc.GetDirectoryRCs();

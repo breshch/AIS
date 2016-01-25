@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AIS_Enterprise_Data;
 
 namespace RemainsWeb
 {
@@ -13,6 +14,8 @@ namespace RemainsWeb
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+			BusinessContext.SetWebParameter(true);
         }
     }
 }

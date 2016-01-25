@@ -1,3 +1,23 @@
 ﻿.table-indent {
-	margin-top: 100px;
+	margin-top: 30px;
+}
+
+.cost-expense {
+	background-color: tomato;
+	color: azure;
+}
+
+.cost-incoming {
+	background-color: mediumseagreen;
+	color: azure;
+}
+
+.cost-header {
+	background-color: darkslategrey;
+	color: azure;
+	font-size: 16px;
+}
+
+.cost-summ {
+	margin-left: 10px;
 }

@@ -32,6 +32,8 @@ namespace AIS_Enterprise_AV
 		{
 			base.OnStartup(e);
 
+			BusinessContext.SetWebParameter(false);
+
 			LoggerConfiguration.Configurate();
 
 			string pathUpdater = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName,
