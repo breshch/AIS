@@ -29,7 +29,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             SaveOverTimeCommand = new RelayCommand(SaveOverTime, CanSaveOverTime);
             RemoveOverTimeCommand = new RelayCommand(RemoveOverTime, CanRemoveOverTime);
 
-            RefreshDirectoryRCs();
+			RefreshDirectoryRCs(startDate.Year, startDate.Month);
 
             _listDatesOfOverTime = new List<DateProcessing>(listDatesOfOverTime.Select(d => new DateProcessing { Date = d, IsProcessed = false }));
 
@@ -72,9 +72,9 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             }
         }
 
-        private void RefreshDirectoryRCs()
+        private void RefreshDirectoryRCs(int year, int month)
         {
-            DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCsByPercentage());
+            DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCsByPercentage(year, month));
         }
 
         private void ClearInputData()
@@ -122,7 +122,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                     SelectedEndTime = overTime.EndDate;
 
                     DirectoryRCs.Clear();
-                    foreach (var rc in BC.GetDirectoryRCsByPercentage().ToList())
+					foreach (var rc in BC.GetDirectoryRCsByPercentage(SelectedStartTime.Year, SelectedStartTime.Month).ToList())
                     {
                         rc.IsChecked = overTime.CurrentRCs.ToList().Any(r => r.DirectoryRC.Name == rc.Name);
                         DirectoryRCs.Add(rc);
@@ -222,7 +222,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                     if (dateProcess != null)
                     {
                         SelectedOverTimeDate = dateProcess.Date;
-                        RefreshDirectoryRCs();
+						RefreshDirectoryRCs(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month);
                     }
                     else
                     {
@@ -268,7 +268,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 if (dateProcess != null)
                 {
                     SelectedOverTimeDate = dateProcess.Date;
-                    RefreshDirectoryRCs();
+					RefreshDirectoryRCs(SelectedOverTimeDate.Year, SelectedOverTimeDate.Month);
                 }
                 else
                 {

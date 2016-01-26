@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using AIS_Enterprise_AV.Auth;
 using AIS_Enterprise_AV.Helpers;
-using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_AV.Reports;
 using AIS_Enterprise_AV.ViewModels;
 using AIS_Enterprise_AV.ViewModels.Helpers;

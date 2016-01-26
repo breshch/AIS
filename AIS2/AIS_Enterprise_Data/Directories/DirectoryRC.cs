@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIS_Enterprise_Data.Directories
@@ -11,8 +12,6 @@ namespace AIS_Enterprise_Data.Directories
         public string Name { get; set; }
         public string DescriptionName { get; set; }
         public string ReportName { get; set; }
-        public int Percentes { get; set; }
-       
 
         [NotMapped]
         public bool IsChecked { get; set; }

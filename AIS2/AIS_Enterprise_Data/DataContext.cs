@@ -30,6 +30,7 @@ namespace AIS_Enterprise_Data
 		public DbSet<DirectoryUserStatus> DirectoryUserStatuses { get; set; }
 		public DbSet<DirectoryUserStatusPrivilege> DirectoryUserStatusPrivileges { get; set; }
 		public DbSet<DirectoryRC> DirectoryRCs { get; set; }
+		public DbSet<DirectoryRCPercentage> DirectoryRCPercentages { get; set; }
 		public DbSet<DirectoryCostItem> DirectoryCostItems { get; set; }
 		public DbSet<DirectoryNote> DirectoryNotes { get; set; }
 		public DbSet<DirectoryTransportCompany> DirectoryTransportCompanies { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace AIS_Enterprise_AV.Helpers.Temps
+namespace AIS_Enterprise_AV.Models
 {
     public class SafeData
     {

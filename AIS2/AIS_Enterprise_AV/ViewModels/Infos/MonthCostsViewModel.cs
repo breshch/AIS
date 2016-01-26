@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using AIS_Enterprise_AV.Auth;
-using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Data.Infos;
@@ -56,11 +56,6 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             CostItems = new ObservableCollection<DirectoryCostItem>(BC.GetDirectoryCostItems());
             var costItemEmpty = new DirectoryCostItem { Name = null };
             CostItems.Insert(0, costItemEmpty);
-
-
-            RCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs());
-            var rcEmpty = new DirectoryRC { Name = null };
-            RCs.Insert(0, rcEmpty);
 
             InOuts = new ObservableCollection<string> 
             {
@@ -210,6 +205,10 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
             {
                 _selectedMonth = value;
                 RaisePropertyChanged();
+
+				RCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs());
+				var rcEmpty = new DirectoryRC { Name = null };
+				RCs.Insert(0, rcEmpty);
 
                 Costs.Clear();
                 _costs = new List<InfoCost>();

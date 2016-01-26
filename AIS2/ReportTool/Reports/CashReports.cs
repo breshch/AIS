@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using AIS_Enterprise_Data;
+using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -34,11 +35,12 @@ namespace ReportTool.Reports
 					return;
 				}
 
+				DateTime prevDate = DateTime.MinValue;
+				DirectoryRCPercentage[] rcPercentages = null;
 				for (DateTime date = minDate.Value.Date; date <= maxDate.Value.Date; date = date.AddDays(1))
 				{
 					using (var ep = new ExcelPackage())
 					{
-
 						var name = "Итого";
 
 
@@ -75,7 +77,27 @@ namespace ReportTool.Reports
 							totalSums[currency] = new Balance();
 						}
 
-						foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
+						if (prevDate.Month != date.Month)
+						{
+							rcPercentages = bc.GetRCPercentages(date.Year, date.Month)
+								.OrderByDescending(x => x.Percentes).ToArray();
+						}
+
+						prevDate = date;
+
+
+						var distinctedRCs = costs.Select(c => c.DirectoryRC).Distinct().ToArray();
+						var sortedRCs = new List<DirectoryRC>();
+						foreach (var rcPercentage in rcPercentages)
+						{
+							var rc = distinctedRCs.FirstOrDefault(x => x.Id == rcPercentage.DirectoryRCId);
+							if (rc != null)
+							{
+								sortedRCs.Add(rc);
+							}
+						}
+
+						foreach (var rc in sortedRCs)
 						{
 							var costsRcCurrencies = costs.Where(c => c.DirectoryRC.Id == rc.Id).GroupBy(x => x.Currency);
 
@@ -220,7 +242,7 @@ namespace ReportTool.Reports
 
 						double maxLengthNote = 0;
 
-						foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
+						foreach (var rc in sortedRCs)
 						{
 							double summIncoming = 0;
 							double summExpence = 0;

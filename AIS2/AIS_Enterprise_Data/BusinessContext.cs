@@ -167,259 +167,259 @@ namespace AIS_Enterprise_Data
 			_dc.SaveChanges();
 		}
 
-		public void InitializeDefaultDataBaseWithoutWorkers()
-		{
-			InitializeEmptyDB();
+		//public void InitializeDefaultDataBaseWithoutWorkers()
+		//{
+		//	InitializeEmptyDB();
 
-			var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
-			_dc.Parameters.Add(parameterBirthday);
+		//	var parameterBirthday = new Parameter { Name = "Birthday", Value = "500" };
+		//	_dc.Parameters.Add(parameterBirthday);
 
-			var currencyValue = new CurrencyValue { Name = "TotalCard" };
-			_dc.CurrencyValues.Add(currencyValue);
+		//	var currencyValue = new CurrencyValue { Name = "TotalCard" };
+		//	_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue { Name = "TotalCash" };
-			_dc.CurrencyValues.Add(currencyValue);
+		//	currencyValue = new CurrencyValue { Name = "TotalCash" };
+		//	_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue { Name = "TotalSafe" };
-			_dc.CurrencyValues.Add(currencyValue);
+		//	currencyValue = new CurrencyValue { Name = "TotalSafe" };
+		//	_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue { Name = "TotalLoan" };
-			_dc.CurrencyValues.Add(currencyValue);
+		//	currencyValue = new CurrencyValue { Name = "TotalLoan" };
+		//	_dc.CurrencyValues.Add(currencyValue);
 
-			currencyValue = new CurrencyValue { Name = "TotalPrivateLoan" };
-			_dc.CurrencyValues.Add(currencyValue);
+		//	currencyValue = new CurrencyValue { Name = "TotalPrivateLoan" };
+		//	_dc.CurrencyValues.Add(currencyValue);
 
-			var companyAV = new DirectoryCompany { Name = "АВ" };
-			_dc.DirectoryCompanies.Add(companyAV);
+		//	var companyAV = new DirectoryCompany { Name = "АВ" };
+		//	_dc.DirectoryCompanies.Add(companyAV);
 
-			var companyFenox = new DirectoryCompany { Name = "Фенокс" };
-			_dc.DirectoryCompanies.Add(companyFenox);
+		//	var companyFenox = new DirectoryCompany { Name = "Фенокс" };
+		//	_dc.DirectoryCompanies.Add(companyFenox);
 
-			_dc.SaveChanges();
+		//	_dc.SaveChanges();
 
-			var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", ReportName = "ОТ.AM5 / M05", Percentes = 50 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", ReportName = "ОТ.КО5/К05", Percentes = 20 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", ReportName = "П.АМ16/М01.016", Percentes = 20 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", ReportName = "ОТ.AM2/M02", Percentes = 5 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC
-			{
-				Name = "ПАМ-1",
-				DescriptionName = "Фенокс Минск (с.п.)",
-				ReportName = "П.АМ1/М01.1",
-				Percentes = 5
-			};
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", ReportName = "ОТ.КО2/К02", Percentes = 0 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", ReportName = "ОТ.КО1/К01", Percentes = 0 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "МД-2", DescriptionName = "Медицина", ReportName = "ОТ.МД2", Percentes = 0 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "ПАМ-24", DescriptionName = "Запчасти", ReportName = "П.АМ24", Percentes = 0 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "26А", DescriptionName = "26А", ReportName = "26А", Percentes = 0 };
-			_dc.DirectoryRCs.Add(rC);
-			rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", ReportName = "ВСЕ", Percentes = 0 };
-			_dc.DirectoryRCs.Add(rC);
+		//	var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", ReportName = "ОТ.AM5 / M05", Percentes = 50 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", ReportName = "ОТ.КО5/К05", Percentes = 20 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", ReportName = "П.АМ16/М01.016", Percentes = 20 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", ReportName = "ОТ.AM2/M02", Percentes = 5 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC
+		//	{
+		//		Name = "ПАМ-1",
+		//		DescriptionName = "Фенокс Минск (с.п.)",
+		//		ReportName = "П.АМ1/М01.1",
+		//		Percentes = 5
+		//	};
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", ReportName = "ОТ.КО2/К02", Percentes = 0 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", ReportName = "ОТ.КО1/К01", Percentes = 0 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "МД-2", DescriptionName = "Медицина", ReportName = "ОТ.МД2", Percentes = 0 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "ПАМ-24", DescriptionName = "Запчасти", ReportName = "П.АМ24", Percentes = 0 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "26А", DescriptionName = "26А", ReportName = "26А", Percentes = 0 };
+		//	_dc.DirectoryRCs.Add(rC);
+		//	rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", ReportName = "ВСЕ", Percentes = 0 };
+		//	_dc.DirectoryRCs.Add(rC);
 
-			_dc.SaveChanges();
+		//	_dc.SaveChanges();
 
-			var costItem = new DirectoryCostItem { Name = "Аренда (3001)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "З/п (701)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Закупка товара (1090)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Инвестиции" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Канцтовары (1207)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "МБП (1209)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Представительские (9025)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Приход" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Прочие (9025)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Реклама (5061)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Связь (502)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Сертификация (5052)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Таможня (6811)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Таможня (6813)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Топливо (103)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Транспорт (5031)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "Упаковка (1023)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "УСО (509)" };
-			_dc.DirectoryCostItems.Add(costItem);
-			costItem = new DirectoryCostItem { Name = "26А" };
-			_dc.DirectoryCostItems.Add(costItem);
+		//	var costItem = new DirectoryCostItem { Name = "Аренда (3001)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "З/п (701)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Закупка товара (1090)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Инвестиции" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Канцтовары (1207)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "МБП (1209)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Представительские (9025)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Приход" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Прочие (9025)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Реклама (5061)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Связь (502)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Сертификация (5052)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Таможня (6811)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Таможня (6813)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Топливо (103)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Транспорт (5031)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "Упаковка (1023)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "УСО (509)" };
+		//	_dc.DirectoryCostItems.Add(costItem);
+		//	costItem = new DirectoryCostItem { Name = "26А" };
+		//	_dc.DirectoryCostItems.Add(costItem);
 
-			_dc.SaveChanges();
-
-
-			var note = new DirectoryNote { Description = "Склад" };
-			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote { Description = "Пежо" };
-			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote { Description = "Зарплата" };
-			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote { Description = "Переработка" };
-			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote { Description = "Дождь" };
-			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote { Description = "АПЦ" };
-			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote { Description = "РосАвтоПром" };
-			_dc.DirectoryNotes.Add(note);
-			note = new DirectoryNote { Description = "Паллеты" };
-			_dc.DirectoryNotes.Add(note);
-
-			_dc.SaveChanges();
+		//	_dc.SaveChanges();
 
 
-			var transportCompany = new DirectoryTransportCompany { Name = "Кузин", IsCash = false };
-			_dc.DirectoryTransportCompanies.Add(transportCompany);
-			transportCompany = new DirectoryTransportCompany { Name = "Логистикон", IsCash = false };
-			_dc.DirectoryTransportCompanies.Add(transportCompany);
-			transportCompany = new DirectoryTransportCompany { Name = "Павловский Посад", IsCash = true };
-			_dc.DirectoryTransportCompanies.Add(transportCompany);
+		//	var note = new DirectoryNote { Description = "Склад" };
+		//	_dc.DirectoryNotes.Add(note);
+		//	note = new DirectoryNote { Description = "Пежо" };
+		//	_dc.DirectoryNotes.Add(note);
+		//	note = new DirectoryNote { Description = "Зарплата" };
+		//	_dc.DirectoryNotes.Add(note);
+		//	note = new DirectoryNote { Description = "Переработка" };
+		//	_dc.DirectoryNotes.Add(note);
+		//	note = new DirectoryNote { Description = "Дождь" };
+		//	_dc.DirectoryNotes.Add(note);
+		//	note = new DirectoryNote { Description = "АПЦ" };
+		//	_dc.DirectoryNotes.Add(note);
+		//	note = new DirectoryNote { Description = "РосАвтоПром" };
+		//	_dc.DirectoryNotes.Add(note);
+		//	note = new DirectoryNote { Description = "Паллеты" };
+		//	_dc.DirectoryNotes.Add(note);
 
-			_dc.SaveChanges();
-
-
-			var keepingName = new DirectoryKeepingName { Name = "Сейф" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName { Name = "Карточка" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName { Name = "Чернецкая" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName { Name = "Наличные" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName { Name = "Резерв" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName { Name = "Аванс" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName { Name = "Бобров" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-			keepingName = new DirectoryKeepingName { Name = "Пежо" };
-			_dc.DirectoryKeepingNames.Add(keepingName);
-
-			_dc.SaveChanges();
+		//	_dc.SaveChanges();
 
 
-			var keepingDescription = new DirectoryKeepingDescription { Name = "ФАР" };
-			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
-			keepingDescription = new DirectoryKeepingDescription { Name = "Зарплата" };
-			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
-			keepingDescription = new DirectoryKeepingDescription { Name = "За Боброва" };
-			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
-			keepingDescription = new DirectoryKeepingDescription { Name = "За USA" };
-			_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+		//	var transportCompany = new DirectoryTransportCompany { Name = "Кузин", IsCash = false };
+		//	_dc.DirectoryTransportCompanies.Add(transportCompany);
+		//	transportCompany = new DirectoryTransportCompany { Name = "Логистикон", IsCash = false };
+		//	_dc.DirectoryTransportCompanies.Add(transportCompany);
+		//	transportCompany = new DirectoryTransportCompany { Name = "Павловский Посад", IsCash = true };
+		//	_dc.DirectoryTransportCompanies.Add(transportCompany);
 
-			_dc.SaveChanges();
+		//	_dc.SaveChanges();
 
 
-			var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
+		//	var keepingName = new DirectoryKeepingName { Name = "Сейф" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
+		//	keepingName = new DirectoryKeepingName { Name = "Карточка" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
+		//	keepingName = new DirectoryKeepingName { Name = "Чернецкая" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
+		//	keepingName = new DirectoryKeepingName { Name = "Наличные" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
+		//	keepingName = new DirectoryKeepingName { Name = "Резерв" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
+		//	keepingName = new DirectoryKeepingName { Name = "Аванс" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
+		//	keepingName = new DirectoryKeepingName { Name = "Бобров" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
+		//	keepingName = new DirectoryKeepingName { Name = "Пежо" };
+		//	_dc.DirectoryKeepingNames.Add(keepingName);
 
-			_dc.DirectoryTypeOfPosts.Add(typeOfPost);
+		//	_dc.SaveChanges();
 
-			typeOfPost = new DirectoryTypeOfPost { Name = "Офис" };
 
-			_dc.DirectoryTypeOfPosts.Add(typeOfPost);
-			_dc.SaveChanges();
+		//	var keepingDescription = new DirectoryKeepingDescription { Name = "ФАР" };
+		//	_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+		//	keepingDescription = new DirectoryKeepingDescription { Name = "Зарплата" };
+		//	_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+		//	keepingDescription = new DirectoryKeepingDescription { Name = "За Боброва" };
+		//	_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
+		//	keepingDescription = new DirectoryKeepingDescription { Name = "За USA" };
+		//	_dc.DirectoryKeepingDescriptions.Add(keepingDescription);
 
-			foreach (var company in _dc.DirectoryCompanies.ToList())
-			{
-				foreach (var postName in Enum.GetNames(typeof(PostName)))
-				{
-					var post = new DirectoryPost
-					{
-						Name = postName,
-						DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Склад"),
-						DirectoryCompany = company
-					};
+		//	_dc.SaveChanges();
 
-					var postNameEnum = (PostName)Enum.Parse(typeof(PostName), postName);
 
-					var postSalary = new DirectoryPostSalary
-					{
-						Date = new DateTime(2011, 01, 01)
-					};
+		//	var typeOfPost = new DirectoryTypeOfPost { Name = "Склад" };
 
-					switch (postNameEnum)
-					{
-						case PostName.ЗавСкладом:
-							postSalary.UserWorkerSalary = 30000;
-							postSalary.AdminWorkerSalary = 42000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.Грузчик:
-							postSalary.UserWorkerSalary = 22000;
-							postSalary.AdminWorkerSalary = 22000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.Карщик:
-							postSalary.UserWorkerSalary = 25000;
-							postSalary.AdminWorkerSalary = 25000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.Кладовщик:
-							postSalary.UserWorkerSalary = 25000;
-							postSalary.AdminWorkerSalary = 25000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.ЗамЗавСкладом:
-							postSalary.UserWorkerSalary = 30000;
-							postSalary.AdminWorkerSalary = 30000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.Оператор:
-							postSalary.UserWorkerSalary = 25000;
-							postSalary.AdminWorkerSalary = 25000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.Оклейщик:
-							postSalary.UserWorkerSalary = 17000;
-							postSalary.AdminWorkerSalary = 17000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.КарщикКладовщик:
-							postSalary.UserWorkerSalary = 27000;
-							postSalary.AdminWorkerSalary = 27000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.Логист:
-							postSalary.UserWorkerSalary = 25000;
-							postSalary.AdminWorkerSalary = 25000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-						case PostName.БригадирОклейщик:
-							postSalary.UserWorkerSalary = 18000;
-							postSalary.AdminWorkerSalary = 18000;
-							postSalary.UserWorkerHalfSalary = 10000;
-							break;
-					}
+		//	_dc.DirectoryTypeOfPosts.Add(typeOfPost);
 
-					post.DirectoryPostSalaries.Add(postSalary);
+		//	typeOfPost = new DirectoryTypeOfPost { Name = "Офис" };
 
-					_dc.DirectoryPosts.Add(post);
-					_dc.SaveChanges();
-				}
-			}
-		}
+		//	_dc.DirectoryTypeOfPosts.Add(typeOfPost);
+		//	_dc.SaveChanges();
+
+		//	foreach (var company in _dc.DirectoryCompanies.ToList())
+		//	{
+		//		foreach (var postName in Enum.GetNames(typeof(PostName)))
+		//		{
+		//			var post = new DirectoryPost
+		//			{
+		//				Name = postName,
+		//				DirectoryTypeOfPost = _dc.DirectoryTypeOfPosts.First(t => t.Name == "Склад"),
+		//				DirectoryCompany = company
+		//			};
+
+		//			var postNameEnum = (PostName)Enum.Parse(typeof(PostName), postName);
+
+		//			var postSalary = new DirectoryPostSalary
+		//			{
+		//				Date = new DateTime(2011, 01, 01)
+		//			};
+
+		//			switch (postNameEnum)
+		//			{
+		//				case PostName.ЗавСкладом:
+		//					postSalary.UserWorkerSalary = 30000;
+		//					postSalary.AdminWorkerSalary = 42000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.Грузчик:
+		//					postSalary.UserWorkerSalary = 22000;
+		//					postSalary.AdminWorkerSalary = 22000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.Карщик:
+		//					postSalary.UserWorkerSalary = 25000;
+		//					postSalary.AdminWorkerSalary = 25000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.Кладовщик:
+		//					postSalary.UserWorkerSalary = 25000;
+		//					postSalary.AdminWorkerSalary = 25000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.ЗамЗавСкладом:
+		//					postSalary.UserWorkerSalary = 30000;
+		//					postSalary.AdminWorkerSalary = 30000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.Оператор:
+		//					postSalary.UserWorkerSalary = 25000;
+		//					postSalary.AdminWorkerSalary = 25000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.Оклейщик:
+		//					postSalary.UserWorkerSalary = 17000;
+		//					postSalary.AdminWorkerSalary = 17000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.КарщикКладовщик:
+		//					postSalary.UserWorkerSalary = 27000;
+		//					postSalary.AdminWorkerSalary = 27000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.Логист:
+		//					postSalary.UserWorkerSalary = 25000;
+		//					postSalary.AdminWorkerSalary = 25000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//				case PostName.БригадирОклейщик:
+		//					postSalary.UserWorkerSalary = 18000;
+		//					postSalary.AdminWorkerSalary = 18000;
+		//					postSalary.UserWorkerHalfSalary = 10000;
+		//					break;
+		//			}
+
+		//			post.DirectoryPostSalaries.Add(postSalary);
+
+		//			_dc.DirectoryPosts.Add(post);
+		//			_dc.SaveChanges();
+		//		}
+		//	}
+		//}
 
 		public void InitializeDefaultDataBaseWithWorkers()
 		{
@@ -1901,14 +1901,33 @@ namespace AIS_Enterprise_Data
 
 		#region DirectoryRC
 
-		public IQueryable<DirectoryRC> GetDirectoryRCs()
+		public DirectoryRC[] GetDirectoryRCs()
 		{
-			return _dc.DirectoryRCs;
+			return _dc.DirectoryRCs.ToArray();
 		}
 
-		public IQueryable<DirectoryRC> GetDirectoryRCsByPercentage()
+		public IQueryable<DirectoryRC> GetDirectoryRCsByPercentage(int year, int month)
 		{
-			return _dc.DirectoryRCs.Where(r => r.Percentes > 0 || r.Name == "ПАМ-16");
+			var rcPercentages = GetRCPercentages(year, month);
+			var rcsIdWithPercentage = rcPercentages.Where(x => x.Percentes > 0).Select(x => x.DirectoryRCId).ToArray();
+
+			return _dc.DirectoryRCs.Where(r => r.Name == "ПАМ-16" || rcsIdWithPercentage.Contains(r.Id));
+		}
+
+		public DirectoryRCPercentage[] GetRCPercentages(int year, int month)
+		{
+			var date = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+			return _dc.DirectoryRCPercentages
+				.GroupBy(x => x.Date)
+				.OrderByDescending(g => g.Key)
+				.First(g => DbFunctions.DiffDays(date, g.Key) <= 0)
+				.ToArray();
+		}
+
+		public DirectoryRCPercentage[] GetAllRCPercentages()
+		{
+			return _dc.DirectoryRCPercentages.ToArray();
 		}
 
 		public DirectoryRC GetDirectoryRC(string name)
@@ -1916,27 +1935,26 @@ namespace AIS_Enterprise_Data
 			return GetDirectoryRCs().First(r => r.Name == name);
 		}
 
-		public DirectoryRC AddDirectoryRC(string directoryRCName, string descriptionName, int percentes)
+		public DirectoryRCPercentage AddDirectoryRC(int directoryRCId, int percentes, DateTime date)
 		{
-			var directoryRC = new DirectoryRC
+			var directoryRcPercentage = new DirectoryRCPercentage
 			{
-				Name = directoryRCName,
-				DescriptionName = descriptionName,
-				Percentes = percentes
+				DirectoryRCId = directoryRCId,
+				Percentes = percentes,
+				Date = date.Date
 			};
 
-			_dc.DirectoryRCs.Add(directoryRC);
+			_dc.DirectoryRCPercentages.Add(directoryRcPercentage);
 
 			_dc.SaveChanges();
 
-			return directoryRC;
+			return directoryRcPercentage;
 		}
 
-		public void RemoveDirectoryRC(int directoryRCId)
+		public void EditDirectoryRC(int directoryRCId, int percentes, DateTime date)
 		{
-			var directoryRC = _dc.DirectoryRCs.Find(directoryRCId);
-			_dc.DirectoryRCs.Remove(directoryRC);
-
+			var rc = _dc.DirectoryRCPercentages.First(x => x.DirectoryRCId == directoryRCId && DbFunctions.DiffDays(date, x.Date) == 0);
+			rc.Percentes = percentes;
 			_dc.SaveChanges();
 		}
 
@@ -2160,7 +2178,9 @@ namespace AIS_Enterprise_Data
 			var infoCosts = GetInfoCosts(year, month).ToList();
 			var infoCostsRC = infoCosts.Where(c => c.DirectoryRC.Name == rcName && c.Currency == Currency.RUR).ToList();
 
-			if (_dc.DirectoryRCs.First(r => r.Name == rcName).Percentes > 0)
+			int rcId = _dc.DirectoryRCs.First(x => x.Name == rcName).Id;
+			int percentage = GetRCPercentages(year, month).First(x => x.DirectoryRCId == rcId).Percentes;
+			if (percentage > 0)
 			{
 				infoCostsRC.AddRange(infoCosts.Where(c => c.DirectoryRC.Name == "ВСЕ" && c.Currency == Currency.RUR).ToList());
 			}
@@ -3870,6 +3890,6 @@ namespace AIS_Enterprise_Data
 
 		#endregion
 
-
+		
 	}
 }

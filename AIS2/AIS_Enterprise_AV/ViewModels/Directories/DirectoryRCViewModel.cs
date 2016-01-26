@@ -1,99 +1,133 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
 
 namespace AIS_Enterprise_AV.ViewModels
 {
-    public class DirectoryRCViewModel : ViewModelGlobal
-    {
-        #region Base
-        private const int MAXIMUM_PERCENTAGE = 100;
-       
-        public DirectoryRCViewModel() : base()
-        {
-            RefreshDirectoryRCs();
+	public class DirectoryRCViewModel : ViewModelGlobal
+	{
+		#region Base
+		private const int MAXIMUM_PERCENTAGE = 100;
 
-            AddCommand = new RelayCommand(Add, CanAdding);
-            RemoveCommand = new RelayCommand(Remove, CanRemoving);
-            
-            MinimumPercentes = 0;
-        }
+		public DirectoryRCViewModel()
+			: base()
+		{
+			RefreshDirectoryRCs();
 
-        private void RefreshDirectoryRCs()
-        {
-            DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs().ToList());
-            MaximumPercentes = MAXIMUM_PERCENTAGE - DirectoryRCs.Sum(r => r.Percentes);
-        }
+			AddCommand = new RelayCommand(Add, CanAdding);
 
-        private void ClearInputData()
-        {
-            DirectoryRCName = null;
-            Percentes = 0;
-        }
+			MinimumPercentes = 0;
 
-        #endregion
+			SelectedNewDate = DateTime.Now;
+		}
 
+		private void RefreshDirectoryRCs()
+		{
+			rcs = BC.GetAllRCPercentages();
 
-        #region Properties
+			Dates = rcs
+				.GroupBy(d => d.Date.Date)
+				.Select(d => new DateRC
+				{
+					Date = d.Key,
+					DatePlain = d.Key.ToString("dd.MM.yy")
+				})
+				.OrderByDescending(d => d.Date)
+				.ToArray();
 
-        public ObservableCollection<DirectoryRC> DirectoryRCs { get; set; }
+			SelectedDate = Dates[0];
+		}
 
-        public DirectoryRC SelectedDirectoryRC { get; set; }
+		private DirectoryRCPercentage[] rcs;
 
-        [Required]
-        [Display(Name = "Название ЦО")]
-        public string DirectoryRCName { get; set; }
+		private void ClearInputData()
+		{
+			DirectoryRCName = null;
+			Percentes = 0;
+		}
 
-        public int Percentes { get; set; }
-
-        public int MinimumPercentes { get; set; }
-        public int MaximumPercentes { get; set; }
-
-        [Required]
-        [Display(Name = "Компания")]
-        public string DescriptionName { get; set; }
-
-        #endregion
+		#endregion
 
 
-        #region Commands
 
-        public RelayCommand AddCommand { get; set; }
-        public RelayCommand RemoveCommand { get; set; }
+		#region Properties
 
-        public void Add(object parameter)
-        {
-            BC.AddDirectoryRC(DirectoryRCName, DescriptionName, Percentes);
+		public DateRC[] Dates { get; set; }
+		public DateTime SelectedNewDate { get; set; }
+		private DateRC selectedDate;
 
-            RefreshDirectoryRCs();
+		public DateRC SelectedDate
+		{
+			get { return selectedDate; }
+			set
+			{
+				if (value == null)
+					return;
 
-            ClearInputData();
-        }
+				selectedDate = value;
 
-        public bool CanAdding(object parameter)
-        {
-            return IsValidateAllProperties();
-        }
+				DirectoryRCs = rcs
+					.Where(r => r.Date.Date == selectedDate.Date)
+					.ToArray();
 
-        public void Remove(object parameter)
-        {
-            BC.RemoveDirectoryRC(SelectedDirectoryRC.Id);
+				//MaximumPercentes = MAXIMUM_PERCENTAGE - DirectoryRCs.Sum(r => r.Percentes);
+			}
+		}
 
-            RefreshDirectoryRCs();
-            
-            if (DirectoryRCs.Any())
-            {
-                SelectedDirectoryRC = DirectoryRCs.Last();
-            }
-        }
 
-        public bool CanRemoving(object parameter)
-        {
-            return SelectedDirectoryRC != null;
-        }
 
-        #endregion
-    }
+		public DirectoryRCPercentage[] DirectoryRCs { get; set; }
+
+		public DirectoryRC SelectedDirectoryRC { get; set; }
+
+		[Required]
+		[Display(Name = "Название ЦО")]
+		public string DirectoryRCName { get; set; }
+
+		public int Percentes { get; set; }
+
+		public int MinimumPercentes { get; set; }
+		public int MaximumPercentes { get; set; }
+
+		[Required]
+		[Display(Name = "Компания")]
+		public string DescriptionName { get; set; }
+
+		#endregion
+
+
+		#region Commands
+
+		public RelayCommand AddCommand { get; set; }
+
+		public void Add(object parameter)
+		{
+			bool hasRC = rcs.Any(x => x.Date.Date == SelectedNewDate.Date && x.DirectoryRCId == DirectoryRCName);
+			if (!hasRC)
+			{
+				BC.AddDirectoryRC(DirectoryRCName, DescriptionName, Percentes, SelectedNewDate);
+			}
+			else
+			{
+				BC.EditDirectoryRC(DirectoryRCName, DescriptionName, Percentes, SelectedNewDate);
+			}
+			
+
+			RefreshDirectoryRCs();
+
+			ClearInputData();
+		}
+
+		public bool CanAdding(object parameter)
+		{
+			return IsValidateAllProperties();
+		}
+
+
+		#endregion
+	}
 }

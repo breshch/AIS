@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
@@ -13,7 +14,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos.Base
         public BaseDefaultCostViewModel()
         {
             DirectoryCostItems = new ObservableCollection<DirectoryCostItem>(BC.GetDirectoryCostItems());
-            DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs());
+			DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCs());
             DirectoryNotes = new ObservableCollection<DirectoryNote>(BC.GetDirectoryNotes());
         }
 

@@ -1,4 +1,4 @@
-﻿namespace AIS_Enterprise_AV.Helpers.Temps
+﻿namespace AIS_Enterprise_AV.Models
 {
 	public class ContainerCountCarParts
 	{

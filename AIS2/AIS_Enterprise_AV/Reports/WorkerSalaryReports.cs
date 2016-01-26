@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_Data;
 using AIS_Enterprise_Data.Directories;
 using AIS_Enterprise_Global.Helpers;
@@ -124,7 +124,22 @@ namespace AIS_Enterprise_AV.Reports
 
 				double maxLengthNote = 0;
 				var costs = bc.GetInfoCosts(year, month).Where(c => c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "26А" && c.DirectoryRC.Name != "ВСЕ").ToList();
-				foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
+
+				var rcPercentages = bc.GetRCPercentages(year, month)
+						.OrderByDescending(x => x.Percentes).ToArray();
+
+				var distinctedRCs = costs.Select(c => c.DirectoryRC).Distinct().ToArray();
+				var sortedRCs = new List<DirectoryRC>();
+				foreach (var rcPercentage in rcPercentages)
+				{
+					var rc = distinctedRCs.FirstOrDefault(x => x.Id == rcPercentage.DirectoryRCId);
+					if (rc != null)
+					{
+						sortedRCs.Add(rc);
+					}
+				}
+
+				foreach (var rc in sortedRCs)
 				{
 					double summIncoming = 0;
 					double summExpence = 0;
@@ -215,7 +230,21 @@ namespace AIS_Enterprise_AV.Reports
 					totalSums[currency] = new Balance();
 				}
 
-				foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
+				var rcPercentages = bc.GetRCPercentages(year, month)
+						.OrderByDescending(x => x.Percentes).ToArray();
+
+				var distinctedRCs = costs.Select(c => c.DirectoryRC).Distinct().ToArray();
+				var sortedRCs = new List<DirectoryRC>();
+				foreach (var rcPercentage in rcPercentages)
+				{
+					var rc = distinctedRCs.FirstOrDefault(x => x.Id == rcPercentage.DirectoryRCId);
+					if (rc != null)
+					{
+						sortedRCs.Add(rc);
+					}
+				}
+
+				foreach (var rc in sortedRCs)
 				{
 					var costsRcCurrencies = costs.Where(c => c.DirectoryRC.Id == rc.Id).GroupBy(x => x.Currency);
 
@@ -353,7 +382,7 @@ namespace AIS_Enterprise_AV.Reports
 
 				double maxLengthNote = 0;
 
-				foreach (var rc in costs.Select(c => c.DirectoryRC).Distinct().OrderByDescending(r => r.Percentes))
+				foreach (var rc in sortedRCs)
 				{
 					var costsByRc = costs.Where(c => c.DirectoryRC.Id == rc.Id).ToArray();
 
@@ -483,6 +512,9 @@ namespace AIS_Enterprise_AV.Reports
 
 				int countWorkDayInMonth = bc.GetCountWorkDaysInMonth(year, month);
 
+				var rcAllPercentages = bc.GetRCPercentages(year, month)
+						.ToArray();
+
 				var maxRCs = new List<DirectoryRC>();
 				int indexColumnOverTime = INDEX_HEADER_COLUMN_POST_NAME_OVERTIME + 1;
 				foreach (var overTime in overTimes)
@@ -493,7 +525,14 @@ namespace AIS_Enterprise_AV.Reports
 					Helpers.CreateCell(sheet, INDEX_HEADER_ROW_DESCRIPTION_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_DESCRIPTION_OVERTIME, indexColumnOverTime + countRCs - 1, overTime.Description, colorTransparent);
 
 					var currentRCs = overTime.CurrentRCs.ToList();
-					int currentPercentage = currentRCs.Sum(r => r.DirectoryRC.Percentes);
+
+					var currenctRCId = currentRCs.Select(x => x.DirectoryRCId).ToArray();
+
+					var rcPercentages = rcAllPercentages
+						.Where(x => currenctRCId.Contains(x.DirectoryRCId))
+						.ToArray();
+
+					int currentPercentage = rcPercentages.Sum(r => r.Percentes);
 					for (int i = 0; i < countRCs; i++)
 					{
 						if (!maxRCs.Select(r => r.Name).Contains(currentRCs[i].DirectoryRC.Name))
@@ -528,7 +567,7 @@ namespace AIS_Enterprise_AV.Reports
 								{
 									if (currentPercentage != 0)
 									{
-										valueRC = overTimeHours.Value * 1.3 * currentRCs[i].DirectoryRC.Percentes / currentPercentage;
+										valueRC = overTimeHours.Value * 1.3 * rcPercentages.First(x => x.DirectoryRCId == currentRCs[i].DirectoryRCId).Percentes / currentPercentage;
 									}
 									else
 									{
@@ -560,7 +599,19 @@ namespace AIS_Enterprise_AV.Reports
 				Helpers.CreateCell(sheet, INDEX_HEADER_ROW_OVERTIME, indexColumnOverTime, INDEX_HEADER_ROW_OVERTIME + COUNT_HEADER_ROW_SUMM_OVERTIME - 1, indexColumnOverTime + maxRCs.Count - 1, "Итого", colorTransparent);
 
 				int indexCurrentRC = indexColumnOverTime;
-				foreach (var rc in maxRCs.OrderByDescending(r => r.Percentes))
+
+
+				var sortedRCs = new List<DirectoryRC>();
+				foreach (var rcPercentage in rcAllPercentages.OrderByDescending(x => x.Percentes))
+				{
+					var rc = maxRCs.FirstOrDefault(x => x.Id == rcPercentage.DirectoryRCId);
+					if (rc != null)
+					{
+						sortedRCs.Add(rc);
+					}
+				}
+
+				foreach (var rc in sortedRCs)
 				{
 					Helpers.CreateCell(sheet, INDEX_HEADER_ROW_RCS_OVERTIME, indexCurrentRC, rc.Name, colorTransparent);
 
@@ -686,13 +737,21 @@ namespace AIS_Enterprise_AV.Reports
 				int countWorkDayInMonth = bc.GetCountWorkDaysInMonth(year, month);
 
 
+				var rcAllPercentages = bc.GetRCPercentages(year, month)
+						.ToArray();
+
 				//var sw2 = Stopwatch.StartNew();
 				foreach (var overTime in overTimes)
 				{
 					var overTimeRCs = currentRCs.Where(r => r.InfoOverTimeId == overTime.Id).ToList();
 					int countRCs = overTimeRCs.Count();
 
-					int currentPercentage = overTimeRCs.Sum(r => r.DirectoryRC.Percentes);
+					var overTimeRCId = overTimeRCs.Select(x => x.DirectoryRCId).ToArray();
+					var rcPercentages = rcAllPercentages
+						.Where(x => overTimeRCId.Contains(x.DirectoryRCId))
+						.ToArray();
+
+					int currentPercentage = rcPercentages.Sum(r => r.Percentes);
 					for (int i = 0; i < countRCs; i++)
 					{
 						foreach (var worker in warehouseWorkers)
@@ -713,7 +772,7 @@ namespace AIS_Enterprise_AV.Reports
 									double percentage;
 									if (currentPercentage != 0)
 									{
-										percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentes / currentPercentage;
+										percentage = overTimeHours.Value * 1.3 * rcPercentages.First(x => x.DirectoryRCId == overTimeRCs[i].DirectoryRCId).Percentes / currentPercentage;
 									}
 									else
 									{

@@ -80,7 +80,7 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
             using (var bc = new BusinessContext())
             {
                 bc.CreateDatabase();
-                bc.InitializeDefaultDataBaseWithoutWorkers();
+                //bc.InitializeDefaultDataBaseWithoutWorkers();
                 bc.AddDirectoryUserAdmin(AdminName, password);
             }
 

@@ -5,60 +5,60 @@
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         WindowStartupLocation="CenterScreen"
         
-        Title="Добавление ЦО" Height="430" Width="450">
+        Title="Добавление ЦО" Height="600" Width="450">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding ViewCloseCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Closing">
+			<i:InvokeCommandAction Command="{Binding ViewCloseCommand}" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
 
-    <Grid Margin="30, 20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+	<Grid Margin="30, 20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" ItemsSource="{Binding DirectoryRCs, Mode=TwoWay}" SelectedItem="{Binding SelectedDirectoryRC, Mode=TwoWay}"
+		<StackPanel Grid.Row="0">
+			<TextBlock Text="Дата"/>
+			<ComboBox ItemsSource="{Binding Dates}" DisplayMemberPath="DatePlain" SelectedItem="{Binding SelectedDate}" Width="200" HorizontalAlignment="Left"/>
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding DirectoryRCs, Mode=TwoWay}" SelectedItem="{Binding SelectedDirectoryRC, Mode=TwoWay}"
                   AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FrozenColumnCount="5" ColumnHeaderHeight="40" 
                   Margin="0, 20, 0, 0">
-            
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Компания" Binding="{Binding DescriptionName}" Width="*"/>
-                <DataGridTextColumn Header="Процентное соотношение" Binding="{Binding Percentes}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
 
-        <StackPanel Grid.Row="1" Margin="0, 15, 0, 0">
-            <TextBlock Text="Название ЦО:"/>
-            <TextBox Text="{Binding DirectoryRCName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="64"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="2" Margin="0, 10, 0, 0">
-            <TextBlock Text="Компания"/>
-            <TextBox Text="{Binding DescriptionName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="3" Margin="0, 10, 0, 0 ">
-            <TextBlock Text="Процентное соотношение"/>
-            <toolkit:IntegerUpDown Value="{Binding Percentes}" Minimum="{Binding MinimumPercentes}" Maximum="{Binding MaximumPercentes}"/>
-        </StackPanel>
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+				<DataGridTextColumn Header="Компания" Binding="{Binding DescriptionName}" Width="*"/>
+				<DataGridTextColumn Header="Процентное соотношение" Binding="{Binding Percentes}" Width="*"/>
+			</DataGrid.Columns>
+		</DataGrid>
 
-        
-        <Grid Grid.Row="4" Margin="0, 15, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+		<StackPanel Grid.Row="2" Margin="0, 15, 0, 0">
+			<TextBlock Text="Дата"/>
+			<DatePicker SelectedDate="{Binding SelectedNewDate}"/>
+		</StackPanel>
 
-            <Button Grid.Column="0" Content="Добавить" Command="{Binding AddCommand}" Margin="0, 0, 20, 0"/>
-            <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveCommand}" Margin="20, 0, 0, 0"/>
-        </Grid>
+		<StackPanel Grid.Row="3" Margin="0, 15, 0, 0">
+			<TextBlock Text="Название ЦО:"/>
+			<TextBox Text="{Binding DirectoryRCName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxLength="64"/>
+		</StackPanel>
 
-    </Grid>
+		<StackPanel Grid.Row="4" Margin="0, 10, 0, 0">
+			<TextBlock Text="Компания"/>
+			<TextBox Text="{Binding DescriptionName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+		</StackPanel>
+
+		<StackPanel Grid.Row="5" Margin="0, 10, 0, 0 ">
+			<TextBlock Text="Процентное соотношение"/>
+			<toolkit:IntegerUpDown Value="{Binding Percentes}" Minimum="{Binding MinimumPercentes}" Maximum="{Binding MaximumPercentes}"/>
+		</StackPanel>
+		<Button Grid.Row="6" Content="Добавить" Command="{Binding AddCommand}" Margin="0, 10, 0, 0"/>
+	</Grid>
 </Window>

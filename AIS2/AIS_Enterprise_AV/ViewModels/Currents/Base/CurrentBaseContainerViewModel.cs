@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AIS_Enterprise_AV.Helpers.Temps;
+using AIS_Enterprise_AV.Models;
 using AIS_Enterprise_AV.ViewModels.Infos;
 using AIS_Enterprise_AV.Views.Infos;
 using AIS_Enterprise_Data.Currents;
