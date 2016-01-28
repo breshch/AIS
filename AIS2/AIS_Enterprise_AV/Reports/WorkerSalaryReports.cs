@@ -126,7 +126,7 @@ namespace AIS_Enterprise_AV.Reports
 				var costs = bc.GetInfoCosts(year, month).Where(c => c.DirectoryCostItem.Name == "Транспорт (5031)" && c.DirectoryRC.Name != "26А" && c.DirectoryRC.Name != "ВСЕ").ToList();
 
 				var rcPercentages = bc.GetRCPercentages(year, month)
-						.OrderByDescending(x => x.Percentes).ToArray();
+						.OrderByDescending(x => x.Percentage).ToArray();
 
 				var distinctedRCs = costs.Select(c => c.DirectoryRC).Distinct().ToArray();
 				var sortedRCs = new List<DirectoryRC>();
@@ -231,7 +231,7 @@ namespace AIS_Enterprise_AV.Reports
 				}
 
 				var rcPercentages = bc.GetRCPercentages(year, month)
-						.OrderByDescending(x => x.Percentes).ToArray();
+						.OrderByDescending(x => x.Percentage).ToArray();
 
 				var distinctedRCs = costs.Select(c => c.DirectoryRC).Distinct().ToArray();
 				var sortedRCs = new List<DirectoryRC>();
@@ -532,7 +532,7 @@ namespace AIS_Enterprise_AV.Reports
 						.Where(x => currenctRCId.Contains(x.DirectoryRCId))
 						.ToArray();
 
-					int currentPercentage = rcPercentages.Sum(r => r.Percentes);
+					int currentPercentage = rcPercentages.Sum(r => r.Percentage);
 					for (int i = 0; i < countRCs; i++)
 					{
 						if (!maxRCs.Select(r => r.Name).Contains(currentRCs[i].DirectoryRC.Name))
@@ -567,7 +567,7 @@ namespace AIS_Enterprise_AV.Reports
 								{
 									if (currentPercentage != 0)
 									{
-										valueRC = overTimeHours.Value * 1.3 * rcPercentages.First(x => x.DirectoryRCId == currentRCs[i].DirectoryRCId).Percentes / currentPercentage;
+										valueRC = overTimeHours.Value * 1.3 * rcPercentages.First(x => x.DirectoryRCId == currentRCs[i].DirectoryRCId).Percentage / currentPercentage;
 									}
 									else
 									{
@@ -602,7 +602,7 @@ namespace AIS_Enterprise_AV.Reports
 
 
 				var sortedRCs = new List<DirectoryRC>();
-				foreach (var rcPercentage in rcAllPercentages.OrderByDescending(x => x.Percentes))
+				foreach (var rcPercentage in rcAllPercentages.OrderByDescending(x => x.Percentage))
 				{
 					var rc = maxRCs.FirstOrDefault(x => x.Id == rcPercentage.DirectoryRCId);
 					if (rc != null)
@@ -751,7 +751,7 @@ namespace AIS_Enterprise_AV.Reports
 						.Where(x => overTimeRCId.Contains(x.DirectoryRCId))
 						.ToArray();
 
-					int currentPercentage = rcPercentages.Sum(r => r.Percentes);
+					int currentPercentage = rcPercentages.Sum(r => r.Percentage);
 					for (int i = 0; i < countRCs; i++)
 					{
 						foreach (var worker in warehouseWorkers)
@@ -772,7 +772,7 @@ namespace AIS_Enterprise_AV.Reports
 									double percentage;
 									if (currentPercentage != 0)
 									{
-										percentage = overTimeHours.Value * 1.3 * rcPercentages.First(x => x.DirectoryRCId == overTimeRCs[i].DirectoryRCId).Percentes / currentPercentage;
+										percentage = overTimeHours.Value * 1.3 * rcPercentages.First(x => x.DirectoryRCId == overTimeRCs[i].DirectoryRCId).Percentage / currentPercentage;
 									}
 									else
 									{

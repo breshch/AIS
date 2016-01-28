@@ -10,7 +10,7 @@ namespace AIS_Enterprise_Data.Directories
 	{
 		public int Id { get; set; }
 		public int DirectoryRCId { get; set; }
-		public int Percentes { get; set; }
+		public int Percentage { get; set; }
 		public DateTime Date { get; set; }
 	}
 }

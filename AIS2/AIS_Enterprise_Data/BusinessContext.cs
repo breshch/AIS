@@ -197,33 +197,33 @@ namespace AIS_Enterprise_Data
 
 		//	_dc.SaveChanges();
 
-		//	var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", ReportName = "ОТ.AM5 / M05", Percentes = 50 };
+		//	var rC = new DirectoryRC { Name = "МО-5", DescriptionName = "Фенокс", ReportName = "ОТ.AM5 / M05", Percentage = 50 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", ReportName = "ОТ.КО5/К05", Percentes = 20 };
+		//	rC = new DirectoryRC { Name = "КО-5", DescriptionName = "АВ-Автотехник", ReportName = "ОТ.КО5/К05", Percentage = 20 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", ReportName = "П.АМ16/М01.016", Percentes = 20 };
+		//	rC = new DirectoryRC { Name = "ПАМ-16", DescriptionName = "Кедр", ReportName = "П.АМ16/М01.016", Percentage = 20 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", ReportName = "ОТ.AM2/M02", Percentes = 5 };
+		//	rC = new DirectoryRC { Name = "МО-2", DescriptionName = "Фенокс иномарки", ReportName = "ОТ.AM2/M02", Percentage = 5 };
 		//	_dc.DirectoryRCs.Add(rC);
 		//	rC = new DirectoryRC
 		//	{
 		//		Name = "ПАМ-1",
 		//		DescriptionName = "Фенокс Минск (с.п.)",
 		//		ReportName = "П.АМ1/М01.1",
-		//		Percentes = 5
+		//		Percentage = 5
 		//	};
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", ReportName = "ОТ.КО2/К02", Percentes = 0 };
+		//	rC = new DirectoryRC { Name = "КО-2", DescriptionName = "Масло Антонар", ReportName = "ОТ.КО2/К02", Percentage = 0 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", ReportName = "ОТ.КО1/К01", Percentes = 0 };
+		//	rC = new DirectoryRC { Name = "КО-1", DescriptionName = "Антонар", ReportName = "ОТ.КО1/К01", Percentage = 0 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "МД-2", DescriptionName = "Медицина", ReportName = "ОТ.МД2", Percentes = 0 };
+		//	rC = new DirectoryRC { Name = "МД-2", DescriptionName = "Медицина", ReportName = "ОТ.МД2", Percentage = 0 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "ПАМ-24", DescriptionName = "Запчасти", ReportName = "П.АМ24", Percentes = 0 };
+		//	rC = new DirectoryRC { Name = "ПАМ-24", DescriptionName = "Запчасти", ReportName = "П.АМ24", Percentage = 0 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "26А", DescriptionName = "26А", ReportName = "26А", Percentes = 0 };
+		//	rC = new DirectoryRC { Name = "26А", DescriptionName = "26А", ReportName = "26А", Percentage = 0 };
 		//	_dc.DirectoryRCs.Add(rC);
-		//	rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", ReportName = "ВСЕ", Percentes = 0 };
+		//	rC = new DirectoryRC { Name = "ВСЕ", DescriptionName = "ВСЕ", ReportName = "ВСЕ", Percentage = 0 };
 		//	_dc.DirectoryRCs.Add(rC);
 
 		//	_dc.SaveChanges();
@@ -1909,7 +1909,7 @@ namespace AIS_Enterprise_Data
 		public IQueryable<DirectoryRC> GetDirectoryRCsByPercentage(int year, int month)
 		{
 			var rcPercentages = GetRCPercentages(year, month);
-			var rcsIdWithPercentage = rcPercentages.Where(x => x.Percentes > 0).Select(x => x.DirectoryRCId).ToArray();
+			var rcsIdWithPercentage = rcPercentages.Where(x => x.Percentage > 0).Select(x => x.DirectoryRCId).ToArray();
 
 			return _dc.DirectoryRCs.Where(r => r.Name == "ПАМ-16" || rcsIdWithPercentage.Contains(r.Id));
 		}
@@ -1940,7 +1940,7 @@ namespace AIS_Enterprise_Data
 			var directoryRcPercentage = new DirectoryRCPercentage
 			{
 				DirectoryRCId = directoryRCId,
-				Percentes = percentes,
+				Percentage = percentes,
 				Date = date.Date
 			};
 
@@ -1954,7 +1954,7 @@ namespace AIS_Enterprise_Data
 		public void EditDirectoryRC(int directoryRCId, int percentes, DateTime date)
 		{
 			var rc = _dc.DirectoryRCPercentages.First(x => x.DirectoryRCId == directoryRCId && DbFunctions.DiffDays(date, x.Date) == 0);
-			rc.Percentes = percentes;
+			rc.Percentage = percentes;
 			_dc.SaveChanges();
 		}
 
@@ -2179,7 +2179,7 @@ namespace AIS_Enterprise_Data
 			var infoCostsRC = infoCosts.Where(c => c.DirectoryRC.Name == rcName && c.Currency == Currency.RUR).ToList();
 
 			int rcId = _dc.DirectoryRCs.First(x => x.Name == rcName).Id;
-			int percentage = GetRCPercentages(year, month).First(x => x.DirectoryRCId == rcId).Percentes;
+			int percentage = GetRCPercentages(year, month).First(x => x.DirectoryRCId == rcId).Percentage;
 			if (percentage > 0)
 			{
 				infoCostsRC.AddRange(infoCosts.Where(c => c.DirectoryRC.Name == "ВСЕ" && c.Currency == Currency.RUR).ToList());

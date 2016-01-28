@@ -80,7 +80,7 @@ namespace ReportTool.Reports
 						if (prevDate.Month != date.Month)
 						{
 							rcPercentages = bc.GetRCPercentages(date.Year, date.Month)
-								.OrderByDescending(x => x.Percentes).ToArray();
+								.OrderByDescending(x => x.Percentage).ToArray();
 						}
 
 						prevDate = date;

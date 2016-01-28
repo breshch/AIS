@@ -180,167 +180,167 @@ namespace AIS_Enterprise_AV.ViewModels.Helpers
 		{
 			using (var bc = new BusinessContext())
 			{
-				var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
-				var warehouseWorkers = bc.GetDirectoryWorkers(year, month, false).ToList();
-				var overTimes = bc.GetInfoOverTimes(year, month).ToList();
-				var weekEndsInMonth = bc.GetHolidays(year, month).ToList();
-				var workerSumms = new List<WorkerSummForReport>();
-				var currentRCs = bc.GetCurrentRCs(overTimes.Select(o => o.Id)).ToList();
-				int countWorkDayInMonth = bc.GetCountWorkDaysInMonth(year, month);
+				//var lastDateInMonth = HelperMethods.GetLastDateInMonth(year, month);
+				//var warehouseWorkers = bc.GetDirectoryWorkers(year, month, false).ToList();
+				//var overTimes = bc.GetInfoOverTimes(year, month).ToList();
+				//var weekEndsInMonth = bc.GetHolidays(year, month).ToList();
+				//var workerSumms = new List<WorkerSummForReport>();
+				//var currentRCs = bc.GetCurrentRCs(overTimes.Select(o => o.Id)).ToList();
+				//int countWorkDayInMonth = bc.GetCountWorkDaysInMonth(year, month);
 
-				foreach (var overTime in overTimes)
-				{
-					var overTimeRCs = currentRCs.Where(r => r.InfoOverTimeId == overTime.Id).ToList();
-					int countRCs = overTimeRCs.Count();
+				//foreach (var overTime in overTimes)
+				//{
+				//	var overTimeRCs = currentRCs.Where(r => r.InfoOverTimeId == overTime.Id).ToList();
+				//	int countRCs = overTimeRCs.Count();
 
-					int currentPercentage = overTimeRCs.Sum(r => r.DirectoryRC.Percentes);
-					for (int i = 0; i < countRCs; i++)
-					{
-						foreach (var worker in warehouseWorkers)
-						{
-							var workerSummForReport = workerSumms.FirstOrDefault(w => w.WorkerId == worker.Id);
-							if (workerSummForReport == null)
-							{
-								workerSummForReport = new WorkerSummForReport { WorkerId = worker.Id };
-								workerSumms.Add(workerSummForReport);
-							}
+				//	int currentPercentage = overTimeRCs.Sum(r => r.DirectoryRC.Percentage);
+				//	for (int i = 0; i < countRCs; i++)
+				//	{
+				//		foreach (var worker in warehouseWorkers)
+				//		{
+				//			var workerSummForReport = workerSumms.FirstOrDefault(w => w.WorkerId == worker.Id);
+				//			if (workerSummForReport == null)
+				//			{
+				//				workerSummForReport = new WorkerSummForReport { WorkerId = worker.Id };
+				//				workerSumms.Add(workerSummForReport);
+				//			}
 
-							var infoDate = worker.InfoDates.FirstOrDefault(d => d.Date.Date == overTime.StartDate.Date);
-							if (infoDate != null)
-							{
-								var overTimeHours = bc.IsOverTime(infoDate, weekEndsInMonth);
-								if (overTimeHours != null)
-								{
-									double percentage;
-									if (currentPercentage != 0)
-									{
-										percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentes / currentPercentage;
-									}
-									else
-									{
-										percentage = overTimeHours.Value * 1.3 / overTimeRCs.Count;
-									}
+				//			var infoDate = worker.InfoDates.FirstOrDefault(d => d.Date.Date == overTime.StartDate.Date);
+				//			if (infoDate != null)
+				//			{
+				//				var overTimeHours = bc.IsOverTime(infoDate, weekEndsInMonth);
+				//				if (overTimeHours != null)
+				//				{
+				//					double percentage;
+				//					if (currentPercentage != 0)
+				//					{
+				//						percentage = overTimeHours.Value * 1.3 * overTimeRCs[i].DirectoryRC.Percentage / currentPercentage;
+				//					}
+				//					else
+				//					{
+				//						percentage = overTimeHours.Value * 1.3 / overTimeRCs.Count;
+				//					}
 
 
-									var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == overTimeRCs[i].DirectoryRC.Name);
-									if (workerRCSummForReport == null)
-									{
-										workerRCSummForReport = new WorkerRCSummForReport { RCName = overTimeRCs[i].DirectoryRC.Name };
-										workerSummForReport.WorkerRCSummForReports.Add(workerRCSummForReport);
-									}
+				//					var workerRCSummForReport = workerSummForReport.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == overTimeRCs[i].DirectoryRC.Name);
+				//					if (workerRCSummForReport == null)
+				//					{
+				//						workerRCSummForReport = new WorkerRCSummForReport { RCName = overTimeRCs[i].DirectoryRC.Name };
+				//						workerSummForReport.WorkerRCSummForReports.Add(workerRCSummForReport);
+				//					}
 
-									var post = bc.GetCurrentPost(worker.Id, infoDate.Date).DirectoryPost;
-									var postSalary = bc.GetDirectoryPostSalaryByDate(post.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+				//					var post = bc.GetCurrentPost(worker.Id, infoDate.Date).DirectoryPost;
+				//					var postSalary = bc.GetDirectoryPostSalaryByDate(post.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
 
-									double salaryInHour = postSalary.AdminWorkerSalary.Value / 8 / countWorkDayInMonth;
-									workerRCSummForReport.Summ += percentage * 2 * salaryInHour;
-								}
-							}
-						}
-					}
-				}
+				//					double salaryInHour = postSalary.AdminWorkerSalary.Value / 8 / countWorkDayInMonth;
+				//					workerRCSummForReport.Summ += percentage * 2 * salaryInHour;
+				//				}
+				//			}
+				//		}
+				//	}
+				//}
 				double totalTotalSalary = 0;
 
-				var currentMainWorkerPosts = bc.GetCurrentMainPosts(lastDateInMonth).ToList();
+				//var currentMainWorkerPosts = bc.GetCurrentMainPosts(lastDateInMonth).ToList();
 				double allOvertimes = 0;
-				foreach (var worker in warehouseWorkers)
-				{
-					var currentWorkerPost = currentMainWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
-					var infoMonth = bc.GetInfoMonth(worker.Id, year, month);
-					double salaryAV = 0;
-					double salaryFenox = 0;
-					var postSalary = bc.GetDirectoryPostSalaryByDate(currentWorkerPost.DirectoryPost.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
+				//foreach (var worker in warehouseWorkers)
+				//{
+				//	var currentWorkerPost = currentMainWorkerPosts.First(p => p.DirectoryWorkerId == worker.Id);
+				//	var infoMonth = bc.GetInfoMonth(worker.Id, year, month);
+				//	double salaryAV = 0;
+				//	double salaryFenox = 0;
+				//	var postSalary = bc.GetDirectoryPostSalaryByDate(currentWorkerPost.DirectoryPost.Id, new DateTime(lastDateInMonth.Year, lastDateInMonth.Month, 1));
 
-					if (!currentWorkerPost.IsTwoCompanies)
-					{
-						if (currentWorkerPost.DirectoryPost.DirectoryCompany.Name == "АВ")
-						{
-							salaryAV = postSalary.AdminWorkerSalary.Value;
-						}
-						else
-						{
-							salaryFenox = postSalary.AdminWorkerSalary.Value;
-						}
-					}
-					else
-					{
-						salaryAV = postSalary.AdminWorkerSalary.Value - postSalary.UserWorkerHalfSalary.Value;
-						salaryFenox = postSalary.UserWorkerHalfSalary.Value;
-					}
-					double totalOverTimeAV = 0;
+				//	if (!currentWorkerPost.IsTwoCompanies)
+				//	{
+				//		if (currentWorkerPost.DirectoryPost.DirectoryCompany.Name == "АВ")
+				//		{
+				//			salaryAV = postSalary.AdminWorkerSalary.Value;
+				//		}
+				//		else
+				//		{
+				//			salaryFenox = postSalary.AdminWorkerSalary.Value;
+				//		}
+				//	}
+				//	else
+				//	{
+				//		salaryAV = postSalary.AdminWorkerSalary.Value - postSalary.UserWorkerHalfSalary.Value;
+				//		salaryFenox = postSalary.UserWorkerHalfSalary.Value;
+				//	}
+				//	double totalOverTimeAV = 0;
 
-					var workerSumm = workerSumms.FirstOrDefault(w => w.WorkerId == worker.Id);
-					WorkerRCSummForReport rc = null;
+				//	var workerSumm = workerSumms.FirstOrDefault(w => w.WorkerId == worker.Id);
+				//	WorkerRCSummForReport rc = null;
 
-					double rcValue = 0;
-					if (workerSumm != null)
-					{
-						rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "КО-5");
+				//	double rcValue = 0;
+				//	if (workerSumm != null)
+				//	{
+				//		rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "КО-5");
 
-						if (rc != null)
-						{
-							rcValue = rc.Summ;
-						}
-					}
+				//		if (rc != null)
+				//		{
+				//			rcValue = rc.Summ;
+				//		}
+				//	}
 
-					totalOverTimeAV += rcValue;
+				//	totalOverTimeAV += rcValue;
 
-					rcValue = 0;
-					if (workerSumm != null)
-					{
-						rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "ПАМ-16");
+				//	rcValue = 0;
+				//	if (workerSumm != null)
+				//	{
+				//		rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "ПАМ-16");
 
-						if (rc != null)
-						{
-							rcValue = rc.Summ;
-						}
-					}
+				//		if (rc != null)
+				//		{
+				//			rcValue = rc.Summ;
+				//		}
+				//	}
 
-					totalOverTimeAV += rcValue;
+				//	totalOverTimeAV += rcValue;
 
-					double cashAV = salaryAV - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction;
+				//	double cashAV = salaryAV - infoMonth.CardAV - infoMonth.PrepaymentBankTransaction;
 
-					double totalOverTimeFenox = 0;
-					rcValue = 0;
-					if (workerSumm != null)
-					{
-						rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "МО-5");
-						if (rc != null)
-						{
-							rcValue = rc.Summ;
-						}
-					}
-					totalOverTimeFenox += rcValue;
+				//	double totalOverTimeFenox = 0;
+				//	rcValue = 0;
+				//	if (workerSumm != null)
+				//	{
+				//		rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "МО-5");
+				//		if (rc != null)
+				//		{
+				//			rcValue = rc.Summ;
+				//		}
+				//	}
+				//	totalOverTimeFenox += rcValue;
 
-					rcValue = 0;
-					if (workerSumm != null)
-					{
-						rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "ПАМ-1");
-						if (rc != null)
-						{
-							rcValue = rc.Summ;
-						}
-					}
-					totalOverTimeFenox += rcValue;
+				//	rcValue = 0;
+				//	if (workerSumm != null)
+				//	{
+				//		rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "ПАМ-1");
+				//		if (rc != null)
+				//		{
+				//			rcValue = rc.Summ;
+				//		}
+				//	}
+				//	totalOverTimeFenox += rcValue;
 
-					rcValue = 0;
-					if (workerSumm != null)
-					{
-						rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "МО-2");
-						if (rc != null)
-						{
-							rcValue = rc.Summ;
-						}
-					}
-					totalOverTimeFenox += rcValue;
+				//	rcValue = 0;
+				//	if (workerSumm != null)
+				//	{
+				//		rc = workerSumm.WorkerRCSummForReports.FirstOrDefault(w => w.RCName == "МО-2");
+				//		if (rc != null)
+				//		{
+				//			rcValue = rc.Summ;
+				//		}
+				//	}
+				//	totalOverTimeFenox += rcValue;
 
-					double cashFenox = salaryFenox - infoMonth.CardFenox;
-					totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
-						infoMonth.VocationPayment + totalOverTimeAV + cashAV +
-						infoMonth.CardFenox + totalOverTimeFenox + cashFenox;
+				//	double cashFenox = salaryFenox - infoMonth.CardFenox;
+				//	totalTotalSalary += infoMonth.CardAV + infoMonth.PrepaymentBankTransaction + infoMonth.Compensation +
+				//		infoMonth.VocationPayment + totalOverTimeAV + cashAV +
+				//		infoMonth.CardFenox + totalOverTimeFenox + cashFenox;
 
-					allOvertimes += totalOverTimeAV + totalOverTimeFenox;
-				}
+				//	allOvertimes += totalOverTimeAV + totalOverTimeFenox;
+				//}
 
 				return new Tuple<double, double>(Math.Round(totalTotalSalary, 2), Math.Round(allOvertimes, 2));
 			}

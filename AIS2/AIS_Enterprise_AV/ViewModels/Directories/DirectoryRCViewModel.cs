@@ -16,6 +16,15 @@ namespace AIS_Enterprise_AV.ViewModels
 		public DirectoryRCViewModel()
 			: base()
 		{
+			rcsName = BC.GetDirectoryRCs();
+
+			RCsName = rcsName.Select(x => new RCFullName
+			{
+				Id	= x.Id,
+				Name = x.Name + " / " + x.DescriptionName
+			})
+			.ToArray();
+
 			RefreshDirectoryRCs();
 
 			AddCommand = new RelayCommand(Add, CanAdding);
@@ -46,7 +55,6 @@ namespace AIS_Enterprise_AV.ViewModels
 
 		private void ClearInputData()
 		{
-			DirectoryRCName = null;
 			Percentes = 0;
 		}
 
@@ -56,9 +64,16 @@ namespace AIS_Enterprise_AV.ViewModels
 
 		#region Properties
 
+		public string TextWarning { get; set; }
+
+		private DirectoryRC[] rcsName;
+
 		public DateRC[] Dates { get; set; }
 		public DateTime SelectedNewDate { get; set; }
 		private DateRC selectedDate;
+
+		public RCFullName[] RCsName { get; set; }
+		public RCFullName SelectedRCName { get; set; }
 
 		public DateRC SelectedDate
 		{
@@ -70,32 +85,36 @@ namespace AIS_Enterprise_AV.ViewModels
 
 				selectedDate = value;
 
-				DirectoryRCs = rcs
-					.Where(r => r.Date.Date == selectedDate.Date)
+				var rcPercentages = BC.GetRCPercentages(selectedDate.Date.Year, selectedDate.Date.Month);
+
+				RCNamePercentages = rcPercentages
+					.Select(x => new RCNamePercentage
+					{
+						Name = rcsName.First(r => r.Id == x.DirectoryRCId).Name,
+						Company = rcsName.First(r => r.Id == x.DirectoryRCId).DescriptionName,
+						Percentage = x.Percentage
+					})
 					.ToArray();
 
-				//MaximumPercentes = MAXIMUM_PERCENTAGE - DirectoryRCs.Sum(r => r.Percentes);
+				int count = rcsName.Count() - RCNamePercentages.Count();
+
+				var rcsId = rcPercentages.Select(x => x.DirectoryRCId).ToArray();
+				SelectedRCName = RCsName.FirstOrDefault(x => !rcsId.Contains(x.Id)) ?? RCsName.First();
+
+				MaximumPercentes = MAXIMUM_PERCENTAGE - RCNamePercentages.Sum(r => r.Percentage);
+
+				TextWarning = "Осталось заполнить " + count + " ЦО и " + MaximumPercentes + "%";
 			}
 		}
 
 
 
-		public DirectoryRCPercentage[] DirectoryRCs { get; set; }
-
-		public DirectoryRC SelectedDirectoryRC { get; set; }
-
-		[Required]
-		[Display(Name = "Название ЦО")]
-		public string DirectoryRCName { get; set; }
+		public RCNamePercentage[] RCNamePercentages { get; set; }
 
 		public int Percentes { get; set; }
 
 		public int MinimumPercentes { get; set; }
 		public int MaximumPercentes { get; set; }
-
-		[Required]
-		[Display(Name = "Компания")]
-		public string DescriptionName { get; set; }
 
 		#endregion
 
@@ -106,16 +125,15 @@ namespace AIS_Enterprise_AV.ViewModels
 
 		public void Add(object parameter)
 		{
-			bool hasRC = rcs.Any(x => x.Date.Date == SelectedNewDate.Date && x.DirectoryRCId == DirectoryRCName);
+			bool hasRC = rcs.Any(x => x.Date.Date == SelectedNewDate.Date && x.DirectoryRCId == SelectedRCName.Id);
 			if (!hasRC)
 			{
-				BC.AddDirectoryRC(DirectoryRCName, DescriptionName, Percentes, SelectedNewDate);
+				BC.AddDirectoryRC(SelectedRCName.Id, Percentes, SelectedNewDate);
 			}
 			else
 			{
-				BC.EditDirectoryRC(DirectoryRCName, DescriptionName, Percentes, SelectedNewDate);
+				BC.EditDirectoryRC(SelectedRCName.Id, Percentes, SelectedNewDate);
 			}
-			
 
 			RefreshDirectoryRCs();
 

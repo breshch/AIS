@@ -344,9 +344,14 @@ namespace AIS_Enterprise_AV.Reports
 
             var rcs = bc.GetDirectoryRCsMonthExpense(year, month).Where(r => r.Name != "26А" && r.Name != "ВСЕ").ToList();
 
+	        var rcPercentages = bc.GetRCPercentages(year, month);
+
             if (bc.GetInfoCosts(year, month).Any(c => c.DirectoryRC.Name == "ВСЕ" && c.Currency == Currency.RUR))
             {
-                rcs = new List<DirectoryRC>(rcs.Union(bc.GetDirectoryRCs().Where(r => r.Percentes > 0).ToList()));
+	            var rcWithPercentageId = rcPercentages.Where(x => x.Percentage > 0).Select(x => x.DirectoryRCId).ToArray();
+
+	            var rcWithPercentages = bc.GetDirectoryRCs().Where(r => rcWithPercentageId.Contains(r.Id));
+                rcs = rcs.Union(rcWithPercentages).ToList();
             }
 
             foreach (var rc in rcs)
@@ -382,9 +387,10 @@ namespace AIS_Enterprise_AV.Reports
 
                     Helpers.CreateCell(sheet, indexRow, 2, costItemRCSummString, Color.Transparent, 10, false, ExcelHorizontalAlignment.Right, ExcelBorderStyle.Thin);
 
+	                var percentage = rcPercentages.First(x => x.DirectoryRCId == rc.Id).Percentage;
 
-                    double costItemExpenseSummAll = Math.Round(infoCostsCostItem.Where(c => c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * rc.Percentes / 100, 0);
-                    double costItemIncomingSummAll = Math.Round(infoCosts.Where(c => c.IsIncoming && c.DirectoryCostItem.Name == costItemName && c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * rc.Percentes / 100, 0);
+					double costItemExpenseSummAll = Math.Round(infoCostsCostItem.Where(c => c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * percentage / 100, 0);
+					double costItemIncomingSummAll = Math.Round(infoCosts.Where(c => c.IsIncoming && c.DirectoryCostItem.Name == costItemName && c.DirectoryRC.Name == "ВСЕ").Sum(c => c.Summ) * percentage / 100, 0);
                     double costItemRCSummAll = (costItemExpenseSummAll - costItemIncomingSummAll) * (100 - _pam16Percentage) / 100;
                     string costItemRCSummAllString = costItemRCSummAll != 0 ? Converting.DoubleToCurrency(costItemRCSummAll, Currency.RUR) : "";
 
