@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -2758,7 +2759,7 @@ namespace AIS_Enterprise_Data
 				}
 
 				_dc.SaveChanges();
-				EditParameter(ParameterType.DefaultCostsDate, DateTime.Now.ToString());
+				EditParameter(ParameterType.DefaultCostsDate, DateTime.Now.ToString(CultureInfo.InvariantCulture));
 			}
 		}
 

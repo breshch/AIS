@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
@@ -365,6 +366,8 @@ namespace AIS_Enterprise_AV.Views
                             _monthTimeSheetWorkers.AddRange(tmpMonthTimeSheetWorkers);
                             DataGridMonthTimeSheet.ItemsSource = _monthTimeSheetWorkers;
                             DataGridMonthTimeSheet.Items.Refresh();
+							//
+	                        CalcTotalSum();
 
                             SetScreenSize();
 
@@ -387,9 +390,28 @@ namespace AIS_Enterprise_AV.Views
                         }));
 
                     });
-
-
         }
+
+
+	    private void CalcTotalSum()
+	    {
+		    if (!Privileges.HasAccess(UserPrivileges.Salary_AdminSalary))
+		    {
+			    return;
+		    }
+
+		    var officeWorkerPostsId = _bc.GetDirectoryPosts()
+				.Include(x => x.DirectoryTypeOfPost)
+				.Where(x => x.DirectoryTypeOfPost.Name == "Офис")
+				.Select(x => x.Id)
+				.ToArray();
+
+		    double totalSum = _monthTimeSheetWorkers
+			    .Where(x => x.FinalSalary.HasValue && !x.IsDeadSpirit && !officeWorkerPostsId.Contains(x.DirectoryPostId))
+			    .Sum(x => x.FinalSalary.Value);
+
+			TextBlockTotalSum.Text = "Всего зарплата: " + totalSum.ToString("C0");
+	    }
 
         private void AddingRowWorkers(List<DirectoryWorker> workers, List<MonthTimeSheetWorker> monthTimeSheetWorkers, ref int indexWorker, bool isAdminSalary, int countWorkDaysInMonth,
             DateTime lastDateInMonth, DateTime firstDateInMonth, InfoDate[] infoDates, List<InfoMonth> infoMonthes)
@@ -995,6 +1017,8 @@ namespace AIS_Enterprise_AV.Views
 		        var t = cell.Content as TextBlock;
 		        t.Text = (double.Parse(t.Text.Replace(".", ",")) + change).ToString().Replace(",", ".");
 		        _monthTimeSheetWorkers[rowIndexOfFullRow].FinalSalary = double.Parse(t.Text.Replace(".", ","));
+
+				CalcTotalSum();
 	        }
         }
 

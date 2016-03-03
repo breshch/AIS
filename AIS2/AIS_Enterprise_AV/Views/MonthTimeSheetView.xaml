@@ -68,7 +68,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="10, 0, 0, 0">
@@ -80,6 +80,7 @@
                 </StackPanel>
 
                 <TextBlock x:Name="TextBlockCountWorkDays" Grid.Column="1" FontSize="18" FontWeight="ExtraBold" Foreground="DarkGray" Margin="40, 0, 0, 0"/>
+                <TextBlock x:Name="TextBlockTotalSum" Grid.Column="2" FontSize="18" FontWeight="ExtraBold" Foreground="DarkRed" HorizontalAlignment="Right" Margin="40, 0, 0, 0"/>
             </Grid>
 
             <DataGrid x:Name="DataGridMonthTimeSheet" Grid.Row="1" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="Cell"
