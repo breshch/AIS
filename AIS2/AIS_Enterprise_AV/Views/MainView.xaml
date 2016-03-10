@@ -55,6 +55,18 @@
                 Margin="0, 6, 0, 0"/>
 				<Button Content="Перелив остатков" Command="{Binding CarPartRemainsToDbCommand}" Margin="0, 6, 0, 0"  Visibility="{Binding AdminVisibility}"/>
 
+				<StackPanel Visibility="{Binding AdminVisibility}" Margin="0, 20, 0, 0">
+					<Button Content="Обновить кассу" Command="{Binding CalculateRemainsCommand}" />
+					
+					<DataGrid AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" 
+							  HeadersVisibility="None" CanUserResizeColumns="False" CanUserResizeRows="False" 
+							  ItemsSource="{Binding RemainsSum}" Margin="0, 10, 0, 0" Visibility="{Binding RemainsSumVisibility}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding}" Width="*" CellStyle="{StaticResource CenterTextAlignmentCellTotal}" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</StackPanel>
+				
 				<Button Content="Сменить пользователя" Command="{Binding ChangeUserCommand}" Margin="0, 20, 0, 0" />
 			</StackPanel>
 		</StackPanel>

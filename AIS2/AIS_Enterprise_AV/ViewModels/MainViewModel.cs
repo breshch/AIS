@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -70,6 +71,7 @@ namespace AIS_Enterprise_AV.ViewModels
 			ReportsCommand = new RelayCommand(Reports);
 			AdminCommand = new RelayCommand(Admin);
 			ChangeUserCommand = new RelayCommand(ChangeUser);
+			CalculateRemainsCommand = new RelayCommand(CalculateRemains);
 
 			MonthTimeSheetVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_MonthTimeSheetVisibility) ? Visibility.Visible : Visibility.Collapsed;
 			DbFenoxVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_DbFenoxVisibility) ? Visibility.Visible : Visibility.Collapsed;
@@ -78,11 +80,12 @@ namespace AIS_Enterprise_AV.ViewModels
 			RemainsLoanVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_RemainsLoanVisibility) ? Visibility.Visible : Visibility.Collapsed;
 			ReportsVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_ReportsVisibility) ? Visibility.Visible : Visibility.Collapsed;
 			AdminVisibility = Privileges.HasAccess(UserPrivileges.MultyProject_AdminVisibility) ? Visibility.Visible : Visibility.Collapsed;
+			RemainsSumVisibility = Visibility.Collapsed;
 
 			BC.SetRemainsToFirstDateInMonth();
 		}
 
-		
+
 
 
 		private void RefreshUsers()
@@ -138,6 +141,8 @@ namespace AIS_Enterprise_AV.ViewModels
 				RaisePropertyChanged();
 			}
 		}
+
+		public ObservableCollection<string> RemainsSum { get; set; }
 		public DirectoryUser SelectedUser { get; set; }
 		public Visibility LogingVisibility { get; set; }
 		public Visibility ChoiseProjectsVisibility { get; set; }
@@ -149,6 +154,7 @@ namespace AIS_Enterprise_AV.ViewModels
 		public Visibility RemainsLoanVisibility { get; set; }
 		public Visibility ReportsVisibility { get; set; }
 		public Visibility AdminVisibility { get; set; }
+		public Visibility RemainsSumVisibility { get; set; }
 
 		#endregion
 
@@ -175,6 +181,7 @@ namespace AIS_Enterprise_AV.ViewModels
 		public RelayCommand ReportsCommand { get; set; }
 		public RelayCommand AdminCommand { get; set; }
 		public RelayCommand ChangeUserCommand { get; set; }
+		public RelayCommand CalculateRemainsCommand { get; set; }
 
 		private void MonthTimeSheet(object parameter)
 		{
@@ -330,7 +337,7 @@ namespace AIS_Enterprise_AV.ViewModels
 			InitializeChoiseProjects();
 
 			//_logger.Info("test huy");
-			
+
 			LogingVisibility = Visibility.Collapsed;
 			ChoiseProjectsVisibility = Visibility.Visible;
 
@@ -417,6 +424,72 @@ namespace AIS_Enterprise_AV.ViewModels
 			//	Task.Factory.StartNew(() => ConvertingCarPartsExcelToDB.ConvertingCarPartRemainsToDb(BC, path)).ContinueWith((t) => IsNotInitializedDB = true);
 			//}
 		}
+
+		private void CalculateRemains(object parameter)
+		{
+			var remains = GetCurrentRemains();
+			RemainsSumVisibility = remains.Any() ? Visibility.Visible : Visibility.Collapsed;
+
+			RemainsSum = new ObservableCollection<string>(remains.Select(x => x.Value.ToString("N2") + " " + x.Key));
+		}
+
+		private Dictionary<Currency, double> GetCurrentRemains()
+		{
+			var date = DateTime.Now;
+			DateTime startDate = date;
+
+			int counter = 0;
+			double? minskSum = null;
+			while (!minskSum.HasValue)
+			{
+				counter++;
+				minskSum = BC.GetTotalEqualCashSafeToMinsks(startDate);
+				if (!minskSum.HasValue)
+				{
+					startDate = startDate.AddMonths(-1);
+				}
+
+				if (counter > 12)
+				{
+					break;
+				}
+			}
+
+			var sums = new Dictionary<Currency, double>();
+			if (minskSum.HasValue)
+			{
+				var costsToPeriod =
+					BC.GetInfoCosts(new DateTime(startDate.Year, startDate.Month, 1), date.AddMonths(1)).ToArray();
+				var costsSum = costsToPeriod
+					.Where(x => x.Currency == Currency.RUR)
+					.Sum(x => x.IsIncoming ? x.Summ : -x.Summ);
+
+				double sumRUR = minskSum.Value + costsSum;
+				sums.Add(Currency.RUR, sumRUR);
+
+				var currencies = Enum.GetNames(typeof(Currency))
+					.Select(x => (Currency)Enum.Parse(typeof(Currency), x))
+					.Where(x => x != Currency.RUR)
+					.ToArray();
+
+				foreach (var currency in currencies)
+				{
+					double sum = costsToPeriod.Where(x => x.Currency == currency)
+						.Sum(x => x.IsIncoming ? x.Summ : -x.Summ);
+
+					if (sum == 0)
+					{
+						continue;
+					}
+
+					sums.Add(currency, sum);
+				}
+			}
+
+			return sums;
+		}
+
 		#endregion
 	}
 }
+
