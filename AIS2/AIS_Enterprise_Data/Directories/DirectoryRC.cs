@@ -16,7 +16,10 @@ namespace AIS_Enterprise_Data.Directories
         [NotMapped]
         public bool IsChecked { get; set; }
 
-        [NotMapped]
+	    [NotMapped]
+	    public bool IsEnabled { get; set; }
+
+	    [NotMapped]
         public string FullName
         {
             get
@@ -25,8 +28,6 @@ namespace AIS_Enterprise_Data.Directories
                 {
                     return Name;
                 }
-
-
 
                 return DescriptionName + " " + Name;
             }

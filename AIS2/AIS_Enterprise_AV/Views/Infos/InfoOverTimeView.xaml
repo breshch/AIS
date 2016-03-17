@@ -54,7 +54,7 @@
             <ListBox ItemsSource="{Binding DirectoryRCs, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Content="{Binding Name, Mode=TwoWay}" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                        <CheckBox Content="{Binding Name, Mode=TwoWay}" IsChecked="{Binding IsChecked, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

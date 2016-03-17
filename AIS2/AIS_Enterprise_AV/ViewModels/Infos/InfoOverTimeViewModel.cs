@@ -23,6 +23,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         }
 
         private List<DateProcessing> _listDatesOfOverTime;
+		private readonly string[] _rcsFenoxNotEnabled = { "МО-2", "ПАМ-1" };
 
         public InfoOverTimeViewModel(List<DateTime> listDatesOfOverTime, DateTime startDate, DateTime endDate)
         {
@@ -74,7 +75,17 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
 
         private void RefreshDirectoryRCs(int year, int month)
         {
-            DirectoryRCs = new ObservableCollection<DirectoryRC>(BC.GetDirectoryRCsByPercentage(year, month));
+	        var rcs = BC.GetDirectoryRCsByPercentage(year, month);
+
+	        foreach (var rc in rcs)
+	        {
+		        if (!_rcsFenoxNotEnabled.Contains(rc.Name))
+		        {
+			        rc.IsEnabled = true;
+		        }
+	        }
+
+            DirectoryRCs = new ObservableCollection<DirectoryRC>(rcs);
         }
 
         private void ClearInputData()
@@ -205,6 +216,19 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
         {
             if (HelperMethods.IsFisrtTimeMoreSecondTime(SelectedEndTime, SelectedStartTime))
             {
+				var rcMo5 = DirectoryRCs.FirstOrDefault(x => x.Name == "МО-5");
+				if (rcMo5 != null)
+				{
+					foreach (var rcFenox in _rcsFenoxNotEnabled)
+					{
+						var rc = DirectoryRCs.FirstOrDefault(x => x.Name == rcFenox);
+						if (rc != null)
+						{
+							rc.IsChecked = rcMo5.IsChecked;
+						}
+					}
+				}
+
                 if (DirectoryRCs.Any(r => r.IsChecked))
                 {
                     if (!BC.IsInfoOverTimeDate(SelectedOverTimeDate))
@@ -236,6 +260,7 @@ namespace AIS_Enterprise_AV.ViewModels.Infos
                 }
                 else
                 {
+					RefreshDirectoryRCs(StartDate.Year, StartDate.Month);
                     MessageBox.Show("Выберите ЦО");
                 }
             }
