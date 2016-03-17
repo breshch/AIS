@@ -1113,7 +1113,7 @@ namespace AIS_Enterprise_AV.Reports
 
 					if (totalCashFenox != 0)
 					{
-						bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "МО-5"), noteSalary, false, Math.Round(totalCashFenox, 2), Currency.RUR, 0);
+						bc.EditInfoCost(date, costItem, rcs.First(r => r.Name == "ВСЕ"), noteSalary, false, Math.Round(totalCashFenox, 2), Currency.RUR, 0);
 					}
 
 					if (totalOverTimeMO5Fenox != 0)
